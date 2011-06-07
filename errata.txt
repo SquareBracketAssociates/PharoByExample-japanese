@@ -1,0 +1,143 @@
+---
+# Errata to version 2009-09-28
+
+---
+# 2010-10-14 Georges M Louis <glou47@gmail.com>
+
+- In the LightsOut example, the empty mouseMove: method should be defined in class LOCell, not LOGame: Method 2.11: Overriding mouse move actions. LOGame»mouseMove: anEvent [To be fixed!]
+
+---
+# 2010-04-10 <symingz@foxmail.com>
+
+Section 4.3 (Message composition) presents the precedence of message types and the left association rule as the order in which messages are sent, but I think these are really just parsing rules. The correct way of determining message send order using these rules is like this. First, use the rules to find the fully parenthesized equivalent of a given expression, 
+e.g. '1 + 2 + x a' should equals '(1 + 2) + (x a)', not '((1 + 2) + x) a' or '1 + (2 + (x a))'. Second, evaluate the fully parenthesized expression from left to right, from inside to outside.
+What the book says is different, though. For example, when '(1 + 2) + (x a)' is evaluated, '+ 2' is be sent before 'a', but if we follow the book, the reverse will be assumed. If '+' and 'a' are replaced with some selector with side effects, following the book will lead to error. [To be fixed!]
+
+---
+# 2010-03-11 Max Leske
+p 23: Confusing to see both >> and guillemet - replaced >> by guillemet
+p 28: "consists of [a] rectangular array" - fixed
+p 69: Strange spacing of points - fixed
+p 73: "message[s] sends" - fixed
+p 116: "top left of the browse[r]" - fixed
+p 127: fig 6.25 "Exploring a [Explore]Object" - fixed
+p 140: "The sort order of the files can be change[s->d]" - fixed
+p 142: "This will give [you] the opportunity" - fixed
+p 150: Category should be MySetTest, not MyTest - fixed
+p 167: "We consider this [to] be a bug" - fixed
+p 187: "with: methods allow[s] one" - fixed
+p 217: "star[t]ing around 1993." - fixed
+p 240: "--" not formatted correctly - fixed
+p 247: "message will have [an] argument" - fixed
+p 249: "The second way is [to] instantiate" - fixed
+p 269: "addLibrary: SULibrary}}" remove braces - fixed
+p 282: "Where [new is -> is new] defined?" - fixed
+p 296: "an object [the -> that] provides" - fixed
+p 297: "Collectuon" - fixed
+p 304: "DynamicAcc[c]essors" - fixed
+p 306: "a compiled method[s]" - fixed
+p 306: "Using method[s] wrappers" - fixed
+p 308: "an external [plugging -> plug-in]" - fixed
+p 310: "browsing the [lass hierarhy -> class hierarchy]"
+
+# NOT FIXED:
+p 264, second instruction: I found it very hard to follow the instructions because
+firstly, the seaside approach is so different from anything else I've ever used and secondly, there is no code example illustrating a possible solution. I had to load the example code to understand what the instructions actually meant (which is not really the issue though. I just feel that the difficulty level is not consistent with the rest of the coding examples)
+p 266: square brackets sometimes have a space before (after) them, sometimes they don't. This inconsistency is found all over the book
+
+---
+# 2009-10-22 Eric Moyer
+p 43. Lights Out toggles cells if you move the mouse between clicking and releasing. Fix is to override inherited SimpleSwitchMorph>>mouseMove: with an empty method.
+- fixed
+p 298. Delete incomplete sentence: "As a slightly more complex example, we can browse"
+- fixed
+
+---
+# Errata to preview version 2009-08-28
+
+---
+# 2009-09-25 Martial Boniou
+p 5. QuickTour: before 'First Interaction.' paragraph, {\sf x} should be the red
+button on the window title bar (OS X style by default?); we probably
+should remove all X for closing windows
+- fixed; added description of orange and green buttons
+p 33. FirstApp: "The bottom pane of the inspector is a mini-workspace.  It's useful
+because in this workspace the pseudo-variable \self is bound to the
+object being inspected. "
+- fixed to "object selected"
+p 43. "The simplest way of doing this is by \emph{filing out} the code.
+The \actclick menu in the System Categories pane will give you the
+option to file out the whole of category \scat{PBE-LightsOut}."
+- fixed to refer to Package Browser (menu: various>file out)
+p 46. In 'Saving and loading code with Monticello': "What is a package?..."
+We added a 'Categories & Packages' subsection; no need to say that or reformulate it
+- deleted obsolete paragraph
+p 318 FAQ: "How do I register the browser that I want to be the default?"
+it's on the right not on the left now
+- fixed
+p 93 Model: remove words about MVC in Model.tex / I did it in
+Morph>>openInWorld
+- fixed (mb)
+
+---
+# 2009-09-18 Erwann Wernli
+p.34 Bounds in inspector don't change until we refresh with action-click refresh in inspector pane
+- replaced old inspector image and fixed text
+
+---
+# 2009-09-14 Erwann Wernli
+p.10 Bouncing Morph not working for me – probably due to morph package
+- fixed in the latest image
+p. 14 Screenshot
+- fixed
+p.15 Found confusing how to change the default browser. Screenshot would help.
+- FAQ 5 has a screenshot
+p.33 inspector screenshot changed.
+- fixed
+p.33. Make sure you select a LOCell at the root of the tree before executing “self bound: (...)”
+- fixed
+p. 43 Game not working for me – probably due to morph package
+- it works now
+p. 43 Specify where is “file out” command (various > fileOut)
+- fixed
+p.51 Make clear that #( 27 #(true false) abc ) is equivalent to #(27 #(true false) #abc) or #(27 (true false) abc)
+- fixed
+p.106 Where is the “message names” tool?
+- Hm. It seems to be labeled "Method Search" now in the tools menu. I have reported it.
+p.111 Screenshot: refactoring missing in pharo
+- in the latest image it is fixed
+p.112. AtomMorph missing – probably due to morph package
+- ok now
+p.112 Implementors: if only one match in class browser, opens it directly, no intermediate window.
+- ok
+p.126 Screenshot.
+- fixed
+p.126 Where is “all inst vars” in the left pane?
+- rewrote the description to fit the new inspector
+p.127 Evalution of  “jdn := jdn -1” works only if root of tree is selected
+- fixed
+p.130-133 Debugger screenshot not the same
+- fixed all debugger screenshots and revised text to be consistent with current version
+p.137 Where is “message names”?
+- strangely this is called "method search" in the tools menu
+p.148 Code snippet should have “TestCase” instead of “Object” ?
+- fixed
+p. 155  Typo: “Both individual TestCases and TestSuite <new line> s understand the same protocol” 
+- fixed
+p. 211 ^ stream next instead of ^ self next ?
+- fixed
+p. 294 Screenshot: pharo has button on the implementor window.  If we show the implementer programmatically, we don't get the same window as if we use "browse > implementors" in class browser.
+- annoying -- will be fixed when we settle on a single browser
+p. 310 MorphObjectOut missing – probably due to morph package
+* to be fixed ...
+General:
+(1)	Stack is a popular construction. How does it fit in the collection hierarchy?
+(2)	Stream are presented as a way to navigate collection. From my point of view, stream are important not to navigate collection, but to produce/consume data:
+(a)	memory constraint. Data can not hold into memory and must be processed in a stream fashion, e.g: encryption
+(b)	blocking IO. A stream is a nice abstraction to deal with, and the stream manages internally data availability, buffering, etc. to simplify the consumption/production of data
+Only few streams have random access capability.
+(3)  I would not use reflection to call faceX on p.234. A statically filled Dictionary would be more appropriate. Get the point set with “MyDict at: X”.
+- above comments integrated into the various chapters as editorial notes
+(4) Implementation of future in Smalltalk according to http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures would be a nice concluding example of Smalltalk power.
+
+---
