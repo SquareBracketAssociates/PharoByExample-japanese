@@ -1,27 +1,27 @@
-���󥿥å������äʤΤ��ɤ�������̯
-ɾ�������ͥ���̤��ä򤷤Ƥ���Τ��ɤ��������ޤ�
+シンタックスの話なのかどうかが微妙
+評価順序や優先順位の話をしているのかどうかあいまい
 
 underline?
 
-3����Υ�å��������󥿥å����Ȥɤ����ޤ���ޤ���
+3種類のメッセージシンタックスとどうさまざりまくり
 
-\ct{+}�ϥ�å������ǤϤʤ��ΤǤϡ�
+\ct{+}はメッセージではないのでは？
 
 messageName -> selector?
 
-binary message�ˤϤ�äȤ��������ʤ�Τ��Ȥ��ޤ���
+binary messageにはもっといろいろなものが使えます。
 
-a method��selector�ޤ��äƤ���
+a methodとselectorまざっている
 
-Color red�Ͽ��������������ǤϤʤ�
+Color redは新しい色を作る訳ではない
 
 keyword based messages?
 
-ñ���å��������ޤ��ǽ���������졢����2�ࡢ�����ƺǸ�˥�����ɥ�å������������ޤ����Ȥ����Τ�����äȤ��䤷�����롣
-�Ĥޤꡢ���������ȤϽ񤤤Ƥ��뤬��̤��ԤĤȤ������Ȥ������Ƚ񤫤�Ƥ��ʤ���
+単項メッセージがまず最初に送信され、次に2項、そして最後にキーワードメッセージが送られます。というのがちょっとあやしすぎる。
+つまり、送信されるとは書いてあるが結果を待つということがちゃんと書かれていない。
 
-Boolean��"concrete class"�Ȥ��äƤ褤�Τ�?
+Booleanは"concrete class"といってよいのか?
 
-\mbox����ʤ��ΤǤ�
+\mboxいらないのでは
 
-�����ࡣ���ɤ���
+うーむ。くどい。
