@@ -34,28 +34,28 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{Understanding message syntax}
+\chapter{メッセージ構文を理解しよう}
 \chalabel{understanding}
 
-Although \st's message syntax is extremely simple, it is unconventional and can take some time getting used to.
-This chapter offers some guidance to help you get acclimatized to this special syntax for sending messages.
-If you already feel comfortable with the syntax, you may choose to skip this chapter, or come back to it later.
+\st の構文はとても簡素ではありますが、標準的なものではないためになれるのに少し時間が必要でしょう。
+この章ではメッセージ構文の特徴に順応するためのガイダンスを提供します。
+もし構文になれていると思われるなら、この章は飛ばしてもよいですし、あるいはまたあとで読むことにしてもよいでしょう。
 
 %=============================================================
 \section{Identifying messages}
 
-In \st, except for the syntactic elements listed in \charef{syntax} (\ct+:= ^ . ; # () {} [ : | ]+), everything is a message send. 
-As in \ind{C++}, you can define operators like \ct{+} for your own classes, but all operators have the same precedence.
-Moreover, you cannot change the arity of a method. ``\ct{-}'' is always a binary message; there is no way to have a unary ``\ct{-}'' with a different overloading.
+\st では\charef{syntax}で紹介した構文要素 (\ct+:= ^ . ; # () {} [ : | ]+)を除けば、, すべてがメッセージ送信です。
+\ind{C++}と同様に、\ct{+}のような演算子を自分のクラスに定義することができますが、すべての演算子は同じ優先順位となることに気をつけてください。
+また、あるメソッドが受け取る引数の個数も変えられません。例えば、``\ct{-}''は常に2項演算子で、単項の``\ct{-}''をオーバーロードして作ることなどはできません。
 
-In \st the order in which messages are sent is determined by the kind of message. There are just three kinds of messages: \emphsubind{message}{unary}, \emphsubind{message}{binary}, and \emphsubind{message}{keyword} messages. Unary messages are always sent first, then binary messages and finally keyword ones. As in most languages, \ind{parentheses} can be used to change the order of evaluation. These rules make \st code as easy to read as possible. And most of the time you do not have to think about the rules.
+\st では、メッセージ構文の優先順位、すなわち記述されたメッセージがどのような順番で送信されるかはメッセージ構文の種類によって決定されます。そのメッセージ構文の種類は3種類だけです。それらは\emphsubind{message}{unary(単項)}、\emphsubind{message}{binary(2項)}および\emphsubind{message}{keyword(キーワード)}メッセージです。単項メッセージは最高の優先順位であり、その次が2項、そして最後がキーワードメッセージです。ほかの多くの言語と同様に、\ind{parentheses}を使って評価順を変えることができます。これらの規則によって、\st のコードは可能な限り読みやすく、かつ規則のことに頭を悩ませなくてもよいようになっています。
 
-As most computation in \st is done by message passing, correctly identifying messages is crucial. The following terminology will help us:
+基本的に\st でのすべての計算はメッセージ送信によって行われるので、メッセージを正しく読み取ることが非常に重要です。以下にまとめた用語と概念を理解することが役に立つでしょう。
 
 \begin{itemize}
-  \item A message is composed of the message \emphsubind{message}{selector} and the optional message arguments.
-  \item A message is sent to a \emphsubind{message}{receiver}.
-  \item The combination of a message and its receiver is called a \emph{message} \emphsubind{message}{send} as shown in \figref{firstScriptMessage}.
+  \item メッセージは\emphsubind{message}{セレクタ}および必要な場合に指定されるメッセージ引数からなりたっています。
+  \item メッセージは\emphsubind{message}{レシーバ}に送信されます。
+  \item レシーバとメッセージの組み合わせが、図\figref{firstScriptMessage}にあるように\emph{メッセージ} \emphsubind{message}{送信}と呼ばれています。
 %  \item We call expression a message send, a variable, an assignment, a literal or a block. 
 \end{itemize}
 
@@ -63,7 +63,7 @@ As most computation in \st is done by message passing, correctly identifying mes
 \begin{minipage}{0.53\textwidth}
 	\begin{center}
 	\includegraphics[width=0.95\textwidth]{message}
-	\caption{Two messages composed of a receiver, a method selector, and a set of arguments.\figlabel{firstScriptMessage}}\end{center}
+	\caption{レシーバ、セレクタ、引数からなるメッセージ送信の例２つ。\figlabel{firstScriptMessage}}\end{center}
 \end{minipage}
 \hfill
 \begin{minipage}{0.43\textwidth}
@@ -71,7 +71,7 @@ As most computation in \st is done by message passing, correctly identifying mes
 	\ifluluelse
 		{\includegraphics[width=0.9\textwidth]{uKeyUnOne}}
 		{\includegraphics[width=6cm]{uKeyUnOne}}
-	\caption{\ct{aMorph color: Color yellow} is composed of two message sends: \ct{Color yellow} and \ct{aMorph color: Color yellow}.\figlabel{ellipse}}
+	\caption{\ct{aMorph color: Color yellow}という式は\ct{Color yellow}および\ct{aMorph color: Color yellow}という二つのメッセージ送信からなりたっている。\figlabel{ellipse}}
 	\end{center}
 \end{minipage}
 \end{figure}
@@ -82,11 +82,11 @@ As most computation in \st is done by message passing, correctly identifying mes
 %\caption{Two messages composed of a receiver, a method selector, and a set of arguments.\figlabel{firstScriptMessage}}\end{center}
 %\end{figure}
 
-\important{A message is always sent to a receiver, which can be a single literal, a block or a variable or the result of evaluating another message.}
-%sd-this is not totally right because we do not cover assignment but ok for now
+\important{メッセージは常にレシーバに送信されます。レシーバはリテラル、ブロック、変数または他のメッセージを評価した結果のいずれかです。}
+%sd-ま、代入を考えてないからかんぜんただしいというわけではないがな
 
-To help you identify the receiver of a message, we will underline it for you.
-We will also surround each message send with an ellipse and number message sends starting from the first one that will be sent to help you see the order in which messages are sent.
+メッセージのレシーバを同定しやすくなるよう、レシーバに下線を引くことにします。
+また、それぞれのメッセージ送信を点線の楕円で囲み、送信される順番に従って番号をつけることにもします。
 
 %\begin{figure}[!ht]
 %\begin{center}
@@ -95,64 +95,64 @@ We will also surround each message send with an ellipse and number message sends
 %\caption{\ct{aMorph color: Color yellow} is composed of two expressions: \ct{Color yellow} and \ct{aMorph color: Color yellow}.\figlabel{ellipse}}
 %\end{figure}
 
-\figref{ellipse} represents two message sends, \ct{Color yellow} and \ct{aMorph color: Color yellow}, hence there are two ellipses. The message send \ct{Color yellow} is executed first so its ellipse is numbered \ct{1}.  There are two receivers: \ct{aMorph} which receives the message \ct{color: ...} and \ct{Color} which receives the message \ct{yellow}. Both receivers are underlined.
+\figref{ellipse}は\ct{Color yellow}と\ct{aMorph color: Color yellow}という2つのメッセージ送信を表していますので、楕円も２つあります。
 
-A receiver can be the first element of a message, such as \ct{100} in the message send \ct{100 + 200} or \ct{Color} in the message send \ct{Color yellow}. However, a receiver can also be the result of other messages. For example in the message \ct{Pen new go: 100}, the receiver of the message \ct{go: 100} is the object returned by the message send \ct{Pen new}. In all the cases, a message is sent to an object called the \emph{receiver} which may be the result of another message send.
+メッセージ送信\ct{Color yellow}がまず実行されるので、そこについている楕円に番号\ct{1}がついています。全体の中にはレシーバが２つあります。ひとつは\ct{aMorph}で、メッセージ\ct{color: ...}が送られており、もう一つは\ct{Color}で、メッセージ\ct{yellow}が送られています。それぞれに下線がついています。
+
+レシーバは、例えばメッセージ送信\ct{100 + 200}の\ct{100}や、\ct{Color yellow}の中の\ct{Color}のように、メッセージ送信記述の最初の要素であることが多いです。しかしながら、ほかのメッセージの結果がレシーバとして使われることもよくあります。例えば、\ct{Pen new go: 100}というメッセージ式では、\ct{go: 100}というメッセージのレシーバはは\ct{Pen new}というメッセージ送信から結果として返されるオブジェクトとなります。いずれにせよ、メッセージは\emph{レシーバ}と呼ばれるオブジェクトに送られ、そのオブジェクトはほかのメッセージ送信の結果の場合もあるということです。
 
 \begin{table}\centering
 	\begin{tabularx}{\linewidth}{llX}
 		\toprule
-		Message send & Message type & Result \\
+		メッセージ送信式 & メッセージの種類 & 結果 \\
 		\midrule
 		\lct{Color yellow}
-			& unary
-			& Creates a color.
+			& 単項
+			& 色を表すオブジェクト。
 		\\
 		\lct{aPen  go: 100.}
-			& keyword
-			& The receiving pen moves forward 100 pixels.
+			& キーワード
+			& レシーバであるペンオブジェクト100ピクセル移動。
 		\\
 		\lct{100 + 20}
-			& binary
-			& The number 100 receives the message + with the number 20.
+			& 2項
+			& 数値オブジェクト100に数値20を引数とする+メッセージを送信。
 		\\
 		\lct{Browser open}
-			& unary
-			& Opens a new browser.
+			& 単項
+			& 新しいブラウザを開く。
 		\\
 		\lct{Pen new  go: 100}
-			& unary and keyword
-			& A pen is created and moved 100 pixels.
+			& 単項およびキーワード
+			& ペンオブジェクトが生成され、100ピクセル移動する。
 		\\
 		\lct{aPen go: 100 + 20}
-			& keyword and binary
-			& The receiving pen moves forward 120 pixels.
+			& キーワードおよび2項
+			& レシーバであるペンオブジェクトが120ピクセル移動。
 		\\
 		\bottomrule
 	\end{tabularx}
-	\caption{Examples of Message Sends and their Types}\tablabel{messageExamples}
+	\caption{メッセージ送信と種類の例}\tablabel{messageExamples}
 \end{table}
 
-\tabref{messageExamples} shows several examples of message sends.
-You should note that not all message sends have arguments. Unary messages like \ct{open} do not have arguments. Single keyword and binary messages like \ct{go: 100} and \ct{+ 20} each have one argument. 
-There are also simple messages and composed ones. \ct{Color yellow} and \ct{100 + 20} are  simple:  a message is sent to an object, while the message send \ct{aPen go: 100 + 20} is composed of two messages: \ct{+ 20} is sent to \ct{100} and \ct{go:} is sent to \ct{aPen} with the argument being the result of the first message.
-A receiver can be an expression (such as an assignment, a message send or a literal) which returns an object. In \ct{Pen new go: 100}, the message \ct{go: 100} is sent to the object that results from the execution of the message send \ct{Pen new}.
-
+表\tabref{messageExamples}にいくつかのメッセージ式の例を挙げました。
+必ずしもすべてのメッセージ式に引数がある訳ではないということに注意してください。\ct{open}のような単項メッセージには引数はありません。\ct{go: 100}と\ct{+ 20}のような単独のキーワードと2項メッセージは引数を一つとります。
+単純なメッセージと複合的なものとがあります。\ct{Color yellow}や\ct{100 + 20}は単純です。一つのメッセージが一つのオブジェクトに送られるだけです。一方、\ct{aPen go: 100 + 20}は２つのメッセージ送信が複合したものです。\ct{+ 20}が\ct{100}に送られ、その結果を引数として\ct{go:}が\ct{aPen}に送られます。
+値を返す式(代入、メッセージ送信およびリテラル)がレシーバとなりえます。\ct{Pen new go: 100}では、メッセージ\ct{go: 100}が\ct{Pen new}の結果として返されるオブジェクトに送られます。
 
 %=============================================================
-\section{Three kinds of messages}
+\section{3種類のメッセージ}
 
-\st defines a few simple rules to determine the order in which the messages are sent. These rules are based on the distinction between 3 different kinds of messages: 
+\st ではメッセージの送信順序を決定するいくつかの簡単な規則が定義されています。これらの規則は、以下のような3種類のメッセージ式の種類に基づいています。
 \begin{itemize}
-\item \emph{Unary messages} are messages that are sent to an object without any other information. For example in \ct{3 factorial}, \ct{factorial} is a unary message. 
-\item  \emph{Binary messages} are messages consisting of operators (often arithmetic). They are binary because they always involve only two objects: the receiver and the argument object. For example in \ct{10 + 20}, \ct{+} is a binary message sent to the receiver \ct{10} with argument \ct{20}. 
-\item  \emph{Keyword messages} are messages consisting of one or more keywords, each ending with a colon (\ct{:}) and taking an argument.
-For example in \ct{anArray at: 1 put: 10}, the keyword \ct{at:} takes the argument \ct{1} and the keyword \ct{put:} takes the argument \ct{10}.
+\item \emph{単項メッセージ}はあるオブジェクトに他の追加情報なしで送られるようなメッセージです。 例えば、\ct{3 factorial}という式の\ct{factorial}は単項メッセージです。
+\item  \emph{2項メッセージ}は演算子(しばしば算術的な)からなるメッセージです。これらは常にレシーバと引数という２つのオブジェクトが関与しているために２項(binary)と呼ばれています。\ct{10 + 20}の場合は、\ct{+}が演算子であり、 引数\ct{20}と共に\ct{10}に送られています。
+\item  \emph{キーワードメッセージ}は１つあるいはそれ以上のキーワードからなっています。それぞれのキーワードはコロン記号(\ct{:})がついており、さらにひとつ引数をとります。例えば、\ct{anArray at: 1 put: 10}という式の場合、キーワード\ct{at:}は\ct{1}という引数をとり、\ct{put:}というキーワードが引数\ct{10}をとっています。
 \end{itemize}
 
 %-------------------------------------------------------------
-\subsection{Unary messages}
-Unary messages are messages that do not require any argument. They follow the syntactic template: \ct{receiver messageName}. The selector is simply made up of a succession of characters not containing \ct{:} (\eg \ct{factorial}, \ct{open}, \ct{class}).
+\subsection{単項メッセージ}
+単項メッセージは引数を必要としないメッセージであり、その構文は\ct{receiver selector}という形式です。セレクタは\ct{:}を含まない単純な文字列です(例: \ct{factorial}, \ct{open}, \ct{class})。
 \needlines{4}
 \begin{code}{@TEST}
 89 sin           --> 0.860069405812453
@@ -164,39 +164,39 @@ Object class --> Object class  "The class of Object is Object class (BANG)"
 \end{code}
 % ON: I changed the examples to things we can test
 
-\important{Unary messages are messages that do not require any argument.\\
-They follow the syntactic template: \lct{receiver \textbf{selector}}}
+\important{単項メッセージは引数を必要とないメッセージです。\\
+その構文は\lct{receiver \textbf{selector}}という形式です。}
 
 %-------------------------------------------------------------
-\subsection{Binary messages} 
-Binary messages are messages that require exactly one argument \emph{and} whose selector consists of a sequence of one or more characters from the set: \ct{+}, \ct{-}, \ct{*}, \ct{/}, \ct{&}, \ct{=}, \ct{>}, \ct{|}, \ct{<}, \ct{~}, and \ct{@}. Note that \ct{--} is not allowed for parsing reasons.
+\subsection{2項メッセージ} 
+2項メッセージは引数を１つだけとり\emph{かつ}セレクタが以下の文字集合からの1文字以上の繰り返しからなるメッセージです。\ct{+}、\ct{-}、\ct{*}、\ct{/}、\ct{&}、\ct{=}、\ct{>}、\ct{|}、\ct{<}、\ct{~}、および\ct{@}。構文解析時に問題が起こるので、\ct{--}は不正なセレクタであるということに注意してください。
 
 \begin{code}{@TEST}
-100@100      --> 100@100  "creates a Point object"
+100@100      --> 100@100  "Pointオブジェクトを生成"
 3 + 4              --> 7
 10 - 1            --> 9
 4 <= 3            --> false
-(4/3) * 3 = 4   --> true  "equality is just a binary message, and Fractions are exact"
-(3/4) == (3/4) --> false  "two equal Fractions are not the same object"
+(4/3) * 3 = 4   --> true  "同値性のテストも単なる2項メッセージ。分数オブジェクトは値を正確に表現できる"
+(3/4) == (3/4) --> false  "別個に作られた２つの分数オブジェクトは同一ではない"
 \end{code}
 
-\important{Binary messages are messages that require exactly one argument \emph{and} whose selector is composed of a sequence of characters from: \ct{+}, \ct{-}, \ct{*}, \ct{/}, \ct{\&}, \ct{=}, \ct{>}, \ct{|}, \ct{<}, \ct{\~}, and \ct{@}. \ct{--} is not possible.\\
-They follow the syntactic template: \lct{receiver \textbf{selector} argument}}
+\important{2項メッセージは引数を１つだけとり\emph{かつ}セレクタが以下の文字集合からの1文字以上の繰り返しからなるメッセージです。\ct{+}、\ct{-}、\ct{*}、\ct{/}、\ct{&}、\ct{=}、\ct{>}、\ct{|}、\ct{<}、\ct{~}、および\ct{@}。\ct{--}は許されません\\
+その構文は\lct{receiver \textbf{selector} argument}という形式です。}
 
 %-------------------------------------------------------------
-\subsection{Keyword messages} 
+\subsection{キーワードメッセージ} 
 
-Keyword messages are messages that require one or more arguments and whose selector consists of one or more keywords each ending in \ct{:}.  Keyword messages follow the syntactic template: 
-\lct{receiver \textbf{selectorWordOne:} argument\-One \textbf{wordTwo:} argumentTwo}
+キーワードメッセージは１つ以上の引数を必要とします。そのセレクタは\ct{:}で終わるキーワードを1つ以上並べたものからなります。キーワードメッセージの構文は
+\lct{receiver \textbf{selectorWordOne:} argument\-One \textbf{wordTwo:} argumentTwo}という形式です。
 
-Each keyword takes an argument. Hence \ct{r:g:b:} is a method with three arguments, \ct{playFileNamed:} and \ct{at:} are methods with one argument, and \ct{at:put:} is a method with two arguments. To create an instance of the class \ct{Color} one can use the method \ct{r:g:b:} as in \ct{Color r: 1 g: 0 b: 0}, which creates the color red. Note that the colons are part of the selector.
+それぞれのキーワードが引数をひとつずつとります。すなわち、\ct{r:g:b:}というセレクタは3引数であり、\ct{playFileNamed:}や\ct{at:}は1引数、\ct{at:put:}は2引数ということになります。\ct{Color}クラスのインスタンスを作るためには、例えば\ct{r:g:b:}を使い、\ct{Color r: 1 g: 0 b: 0}のようなメッセージにより、赤色を表すColorオブジェクトを作ることができます。ここでは、コロンもセレクタの一部であるということに注意してください。
 
-\important{In \ind{Java} or \ind{C++}, the \st method invocation \ct{Color r: 1 g: 0 b: 0}
- would be written \ct{Color.rgb(1,0,0)}.}
+\important{\ind{Java}や\ind{C++}であれば、\st における\ct{Color r: 1 g: 0 b: 0}という式は
+\ct{Color.rgb(1,0,0)}と書かれることになるでしょう。}
 
 \begin{code}{@TEST | nums |}
-1 to: 10                        --> (1 to: 10)  "creates an interval"
-Color r: 1 g: 0 b: 0       --> Color red  "creates a new color"
+1 to: 10                        --> (1 to: 10)  "区間オブジェクトを生成"
+Color r: 1 g: 0 b: 0       --> Color red  "色オブジェクトを返す"
 12 between: 8 and: 15 --> true
 
 nums := Array newFrom: (1 to: 5).
@@ -205,59 +205,59 @@ nums --> #(6 2 3 4 5)
 \end{code}
 % ON: Changed to real examples that we can test
 
-\important{Keyword based  messages are messages that require one or more arguments. Their selector consists of one or more keywords each ending in a colon (\lct{:}). They follow the syntactic template: \\
-\lct{receiver \textbf{selectorWordOne:} argumentOne \textbf{wordTwo:} argumentTwo}}
+\important{キーワードメッセージは1つ以上の引数をとるメッセージです。そのセレクタはそれぞれがコロン(\ct{:})で終わる1つ以上のキーワードからなります。構文は\\
+\lct{receiver \textbf{selectorWordOne:} argumentOne \textbf{wordTwo:} argumentTwo}という形式をとります。}
 
 %=============================================================
-\section{Message composition}
-The three kinds of messages each have different precedence, which allows them to be composed in an elegant way. 
+\section{複合メッセージ}
+これまで述べた3種類のメッセージはことなる優先順位をもっており、それらを組み合わせて使うときに、エレガントに行うことができます。
 
 \begin{enumerate}
-\item Unary messages are always sent first, then binary messages and finally keyword messages. 
-\item Messages in \ind{parentheses} are sent prior to any kind of messages. 
-\item Messages of the same kind are evaluated from left to right. 
+\item 単項メッセージがまず最初に送信され、次に2項、そして最後にキーワードメッセージが送られます。
+\item \ind{括弧}で囲まれたメッセージは他のものよりも優先して送信されます。
+\item 同じ種類のメッセージは左から右に評価されます。
 \end{enumerate}
 \index{message!evaluation order}
 
-These rules lead to a very natural reading order. Now if you want to be sure that your messages are sent in the order that you want you can always put more parentheses as shown in \figref{uKeyUn}. In this  figure, the message \ct{yellow} is an unary message and the message \ct{color:} a keyword message, therefore the message send \ct{Color yellow} is sent first. However as message sends in parentheses are sent first, putting (unnecessary) parentheses around \ct{Color yellow} just emphasizes that it will be sent first. The rest of the section illustrates each of these points.
+このルールにより、プログラムを読む際にも自然に読めるようになっています。メッセージが意図した通りの順番で送られることを明示的に示したいのであれば、\figref{uKeyUn}にあるように、括弧を足していくこともできます。この図では、メッセージ\ct{yellow}が単項メッセージであり、\ct{color:}はキーワードメッセージであるため、\ct{Color yellow}がまず先に実行されます。しかし、括弧で囲まれたメッセージがまず実行されるため、(冗長な)括弧を\ct{Color yellow}の周りに書くことにより、ここがまず先に実行されるということを強調することができます。以下では、これらの点について説明します。
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline{\includegraphics[width=0.9\textwidth]{uKeyUn}} }
 	{\centerline{\includegraphics[width=10cm]{uKeyUn}} }
-\caption{Unary messages are sent first so \ct{Color yellow} is sent. This returns a color object which is passed as argument of the message \ct{aPen color:}.\figlabel{uKeyUn}}
+\caption{単項メッセージが最初に送られるので、\ct{Color yellow}がまず送られ、返されたColorオブジェクトが引数として\ct{aPen color:}に渡されます。\figlabel{uKeyUn}}
 \end{figure}
 
 %---------------------------------------------------------
-\subsection*{Unary > Binary > Keywords}
-Unary messages are sent first, then binary messages, and finally keyword messages. We also say that unary messages have a higher  priority over the other kinds of messages.
+\subsection*{単項 > 2項 > キーワード}
+単項メッセージがまず送られ、次に2項、そしてキーワードメッセージが最後に送られます。しばしば、単項が他の種類のメッセージよりも高い優先順位を持つということがあります。
 
-\important{\textbf{Rule One.} Unary messages are sent first, then binary messages, and finally keyword based messages.\\
-\centerline{\ct{Unary > Binary > Keyword}}
+\important{\textbf{規則1.} 単項メッセージがまず送られ、次に2項、そしてキーワードメッセージが最後に送られます。\\
+\centerline{\ct{単項 > 2項 > キーワード}}
 }
 
-As these examples show, \st's syntax rules generally ensure that message sends can be read in a natural way:
+以下の例が示すように、\stの構文では複合したメッセージ式を多くの場合自然な形で読むことができます。
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 2 raisedTo: 1 + 3 factorial     --> 128
 \end{code}
 \noindent
 
-Unfortunately the rules are a bit too simplistic for arithmetic message sends, so you need to introduce parentheses whenever you want to impose a priority over binary operators:
+ただし、残念ながら、算術演算の場合にはこの規則はやや単純すぎます。そのため、かっこを使って2項演算子を複数組み合わせたときに評価順を強制する必要があります。
 \begin{code}{@TEST}
 1 + 2 * 3   --> 9
 1 + (2 * 3) --> 7
 \end{code}
 
-The following example, which is a bit more complex (!), offers a nice illustration that even complicated \st expressions can be read in a natural way:
+以下のさらに複雑な(!)例は、さらに混みいった\stの式も自然に読めるということ良い例になっています。
 \begin{code}{@TEST}
 [:aClass | aClass methodDict keys select: [:aMethod | (aClass>>aMethod) isAbstract ]] value: Boolean --> an IdentitySet(#or: #| #and: #& #ifTrue: #ifTrue:ifFalse: #ifFalse: #not #ifFalse:ifTrue:)
 \end{code}
 \noindent
-Here we want to know which methods of the \ct{Boolean} class are abstract\footnote{In fact, we could also have written the equivalent but simpler expression: \ct{Boolean methodDict select: #isAbstract thenCollect: #selector}}\damien{I've added this footnote, just remove it if you don't like it :-)}.
-We ask some argument class, \ct{aClass}, for the keys of its method dictionary, and select those methods of that class that are abstract.
-Then we bind the argument \ct{aClass} to the concrete value \ct{Boolean}.
-We need parentheses only to send the binary message \ct{>>}, which selects a method from a class, before sending the unary message \mbox{\ct{isAbstract}} to that method. The result shows us which methods must be implemented by \ct{Boolean}'s concrete subclasses \ct{True} and \ct{False}.
+ここでは、\ct{Boolean}クラスのどのメソッドが抽象メソッドであるかを調べようとしています\footnote{実をいうと、同等の式はさらに簡単に\ct{Boolean methodDict select: #isAbstract thenCollect: #selector}と書くこともできます。}\damien{I've added this footnote, just remove it if you don't like it :-)}.
+まず、引数として渡されたクラス\ct{aClass}に, そのメソッド辞書のキー集合を問い合わせ、その中から、抽象メソッドに対応しているものを選択(select)するブロックを記述します。
+そのブロックの引数\ct{aClass}にあるクラス\ct{Boolean}を束縛しています。
+この式の中では、括弧はメソッドをクラスから取り出すを2項演算子\ct{>>}を、単項メッセージ\mbox{\ct{isAbstract}}の前に送るところだけに必要でした。全体を評価した結果は、\ct{Boolean}のサブクラスである\ct{True}および\ct{False}で実装しなくてはならないメソッドの集合となっています。
 
 %\begin{code}{}
 %Pen new go: 30 + 50          "create a turtle and moves it forward 80 pixels"
@@ -272,19 +272,18 @@ We need parentheses only to send the binary message \ct{>>}, which selects a met
 %with a structure approaching that of natural language.
 % This was one of the initial objectives so that the children can program.
 
-\paragraph{Example.}
-In the message \ct{aPen color: Color yellow}, there is one \emph{unary} message \ct{yellow} sent to the class \ct{Color} and a \emph{keyword} message \ct{color:} sent to \ct{aPen}. Unary messages are sent first so the message send \ct{Color yellow} is sent (1). This returns a color object which is passed as argument of the message \ct{aPen color: aColor} (2) as shown in \egref{decColor}.
-\figref{uKeyUn} shows graphically how messages are sent. 
+\paragraph{例.}
+式\ct{aPen color: Color yellow}の中には、\ct{Color}に送られる\emph{単項}メッセージ\ct{yellow}と、\ct{aPen}に送られる\emph{keyword}メッセージ\ct{color:}があります。単項メッセージがまず送られるので、図\egref{decColor}にあるように\ct{Color yellow}がまず送られ(1)、その結果として返されたColorオブジェクトがメッセージ\ct{aPen color: aColor}の引数となります(2)。
 
 \needlines{5}
-\begin{example}[decColor]{Decomposing the evaluation of \ct{aPen color: Color yellow}}{}
+\begin{example}[decColor]{\ct{aPen color: Color yellow}の評価順を分解}{}
         aPen color: Color yellow
-(1)                       Color yellow        "unary message is sent first"
+(1)                       Color yellow        "単項メッセージがまず送られる"
                         --> aColor
-(2)   aPen color: aColor                 "keyword message is sent next"
+(2)   aPen color: aColor                 "キーワードメッセージが次に送られる"
 \end{example}
 
-\paragraph{Example.} In the message \ct{aPen go: 100 + 20}, there is a \emph{binary} message \ct{+ 20} and a \emph{keyword} message \ct{go:}. Binary messages are sent prior to keyword messages so \ct{100 + 20} is sent first (1): the message \ct{+ 20} is sent to the object \ct{100} and returns the number \ct{120}. Then the message \ct{aPen go: 120} is sent with \ct{120} as argument (2).
+\paragraph{例.} In the message \ct{aPen go: 100 + 20}, there is a \emph{binary} message \ct{+ 20} and a \emph{keyword} message \ct{go:}. Binary messages are sent prior to keyword messages so \ct{100 + 20} is sent first (1): the message \ct{+ 20} is sent to the object \ct{100} and returns the number \ct{120}. Then the message \ct{aPen go: 120} is sent with \ct{120} as argument (2).
 \Egref{decGo} shows how the message send is executed. 
 
 \begin{example}[decGo]{Decomposing \ct{aPen go: 100 + 20}}{}
