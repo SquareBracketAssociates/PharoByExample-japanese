@@ -24,6 +24,11 @@
 	\input{../common.tex}
 	\pagestyle{headings}
 	\setboolean{lulu}{true}
+
+\usepackage{ums}
+\input jpdftextounicode
+\pdfgentounicode=1
+
 % --------------------------------------------
 % A4:
 %	\documentclass[a4paper,11pt,twoside]{book}
@@ -45,85 +50,147 @@
 % \sd{It would be good to add link to the chapter where the reader can learn about conditional, exceptions and loops.}
 % \on{There are links already.}
 
-\pharo, like most modern \st dialects, adopts a syntax very close to that of \st-80.
-The \ind{syntax} is designed so that program text can be read aloud as though it were a kind of pidgin English:
+% \pharo, like most modern \st dialects, adopts a syntax very close to that of \st-80.
+\pharo のシンタックスは他の近代的な \st 実装と同様， \st-80 にとてもよく似ています．
+% The \ind{syntax} is designed so that program text can be read aloud as though it were a kind of pidgin English:
+そして，プログラムをピジン英語のように声に出して読めるよう \ind{シンタックス} が設計されています．
 
 \begin{code}{}
 (Smalltalk includes: Class) ifTrue: [ Transcript show: Class superclass ]
 \end{code}
 
 \noindent
-\pharo's syntax is minimal.
-Essentially there is syntax only for \emph{sending messages} (\ie expressions) \damien{I don't think there is a syntax for declaring methods; in my opinion, this is just a feature of our browsers. That's why I'm commenting: and \emph{declaring methods}}.
-Expressions are built up from a very small number of  primitive elements.
-There are only 6 keywords, and there is no syntax for control structures or declaring new classes.
-Instead, nearly everything is achieved by sending messages to objects.
-For instance, instead of an if-then-else control structure, \st sends messages like \ct{ifTrue:} to \clsind{Boolean} objects.
-New \mbox{(sub-)classes} are created by sending a message to their superclass.
+% \pharo's syntax is minimal.
+\pharo のシンタックスはとてもシンプルです．
+% Essentially there is syntax only for \emph{sending messages} (\ie expressions) \damien{I don't think there is a syntax for declaring methods; in my opinion, this is just a feature of our browsers. That's why I'm commenting: and \emph{declaring methods}}.
+本質的には，メッセージ(\ie 式)を送信するためにのみシンタックスが存在します．
+% Expressions are built up from a very small number of  primitive elements.
+式は少数の基本要素を使って構築します.
+% There are only 6 keywords, and there is no syntax for control structures or declaring new classes.
+キーワードは6つだけしかありません.さらに，制御構造のためのシンタックスも，新しいクラスを宣言するためのシンタックスもありません.
+% Instead, nearly everything is achieved by sending messages to objects.
+代わりに，オブジェクトにメッセージを送信することにより，ほとんどのことが達成できるのです.
+% For instance, instead of an if-then-else control structure, \st sends messages like \ct{ifTrue:} to \clsind{Boolean} objects.
+例えば，if-then-else制御構造の代わりに， \st は \clsind{Boolean} オブジェクトに \ct{ifTrue:} のようなメッセージを送ります.
+% New \mbox{(sub-)classes} are created by sending a message to their superclass.
+また，新しい(サブ)クラスを作成するときには作成したいクラスのスーパークラスにメッセージを送ります.
 
 %=================================================================
 \section{Syntactic elements}
 
-Expressions are composed of the following building blocks:
-(i) six reserved keywords, or \emph{pseudo-variables}:
+% Expressions are composed of the following building blocks:
+式は以下の要素からできています．
+% (i) six reserved keywords, or \emph{pseudo-variables}:
+(i) 6つの予約語もしくは擬似変数:
 \pvind{self}, \pvind{super}, \pvind{nil}, \pvind{true}, \pvind{false}, and \pvind{thisContext},
-(ii) constant expressions for \emphind{literal objects} including numbers, characters, strings, symbols and arrays,
-(iii) variable declarations,
-(iv) assignments,
-(v) \ind{block} closures, and
-(vi) messages.
+% (ii) constant expressions for \emphind{literal objects} including numbers, characters, strings, symbols and arrays,
+(ii) 数，文字，文字列，シンボルおよび配列を含む \emphind{リテラルオブジェクト}用定数式，
+% (iii) variable declarations,
+(iii) 変数宣言，
+% (iv) assignments,
+(iv) 代入，
+%(v) \ind{block} closures, and
+(v) \ind{ブロック} クロージャー
+% (vi) messages.
+(vi) メッセージ
 \seeindex{pseudo-variable}{variable, pseudo}
+
+%\begin{table}\centering
+%	\begin{tabular}{ll}
+%		\toprule
+%		Syntax & What it represents \\
+%		\midrule
+%		\lct{startPoint}			&	a variable name\\
+%		\lct{Transcript}			&	a global variable name\\
+%		\lct{self}				&	pseudo-variable \\
+%		\midrule
+%		\lct{1}				 	&	decimal integer \\
+%		\lct{2r101}				&	binary integer \\
+%		\lct{1.5}					&	floating point number \\
+%		\lct{2.4e7}				&	exponential notation \\
+%		\lct{\$a}					&	the character `a' \\
+%		\lct{'Hello'}				&	the string ``Hello'' \\
+%		\lct{\#Hello}				&	the symbol \lct{\#Hello} \\
+%		\lct{\#(1 2 3)}			&	a literal array \\
+%		\lct{\{1. 2. 1+2\}}		&	a dynamic array \\
+%		\midrule
+%		\lct{"a comment"} 		&	a comment \\
+%		\midrule
+%		\lct{| x y |}				&	declaration of variables \lct{x} and \lct{y}	\\
+%		\lct{x := 1}				&	assign 1 to \lct{x} \\
+%		\lct{[ x + y ]}			&	a block that evaluates to \lct{x+y} \\
+%		\lct{<primitive: 1>}		&	virtual machine primitive or annotation\\
+%		\midrule
+%		\lct{3 factorial}			&	unary message \\
+%		\lct{3+4}					&	binary messages \\
+%		\lct{2 raisedTo: 6 modulo: 10}		&	keyword message \\
+%		\midrule
+%		\lct{$\uparrow$ true} 			&	return the value true	\\
+%		\lct{Transcript show: 'hello'. Transcript cr }		&	expression separator (\lct{.})	\\
+%		\lct{Transcript show: 'hello'; cr}					&	message cascade (\lct{;}) \\
+%		\bottomrule
+%	\end{tabular}
+%	\caption{\pharo Syntax in a Nutshell\tablabel{syntax}}
+%\end{table}
 
 \begin{table}\centering
 	\begin{tabular}{ll}
 		\toprule
-		Syntax & What it represents \\
+		シンタックス & 意味 \\
 		\midrule
-		\lct{startPoint}			&	a variable name\\
-		\lct{Transcript}			&	a global variable name\\
-		\lct{self}				&	pseudo-variable \\
+		\lct{startPoint}			&	変数名 \\
+		\lct{Transcript}			&	グローバル変数名 \\
+		\lct{self}				&	擬似変数 \\
 		\midrule
-		\lct{1}				 	&	decimal integer \\
-		\lct{2r101}				&	binary integer \\
-		\lct{1.5}					&	floating point number \\
-		\lct{2.4e7}				&	exponential notation \\
-		\lct{\$a}					&	the character `a' \\
-		\lct{'Hello'}				&	the string ``Hello'' \\
-		\lct{\#Hello}				&	the symbol \lct{\#Hello} \\
-		\lct{\#(1 2 3)}			&	a literal array \\
-		\lct{\{1. 2. 1+2\}}		&	a dynamic array \\
+		\lct{1}				 	&	10進整数 \\
+		\lct{2r101}				&	2進整数 \\
+		\lct{1.5}					&	浮動小数点数 \\
+		\lct{2.4e7}				&	指数表現 \\
+		\lct{\$a}					&	文字 `a' \\
+		\lct{'Hello'}				&	文字列 ``Hello'' \\
+		\lct{\#Hello}				&	シンボル \lct{\#Hello} \\
+		\lct{\#(1 2 3)}			&	リテラル配列 \\
+		\lct{\{1. 2. 1+2\}}		&	動的配列 \\
 		\midrule
-		\lct{"a comment"} 		&	a comment \\
+		\lct{"a comment"} 		&	コメント \\
 		\midrule
-		\lct{| x y |}				&	declaration of variables \lct{x} and \lct{y}	\\
-		\lct{x := 1}				&	assign 1 to \lct{x} \\
-		\lct{[ x + y ]}			&	a block that evaluates to \lct{x+y} \\
-		\lct{<primitive: 1>}		&	virtual machine primitive or annotation\\
+		\lct{| x y |}				&	変数 \lct{x} と \lct{y} の宣言	\\
+		\lct{x := 1}				&	\lct{x} に 1 を代入 \\
+		\lct{[ x + y ]}			&	\lct{x+y} を評価するブロック \\
+		\lct{<primitive: 1>}		&	バーチャルマシン・プリミティブもしくはアノテーション \\
 		\midrule
-		\lct{3 factorial}			&	unary message \\
-		\lct{3+4}					&	binary messages \\
-		\lct{2 raisedTo: 6 modulo: 10}		&	keyword message \\
+		\lct{3 factorial}			&	単項メッセージ \\
+		\lct{3+4}					&	二項メッセージ \\
+		\lct{2 raisedTo: 6 modulo: 10}		&	キーワードメッセージ \\
 		\midrule
-		\lct{$\uparrow$ true} 			&	return the value true	\\
-		\lct{Transcript show: 'hello'. Transcript cr }		&	expression separator (\lct{.})	\\
-		\lct{Transcript show: 'hello'; cr}					&	message cascade (\lct{;}) \\
+		\lct{$\uparrow$ true} 			&	値 true を返す　\\
+		\lct{Transcript show: 'hello'. Transcript cr }		&	式セパレーター (\lct{.})	\\
+		\lct{Transcript show: 'hello'; cr}					&	メッセージカスケード (\lct{;}) \\
 		\bottomrule
 	\end{tabular}
 	\caption{\pharo Syntax in a Nutshell\tablabel{syntax}}
 \end{table}
 
-We can see examples of the various syntactic elements in \tabref{syntax}.
-\begin{description}
-\item[Local variables]	\ct{startPoint} is a variable name, or identifier.
-		By convention, identifiers are composed of words in ``\ind{camelCase}'' (\ie each word except the first starting with an upper case letter).
-		The first letter of an instance variable, method or block argument, or temporary variable must be lower case.
-		This indicates to the reader that the variable has a private scope.
+% We can see examples of the various syntactic elements in \tabref{syntax}.
+\tabref{syntax} は様々なシンタックスの例です．
 
-\item[Shared variables]	Identifiers that start with upper case letters are \subind{variable}{global} variables, class \subind{class}{variable}{}s, \subind{variable}{pool} dictionaries or class names.
-		\ct{Transcript} is a global variable, an instance of the class \ct{TranscriptStream}.
-		\seeindex{global variable}{variable, global}
-		\seeindex{pool dictionary}{variable, pool}
-		\seeindex{variable!class}{class, variable}
+\begin{description}
+%\item[Local variables]	\ct{startPoint} is a variable name, or identifier.
+\item[ローカル変数] \ct{startPoint} は変数名もしくは識別子です．
+%		By convention, identifiers are composed of words in ``\ind{camelCase}'' (\ie each word except the first starting with an upper case letter).
+		慣習により，識別子は ``\ind{キャメルケース}'' (\ie 2番目以降の単語の先頭を大文字にし，単語を連結したもの)で記述します．
+%		The first letter of an instance variable, method or block argument, or temporary variable must be lower case.
+		インスタンス変数，メソッドとブロックの引数，一時変数の先頭の文字は小文字にします.
+%		This indicates to the reader that the variable has a private scope.
+		つまり，プライベートなスコープを持つ変数の先頭を小文字にするのです.
+
+% \item[Shared variables]	Identifiers that start with upper case letters are \subind{variable}{global} variables, class \subind{class}{variable}{}s,  \subind{variable}{pool} dictionaries or class names.
+\item[共有変数] の先頭は大文字にします．\ind{グローバル変数} ， \ind{クラス変数} ， \ind{プール変数} ， ディクショナリ，もしくはクラス名を表します．
+%		\ct{Transcript} is a global variable, an instance of the class \ct{TranscriptStream}.
+%		\seeindex{global variable}{variable, global}
+%		\seeindex{pool dictionary}{variable, pool}
+%		\seeindex{variable!class}{class, variable}
+		\ct{Transcript} はグローバル変数であり，クラス \ct{TranscriptStream} のインスタンスです．
 
 \item[The receiver.]	\pvind{self} is a keyword that refers to the object inside which the current method is executing. We call it ``the receiver'' because this object will normally have received the message that caused the method to execute.
 		\self is called a ``\subind{variable}{pseudo}-variable'' since we cannot assign to it.
