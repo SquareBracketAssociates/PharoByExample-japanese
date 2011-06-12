@@ -1,0 +1,15 @@
+% po4a: environment doublebox []
+% po4a: environment code []
+% po4a: environment method []
+% po4a: environment document []
+% po4a: environment table []
+% po4a: environment tabular []
+% po4a: environment description []
+% po4a: environment enumerate []
+% po4a: command *setboolean {}{}
+% po4a: command *ifx
+% po4a: command *wholebook
+% po4a: command *relax
+% po4a: command *else
+% po4a: command *fi
+

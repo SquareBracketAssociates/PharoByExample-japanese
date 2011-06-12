@@ -1,4 +1,4 @@
-% $Author$
+﻿% $Author$
 % $Date$
 % $Revision$
 % $Id$
@@ -44,28 +44,26 @@
 
 %=================================================================
 
-\ind{Seaside} is a framework for building web applications in Smalltalk.  It was originally developed by Avi Bryant \index{Bryant, Avi} in 2002; once mastered, Seaside makes web applications almost as easy to write as desktop applications.
+\ind{Seaside} はSmalltalkでWebアプリケーションを作成するためのフレームワークです。2002年にAvi Bryant \index{Bryant, Avi} によって開発が始まりました。一度マスターすれば、デスクトップアプリケーションと同じようにWebアプリケーションを容易に作ることができるようになります。
 
-Two of the better known applications built with Seaside are \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} and \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}.
-Seaside is unusual in that it is thoroughly object-oriented: there are no XHTML templates, no complicated control flows through web pages, and no encoding of state in URLs. Instead, you just send messages to objects.  What a nice idea!
+Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} と \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}があります。
+徹底してオブジェクト指向というのがSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵ですよね。
 
-\section{Why do we need Seaside?}
+\section{なぜSeaside?}
 
-Modern web applications try to interact with the user in the same way as desktop applications: they ask the user questions and the user responds, usually by filling in a form or clicking a button.
-But the web works the other way around: the user's browser makes a request of the server, and the server responds with a new web page.
-So \ind{web application development} frameworks have to cope with a host of problems, chief among them being the management of this ``inverted'' control flow. 
-Because of this, many web applications try to forbid the use of the browser's ``back'' button due to the difficulty of keeping track of the state of a session. 
-Expressing non-trivial control flows across multiple web pages is often cumbersome, and multiple control flows can be difficult or impossible to express.
+現在のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに質問し、ユーザはフォームを記入したりボタンを押してこれに応えます。
+ところがWebの仕組みは実際には逆なのです。Webブラウザがサーバにリクエストをすると、新しいページがサーバから返ってきます。
+そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのはこの逆になっている制御フローです。
+そこで、多くのWebアプリケーションはブラウザの「戻る」ボタンを押すことを禁じています。押されてしまうとセッションの状態を保つのが困難になるからです。
+複数のWebページ間の簡単な制御の流れを表現するだけでも、やっかいなものになります。さらに制御の流れが複数になったりすると、表現するのがきわめて難しくなるか、不可能になってしまいます。
 
 % Seaside is a component-based framework that uses ``\ind{continuations}''\footnote{A \emph{continuation} represents ``the rest of the computation'' at any point in a computation. In Smalltalk, a continuation is just an object that captures the current state of the computation, and which can be resumed at any point.} to keep track of multiple points in the control flow of web applications. Continuations are managed automatically by Seaside, so web developers do not even have to be aware of the underlying machinery. It just works.
 
 \index{Seaside!backtracking state}
 \index{Seaside!transactions}
 \index{Seaside!components}
-Seaside is a component-based framework that makes web development easier in several ways.
-First,  control flow can be expressed naturally using message sends.
-Seaside keeps track of which web page corresponds to which point in the execution of the web application.
-This means that the browser's ``back'' button works correctly.
+SeasideではWebアプリケーション開発を容易にするため、コンポーネントベースのフレームワークを採用しています。
+まず、制御の流れはメッセージ送信により自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態をページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
 Second, state is managed for you.
 As the developer, you have the choice of enabling 
