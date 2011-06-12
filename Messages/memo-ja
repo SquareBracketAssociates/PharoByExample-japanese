@@ -1,0 +1,55 @@
+シンタックスの話なのかどうかが微妙
+評価順序や優先順位の話をしているのかどうかあいまい
+
+underline?
+
+3種類のメッセージシンタックスとどうさまざりまくり
+
+\ct{+}はメッセージではないのでは？
+
+messageName -> selector?
+
+binary messageにはもっといろいろなものが使えます。
+
+a methodとselectorまざっている
+
+Color redは新しい色を作る訳ではない
+
+keyword based messages?
+
+単項メッセージがまず最初に送信され、次に2項、そして最後にキーワードメッセージが送られます。というのがちょっとあやしすぎる。
+つまり、送信されるとは書いてあるが結果を待つということがちゃんと書かれていない。
+
+Booleanは"concrete class"といってよいのか?
+
+\mboxいらないのでは
+
+うーむ。くどい。
+
+\ct{65@325} and \ct{134@100}がまず実行され、ってあいまいだ。
+
+メッセージ送信の規則をそのまま適用した結果です。というのはそうなのだが、Smalltalkではというべき
+
+correct behaviourといっても、20+2*5にはどこにも何らかの「正しさ」を暗示する情報はない。
+
++と*に\ctが抜けている
+
+implicit precedence.  implicit?
+
+identifying keyword messageといいつつかっこのつけかたが問題という
+
+If you have problems with these precedence rules, you may start simply by putting parentheses whenever you want to distinguish two messages having the same precedence.　わけわからん
+
+a literal .. or a blockとはいうが、blockはリテラルなのではなかろうか
+
+\emph{always}というが、つまり前提としては実行がここにきたら、ということではある。
+
+whileTrue:の引数はブロックであるべきではあるが、大かっこがつかわれているかどうかは関係ない。というか、valueがわかれば何でも良いのではなかろうか。
+
+ignoredなのかねえ。separatorではなくterminatorというのと、最後のピリオドがoptionalであるというところの間にはギャップがある。
+
+Note that the object receiving the cascaded messages can itself be the result of a message send. 意味不明。特に次の"In fact"がなにをさしているのか。
+
+named the receiverではなくcalled the receiverでは?
+
+さきにsendされるというのがどうしてもきがかりだ。処理はlock stepで進むのだから。
