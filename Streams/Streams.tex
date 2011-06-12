@@ -79,7 +79,7 @@
 ストリームはこの二つの連続の間に位置します。
 Smalltalkのストリームに対する全ての操作はこれによるので，このモデルを理解しておくのは大切です。
 このような理由で，ほとんどの\clsind{Stream}クラスは\clsind{PositionableStream}のサブクラスになっています。
-\figref{_abcde}は5個の文字を含むストリームを表しています。このストリームはその原位置にあります。\ie 過去には一つの要素もありません。\mthind{PositionableStream}{reset}メッセージによりこの位置に戻すことができます。
+図\figref{_abcde}は5個の文字を含むストリームを表しています。このストリームはその原位置にあります。\ie 過去には一つの要素もありません。\mthind{PositionableStream}{reset}メッセージによりこの位置に戻すことができます。
 
 
 
@@ -94,18 +94,18 @@ Smalltalkのストリームに対する全ての操作はこれによるので�
 %Reading an element conceptually means removing the first element of the future element sequence  and putting it after the last element in the past
 %element sequence. After having read one element using the message \ct{next}, the state of your stream is that shown in \figref{a_bcde}.
 要素を読んでいくことは概念的に，未来要素列の先頭要素を取り除き，それを過去要素列の最後に付け加えることを意味します。
-\ct{next}メッセージを使って一つの要素を読むと，ストリームの状態は\figref{a_bcde}に示されているようになります。
+\ct{next}メッセージを使って一つの要素を読むと，ストリームの状態は図\figref{a_bcde}に示されているようになります。
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{a_bcdeStef}}
 %\caption{The same stream after the execution of the method \ct{next}: the character \ct{a} is ``in the past'' whereas \ct{b}, \ct{c}, \ct{d} and \ct{e} are ``in the future''.}
-\caption{\ct{next}メソッドを実行したあとの同じストリーム： 文字 \ct{a} は ``過去'' で \ct{b}, \ct{c}, \ct{d} \ct{e} は ``未来''である.}
+\caption{\ct{next}メソッドを実行したあとの同じストリーム： 文字 \ct{a} は 「過去」 で \ct{b}, \ct{c}, \ct{d} \ct{e} は 「未来」です.}
 \figlabel{a_bcde}
 \vspace{.2in}
 \end{figure}
 
 %Writing an element means replacing the first element of the future sequence by the new one and moving it to the past. \figref{ax_cde} shows the state of the same stream after having written an \ct{x} using the message \mthind{Stream}{nextPut:} \ct{anElement}.
-要素を書き込むことは未来要素の先頭要素を新しいものに置き換えて過去に移動させることを意味します。\figref{ax_cde}は\mthind{Stream}{nextPut:} \ct{anElement}メッセージを使って同じ要素を\ct{x}で書き換えた状態を示しています
+要素を書き込むことは未来要素の先頭要素を新しいものに置き換えて過去に移動させることを意味します。図\figref{ax_cde}は\mthind{Stream}{nextPut:} \ct{anElement}メッセージを使って同じ要素を\ct{x}で書き換えた状態を示しています
 
 
 \begin{figure}[h!t]
