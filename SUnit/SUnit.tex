@@ -39,10 +39,13 @@
 \chalabel{SUnit}
 
 %=================================================================
-\section{Introduction}
+%\section{Introduction}
+
+\section{はじめに}
 
 \on{Would be nice to have an example of test-driven development with SUnit from beginning to end. Perhaps this is for another chapter?}
 
+\if0
 \indmain{SUnit} is a minimal yet powerful framework that supports the
 creation and deployment of tests.
 As might be guessed from its name, the design of \sunit focussed on \emph{Unit Tests}, 
@@ -51,6 +54,10 @@ but in fact it can be used for integration tests and functional tests as well.
 originally developed by Kent Beck and subsequently extended by Joseph
 Pelrine and others to incorporate the
 notion of a resource, which we will describe in \secref{resource}.
+\fi
+
+\indmain{SUnit} は小さいながらも強力な、テストの作成と運用のためのフレームワークです。その名前からわかるように、 \emph{ユニットテスト} を対象として設計されていますが、統合テストや機能テストにも使えます。 \sunit は Kent Beck が開発し、 Joseph Pelrine を始めとする開発者達がテストリソース (\secref{resource}) の概念を取り入れました。
+
 \index{Beck, Kent}
 \index{Pelrine, Joseph}
 \seeindex{resource}{test, resource}
@@ -218,19 +225,30 @@ Moreover, test-first development gives us the courage to go fast, because we are
 
 % Now let's write our first test, and show you the benefits of using \SUnit.
 %=================================================================
+%\section{\sunit by example}
+
 \section{\sunit by example}
 
 Before going into the details of \SUnit, we will show a step by step
 example.  We use an example that tests the class \ct{Set}.  Try
 entering the code as we go along.
-%---------------------------------------------------------
-\subsection{Step 1: create the test class}
 
+\SUnit の詳細に触れる前に、一つずつ例を挙げていきます。 \ct{Set} クラスのテストを例に進めますので、例に従ってコードを入力してください。
+%---------------------------------------------------------
+%\subsection{Step 1: create the test class}
+
+\subsection{ステップ 1: テストクラスを作る}
+
+\if0
 \dothis{First you should create a new subclass of \clsind{TestCase} called
 \ct{ExampleSetTest}.   Add two instance variables so that your new
 class looks like this:}
+\fi
 
-\begin{classdef}[exampleSetTest]{An Example Set Test class}
+\dothis{まず、 \clsind{TestCase} のサブクラス \ct{ExampleSetSet} を作ります。このクラスに二つのインスタンス変数 \ct{full} と \ct{empty} を追加します。}
+
+%\begin{classdef}[exampleSetTest]{An Example Set Test class}
+\begin{classdef}[exampleSetTest]{ExampleSetTest クラス}
 TestCase subclass: #ExampleSetTest
 	instanceVariableNames: 'full empty'
 	classVariableNames: ''
@@ -238,37 +256,64 @@ TestCase subclass: #ExampleSetTest
 	category: 'MySetTest'
 \end{classdef}
 
-
+\if0
 We will use the class \ct{ExampleSetTest} to group all the tests related to
 the class \ct{Set}.  It defines the context in which the tests
 will run.  Here the context is described by
 the two instance variables \ct{full} and \ct{empty}
 that we will use to represent a full and an empty set.
+\fi
 
+\ct{ExampleSetTest} に \ct{Set} クラスのテストをまとめます。テスト実行時のコンテキスト (テストを実行するための状態) を定義？コンテキストは二つのインスタンス変数 \ct{full} と \ct{empty} で表します。 \ct{full} は要素を持つセット、 \ct{empty} は空のセットを表します。
+
+\if0
 The name of the class is not critical, but by convention it should end in \ct{Test}.
 If you define a class called \ct{Pattern} and call the corresponding test class \ct{PatternTest}, the two classes will be alphabetized together in the browser (assuming that they are in the same category).  It \emph{is} critical that your class be a subclass of \ct{TestCase}.
-%---------------------------------------------------------
-\subsection{Step 2: initialize the test context}
+\fi
 
+クラスの名前は重要ではありませんが、 \ct{Test} で終わる名前にすべきです。 \ct{Pattern} クラスのテストクラスなら \ct{PatternTest} とすれば、ブラウザで見たときに (どちらも同じカテゴリであれば) 両方のクラスがアルファベット順に並びます。テストクラスが \ct{TestCase} のサブクラスであるほうが重要です。
+
+%---------------------------------------------------------
+%\subsection{Step 2: initialize the test context}
+
+\subsection{ステップ 2: テスト環境を整える}
+
+\if0
 The method \mthind{TestCase}{setUp} defines the context in which the tests will run, a bit like an initialize method.
 \ct{setUp} is invoked before the execution of each test
 method defined in the test class.
 \index{SUnit!set up method}
 \seeindex{testing}{SUnit}
+\fi
 
+\mthind{TestCase}{setUp} メソッドで、テスト実行時の状態を定義します。ちょっと初期化メソッドに似ていますね。 \ct{setUp} は (テストクラスに実装した) 各テストメソッドの実行前に実行されます。
+
+\index{SUnit!set up method}
+\seeindex{testing}{SUnit}
+
+\if0
 \dothis{Define the \ct{setUp} method as follows, to initialize the \ct{empty} variable to refer to an empty set and the \ct{full} variable to
 refer to a set containing two elements. }
+\if
+
+\dothis{\ct{setUp} メソッドを次のように定義してください。インスタンス変数 \ct{empty} に空のセットを代入し、 \ct{full} に二つの要素を持つセットを代入します。
 
 \needlines{3}
-\begin{method}[setupExampleSetTest]{Setting up a fixture}
+%\begin{method}[setupExampleSetTest]{Setting up a fixture}
+\begin{method}[setupExampleSetTest]{フィクスチャを設定する}
 ExampleSetTest>>>setUp
 	empty := Set new.
 	full := Set with: 5 with: 6
 \end{method}
 
 \noindent
+\if0
 In testing jargon the context is called the \emph{fixture} for the
 test.
+\fi
+
+このテストではコンテキストのことを \emph{フィクスチャ} と呼びます。
+
 \index{SUnit!fixture}
 \seeindex{fixture}{SUnit, fixture}
 
@@ -474,8 +519,10 @@ but you will then have to create a suite by hand and your class will
 have to implement all the essential \ct{TestCase} methods like \ct{assert:}.
 We recommend that you not try to do this.  The framework is there: use it.
 %=================================================================
-\section{The SUnit framework}
+%\section{The SUnit framework}
+\section{SUnit フレームワーク}
 
+\if0
 \sunit consists of four main classes: \clsind{TestCase},
 \clsind{TestSuite}, \clsind{TestResult}, and \clsind{TestResource}, as shown in \figref{sunit-classes}.
 The notion of a \emph{test resource} was introduced in \sunit 3.1 to represent a resource that is expensive to set-up but which can be used by
@@ -483,6 +530,16 @@ a whole series of tests.  A \ct{TestResource}
 specifies a \ct{setUp} method that is executed just once before a suite of tests;
 this is in distinction to the \ct{TestCase>>>setUp} method, which is executed before
 each test.
+\fi
+
+SUnit は次の 4 つのクラスから構成されます (図 7.3) 。
+
+* TestCase
+* TestSuite
+* TestResult
+* TestResource
+
+テストリソースは SUnit 3.1 で導入された概念で、コストの高いセットアップに使われます。 TestResource の setUp メソッドは TestCase のものと異なり、テストスイートの実行前に一度だけ実行されます。 TestCase では各テストの実行前に setUp メソッドが実行されます。
 
 \begin{figure}[htb]
   \begin{center}
@@ -500,6 +557,13 @@ each test.
 Each test is run by creating a new instance of a subclass of \ct{TestCase},
 running \mthind{TestCase}{setUp}, running the test method itself, and then running \mthind{TestCase}{tearDown}.
 
+TestCase は抽象クラスです。サブクラスにテストを記述し、テスト間で実行時の状態を共有します (テストスイート) 。各テストは次の順序で実行されます。
+
+1. TestCase のサブクラスのインスタンスを生成する (テストごとに生成します) 。
+2. setUp メソッドを実行する。
+3. テストメソッドを実行する。
+4. tearDown メソッドを実行する。
+
 The context is specified
 by instance variables of the subclass
 and by the specialization of the method
@@ -508,6 +572,9 @@ Subclasses of \ct{TestCase} can also override method
 \ct{tearDown}, which is invoked after the execution of each test,
 and can be used to release any objects
 allocated during \ct{setUp}.
+
+実行時の状態をインスタンス変数で表し、オーバーライドした setUp メソッドで初期化します。 setUp で初期化したオブジェクトの終了処理を行うには、 tearDown メソッドをオーバーライドします。
+
 %---------------------------------------------------------
 \subsection{TestSuite}
 
@@ -519,12 +586,18 @@ Both individual \lct{TestCase}s and \lct{TestSuite}s understand the same protoco
 This is in fact an application of the composite
 pattern in which \ct{TestSuite} is the composite and the
 \ct{TestCase}s are the leaves\,---\,see \textit{Design Patterns} for more information on this pattern\cite{Gamm95a}.
+
+TestSuite はテストケース (テストとテストスイート) の集合を含みます。つまり、 TestSuite は TestCase と TestSuite のインスタンスを含みます。
+TestCase と TestSuite の間に継承関係はありませんが、どちらも同じプロトコルを実装しているので同じように扱えます。例えば、どちらも run メソッドが定義されています。 TestSuite を枝、 TestCase を葉として Composite パターンを適用しています (詳しくはデザインパターンを参照してください) 。
+
 %---------------------------------------------------------
 \subsection{TestResult}
 
 The class \clsindmain{TestResult} represents the results of a
 \ct{TestSuite} execution.  It records the number of tests passed,
 the number of tests failed, and the number of errors signalled.
+
+TestResult は TestSuite の実行結果を扱います。成功したテストの数、失敗したテストの数、エラーの発生したテストの数を記録します。
 
 %---------------------------------------------------------
 \subsection{TestResource}
@@ -810,10 +883,14 @@ TestResource>>>initialize
 	self setUp
 \end{method}
 %=================================================================
-\section{Some advice on testing}
+%\section{Some advice on testing}
+
+\section{テストのポイント}
 
 While the mechanics of testing are easy, writing good tests is not.
 Here is some advice on how to design tests.
+
+テストの仕組みは簡単ですが、いいテストを書くのは簡単ではありません。いくつかテストのポイントを紹介します。
 
 \begin{description}
 %\item[Self-contained tests.] You do not
@@ -849,6 +926,18 @@ Tests that do these things aren't bad. Often they are worth writing, and they ca
   \end{quotation}
 Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
  
+\if0
+Feathers の法則。アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。
+
+次のテストはユニットテストではありません:
+
+* データベースと対話したり、
+* インターネットに接続したり、
+* ファイルシステムに触ったり、
+* 他のユニットテストとまとめて実行できなかったり、
+* 特別な環境 (設定ファイルの編集が必要など) を準備しなければならない。
+\f0
+
 \item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
   functionality, and as such make it easier to identify bugs in that functionality.
   As far as
@@ -1229,8 +1318,10 @@ Never get yourself into a situation where you don't want to run your unit test s
 %%		 show: 'MyTestResource>>>tearDown has run.';
 %%		 cr
 %=================================================================
-\section{Chapter summary}
+%\section{Chapter summary}
+\section{まとめ}
 
+\if0
 This chapter explained why tests are an important investment in 
 the future of your code.  
 We explained in a step-by-step fashion how
@@ -1239,6 +1330,23 @@ Then we gave an overview of the core of the \sunit framework by presenting
 the classes \ct{TestCase}, \ct{TestResult}, \ct{TestSuite}
 and \lct{TestResources}.  Finally we looked deep inside \sunit by
 following the execution of a test and a test suite.
+\fi
+
+この章では、なぜコードの未来にとってテストが重要な投資なのか説明しました。 Set クラスのテストを一つずつ定義しながら説明しました。 SUnit フレームワークの中心となるクラス群、 TestCase 、 TestResult 、 TestSuite 、 TestResource の全体像をお見せしました。テストとテストスイートの実行過程を追うことで、 SUnit をより深く理解できたでしょう。
+
+\if0
+* ユニットテストの効果を最大限に引き出すポイント: 高速、繰り返し可能、 途中で人の操作を要求しない、一つの機能のみをテストする。
+
+* テストクラス名は「元のクラス名 + "Test" 」にします (MyClass のテストクラスなら MyClassTest) 。テストクラスは TestCase のサブクラスとして定義すべきです。
+
+* setUp メソッドでテストデータを初期化してください。
+
+* 各テストメソッド名は "test" で始めるべきです。
+
+* アサーションは TestCase の assert: や deny: などのメソッドで行います。
+
+* SUnit のテストランナーを使ってテストを実行しましょう。テストランナーはツールバーにあります。
+\fi
 
 \begin{itemize}
   \item To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
