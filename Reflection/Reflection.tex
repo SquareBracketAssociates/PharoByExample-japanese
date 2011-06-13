@@ -43,40 +43,60 @@
 \fi
 
 %=================================================================
+%@\chapter{Reflection}\chalabel{reflection}
 \chapter{リフレクション}\chalabel{reflection}
 
 %\alex{I addressed lukas comments using editorial macros. Please, if you read this, remove this comment and remove the editorial macros, else their purpose is diminished}
 
+%@\indexmain{reflection}
 \indexmain{リフレクション}
+%@\st is a reflective programming language.
 \st は、内省的な(リフレクティブな?)プログラミング言語です。
+%@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
 つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする?)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
+%@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
 より技術的には、次のような意味です: 実行時システムの\emphind{メタオブジェクト}を通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
+%@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
 \st のメタオブジェクトは、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどなどです。
+%@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
 このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれ、多くの今風のプログラミング言語は、これをサポートします。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
+%@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 	\caption{具現化とリフレクション.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \end{figure}
 
+%@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
+%@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
 このことは\emph{代祷(インターセッション?)}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は非常に限られます。
 
+%@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
 他のプログラム(あるいは自分自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
+%@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
 プログラミング言語がリフレクティブであるためには、その言語は\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
+%@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
 イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するものです。
+%@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
 インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいをプログラム自身の中から\emph{変更}できる能力のことです。
+%@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
 \emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することを指し、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更することを指します。
 
+%@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
+%@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
 ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する実際的な例を探求します。
 
 %======================================
+%@\section{Introspection}
 \section{イントロスペクション}
 
+%@Using the inspector, you can look at an object, change the values of its instance variables, and even send messages to it.
 インスペクターを使えば、オブジェクト(の中身?)を見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
 
+%@\dothis{Evaluate the following code in a workspace:}
 \dothis{以下のコードをワークスペースで評価しなさい:}
 \begin{code}{| w |}
 w := Workspace new.
@@ -84,7 +104,9 @@ w openLabel: 'My Workspace'.
 w inspect
 \end{code}
 
+%@This will open a second workspace and an inspector.
 こうすることによって、もうひとつのワークスペースと、インスペクターが開きます。
+%@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
 このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
 The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
 
