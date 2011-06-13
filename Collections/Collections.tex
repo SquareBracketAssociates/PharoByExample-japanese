@@ -8,6 +8,7 @@
 % 2007-05-28 - Stef adds material
 % 2007-08-13 - Oscar edits
 % 2009-07-07 - Oscar migrated to Pharo; fixed broken tests
+% 2011-xx-xx - Naruhiko translated to Japanese
 
 %=================================================================
 \ifx\wholebook\relax\else
@@ -35,7 +36,8 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{Collections}
+\chapter{コレクション}
+%\chapter{Collection}
 \chalabel{collections}
 
 \ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
@@ -44,13 +46,19 @@
 %\on{recycled some material from \url{https://www.iam.unibe.ch/scg/svn_repos/Lectures/ST-H07/03StandardClasses.ppt}}
 %\sd{Did a first pass: I should have a look at Xavier Briffault's book and at the material mentionned by andrew + lalonde book?}
 %=============================================================
-\section{Introduction}
+\section{導入}
 
-The collection classes form a loosely-defined group of general-purpose subclasses of \clsindmain{Collection} and \clsind{Stream}. The group of classes that appears in the ``\ind{Blue Book}''~\cite{Gold83a} contains 17 subclasses of \ct{Collection} and 9 subclasses of \ct{Stream}, for a total of 28 classes, and had already been redesigned several times before the \st-80 system was released. This group of classes is often considered to be a paradigmatic example of object-oriented design.
+コレクションクラス群は \clsindmain{Collection} クラスと \clsind{Stream} クラスのサブクラスで、汎用目的なもののグループであるとやや曖昧に定義しておきます。「\ind{ブルーブック}」~\cite{Gold83a} に登場するこのクラスのグループには \ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが含まれています。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラス群はしばしばオブジェクト指向設計の系統的な例として考えられます。
 
-In \pharo, the abstract class \ct{Collection} has 101 subclasses, and the abstract class \ct{Stream} has 50 subclasses, but many of these (like \mbox{\clsind{Bitmap},} \clsind{FileStream} and \clsind{CompiledMethod}) are special-purpose classes crafted for use in other parts of the system or in applications, and hence not categorized as ``Collections'' by the system organization. For the purposes of this chapter, we use the term ``Collection Hierarchy'' to mean \ct{Collection} and its 47 subclasses that are \emph{also} in the categories labelled \scat{Collections-*}.
-We use the term ``Stream Hierarchy'' to mean \ct{Stream} and its 9 subclasses that are \emph{also} in the \scatind{Collections-Streams} categories.
-These 56 classes respond to 982 messages and define a total of 1609 methods!
+% The collection classes form a loosely-defined group of general-purpose subclasses of \clsindmain{Collection} and \clsind{Stream}. The group of classes that appears in the ``\ind{Blue Book}''~\cite{Gold83a} contains 17 subclasses of \ct{Collection} and 9 subclasses of \ct{Stream}, for a total of 28 classes, and had already been redesigned several times before the \st-80 system was released. This group of classes is often considered to be a paradigmatic example of object-oriented design.
+
+\pharo では、抽象クラス \ct{Collection} は 101 個のサブクラスを、抽象クラス \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成として「Collection」としてはカテゴリー化されません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
+同様に「ストリーム階層」は \ct{Stream} と、そのサブクラス\emph{の中で} \scat{Collections-Streams} としてカテゴライズされたものを指します。
+これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！
+
+%In \pharo, the abstract class \ct{Collection} has 101 subclasses, and the abstract class \ct{Stream} has 50 subclasses, but many of these (like \mbox{\clsind{Bitmap},} \clsind{FileStream} and \clsind{CompiledMethod}) are special-purpose classes crafted for use in other parts of the system or in applications, and hence not categorized as ``Collections'' by the system organization. For the purposes of this chapter, we use the term ``Collection Hierarchy'' to mean \ct{Collection} and its 47 subclasses that are \emph{also} in the categories labelled \scat{Collections-*}.
+%We use the term ``Stream Hierarchy'' to mean \ct{Stream} and its 9 subclasses that are \emph{also} in the \scatind{Collections-Streams} categories.
+%These 56 classes respond to 982 messages and define a total of 1609 methods!
 
 % See test case in PBE-Collections for statistics
 
@@ -78,8 +86,11 @@ These 56 classes respond to 982 messages and define a total of 1609 methods!
 %\end{center}
 %\end{figure}
 
-In this chapter we focus mainly on the subset of collection classes shown in \figref{CollClassesTree}.
-Streams will be discussed separately in \charef{streams}.
+この章ではコレクションクラスのうち \figref{CollClassesTree} に示す一部を主に取り上げます。
+ストリームについては \charef{streams} で分けて論じます。
+
+%In this chapter we focus mainly on the subset of collection classes shown in \figref{CollClassesTree}.
+%Streams will be discussed separately in \charef{streams}.
 
 % \sd{should put stream related text in Stream chapter}.
 
