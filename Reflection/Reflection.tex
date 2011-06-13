@@ -67,25 +67,25 @@
 プログラミング言語がリフレクティブであるためには、その言語は\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するものです。
 インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいをプログラム自身の中から\emph{変更}できる能力のことです。
-\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することを指し、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更することを指します。
 
-In this chapter we will focus mainly on \ind{structural reflection}.
-We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
+この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
+ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する実際的な例を探求します。
 
 %======================================
-\section{Introspection}
+\section{イントロスペクション}
 
-Using the inspector, you can look at an object, change the values of its instance variables, and even send messages to it.
+インスペクターを使えば、オブジェクト(の中身?)を見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
 
-\dothis{Evaluate the following code in a workspace:}
+\dothis{以下のコードをワークスペースで評価しなさい:}
 \begin{code}{| w |}
 w := Workspace new.
 w openLabel: 'My Workspace'.
 w inspect
 \end{code}
 
-This will open a second workspace and an inspector.
-The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
+こうすることによって、もうひとつのワークスペースと、インスペクターが開きます。
+このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
 The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
 
 \begin{figure}[ht]\centering
