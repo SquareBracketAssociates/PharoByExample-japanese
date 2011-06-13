@@ -51,9 +51,9 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st は、内省的な(リフレクティブな?)プログラミング言語です。
+\st は、リフレクティブな(自分自身を知る)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする?)ことができるという意味です。
+つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
 より技術的には、次のような意味です: 実行時システムの\emphind{メタオブジェクト}を通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
@@ -97,7 +97,7 @@
 インスペクターを使えば、オブジェクト(の中身?)を見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
 
 %@\dothis{Evaluate the following code in a workspace:}
-\dothis{以下のコードをワークスペースで評価しなさい:}
+\dothis{以下のコードをワークスペースで評価してください:}
 \begin{code}{| w |}
 w := Workspace new.
 w openLabel: 'My Workspace'.
@@ -108,26 +108,38 @@ w inspect
 こうすることによって、もうひとつのワークスペースと、インスペクターが開きます。
 %@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
 このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
-The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
+%@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
+The \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、何であれ表わしているので、それを選択すれば、右側には、空文字列が表示されることになります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
-	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
+%@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
+	\caption{\ct!ワークスペース!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
-\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
-The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
-To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
+%@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
+\dothis{それでは空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してください。}
+%@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
+\ct!contents!の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
+%@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
+このウィンドウを更新する合図を送るには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
 
 %-----------------------------------------------------------------
-\subsection{Accessing instance variables}
+%@\subsection{Accessing instance variables}
+\subsection{インスタンス変数へのアクセス}
 
-How does the inspector work?
-In \st, all instance variables are protected.
-In theory, it is impossible to access them from another object if the class doesn't define any accessor.
-In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-In \st, classes define instance variables either by name or by numeric indices.
-The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
+%@How does the inspector work?
+インスペクターはどのように動作しているのでしょうか?
+%@In \st, all instance variables are protected.
+\st では、すべてのインスタンス変数は保護されています。
+%@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
+理論上は, そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
+%@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
+実は、インスペクターはアクセサがなくてもインスタンス変数にアクセスすることができ、それは\st のリフレクティブな(?)能力を用いているからです。
+%@In \st, classes define instance variables either by name or by numeric indices.
+\st では、インスタンス変数を、名前か数値インデックスで定義します。
+%@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
+インスペクターは\ct!Object!クラスで定義されているインスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、\lct{\emph{index}}による位置や\lct{\emph{aString}}によってそれぞれ識別されるインスタンス変数の値を得るのに用いることができ; インスタンス変数に新しい値を代入するにには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用いる(ことができる?)のです。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
