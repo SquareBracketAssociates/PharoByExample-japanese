@@ -264,7 +264,7 @@ the two instance variables \ct{full} and \ct{empty}
 that we will use to represent a full and an empty set.
 \fi
 
-\ct{ExampleSetTest} に \ct{Set} クラスのテストをまとめます。テスト実行時のコンテキスト (テストを実行するための状態) を定義？コンテキストは二つのインスタンス変数 \ct{full} と \ct{empty} で表します。 \ct{full} は要素を持つセット、 \ct{empty} は空のセットを表します。
+\ct{ExampleSetTest} クラスに \ct{Set} クラスのテストをまとめます。このクラスにはテスト実行時のコンテキスト (テストの実行に必要な状況、状態) を定義します。コンテキストは二つのインスタンス変数 \ct{full} と \ct{empty} で表します。 \ct{full} は要素を持つセット、 \ct{empty} は空のセットを表します。
 
 \if0
 The name of the class is not critical, but by convention it should end in \ct{Test}.
@@ -312,40 +312,63 @@ In testing jargon the context is called the \emph{fixture} for the
 test.
 \fi
 
-このテストではコンテキストのことを \emph{フィクスチャ} と呼びます。
+このテストではコンテキストのことを \emph{フィクスチャ} と呼びます。テスト用語です。
 
 \index{SUnit!fixture}
 \seeindex{fixture}{SUnit, fixture}
 
 %---------------------------------------------------------
-\subsection{Step 3: write some test methods}
+%\subsection{Step 3: write some test methods}
+\subsection{ステップ 3: テストメソッドを書く}
 
+\if0
 Let's create some tests by defining some methods in the class
 \ct{ExampleSetTest}.  
 Each method represents one test; 
 the name of the method should start with the string `\ct{test}' so that \sunit
 will collect them into test suites.
 Test methods take no arguments.
+\fi
 
+それではテストを書いてみましょう。
+\ct{ExampleSetTest} にテスト用のメソッドを定義します。
+一つのメソッドで一つのテストを表します。
+テストメソッドは名前を `\ct{test}' で始め、引数を取りません。
+\sunit はテストメソッドを集めてテストスイートとしてまとめます。
+
+\if0
 \dothis{Define the following test methods.}
 The first test, named \ct{testIncludes}, tests the
 \ct{includes:} method of \ct{Set}.  The test says that sending the
 message \ct{includes: 5} to a set containing 5 should return
 \ct{true}.  Clearly, this test relies on the fact
 that the \ct{setUp} method has already run.
+\fi
 
-\begin{method}[testIncludes]{Testing set membership}
+\dothis{次のテストメソッドを定義します。}
+
+最初のテスト \ct{testIncludes} は、 \ct{Set} の \ct{includes:} メソッドをテストします。
+\ct{5} を要素に持つ \ct{Set} に \ct{includes: 5} のメッセージを送ると \ct{true} が返ると仮定します。
+明らかに \ct{setUp} メソッドが先に実行されることが前提になっています。
+
+%\begin{method}[testIncludes]{Testing set membership}
+\begin{method}[testIncludes]{\ct{Set} の要素のテスト}
 ExampleSetTest>>>testIncludes
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
 \end{method}
 
+\if0
 The second test, named \ct{testOccurrences}, verifies that the
 number of occurrences of~5 in \ct{full} set is equal to one, even if we
 add another element~5 to the set.
+\fi
+
+二つ目のテスト \ct{testOccurrences} は、 \ct{Set} に同じ要素が一つしか含まれないことを検証します。 \ct{full} にはすでに \ct{5} が含まれていますが、さらに \ct{5} を追加しても \ct{5} の数は変わりません。
 
 \needlines{6}
-\begin{method}[testOccurrences]{Testing occurrences}
+%\begin{method}[testOccurrences]{Testing occurrences}
+\begin{method}[testOccurrences]{同じ要素の数のテスト}
 ExampleSetTest>>>testOccurrences
 	self assert: (empty occurrencesOf: 0) = 0.
 	self assert: (full occurrencesOf: 5) = 1.
@@ -353,19 +376,31 @@ ExampleSetTest>>>testOccurrences
 	self assert: (full occurrencesOf: 5) = 1
 \end{method}
 
+\if0
 Finally, we test that the set no
 longer contains the element 5 after we have removed it.
+\fi
 
-\begin{method}[testRemove]{Testing removal}
+最後に \ct{5} を削除し、 \ct{Set} が \ct{5} を含まないことをテストします。
+
+%\begin{method}[testRemove]{Testing removal}
+\begin{method}[testRemove]{要素を削除するテスト}
 ExampleSetTest>>>testRemove
 	full remove: 5.
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
 \end{method}
 
+\if0
 \noindent
 Note the use of the method \mthind{TestCase}{deny:} to assert something that should not be true.
 \ct{aTest deny: anExpression} is equivalent to \ct{aTest assert: anExpression not}, but is much more readable.
+\fi
+
+\noindent
+\ct{true} を返すべきではないテストに \mthind{TestCase}{deny:} メソッドを使っているのに注意してください。
+\ct{aTest deny: anExpression} は \ct{aTest assert: anExpression not} と同じ意味ですが、よりわかりやすくなります。
+
 %---------------------------------------------------------
 \subsection{Step 4: run the tests}
 
