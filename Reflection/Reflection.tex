@@ -56,45 +56,45 @@
 つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
-より技術的には、次のような意味です: 実行時システムの\emphind{メタオブジェクト}を通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
+より技術的には、次のような意味です。実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
-\st のメタオブジェクトは、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどなどです。
+\st のメタオブジェクトは、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどです。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
 このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれ、多くの今風のプログラミング言語は、これをサポートします。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
 %@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
-	\caption{具現化とリフレクション.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
+	\caption{具現化とリフレクション。\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \end{figure}
 
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
-このことは\emph{代祷(インターセッション?)}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は非常に限られます。
+このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は非常に限られます。
 
 %@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
 他のプログラム(あるいは自分自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
 %@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
-プログラミング言語がリフレクティブであるためには、その言語は\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
+プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 %@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
-イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するものです。
+イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するデータ構造です。
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
-インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいをプログラム自身の中から\emph{変更}できる能力のことです。
+インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から\emph{変更}できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
-\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することを指し、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更することを指します。
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更するについて言うのです。
 
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する実際的な例を探求します。
+ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探求します。
 
 %======================================
 %@\section{Introspection}
 \section{イントロスペクション}
 
 %@Using the inspector, you can look at an object, change the values of its instance variables, and even send messages to it.
-インスペクターを使えば、オブジェクト(の中身?)を見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
+インスペクターを使えば、オブジェクトを詳しく見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
 
 %@\dothis{Evaluate the following code in a workspace:}
 \dothis{以下のコードをワークスペースで評価してください:}
@@ -109,7 +109,7 @@ w inspect
 %@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
 このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
-The \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、何であれ表わしているので、それを選択すれば、右側には、空文字列が表示されることになります。
+The \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
@@ -122,7 +122,7 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
 \ct!contents!の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
-このウィンドウを更新する合図を送るには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
+このウィンドウに自分自身を更新する合図を送るには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
 
 %-----------------------------------------------------------------
 %@\subsection{Accessing instance variables}
@@ -133,28 +133,32 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 %@In \st, all instance variables are protected.
 \st では、すべてのインスタンス変数は保護されています。
 %@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
-理論上は, そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
+理論上は、そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-実は、インスペクターはアクセサがなくてもインスタンス変数にアクセスすることができ、それは\st のリフレクティブな(?)能力を用いているからです。
+実は、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
-\st では、インスタンス変数を、名前か数値インデックスで定義します。
+\st では、クラスは、インスタンス変数を、名前か数値インデックスで定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
-インスペクターは\ct!Object!クラスで定義されているインスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、\lct{\emph{index}}による位置や\lct{\emph{aString}}によってそれぞれ識別されるインスタンス変数の値を得るのに用いることができ; インスタンス変数に新しい値を代入するにには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用いる(ことができる?)のです。
+インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、\lct{\emph{index}}による位置や、\lct{\emph{aString}}によって識別されるインスタンス変数の値を得るのに用いることがでます。また、インスタンス変数に新しい値を代入するにには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用いるのです。%@?用いることができるのです。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
 \mthindex{Object}{instVarNamed:put:}
 
-For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
+%@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
+たとえば、以下を評価することにより、最初のワークスペースで\ct!w!にバインドされたオブジェクトの内部状態を変更することができます: %@?自信なし
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
-\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
+%@\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
+\important{\emph{警告:} これらのメソッドは、開発ツールを構築するのに便利ではありますが、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードはわかりづらく、保守しづらいものになりかねません。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
-Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
-If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
+%@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
+\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
+%@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>!が見付かるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
@@ -166,18 +170,25 @@ Object>>>instVarAt: index
 	^self basicAt: index - self class instSize		
 \end{code}
 
-Typically, the code after the primitive invocation is not executed.
-It is executed only if the primitive fails. In this specific case, if we try to access a variable that does not exist, then the code following the primitive will be tried.
-This also allows the debugger to be started on primitive methods.
-Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
+%@Typically, the code after the primitive invocation is not executed.
+通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
+%@It is executed only if the primitive fails. In this specific case, if we try to access a variable that does not exist, then the code following the primitive will be tried.
+プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。今のこの例では、存在しない変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
+%@This also allows the debugger to be started on primitive methods.
+これにより、プリミティブメソッドからデバッガを開始することも可能になります。
+%@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
+いくらプリミティブメソッドのコードは変更できると言っても、そのような行為は、\pharo システムの安定性を脅かしかねない危険な行為であることに注意してください。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
-	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
+%@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
+	\caption{\ct!ワークスペース!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
-\figref{allInstanceVariables} shows how to display the values of the instance variables of an arbitrary instance (\ct!w!) of class \ct!Workspace!.
-The method \ct!allInstVarNames! returns all the names of the instance variables of a given class.
+%@\figref{allInstanceVariables} shows how to display the values of the instance variables of an arbitrary instance (\ct!w!) of class \ct!Workspace!.
+\figref{allInstanceVariables}を見れば、どのようにすれば、\ct!Workspace!クラスの任意のインスタンス (\ct!w!) のインスタンス変数が表示できるか、ということがわかります。
+%@The method \ct!allInstVarNames! returns all the names of the instance variables of a given class.
+この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 In the same spirit, it is possible to gather instances that have specific properties.
 For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
