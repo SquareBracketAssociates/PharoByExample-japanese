@@ -65,35 +65,29 @@ Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://Sq
 SeasideではWebアプリケーション開発を容易にするため、コンポーネントベースのフレームワークを採用しています。
 まず、制御の流れはメッセージ送信により自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態をページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
-Second, state is managed for you.
-As the developer, you have the choice of enabling 
-backtracking of state, so that navigation ``back'' in time will undo side-effects.
-Alternatively, you can use the transaction support built into Seaside to prevent users from undoing permanent side-effects when they use the back button.
-You do not have to encode state information in the URL\,---\,this too is managed automatically for you.
+また、状態はSeasideが自動的に管理します。
+バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が元に戻るようになります。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
+URLに状態を埋め込んだりする必要もありません。URL生成もSeasideが行ってくれます。
 
-Third, web pages are built up from nested components, each of which can support its own, independent control flow.
-There are no XHTML templates\,---\,instead valid XHTML is generated programmatically using a simple Smalltalk protocol.
-Seaside supports Cascading Style Sheets (\ind{CSS}), so content and layout are cleanly separated.
+Webページはコンポーネント群によって構成されます。それぞれが独立した制御フローを持つことができます。
+XHTMLのテンプレートはありません。正しいXHMLはシンプルなSmalltalkのメッセージ送信によってプログラム的に生成されます。
+SeasideはCSS\ind{CSS}をサポートしています。そのためページの内容とレイアウトは明確に分離されます。
 \seeindex{Cascading Style Sheets}{CSS}
 
-Finally, Seaside provides a convenient web-based development interface, making it easy to develop applications iteratively, debug applications interactively, and recompile and extend applications while the server is running.
-
+最後に、Seasideは、Webブラウザ上での便利な開発ツールも提供しています。これによってインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
 %=================================================================
-\section{Getting started}
+\section{はじめに}
 
-The easiest way to get started is to download the ``Seaside \subind{Seaside}{One-Click Experience}'' from the Seaside \subind{Seaside}{web site}\footnote{\url{http://seaside.st}}.
-This is a prepackaged version of Seaside 2.8 for \ind{Mac OSX}, \ind{Linux} and \ind{Windows}.
-The same web site lists many pointers to additional resources, including documentation and tutorials.
-Be warned, however, that Seaside has evolved considerably over the years, and not all available material refers to the latest version of Seaside.
+\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードするとすぐにSeasideを始めることができます。
+ファイルには\ind{Windows} \ind{Mac OSX}, \ind{Linux} 用のSeaside 2.8の環境一式が同梱されています。。
+Seasideのサイトには他にもドキュメントやチュートリアルなど、たくさんのリンクがあります。Seasideは長年に渡って進化を続けているものなので、すべてが最新のSeasideについてのものであるとは限らないので注意してください。
 
 % If you are feeling more adventurous, an alternative to the ``one-click'' image is to start with the latest \ind{\pharo web image}\footnote{\url{http://pharo-project.org/download}}, and install Seaside yourself by following the manual \subind{Seaside}{installation} instructions on the Seaside web site.
 
-Seaside includes a web server; you can turn the server on, telling it to listen on port 8080, by evaluating \clsind{WAKom} \ct{startOn: 8080},
-and you can turn it off again by evaluating \ct{WAKom stop}.
-In the default installation, the default \subind{Seaside}{administrator login} is \lct{admin} and the default password is \lct{seaside}.
-To change them, evaluate: \clsind{WADispatcherEditor} \ct{initialize}.
-This will prompt you for a new name and password.
-
+SeasideはWebサーバを含んでいます。8080ポートで動かすには \clsind{WAKom} \ct{startOn: 8080} を実行します。
+サーバを終了するときは、\ct{WAKom stop} です。
+デフォルトでは、管理者ユーザ名は \lct{admin} パスワードは \lct{seaside}になっています。
+ \clsind{WADispatcherEditor} \ct{initialize} と実行すると、新たなユーザとパスワードを聞いてくるようになります。
 
 \begin{figure}[tbh]
 \begin{center}
