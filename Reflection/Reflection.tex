@@ -238,7 +238,7 @@ Object>>>instanceVariableValues
 \subsection{クラスやインターフェースへのクエリ}
 
 %@The development tools in \pharo (code browser, debugger, inspector...) all use the reflective features we have seen so far.
-\pharo の開発ツール (コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブなフィーチャーを使っています。
+\pharo の開発ツール (コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブな機能を使っています。
 
 %@Here are a few other messages that might be useful to build development tools:
 この他にももう少し、おそらく開発ツールを構築するのに便利なメッセージがあります:
@@ -270,7 +270,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \mthindex{Object}{respondsTo:}
 
 %@\important{\emph{Caveat:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
-\important{\emph{警告:}いくらこれらのフィーチャーが、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
+\important{\emph{警告:}いくらこれらの機能が、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
 %@Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
 オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ること、設計上の欠陥を典型的に示すものです。なぜならそれは、カプセル化の原則を破るからです。%@?少し日本語が変?
 %@Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
@@ -283,9 +283,12 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 %@\subsection{Code metrics}
 \subsection{コードメトリクス}
 
-Let's see how we can use \st's introspection features to quickly extract some code metrics.
-Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
-Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
+%@Let's see how we can use \st's introspection features to quickly extract some code metrics.
+\st のイントロスペクション機能をどのように使えば、いくつかのコードメトリクスが、手早く抽出できるか、見てみましょう。
+%@Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
+コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、局所的に定義されたメソッドやインスタンス変数の数。
+%@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
+以下に、\ct!Morph!クラスのメトリクスをいくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
@@ -296,25 +299,39 @@ Here are a few metrics for the class \ct!Morph!, which is the superclass of all 
 \mthindex{Behavior}{allSubclasses}
 \mthindex{ClassDescription}{linesOfCode}
 \begin{code}{}
-Morph allSuperclasses size.  -->       2 "inheritance depth"
-Morph allSelectors size.        --> 1378 "number of methods"
-Morph allInstVarNames size. -->      6 "number of instance variables"
-Morph selectors size.             -->  998 "number of new methods"
-Morph instVarNames size.     -->      6 "number of new variables"
-Morph subclasses size.          -->    45 "direct subclasses"
-Morph allSubclasses size.      -->  326 "total subclasses"
-Morph linesOfCode.               --> 5968 "total lines of codeBANG"
+%@Morph allSuperclasses size.  -->       2 "inheritance depth"
+Morph allSuperclasses size.  -->       2 "インヘリタンスの深さ"
+%@Morph allSelectors size.        --> 1378 "number of methods"
+Morph allSelectors size.        --> 1378 "メソッドの数"
+%@Morph allInstVarNames size. -->      6 "number of instance variables"
+Morph allInstVarNames size. -->      6 "インスタンス変数の数"
+%@Morph selectors size.             -->  998 "number of new methods"
+Morph selectors size.             -->  998 "新しいメソッドの数"
+%@Morph instVarNames size.     -->      6 "number of new variables"
+Morph instVarNames size.     -->      6 "新しい変数の数"
+%@Morph subclasses size.          -->    45 "direct subclasses"
+Morph subclasses size.          -->    45 "直接のサブクラス"
+%@Morph allSubclasses size.      -->  326 "total subclasses"
+Morph allSubclasses size.      -->  326 "サブクラスの総計"
+%@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
+Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
-One of the most interesting metrics in the domain of object-oriented languages is the number of methods that extend methods inherited from the superclass.
-This informs us about the relation between the class and its superclasses.
-In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
+%@One of the most interesting metrics in the domain of object-oriented languages is the number of methods that extend methods inherited from the superclass.
+オブジェクト指向言語のドメインにおいて、もっとも興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
+%@This informs us about the relation between the class and its superclasses.
+このことにより、クラスとそのスーパークラスの関係を知ることができます。
+%@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
+次の節では、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を使ってどう答えるか、について示します。%@?will see: 示します? our knowledge: これまでの知識
 
 %======================================
-\section{Browsing code}
+%@\section{Browsing code}
+\section{コードをブラウズする}
 
-In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
-Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
+%@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
+\st では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界を旅するための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界を旅するための?
+%@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
+これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、これらのメッセージは、すべてのクラスが、これを理解することができます。
 
 As we saw previously, you can obtain an instance of a given class by sending it the message \ct!#someInstance!.
 \mthindex{Behavior}{someInstance}
