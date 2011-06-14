@@ -37,59 +37,88 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{Streams}\chalabel{streams}
+%\chapter{Streams}\chalabel{streams}
+\chapter{ストリーム}\chalabel{ストリーム}
 
-\ew{Streams are presented as a way to navigate collection. From my point of view, stream are important not to navigate collection, but to produce/consume data:
-(a)	memory constraint. Data can not hold into memory and must be processed in a stream fashion, e.g: encryption
-(b)	blocking IO. A stream is a nice abstraction to deal with, and the stream manages internally data availability, buffering, etc. to simplify the consumption/production of data
-Only few streams have random access capability.}
+%\ew{Streams are presented as a way to navigate collection. From my point of view, stream are important not to navigate collection, but to produce/consume data:
+%(a)	memory constraint. Data can not hold into memory and must be processed in a stream fashion, e.g: encryption
+%(b)	blocking IO. A stream is a nice abstraction to deal with, and the stream manages internally data availability, buffering, etc. to simplify the consumption/production of data
+%Only few streams have random access capability.}
 
-\clsindexmain{Stream}
-Streams are used to iterate over sequences of elements such as sequenced
-collections, files, and network streams.
-Streams may be either readable, or writeable, or both.
-Reading or writing is always relative to the current position in the stream.
-Streams can easily be converted to collections, and vice versa.
-\lr{"Streams can easily be converted into collections." I wouldn't say it like this, because it is not true for all streams (infinite streams). According to Kent Beck we should only talk about conversion when the same protocol is supported. Collections and Streams do not support the same protocol. (p. 249)}
+%\clsindexmain{Stream}
+\clsindexmain{ストリーム}
+
+%Streams are used to iterate over sequences of elements such as sequenced
+%collections, files, and network streams.
+%Streams may be either readable, or writeable, or both.
+%Reading or writing is always relative to the current position in the stream.
+%Streams can easily be converted to collections, and vice versa.
+ストリームはコレクション，ファイル，ネットワークストリームのような
+連続する要素に対する反復処理に用いられます。
+ストリームは読み取り可能か，書き込み可能か，もしくはその両方です。
+読み込みまたは書き込みは常にストリームの現在位置二対して相対的です。
+ストリームはコレクションに簡単に変換可能ですし，その逆も同様です。
+
+%\lr{"Streams can easily be converted into collections." I wouldn't say it like this, because it is not true for all streams (infinite streams). According to Kent Beck we should only talk about conversion when the same protocol is supported. Collections and Streams do not support the same protocol. (p. 249)}
+
 
 %=============================================================
-\section{Two sequences of elements}
-A good metaphor to understand a stream is the following: A stream
-can be represented as two sequences of elements: a past element sequence
-and a future element sequence. The stream is positioned between the two
-sequences. Understanding this model is important since all stream
-operations in Smalltalk rely on it.
-For this reason, most of the \clsind{Stream} classes are subclasses of \clsind{PositionableStream}.
-\figref{_abcde} presents a stream which contains five characters. This stream is in its original position, \ie there is no element in the past. You can go back to this position using the message \mthind{PositionableStream}{reset}.
+%\section{Two sequences of elements}
+\section{二続きの要素}
+
+%A good metaphor to understand a stream is the following: A stream
+%can be represented as two sequences of elements: a past element sequence
+%and a future element sequence. The stream is positioned between the two
+%sequences. Understanding this model is important since all stream
+%operations in Smalltalk rely on it.
+%For this reason, most of the \clsind{Stream} classes are subclasses of \clsind{PositionableStream}.
+%\figref{_abcde} presents a stream which contains five characters. This stream is in its original position, \ie there is no element in the past. You can go back to this position using the message \mthind{PositionableStream}{reset}.
+ストリーミングを理解する良いたとえは以下のようなものです。
+ストリームは二続きの要素として表されます。
+過去の要素と未来の要素です。
+ストリームはこの二つの連続の間に位置します。
+Smalltalkのストリームに対する全ての操作はこれによるので，このモデルを理解しておくのは大切です。
+このような理由で，ほとんどの\clsind{Stream}クラスは\clsind{PositionableStream}のサブクラスになっています。
+図\figref{_abcde}は5個の文字を含むストリームを表しています。このストリームはその原位置にあります。\ie 過去には一つの要素もありません。\mthind{PositionableStream}{reset}メッセージによりこの位置に戻すことができます。
+
+
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{_abcdeStef}}
-\caption{A stream positioned at its beginning.}
+%\caption{A stream positioned at its beginning.}
+\caption{最初のストリームの位置.}
 \figlabel{_abcde}
 \vspace{.2in}
 \end{figure}
 
-Reading an element conceptually means removing the first element of the future element sequence  and putting it after the last element in the past
-element sequence. After having read one element using the message \ct{next}, the state of your stream is that shown in \figref{a_bcde}.
+%Reading an element conceptually means removing the first element of the future element sequence  and putting it after the last element in the past
+%element sequence. After having read one element using the message \ct{next}, the state of your stream is that shown in \figref{a_bcde}.
+要素を読んでいくことは概念的に，未来要素列の先頭要素を取り除き，それを過去要素列の最後に付け加えることを意味します。
+\ct{next}メッセージを使って一つの要素を読むと，ストリームの状態は図\figref{a_bcde}に示されているようになります。
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{a_bcdeStef}}
-\caption{The same stream after the execution of the method \ct{next}: the character \ct{a} is ``in the past'' whereas \ct{b}, \ct{c}, \ct{d} and \ct{e} are ``in the future''.}
+%\caption{The same stream after the execution of the method \ct{next}: the character \ct{a} is ``in the past'' whereas \ct{b}, \ct{c}, \ct{d} and \ct{e} are ``in the future''.}
+\caption{\ct{next}メソッドを実行したあとの同じストリーム： 文字 \ct{a} は 「過去」 で \ct{b}, \ct{c}, \ct{d} \ct{e} は 「未来」です.}
 \figlabel{a_bcde}
 \vspace{.2in}
 \end{figure}
 
-Writing an element means replacing the first element of the future sequence by the new one and moving it to the past. \figref{ax_cde} shows the state of the same stream after having written an \ct{x} using the message \mthind{Stream}{nextPut:} \ct{anElement}.
+%Writing an element means replacing the first element of the future sequence by the new one and moving it to the past. \figref{ax_cde} shows the state of the same stream after having written an \ct{x} using the message \mthind{Stream}{nextPut:} \ct{anElement}.
+要素を書き込むことは未来要素の先頭要素を新しいものに置き換えて過去に移動させることを意味します。図\figref{ax_cde}は\mthind{Stream}{nextPut:} \ct{anElement}メッセージを使って同じ要素を\ct{x}で書き換えた状態を示しています
+
 
 \begin{figure}[h!t]
 \centerline{\includegraphics[scale=0.5]{ax_cdeStef}}
-\caption{The same stream after having written an \ct{x}.}
+%\caption{The same stream after having written an \ct{x}.}
+\caption{\ct{x}を書き込んだ同じストリーム.}
 \figlabel{ax_cde}
 \vspace{.2in}
 \end{figure}
 
 %=============================================================
-\section{Streams vs. collections}
+%\section{Streams vs. collections}
+\section{ストリーム対コレクション}
 
 The collection protocol supports the storage, removal and enumeration
 of the elements of a collection, but does not allow these operations
