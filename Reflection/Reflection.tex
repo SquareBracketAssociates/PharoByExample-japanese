@@ -152,7 +152,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
 %@\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
-\important{\emph{警告:} これらのメソッドは、開発ツールを構築するのに便利ではありますが、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードはわかりづらく、保守しづらいものになりかねません。}
+\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利でるとは言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードはわかりづらく、保守しづらいものになりかねません。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
@@ -204,8 +204,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 %@\subsection{Iterating over instance variables}
 \subsection{インスタンス変数について繰り返し処理する}
 
-%@\mthindex{Object}{instanceVariableValues}
-\mthindex{オブジェクト}{instanceVariableValues}
+\mthindex{Object}{instanceVariableValues}
 %@Let us consider the message \ct!instanceVariableValues!, which returns a collection of all values of instance variables defined by this class, excluding the inherited instance variables.
 \ct!instanceVariableValues!メッセージについて考えてみましょう。これは、クラスが定義しているすべてのインスタンス変数の値のコレクションを返します。ただし、継承されたインスタンス変数は除きます。
 %@For instance:
@@ -235,14 +234,19 @@ Object>>>instanceVariableValues
 (この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 。)or)。
 
 %-----------------------------------------------------------------
-\subsection{Querying classes and interfaces}
+%@\subsection{Querying classes and interfaces}
+\subsection{クラスやインターフェースへのクエリ}
 
-The development tools in \pharo (code browser, debugger, inspector...) all use the reflective features we have seen so far.
+%@The development tools in \pharo (code browser, debugger, inspector...) all use the reflective features we have seen so far.
+\pharo の開発ツール (コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブなフィーチャーを使っています。
 
-Here are a few other messages that might be useful to build development tools:
+%@Here are a few other messages that might be useful to build development tools:
+この他にももう少し、おそらく開発ツールを構築するのに便利なメッセージがあります:
 
-\lct{isKindOf: \emph{aClass}} returns true if the receiver is instance of \lct{\emph{aClass}} or of one of its superclasses.
-For instance:
+%@\lct{isKindOf: \emph{aClass}} returns true if the receiver is instance of \lct{\emph{aClass}} or of one of its superclasses.
+\lct{isKindOf: \emph{aClass}}は、レシーバーが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであるときに、trueを返します。
+%@For instance:
+たとえば:
 \begin{code}{@TEST}
 1.5 class                     --> Float
 1.5 isKindOf: Number --> true
@@ -251,25 +255,33 @@ For instance:
 \mthindex{Object}{class}
 \mthindex{Object}{isKindOf:}
 
-\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
-For instance:
+%@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
+\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクタが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: レシーバーのクラスに...メソッドが定義されている?
+%@For instance:
+たとえば:
 \needlines{3}
 \begin{code}{@TEST}
-1.5 respondsTo: #floor      --> true    "since Number implements floor"
+%@1.5 respondsTo: #floor      --> true    "since Number implements floor"
+1.5 respondsTo: #floor      --> true    "Numberがfloorを実装しているので"
 1.5 floor                            --> 1
-Exception respondsTo: #, --> true    "exception classes can be grouped"
+%@Exception respondsTo: #, --> true    "exception classes can be grouped"
+Exception respondsTo: #, --> true    "例外クラスはグループ化することができる"
 \end{code}
 \mthindex{Object}{respondsTo:}
 
-\important{\emph{Caveat:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
-Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
-Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
+%@\important{\emph{Caveat:}いくらこれらのフィーチャーが、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
+\important{\emph{警告:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
+%@Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
+オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ること、設計上の欠陥を典型的に示すものです。なぜならそれは、カプセル化の原則を破るからです。%@?少し日本語が変?
+%@Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
+開発ツールは、しかしながら、通常のアプリケーションではありません。なぜなら、開発ツールは、ソフトウェアそれ自身を対象領域とするものだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
 %\on{let's not mention this if we don't actually write such a chapter!}
 
 %-----------------------------------------------------------------
-\subsection{Code metrics}
+%@\subsection{Code metrics}
+\subsection{コードメトリクス}
 
 Let's see how we can use \st's introspection features to quickly extract some code metrics.
 Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
