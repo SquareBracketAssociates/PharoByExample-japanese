@@ -269,8 +269,8 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \end{code}
 \mthindex{Object}{respondsTo:}
 
-%@\important{\emph{Caveat:}いくらこれらのフィーチャーが、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
-\important{\emph{警告:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
+%@\important{\emph{Caveat:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
+\important{\emph{警告:}いくらこれらのフィーチャーが、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
 %@Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
 オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ること、設計上の欠陥を典型的に示すものです。なぜならそれは、カプセル化の原則を破るからです。%@?少し日本語が変?
 %@Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
