@@ -125,42 +125,37 @@ SeasideはWebサーバを含んでいます。8080ポートで動かすには \c
 
 今度は図\figref{seasideStartup}の\subind{Seaside}の初期画面の下のほうにあるツールバーに注目してみてください。
 Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
-\button{New Session} のボタンを押すと、アプリケーションの新たなセッションが始まります。
-\button{Configure} ボタンではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
+\button{New Session} を押すと、アプリケーションの新たなセッションが始まります。
+\button{Configure} ではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
 
+(\button{Configure}の画面を閉じるには、右上の \link{x} リンクをクリックします)。
+\button{Toggle Halos} を押すと、Seasideで動作しているアプリケーションの状態を調べていくことができます。
+\button{Profiler} と \button{Memory} ボタンはアプリケーション実行時のパフォーマンスに関する詳細な情報を見るためのものです。
 
-(To close the \button{Configure} view, click on the \link{x} in the top right corner.)
-\button{Toggle Halos} provides a way to explore the state of the application running on the Seaside server.
-\button{Profiler} and \button{Memory} provide detailed information about the run-time performance of the application.
-\button{XHTML} can be used to validate the generated web page, but works only  when the web page is publicly accessible from the Internet, because it uses the W3C validation service.
+\button{XHTML} は生成されたWebページのXHTMLをバリデートするときに使います。該当ページが外部からアクセス可能になっていないとこの機能は動作しません。W3Cのバリデータを使っているからです。
 \index{Seaside!halos}
 
-Seaside applications are built up from pluggable ``components''.
-In fact, components are ordinary Smalltalk objects.
-The only thing that is special about them is that they should be instances of classes that inherit from the Seaside framework class \ct{WAComponent}.
-We can explore components and their classes from the \pharo image, or directly from the web interface using halos.
+Seasideのアプリケーションは付け外し可能な「コンポーネント」からできています。Seasideのフレームワークが提供する\ct{WAComponent}クラスを継承したクラスのインスタンスであるということを除けば、実のところコンポーネントは通常のSmalltalkのオブジェクトです。\pharo のイメージからコンポーネントやクラスを探索できますし、Webブラウザからハローを通じて直接たどっていくこともできます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counterHalos}
-\caption{Halos}
+\caption{ハロー}
 \figlabel{counterHalos}
 \end{center}
 \end{figure}
 
-\dothis{Select \button{Toggle Halos}. You should see a web page like \figref{counterHalos}.
-At the top left the text \ct{WACounter} tells us the class of the Seaside component that implements the behavior of this web page. 
-Next to this are three clickable icons. 
-The first, with the pencil, activates a Seaside class browser on this class.
-The second, with the magnifying glass, opens an object inspector on the currently active \ct{WACounter} instance. 
-The third, with the coloured circles, displays the \ind{CSS} style sheet for this component. 
-At the top right, the \link{R} and \link{S} let you toggle between the rendered and source views of the web page. 
-Experiment with all of these links. 
-Note that the \link{++} and \link{{-}{-}} links are also active in the source view.
-Contrast the nicely-formatted source view provided by the Halos with the unformatted source view offered by your browser.}
+\dothis{\button{Toggle Halos}を押してみましょう。\figref{counterHalos}のような画面になるはずです。
+左上に\ct{WACounter}と表示されていますが、これは現在のページの構成要素となっているコンポーネントのクラス名を表しています。 
+隣には3つのボタンアイコンがあります。
+最初の鉛筆のアイコンは、このコンポーネントのクラスブラウザを開くためのものです。2番目の虫眼鏡アイコンでは、現在アクティブになっている\ct{WACounter}のインスタンスのインスペクタを開くことができます。
+3番目の色のついた丸のボタンを押すと、コンポーネントについての\ind{CSS} スタイルシートエディタが表示されます。
+右上には\link{R} と \link{S}のリンクがあります。それぞれクリックするとコンポーネントが通常表示とソース表示とに切り替わります。
+こうしたリンクをすべて試してみましょう。
+ソースビューの表示のときにも、\link{++} や \link{{-}{-}}は有効になっています。フォーマットもされているため、Webブラウザでソース表示をしたときよりも見やすいかもしれません。}
 
-The Seaside class browser and object inspector can be very convenient when the server is running on another computer, especially when the server does not have a display, or if it is in remote place. 
-However, when you are first developing a Seaside application, the server will be running locally, and it is easy to use the ordinary \pharo development tools in the server image.
+Seasideのクラスブラウザやオブジェクト・インスペクタは、サーバが別のマシンで動作していて、画面がなかったり、遠く離れていたりするときには非常に便利です。
+とはいえ、最初にSeasideのアプリケーションを開発するときには、ローカルでサーバを動かすと思います。その場合は\pharoのイメージが提供する通常の開発ツールのほうが使いやすいでしょう。
 
 \begin{figure}[ht]
 \begin{center}
