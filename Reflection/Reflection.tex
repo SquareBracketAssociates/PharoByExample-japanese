@@ -329,7 +329,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \section{コードをブラウズする}
 
 %@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
-\st では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界を旅するための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界を旅するための?
+\st では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
 %@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
 これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、これらのメッセージは、すべてのクラスが、これを理解することができます。
 
@@ -391,16 +391,20 @@ Rectangle whichClassIncludesSelector: #inspect --> Object
 Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
-\clsind{SystemNavigation} is a facade that supports various useful methods for querying and browsing the source code of the system.
-\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
-For example:
+%@\clsind{SystemNavigation} is a facade that supports various useful methods for querying and browsing the source code of the system.
+\clsind{SystemNavigation} は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
+%@\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
+\ct{SystemNavigation} \mthind{SystemNavigation class}{default} は、システムをナビゲートするのに使えるインスタンスを返します。
+%@For example:
+たとえば:
 
 \mthindex{SystemNavigation}{allClassesImplementing:}
 \begin{code}{@TEST}
 SystemNavigation default allClassesImplementing: #yourself --> {Object}
 \end{code}
 
-The following messages should also be self-explanatory:
+%@The following messages should also be self-explanatory:
+以下のメッセージの意味も、字面から明かでしょう:
 
 \mthindex{SystemNavigation}{allSentMessages}
 \mthindex{SystemNavigation}{allUnsentMessages}
@@ -411,17 +415,25 @@ SystemNavigation default allUnsentMessages size      --> 6431
 SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
-Note that messages implemented but not sent are not necessarily useless, since they may be sent implicitly (\eg using \ct{perform:}).
-Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
-They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
+%@Note that messages implemented but not sent are not necessarily useless, since they may be sent implicitly (\eg using \ct{perform:}).
+ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも用なし、ということではありません。なぜなら、それらは間接的に送られることもありうるからです(\eg \ct{perform:}を使って)。
+%@Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
+送られるのに実装されていないメッセージには、しかしながら、もっと問題があります。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗することになるからです。
+%@They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
+これらは、未完了の実装、廃止されたAPI、あるいはライブラリの欠落の兆候でしょう。
 
 \mthindex{SystemNavigation}{allCallsOn:}
-\ct!SystemNavigation default allCallsOn: #Point! returns all messages sent explicitly to \ct!Point! as a receiver.
+%@\ct!SystemNavigation default allCallsOn: #Point! returns all messages sent explicitly to \ct!Point! as a receiver.
+\ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるメッセージを返します。
 
-All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
-As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
-What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
-For example, you can programmatically browse all implementors of the message \ct{ifTrue:} by evaluating:
+%@All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
+これらすべての機能は、\pharo のプログラミング環境、とくにコードブラウザ、に統合されています。
+%@As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
+すでにきっとお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための (\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための (\short{n})。
+%@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
+おそれく次のことは、それほどよく知られていないでしょう。このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されています。%@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
+%@For example, you can programmatically browse all implementors of the message \ct{ifTrue:} by evaluating:
+たとえば、プログラム的に\ct{ifTrue:}メッセージのすべてのインプリメンターをブラウズするのは、以下を評価することで可能です:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
