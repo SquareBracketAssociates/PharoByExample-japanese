@@ -502,13 +502,22 @@ if you want to debug one, to see why it failed, just click on the name.
 %\end{code}
 
 %---------------------------------------------------------
-\subsection{Step 5: interpret the results}
+%\subsection{Step 5: interpret the results}
+\subsection{ステップ 5: 結果を分析する}
 
+\if0
 The method \mthind{TestCase}{assert:}\,, which is defined in the class
 \ct{TestCase}, expects a boolean argument, usually the value of a tested expression.  When the argument is
 true, the
 test passes; when the argument is false, the test fails.
+\fi
 
+\ct{TestCase} クラスの \mthind{TestCase}{assert:}\ メソッドは論理値の引数を一つ
+とります。
+通常はこの値にテストする式の戻り値を指定します。
+引数が真ならテストに成功、偽なら失敗とみなします。
+
+\if0
 There are actually three possible outcomes of a test.
 The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes.
 In the test runner, when all of the tests pass, the bar at the top turns green.
@@ -519,8 +528,21 @@ However, it is also possible that some kind of error occurs during the execution
 If an error occurs, the assertions in the test method may not have been executed at all,
 so we can't say that the test has failed; nevertheless, something is clearly wrong!
 In the {test runner}, failing tests cause the bar at the top to turn yellow, and are listed in the middle pane on the right, whereas erroneous tests cause the bar to turn red, and are listed in the bottom pane on the right.
+\fi
 
-\dothis{Modify your tests to provoke both errors and failures.}
+% 原文が回りくどいので構成を変えました。
+
+テストの実行結果は 3 通りあります。
+一つはすべてのテストに成功する場合。
+すべてのテストに成功すると、{テストランナー}の右上のバーが緑に変わります。
+次に、一つでもテストに\emph{失敗}する場合。
+{テストランナー}のバーが黄色に変わり、その下のペインに失敗したテストが表示されます。
+最後に、テストの実行中にエラー (例外) が発生する場合。
+例えば \emph{message not understood} や \emph{index out of bounds} といったエラーえす。
+エラーが発生するとバーが赤に変わり、エラーの発生したテストが表示されます。
+
+%\dothis{Modify your tests to provoke both errors and failures.}
+\dothis{エラーしたり失敗するようにテストを変更してみましょう。}
 
 %=================================================================
 \section{The \SUnit cook book}
