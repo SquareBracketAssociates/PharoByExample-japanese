@@ -322,7 +322,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 %@This informs us about the relation between the class and its superclasses.
 このことにより、クラスとそのスーパークラスの関係を知ることができます。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
-次の節では、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を使ってどう答えるか、について示します。%@?will see: 示します? our knowledge: これまでの知識
+次の節では、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識をフルに使ってどう答えるか、について示します。%@?will see: 示します? our knowledge: これまでの知識
 
 %======================================
 %@\section{Browsing code}
@@ -485,15 +485,19 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
 コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
-In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
+%@In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
+\figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}というインスタンス変数に、アソシエーションとして格納されていることがわかります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
-	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
+%@	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
+	\caption{クラス、メソッド辞書、そしてコンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
-We can exploit the relationships between classes and methods to pose queries about the system.
-For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
+%@We can exploit the relationships between classes and methods to pose queries about the system.
+クラスとメソッドの関係をフルに使って、\pharo のシステムについてのクエリを送ることができます。
+%@For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
+たとえば、どのメソッドが、与えられたクラスに新規に導入されたかということを見出すことは、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは見出すことは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで可能になります: %@?少し日本語が変。
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -501,21 +505,27 @@ For example, to discover which methods are newly introduced in a given class, \i
   --> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 \end{code}
 
-A compiled method does not simply store the bytecode of a method.
-It is also an object that provides numerous useful methods for querying the system.
-One such method is \ct{isAbstract} (which tells if the method sends \ct{subclassResponsibility}).
-We can use it to identify all the abstract methods of an abstract class
+%@A compiled method does not simply store the bytecode of a method.
+コンパイル済みメソッドは、単に、メソッドのバイトコードを格納しているだけではありません。
+%@It is also an object that provides numerous useful methods for querying the system.
+コンパイル済みメソッド自身がまた、システムにクエリを送るための、多数の便利なメソッドを提供するオブジェクトなのです。
+%@One such method is \ct{isAbstract} (which tells if the method sends \ct{subclassResponsibility}).
+そのようなメソッドのひとつに、\ct{isAbstract}があります(\ct{isAbstract}メソッドは、コンパイル済みメソッドが、\ct{subclassResponsibility}を送るかどうか、教えてくれます)。
+%@We can use it to identify all the abstract methods of an abstract class
+\ct{isAbstract}メソッドを使えば、抽象クラスのすべての抽象メソッドを識別することができます。
 \needlines{4}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
   (aClass>>aMethod) isAbstract ]] value: Number
   --> an IdentitySet(#storeOn:base: #printOn:base: #+ #- #* #/ ...)
 \end{code}
-Note that this code sends the \ct{>>} message to a class to obtain the compiled method for a given selector.
+%@Note that this code sends the \ct{>>} message to a class to obtain the compiled method for a given selector.
+このコードでは、次のことに注意してください。クラスに対して、\ct{>>}メッセージが送られ、その結果、与えられたセレクターに対するコンパイル済みメソッドが得られています。
 
 % As a slightly more complex example, we can browse 
 
-To browse the super-sends within a given hierarchy, for example within the Collections hierarchy, we can pose a more sophisticated query:
+%@To browse the super-sends within a given hierarchy, for example within the Collections hierarchy, we can pose a more sophisticated query:
+与えられた階層内のsuper送信をブラウズするには、たとえば、コレクションの階層内のsuper送信をブラウズするには、より洗練されたクエリを送ることができます:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -525,7 +535,8 @@ SystemNavigation default
       thenCollect: [:assoc | MethodReference class: each selector: assoc key]])
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
-Note how we navigate from classes to method dictionaries to compiled methods to identify the methods we are interested in.
+%@Note how we navigate from classes to method dictionaries to compiled methods to identify the methods we are interested in.
+関心のあるメソッドを識別するために、どのように、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。%@?上のコードを完全には理解していない
 A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
 There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
 \begin{code}{@TEST}
