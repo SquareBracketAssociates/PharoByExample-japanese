@@ -88,6 +88,7 @@ This chapter describes \SUnit~3.3 (the current version as of this writing); the 
 \index{xUnit}
 \index{Net@.Net}
 
+\if0
 Neither testing, nor the building of test suites, is new:  everybody knows that
 tests are a good way to catch errors.
 \mbox{\ind{eXtreme Programming},} by making testing a
@@ -97,7 +98,7 @@ chore that programmers dislike.
 The \st community has a long tradition of
 testing because of the incremental style of development supported by its
 programming environment.  
-In traditional \st development, the programmer would write tests in a workspace 
+In traditional \st development, the programmer would write tests in a workspace
 as soon as a method was finished.
 Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class.
 The problem with these practices is that tests in a workspace are not available to other programmers who modify the code; comments and example methods are better in this respect, 
@@ -108,6 +109,19 @@ Moreover, an example method does not
 inform the reader of the expected result:
 you can run the example and see the\,---\,perhaps surprising\,---\,result, 
 but you will not know if the observed behaviour is correct.
+\fi
+
+テストは新しい概念ではありません。
+誰でもテストはエラーを発見するいい方法だと知っています。
+\mbox{\ind{エクストリーム・プログラミング}} (eXtreme Programming) ではテストの実践方法が考案され、テストの\emph{自動化}が重視されました。
+その結果テストの価値が上がり、プログラマにとってテストは面倒な作業から楽しい作業に変わりました。
+\st のプログラミング環境がインクリメンタルな開発を支えることから、 \st コミュニティは長らくテストを重視してきました。
+\st の伝統的な開発では、実装したメソッドをすぐにワークスペースでテストします。
+メソッドのコメントにテストを書いたり、テストの準備がいる場合はサンプルメソッドとして実装する場合もあります。
+ワークスペースにテストを書くと (\st イメージを共有しない限り) 他のプログラマから使えないので、その点ではコメントやサンプルメソッドのほうがまだ便利です。
+ただ、メソッドの開発に合わせてテストを見直し、さらに自動的に実行させるのは簡単ではありません。
+テストが実行されなければ、バグも見つけられません！
+また、サンプルメソッドが一見正しい結果を出したとしても、本当に正しい処理が行われた証拠にはなりません。
 
 \sunit is valuable because it allows us to write tests that are self-checking:
 the test itself defines what the correct result should be.
