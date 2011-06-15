@@ -97,7 +97,7 @@
 インスペクターを使えば、オブジェクトを詳しく見ることや、インスタンス変数の値を変更することができますし、そのオブジェクトにメッセージを送ることさえできます。
 
 %@\dothis{Evaluate the following code in a workspace:}
-\dothis{以下のコードをワークスペースで評価してください:}
+\dothis{以下のコードをワークスペースで評価してみましょう:}
 \begin{code}{| w |}
 w := Workspace new.
 w openLabel: 'My Workspace'.
@@ -118,7 +118,7 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 \end{figure}
 
 %@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
-\dothis{それでは空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してください。}
+\dothis{それでは空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
 \ct!contents!の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
@@ -444,7 +444,8 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 \end{figure}
 
-Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
+%@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
+とりわけ便利なのは、\ct{browseAllSelect:}メソッドと\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super送信を行うものをブラウズする、ふたつの異った方法です (最初の方法は、かなり総当たり式の方法です; 2番目の方法は、より好ましくいもので、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -453,26 +454,37 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \end{code}
 
 %======================================
-\section{Classes, method dictionaries and methods}
+%@\section{Classes, method dictionaries and methods}
+\section{クラス、メソッド辞書、そしてメソッド}
 
-Since classes are objects, we can inspect or explore them just like any other object.
+%@Since classes are objects, we can inspect or explore them just like any other object.
+クラスはオブジェクトなので、他のオブジェクトとまったく同様、クラスをインスペクトやエクスプロアすることもできます。
 
 \mthindex{Object}{explore}
-\dothis{Evaluate \ct{Point explore}.}
+%@\dothis{Evaluate \ct{Point explore}.}
+\dothis{\ct{Point explore}を評価してみましょう。}
 
-In \figref{CompiledMethod}, the \ind{explorer} shows the structure of class \clsind{Point}.
-You can see that the class stores its methods in a dictionary, indexing them by their selector.
-The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
+%@In \figref{CompiledMethod}, the \ind{explorer} shows the structure of class \clsind{Point}.
+\figref{CompiledMethod}が示しているのは、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示している様子です。
+%@You can see that the class stores its methods in a dictionary, indexing them by their selector.
+ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書のインデックスになっています。
+%@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
+The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*の\ind{バイトコード}を指しています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
-	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
+%@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
+	\caption{\ct!Point!クラスと\ct!Point!クラスの\ct!\#*!メソッドをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞?
 \end{figure}
 
-Let us consider the relationship between classes and methods.
-In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
-Each compiled method knows the class in which it is installed.
+%@Let us consider the relationship between classes and methods.
+クラスとメソッドの関係について考えてみましょう。
+%@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
+\figref{MethodsAsObjects} で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
+%@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
+どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
+%@Each compiled method knows the class in which it is installed.
+コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
 In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
 
 \begin{figure}[ht]\centering
