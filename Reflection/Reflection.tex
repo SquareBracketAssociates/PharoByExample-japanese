@@ -427,7 +427,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 \ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるメッセージを返します。
 
 %@All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
-これらすべての機能は、\pharo のプログラミング環境、とくにコードブラウザ、に統合されています。
+これらすべての機能は、\pharo のプログラミング環境、とくにコードブラウザー、に統合されています。
 %@As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
 すでにきっとお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための (\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための (\short{n})。
 %@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
@@ -525,7 +525,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 % As a slightly more complex example, we can browse 
 
 %@To browse the super-sends within a given hierarchy, for example within the Collections hierarchy, we can pose a more sophisticated query:
-与えられた階層内のsuper送信をブラウズするには、たとえば、コレクションの階層内のsuper送信をブラウズするには、より洗練されたクエリを送ることができます:
+与えられた階層内のsuper送信をブラウズするには、たとえば、Collectionの階層内のsuper送信をブラウズするには、より洗練されたクエリを送ることができます:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -536,24 +536,32 @@ SystemNavigation default
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
 %@Note how we navigate from classes to method dictionaries to compiled methods to identify the methods we are interested in.
-関心のあるメソッドを識別するために、どのように、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。%@?上のコードを完全には理解していない
-A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
-There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
+関心のあるメソッド(super送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。
+%@A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
+\ct{MethodReference}は、コンパイル済みメソッドのための軽量のプロキシーで、たくさんのツールがこのプロキシーを使っています。
+%@There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
+\clsmthind{CompiledMethod}{methodReference}というメソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照を返します。%@?convenienceは名詞だが、英辞郎に、「便利な」という訳例があった。
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
 
 %======================================
-\section{Browsing environments}
+%@\section{Browsing environments}
+\section{ブラウジング環境}
 
-Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
+%@Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
+\clsind{SystemNavigation}は、システムコードに対してプログラム的にクエリを送り、プログラム的にこれをブラウズする方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
-Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
-This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
+%@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクタと異なるメッセージを\super に送っているか、それを見出すことに関心があったとしましょう。
+%@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\selfにメッセージを送ることで済みます!)
 
-The refactoring browser provides us with an elegant way to restrict our query to just the classes and methods we are interested in.
+%@The refactoring browser provides us with an elegant way to restrict our query to just the classes and methods we are interested in.
+リファクタリングブラウザーというツールは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
 
-\dothis{Open a browser on the class \ct{Collection}.
+%@\dothis{Open a browser on the class \ct{Collection}.
+\dothis{ブラウザーを開けて、\ct{Collection}.を見てください。
 \actclick on the class name and select \menu{refactoring scope>subclasses with}.
 This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
