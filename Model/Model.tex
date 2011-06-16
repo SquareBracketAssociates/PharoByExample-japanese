@@ -38,71 +38,97 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{The \st object model}
+% \chapter{The \st object model}
+\chapter{\stオブジェクトモデル}
 \chalabel{model}
 
-\st's programming model is simple and uniform: everything is an object, and objects communicate only by sending each other messages.
-However, this simplicity and uniformity can be a source of difficulty for programmers used to other languages. In this chapter we present the core concepts of the \st object model; in particular we discuss the consequences of representing classes as objects.
+% \st's programming model is simple and uniform: everything is an object, and objects communicate only by sending each other messages.
+\stのプログラミングモデルは簡潔で一貫しています： 全てのものはオブジェクトで、オブジェクトはメッセージをお互いに送ることによってのみやりとりをします。
+% However, this simplicity and uniformity can be a source of difficulty for programmers used to other languages. In this chapter we present the core concepts of the \st object model; in particular we discuss the consequences of representing classes as objects.
+しかしながら、この簡潔さと一貫性が、他の言語に慣れたプログラマにとって難しさの元になっています。
+この章では、\stのオブジェクトモデルの中心概念を示します。特に、クラスをオブジェクトとして表現することが何をもたらすのかを議論します。
 
 %=========================================================
-\section{The rules of the model}
+% \section{The rules of the model}
+\section{モデルの規則}
 \seclabel{rules}
 
-The \st object model is based on a set of simple 
-rules that are applied \emph{uniformly}. The rules are as follows:
+% The \st object model is based on a set of simple 
+% rules that are applied \emph{uniformly}. The rules are as follows:
+\stのオブジェクトモデルは、以下の一連の簡潔な規則に基いていて、規則は一貫して適用されます。
 
 \begin{enumerate}[label={\textbf{Rule \arabic{*}}.}, ref={Rule \arabic{*}}, leftmargin=*]
 \item{} \rulelabel{everything}
-	Everything is an object.
+%	Everything is an object.
+	全てのものはオブジェクトである。
 
 \item{} \rulelabel{instance}
-	Every object is an instance of a class.
+%	Every object is an instance of a class.
+	全てのオブジェクトはクラスのインスタンスである。
 
 \item{}  \rulelabel{inheritance}
-	Every class has a superclass.
+%	Every class has a superclass.
+	全てのクラスはスーパークラスを持っている。
 
 \item{}  \rulelabel{message}
-	Everything happens by sending messages.
+%	Everything happens by sending messages.
+	全てのことは、メッセージを送ることで起こる。
 
 \item{}  \rulelabel{lookup}
-	Method lookup follows the inheritance chain.
+%	Method lookup follows the inheritance chain.
+	メソッド探索は継承の連鎖を辿る。
 
 \end{enumerate}
 
 \noindent
-Let us look at each of these rules in some detail.
+%Let us look at each of these rules in some detail.
+では、これらの規則を1つ1つ詳細に見ていきましょう。
 
 
 %=========================================================
-\section{Everything is an Object}
+% \section{Everything is an Object}
+\section{全てのものはオブジェクトである}
 
 %\ruleref{everything}
 
-The mantra ``everything is an object'' is highly contagious.
-After only a short while working with \st, you will start to be surprised at how this rule simplifes everything you do.
-Integers, for example, are truly objects, so you can send messages to them, just as you do to any other object.
+% The mantra ``everything is an object'' is highly contagious.
+「全てのものはオブジェクトである」という信念は、感染力が高いものです。
+% After only a short while working with \st, you will start to be surprised at how this rule simplifes everything you do.
+ほんの短い間\stを使っただけで、この規則がいかに物事を簡単にするのか、驚きはじめるでしょう。
+% Integers, for example, are truly objects, so you can send messages to them, just as you do to any other object.
+例えば、整数も本物のオブジェクトで、他のあらゆるオブジェクトと同様、整数にもメッセージを送ることができます。
 
 \begin{code}{@TEST}
-3 + 4            --> 7    "send '+ 4' to 3, yielding 7"
-20 factorial  --> 2432902008176640000   "send factorial, yielding a big number"
+% 3 + 4            --> 7    "send '+ 4' to 3, yielding 7"
+3 + 4            --> 7    "'+ 4'を3に送ることで, 結果として7が得られます"
+% 20 factorial  --> 2432902008176640000   "send factorial, yielding a big number"
+20 factorial  --> 2432902008176640000   "factorialを送ると, 大きな数が得られます"
 \end{code}
 
-The representation of \ct{20 factorial} is certainly different from the representation of \ct{7}, but because they are both objects, none of the code\,---\,not even the implementation of \ct{factorial}\,---\,needs to now about this.
+% The representation of \ct{20 factorial} is certainly different from the representation of \ct{7}, but because they are both objects, none of the code\,---\,not even the implementation of \ct{factorial}\,---\,needs to now about this.
+\ct{20 factorial}の内部表現と\ct{7}の内部表現は実際には異なっていますが、それらはどちらもオブジェクトなので、実際のコード --- \ct{factorial}の実装ですら --- その内部表現を知る必要はありません。
 
 \needlines{3}
-Perhaps the most fundamental consequence of this rule is the following:
-\important{Classes are objects too.}
-Furthermore, classes are not second-class objects: they are really first-class objects that you can send messages to, inspect, and so on.
-This means that \pharo is a truly reflective system, which gives a great deal of expressive power to developers.
+% Perhaps the most fundamental consequence of this rule is the following:
+おそらくこの規則の一番根本的な帰結は以下のものです。
+% \important{Classes are objects too.}
+\important{クラスもオブジェクトである。}
+% Furthermore, classes are not second-class objects: they are really first-class objects that you can send messages to, inspect, and so on.
+もっと言えば、クラスは第二級のオブジェクトではありません。クラスは本当にファーストクラスオブジェクトで、メッセージを投げたりインスペクトしたりすることができます。
+%This means that \pharo is a truly reflective system, which gives a great deal of expressive power to developers.
+つまり\pharoは本当の意味でリフレクティブなシステムだということで、このことが開発者に非常に強力な表現力を与えています。
 
-Deep in the implementation of \st, there are three different kinds of objects.  There are (1) ordinary objects with instance variables that are passed by references, there are (2) \emph{small integers} that are passed by value, and there are (3) indexable objects like arrays that hold a contiguous portion of memory.  The beauty of \st is that you normally don't need to care about the differences between these three kinds of object.
+% Deep in the implementation of \st, there are three different kinds of objects.  There are (1) ordinary objects with instance variables that are passed by references, there are (2) \emph{small integers} that are passed by value, and there are (3) indexable objects like arrays that hold a contiguous portion of memory.  The beauty of \st is that you normally don't need to care about the differences between these three kinds of object.
+\stの実装の深いところでは、3つの種類のオブジェクトがあります。(1)インスタンス変数を持ち、参照で渡される通常のオブジェクト、(2)値で渡される\emph{小さな整数}、(3)配列のように連続したメモリ領域を持つインデックス付オブジェクトです。\stの美しさは、これら3種類のオブジェクトの違いについて通常は気にする必要がないところです。
 
 %=========================================================
-\section{Every object is an instance of a class}
+% \section{Every object is an instance of a class}
+\section{全てのオブジェクトはクラスのインスタンスである}
 
 %\ruleref{instance}
 
-Every object has a class; you can find out which by sending it the message \ct{class}.
+% Every object has a class; you can find out which by sending it the message \ct{class}.
+全てのオブジェクトはクラスを持っています。オブジェクトに\ct{class}メッセージを送ることで見ることができます。
 
 \begin{code}{@TEST}
 1 class                 --> SmallInteger
@@ -113,39 +139,61 @@ Every object has a class; you can find out which by sending it the message \ct{c
 Object new class --> Object
 \end{code}
 
-A class defines the \emph{structure} of its instances via instance variables,
-and the \emph{behavior} of its instances via methods.
-Each method has a name, called its \emphsubind{method}{selector}, which is unique within the class.
+% A class defines the \emph{structure} of its instances via instance variables,
+クラスはインスタンス変数を通してインスタンスの\emph{構造}を定義します。
+% and the \emph{behavior} of its instances via methods.
+そしてメソッドを通してインスタンスの\emph{振る舞い}を定義します。
+% Each method has a name, called its \emphsubind{method}{selector}, which is unique within the class.
+各メソッドは名前を持っていて、\emphsubbind{メソッド}{セレクタ}と呼ばれています。名前はそのクラスの中でユニークです。
 
-Since \emph{classes are objects}, and \emph{every object is an instance of a class}, it follows that classes must also be instances of classes.
-A class whose instances are classes is called a \emphind{metaclass}.
-Whenever you create a class, the system automatically creates a metaclass for you.
-The metaclass defines the structure and behavior of the class that is its instance.
-99\% \damien{Did any of you verify it is 99\%? Maybe 'Most' would have been better than '99\%'} of the time you will not need to think about metaclasses, and may happily ignore them.
-(We will have a closer look at metaclasses in \charef{metaclasses}.)
-
+% Since \emph{classes are objects}, and \emph{every object is an instance of a class}, it follows that classes must also be instances of classes.
+\emph{クラスはオブジェクトである}ことから、そして、{全てのオブジェクトはクラスのインスタンスである}ことから、クラスもまた、クラスのインスタンスであるということになります。
+% A class whose instances are classes is called a \emphind{metaclass}.
+クラスをインスタンスとするクラスは\emphind{メタクラス}と呼ばれます。
+% Whenever you create a class, the system automatically creates a metaclass for you.
+クラスを定義するたびに、システムは自動的にメタクラスを生成します。
+% The metaclass defines the structure and behavior of the class that is its instance.
+メタクラスは、インスタンスであるクラスの構造と振る舞いを定義します。
+% 99\% \damien{Did any of you verify it is 99\%? Maybe 'Most' would have been better than '99\%'} of the time you will not need to think about metaclasses, and may happily ignore them.
+99\% \damien{どなたか、本当に99\%だと確かめましたか？大抵のものは'99\%'よりも良いかもしれませんよ}の場合は、メタクラスについて考える必要はないでしょう。その場合は無視してくださって結構です。
+% (We will have a closer look at metaclasses in \charef{metaclasses}.)
+(\charef{metaclasses}でメタクラスについて詳しく見てみましょう。)
 %---------------------------------------------------------
-\subsection{Instance variables}
+% \subsection{Instance variables}
+\subsection{インスタンス変数}
 
-Instance variables in \st are private to the \emph{instance} itself.
-This is in contrast to \ind{Java} and \ind{C++}, which allow instance variables (also known as ``fields'' or ``member variables'') to be accessed by any other instance that happens to be of the same class.
-We say that the \emphind{encapsulation boundary} of objects in Java and C++ is the class, whereas in \st it is the instance.
+% Instance variables in \st are private to the \emph{instance} itself.
+\stではインスタンス変数は、その\emph{インスタンス}でプライベートです。
+% This is in contrast to \ind{Java} and \ind{C++}, which allow instance variables (also known as ``fields'' or ``member variables'') to be accessed by any other instance that happens to be of the same class.
+これは、\id{Java}や\ind{C++}と対照的です。それらの言語では、インスタンス変数(``フィールド''とか``メンバ変数''とも呼ばれていますね)は同じクラスの他のインスタンスからのアクセスを許しています。
+% We say that the \emphind{encapsulation boundary} of objects in Java and C++ is the class, whereas in \st it is the instance.
+オブジェクトの\emphind{カプセル化の境界}がJavaやC++ではクラス、\stではインスタンスである、と言います。
+
 \seeindex{variable!instance}{instance variable}
 \seeindex{field}{instance variable}
 \seeindex{attribute}{instance variable}
 \seeindex{slot}{instance variable}
 \index{instance variable}
 
-In \st, two instances of the same class cannot access each other's instance variables unless the class defines ``\ind{accessor} methods''.
-There is no language syntax that provides direct access to the instance variables of any other object.
-(Actually, a mechanism called \ind{reflection}
+% In \st, two instances of the same class cannot access each other's instance variables unless the class defines ``\ind{accessor} methods''.
+\stでは、``\ind{アクセサ}メソッド''を定義しない限り、同じクラスの2つのインスタンスはお互いのインスタンス変数にアクセスすることはできません。
+% There is no language syntax that provides direct access to the instance variables of any other object.
+他のオブジェクトのインスタンス変数に直接アクセスするための言語構文がないのです。
+% (Actually, a mechanism called \ind{reflection}
+(実のところ、\charef{metaprog}で扱われる\ind{リフレクション}と呼ばれる機構が他のオブジェクトにインスタンス変数の値へのアクセスを提供しています。
 %, discussed in \charef{metaprog},
-does provide a way to ask another object for the values of its instance variables; meta-programming is intended for writing tools like the object \ind{inspector}, whose sole purpose is to look inside other objects.)
+% does provide a way to ask another object for the values of its instance variables; meta-programming is intended for writing tools like the object \ind{inspector}, whose sole purpose is to look inside other objects.)
+メタプログラミングはオブジェクト\ind{インスペクタ}のようなツールを記述することを意図しています。インスペクタはオブジェクトの中身を見ることを目的にしたツールです。)
+% Instance variables can be accessed by name in any of the instance methods of the class that defines them, and also in the methods defined in its subclasses. This means that \st instance variables are similar to \emph{protected} variables in C++ and Java. However, we prefer to say that they are private, because it is considered bad style in \st to access an instance variable directly from a subclass. 
+インスタンス変数は、その変数を定義しているクラスのインスタンスメソッドから、名前でアクセスすることができます。
+このことから、\stのインスタンス変数はC++やJavaの\emph{プロテクト}変数に似ていると言えます。しかしながら、やはりプライベートと読んだほうが好ましいでしょう。というのも、インスタンス変数をサブクラスからアクセスすることは、\stでは良くないスタイルと考えられているからです。
 
-Instance variables can be accessed by name in any of the instance methods of the class that defines them, and also in the methods defined in its subclasses. This means that \st instance variables are similar to \emph{protected} variables in C++ and Java. However, we prefer to say that they are private, because it is considered bad style in \st to access an instance variable directly from a subclass. 
-
-\subsubsection{Example}
-Method \cmind{Point}{dist:} (\mthref{dist:}) computes the distance between the receiver and another point. The instance variables \ct{x} and \ct{y} of the receiver are accessed directly by the method body.  However, the instance variables of the other point must be accessed by sending it the messages \ct{x} and \ct{y}.
+% \subsubsection{Example}
+\subsubsection{例題}
+% Method \cmind{Point}{dist:} (\mthref{dist:}) computes the distance between the receiver and another point. The instance variables \ct{x} and \ct{y} of the receiver are accessed directly by the method body.  However, the instance variables of the other point must be accessed by sending it the messages \ct{x} and \ct{y}.
+\cmind{Point}{dist:} (\mthref{dist:})メソッドは、レシーバともう1つの点との間の距離を計算します。
+レシーバのインスタンス変数\ct{x}と\ct{y}は、メソッドから直接アクセスされています。
+しかし、もう1つの点は、\ct{x}メッセージや\ct{y}メッセージを送ることでアクセスしなければなりません。
 
 \needlines{7}
 \begin{method}[dist:]{the distance between two points}
@@ -161,21 +209,33 @@ Point>>>dist: aPoint
 1@1 dist: 4@5 --> 5.0
 \end{code}
 
-The key reason to prefer instance-based encapsulation to class-based encapsulation is that it enables different implementations of the same abstraction to coexist.
-For example, method \ct{point>>>dist:}, need not know or care whether the argument \ct{aPoint} is an instance of the same class as the receiver.  The argument object might be represented in polar coordinates, or as a record in a database, or on another computer in a distributed system; as long as it can respond to the messages \ct{x} and \ct{y}, the code in \mthref{dist:} will still work.
+% The key reason to prefer instance-based encapsulation to class-based encapsulation is that it enables different implementations of the same abstraction to coexist.
+クラスベースのカプセル化ではなく、インスタンスベースのカプセル化を選択する決め手となったのは、インスタンスベースのカプセル化は同じ抽象の異なる実装を共存させることができるからです。
+% For example, method \ct{point>>>dist:}, need not know or care whether the argument \ct{aPoint} is an instance of the same class as the receiver.  The argument object might be represented in polar coordinates, or as a record in a database, or on another computer in a distributed system; as long as it can respond to the messages \ct{x} and \ct{y}, the code in \mthref{dist:} will still work.
+例えば、\ct{point>>dist:}メソッドは、引数\ct{aPoint}がレシーバと同じクラスなのかどうか知る必要もありませんし、気にする必要もないからです。
+引数オブジェクトは極座標かもしれませんし、データベースのレコードかもしれませんし、分散システムの他の計算機上にあるかもしれません。
+\ct{x}メッセージや\ct{y}メッセージに答えてくれる限り、\mthref{dist}のコードはちゃんと動作するでしょう。
 
 %---------------------------------------------------------
-\subsection{Methods}
+% \subsection{Methods}
+\subsection{メソッド}
 
-All methods are \subind{method}{public}.\footnote{Well, almost all.  In \pharo, methods whose selectors start with the string \ct{pvt} are private: a \ct{pvt} message can be sent \emph{only} to \self.  However, \ct{pvt} methods are not used very much.}
-Methods are grouped into protocols that indicate their intent.
-Some common protocol names have been established by convention, for example, \protind{accessing} for all accessor methods, and \protind{initialization} for establishing a consistent initial state for the object.
-The protocol \protind{private} is sometimes used to group methods that should not be seen from outside.
-Nothing, however, prevents you from sending a message that is implemented by such a ``private'' method.
-
-Methods can access all instance variables of the object.
-Some \st developers prefer to access instance variables only through accessors.
-This practice has some value, but it also clutters the interface of your classes, and worse, exposes private state to the world.
+% All methods are \subind{method}{public}.\footnote{Well, almost all.  In \pharo, methods whose selectors start with the string \ct{pvt} are private: a \ct{pvt} message can be sent \emph{only} to \self.  However, \ct{pvt} methods are not used very much.}
+全てのメソッドは\subbind{メソッド}{パブリック}です。\footnote{正確には、ほぼ全て、です。\pharoでは、\ct{pvt}で始まるセレクタを持つメソッドはプライベートで、\ct{pvt}メッセージは\selfに\emph{のみ}送ることができます。しかし、\ct{pvt}メソッドはあまり使われていません。}
+% Methods are grouped into protocols that indicate their intent.
+メソッドは、その目的に応じてプロトコルにグループ分けされています。
+% Some common protocol names have been established by convention, for example, \protind{accessing} for all accessor methods, and \protind{initialization} for establishing a consistent initial state for the object.
+共通して使われているプロトコルはコンベンションによって確立されてきました。例えば、\protind{accessing}はアクセサメソッドで、\protind{initialization}はオブジェクトの一貫した初期状態を確立するメソッドです。
+% The protocol \protind{private} is sometimes used to group methods that should not be seen from outside.
+\protind{private}プロトコルは、外から見られるべきでないメソッドとしてグループ分けするのに使われます。
+% Nothing, however, prevents you from sending a message that is implemented by such a ``private'' method.
+しかし、そういった``private''メソッドがあるからといって、実際にメッセージを送ることを防ぐことはできません。
+% Methods can access all instance variables of the object.
+メソッドはそのオブジェクトの全てのインスタンス変数にアクセスすることができます。
+% Some \st developers prefer to access instance variables only through accessors.
+\st開発者の中には、アクセサを通してのみインスタンス変数にアクセスすることを好む人もいます。
+% This practice has some value, but it also clutters the interface of your classes, and worse, exposes private state to the world.
+この取り組みには一定の価値がありますが、クラスのインターフェースを乱雑にしたり、もっと悪いことに、外部の世界にプライベートな状態を晒すことにもなります。
 
 %---------------------------------------------------------
 \subsection{The instance side and the class side}
