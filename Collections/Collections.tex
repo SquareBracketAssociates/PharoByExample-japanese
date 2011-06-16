@@ -36,29 +36,21 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³}
-%\chapter{Collection}
+\chapter{¥³¥ì¥¯¥·¥ç¥ó}
 \chalabel{collections}
 
-\ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
-
+% \ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
 % \ab{ The material here is based on a section that Andrew wrote for the \st Collections refactoring paper. It's not necessarily all appropriate for the book, but much of it is, I think, useful.}
 %\on{recycled some material from \url{https://www.iam.unibe.ch/scg/svn_repos/Lectures/ST-H07/03StandardClasses.ppt}}
 %\sd{Did a first pass: I should have a look at Xavier Briffault's book and at the material mentionned by andrew + lalonde book?}
 %=============================================================
-\section{å°å…¥}
+\section{Æ³Æş}
 
-ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ç¾¤ã¯ \clsindmain{Collection} ã‚¯ãƒ©ã‚¹ã¨ \clsind{Stream} ã‚¯ãƒ©ã‚¹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§ã€æ±ç”¨ç›®çš„ãªã‚‚ã®ã®ã‚°ãƒ«ãƒ¼ãƒ—ã§ã‚ã‚‹ã¨ã‚„ã‚„æ›–æ˜§ã«å®šç¾©ã—ã¦ãŠãã¾ã™ã€‚ã€Œ\ind{ãƒ–ãƒ«ãƒ¼ãƒ–ãƒƒã‚¯}ã€~\cite{Gold83a} ã«ç™»å ´ã™ã‚‹ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚°ãƒ«ãƒ¼ãƒ—ã«ã¯ \ct{Collection} ã® 17 å€‹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã¨  \ct{Stream} ã® 9 å€‹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã€åˆè¨ˆ 28 å€‹ã®ã‚¯ãƒ©ã‚¹ãŒå«ã¾ã‚Œã¦ã„ã¾ã™ã€‚ã“ã‚Œã‚‰ã¯ \st-80 ã‚·ã‚¹ãƒ†ãƒ ãŒãƒªãƒªãƒ¼ã‚¹ã•ã‚Œã‚‹å‰ã«ä½•åº¦ã‹å†è¨­è¨ˆã•ã‚ŒãŸã‚‚ã®ã§ã—ãŸã€‚ã“ã‚Œã‚‰ã®ã‚¯ãƒ©ã‚¹ç¾¤ã¯ã—ã°ã—ã°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæŒ‡å‘è¨­è¨ˆã®ç³»çµ±çš„ãªä¾‹ã¨ã—ã¦è€ƒãˆã‚‰ã‚Œã¾ã™ã€‚
+¥³¥ì¥¯¥·¥ç¥ó¥¯¥é¥¹·²¤Ï \clsindmain{Collection} ¥¯¥é¥¹¤È \clsind{Stream} ¥¯¥é¥¹¤Î¥µ¥Ö¥¯¥é¥¹¤Ç¡¢ÈÆÍÑÌÜÅª¤Ê¤â¤Î¤Î¥°¥ë¡¼¥×¤Ç¤¢¤ë¤È¤ä¤äÛ£Ëæ¤ËÄêµÁ¤·¤Æ¤ª¤­¤Ş¤¹¡£¡Ö\ind{¥Ö¥ë¡¼¥Ö¥Ã¥¯}¡×~\cite{Gold83a} ¤ËÅĞ¾ì¤¹¤ë¤³¤Î¥¯¥é¥¹¤Î¥°¥ë¡¼¥×¤Ë¤Ï \ct{Collection} ¤Î 17 ¸Ä¤Î¥µ¥Ö¥¯¥é¥¹¤È  \ct{Stream} ¤Î 9 ¸Ä¤Î¥µ¥Ö¥¯¥é¥¹¡¢¹ç·× 28 ¸Ä¤Î¥¯¥é¥¹¤¬´Ş¤Ş¤ì¤Æ¤¤¤Ş¤¹¡£¤³¤ì¤é¤Ï \st-80 ¥·¥¹¥Æ¥à¤¬¥ê¥ê¡¼¥¹¤µ¤ì¤ëÁ°¤Ë²¿ÅÙ¤«ºÆÀß·×¤µ¤ì¤¿¤â¤Î¤Ç¤·¤¿¡£¤³¤ì¤é¤Î¥¯¥é¥¹·²¤Ï¤·¤Ğ¤·¤Ğ¥ª¥Ö¥¸¥§¥¯¥È»Ø¸şÀß·×¤Î·ÏÅıÅª¤ÊÎã¤È¤·¤Æ¹Í¤¨¤é¤ì¤Ş¤¹¡£
 
-% The collection classes form a loosely-defined group of general-purpose subclasses of \clsindmain{Collection} and \clsind{Stream}. The group of classes that appears in the ``\ind{Blue Book}''~\cite{Gold83a} contains 17 subclasses of \ct{Collection} and 9 subclasses of \ct{Stream}, for a total of 28 classes, and had already been redesigned several times before the \st-80 system was released. This group of classes is often considered to be a paradigmatic example of object-oriented design.
-
-\pharo ã§ã¯ã€æŠ½è±¡ã‚¯ãƒ©ã‚¹ \ct{Collection} ã¯ 101 å€‹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã‚’ã€æŠ½è±¡ã‚¯ãƒ©ã‚¹ \ct{Stream} ã¯ 50 å€‹ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã‚’æŒã¡ã¾ã™ãŒã€ã“ã‚Œã‚‰ã®ã†ã¡å¤šã (\mbox{\clsind{Bitmap}ã€}\mbox{\clsind{FileStream}ã€}\clsind{CompiledMethod} ãªã©) ã¯ã‚·ã‚¹ãƒ†ãƒ ã‚„ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ä¸€éƒ¨ã¨ã—ã¦ä½¿ã‚ã‚Œã‚‹ã‚ˆã†ã«ä½œã‚‰ã‚ŒãŸç‰¹åˆ¥ãªç›®çš„ã®ã‚‚ã®ãªã®ã§ã€ã‚·ã‚¹ãƒ†ãƒ æ§‹æˆã¨ã—ã¦ã€ŒCollectionã€ã¨ã—ã¦ã¯ã‚«ãƒ†ã‚´ãƒªãƒ¼åŒ–ã•ã‚Œã¾ã›ã‚“ã€‚ã“ã®ç« ã®ç›®çš„ã®ãŸã‚ã«ã€ã€Œã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³éšå±¤ã€ã¨ã„ã†è¨€è‘‰ã¯ \ct{Collection} ã¨ã€ãã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹\emph{ã®ä¸­ã§} \scat{Collections-*} ã¨ã—ã¦ã‚«ãƒ†ã‚´ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸã‚‚ã®ã‚’æŒ‡ã—ã¾ã™ã€‚
-åŒæ§˜ã«ã€Œã‚¹ãƒˆãƒªãƒ¼ãƒ éšå±¤ã€ã¯ \ct{Stream} ã¨ã€ãã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹\emph{ã®ä¸­ã§} \scat{Collections-Streams} ã¨ã—ã¦ã‚«ãƒ†ã‚´ãƒ©ã‚¤ã‚ºã•ã‚ŒãŸã‚‚ã®ã‚’æŒ‡ã—ã¾ã™ã€‚
-ã“ã‚Œã‚‰ 56 å€‹ã®ã‚¯ãƒ©ã‚¹ã¯ 982 ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«å¿œç­”ã§ãã€åˆè¨ˆ 1609 å€‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®šç¾©ã—ã¦ã„ã‚‹ã®ã§ã™ï¼
-
-%In \pharo, the abstract class \ct{Collection} has 101 subclasses, and the abstract class \ct{Stream} has 50 subclasses, but many of these (like \mbox{\clsind{Bitmap},} \clsind{FileStream} and \clsind{CompiledMethod}) are special-purpose classes crafted for use in other parts of the system or in applications, and hence not categorized as ``Collections'' by the system organization. For the purposes of this chapter, we use the term ``Collection Hierarchy'' to mean \ct{Collection} and its 47 subclasses that are \emph{also} in the categories labelled \scat{Collections-*}.
-%We use the term ``Stream Hierarchy'' to mean \ct{Stream} and its 9 subclasses that are \emph{also} in the \scatind{Collections-Streams} categories.
-%These 56 classes respond to 982 messages and define a total of 1609 methods!
+\pharo ¤Ç¤Ï¡¢Ãê¾İ¥¯¥é¥¹ \ct{Collection} ¤Ï 101 ¸Ä¤Î¥µ¥Ö¥¯¥é¥¹¤ò¡¢Ãê¾İ¥¯¥é¥¹ \ct{Stream} ¤Ï 50 ¸Ä¤Î¥µ¥Ö¥¯¥é¥¹¤ò»ı¤Á¤Ş¤¹¤¬¡¢¤³¤ì¤é¤Î¤¦¤ÁÂ¿¤¯ (\mbox{\clsind{Bitmap}¡¢}\mbox{\clsind{FileStream}¡¢}\clsind{CompiledMethod} ¤Ê¤É) ¤Ï¥·¥¹¥Æ¥à¤ä¥¢¥×¥ê¥±¡¼¥·¥ç¥ó¤Î°ìÉô¤È¤·¤Æ»È¤ï¤ì¤ë¤è¤¦¤Ëºî¤é¤ì¤¿ÆÃÊÌ¤ÊÌÜÅª¤Î¤â¤Î¤Ê¤Î¤Ç¡¢¥·¥¹¥Æ¥à¹½À®¤È¤·¤Æ¡ÖCollection¡×¤È¤·¤Æ¤Ï¥«¥Æ¥´¥ê¡¼²½¤µ¤ì¤Ş¤»¤ó¡£¤³¤Î¾Ï¤ÎÌÜÅª¤Î¤¿¤á¤Ë¡¢¡Ö¥³¥ì¥¯¥·¥ç¥ó³¬ÁØ¡×¤È¤¤¤¦¸ÀÍÕ¤Ï \ct{Collection} ¤È¡¢¤½¤Î¥µ¥Ö¥¯¥é¥¹\emph{¤ÎÃæ¤Ç} \scat{Collections-*} ¤È¤·¤Æ¥«¥Æ¥´¥é¥¤¥º¤µ¤ì¤¿¤â¤Î¤ò»Ø¤·¤Ş¤¹¡£
+Æ±ÍÍ¤Ë¡Ö¥¹¥È¥ê¡¼¥à³¬ÁØ¡×¤Ï \ct{Stream} ¤È¡¢¤½¤Î¥µ¥Ö¥¯¥é¥¹\emph{¤ÎÃæ¤Ç} \scat{Collections-Streams} ¤È¤·¤Æ¥«¥Æ¥´¥é¥¤¥º¤µ¤ì¤¿¤â¤Î¤ò»Ø¤·¤Ş¤¹¡£
+¤³¤ì¤é 56 ¸Ä¤Î¥¯¥é¥¹¤Ï 982 ¤Î¥á¥Ã¥»¡¼¥¸¤Ë±şÅú¤Ç¤­¡¢¹ç·× 1609 ¸Ä¤Î¥á¥½¥Ã¥É¤òÄêµÁ¤·¤Æ¤¤¤ë¤Î¤Ç¤¹¡ª
 
 % See test case in PBE-Collections for statistics
 
@@ -86,13 +78,8 @@
 %\end{center}
 %\end{figure}
 
-ã“ã®ç« ã§ã¯ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ã®ã†ã¡ \figref{CollClassesTree} ã«ç¤ºã™ä¸€éƒ¨ã‚’ä¸»ã«å–ã‚Šä¸Šã’ã¾ã™ã€‚
-ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«ã¤ã„ã¦ã¯ \charef{streams} ã§åˆ†ã‘ã¦è«–ã˜ã¾ã™ã€‚
-
-%In this chapter we focus mainly on the subset of collection classes shown in \figref{CollClassesTree}.
-%Streams will be discussed separately in \charef{streams}.
-
-% \sd{should put stream related text in Stream chapter}.
+¤³¤Î¾Ï¤Ç¤Ï¥³¥ì¥¯¥·¥ç¥ó¥¯¥é¥¹¤Î¤¦¤Á \figref{CollClassesTree} ¤Ë¼¨¤¹°ìÉô¤ò¼ç¤Ë¼è¤ê¾å¤²¤Ş¤¹¡£
+¥¹¥È¥ê¡¼¥à¤Ë¤Ä¤¤¤Æ¤Ï \charef{streams} ¤ÇÊ¬¤±¤ÆÏÀ¤¸¤Ş¤¹¡£
 
 % Note that the stream classes suffer from aging problems since they contain duplicated code and other code smells.
 % ON: We should avoid statements like this!
@@ -102,37 +89,33 @@
 \ifluluelse
 	{\includegraphics[width=\textwidth]{CollectionHierarchy}}
 	{\includegraphics[width=0.8\textwidth]{CollectionHierarchy}}
-\caption{Some of the key collection classes in \pharo.}
+\caption{\pharo ¤Ë¤ª¤¤¤Æ¼çÍ×¤Ê¥³¥ì¥¯¥·¥ç¥ó}
 \figlabel{CollClassesTree}
 \end{center}
 \end{figure}
 
 %=========================================================
-\section{The varieties of collections}
+\section{¥³¥ì¥¯¥·¥ç¥ó¤Î¼ïÎà}
 \seclabel{varieties}
 
-To make good use of the collection classes, the reader needs at least a superficial knowledge of the wide variety of collections that they implement, and their commonalities and differences.
+¥³¥ì¥¯¥·¥ç¥ó¥¯¥é¥¹·²¤ò¾å¼ê¤¯»È¤¦¤Ë¤Ï¡¢Éı¹­¤¤¼ïÎà¤Î¥³¥ì¥¯¥·¥ç¥ó¤Ë¤Ä¤¤¤Æ¡¢¤½¤Î¼ÂÁõ¤È¡¢¤½¤ì¤¾¤ì¤Î¶¦ÄÌÅÀ¤È°ã¤¤¤Ë¤Ä¤¤¤Æ¡¢¾¯¤Ê¤¯¤È¤âÉ½ÁØÅª¤Ë¤ÏÍı²ò¤·¤ÆÃÖ¤«¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£
 
-Programming with collections rather than individual elements is an important way to raise the level of abstraction of a program. 
-The \ind{Lisp} function \ct{map}, which applies an argument function to every element of a list and returns a new list containing the results is an early example of this style, but \st-80 adopted collection-based programming as a central tenet.  Modern functional programming languages such as \ind{ML} and \ind{Haskell} have followed \st's lead.
+¥³¥ì¥¯¥·¥ç¥ó¤òÍÑ¤¤¤¿¥×¥í¥°¥é¥ß¥ó¥°¤Ï¡¢¸ÄÊÌ¤ÎÍ×ÁÇ¤ò°·¤¦¤è¤ê¡¢¥×¥í¥°¥é¥à¤ÎÃê¾İÅÙ¤ò¹â¤á¤ë¾å¤Ç¤È¤Æ¤âÌòÎ©¤Á¤Ş¤¹¡£
+\ind{Lisp} ¤Î \ct{map} ´Ø¿ô¤Ï¡¢¤¢¤ë¥ê¥¹¥È¤Î³ÆÍ×ÁÇ¤ËÂĞ¤·¤Æ°ú¿ô¤ËÅÏ¤·¤¿´Ø¿ô¤òÅ¬ÍÑ¤·¤¿·ë²Ì¤Î¥ê¥¹¥È¤òºî¤Ã¤ÆÊÖ¤¹¤â¤Î¤Ç¤¹¡£¤³¤ì¤Ï¥³¥ì¥¯¥·¥ç¥ó¤Î¤è¤¦¤Ê¥¹¥¿¥¤¥ë¤Î½é´ü¤ÎÎã¤Ç¤¹¤¬¡¢\st-80 ¤Ï¥³¥ì¥¯¥·¥ç¥ó¡¦¥Ù¡¼¥¹¤Î¥×¥í¥°¥é¥ß¥ó¥°¤òÃæ¿´¤Ë¿ø¤¨¤¿¤Î¤Ç¤¹¡£\ind{ML} ¤ä \ind{Haskell} ¤Î¤è¤¦¤Ê¸½ÂåÅª¤Ê´Ø¿ô·¿¥×¥í¥°¥é¥ß¥ó¥°¸À¸ì¤Ï Smalltalk ¤Î¸å¤ËÂ³¤¤¤¿¤È¸À¤¨¤Ş¤¹¡£
 
-Why is this a good idea?
-Suppose you have a data structure containing a collection of student records, and wish to perform some action on all of the students that meet some criterion.  Programmers raised to use an imperative language will immediately reach for a loop.  But the \st programmer will write:
+¤³¤Î¥¢¥¤¥Ç¥£¥¢¤Ï¤Ê¤¼¤è¤¤¤Î¤Ç¤·¤ç¤¦¡©
+Îã¤¨¤Ğ³ØÀ¸¤Î¥ì¥³¡¼¥É¤Î¥³¥ì¥¯¥·¥ç¥ó¤È¤¤¤Ã¤¿¥Ç¡¼¥¿¹½Â¤¤¬¤¢¤Ã¤¿¤È¤·¤Æ¡¢¤Ê¤Ë¤«¤Î´ğ½à¤Ë°ìÃ×¤¹¤ë¤¹¤Ù¤Æ¤Î³ØÀ¸¤Î¥Ç¡¼¥¿¤Ë¤Ä¤¤¤ÆÆ±¤¸½èÍı¤ò¤·¤¿¤¤¤È¹Í¤¨¤¿¤È¤·¤Ş¤¹¡£Ì¿Îá·¿¸À¸ì¤Ë´·¤ì¤¿¥×¥í¥°¥é¥Ş¡¼¤Ê¤é¡¢¥ë¡¼¥×¤ò»È¤¦¤³¤È¤ò¤¹¤°»×¤¤¤Ä¤¯¤Ç¤·¤ç¤¦¡£¤Ç¤â Smalltalk ¥×¥í¥°¥é¥Ş¡¼¤Ê¤é¤³¤¦½ñ¤¯¤Ç¤·¤ç¤¦:
 \begin{code}{}
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-which evaluates to a new collection containing precisely those elements of \ct{students} for which the bracketed function returns \ct{true}\footnote{The expression in brackets can be thought of as a $\lambda$-expression defining an anonymous function $\lambda x. x~{\sf gpa} < {\sf threshold}$.
-\index{lambda expression}}.
-The \st code has the simplicity and elegance of a domain-specific query language.
+¤³¤ì¤Ï³Ñ¥«¥Ã¥³¤Ç°Ï¤Ş¤ì¤¿¼°¤¬ \ct{true} ¤òÊÖ¤¹ students ¤À¤±¤òÍ×ÁÇ¤È¤¹¤ë¿·¤·¤¤¥³¥ì¥¯¥·¥ç¥ó¤È¤¤¤¦°ÕÌ£¤Ç¤¹\footnote{³Ñ¥«¥Ã¥³Æâ¤Î¼°¤ÏÌµÌ¾´Ø¿ô $\lambda x. x~{\sf gpa} < {\sf threshold}$ ¤òÄêµÁ¤¹¤ë $\lambda$¼°¤À¤È¹Í¤¨¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£}¡£¤³¤Î \st ¥³¡¼¥É¤Ë¤Ï¥É¥á¥¤¥ó¸ÇÍ­Ìä¤¤¹ç¤ï¤»¸À¸ìÅª¤Ê¥·¥ó¥×¥ë¤µ¤È¥¨¥ì¥¬¥ó¥¹¤¬¤¢¤ê¤Ş¤¹¡£
 
-The message \ct{select:} is understood by \emph{all} collections in \st.  There is no need to find out if the student data structure is an array or a linked list: the \ct{select:} message is understood by both.  Note that this is quite different from using a loop, where one must know whether \ct{students} is an array or a linked list before the loop can be set up.
+\st ¤Î\emph{¤¹¤Ù¤Æ¤Î}¥³¥ì¥¯¥·¥ç¥ó¤Ï¥á¥Ã¥»¡¼¥¸ \ct{select:} ¤òÍı²ò¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£³ØÀ¸¤Î¥Ç¡¼¥¿¹½Â¤¤¬ÇÛÎó¤Ê¤Î¤«Àş·Á¥ê¥¹¥È¤Ê¤Î¤«¤òÃÎ¤ëÉ¬Í×¤Ï¤¢¤ê¤Ş¤»¤ó¡£¤É¤Á¤é¤â \ct{select:} ¥á¥Ã¥»¡¼¥¸¤òÍı²ò¤Ç¤­¤Ş¤¹¡£¥ë¡¼¥×¤ò»È¤¦¤ä¤êÊı¤È¤ÏÂç¤­¤¯°Û¤Ê¤ë¤È¤¤¤¦¤³¤È¤ËÃí°Õ¤·¤Ş¤·¤ç¤¦¡£¥ë¡¼¥×¤Ç¤Ï \ct{students} ¤¬ÇÛÎó¤Ê¤Î¤«Àş·Á¥ê¥¹¥È¤Ê¤Î¤«¡¢¤¢¤é¤«¤¸¤áÃÎ¤Ã¤Æ¤ª¤«¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£
 
-In \st, when one speaks of a collection without being more specific about the kind of collection, one means an object that supports well-defined protocols for testing membership and enumerating the elements.  \emph{All} collections understand the \protind{testing} messages \mbox{\mthind{Collection}{includes:},} \mthind{Collection}{isEmpty} and \mbox{\mthind{Collection}{occurrencesOf:}.}  \emph{All} collections understand the \prot{enumeration} messages \mthind{Collection}{do:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:} (which is the opposite of \ct{select:}), \mthind{Collection}{collect:} (which is like lisp's \ct{map}), \mthind{Collection}{detect:ifNone:}, \mthind{Collection}{inject:into:} (which performs a left fold) and many more.
-It is the ubiquity of this protocol, as well as its variety, that makes it so powerful.
+\st ¤Ç¤Ï¡¢ÆÃÄê¤Î¥³¥ì¥¯¥·¥ç¥ó¤ò»ØÄê¤»¤º¤ËÃ±¤Ë¡Ö¥³¥ì¥¯¥·¥ç¥ó¡×¤È¤¤¤Ã¤¿¾ì¹ç¤Ë¤Ï¡¢Àµ¤·¤¯ÄêµÁ¤µ¤ì¤¿¥×¥í¥È¥³¥ë¡¢¤¹¤Ê¤ï¤Á¤¢¤ëÍ×ÁÇ¤¬´Ş¤Ş¤ì¤Æ¤¤¤ë¤«¤ò¥Æ¥¹¥È¤¹¤ë¤â¤Î¤È¡¢Í×ÁÇ¤Î¿ô¤¨¾å¤²¤ò¹Ô¤¦¤â¤Î¡¢¤ò¥µ¥İ¡¼¥È¤·¤¿¥ª¥Ö¥¸¥§¥¯¥È¤ò»Ø¤·¤Ş¤¹¡£\emph{¤¹¤Ù¤Æ¤Î}¥³¥ì¥¯¥·¥ç¥ó¤Ï \protind{testing} ¥á¥Ã¥»¡¼¥¸¤Ç¤¢¤ë \mbox{\mthind{Collection}{includes:}¡¢}\mbox{\mthind{Collection}{isEmpty}¡¢}\mthind{Collection}{occurrencesOf:}¤òÍı²ò¤Ç¤­¤Ş¤¹¡£\emph{¤¹¤Ù¤Æ¤Î}¥³¥ì¥¯¥·¥ç¥ó¤Ï \prot{enumeration} ¥á¥Ã¥»¡¼¥¸¤Ç¤¢¤ë \mthind{Collection}{do:}¡¢\mthind{Collection}{select:}¡¢\mthind{Collection}{reject:} (\ct{select:} ¤ÎÈ¿ÂĞ¤Î°Õ)¡¢\mthind{Collection}{collect:} (Lisp ¤Î \ct{map})¡¢\mthind{Collection}{detect:ifNone:}¡¢\mthind{Collection}{inject:into:} (º¸¾ö¹ş¤ß¤ò¹Ô¤¦) ¤Ê¤É¤Ê¤É¤òÍı²ò¤Ç¤­¤Ş¤¹¡£emumeration ¥×¥í¥È¥³¥ë¤ÏÉáÊ×À­¤È¡¢½½Ê¬¤Ê¥Ğ¥é¥¨¥Æ¥£¤òÈ÷¤¨¤Æ¤¤¤ë¤Î¤Ç¤È¤Æ¤â¶¯ÎÏ¤Ç¤¹¡£
 
-\figref{protocols} summarizes the standard protocols supported by most of the classes in the collection hierarchy.
-These methods are defined, redefined, optimized or occasionally even forbidden by subclasses of \ct{Collection}.
+\figref{protocols} ¤Ï¥³¥ì¥¯¥·¥ç¥ó³¬ÁØ¤Ë¤ª¤±¤ë¥¯¥é¥¹¤¬É¸½à¤Ç¥µ¥İ¡¼¥È¤·¤Æ¤¤¤ë¥×¥í¥È¥³¥ë¤ò¤Ş¤È¤á¤¿¤â¤Î¤Ç¤¹¡£¤½¤ì¤¾¤ì¤Î¥á¥½¥Ã¥É¤Ï \ct{Collection ¤Î¥µ¥Ö¥¯¥é¥¹¤ÇÄêµÁ¤Ş¤¿¤ÏºÆÄêµÁ¤µ¤ì¡¢ºÇÅ¬²½¤µ¤ì¡¢¤Ş¤ì¤Ë¤Ïºï½ü¤µ¤ì¤ë¤³¤È¤â¤¢¤ê¤Ş¤¹¡£
 
 \begin{figure*}
 \begin{center}
@@ -140,7 +123,7 @@ These methods are defined, redefined, optimized or occasionally even forbidden b
 	{\begin{tabular}{|l|p{8cm}|}}
 	{\begin{tabular}{|l|p{12cm}|}}
 \hline
-{\bf Protocol} & {\bf Methods}\\
+{\bf ¥×¥í¥È¥³¥ë} & {\bf ¥á¥½¥Ã¥É}\\
 \hline
 \protind{accessing}	&	\lct{size}, \lct{capacity}, \lct{at: \emph{anIndex}}, \lct{at: \emph{anIndex} put: \emph{anElement}}	\\
 \hline
@@ -161,7 +144,7 @@ These methods are defined, redefined, optimized or occasionally even forbidden b
 & \lct{with:with:with:with:}, \lct{withAll: \emph{aCollection}}	\\
 \hline
 \end{tabular}
-\caption{Standard Collection protocols\figlabel{protocols}}
+\caption{É¸½àÅª¤Ê¥³¥ì¥¯¥·¥ç¥ó¥×¥í¥È¥³¥ë\figlabel{protocols}}
 \end{center}
 \end{figure*}
 
@@ -173,48 +156,46 @@ These methods are defined, redefined, optimized or occasionally even forbidden b
 %\end{figure*}
 %\on{A useless diagram -- refer to the class hierarchy instead!}
 
-Beyond this basic uniformity, there are many different kinds of collection either supporting different protocols, or providing different behaviour for the same requests.
-Let us briefly survey some of the key differences:
+´ğËÜÅª¤Ê°ì´ÓÀ­¤ÎÎ¢¤Ç¡¢°ã¤¦¥×¥í¥È¥³¥ë¤ò¥µ¥İ¡¼¥È¤·¤¿¤ê¡¢Æ±¤¸¥ê¥¯¥¨¥¹¥ÈÂĞ¤·¤Æ°Û¤Ê¤ë¿¶¤ëÉñ¤¤¤ò¤¹¤ë¤µ¤Ş¤¶¤Ş¤Ê¥³¥ì¥¯¥·¥ç¥ó¤¬Â¸ºß¤·¤Æ¤¤¤Ş¤¹¡£¤½¤Î¤è¤¦¤Ê°ã¤¤¤ÎÃæ¤Ç½ÅÍ×¤Ê¤â¤Î¤ò¸«¤Æ¤¤¤­¤Ş¤·¤ç¤¦¡£
 
 \begin{itemize}
-  \item {\bf Sequenceable:}
-  Instances of all subclasses of \clsind{SequenceableCollection} start from a \mthind{SequenceableCollection}{first} element and proceed in a well-defined order to a \mthind{SequenceableCollection}{last} element.
-  Instances of \clsind{Set}, \clsind{Bag} and \clsind{Dictionary}, on the other hand, are not sequenceable.
+  \item {\bf ½ç½øÀ­ (Sequenceable):}
+  \clsind{SequenceableCollection} ¤Î¤¹¤Ù¤Æ¤Î¥µ¥Ö¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï \mthind{SequenceableCollection}{first} Í×ÁÇ¤«¤é»Ï¤Ş¤ê¡¢\mthind{SequenceableCollection}{last} Í×ÁÇ¤Ş¤ÇÌÀ³Î¤Ë·è¤Ş¤Ã¤¿½ç½ø¤ÇÊÂ¤ó¤Ç¤¤¤Ş¤¹ (sequenceable)¡£
+  °ìÊı¤Ç¡¢\clsind{Set}¡¢\clsind{Bag}¡¢\clsind{Dictionary} ¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï½ç½øÀ­¤ò»ı¤Á¤Ş¤»¤ó¡£
 
-  \item {\bf Sortable:}
-  A \clsind{SortedCollection} maintains its elements in sort order.
+  \item {\bf À°ÎóÀ­ (Sortable):}
+  \clsind{SortedCollection} ¤Ï¤½¤ÎÍ×ÁÇ¤ò¾ï¤ËÀ°Îó¤µ¤ì¤¿¾õÂÖ¤ËÊİ¤Á¤Ş¤¹¡£
 
-  \item {\bf Indexable:}
-	Most sequenceable collections are also indexable, that is, elements can be retrieved with \ct{at:}.
-	\clsind{Array} is the familiar indexable data structure with a fixed size;  \ct{anArray at: n} retrieves the $\mbox{\ct{n}}^{th}$ element of \ct{anArray}, and \ct{anArray at: n put: v} changes the $\mbox{\ct{n}}^{th}$ element to \ct{v}.
-	\ct{LinkedList}s and \ct{SkipList}s are sequenceable but not indexable, that is, they understand \ct{first} and \ct{last}, but not \ct{at:}.
+  \item {\bf ¥¤¥ó¥Ç¥Ã¥¯¥¹»²¾ÈÀ­ (Indexable):}
+        ¤Û¤È¤ó¤É¤Î½ç½øÀ­¤Î¤¢¤ë¥³¥ì¥¯¥·¥ç¥ó¤Ï¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ç»²¾È¤Ç¤­¤Ş¤¹ (indexable)¡£¤Ä¤Ş¤ê \ct{at:} ¤ÇÍ×ÁÇ¤ò¼è¤ê½Ğ¤»¤ë¤È¤¤¤¦¤³¤È¤Ç¤¹¡£
+        \clsind{Array} ¤Ï¥¤¥ó¥Ç¥Ã¥¯¥¹»²¾È¤Ç¤­¤ë¥Ç¡¼¥¿¹½Â¤¤Î¤Ê¤«¤Ç¤â¤È¤Æ¤â¿È¶á¤Ê¤â¤Î¤Ç¡¢¸ÇÄê¤µ¤ì¤¿¥µ¥¤¥º¤ò»ı¤Á¤Ş¤¹¡£\ct{anArray at: n} ¤Ï \ct{anArray} ¤Î $\mbox{\ct{n}^{th}$ Í×ÁÇ¤ò¼è¤ê½Ğ¤·¡¢\ct{anArray at: n put: v} ¤Ï $\mbox{\ct{n}^{th}$ Í×ÁÇ¤ÎÃÍ¤ò \ct{v} ¤ËÊÑ¤¨¤Ş¤¹¡£
+        \ct{LinkedList} Îà¤È \ct{SkipList} Îà¤Ï½ç½øÀ­¤Ï¤¢¤ê¤Ş¤¹¤¬¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ç¤Ï»²¾È¤Ç¤­¤Ş¤»¤ó¡£¤Ä¤Ş¤ê \ct{first} ¤È \ct{last} ¤ÏÍı²ò¤Ç¤­¤Ş¤¹¤¬¡¢\ct{at:} ¤ÏÍı²ò¤Ç¤­¤Ş¤»¤ó¡£
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
 
-  \item {\bf Keyed:}
-	Instances of \clsind{Dictionary} and its subclasses are accessed by keys instead of indices.
+  \item {\bf ¥­¡¼»²¾ÈÀ­ (Keyed):}
+	\clsind{Dictionary} ¤È¤½¤Î¥µ¥Ö¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï¡¢¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÎÂå¤ï¤ê¤Ë¥­¡¼¤ÇÍ×ÁÇ¤ò»²¾È¤Ç¤­¤Ş¤¹¡£
 
-  \item {\bf Mutable:}
-  	Most collections are mutable, but \ct{Interval}s and \ct{Symbol}s are not.
-	An \clsind{Interval} is an immutable collection representing a range of \ct{Integer}s.  For example, \ct{5 to: 16 by: 2} is an interval that contains the elements 5, 7, 9, 11, 13 and 15.  It is indexable with \mthind{Interval}{at:}, but cannot be changed with \ct{at:put:}.
+  \item {\bf ²ÄÊÑÀ­ (Mutable):}
+        ¤Û¤È¤ó¤É¤Î¥³¥ì¥¯¥·¥ç¥ó¤ÏÆâÍÆ¤¬²ÄÊÑ (mutable) ¤Ç¤¹¤¬¡¢\ct{Interval} ·²¤È \ct{Symbol} ·²¤ÏÎã³°¤Ç¤¹¡£
+        \clsind{Interval} ¥¯¥é¥¹¤Ï Integer ¤ÎÈÏ°Ï¤ò¼¨¤¹ÆâÍÆ¤¬ÉÔÊÑ (immutable) ¤Î¥³¥ì¥¯¥·¥ç¥ó¤Ç¤¹¡£Îã¤¨¤Ğ¡¢\ct{5 to: 16 by: 2} ¤ÏÍ×ÁÇ 5, 7, 9, 11,13, 15 ¤ò´Ş¤à¥¤¥ó¥¿¡¼¥Ğ¥ë¤Ç¤¹¡£¥¤¥ó¥¿¡¼¥Ğ¥ë¤Ï \ct{at:} ¤Ç¥¤¥ó¥Ç¥Ã¥¯¥¹»²¾È¤Ç¤­¤Ş¤¹¤¬¡¢\ct{at:put:} ¤ÇÃÍ¤òÊÑ¹¹¤¹¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£
 	\clsindex{Symbol}
 
-  \item {\bf Growable:}
-  	Instances of \ct{Interval} and \clsind{Array} are always of a fixed size. Other kinds of collections (sorted collections, ordered collections, and linked lists) can grow after creation.
-	
-	The class \clsind{OrderedCollection} is more general than \ct{Array}; the size of an \ct{OrderedCollection} grows on demand, and it has methods for \mthind{OrderedCollection}{addFirst:} and \mthind{OrderedCollection}{addLast:} as well as \mthind{OrderedCollection}{at:} and \mthind{OrderedCollection}{at:put:}.
+  \item {\bf ¼«Æ°³ÈÂçÀ­ (Growable):}
+         \ct{Interval} ¤ä \ct{Array} ¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï¾ï¤Ë¥µ¥¤¥º¤¬¸ÇÄê¤µ¤ì¤Æ¤¤¤Ş¤¹¡£Â¾¤Î¼ïÎà¤Î¥³¥ì¥¯¥·¥ç¥ó (À°Îó¥³¥ì¥¯¥·¥ç¥ó¡¢½ç½ø¥³¥ì¥¯¥·¥ç¥ó¡¢Àş·Á¥ê¥¹¥È) ¤ÏÀ¸À®¸å¤Ë¥µ¥¤¥º¤¬Áı¤¨¤ë¤³¤È¤¬¤¢¤ê¤¨¤Ş¤¹¡£
+
+         ¥¯¥é¥¹ \clsind{OrderedCollection} ¤Ï \ct{Array} ¤è¤êÈÆÍÑÅª¤Ç¤¹¡£\ct{OrderedCollection} ¤ÏÉ¬Í×¤Ë±ş¤¸¤Æ¥µ¥¤¥º¤ò³ÈÂç¤·¡¢\mthind{OrderedCollection}{at:} ¤ä \mthind{OrderedCollection}{at:put:} ¤Ë²Ã¤¨¡¢\mthind{OrderedCollection}{addFirst:} ¤ä \mthind{OrderedCollection}{addLast:} ¤È¤¤¤Ã¤¿¥á¥½¥Ã¥É¤â¤¢¤ê¤Ş¤¹¡£
   
-  \item {\bf Accepts duplicates:}
-  	A \clsind{Set} will filter out duplicates, but a \clsind{Bag} will not.
-	\clsind{Dictionary}, \ct{Set} and \ct{Bag} use the \ct{=} method provided by the elements; the \ct{Identity} variants of these classes use the \ct{==} method, which tests whether the arguments are the same object, and the \ct{Pluggable} variants use an arbitrary equivalence relation supplied by the creator of the collection.
+  \item {\bf ½ÅÊ£µöÍÆÀ­ (Accepts duplicates):}
+  	\clsind{Set} ¤ÏÍ×ÁÇ¤¬½ÅÊ£¤·¤Ê¤¤¤è¤¦¤Ë¤·¤Ş¤¹¤¬¡¢\clsind{Bag} ¤Ï¤½¤¦¤¤¤Ã¤¿¤³¤È¤ò¤·¤Ş¤»¤ó¡£
+	\clsind{Dictionary}¡¢\ct{Set}¡¢\ct{Bag} ¤Ï³ÆÍ×ÁÇ¤Î \ct{=} ¥á¥½¥Ã¥É¤òÍÑ¤¤¤Ş¤¹¡£\ct{Identity} ¥Ğ¥ê¥¢¥ó¥È¤ÏÆó¤Ä¤Î¥ª¥Ö¥¸¥§¥¯¥È¤¬Æ±°ì¤Ç¤¢¤ë¤³¤È¤òÈ½Äê¤¹¤ë the \ct{==} ¥á¥½¥Ã¥É¤òÍÑ¤¤¡¢\ct{Pluggable} ¥Ğ¥ê¥¢¥ó¥È¤Ï¥³¥ì¥¯¥·¥ç¥óºîÀ®»ş¤ËÍ¿¤¨¤é¤ì¤¿Ç¤°Õ¤ÎÆ±ÃÍ´Ø·¸¤òÍÑ¤¤¤Ş¤¹¡£
 	\index{Pluggable collections}
 
-  \item {\bf Heterogeneous:}
-  	Most collections will hold any kind of element.
-	A \clsind{String}, \clsind{CharacterArray} or \clsind{Symbol}, however, only holds \ct{Character}s.
-	An \clsind{Array} will hold any mix of objects, but a \lct{ByteArray} only holds \lct{Byte}s, an \clsind{IntegerArray} only holds \ct{Integer}s and a \clsind{FloatArray} only holds \ct{Float}s.
-	A \clsind{LinkedList} is constrained to hold elements that conform to the \prot{Link \go accessing} protocol.
-
+  \item {\bf °Û¼ïÀ­ (Heterogeneous):}
+        ¤Û¤È¤ó¤É¤Î¥³¥ì¥¯¥·¥ç¥ó¤Ï¤É¤ó¤Ê¼ïÎà¤ÎÍ×ÁÇ¤â»ı¤ÁÆÀ¤Ş¤¹¡£
+        °ìÊı¤Ç \clsind{String}¡¢\clsind{CharacterArray}¡¢\clsind{Symbol} ¤Ï \ct{Character} ¤À¤±¤ò»ı¤Á¤Ş¤¹¡£
+        \clsind{Array} ¤Ï¤µ¤Ş¤¶¤Ş¤Ê¥ª¥Ö¥¸¥§¥¯¥È¤òº®ºß¤·¤ÆÊİ»ı¤Ç¤­¤Ş¤¹¤¬¡¢\lct{ByteArray} ¤Ï \lct{Byte} ¤À¤±¤ò¡¢\clsind{IntegerArray} ¤Ï \ct{Integer} ¤À¤±¤ò¡¢\clsind{FloatArray} ¤Ï \ct{Float} ¤À¤±¤ò»ı¤ÁÆÀ¤Ş¤¹¡£
+	\clsind{LinkedList} ¤ÎÍ×ÁÇ¤Ë¤Ê¤ë¤Ë¤Ï¡¢É¬¤º \prot{Link \go accessing} ¥×¥í¥È¥³¥ë¤ò¼õ¤±ÉÕ¤±¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤¤È¤¤¤¦À©Ìó¤¬¤¢¤ê¤Ş¤¹¡£
 \end{itemize}
 
 %  How is the order established? Sorted collections use a supplied total ordering function, intervals are implicitly ordered, while arrays and ordered collections are ordered explicitly when elements are inserted.
@@ -1013,3 +994,7 @@ The \st collection hierarchy provides a common vocabulary for uniformly manipula
 \fi
 %=========================================================
 
+
+% Local Variables:
+% coding: euc-jp
+% End:
