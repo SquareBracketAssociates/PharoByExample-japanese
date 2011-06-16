@@ -115,7 +115,7 @@ students select: [ :each | each gpa < threshold ]
 
 \st では、特定のコレクションを指定せずに単に「コレクション」といった場合には、正しく定義されたプロトコル、すなわちある要素が含まれているかをテストするものと、要素の数え上げを行うもの、をサポートしたオブジェクトを指します。\emph{すべての}コレクションは \protind{testing} メッセージである \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解できます。\emph{すべての}コレクションは \prot{enumeration} メッセージである \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対の意)、\mthind{Collection}{collect:} (Lisp の \ct{map})、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などなどを理解できます。emumeration プロトコルは普遍性と、十分なバラエティを備えているのでとても強力です。
 
-\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。それぞれのメソッドは \ct{Collection のサブクラスで定義または再定義され、最適化され、まれには削除されることもあります。
+\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、まれには削除されることもあります。
 
 \begin{figure*}
 \begin{center}
@@ -161,14 +161,14 @@ students select: [ :each | each gpa < threshold ]
 \begin{itemize}
   \item {\bf 順序性 (Sequenceable):}
   \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは \mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
-  一方で、\clsind{Set}、\clsind{Bag}、\clsind{Dictionary} のインスタンスは順序性を持ちません。
+  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序性を持ちません。
 
   \item {\bf 整列性 (Sortable):}
   \clsind{SortedCollection} はその要素を常に整列された状態に保ちます。
 
   \item {\bf インデックス参照性 (Indexable):}
         ほとんどの順序性のあるコレクションはインデックスで参照できます (indexable)。つまり \ct{at:} で要素を取り出せるということです。
-        \clsind{Array} はインデックス参照できるデータ構造のなかでもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の $\mbox{\ct{n}^{th}$ 要素を取り出し、\ct{anArray at: n put: v} は $\mbox{\ct{n}^{th}$ 要素の値を \ct{v} に変えます。
+        \clsind{Array} はインデックス参照できるデータ構造のなかでもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の $\mbox{\ct{n}}^{th}$ 要素を取り出し、\ct{anArray at: n put: v} は $\mbox{\ct{n}}^{th}$ 要素の値を \ct{v} に変えます。
         \ct{LinkedList} 類と \ct{SkipList} 類は順序性はありますがインデックスでは参照できません。つまり \ct{first} と \ct{last} は理解できますが、\ct{at:} は理解できません。
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
