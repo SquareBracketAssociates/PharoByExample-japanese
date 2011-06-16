@@ -461,14 +461,20 @@ Transcript cr;
 %=================================================================
 \section{Method syntax}
 
-Whereas expressions may be evaluated anywhere in \pharo (for example, in a workspace, in a debugger, or in a browser), methods are normally defined in a browser window, or in the debugger.
-(Methods can also be filed in from an external medium, but this is not the usual way to program in \pharo.)
+% Whereas expressions may be evaluated anywhere in \pharo (for example, in a workspace, in a debugger, or in a browser), methods are normally defined in a browser window, or in the debugger.
+% (Methods can also be filed in from an external medium, but this is not the usual way to program in \pharo.)
+\pharoのあらゆる場所(例えば，デバッガ，ワークスペース，ブラウザ)で式を評価することができます．けれども，メソッドは通常，ブラウザウィンドウやデバッガで定義します．
+(外部媒体で記述したメソッドを読み込むこともできます．しかし，\pharoでプログラムする普通の方法ではありません．)
 
-Programs are developed one method at a time, in the context of a given class.
-(A class is defined by sending a message to an existing class, asking it to create a subclass, so there is no special syntax required for defining classes.)
+% Programs are developed one method at a time, in the context of a given class.
+プログラムは，クラスのコンテキストの中で，１メソッドずつ開発していきます．
+% (A class is defined by sending a message to an existing class, asking it to create a subclass, so there is no special syntax required for defining classes.)
+(クラスは既存のクラスにサブクラスを作成するようにメッセージを送ることにより定義します．したがって，クラスの定義に特別のシンタックスは必要ないのです．)
 
-Here is the method \mthind{String}{lineCount} in the class \clsind{String}.
-(The usual convention is to refer to methods as \ct{ClassName>>>methodName}, so we call this method \ct{String>>>lineCount}.)
+% Here is the method \mthind{String}{lineCount} in the class \clsind{String}.
+次の例には，クラス\clsind{String}にメソッド\mthind{String}{lineCount}があります．
+% (The usual convention is to refer to methods as \ct{ClassName>>>methodName}, so we call this method \ct{String>>>lineCount}.)
+(慣例でメソッドを\ct{ClassName>>>methodName}と表します．したがって，このメソッドは\ct{String>>>lineCount}と表します．)
 
 \needlines{9}
 \begin{method}[lineCount]{Line count}
@@ -483,7 +489,8 @@ String>>>lineCount
    ^ count
 \end{method}
 
-Syntactically, a method consists of:
+% Syntactically, a method consists of:
+構文上，メソッドは次のものから構成されます:
 \begin{enumerate}
   \item the method pattern, containing the name (\ie \ct{lineCount}) and any arguments (none in this example);
   \item comments (these may occur anywhere, but the convention is to put one at the top that explains what the method does);
