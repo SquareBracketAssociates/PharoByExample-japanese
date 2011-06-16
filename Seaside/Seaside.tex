@@ -160,30 +160,31 @@ Seasideのクラスブラウザやオブジェクト・インスペクタは、�
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{haltingCounter}
-\caption{Halting the counter}
+\caption{カウンターアプリをhaltさせる}
 \figlabel{haltingCounter}
 \end{center}
 \end{figure}
 
 \dothis{Using the object inspector link in the web browser, open an inspector on the underlying Smalltalk counter object and evaluate \ct{self halt}.
-The web page will stop loading.
-Now switch to the Seaside image.
-You should see a pre-debugger window (\figref{haltingCounter}) showing a \ct{WACounter} object executing a \ct{halt}.
-Examine this execution in the debugger, and then \button{Proceed}.
-Go back to the web browser and notice that the counter application is running again.}
+\dothis{Webブラウザのオブジェクト・インスペクタのリンクを使い、カウンターのインスペクタを開けてみて、 \ct{self halt}を実行してみましょう。
+Webページはロード途中の状態になります。Seasideのイメージのほうに移ってみてください。ノーティファイアが上がっていて (\figref{haltingCounter})、  \ct{WACounter} のオブジェクトが \ct{halt} の実行で止まっていることが確認できます。
+さらにデバッガを開いて \button{Proceed} を押してみましょう。Webブラウザに戻るとカウンターは再び動作しています。}
 
-Seaside components can be instantiated multiple times and in different contexts.
+Seasideのコンポーネントは、異なるコンテキストで何度も初期化できます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{multiCounterHalos}
-\caption{Independent subcomponents}
+\caption{独立したサブコンポーネント}
 \figlabel{multiCounterHalos}
 \end{center}
 \end{figure}
 
 \dothis{Point your web browser to \url{http://localhost:8080/seaside/examples/multicounter}.
-You will see an application built out of a number of independent instances of the counter component.
+\dothis{WebブラウザのURLを\url{http://localhost:8080/seaside/examples/multicounter}に指定してみてください。
+
+いくつもの独立したカウンターコンポーネントからなるアプリケーションが立ち上がります。
+
 Increment and decrement several of the counters.
 Verify that they behave correctly even if you use the ``back'' button.
 Toggle the halos to see how the application is built out of nested components.
