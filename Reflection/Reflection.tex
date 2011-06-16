@@ -306,13 +306,13 @@ Morph allSelectors size.        --> 1378 "メソッドの数"
 %@Morph allInstVarNames size. -->      6 "number of instance variables"
 Morph allInstVarNames size. -->      6 "インスタンス変数の数"
 %@Morph selectors size.             -->  998 "number of new methods"
-Morph selectors size.             -->  998 "新しいメソッドの数"
+Morph selectors size.             -->  998 "Morphで新しく定義されたメソッドの数"
 %@Morph instVarNames size.     -->      6 "number of new variables"
-Morph instVarNames size.     -->      6 "新しい変数の数"
+Morph instVarNames size.     -->      6 "Morphで新しく定義されたインスタンス変数メソッドの数"
 %@Morph subclasses size.          -->    45 "direct subclasses"
-Morph subclasses size.          -->    45 "直接のサブクラス"
+Morph subclasses size.          -->    45 "直接のサブクラスの数"
 %@Morph allSubclasses size.      -->  326 "total subclasses"
-Morph allSubclasses size.      -->  326 "サブクラスの総計"
+Morph allSubclasses size.      -->  326 "サブクラスの総数"
 %@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
 Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
@@ -441,7 +441,8 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{implementors}
-	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
+%@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
+	\caption{すべての\ct!\#ifTrue:の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
