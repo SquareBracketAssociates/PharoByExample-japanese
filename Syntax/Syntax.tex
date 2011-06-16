@@ -51,9 +51,9 @@
 % \on{There are links already.}
 
 % \pharo, like most modern \st dialects, adopts a syntax very close to that of \st-80.
-\pharo �̃V���^�b�N�X�͑��̋ߑ�I�� \st �����Ɠ��l�C \st-80 �ɂƂĂ��悭���Ă��܂��D
+\pharo のシンタックスは他の近代的な \st 実装と同様， \st-80 にとてもよく似ています．
 % The \ind{syntax} is designed so that program text can be read aloud as though it were a kind of pidgin English:
-�����āC�v���O�������s�W���p��̂悤�ɐ��ɏo���ēǂ߂�悤 \ind{�V���^�b�N�X} ���݌v����Ă��܂��D
+そして，プログラムをピジン英語のように声に出して読めるよう \ind{シンタックス} が設計されています．
 
 \begin{code}{}
 (Smalltalk includes: Class) ifTrue: [ Transcript show: Class superclass ]
@@ -61,38 +61,38 @@
 
 \noindent
 % \pharo's syntax is minimal.
-\pharo �̃V���^�b�N�X�͂ƂĂ��V���v���ł��D
+\pharo のシンタックスはとてもシンプルです．
 % Essentially there is syntax only for \emph{sending messages} (\ie expressions) \damien{I don't think there is a syntax for declaring methods; in my opinion, this is just a feature of our browsers. That's why I'm commenting: and \emph{declaring methods}}.
-�{���I�ɂ́C���b�Z�[�W(\ie ��)�𑗐M���邽�߂ɂ̂݃V���^�b�N�X�����݂��܂��D
+本質的には，メッセージ(\ie 式)を送信するためにのみシンタックスが存在します．
 % Expressions are built up from a very small number of  primitive elements.
-���͏����̊�{�v�f���g���č\�z���܂�.
+式は少数の基本要素を使って構築します.
 % There are only 6 keywords, and there is no syntax for control structures or declaring new classes.
-�L�[���[�h��6������������܂���.����ɁC����\���̂��߂̃V���^�b�N�X���C�V�����N���X��錾���邽�߂̃V���^�b�N�X������܂���.
+キーワードは6つだけしかありません.さらに，制御構造のためのシンタックスも，新しいクラスを宣言するためのシンタックスもありません.
 % Instead, nearly everything is achieved by sending messages to objects.
-����ɁC�I�u�W�F�N�g�Ƀ��b�Z�[�W�𑗐M���邱�Ƃɂ��C�قƂ�ǂ̂��Ƃ��B���ł���̂ł�.
+代わりに，オブジェクトにメッセージを送信することにより，ほとんどのことが達成できるのです.
 % For instance, instead of an if-then-else control structure, \st sends messages like \ct{ifTrue:} to \clsind{Boolean} objects.
-�Ⴆ�΁Cif-then-else����\���̑���ɁC \st �� \clsind{Boolean} �I�u�W�F�N�g�� \ct{ifTrue:} �̂悤�ȃ��b�Z�[�W�𑗂�܂�.
+例えば，if-then-else制御構造の代わりに， \st は \clsind{Boolean} オブジェクトに \ct{ifTrue:} のようなメッセージを送ります.
 % New \mbox{(sub-)classes} are created by sending a message to their superclass.
-�܂��C�V����(�T�u)�N���X���쐬����Ƃ��ɂ͍쐬�������N���X�̃X�[�p�[�N���X�Ƀ��b�Z�[�W�𑗂�܂�.
+また，新しい(サブ)クラスを作成するときには作成したいクラスのスーパークラスにメッセージを送ります.
 
 %=================================================================
 \section{Syntactic elements}
 
 % Expressions are composed of the following building blocks:
-���͈ȉ��̗v�f����ł��Ă��܂��D
+式は以下の要素からできています．
 % (i) six reserved keywords, or \emph{pseudo-variables}:
-(i) 6�̗\���������͋[���ϐ�:
+(i) 6つの予約語もしくは擬似変数:
 \pvind{self}, \pvind{super}, \pvind{nil}, \pvind{true}, \pvind{false}, and \pvind{thisContext},
 % (ii) constant expressions for \emphind{literal objects} including numbers, characters, strings, symbols and arrays,
-(ii) ���C�����C������C�V���{������єz����܂� \emphind{���e�����I�u�W�F�N�g}�p�萔���C
+(ii) 数，文字，文字列，シンボルおよび配列を含む \emphind{リテラルオブジェクト}用定数式，
 % (iii) variable declarations,
-(iii) �ϐ��錾�C
+(iii) 変数宣言，
 % (iv) assignments,
-(iv) ����C
+(iv) 代入，
 %(v) \ind{block} closures, and
-(v) \ind{�u���b�N} �N���[�W���[
+(v) \ind{ブロック} クロージャー
 % (vi) messages.
-(vi) ���b�Z�[�W
+(vi) メッセージ
 \seeindex{pseudo-variable}{variable, pseudo}
 
 %\begin{table}\centering
@@ -136,104 +136,133 @@
 \begin{table}\centering
 	\begin{tabular}{ll}
 		\toprule
-		�V���^�b�N�X & �Ӗ� \\
+		シンタックス & 意味 \\
 		\midrule
-		\lct{startPoint}			&	�ϐ��� \\
-		\lct{Transcript}			&	�O���[�o���ϐ��� \\
-		\lct{self}				&	�[���ϐ� \\
+		\lct{startPoint}			&	変数名 \\
+		\lct{Transcript}			&	グローバル変数名 \\
+		\lct{self}				&	擬似変数 \\
 		\midrule
-		\lct{1}				 	&	10�i���� \\
-		\lct{2r101}				&	2�i���� \\
-		\lct{1.5}					&	���������_�� \\
-		\lct{2.4e7}				&	�w���\�� \\
-		\lct{\$a}					&	���� `a' \\
-		\lct{'Hello'}				&	������ ``Hello'' \\
-		\lct{\#Hello}				&	�V���{�� \lct{\#Hello} \\
-		\lct{\#(1 2 3)}			&	���e�����z�� \\
-		\lct{\{1. 2. 1+2\}}		&	���I�z�� \\
+		\lct{1}				 	&	10進整数 \\
+		\lct{2r101}				&	2進整数 \\
+		\lct{1.5}					&	浮動小数点数 \\
+		\lct{2.4e7}				&	指数表現 \\
+		\lct{\$a}					&	文字 `a' \\
+		\lct{'Hello'}				&	文字列 ``Hello'' \\
+		\lct{\#Hello}				&	シンボル \lct{\#Hello} \\
+		\lct{\#(1 2 3)}			&	リテラル配列 \\
+		\lct{\{1. 2. 1+2\}}		&	動的配列 \\
 		\midrule
-		\lct{"a comment"} 		&	�R�����g \\
+		\lct{"a comment"} 		&	コメント \\
 		\midrule
-		\lct{| x y |}				&	�ϐ� \lct{x} �� \lct{y} �̐錾	\\
-		\lct{x := 1}				&	\lct{x} �� 1 ���� \\
-		\lct{[ x + y ]}			&	\lct{x+y} ��]������u���b�N \\
-		\lct{<primitive: 1>}		&	�o�[�`�����}�V���E�v���~�e�B�u�������̓A�m�e�[�V���� \\
+		\lct{| x y |}				&	変数 \lct{x} と \lct{y} の宣言	\\
+		\lct{x := 1}				&	\lct{x} に 1 を代入 \\
+		\lct{[ x + y ]}			&	\lct{x+y} を評価するブロック \\
+		\lct{<primitive: 1>}		&	バーチャルマシン・プリミティブもしくはアノテーション \\
 		\midrule
-		\lct{3 factorial}			&	�P�����b�Z�[�W \\
-		\lct{3+4}					&	�񍀃��b�Z�[�W \\
-		\lct{2 raisedTo: 6 modulo: 10}		&	�L�[���[�h���b�Z�[�W \\
+		\lct{3 factorial}			&	単項メッセージ \\
+		\lct{3+4}					&	二項メッセージ \\
+		\lct{2 raisedTo: 6 modulo: 10}		&	キーワードメッセージ \\
 		\midrule
-		\lct{$\uparrow$ true} 			&	�l true ��Ԃ��@\\
-		\lct{Transcript show: 'hello'. Transcript cr }		&	���Z�p���[�^�[ (\lct{.})	\\
-		\lct{Transcript show: 'hello'; cr}					&	���b�Z�[�W�J�X�P�[�h (\lct{;}) \\
+		\lct{$\uparrow$ true} 			&	値 true を返す　\\
+		\lct{Transcript show: 'hello'. Transcript cr }		&	式セパレーター (\lct{.})	\\
+		\lct{Transcript show: 'hello'; cr}					&	メッセージカスケード (\lct{;}) \\
 		\bottomrule
 	\end{tabular}
 	\caption{\pharo Syntax in a Nutshell\tablabel{syntax}}
 \end{table}
 
 % We can see examples of the various syntactic elements in \tabref{syntax}.
-\tabref{syntax} �͗l�X�ȃV���^�b�N�X�̗�ł��D
+\tabref{syntax} は様々なシンタックスの例です．
 
 \begin{description}
 %\item[Local variables]	\ct{startPoint} is a variable name, or identifier.
-\item[���[�J���ϐ�] \ct{startPoint} �͕ϐ����������͎��ʎq�ł��D
+\item[ローカル変数] \ct{startPoint} は変数名もしくは識別子です．
 %		By convention, identifiers are composed of words in ``\ind{camelCase}'' (\ie each word except the first starting with an upper case letter).
-		���K�ɂ��C���ʎq�� ``\ind{�L�������P�[�X}'' (\ie 2�Ԗڈȍ~�̒P��̐擪��啶���ɂ��C�P���A����������)�ŋL�q���܂��D
+		慣習により，識別子は ``\ind{キャメルケース}'' (\ie 2番目以降の単語の先頭を大文字にし，単語を連結したもの)で記述します．
 %		The first letter of an instance variable, method or block argument, or temporary variable must be lower case.
-		�C���X�^���X�ϐ��C���\�b�h�ƃu���b�N�̈����C�ꎞ�ϐ��̐擪�̕����͏������ɂ��܂�.
+		インスタンス変数，メソッドとブロックの引数，一時変数の先頭の文字は小文字にします.
 %		This indicates to the reader that the variable has a private scope.
-		�܂�C�v���C�x�[�g�ȃX�R�[�v�����ϐ��̐擪���������ɂ���̂ł�.
+		つまり，プライベートなスコープを持つ変数の先頭を小文字にするのです.
 
 % \item[Shared variables]	Identifiers that start with upper case letters are \subind{variable}{global} variables, class \subind{class}{variable}{}s,  \subind{variable}{pool} dictionaries or class names.
-\item[���L�ϐ�] �̐擪�͑啶���ɂ��܂��D\ind{�O���[�o���ϐ�} �C \ind{�N���X�ϐ�} �C \ind{�v�[���ϐ�} �C �f�B�N�V���i���C�������̓N���X����\���܂��D
+\item[共有変数] の先頭は大文字にします．\ind{グローバル変数} ， \ind{クラス変数} ， \ind{プール・ディクショナリ}　， もしくはクラス名を表します．
 %		\ct{Transcript} is a global variable, an instance of the class \ct{TranscriptStream}.
-%		\seeindex{global variable}{variable, global}
-%		\seeindex{pool dictionary}{variable, pool}
-%		\seeindex{variable!class}{class, variable}
-		\ct{Transcript} �̓O���[�o���ϐ��ł���C�N���X \ct{TranscriptStream} �̃C���X�^���X�ł��D
+		\ct{Transcript} はグローバル変数であり，クラス \ct{TranscriptStream} のインスタンスです．
+		\seeindex{global variable}{variable, global}
+		\seeindex{pool dictionary}{variable, pool}
+		\seeindex{variable!class}{class, variable}
 
-\item[The receiver.]	\pvind{self} is a keyword that refers to the object inside which the current method is executing. We call it ``the receiver'' because this object will normally have received the message that caused the method to execute.
-		\self is called a ``\subind{variable}{pseudo}-variable'' since we cannot assign to it.
+% \item[The receiver.]	\pvind{self} is a keyword that refers to the object inside which the current method is executing. We call it ``the receiver'' % because this object will normally have received the message that caused the method to execute.
+% 		\self is called a ``\subind{variable}{pseudo}-variable'' since we cannot assign to it.
+\item[レシーバー]． \pvind{self} は現在実行しているメソッドからオブジェクトを参照するためのキーワードです．selfは「レシーバー」とも呼びます．
+なぜなら，selfは，メソッドを実行するメッセージを受け取るからです．
+selfには代入することができないので「擬似変数」といいます．
 
-\item[Integers.] In addition to ordinary decimal integers like \ct{42}, \pharo also provides a \ind{radix notation}.
-	\ct{2r101} is \ct{101} in radix 2 (\ie binary), which is equal to decimal 5.
-	\index{literal}
-	\index{literal!number}
+% \item[Integers.] In addition to ordinary decimal integers like \ct{42}, \pharo also provides a \ind{radix notation}.
+% 	\ct{2r101} is \ct{101} in radix 2 (\ie binary), which is equal to decimal 5.
+\item[整数]． \ct{42}のような通常の十進整数表記法に加えて，\pharoでは基数表記法も使えます．
+\ct{2r101}は基数2(\ie 2進数)で101であり，10進数の5と同じです．
+% 	\index{literal}
+	\index{リテラル}
+% 	\index{literal!number}
 
-\item[Floating point numbers] can be specified with their base-ten \ind{exponent}: \mbox{\ct{2.4e7}} is $2.4\times 10^7$.
-	\index{floating point number}
+% \item[Floating point numbers] can be specified with their base-ten \ind{exponent}: \mbox{\ct{2.4e7}} is $2.4 \times 10^7$.
+\item[浮動小数点数] は10を基数とした\ind{指数}で指定することができます:
+\mbox{\ct{2.4e7}}は$2.4 \times 10^7$です．
+% 	\index{floating point number}
+ 	\index{浮動小数点数}
 
-\item[Characters.] A dollar sign introduces a literal \subind{literal}{character}: \ct{$a}\ignoredollar$ is the literal for `a'.
-		Instances of non-printing characters can be obtained by sending appropriately named messages to the \clsind{Character} class, such as \ct{Character space} \cmindex{Character class}{space} and \ct{Character tab}\cmindex{Character class}{tab}.
+% \item[Characters.] A dollar sign introduces a literal \subind{literal}{character}: \ct{$a}\ignoredollar$ is the literal for `a'.
+% 		Instances of non-printing characters can be obtained by sending appropriately named messages to the \clsind{Character} class, such as  \ct{Character space} \cmindex{Character class}{space} and \ct{Character tab}\cmindex{Character class}{tab}.
+\item[文字．] ドル記号は\subind{リテラル}{文字}を表します: \ct{$a}\ignoredollar$ は「a」のリテラルです．
+非印刷文字のインスタンスは\ct{Character space}や\ct{Character tab}のように\clsind{Character}クラスに適切なメッセージを送ることにより得ることができます．
 		
-\item[Strings.] Single quotes are used to define a literal \subind{literal}{string}.
-		If you want a string with a quote inside, just double the quote, as in \ct{'G''day'}.
+%\item[Strings.] Single quotes are used to define a literal \subind{literal}{string}.
+%		If you want a string with a quote inside, just double the quote, as in \ct{'G''day'}.
+\item[文字列．] シングルクォートは\subind{リテラル}{文字列}を定義するために使います．
+	クォートを含んだ文字列を表現する場合は，\ct{'G''day'} のように，クォートを重ねてください．
 
 \item[Symbols] are like Strings, in that they contain a sequence of characters.  
 	However, unlike a string, a literal \subind{literal}{symbol} is guaranteed to be globally unique.
 		There is only one Symbol object \ct{#Hello} but there may be multiple String objects with the value \ct{'Hello'}.
+\item[シンボル] はそれらが文字の列で出来ている点で，文字列に似ています．
+	しかし，文字列とシンボルはグローバルに一意であることが保証される点で文字列とは異なります．
+	シンボルオブジェクト\ct{#Hello}はひとつだけしか存在しません．しかし，値\ct{'Hello'}を持った文字列オブジェクトは複数あるかもしれません．
 		\seeindex{\#@{\textsf{\#}}}{literal symbol}
 
-\item[Compile-time arrays] are defined by \ct{#( )}, surrounding space-separated literals.
-		Everything within the parentheses must be a compile-time constant.
-		For example,  \ct{#(27 (true false) abc)} is a \subind{Array}{literal} \subind{literal}{array} of three elements: the integer \ct{27}, the compile-time array containing the two booleans, and the symbol \ct{#abc}. (Note that this is the same as \ct{#(27 #(true false) #abc)}.)
+% \item[Compile-time arrays] are defined by \ct{#( )}, surrounding space-separated literals.
+%		Everything within the parentheses must be a compile-time constant.
+%		For example,  \ct{#(27 (true false) abc)} is a \subind{Array}{literal} \subind{literal}{array} of three elements: the integer \ct{27}, the compile-time array containing the two booleans, and the symbol \ct{#abc}. (Note that this is the same as \ct{#(27 #(true false) #abc)}.)
+\item[コンパイル時配列] はスペースで分離したリテラルを\ct{#( )}で囲んで定義します．
+		括弧内のすべてはコンパイル時に定数でなければなりません．
+		例えば，\ct{#(27 (true false) abc)}は3つの要素の\subind{配列}{リテラル}です: 整数ct{27}，2つの論理値が入ったコンパイル時配列，そしてシンボル\ct{#abc}．
+		（これが\ct{#(27 #( true false) #abc)}と同じであることに注意してください．）
 
-\item[Run-time arrays.] Curly braces \ct|{ }| define a (\subind{Array}{dynamic}) array at run-time.
-		Elements are expressions separated by periods.
-		So \ct|{ 1. 2. 1+2 }| defines an array with elements 1, 2, and the result of evaluating 1+2.
-		(The curly-brace notation is peculiar to the \pharo and \squeak dialects of \st!
-		In other \st{}s you must build up dynamic arrays explicitly.)
+% \item[Run-time arrays.] Curly braces \ct|{ }| define a (\subind{Array}{dynamic}) array at run-time.
+%		Elements are expressions separated by periods.
+%		So \ct|{ 1. 2. 1+2 }| defines an array with elements 1, 2, and the result of evaluating 1+2.
+%		(The curly-brace notation is peculiar to the \pharo and \squeak dialects of \st!
+%		In other \st{}s you must build up dynamic arrays explicitly.)
+\item[実行時配列．] 中括弧 \ct|{ }|は、実行時に(ダイナミックに)配列を定義します．
+		要素はピリオドによって分離された式です．
+		したがって，\ct|{ 1. 2. 1+2 }|は，要素 1， 2，と 1+2 を評価した結果の配列を定義します．
+		（中括弧表記法は \pharo と \squeak の特有な機能です!他のSmalltalkでは，動的配列を明示的に構築しなければなりません．）
 
-\item[Comments] are enclosed in double quotes.
-		\ct{"hello"} is a \ind{comment}, not a string, and is ignored by the \pharo compiler.
-		Comments may span multiple lines.
+% \item[Comments] are enclosed in double quotes.
+%		\ct{"hello"} is a \ind{comment}, not a string, and is ignored by the \pharo compiler.
+%		Comments may span multiple lines.
+\item[コメント]はダブルクォートで囲います．
+		\ct{"hello"} は文字列ではな\ind{くコメント}なので，\pharoコンパイラは無視します．
+		コメントは複数行にまたがってもよいです．
 		
-\item[Local variable definitions.]	Vertical bars \ct{| |} enclose the \subind{variable}{declaration} of one or more local variables in a method (and also in a block).
+% \item[Local variable definitions.]	Vertical bars \ct{| |} enclose the \subind{variable}{declaration} of one or more local variables in a method (and also in a block).
+\item[ローカル変数定義．] メソッド(およびブロック中)でローカル変数を定義するには，1つ以上の宣言を縦線\ct{| |}で囲みます．
 		% \seeindex{\|@{\textsf{\|\|}}}{assignment}
 		% Can't seem to index or-bars! (special char for index macro)
-		\seeindex{declaration}{variable declaration}
+%		\seeindex{declaration}{variable declaration}
 
-\item[Assignment.]	\ct{:=} assigns an object to a variable.
+% \item[Assignment.]	\ct{:=} assigns an object to a variable.
+\item[代入．] \ct{:=} は変数にオブジェクトを代入します．
 %		Sometimes you will see $\leftarrow$ used instead.
 %		Unfortunately, since this is not an \textsc{ascii} character, it will appear as an underscore unless
 %		you are using a special font.
@@ -243,89 +272,129 @@
 		\seeindex{\_@{\textsf{\_}}}{assignment}
 		\seeindex{<-@{$\leftarrow$}}{assignment}
 
-\item[Blocks.] Square brackets \ct{[ ]} define a \ind{block}, also known as a block closure or a lexical closure, which is a first-class object representing a function.
-		As we shall see, blocks may take arguments and can have local variables.
+% \item[Blocks.] Square brackets \ct{[ ]} define a \ind{block}, also known as a block closure or a lexical closure, which is a first-class object representing a function.
+% 		As we shall see, blocks may take arguments and can have local variables.
+\item[ブロック．] 角括弧 \ct{[ ]} はブロック・クロージャーあるいは静的クロージャーと呼ばれるブロックを定義します．ブロックは関数を表わすファーストクラスのオブジェクトです．
+	ブロックは引き数をとることも，ローカル変数を持つこともできます．
 	\seeindex{[ ]@{\textsf{[ ]}}}{block}
 	\seeindex{closure}{block}
 	\seeindex{lexical closure}{block}
 
-\item[Primitives.]	\ct{<primitive: ...>} denotes an invocation of a \ind{virtual machine} \ind{primitive.}
-	(\ct{<primitive: 1>} is the VM primitive for \ct{SmallInteger>>>+}.)
-	Any code following the primitive is executed only if the primitive fails.
-	The same syntax is also used for method annotations.
+% \item[Primitives.]	\ct{<primitive: ...>} denotes an invocation of a \ind{virtual machine} \ind{primitive.}
+%	(\ct{<primitive: 1>} is the VM primitive for \ct{SmallInteger>>>+}.)
+%	Any code following the primitive is executed only if the primitive fails.
+%	The same syntax is also used for method annotations.
+\item[プリミティブ．] \ct{<primitive: ...>}は，バーチャルマシン・プリミティブの呼出しを表わします．
+	(\ct{<primitive: 1>} は \ct{SmallInteger>>>+}のVMプリミティブです．)
+	プリミティブが異常終了した場合，プリミティブの後にあるコードが実行されます．
+	同じシンタックスはメソッド・アノテーションにも使われます．
 
-\item[Unary messages] consist of a single word (like \ct{factorial}) sent to a receiver (like \ct{3}).
+% \item[Unary messages] consist of a single word (like \ct{factorial}) sent to a receiver (like \ct{3}).
+item[単項メッセージ] は，レシーバー(例えば\ct{3})へ送られる単一語(例えば\ct{factorial})から構成されます．
 	\index{message!unary}
 	\seeindex{unary message}{message, unary}
 
-\item[Binary messages] are operators (like \ct{+}) sent to a receiver and taking a single argument. In \ct{3+4}, the receiver is \ct{3} and the argument is \ct{4}.
+% \item[Binary messages] are operators (like \ct{+}) sent to a receiver and taking a single argument. In \ct{3+4}, the receiver is \ct{3} and the argument is \ct{4}.
+\item[二項メッセージ] は，レシーバーに送られる，単一の引き数をとる演算子(例えば \ct{+})です．\ct{3+4}の場合，レシーバーはct{3}で，引数は\ct{4}です．
 	\index{message!binary}
 	\seeindex{binary message}{message, binary}
 
-\item[Keyword messages] consist of multiple keywords (like \ct{raisedTo:modulo:}), each ending with a colon and taking a single argument. 
-In the expression \ct{2 raisedTo: 6 modulo: 10}, the \emphind{message selector} \ct{raisedTo:modulo:} takes the two arguments \ct{6} and \ct{10}, one following each colon.  We send the message to the receiver \ct{2}.
+% \item[Keyword messages] consist of multiple keywords (like \ct{raisedTo:modulo:}), each ending with a colon and taking a single argument. 
+% In the expression \ct{2 raisedTo: 6 modulo: 10}, the \emphind{message selector} \ct{raisedTo:modulo:} takes the two arguments \ct{6} and \ct{10}, one following each colon.  We send the message to the receiver \ct{2}.
+\item[キーワード・メッセージ]は，それぞれコロンで終わり，ひとつの引き数を取る複数のキーワード(例えば \ct{raisedTo:modulo:)から構成されます．
+	式\ct{2 raisedTo: 6 modulo: 10} では，\emphind{メッセージセレクター} \ct{raisedTo:modulo:}はそれぞれコロンで終わり，引数 \ct{6} および \ct{10} を取り，レシーバー \ct{2} へメッセージを送ります．
 	\index{message!keyword}
 	\seeindex{keyword message}{message, keyword}
 
-\item[Method return.] \ct{^} is used to \emphind{return} a value from a method.  (You must type \verb|^| to obtain the \ct{^} character.)
-\md{\ct{^} always returns from the method, even if used in a block, it returns from the enclosing method.}
+% \item[Method return.] \ct{^} is used to \emphind{return} a value from a method.  (You must type \verb|^| to obtain the \ct{^} character.)
+\item[メソッド・リターン．] \ct{^}はメソッドから値を返すために使われます．
+% \md{\ct{^} always returns from the method, even if used in a block, it returns from the enclosing method.}
+\md{\ct{^}は常にメソッドからリターンします．たとえブロックの中で使ってもそのブロックを包含するメソッドからリターンすることになります．}
 
-\item[Sequences of statements.]	A period or full-stop (\ct{.}) is the \emph{statement} \emphsubind{statement}{separator}. Putting a period between two expressions turns them into independent statements.	
+% \item[Sequences of statements.]	A period or full-stop (\ct{.}) is the \emph{statement} \emphsubind{statement}{separator}. Putting a period between two expressions turns them into independent statements.	
+\item[ステートメント・シーケンス．] ピリオド(\ct{.})はステートメント・セパレーターです．2つの式の間にピリオドを置くと，それらは独立したステートメントとして扱われます．
 	\seeindex{full stop}{statement separator}
 	\seeindex{period}{statement separator}
 	\seeindex{\ct{.}}{statement separator}
 
-\item[Cascades.] Semicolons can be used to send a \emphind{cascade} of messages to a single receiver.  In \ct{Transcript show: 'hello'; cr} we first send the keyword message \ct{show: 'hello'} to the receiver \ct{Transcript}, and then we send the unary message \ct{cr} to the same receiver.
+% \item[Cascades.] Semicolons can be used to send a \emphind{cascade} of messages to a single receiver.  In \ct{Transcript show: 'hello'; cr} we first send the keyword message \ct{show: 'hello'} to the receiver \ct{Transcript}, and then we send the unary message \ct{cr} to the same receiver.
+\item[カスケード．] セミコロンは一つのレシーバーへメッセージを連続して送るために使います． \ct{Transcript show: 'hello'; cr} は，最初にレシーバーである \ct{Transcript} にキーワード・メッセージ\ct{show: 'hello'}を送り，次に，同じレシーバーへ単項のメッセージ\ct{cr}を送ります．
 	\seeindex{;}{cascade}
 
 \end{description}
 
-The classes \ct{Number}, \ct{Character}, \ct{String} and \ct{Boolean} are described in more detail in \charef{basic}.
+% The classes \ct{Number}, \ct{Character}, \ct{String} and \ct{Boolean} are described in more detail in \charef{basic}.
+クラス\ct{Number}，\ct{Character}，\ct{String}，\ct{Boolean}は，\charef{basic}でより詳細に取り上げます．
 
 \on{Blocks are described in \charef{blocks}. (Control flow and Iterators).}
 
 %=================================================================
 \section{Pseudo-variables}
 
-In \st, there are 6 reserved keywords, or \emph{pseudo-variables}:
-\pvind{nil}, \pvind{true},  \pvind{false},  \pvind{self}, \pvind{super}, and \pvind{thisContext}.
-They are called \subind{variable}{pseudo}-variables because they are predefined and cannot be assigned to.
-\ct{true}, \ct{false}, and \ct{nil} are constants while the values of \ct{self}, \ct{super}, and \ct{thisContext} vary dynamically as code is executed.
+% In \st, there are 6 reserved keywords, or \emph{pseudo-variables}:
+% \pvind{nil}, \pvind{true},  \pvind{false},  \pvind{self}, \pvind{super}, and \pvind{thisContext}.
+\st では，次の6つの予約キーワード，擬似変数があります:
+\pvind{nil}，\pvind{true}，\pvind{false}，\pvind{self}，\pvind{super}，\pvind{thisContext}．
+% They are called \subind{variable}{pseudo}-variables because they are predefined and cannot be assigned to.
+これらは事前に定義され，代入することができないので，擬似変数と呼びます．
+% \ct{true}, \ct{false}, and \ct{nil} are constants while the values of \ct{self}, \ct{super}, and \ct{thisContext} vary dynamically as code is executed.
+\ct{true}，\ct{false}および\ct{nil}は定数です．その一方で，\ct{self}，\ct{super}および\ct{thisContext}の値はコードの実行中に動的に変化します．
 
-\ct{true} and \ct{false} are the unique instances of the \clsind{Boolean} classes \clsind{True} and \clsind{False}.
-See \charef{basic} for more details.
+% \ct{true} and \ct{false} are the unique instances of the \clsind{Boolean} classes \clsind{True} and \clsind{False}.
+\ct{true}と\ct{false}は\clsind{Boolean}クラス\clsind{True}および\clsind{False}の唯一のインスタンスです．
+% See \charef{basic} for more details.
+より詳細については，\charef{basic}を参照してください．
 
-\pvind{self} always refers to the receiver of the currently executing method.
+% \pvind{self} always refers to the receiver of the currently executing method.
+\pvind{self}は，常に現在実行しているメソッドのレシーバーを指します．
 
-\ct{super} also refers to the receiver of the current method, but when you send a message to \super, the method-lookup changes so that it starts from the superclass of the class containing the method that uses \ct{super}.
-For further details see \charef{model}.
+% \ct{super} also refers to the receiver of the current method, but when you send a message to \super, the method-lookup changes so that it starts from the superclass of the class containing the method that uses \ct{super}.
+\ct{super}は，カレントメソッドのレシーバーを指します．しかし，ct{super}にメッセージを送る場合，メソッド・ルックアップはスーパークラスから始まります．
+% For further details see \charef{model}.
+更なる詳細は\charef{model}を参照してください．
 
-\ct{nil} is the undefined object.
-It is the unique instance of the class \clsind{UndefinedObject}. 
-Instance variables, class variables and local variables are initialized to \ct{nil}.
+% \ct{nil} is the undefined object.
+% It is the unique instance of the class \clsind{UndefinedObject}. 
+\ct{nil}は未定義のオブジェクトを表すクラスUndefinedObjectの唯一のインスタンスです．
+% Instance variables, class variables and local variables are initialized to \ct{nil}.
+インスタンス変数，クラス変数およびローカル変数は\ct{nil}に初期化されます．
 
-\ct{thisContext} is a pseudo-variable that represents the top frame of the run-time stack.
-In other words, it represents the currently executing \clsind{MethodContext} or \clsind{BlockClosure}.
-\ct{thisContext} is normally not of interest to most programmers, but it is essential for implementing development tools like the debugger and it is also used to implement exception handling and continuations.
+% \ct{thisContext} is a pseudo-variable that represents the top frame of the run-time stack.
+% In other words, it represents the currently executing \clsind{MethodContext} or \clsind{BlockClosure}.
+% \ct{thisContext} is normally not of interest to most programmers, but it is essential for implementing development tools like the debugger and it is also used to implement exception handling and continuations.
+\ct{thisContext}は，ランタイム・スタックのトップフレームを表わす擬似変数です．
+現在実行している\clsind{MethodContext}あるいは\clsind{BlockClosure}を表わすと言い換えることができます．
+\ct{thisContext}は，通常のプログラミングに必要ありませが，デバッガのような開発ツールの実装には不可欠です．
+また，例外処理と継続を実装するためにも使われます．
 
 %=================================================================
 \section{Message sends}
 
-There are three kinds of messages in \pharo.
+% There are three kinds of messages in \pharo.
+\pharoには3種類のメッセージがあります．
+
 \begin{enumerate}
-  \item \emph{Unary} messages take no argument.
-  \ct{1 factorial} sends the message \ct{factorial} to the object \ct{1}.
-  \item \emph{Binary} messages take exactly one argument.
-  	\ct{1 + 2} sends the message \ct{+} with argument \ct{2} to the object \ct{1}.
-  \item \emph{Keyword} messages take an arbitrary number of arguments.
-  	\ct{2 raisedTo: 6 modulo: 10} sends the message consisting of the message selector
-	\ct{raisedTo:modulo:} and the arguments \ct{6} and \ct{10} to the object \ct{2}.
+%  \item \emph{Unary} messages take no argument.
+%  \ct{1 factorial} sends the message \ct{factorial} to the object \ct{1}.
+	\item 引数をとらない単項メッセージ．
+	\ct{1 factorial}は，オブジェクト\ct{1}に，メッセージ\ct{factorial}を送ります．
+%  \item \emph{Binary} messages take exactly one argument.
+%  	\ct{1 + 2} sends the message \ct{+} with argument \ct{2} to the object \ct{1}.
+	\item 1つの引き数をとる二項メッセージ．
+	\ct{1 + 2}は，オブジェクト \ct{1} に，メッセージ \ct{+} を引数 \ct{2} とともに送ります．
+%  \item \emph{Keyword} messages take an arbitrary number of arguments.
+%  	\ct{2 raisedTo: 6 modulo: 10} sends the message consisting of the message selector
+%	\ct{raisedTo:modulo:} and the arguments \ct{6} and \ct{10} to the object \ct{2}.
+	\item 任意の数の引数をとるキーワードメッセージ．
+	\ct{2 raisedTo: 6 modulo: 10} は，オブジェクト \ct{2} に，メッセージセレクタ \ct{raisedTo:modulo:} と引数 \ct{6}, \ct{10} から構成されるメッセージを送ります．
 \end{enumerate}
 
-Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
+% Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
+単項のメッセージセレクタは英小文字でから始まる英数字で記述します．
 \index{message!unary}
 
-Binary message selectors consist of one or more characters from the following set:
+% Binary message selectors consist of one or more characters from the following set:
+二項メッセージ・セレクターは次の文字を使い1文字以上で記述します:
 \index{message!binary}
 \begin{code}{}
 + - / \ * ~ < > = @ % | & ! ? ,
@@ -334,27 +403,36 @@ Binary message selectors consist of one or more characters from the following se
 % [\~\!\@\%\&\*\-\+\=\\\|\?\/\>\<\,]
 \on{It seems that 3 or more chars work fine, but it is not possible to have more than one ``-'' in a binary selector. Perhaps due to a conflict with parsing negative numbers?}
 \ab{That's right; $-$ is weird.}
-Keyword message selectors consist of a series of alphanumeric keywords, where each keyword starts with a lower-case letter and ends with a colon.
+% Keyword message selectors consist of a series of alphanumeric keywords, where each keyword starts with a lower-case letter and ends with a colon.
+キーワード・メッセージセレクタは一連のキーワードから構成します．キーワードはそれぞれ英小文字で始まり，コロンで終わる英数字で記述します．
 \index{message!keyword}
 
-Unary messages have the highest precedence, then binary messages, and finally keyword messages, so:
+% Unary messages have the highest precedence, then binary messages, and finally keyword messages, so:
+単項のメッセージは最も高い優先順位を持ちます．次に二項メッセージ，最後にキーワード・メッセージの順になります．
 \begin{code}{@TEST}
 2 raisedTo: 1 + 3 factorial --> 128
 \end{code}
-(First we send \ct{factorial} to \ct{3}, then we send \ct{+ 6} to \ct{1}, and finally we send \ct{raisedTo: 7} to \ct{2}.)  
-Recall that we use the notation \lct{\emph{expression}}\ct{-->}\lct{\emph{result}} to show the result of evaluating an expression.
+% (First we send \ct{factorial} to \ct{3}, then we send \ct{+ 6} to \ct{1}, and finally we send \ct{raisedTo: 7} to \ct{2}.)  
+% Recall that we use the notation \lct{\emph{expression}}\ct{-->}\lct{\emph{result}} to show the result of evaluating an expression.
+(最初に，\ct{3}へ\ct{factorial}を送ります．次に，\ct{1}へ\ct{+ 6}を送ります．最後に，\ct{2}へ\ct{raisedTo: 7}を送ります．)
+式を評価した結果を示すために，\式\ct{-->}結果という表記を使うことを思い出してください．
 
-Precedence aside, evaluation is strictly from left to right, so
+% Precedence aside, evaluation is strictly from left to right, so
+評価順は，厳密に左から右です，
 \begin{code}{@TEST}
 1 + 2 * 3 --> 9
 \end{code}
-not \ct{7}.
-Parentheses must be used to alter the order of evaluation:
+% not \ct{7}.
+\ct{7}ではありません．
+% Parentheses must be used to alter the order of evaluation:
+評価順序を変更するためには括弧を使わなければなりません:
 \begin{code}{@TEST}
 1 + (2 * 3) --> 7
 \end{code}
 
-Message sends may be composed with periods and semi-colons. A period-separated sequence of expressions causes each expression in the series to be evaluated as a \emphind{statement}, one after the other.
+% Message sends may be composed with periods and semi-colons. A period-separated sequence of expressions causes each expression in the series to be evaluated as a \emphind{statement}, one after the other.
+メッセージ送信はピリオドとセミコロンで組み立てられることもあります．
+ピリオドで分離された式の並びはステートメントとして順々に評価されます．
 \index{statement!separator}
 
 \begin{code}{}
@@ -364,17 +442,21 @@ Transcript cr
 \end{code}
 
 \noindent
-This will send \ct{cr} to the \glbind{Transcript} object, then send it \ct{show: 'hello world'}, and finally send it another \ct{cr}.
+% This will send \ct{cr} to the \glbind{Transcript} object, then send it \ct{show: 'hello world'}, and finally send it another \ct{cr}.
+これは\glbind{Transcript}オブジェクトに\ct{cr}を送り，次に，\ct{show: 'hello world'}を送り，最後に，もう一つの\ct{cr}を送ります．
 
-When a series of messages is being sent to the \emph{same} receiver, then this can be expressed more succinctly as a \emphind{cascade}.
-The receiver is specified just once, and the sequence of messages is separated by semi-colons:
+% When a series of messages is being sent to the \emph{same} receiver, then this can be expressed more succinctly as a \emphind{cascade}.
+% The receiver is specified just once, and the sequence of messages is separated by semi-colons:
+一連のメッセージを同じレシーバーへ送る場合，カスケードとしてより簡潔に表現することができます．
+レシーバーを，一度だけ指定し，メッセージのシーケンスをセミコロンで分割します:
 
 \begin{code}{}
 Transcript cr;
     show: 'hello world';
     cr
 \end{code}
-This has precisely the same effect as the previous example.
+% This has precisely the same effect as the previous example.
+このプログラムは前のプログラムと同じ意味になります．
 
 %=================================================================
 \section{Method syntax}
