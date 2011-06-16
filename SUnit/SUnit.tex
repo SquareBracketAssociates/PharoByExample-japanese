@@ -559,12 +559,22 @@ In the {test runner}, failing tests cause the bar at the top to turn yellow, and
 \dothis{エラーしたり失敗するようにテストを変更してみましょう。}
 
 %=================================================================
-\section{The \SUnit cook book}
+%\section{The \SUnit cook book}
+
+\section{\SUnit クックブック}
+
+\if0
 This section will give you more details on how to use \SUnit.  If you
 have used another testing framework such as \JUnit\footnote{\url{http://junit.org}},
 much of this will be familiar, since all these frameworks have their roots in \SUnit.
 Normally you will use \SUnit's GUI to run tests, but there are
 situations where you may not want to use it.
+\fi
+
+この章では \SUnit の詳しい使い方を解説します。
+\JUnit\footnote{\url{http://junit.org}} などの他のテスティングフレームワークの経験があるなら、 \SUnit は親しみやすいでしょう。どのフレームワークも \SUnit にルーツがあります。
+通常 \SUnit では GUI でテストを実行しますが、 GUI を使いたくない場合もあるでしょう。
+
 %---------------------------------------------------------
 \subsection{Other assertions}
 In addition to \ct{assert:} and \ct{deny:}, there are several other methods that can be used to make assertions.
@@ -602,36 +612,72 @@ ExampleSetTest>>>testIllegal
 \dothis{Give it a try.}
 
 %---------------------------------------------------------
-\subsection{Running a single test}
+\subsection{メニューを使わずにテストランナーを開く}
+
+ワークスペースなどで \ct{TestRunner open} を実行 (コンテキストメニューから \menu{do it} を選択) します。
+
+% この内容は次の "Running a single test" で書かれていますが、
+% あまり関係がないため独立させました。
+
+%---------------------------------------------------------
+%\subsection{Running a single test}
+
+\subsection{テストを一つだけ実行する}
+
+\if0
 Normally, you will run your tests using the Test Runner.
 If you don't want to launch the Test Runner from the \menu{open\,\ldots} menu, you can execute \ct{TestRunner open} as a \menu{print it}.
 
 You can run a single test as follows.
+\fi
+
+テストランナーを開かずにテストを一つだけ実行したい場合、次のコードを実行します。
 
 \begin{code}{}
 ExampleSetTest run: #testRemove --> 1 run, 1 passed, 0 failed, 0 errors
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Running all the tests in a test class}
+%\subsection{Running all the tests in a test class}
+\subsection{テストクラスに定義されたすべてのテストを実行する}
 
+\if0
 Any subclass of \ct{TestCase} responds to the message \ct{suite}, which will build a test suite that contains all the
 methods in the class whose names start with the string ``\ct{test}''.
 To run the tests in the suite, send it the message \ct{run}.
 For example:
+\fi
+
+\ct{TestCase} のサブクラスに \ct{suite} メッセージを送ると、名前が ``\ct{test}'' で始まるメソッドを集めてテストスイートを組み立てます。
+このテストスイートに \ct{run} メッセージを送ってテストを実行します。
+次に例を示します。
 
 \begin{code}{}
 ExampleSetTest suite run --> 5 run, 5 passed, 0 failed, 0 errors
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Must I subclass TestCase?}
+%\subsection{Must I subclass TestCase?}
 
+\subsection{必ず TestCase クラスを継承しなければならない？}
+
+\if0
 In \JUnit{} you can build a \clsind{TestSuite} from an arbitrary class
 containing \ct{test*} methods.  In \st you can do the same
 but you will then have to create a suite by hand and your class will
 have to implement all the essential \ct{TestCase} methods like \ct{assert:}.
 We recommend that you not try to do this.  The framework is there: use it.
+\fi
+
+\ct{TestCase} クラスを継承しなくても \clsind{TestSuite} は組み立てられます。
+ただし、自分で \ct{TestCase} クラスの主要なメソッド (\ct{assert:} など) を実装したり、テストスイートを自分で作る必要が出てきます。
+\ct{TestCase} クラスを継承しましょう。
+
+% JUnit の説明が少し違います。
+% JUnit 3.x 系では TestCase クラスを継承して test* メソッドを定義しますが、
+% 4.x 系ではアノテーションを使って任意のメソッドをテストに指定します。
+% JUnit の説明のほうが多くなるので割愛しました。
+
 %=================================================================
 %\section{The SUnit framework}
 \section{SUnit フレームワーク}
