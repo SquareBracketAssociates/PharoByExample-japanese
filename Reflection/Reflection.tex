@@ -256,7 +256,7 @@ Object>>>instanceVariableValues
 \mthindex{Object}{isKindOf:}
 
 %@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
-\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクタが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: レシーバーのクラスに...メソッドが定義されている?
+\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: レシーバーのクラスに...メソッドが定義されている?
 %@For instance:
 たとえば:
 \needlines{3}
@@ -554,7 +554,7 @@ SystemNavigation default
 \clsind{SystemNavigation}は、システムコードに対してプログラム的にクエリを送り、プログラム的にこれをブラウズする方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
-\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクタと異なるメッセージを\super に送っているか、それを見出すことに関心があったとしましょう。
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出すことに関心があったとしましょう。
 %@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
 このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\selfにメッセージを送ることで済みます!)
 
@@ -562,21 +562,30 @@ SystemNavigation default
 リファクタリングブラウザーというツールは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
 
 %@\dothis{Open a browser on the class \ct{Collection}.
-\dothis{ブラウザーを開けて、\ct{Collection}.を見てください。
-\actclick on the class name and select \menu{refactoring scope>subclasses with}.
-This will open a new Browser Environment on just the \ct{Collection} hierarchy.
-Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
-Now \click on any method and select \menu{refactor>code critics}.
-Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
+\dothis{ブラウザーを開けて、\ct{Collection}.を見てみましょう。
+%@\actclick on the class name and select \menu{refactoring scope>subclasses with}.
+クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
+%@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
+こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
+%@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
+この限定されたスコープの中で、\menu{refactoring scope>super-sends} を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
+%@Now \click on any method and select \menu{refactor>code critics}.
+さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
+%@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
+\menu{Lint checks>Possible bugs>Sends different super message} とナビゲートして、\menu{browse}を\actclick してみましょう。
 
-In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
+%@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
+\figref{sendDifferentSuper} では、そのような19個のメソッドが、\ct{Collection} 階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
+%@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
+	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見付けている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
-Browser environments can also be created programmatically.
-Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
+%@Browser environments can also be created programmatically.
+ブラウザー環境はまた、プログラム的に作ることができます。
+%@Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
+たとえば、以下のように、\clsind{Collection} とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment} オブジェクトとして表示することができます。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
