@@ -576,40 +576,76 @@ situations where you may not want to use it.
 通常 \SUnit では GUI でテストを実行しますが、 GUI を使いたくない場合もあるでしょう。
 
 %---------------------------------------------------------
-\subsection{Other assertions}
+%\subsection{Other assertions}
+\subsection{様々なアサーション}
+
+\if0
 In addition to \ct{assert:} and \ct{deny:}, there are several other methods that can be used to make assertions.
+\fi
 
+\ct{assert:} や \ct{deny:} の他にもアサーション用のメソッドがあります。
+
+\if0
 First, \mthind{TestCase}{assert:description:} and \mthind{TestCase}{deny:description:} take a second argument which is a message string that can be used to describe the reason for the failure, if it is not obvious from the test itself.   These methods are described in~\secref{descriptionStrings}.
+\fi
 
+一つ目は \mthind{TestCase}{assert:description:} と \mthind{TestCase}{deny:description:} です。
+二つ目の引数には、テストの失敗時に表示する理由を示す文字列を指定します。
+失敗の原因がわかりにくい場合に使うといいでしょう。
+~\secref{descriptionStrings}でこれらのメソッドについて触れます。
+
+\if0
 Next, \sunit provides two additional methods, \mthind{TestCase}{should:raise:} and
 \mthind{TestCase}{shouldnt:raise:} for testing exception propagation.
 For example, you would use 
 \ct{(self should: aBlock raise: anException)} to test that a particular exception is raised during the execution of \ct{aBlock}.  \Mthref{ESTtestIllegal}
 illustrates the use of \mbox{\ct{should:raise:}.}
+\fi
 
-\dothis{Try running this test.}
+二つ目は \mthind{TestCase}{should:raise:} と \mthind{TestCase}{shouldnt:raise:} です。
+テストの実行時に適切な例外が発生するかどうかをテストします。
+例えば \ct{(self should: aBlock raise: anException)} を実行すると、 \ct{aBlock} の実行中に例外 \ct{anException} が発生すればテストは成功です。
+\Mthref{ESTtestIllegal} に \mbox{\ct{should:raise:}} を使った例を示します。
+
+%\dothis{Try running this test.}
+
+\dothis{このテストを実行してみましょう。}
+
+\if0
 Note that the first argument of the \ct{should:} and \ct{shouldnt:} methods is a \emphind{block} that \emph{contains} the expression to be evaluated.   
+\fi
 
-\begin{method}[ESTtestIllegal]{Testing error raising}
+\ct{should:} と \ct{shouldnt:} の最初の引数は、評価する式を\emph{含む}\emphind{ブロック}です。
+
+%\begin{method}[ESTtestIllegal]{Testing error raising}
+\begin{method}[ESTtestIllegal]{エラーの発生をテストする}
 ExampleSetTest>>>testIllegal
 	self should: [empty at: 5] raise: Error.
 	self should: [empty at: 5 put: #zork] raise: Error
 \end{method}
 
+\if0
 \sunit is portable: it can be used from all dialects of \st.  To make
 \sunit portable, its developers factored-out the dialect-dependent aspects.  The class method \cmind{TestResult class}{error} answers
 the system's error class in a dialect-independent fashion. 
 You can take advantage of this: if you want to write tests that will work in any dialect of \st, instead of 
 \mthref{ESTtestIllegal} you would write:
+\fi
+
+\sunit では処理系依存のコードをできるだけ避けて移植性を高めており、どの \st 処理系でも使えるようになっています。
+例えばシステムエラーのクラスは処理系によって異なるため、 \cmind{TestResult class}{error} メソッドで返すようにしています。
+処理系に依存しないようにするには、 \mthref{ESTtestIllegal} のコードを次のように書き換えます。
 
 \needlines{4}
-\begin{method}[portabletestillegal]{Portable error handling}
+%\begin{method}[portabletestillegal]{Portable error handling}
+\begin{method}[portabletestillegal]{移植性の高いエラー捕捉方法}
 ExampleSetTest>>>testIllegal
 	self should: [empty at: 5] raise: TestResult error.
 	self should: [empty at: 5 put: #zork] raise: TestResult error
 \end{method}
 
-\dothis{Give it a try.}
+%\dothis{Give it a try.}
+\dothis{試してみましょう。}
 
 %---------------------------------------------------------
 \subsection{メニューを使わずにテストランナーを開く}
