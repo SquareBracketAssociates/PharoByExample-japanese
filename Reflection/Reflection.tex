@@ -358,7 +358,7 @@ String allSubInstances size -->  101675
 以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッドを列挙するよう依頼することができるからです。%@?exhibitingは何にかかる?
 \begin{itemize}
 %@\item \mthind{Behavior}{whichSelectorsAccess:} returns the list of all selectors of methods that read or write the instance variable named by the argument
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が示すインスタンス変数を読み書きするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター?
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数が示すインスタンス変数を読み書きするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
 %@\item \mthind{Behavior}{whichSelectorsStoreInto:} returns the selectors of methods that modify the value of an instance variable
 \item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターを返す
 %@\item \mthind{Behavior}{whichSelectorsReferTo:} returns the selectors of methods that send a given message
@@ -594,9 +594,11 @@ SystemNavigation default
 	open.
 \end{code}{}
 
-Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
+%@Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
+この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
 
-Finally, we can find just those methods that send a different super message programmatically as follows:
+%@Finally, we can find just those methods that send a different super message programmatically as follows:
+最終的に、このようなメソッド、つまり異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見付け出すことができます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -606,20 +608,28 @@ Finally, we can find just those methods that send a different super message prog
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
-Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
+%@Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
+ここでは、各コンパイル済みメソッドに、その (Refactoring Browser) 解析木について尋ね、superメッセージが、メソッドセレクターと異なっているかを探り出しています。
+%@Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
+\ct{RBProgramNode} クラスの\prot{querying} プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things?
 
 %======================================
-\section{Accessing the run-time context}
+%@\section{Accessing the run-time context}
+\section{実行時コンテクストにアクセスする}
 
-We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
+%@We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
+これまで、\st のリフレクティブな機能により、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできることを見てきました。しかし、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
-\subsection{Method contexts}
+%@\subsection{Method contexts}
+\subsection{メソッドコンテクスト}
 
-In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
-On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
-How is this possible?
+%@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
+実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- けっして、イメージの中ではない、ということです!
+%@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
+その一方で、\ind{デバッガー} はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
+%@How is this possible?
+これは、どのようにして可能なのでしょうか?
 
 Actually, there is nothing magical about the debugger.
 The secret is the pseudo-variable \pvind{thisContext}, which we have encountered only in passing before.
