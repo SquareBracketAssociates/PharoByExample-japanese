@@ -1126,8 +1126,10 @@ TestResource>>>initialize
 
 \section{テストのポイント}
 
+\if0
 While the mechanics of testing are easy, writing good tests is not.
 Here is some advice on how to design tests.
+\fi
 
 テストの仕組みは簡単ですが、いいテストを書くのは簡単ではありません。いくつかテストのポイントを紹介します。
 
@@ -1146,6 +1148,7 @@ Here is some advice on how to design tests.
 %  functionality, because one bug in the code will then break many tests at the same time.
 %  This is covered by Black's rule, below.
 
+\if0
 \index{Feathers, Michael}
 \item[Feathers' Rules for Unit tests.]
   Michael Feathers, an  agile process consultant and author, writes:\footnote{See \url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923}. 9 September 2005} 
@@ -1164,20 +1167,28 @@ Tests that do these things aren't bad. Often they are worth writing, and they ca
  }
   \end{quotation}
 Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
- 
-\if0
-Feathers の法則。アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。
+\fi
 
-次のテストはユニットテストではありません:
+\index{Feathers, Michael}
+\item[ユニットテストにおける Feathers の法則。]
+  アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。 \footnote{\url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923} を参照。 2005/9/9 。}
+  \begin{quotation}
+  \noindent
+  {\it
+  次のテストはユニットテストではありません:
+  \begin{itemize}
+	\item データベースと対話したり、
+	\item インターネットに接続したり、
+	\item ファイルシステムに触ったり、
+	\item 他のユニットテストと並行して実行できなかったり、
+	\item 特別な環境 (設定ファイルの編集が必要など) を準備しなければならない。
+ \end{itemize}
+Tests that do these things aren't bad. Often they are worth writing, and they can be written in a unit test harness. However, it is important to be able to separate them from true unit tests so that we can keep a set of tests that we can run fast whenever we make our changes.
+ }
+  \end{quotation}
+Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
 
-* データベースと対話したり、
-* インターネットに接続したり、
-* ファイルシステムに触ったり、
-* 他のユニットテストとまとめて実行できなかったり、
-* 特別な環境 (設定ファイルの編集が必要など) を準備しなければならない。
-\f0
-
-\item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
+ \item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
   functionality, and as such make it easier to identify bugs in that functionality.
   As far as
   possible try to have unit tests for each method that could possibly fail, and group them per class.
@@ -1571,22 +1582,12 @@ and \lct{TestResources}.  Finally we looked deep inside \sunit by
 following the execution of a test and a test suite.
 \fi
 
-この章では、なぜコードの未来にとってテストが重要な投資なのか説明しました。 Set クラスのテストを一つずつ定義しながら説明しました。 SUnit フレームワークの中心となるクラス群、 TestCase 、 TestResult 、 TestSuite 、 TestResource の全体像をお見せしました。テストとテストスイートの実行過程を追うことで、 SUnit をより深く理解できたでしょう。
+この章では、なぜテストが重要な投資であるのかを説明しました。
+\ct{Set} クラスのテストを一つずつ定義しながら説明しました。
+\sunit フレームワークの中心となるクラス群、 \ct{TestCase} 、 \ct{TestResult} 、 \ct{TestSuite} 、 \ct{TestResource} の全体像をお見せしました。
+テストとテストスイートの実行過程の深層を見てきました。
 
 \if0
-* ユニットテストの効果を最大限に引き出すポイント: 高速、繰り返し可能、 途中で人の操作を要求しない、一つの機能のみをテストする。
-
-* テストクラス名は「元のクラス名 + "Test" 」にします (MyClass のテストクラスなら MyClassTest) 。テストクラスは TestCase のサブクラスとして定義すべきです。
-
-* setUp メソッドでテストデータを初期化してください。
-
-* 各テストメソッド名は "test" で始めるべきです。
-
-* アサーションは TestCase の assert: や deny: などのメソッドで行います。
-
-* SUnit のテストランナーを使ってテストを実行しましょう。テストランナーはツールバーにあります。
-\fi
-
 \begin{itemize}
   \item To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
   \item Tests for a class called \ct{MyClass} belong in a class classed \ct{MyClassTest}, which should be introduced as a subclass of \lct{TestCase}.
@@ -1594,6 +1595,22 @@ following the execution of a test and a test suite.
   \item Each test method should start with the word ``test''.
   \item Use the \ct{TestCase} methods \ct{assert:}, \ct{deny:} and others to make assertions.
   \item Run tests using the SUnit test runner tool (in the tool bar).
+\end{itemize}
+\fi
+
+\begin{itemize}
+  \item ユニットテストの効果を最大限に引き出すポイント: 高速、繰り返し可能、 途中で人の操作を要求しない、一つの機能のみをテストする。
+
+  \item テストクラス名は「元のクラス名 + \ct{Test} 」にします (\ct{MyClass} のテストクラスなら \ct{MyClassTest}) 。テストクラスは \ct{TestCase} のサブクラスとして定義すべきです。
+
+  \item \ct{setUp} メソッドでテストデータを初期化してください。
+
+  \item 各テストメソッド名は ``test'' で始めるべきです。
+
+  \item \ct{TestCase} の \ct{assert:} や \ct{deny:} などのメソッドでアサーションを定義します。
+
+  \item SUnit のテストランナーを使ってテストを実行しましょう。テストランナーはツールバーにあります。
+
 \end{itemize}
 
 %=============================================================
