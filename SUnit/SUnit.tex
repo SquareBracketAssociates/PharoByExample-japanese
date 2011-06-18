@@ -728,19 +728,16 @@ this is in distinction to the \ct{TestCase>>>setUp} method, which is executed be
 each test.
 \fi
 
-SUnit は次の 4 つのクラスから構成されます (図 7.3) 。
-
-* TestCase
-* TestSuite
-* TestResult
-* TestResource
-
-テストリソースは SUnit 3.1 で導入された概念で、コストの高いセットアップに使われます。 TestResource の setUp メソッドは TestCase のものと異なり、テストスイートの実行前に一度だけ実行されます。 TestCase では各テストの実行前に setUp メソッドが実行されます。
+SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
+\clsind{TestSuite} 、 \clsind{TestResult} 、 \clsind{TestResource} (\figref{sunit-classes}) 。
+\emph{テストリソース}は \sunit 3.1 で導入された概念で、コストの高いセットアップに使われます。
+\ct{TestResource} の \ct{setUp} メソッドは \ct{TestCase>>>setUp} と異なり、テストスイートの実行前に一度だけ実行されます。 \ct{TestCase>>>setUp} は各テストの実行前に setUp メソッドが実行されます。
 
 \begin{figure}[htb]
   \begin{center}
 		{\includegraphics[width=0.8\textwidth]{sunit-classes}}
-	\caption{The four classes representing the core of \SUnit}
+%	\caption{The four classes representing the core of \SUnit}
+	\caption{\SUnit を構成する 4 つのクラス}
 	\figlabel{sunit-classes}
   \end{center}
 \end{figure}
@@ -749,17 +746,16 @@ SUnit は次の 4 つのクラスから構成されます (図 7.3) 。
 %---------------------------------------------------------
 \subsection{TestCase}
 
+\if0
 \clsindmain{TestCase} is an abstract class that is designed to be subclassed; each of its subclasses represents a group of tests that share a common context (that is, a test suite).
 Each test is run by creating a new instance of a subclass of \ct{TestCase},
 running \mthind{TestCase}{setUp}, running the test method itself, and then running \mthind{TestCase}{tearDown}.
+\fi
 
-TestCase は抽象クラスです。サブクラスにテストを記述し、テスト間で実行時の状態を共有します (テストスイート) 。各テストは次の順序で実行されます。
+\clsindmain{TestCase} は抽象クラスです。サブクラスにテストを記述し、テスト間で実行時の状態を共有します (テストスイート) 。
+各テストは、それぞれ \ct{TestCase} のサブクラスのインスタンスを生成してから実行されます。 \mthind{TestCase}{setUp} を実行し、テストメソッドを実行し、最後に \mthind{TestCase}{tearDown} を実行します。
 
-1. TestCase のサブクラスのインスタンスを生成する (テストごとに生成します) 。
-2. setUp メソッドを実行する。
-3. テストメソッドを実行する。
-4. tearDown メソッドを実行する。
-
+\if0
 The context is specified
 by instance variables of the subclass
 and by the specialization of the method
@@ -768,12 +764,14 @@ Subclasses of \ct{TestCase} can also override method
 \ct{tearDown}, which is invoked after the execution of each test,
 and can be used to release any objects
 allocated during \ct{setUp}.
+\fi
 
-実行時の状態をインスタンス変数で表し、オーバーライドした setUp メソッドで初期化します。 setUp で初期化したオブジェクトの終了処理を行うには、 tearDown メソッドをオーバーライドします。
+実行時の状態をインスタンス変数で表し、オーバーライドした \ct{setUp} メソッドで初期化します。 \ct{setUp} で初期化したオブジェクトの終了処理を行うには、 \ct{tearDown} メソッドをオーバーライドします。
 
 %---------------------------------------------------------
 \subsection{TestSuite}
 
+\if0
 Instances of the class \clsindmain{TestSuite} contain a collection of test cases.  An
 instance of \ct{TestSuite} contains tests, and other test suites.
 That is, a test suite contains sub-instances of
@@ -782,18 +780,24 @@ Both individual \lct{TestCase}s and \lct{TestSuite}s understand the same protoco
 This is in fact an application of the composite
 pattern in which \ct{TestSuite} is the composite and the
 \ct{TestCase}s are the leaves\,---\,see \textit{Design Patterns} for more information on this pattern\cite{Gamm95a}.
+\fi
 
-TestSuite はテストケース (テストとテストスイート) の集合を含みます。つまり、 TestSuite は TestCase と TestSuite のインスタンスを含みます。
-TestCase と TestSuite の間に継承関係はありませんが、どちらも同じプロトコルを実装しているので同じように扱えます。例えば、どちらも run メソッドが定義されています。 TestSuite を枝、 TestCase を葉として Composite パターンを適用しています (詳しくはデザインパターンを参照してください) 。
+\clsindmain{TestSuite} はテストケース (テストとテストスイート) の集合を含みます。つまり、 \ct{TestSuite} は \ct{TestCase} と \ct{TestSuite} のインスタンスを含みます。
+\lct{TestCase} と \lct{TestSuite} の間に継承関係はありませんが、どちらも同じプロトコルを実装しているので同じように扱えます。
+例えば、どちらも \ct{run} メソッドが定義されています。
+\ct{TestSuite} を枝、 \ct{TestCase} を葉として Composite パターンを適用しています (詳しくは\textit{デザインパターン}を参照してください) 。
 
 %---------------------------------------------------------
 \subsection{TestResult}
 
+\if0
 The class \clsindmain{TestResult} represents the results of a
 \ct{TestSuite} execution.  It records the number of tests passed,
 the number of tests failed, and the number of errors signalled.
+\fi
 
-TestResult は TestSuite の実行結果を扱います。成功したテストの数、失敗したテストの数、エラーの発生したテストの数を記録します。
+\clsindmain{TestResult} は \ct{TestSuite} の実行結果を扱います。
+成功したテストの数、失敗したテストの数、エラーの発生したテストの数を記録します。
 
 %---------------------------------------------------------
 \subsection{TestResource}
