@@ -803,14 +803,28 @@ the number of tests failed, and the number of errors signalled.
 \subsection{TestResource}
 \seclabel{resource}
 
+\if0
 One of the important  features of a suite of tests is that they should be independent of each other: the failure of one test should not cause an avalanche of failures of other tests that depend upon it, nor should the order in which the tests are run matter.
 Performing \ct{setUp} before each test and \ct{tearDown} afterwards helps to reinforce this independence. 
+\fi
 
+テストでは、各テストが互いに独立していることが重要です。
+一つのテストの失敗が他のテストに波及しないように、テストの実行順序が結果に影響ようにすべきです。
+\ct{setUp} と \ct{tearDown} で調整しましょう。
+
+\if0
 However, there are occasions where setting up the necessary context is just too time-consuming for it to be practical to do once before the execution of each test.
 Moreover, if it is known that the test cases do not disrupt the resources used by the tests, then it is wasteful to set them up afresh for each test; it is sufficient to set them up once for each suite of tests.
 Suppose, for example, that a suite of tests needs to query a database, or do some analysis on some compiled code.
 In such cases, it may make sense to set up the database and open a connection to it, or to compile some source code, before any of the tests start to run.
+\fi
 
+しかし、テストのたびに環境を用意していては時間がかかり過ぎる場合があります。
+さらに環境を壊さずに済むテストなら、一度作った環境を使い回せば十分です。
+例えばデータベースに問い合わせをするテストなら、事前に用意しておいたデータベースに接続するだけで準備できます。
+コンパイルされたコードを分析するテストなら、同様に事前にソースコードをコンパイルしておけば十分です。
+
+\if0
 Where should we cache these resources, so that they can be shared by a suite of tests?
 The instance variables of a particular \ct{TestCase} sub-instance won't do, because such an instance persists only for the duration of a single test.
 A global variable would work, but using too many global variables pollutes the name space, and the binding between the global and the tests that depend on it will not be explicit.
@@ -818,7 +832,18 @@ A better solution is to put the necessary resources in a singleton object of som
 The class \clsindmain{TestResource} exists to be subclassed by such resource classes.
 Each subclass of \lct{TestResource} understands the message  \ct{current}, which will answer a singleton instance of that subclass.
 Methods \ct{setUp} and \ct{tearDown} should be overridden in the subclass to ensure that the resource is initialized and finalized.
+\fi
 
+リソースをキャッシュさえすれば、テスト間で共有できるようになるでしょうか？
+\ct{TestCase} のインスタンス変数はキャッシュとして使えません。
+\ct{TestCase} クラスのインスタンスは一つのテストでしか使われないからです。
+グローバル変数ならできますが、多用するとシステムがグローバル変数であふれてしまいますし、各テストとグローバル変数の関係がわかりにくくなります。
+必要なリソースを含むシングルトンオブジェクトをクラスに持たせるのがいい方法です。
+そのための抽象クラスとして \clsindmain{TestResource} が用意されています。
+\lct{TestResource} のサブクラスに \ct{current} メッセージを送ると、サブクラスのシングルトンインスタンスを得られます。
+リソースの初期化と終了処理を行うには、 \ct{setUp} と \ct{tearDown} をオーバーライドしてください。
+
+\if0
 One thing remains: somehow, \sunit has to be told which resources are associated with which test suite.
 A resource is associated
 with a particular subclass of \ct{TestCase} 
@@ -828,20 +853,34 @@ By default, the resources of
 a \ct{TestSuite} are
 the union of the resources of
 the \ct{TestCase}s that it contains.
+\fi
 
+もう一つ、どうにかしてリソースとテストスイートを関連付ける必要があります。
+\ct{TestCase} のサブクラスで \ct{resources} \emph{クラスメソッド} をオーバーライドし、テストクラスで使うリソースを返すようにします。
+\ab{}
+デフォルトでは、 \ct{TestSuite} のリソースはすべての \ct{TestCase} のリソースの集合です。
+
+\if0
 Here is an example. 
 We define a subclass of \ct{TestResource} called
 \ct{MyTestResource} and we associate it with \ct{MyTestCase}
 by specializing the class method \ct{resources} to return an array
 of the test classes that it will use.
+\fi
+
+次にリソースの例を示します。
+\ct{TestResource} のサブクラス \ct{MyTestResource} を定義します。
+次に \ct{MyTestCase} のクラスメソッド \ct{resources} で、このクラスのテストで使うリソースの配列を返します。
 
 \needlines{8}
-\begin{classdef}[mytestresource]{An example of a TestResource subclass}
+%\begin{classdef}[mytestresource]{An example of a TestResource subclass}
+\begin{classdef}[mytestresource]{TestResource のサブクラスの使用例}
 TestResource subclass: #MyTestResource
 	instanceVariableNames: ''
 
 MyTestCase class>>>resources
-	"associate the resource with this class of test cases"
+%	"associate the resource with this class of test cases"
+	"このクラスのテストで使うリソースを返す"
 	^{ MyTestResource }
 \end{classdef}
 
