@@ -1183,11 +1183,24 @@ Never get yourself into a situation where you don't want to run your unit test s
 	\item 他のユニットテストと並行して実行できなかったり、
 	\item 特別な環境 (設定ファイルの編集が必要など) を準備しなければならない。
  \end{itemize}
+\if0
 Tests that do these things aren't bad. Often they are worth writing, and they can be written in a unit test harness. However, it is important to be able to separate them from true unit tests so that we can keep a set of tests that we can run fast whenever we make our changes.
+\fi
+
+このようなテストも悪くはありません。
+書く価値はありますし、ユニットテストの補助にもなります。
+しかしコードを変更したらすぐにテストできるように、本当のユニットテストとは分けておくべきです。
+
  }
   \end{quotation}
-Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
 
+\if0
+Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
+\f0
+
+決して、時間がかかるという理由でテストを避けてはいけません。
+
+\if0
  \item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
   functionality, and as such make it easier to identify bugs in that functionality.
   As far as
@@ -1204,7 +1217,18 @@ Never get yourself into a situation where you don't want to run your unit test s
   file system.
   You can write them using \sunit, but you won't want to run them each time you make a small change,
   so they should be separated from the true unit tests.
+\fi
  
+ \item[ユニットテスト \textit{vs.}\ 承認テスト。] ユニットテストは機能の一部を単体でテストし、機能に関するバグを容易に見つけられます。
+  各テストを失敗するまで可能な限り実行し、クラス単位で結果をまとめます。
+  しかし、複雑な環境のテストや再帰的なテストが必要ならば、シナリオに沿ってテストを書くほうが簡単です。
+  このようなテストは承認テストまたは機能テストと呼ばれます。
+  Feathers の法則を守らないテストは、いい承認テストになるかもしれません。
+  テストする機能に沿って承認テストをまとめましょう。
+  例えばコンパイラを書く場合、ソースコードから生成するコードの承認テストを書くでしょう。
+  たくさんのテストが実行されるでしょうが、ファイルシステムにアクセスするテストなら時間がかかるかもしれません。
+  わずかなコードの変更にもテストをしたければ、ユニットテストと承認テストを分けるべきです。
+
 \item[Black's Rule of Testing.]
   For every test in the system, you should be able to identify some property for which
   the test increases your confidence.
