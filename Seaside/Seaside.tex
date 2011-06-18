@@ -185,24 +185,19 @@ Seasideのコンポーネントは、異なるコンテキストで何度も初�
 
 いくつもの独立したカウンターコンポーネントからなるアプリケーションが立ち上がります。
 
-Increment and decrement several of the counters.
-Verify that they behave correctly even if you use the ``back'' button.
-Toggle the halos to see how the application is built out of nested components.
-Use the Seaside class browser to view the implementation of \ct{WAMultiCounter}.
-You should see three methods on the class side (\ct{canBeRoot}, \ct{description}, and \ct{initialize}) and three on the instance side (\ct{children}, \ct{initialize}, and \ct{renderContentOn:}).
-Note that an application is simply a component that is willing to be at the root of the component containment hierarchy; this willingness is indicated by defining a class-side method \ct{canBeRoot}
-to answer \ct{true}.}
+カウンターをいくつか選んで値を変えてみましょう。「戻る」ボタンを押しても問題なく動作します。
+ハローを表示してみると、入れ子になったコンポーネントからアプリケーションができていることがわかります。クラスブラウザを使って、 \ct{WAMultiCounter}の実装がどうなっているか見てみましょう。
+クラスメソッドが3つ(\ct{canBeRoot}、 \ct{description}、 \ct{initialize})、インスタンスメソッドも3つ(\ct{children}、 \ct{initialize}、 \ct{renderContentOn:})定義されていることがわかります。
+アプリケーションでは、クラスメソッドの\ct{canBeRoot}で \ct{true}を返すことで、コンポーネント階層のルートになり得るという宣言を行っています。}
 \index{Seaside!multi-counter}
 
-You can use the Seaside web interface to configure, copy or remove individual applications (\ie root-level components).  Try making the following configuration change.
+SeasideのWebインターフェースを使うと、アプリケーション(\ie ルートになっているコンポーネント)を設定したり、コピーしたり、登録解除したりできます。設定を少しいじってみましょう。
 
-\dothis{Point your web browser to \url{http://localhost:8080/seaside/config}.
-Supply the login and password (\ct{admin} and \ct{seaside} by default).
-Select \link{Configure} next to ``examples.''
-Under the heading ``Add entry point'', enter the new name ``counter2'' for the type \emph{Application} and click on \button{Add} (see \figref{counter2}).
-On the next screen, set the \emph{Root Component} to \clsind{WACounter}, then click \button{Save} and \button{Close}.
-Now we have a new counter installed at \url{http://localhost:8080/seaside/examples/counter2}.
-Use the same configuration interface to remove this entry point.
+\dothis{Webブラウザで\url{http://localhost:8080/seaside/config}を開きます。ユーザIDとパスワードを入れて、ログインしてください。(デフォルトでは\ct{admin} / \ct{seaside} となっています)。
+``examples''の隣にある \link{Configure}　をクリックします。 ``Add entry point''のところで、 ``counter2''と名前を入れ、タイプは \emph{Application} のまま \button{Add}ボタンをクリックします( \figref{counter2}を参照)。
+次の画面で、 \emph{Root Component} を \clsind{WACounter}にして、 \button{Save} を押して、 \button{Close}で閉じます。
+これでカウンターの新しいアプリケーションが \url{http://localhost:8080/seaside/examples/counter2}で起動するようになりました。
+同様に、この設定ツール画面を通じてアプリケーションの登録解除を行うこともできます。
 }
 \index{Seaside!configuration}
 
@@ -210,42 +205,38 @@ Use the same configuration interface to remove this entry point.
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counter2}
-\caption{Configuring a new application}
+\caption{新たなアプリケーションの設定}
 \figlabel{counter2}
 \end{center}
 \end{figure}
 
-Seaside operates in two modes: \emph{development} mode, which is what we have seen so far, and \emph{deployment} mode, in which the toolbar is not available.
-\index{Seaside!deployment mode}
-\index{Seaside!development mode}
-You can put Seaside into deployment mode using either the configuration page (navigate to the entry for the application and click on the \link{Configure} link)
-% \ab{How?  I couldn't find this}
-or click the \button{Configure} button in the toolbar.
-In either case, set the deployment mode to \emph{true}.
-Note that this affects new sessions only.
-You can also set the mode globally by evaluating
-\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}
-or
-\ct{WAGlobalConfiguration setDevelopmentMode}.
+Seasideは2つのモードで動作します。一つは今まで見てきた \emph{開発}モードです。 \emph{デプロイ} モードにすると、画面下のツールバーが非表示となります。
 \index{Seaside!deployment mode}
 \index{Seaside!development mode}
 
-The configuration web page is just another Seaside application, so it too can be controlled from the configuration page.
-If you remove the ``config'' application, you can get it back by evaluating
-\clsind{WADispatcherEditor} \ct{initialize}.
+デプロイモードにするには、全体の設定ツールのページからアプリケーションを選んで、 \link{Configure} をクリックするか、ツールバーに表示されている \link{Configure} をクリックします。
+% \ab{How?  I couldn't find this}
+どちら場合も、デプロイモードのプルダウンボックスが表示されるので、\emph{true}に設定します。
+この設定は新たなセッションを開始したタイミングで有効になります。
+Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}や、\ct{WAGlobalConfiguration setDevelopmentMode}を実行します。
+\index{Seaside!deployment mode}
+\index{Seaside!development mode}
+
+
+設定ツール自体もSeasideのアプリケーションです。そのため同じようにWebブラウザから各種の設定ができます。もしも誤って``config'' のアプリケーションを削除してしまった場合は、
+\clsind{WADispatcherEditor} \ct{initialize}　とすると元に戻ります。
 
 %=================================================================
-\section{Seaside components}
+\section{Seasideのコンポーネント}
 \seclabel{components}
 
 %\ab{This section was too long\,---\,18 pages.  It also contained several self-references (``see section 1.3''). So I broke into smaller sections, by promoting some of the subsections and subsubsections.}
 
-As we mentioned in the previous section, Seaside applications are built out of \emph{\subind{Seaside}{components}.}
-Let's take a closer look at how Seaside works by implementing the \emph{Hello World} component.
+前の節で示したように、Seasideのアプリケーションは\emph{\subind{Seaside}{コンポーネント}}から成り立っています。
+\emph{Hello World}のコンポーネントを作成し、Seasideの仕組みをさらに詳しく見てみましょう。
+コンポーネントを定義するには \clsind{WAComponent}を直接あるいは間接的に継承するようにします(\figref{WACounter})。
 
-Every Seaside component should inherit directly or indirectly from \clsind{WAComponent}, as shown in \figref{WACounter}.
-
-\dothis{Define a subclass of \ct{WAComponent} called \ct{WAHelloWorld}.}
+\dothis{ \ct{WAComponent}を継承した \ct{WAHelloWorld}クラスを定義してみましょう。}
 
 Components must know how to render themselves.
 Usually this is done by implementing the method \mthind{WAPresenter}{renderContentOn:}, which gets as its argument an instance of \clsind{WAHtmlCanvas}, which knows how to render XHTML.
