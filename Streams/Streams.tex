@@ -120,21 +120,35 @@ Smalltalkのストリームに対する全ての操作はこれによるので�
 %\section{Streams vs. collections}
 \section{ストリーム対コレクション}
 
-The collection protocol supports the storage, removal and enumeration
-of the elements of a collection, but does not allow these operations
-to be intermingled.  For example, if the elements of an
-\clsind{OrderedCollection} are processed by a \mthind{OrderedCollection}{do:} method, it is not
-possible to add or remove elements from inside the \ct{do:} block.
-Nor does the collection protocol offer ways to iterate over two
-collections at the same time, choosing which collection goes forward
-and which does not. Procedures like these require that a traversal index or
-position reference is maintained outside of the collection itself:
-this is exactly the role of \clsind{ReadStream}, \clsind{WriteStream} and
-\clsind{ReadWriteStream}.
+%The collection protocol supports the storage, removal and enumeration
+%of the elements of a collection, but does not allow these operations
+%to be intermingled.  For example, if the elements of an
+%\clsind{OrderedCollection} are processed by a \mthind{OrderedCollection}{do:} method, it is not
+%possible to add or remove elements from inside the \ct{do:} block.
+%Nor does the collection protocol offer ways to iterate over two
+%collections at the same time, choosing which collection goes forward
+%and which does not. Procedures like these require that a traversal index or
+%position reference is maintained outside of the collection itself:
+%this is exactly the role of \clsind{ReadStream}, \clsind{WriteStream} and
+%\clsind{ReadWriteStream}.
+コレクションは要素の格納，除去と列挙の手段を提供しますが，合成は許されていません。
+例を挙げると，\clsind{OrderedCollection}の要素を\ct{do:}メソッドによって処理する場合，
+\ct{do:}のブロック内で要素の追加と削除はできません。
+あるいは，コレクションは二つのコレクションの片方は前進させ，
+もう片方をそうしないようといった反復処理を同時に行う方法を提供していません。
+このような処理にはトラバースインデックスまたはコレクション自身の外部に保存された
+位置のリファレンスが必要になります。
+これこそ\clsind{ReadStream},  \clsind{WriteStream} そして \clsind{ReadWriteStream}です。
 
-These three classes are defined to \emph{stream over} some collection.
-For example, the following snippet creates a stream on an interval,
-then it reads two elements.
+
+
+%These three classes are defined to \emph{stream over} some collection.
+%For example, the following snippet creates a stream on an interval,
+%then it reads two elements.
+これら三つのクラスはコレクションではなく， \emph{ストリームに}定義されています。
+例を挙げると，次のコードは間隔1のストリームを作り，それから二つの要素を読みます。
+
+
 \needlines{5}
 \begin{code}{@TEST |r|}
 r := ReadStream on: (1 to: 1000).
@@ -143,7 +157,10 @@ r next.   --> 2
 r atEnd.--> false
 \end{code}
 
-\ct{WriteStream}s can write data to the collection:
+%\ct{WriteStream}s can write data to the collection:
+\ct{WriteStream}はコレクションにデータを書き込むことができます。
+
+
 \begin{code}{@TEST |w|}
 w := WriteStream on: (String new: 5).
 w nextPut: $a.
@@ -151,23 +168,31 @@ w nextPut: $b.
 w contents. -->  'ab'
 \end{code}
 
-It is also possible to create \ct{ReadWriteStream}s that support both
-the reading and writing protocols.
+%It is also possible to create \ct{ReadWriteStream}s that support both
+%the reading and writing protocols.
+読み込みと書き込みの両方を提供する\ct{ReadWriteStream}を作ることもできます。
 
-The main problem with \ct{WriteStream} and \ct{ReadWriteStream} is
-that they only support arrays and strings in \pharo. This is currently
-being changed by the development of a new library named Nile, 
-but for now if you try to stream over another kind of
-collection, you will get an error:
+%The main problem with \ct{WriteStream} and \ct{ReadWriteStream} is
+%that they only support arrays and strings in \pharo. This is currently
+%being changed by the development of a new library named Nile, 
+%but for now if you try to stream over another kind of
+%collection, you will get an error:
+\ct{WriteStream}と\ct{ReadWriteStream}の主な問題は配列と文字列しか\pharoでは
+サポートしていないことです。
+これは，Nileと名付けられた新しいライブラリの開発で変わりつつありますが，
+今のところそれ以外のコレクションに対する操作はエラーになります。
 
 \needlines{3}
 \begin{code}{}
 w := WriteStream on: (OrderedCollection new: 20).
-w nextPut: 12. -->  raises an error
+%w nextPut: 12. -->  raises an error
+w nextPut: 12. -->  エラー
 \end{code}
 
-Streams are not only meant for collections, they can be used for files or sockets
-too. The following example creates a file named \ct{test.txt}, writes two strings to it, separated by a carriage return, and closes the file.
+%Streams are not only meant for collections, they can be used for files or sockets
+%too. The following example creates a file named \ct{test.txt}, writes two strings to it, separated by a carriage return, and closes the file.
+ストリームはコレクションに対してのみ有効ではなく，ファイルやソケットにも使えます。
+次の例は\ct{test.txt}というファイルを作成し，改行で分離された2つの文字列を書き込み，ファイルを閉じます。
 
 \needlines{3}
 \begin{code}{}
@@ -180,24 +205,35 @@ StandardFileStream
 \end{code}
 \cmindex{FileStream class}{fileNamed:do:}
 
-The following sections present the protocols in more depth.
+%The following sections present the protocols in more depth.
+次の章ではプロトコルについてさらに解説します。
 
 %=============================================================
-\section{Streaming over collections}
+%\section{Streaming over collections}
+\section{ストリームによるコレクションの操作}
 
-Streams are really useful when dealing with collections of
-elements. They can be used for reading and writing elements in
-collections. We will now explore the stream features for the
-collections.
+%Streams are really useful when dealing with collections of
+%elements. They can be used for reading and writing elements in
+%collections. We will now explore the stream features for the
+%collections.
+ストリームはコレクションの要素を扱うのにとても便利です。
+コレクションの要素の読み込みと書き込みに使われます。
+これからコレクションに対するストリームの特徴を探っていきます。
+
 
 %-----------------------------------------------------------------
-\subsection{Reading collections}
+%\subsection{Reading collections}
+\subsection{コレクションを読み込む}
 
-This section presents features used for reading collections. Using a
-stream to read a collection essentially provides you a pointer into the collection. That pointer will move forward on reading and you can place it wherever you want. The class \clsindmain{ReadStream} should be used to read elements from collections.
-
-Methods \mthind{ReadStream}{next} and \mthind{ReadStream}{next:} are used to
-retrieve one or more elements from the collection.
+%This section presents features used for reading collections. Using a
+%stream to read a collection essentially provides you a pointer into the collection. That pointer will move forward on reading and you can place it wherever you want. The class \clsindmain{ReadStream} should be used to read elements from collections.
+このセクションではコレクションの読み込みについて見ていきます。
+コレクションの読み込みにストリームを使うことは，本質的にはコレクションへのポインタを提供することになります。
+ポインタは読み込みで前進し，希望する場所に移動させることができます。
+コレクションの要素を読み込むのには\clsindmain{ReadStream}クラスを使います。
+%Methods \mthind{ReadStream}{next} and \mthind{ReadStream}{next:} are used to
+%retrieve one or more elements from the collection.
+コレクションから一つ以上の要素を読み出すには\mthind{ReadStream}{next}と\mthind{ReadStream}{next:}メソッドを使います。
 
 \begin{code}{@TEST |stream|}
 stream := ReadStream on: #(1 (a b c) false).
@@ -215,23 +251,32 @@ stream next: 3. -->   'bcd'
 stream next: 2. -->   'ef'
 \end{code}
 
-The message \mthind{PositionableStream}{peek} is used when you want to know what is the next element in
-the stream without going forward.
+%The message \mthind{PositionableStream}{peek} is used when you want to know what is the next element in
+%the stream without going forward.
+\mthind{PositionableStream}{peek}メッセージはポインタを進めることなくストリームの次の要素が
+何であるかを知りたいときに使われます。
 
 \begin{code}{@TEST |stream negative number|}
 stream := ReadStream on: '-143'.
-negative := (stream peek = $-).    "look at the first element without reading it"
+%negative := (stream peek = $-).    "look at the first element without reading it"
+negative := (stream peek = $-).    "読み込むことなく最初の要素を調べる"
 negative. --> true
-negative ifTrue: [stream next].       "ignores the minus character"
+%negative ifTrue: [stream next].       "ignores the minus character"
+negative ifTrue: [stream next].       "マイナスの文字を無視する"
 number := stream upToEnd.
 number. --> '143'
 \end{code}
 \noindent
-This code sets the boolean variable \ct{negative} according to the sign of the
-number in the stream and \ct{number} to its absolute value. The method
-\mthind{ReadStream}{upToEnd} returns everything from the current position to the end
-of the stream and sets the stream to its end. This code can be
-simplified using \mthind{PositionableStream}{peekFor:}, which moves forward if the following element equals the parameter and doesn't move otherwise.
+%This code sets the boolean variable \ct{negative} according to the sign of the
+%number in the stream and \ct{number} to its absolute value. The method
+%\mthind{ReadStream}{upToEnd} returns everything from the current position to the end
+%of the stream and sets the stream to its end. This code can be
+%simplified using \mthind{PositionableStream}{peekFor:}, which moves forward if the following element equals the parameter and doesn't move otherwise.
+このコードは，ブーリアン変数\ct{negative}をストリームの数で設定し，\ct{number}に数の絶対値を設定します。
+\mthind{ReadStream}{upToEnd}メソッドは現在の位置からストリームの最後までの全てを返し，
+ストリームを最後に設定します。このコードは，パラメータと同じ時は先に進み，
+異なるときは進まない\mthind{PositionableStream}{peekFor:}メソッドを使うことで単純化できます。
+
 
 \begin{code}{@TEST |stream negative number|}
 stream := '-143' readStream.
@@ -239,22 +284,37 @@ stream := '-143' readStream.
 stream upToEnd         --> '143'
 \end{code}
 \noindent
-\ct{peekFor:} also returns a boolean
-indicating if the parameter equals the element.
+%\ct{peekFor:} also returns a boolean
+%indicating if the parameter equals the element.
+\ct{peekFor:メソッドはまた，パラメータと要素が等しいかを示す真偽値を返します。
 
-You might have noticed a new way of constructing a stream in
-the above example: one can simply send \mthind{SequenceableCollection}{readStream} to a sequenceable collection to get a reading stream on that particular
-collection.
 
-\paragraph{Positioning.} There are methods to position the stream
-pointer. If you have the index, you can go directly to it using
-\mthind{PositionableStream}{position:}. You can request the current position using
-\mthind{PositionableStream}{position}. Please remember that a stream is not positioned on an
-element, but between two elements. The index corresponding to the
-beginning of the stream is 0.
 
-You can obtain the state of the stream depicted in
-\figref{ab_cde} with the following code:
+%You might have noticed a new way of constructing a stream in
+%the above example: one can simply send \mthind{SequenceableCollection}{readStream} to a sequenceable collection to get a reading stream on that particular
+%collection.
+上のコードからストリームを作る新しい方法に気付いたと思います。
+一続きのコレクションに対して単に\mthind{SequenceableCollection}{readStream}メッセージを送ることで，
+そのコレクションからストリームを読み込むことができます。
+
+%\paragraph{Positioning.} There are methods to position the stream
+%pointer. If you have the index, you can go directly to it using
+%\mthind{PositionableStream}{position:}. You can request the current position using
+%\mthind{PositionableStream}{position}. Please remember that a stream is not positioned on an
+%element, but between two elements. The index corresponding to the
+%beginning of the stream is 0.
+\paragraph{位置決め} 
+ストリームのポインタを位置決めするメソッドがあります。
+もしインデックスがあるなら\mthind{PositionableStream}{position:}メソッドで直接そこへ移動できます。
+\mthind{PositionableStream}{position}メソッドで現在位置を要求することができます。
+ストリームは要素と要素の間を示しているのであって，要素そのものを指しているわけではないことを覚えておいて下さい。
+ストリームの先頭のインデックスは0になります。
+
+
+%You can obtain the state of the stream depicted in
+%\figref{ab_cde} with the following code:
+図\figref{ab_cde}に描かれたストリームの状態を次のコードで得ることができます。
+
 
 \begin{code}{@TEST |stream|}
 stream := 'abcde' readStream.
@@ -264,58 +324,79 @@ stream peek --> $c
 
 \begin{figure}[h!t]
 \centerline{\includegraphics[scale=0.5]{ab_cdeStef}}
-\caption{A stream at position 2}
+%\caption{A stream at position 2}
+\caption{2番目の位置にあるストリーム}
 \figlabel{ab_cde}
 \vspace{.2in}
 \end{figure}
 
-To position the stream at the beginning or the end,
-% If you want to go to the beginning or at the end is what you want, 
-you can use
-\mthind{PositionableStream}{reset} or \mthind{PositionableStream}{setToEnd}. \mthind{PositionableStream}{skip:} and \mthind{PositionableStream}{skipTo:} are used to
-go forward to a location relative to the current position: \ct{skip:}
-accepts a number as argument and skips that number of elements whereas
-\ct{skipTo:} skips all elements in the stream until it finds an
-element equal to its parameter. Note that it positions the stream
-after the matched element.
+%To position the stream at the beginning or the end,
+%% If you want to go to the beginning or at the end is what you want, 
+%you can use
+%\mthind{PositionableStream}{reset} or \mthind{PositionableStream}{setToEnd}. \mthind{PositionableStream}{skip:} and \mthind{PositionableStream}{skipTo:} are used to
+%go forward to a location relative to the current position: \ct{skip:}
+%accepts a number as argument and skips that number of elements whereas
+%\ct{skipTo:} skips all elements in the stream until it finds an
+%element equal to its parameter. Note that it positions the stream
+%after the matched element.
+ストリームの先頭かおしまいに移動する場合はそれぞれ\mthind{PositionableStream}{reset}メソッド，
+\mthind{PositionableStream}{setToEnd}メソッドを使います。
+\mthind{PositionableStream}{skip:}と\mthind{PositionableStream}{skipTo:}メソッドは現在位置を基準として前に進む場合に使います。
+\ct{skip:}メソッドは引数に数を取ることができ，その数の要素を飛ばします。
+\ct{skipTo:}メソッドは与えられた変数と同じ要素が見つかるまでストリームの要素を飛ばしていきます。
+そのときの位置は，見つかった要素の後ろになることに注意して下さい。
 
 \begin{code}{@TEST |stream|}
 stream := 'abcdef' readStream.
-stream next.        --> $a    "stream is now positioned just after the a"
-stream skip: 3.                           "stream is now after the d"
+%stream next.        --> $a    "stream is now positioned just after the a"
+stream next.        --> $a    "ストリームはaの真後ろに位置している"
+%stream skip: 3.                           "stream is now after the d"
+stream skip: 3.                           "dの後ろに位置している"
 stream position.  -->   4
-stream skip: -2.                          "stream is after the b"
+%stream skip: -2.                          "stream is after the b"
+stream skip: -2.                          "bの後ろに位置している"
 stream position.  --> 2
 stream reset.
 stream position.  --> 0
-stream skipTo: $e.                      "stream is just after the e now"
+%stream skipTo: $e.                      "stream is just after the e now"
+stream skipTo: $e.                      "ストリームはeの後ろに移った"
 stream next.        --> $f
 stream contents. --> 'abcdef'
 \end{code}
 
-As you can see, the letter \ct{e} has been skipped.
+%As you can see, the letter \ct{e} has been skipped.
+ご覧のように\ct{e}の文字は飛ばされています。
 
-The method \mthind{PositionableStream}{contents} always returns a copy of the entire stream.
+%The method \mthind{PositionableStream}{contents} always returns a copy of the entire stream.
+\mthind{PositionableStream}{contents}メソッドはストリーム全体のコピーを常に返します。
 
-\paragraph{Testing.} Some methods allow you to test the state of the current stream:
-\mthind{PositionableStream}{atEnd} returns true if and only if no more elements can be read whereas \mthind{PositionableStream}{isEmpty} returns true if and only if there is no element at all in the collection.
+%\paragraph{Testing.} Some methods allow you to test the state of the current stream:
+%\mthind{PositionableStream}{atEnd} returns true if and only if no more elements can be read whereas \mthind{PositionableStream}{isEmpty} returns true if and only if there is no element at all in the collection.
+\paragraph{テスト}現在のストリームの状態をテストするためのメソッドがあります。
+\mthind{PositionableStream}{atEnd}メソッドはこれ以上読める要素がない場合のみtrueを返します。
+\mthind{PositionableStream}{isEmpty}メソッドはコレクションに全く要素がない場合のみtrueを返します。
 
-Here is a possible implementation of an algorithm using \ct{atEnd} that takes two sorted collections as parameters and merges those collections into another sorted collection:
+%Here is a possible implementation of an algorithm using \ct{atEnd} that takes two sorted collections as parameters and merges those collections into another sorted collection:
+二つのソートされたコレクションを変数としてこれらのコレクションを別のソートされたコレクションと結合するアルゴリズムを
+\ct{atEnd}メソッドを使って実装する例を示します。
 
 \needlines{4}
 \begin{code}{@TEST |stream1 stream2 result|}
 stream1 := #(1 4 9 11 12 13) readStream.
 stream2 := #(1 2 3 4 5 10 13 14 15) readStream.
 
-"The variable result will contain the sorted collection."
+%"The variable result will contain the sorted collection."
+"変数にはソートされたコレクションが含まれる."
 result := OrderedCollection new.
 [stream1 atEnd not & stream2 atEnd not]
   whileTrue: [stream1 peek < stream2 peek
-    "Remove the smallest element from either stream and add it to the result."
+%    "Remove the smallest element from either stream and add it to the result."
+    "両方のストリームのもっとも小さな要素が取り除かれてresultに加えられる."
     ifTrue: [result add: stream1 next]
     ifFalse: [result add: stream2 next]].
 
-"One of the two streams might not be at its end. Copy whatever remains."
+%"One of the two streams might not be at its end. Copy whatever remains."
+"どちらかのストリームが終わりにない場合，残っている全てをコピーする."
 result
   addAll: stream1 upToEnd;
   addAll: stream2 upToEnd.
@@ -324,13 +405,19 @@ result. -->   an OrderedCollection(1 1 2 3 4 4 5 9 10 11 12 13 13 14 15)
 \end{code}
 
 %-----------------------------------------------------------------
-\subsection{Writing to collections}
+%\subsection{Writing to collections}
+\subsection{コレクションへの書き込み}
 
-We have already seen how to read a collection by iterating over its
-elements using a \ct{ReadStream}. We'll now learn how to create
-collections using \clsindmain{WriteStream}{}s.
+%We have already seen how to read a collection by iterating over its
+%elements using a \ct{ReadStream}. We'll now learn how to create
+%collections using \clsindmain{WriteStream}{}s.
+\ct{ReadStream}を使ってコレクションの要素をどのように読み込むかについては既にみてきました。
+次に，\clsindmain{WriteStream}{}を使ってコレクションを作成する方法について学びましょう。
 
-\ct{WriteStream}s are useful for appending a lot of data to a collection at various locations. They are often used to construct strings that are based on static and dynamic parts as in this example:
+%\ct{WriteStream}s are useful for appending a lot of data to a collection at various locations. They are often used to construct strings that are based on static and dynamic parts as in this example:
+コレクションの様々な場所にたくさんのデータを加えるとき，\ct{WriteStream}は便利です。
+次の例のように，静的あるいは動的に文字列を生成するときにもしばしば用いられます。
+
 
 \begin{code}{NB: can't be tested due to the changing number of classes}
 stream := String new writeStream.
@@ -345,10 +432,12 @@ stream contents. --> 'This Smalltalk image contains: 2322 classes.
 This is really a lot.'
 \end{code}
 
-This technique is used in the different implementations of the method
-\ct{printOn:} for example. There is a simpler and more efficient way
-of creating streams if you are only interested in the content of the
-stream:
+%This technique is used in the different implementations of the method
+%\ct{printOn:} for example. There is a simpler and more efficient way
+%of creating streams if you are only interested in the content of the
+%stream:
+この方法はたとえば\ct{printOn:}メソッドの異なる実装にも使えます。
+ストリームの内容だけにしか興味がない場合，これはもっと単純で効果的なストリームの作成法です。
 
 \begin{code}{@TEST |string|}
 string := String streamContents:
