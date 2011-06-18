@@ -220,36 +220,38 @@ Let us briefly survey some of the key differences:
 %  How is the order established? Sorted collections use a supplied total ordering function, intervals are implicitly ordered, while arrays and ordered collections are ordered explicitly when elements are inserted.
 
 %=========================================================
-\section{Implementations of collections}
+\section{コレクションの実装}
 \seclabel{implementation}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{CollectionsByImpl}
-\caption{Some collection classes categorized by implementation technique.
+\caption{実装技法によりカテゴリ分けしたコレクション
     \figlabel{collsByImpl}}
+% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
 \end{center}
 \end{figure*}
 
-These categorizations by functionality are not our only concern; we must also consider how the collection classes are implemented. As shown in \figref{collsByImpl}, five main implementation techniques are employed.
+機能によるカテゴリーだけ考えれば良いというわけではありません。どうやってコレクションクラスが実装されているかも考えなければなりません。\figref{collsByImpl} に示すように、主要な実装技法としては五つのものがあります。
 
 \begin{enumerate}
-  \item Arrays store their elements in the (indexable) instance variables of the collection object itself; as a consequence, arrays must be of a fixed size, but can be created with a single memory allocation.
+  \item Array は要素をコレクションオブジェクト自身の(インデックス参照できる)インスタンス変数に格納します。結果として、配列はサイズ固定となり、その代わりに一回のメモリ割り当てで生成できます。
   \clsindex{Array}
-  \item \clsind{OrderedCollections} and \clsind{SortedCollections} store their elements in an array that is referenced by one of the instance variables of the collection.
-Consequently, the internal array can be replaced with a larger one if the collection grows beyond its storage capacity.
-  \item The various kinds of set and dictionary also reference a subsidiary array for storage, but use the array as a hash table.  Bags use a subsidiary \ct{Dictionary}, with the elements of the bag as keys and the number of occurrences as values.
+  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。こうすることで、この内部的な配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
+  \item set や dictionary の類もまた、記憶先として配列へのリファレンスを利用しますが、配列をハッシュテーブルとして用います。Bag は記憶先として、要素そのものをキー、出現回数を値として持つ \ct{Dictionaly} を使います。
   \clsindex{Bag}
-  \item LinkedLists use a standard singly-linked representation.
+  \item LinkedList は一般的な片方向リンクの形式を取ります。
   \clsindex{LinkedList}
-  \item Intervals are represented by three integers that record the two endpoints and the step size.
+  \item Interval は開始点・終了点・ステップサイズの三つの整数を格納します。
   \clsindex{Interval}
 \end{enumerate}
-In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
-The \pharo virtual machine is aware of these classes and handles them specially.
+これらのクラスに加え、\ct{Array}、\ct{Set}、それからディクショナリーの多くの種類は、``\subind{Collection}{weak}'' という変種を持ちます。これらの変種では要素を弱く保持します。\ie 要素のガーベージコレクションを禁止しないということです。
+% 自信ないので原文残す。
+% In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
+\pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
 \index{weak collections}
 
-Readers interested in learning more about the \st collections are referred to LaLonde and Pugh's excellent book \cite{LaLo90a}.
+\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh のすばらしい本 \cite{LaLo90a} を参照してください。
 
 %=========================================================
 \section{Examples of key classes}
