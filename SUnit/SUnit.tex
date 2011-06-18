@@ -1170,7 +1170,7 @@ Never get yourself into a situation where you don't want to run your unit test s
 \fi
 
 \index{Feathers, Michael}
-\item[ユニットテストにおける Feathers の法則。]
+\item[Feathers のユニットテストの法則。]
   アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。 \footnote{\url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923} を参照。 2005/9/9 。}
   \begin{quotation}
   \noindent
@@ -1229,7 +1229,12 @@ Never get yourself into a situation where you don't want to run your unit test s
   たくさんのテストが実行されるでしょうが、ファイルシステムにアクセスするテストなら時間がかかるかもしれません。
   わずかなコードの変更にもテストをしたければ、ユニットテストと承認テストを分けるべきです。
 
-\item[Black's Rule of Testing.]
+%\item[Black's Rule of Testing.]
+\item[Black のテストの法則。]
+
+% Rex Black のこと？
+
+\if0
   For every test in the system, you should be able to identify some property for which
   the test increases your confidence.
   It's obvious that there should be no important property that you are not testing.
@@ -1242,6 +1247,19 @@ Never get yourself into a situation where you don't want to run your unit test s
   Second, 
   because one bug in the code might then break many tests, they make it harder to estimate how many bugs remain in the code.
   So, have a property in mind when you write a test.
+\fi
+
+  どのテストも、テスト内容がどうシステムの信頼性につながるのかわかるようにすべきです。
+  テストの必要がないと判断した機能を重要なものと考えるべきではありません。
+  システムの信頼性が高まるような内容でなければ、テストをする必要はありません。
+  例えば同じ目的のテストを複数書いても、かえって二つのデメリットがあります。
+  一つは、テストを読んでもクラスの挙動が理解しにくくなります。
+  もう一つは、コードにいくつバグが残っているのか見積もりにくくなります。
+  たった一つでもバグがあれば、多くのテストが失敗するからです。
+  テストを書くときは常に目的を考えましょう。
+
+% そのまま訳すとわかりにくくなりそうでだいぶ訳を変えましたが、おかしいかも。
+
 \end{description}
 
 %\section{Extending \SUnit}
