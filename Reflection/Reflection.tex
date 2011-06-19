@@ -139,47 +139,47 @@ w inspect
 %@In \st, classes define instance variables either by name or by numeric indices.
 \st では、クラスは、インスタンス変数を、名前か数値インデックスで定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
-インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができるのですが、インスタンス変数の識別には、\lct{\emph{index}}による位置や、\lct{\emph{aString}}が用いることができます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに、を用いるのです。
+インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッドを、用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに用います。%@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
 \mthindex{Object}{instVarNamed:put:}
 
 %@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
-たとえば、以下を評価することにより、最初のワークスペースで\ct!w!にバインドされたオブジェクトの内部状態を変更することができます: %@?自信なし
+たとえば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@英文が変?
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
 %@\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
-\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利でるとは言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードはわかりづらく、保守しづらいものになりかねません。}
+\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利だと言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードは、よりわかりづらく、保守しづらいものになりかねません。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
 \ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>!が見付かるでしょう。なお、ここで、\ct!N!は整数です。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ} 構文 \ct!<primitive: N>! が見付かるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
 \begin{code}{}
 Object>>>instVarAt: index 
 %@	"Primitive. Answer a fixed variable in an object. ..."
-	"プリミティブ。オブジェクト内に固定長の変数を返す。..." %@固定長の?
+	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。..."
 	!\textbf{<primitive: 73>}!
 %@	"Access beyond fixed variables."
-	"固定長の変数を超えた変数にアクセスする。"
+	"固定長配列の範囲を超えた変数にアクセスする。"
 	^self basicAt: index - self class instSize		
 \end{code}
 
 %@Typically, the code after the primitive invocation is not executed.
 通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
 %@It is executed only if the primitive fails. In this specific case, if we try to access a variable that does not exist, then the code following the primitive will be tried.
-プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。今のこの例では、存在しない変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
+プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
 %@This also allows the debugger to be started on primitive methods.
 これにより、プリミティブメソッドからデバッガを開始することも可能になります。
 %@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
-いくらプリミティブメソッドのコードは変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
+いくらプリミティブメソッドのコードが変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
