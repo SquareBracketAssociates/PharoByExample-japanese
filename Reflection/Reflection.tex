@@ -158,7 +158,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
 \ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ} 構文 \ct!<primitive: N>! が見付かるでしょう。なお、ここで、\ct!N!は整数です。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見付かるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
@@ -383,7 +383,7 @@ Point crossReference --> an Array(
 %@\item \mthind{Behavior}{whichClassIncludesSelector:} returns the superclass that implements the given message
 \item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するスーパークラスを返す
 %@\item \mthind{Behavior}{unreferencedInstanceVariables} returns the list of instance variables that are neither used in the receiver class nor any of its subclasses
-\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
+\item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
 
 \begin{code}{@TEST}
@@ -392,9 +392,9 @@ Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
 %@\clsind{SystemNavigation} is a facade that supports various useful methods for querying and browsing the source code of the system.
-\clsind{SystemNavigation} は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
+\clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
 %@\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
-\ct{SystemNavigation} \mthind{SystemNavigation class}{default} は、システムをナビゲートするのに使えるインスタンスを返します。
+\ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるインスタンスを返します。
 %@For example:
 たとえば:
 
@@ -481,7 +481,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Let us consider the relationship between classes and methods.
 クラスとメソッドの関係について考えてみましょう。
 %@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-\figref{MethodsAsObjects} で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
+\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
 %@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
@@ -568,14 +568,14 @@ SystemNavigation default
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
 %@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
-この限定されたスコープの中で、\menu{refactoring scope>super-sends} を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
+この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
 %@Now \click on any method and select \menu{refactor>code critics}.
 さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
-\menu{Lint checks>Possible bugs>Sends different super message} とナビゲートして、\menu{browse}を\actclick してみましょう。
+\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
-\figref{sendDifferentSuper} では、そのような19個のメソッドが、\ct{Collection} 階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
 %@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
@@ -585,7 +585,7 @@ SystemNavigation default
 %@Browser environments can also be created programmatically.
 ブラウザー環境はまた、プログラム的に作ることができます。
 %@Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
-たとえば、以下のように、\clsind{Collection} とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment} オブジェクトとして表示することができます。
+たとえば、以下のように、\clsind{Collection}とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示することができます。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -611,7 +611,7 @@ SystemNavigation default
 %@Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
 ここでは、各コンパイル済みメソッドに、その (Refactoring Browser) 解析木について尋ね、superメッセージが、メソッドセレクターと異なっているかを探り出しています。
 %@Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
-\ct{RBProgramNode} クラスの\prot{querying} プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things?
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things?
 
 %======================================
 %@\section{Accessing the run-time context}
@@ -627,7 +627,7 @@ SystemNavigation default
 %@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
 実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- けっして、イメージの中ではない、ということです!
 %@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
-その一方で、\ind{デバッガー} はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
+その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
 %@How is this possible?
 これは、どのようにして可能なのでしょうか?
 
