@@ -137,7 +137,7 @@ w inspect
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
 実際には、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
-\st では、クラスは、インスタンス変数を、名前か数値インデックスで定義します。
+\st では、クラスは、インスタンス変数を、名前か添字で定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
 インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッドを、用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに用います。%@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
@@ -193,9 +193,9 @@ Object>>>instVarAt: index
 この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 %@In the same spirit, it is possible to gather instances that have specific properties.
-同様の考えで、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の考えで?
+同様の精神にもとづき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神にもとづき?
 %@For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
-たとえば、SketchMorph!クラスのインスタンスで、その\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
+たとえば、SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
@@ -214,7 +214,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
 
 %@The method is implemented in \ct{Object} as follows:
-このメソッドは、以下のように、\ct{Object}クラスで実装されています:
+このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@? Pharo-1.1.1には、このメソッドは無い。
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
@@ -229,9 +229,9 @@ Object>>>instanceVariableValues
 \end{code}
 
 %@This method iterates over the indices of instance variables that the class defines, starting just after the last index used by the superclasses.
-このメソッドは、そのクラスが定義する一連のインスタンス変数のインデックスについて、繰り返し処理します。このときのインデックスは、スーパークラスで用いられていた最後のインデックスの直後の値から始まります。
+このメソッドは、そのクラスが定義する一連のインスタンス変数の添字について、繰り返し処理します。このときの添字は、スーパークラスで用いられていた最後の添字の直後の値から始まります。
 %@(The method \ct!instSize! returns the number of all named instance variables that a class defines.)
-(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 。)or)。
+(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 「。)」か「)。」か?
 
 %-----------------------------------------------------------------
 %@\subsection{Querying classes and interfaces}
@@ -468,7 +468,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@In \figref{CompiledMethod}, the \ind{explorer} shows the structure of class \clsind{Point}.
 \figref{CompiledMethod}が示しているのは、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示している様子です。
 %@You can see that the class stores its methods in a dictionary, indexing them by their selector.
-ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書のインデックスになっています。
+ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書の見出しになっています。
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
 The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*の\ind{バイトコード}を指しています。
 
