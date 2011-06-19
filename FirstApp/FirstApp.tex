@@ -40,13 +40,11 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{A first application}
+\chapter{最初のアプリケーション}
 \chalabel{firstApp}
 
-In this chapter, we will develop a simple game: \ind{Lights Out}.\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}
-Along the way we will demonstrate most of the tools that \pharo programmers use to construct and debug their programs, and show how programs are exchanged with other developers. We will see the browser, the object inspector, the debugger and the \ind{Monticello} \ind{package} browser. 
-Development in Smalltalk is efficient: you will find that you spend far more time actually writing code and far less managing the development process. 
-This is partly because the Smalltalk language is very simple, and partly because the tools that make up the programming environment are very well integrated with the language.
+この章において、簡単なゲーム：\ind{Lights Out}\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}を作成することにします。\pharoプログラマーがプログラムを作成したりデバッグをするために使用する多くのツールを通じ、どのように他の開発者とプログラムを受け渡しするのかを実際に体験します。
+ここでは、ブラウザー、オブジェクトインスペクター、デバッガー、\ind{Monticello} \ind{package}ブラウザーのツールの使い方を見ることになります。Smalltalkを使いプログラムをするのはとても効率的です。なぜそう言えるのかは、コードを書くためにいかに多くの時間を費やすことができ、開発プロセスに割く時間をどれほど省くことができるかということ、をこの章を読むことでわかるでしょう。Smallltalkを使ったプログラミングが効率的なのは、Smallltalkがプログラミング言語として簡潔であること、そしてプログラムを開発するための環境がプログラミング言語ととてもうまく統合されていること、によるためです。
 
 %=================================================================
 \section{The Lights Out game}
@@ -62,25 +60,21 @@ This is partly because the Smalltalk language is very simple, and partly because
 \begin{figure}[ht]
 	\vskip -\baselineskip
 	\centerline{\includegraphics[width=.3\linewidth]{GameBoard}}
-	\caption{The Lights Out game board. The user has just clicked the mouse as shown by the cursor.
+	\caption{Lights Outゲームボード。ユーザーは単にボード上のセルをマウスでクリックするだけです。
 	\figlabel{gameBoard}}
 \end{figure}
 
-To show you how to use \pharo's programming tools, we will build a simple game called \emph{Lights Out}.  The game board is shown in \figref{gameBoard}; it consists of a rectangular array of light yellow \emph{cells}.  When you click on one of the cells with the mouse, the four surrounding cells turn blue.  \Click again, and they toggle back to light yellow.  The object of the game is to turn blue as many cells as possible.
-
-The Lights Out game shown in \figref{gameBoard} is made up of two kinds of objects: the game board itself, and 100 individual cell objects.  The \pharo code to implement the game will contain two classes: one for the game and one for the cells.
-We will now show you how to define these classes using the \pharo programming tools.
+\pharoのプログラミングツールの使い方を見せるため\emph{Lights Out}と呼ばれる簡単なゲームを作ります。ゲームボードは図2.1の通り、淡黄色の\emph{cells}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度\Clickすると、それらの色の変わったcellは、淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
+\figref{gameBoard}に示されているゲームはゲームボード本体と100個からなるcellの2種類のオブジェクトで構成されています。このゲームを実装するための\pharoのコードは2つのクラスから成ります。1つはゲームクラス、もう1つはcellクラスです。\pharoのプログラミングツールを使い、どのようにこれらのクラスを定義していくか見ていきましょう。
 
 %=================================================================
 \section{Creating a new Package}
 
-We have already seen the \ind{browser} in \charef{quick}, where we learned how to navigate to classes and methods, and saw how to define new methods.
-Now we will see how to create packages, categories and classes.
+\charef{quick}の\ind{browser}の使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
 \index{category!creating}
 \index{package!creating}
 
-\dothis{Open a browser and \actclick in the package pane.
-Select \menu{create package}.\footnote{We are assuming that the Package Browser is installed as the default browser, which should normally be the case. If the browser you get does not look like the one shown in \figref{addPackage}, then you may need to change the default browser.  See \faqref{packagebrowser}.}}
+\dothis{ブラウザーを開きパッケージペインで\actclick。その後\menu{create package}を選択。\footnote{パッケージブラウザーが標準ブラウザーとしてインストールされているものとします。もし\figref{addPackage}で示されているようなブラウザーを使っていない場合はデフォルトのブラウザー変更する必要があります。もし\figref{addPackage}で示されているようなブラウザーを使っていない場合はデフォルトのブラウザー変更する必要があります。\faqref{packagebrowser}参照。}}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -100,39 +94,34 @@ Select \menu{create package}.\footnote{We are assuming that the Package Browser 
 \end{minipage}
 \end{figure}
 
-Type the name of the new package (we will use \scat{PBE-LightsOut}) in the dialog box and click \menu{accept} (or just press the return key); the new package is created, and positioned alphabetically in the list of packages.
+ダイアログボックスに新たなパッケージ名を入力してください(ここではパッケージ名を\scat{PBE-LightsOut}とします)。その後\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に表示されます。
 
 %=================================================================
 \section{Defining the class LOCell}
 
-As yet there are  of course no classes in the new package. However, the main editing pane displays a template to make it easy to create a new class (see \figref{classTemplate}).
+あたり前のことですが、新しいパッケージにはまだ何のクラスも定義されていません。しかし、メインの編集ペインには新たなクラスを作りやすいように、自動的にクラスのテンプレートが用意されます(\figref{classTemplate}参照)。
 
-This template shows us a \st expression that sends a message to a class called \ct{Object}, asking it to create a subclass called \ct{NameOfSubClass}.  The new class has no variables, and should belong to the category \scat{PBE-LightsOut}.
+このテンプレートでは、\ct{Object}と呼ばれるクラスに\st式のメッセージ送る\ct{NameOfSubClass}と呼ばれるサブクラスを作成する作成するように求められます。新しいクラスには変数はありません。またこのクラスは\scat{PBE-LightsOut}カテゴリに属していなければなりません。
 
 \subsection{On Categories and Packages}
 \seclabel{categoriesPackages}
 
-Historically, \st only knows about \emph{categories}, not packages.
-You may well ask, what is the difference?
-A category is simply a collection of related classes in a \st image.
-A \emph{package} is a collection of related classes \emph{and extension methods} that may be versioned using the Monticello versioning tool.
-By convention, package names and category names are the same.
-For most purposes we do not care about the difference, but we will be careful to use the correct terminology in this book since there are points where the difference is crucial.
-We will learn more when we start working with Monticello.
+歴史的には、\stは\emph{categories}は知っていますが、パッケージは知りません(意味不明、後に再チェック)。この2つ用語の違いとは何か、疑問に思うことと思います。カテゴリとは\stのイメージファイル内に、関係するクラスを単に集めたものです。\emph{package}とは関係するクラスと\emph{拡張メソッド}を集めたもので、バージョン管理ツールであるモンティチェロを用いて管理されるものを集めたものです。慣習的にパッケージ名とカテゴリ名は同じものを使います。通常、この用語の違いを気にする必要はありません。しかしこの本においては、この用語の違いが重要な意味を持つため、各所にて正しい用語を注意深く使用することとします。実際にモンティチェロを使うときに、これらの違いについてより深く知ることにしましょう。
+
 \index{package}
 \index{category}
 
 \subsection{Creating a new class}
 
-We simply modify the template to create the class that we really want.
+クラスのテンプレートを修正し、目的に合ったクラスを作ってみましょう。
 
-\dothis{Modify the class creation template as follows:}
+\dothis{自動的に作成されたテンプレートのクラスを修正する手順は以下の通りです:}
 \begin{itemize}
-  \item Replace \clsind{Object} by \clsind{SimpleSwitchMorph}.
-  \item Replace \ct{NameOfSubClass} by \clsind{LOCell}.
-  \item Add \ct{mouseAction} to the list of instance variables.
+  \item \clsind{Object}を\clsind{SimpleSwitchMorph}と書き換えます。
+  \item \ct{NameOfSubClass}を\clsind{LOCell}と書き換えます。
+  \item instance variablesのリストに\ct{mouseAction}を追加します。
 \end{itemize}
-The result should look like \clsref{firstClassDef}.
+結果は\clsref{firstClassDef}の通りです。
 
 \needlines{5}
 \begin{classdef}[firstClassDef]{Defining the class \ct| LOCell|}
@@ -146,14 +135,9 @@ SimpleSwitchMorph subclass: #LOCell
 \index{class!creation}
 \index{Morphic}
 
-This new definition consists of a \st expression that sends a message to the existing class \ct{SimpleSwitchMorph}, asking it to create a subclass called \ct{LOCell}.
-(Actually, since \ct{LOCell} does not exist yet, we passed as an argument the \emphind{symbol} \ct{#LOCell} which stands for the name of the class to create.)
-We also tell it that instances of the new class should have a \ct{mouseAction} instance variable, which we will use to define what action the cell should take if the mouse should click over it.
-
-\emph{At this point you still have not created anything.}
-Note that the border of the class template pane has changed to red (\figref{acceptClassDef}).
-This means that there are \emph{unsaved changes}.
-To actually send this message, you must \menu{accept} it.
+この新しく定義したSmalltalk式は、SimpleSwitchMorphという名の既存のクラスに対し、LOCellという名のサブクラスを作るかどうかをメッセージを送り尋ねます。(実際にはLOCellサブクラスはまだ作られていないため、これから作作るサブクラスの名前、つまり#LOCellシンボルを引数として渡します。)
+また、マウスでクリックしたときにcellがどのような動作をするか、ということもこの後定義するmouseActionインスタンス変数に対し伝えなければなりません。
+この時点ではまだ何も作られてはいません。クラステンプレートペインの境界線が赤に変わっていることに注目してください(図2.4)。これはまだプログラムを変更したことがセーブされていないことを意味します。実際にセーブするためにacceptする必要があります。
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -164,16 +148,15 @@ To actually send this message, you must \menu{accept} it.
 \end{figure}
 
 \dothis{Accept the new class definition.}
-Either \actclick and select \menu{accept}, or use the shortcut \short{s} (for ``save'').
-The message will be sent to \ct{SimpleSwitchMorph}, which will cause the new class to be compiled.
+action-clickをしてacceptを選択、もしくはショートカットのCMD-s(セーブのため)を実行して下さい。SimpleSwitchMorphにメッセージが送られ、新しいクラスがコンパイルされます。
+1度クラス定義がacceptされると、クラスが作られ、ブラウザのクラスペインにそのクラスが表示されます(図2.5)。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これはclass commentと呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。Smalltalkプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
 \index{keyboard shortcut!accept}
 
-Once the class definition is accepted, the class will be created and appear in the classes pane of the browser (\figref{LOCell}).
-The editing pane now shows the class definition, and a small pane below it will remind you to write a few words describing the purpose of the class. This is called a \emph{class comment}, and it is quite important to write one that will give other programmers a high-level overview of the purpose of this class.
-Smalltalkers put a very high value on the readability of their code, and detailed comments in methods are unusual: the philosophy is that the code should speak for itself. (If it doesn't, you should refactor it until it does!) A class \subind{class}{comment} need not contain a detailed description of the class, but a few words describing its overall purpose are vital if programmers who come after you are to know whether to spend time looking at this class.
+1度クラス定義がacceptされると、クラスが作られ、ブラウザのクラスペインにそのクラスが表示されます(図2.5)。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これはclass commentと呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。Smalltalkプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
 \index{refactoring}
+クラスのコメントに、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
 
-\dothis{Type a class comment for \ct{LOCell} and accept it; you can always improve it later.}
+\dothis{LOCellクラスのコメントを入力し、acceptして下さい。これで後にそれを改良することができます。}
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -185,11 +168,10 @@ Smalltalkers put a very high value on the readability of their code, and detaile
 %=================================================================
 \section{Adding methods to a class}
 
-Now let's add some methods to our class.
+クラスにメソッドを追加します
 
-\dothis{Select the protocol \prot{-{}-all-{}-} in the protocol pane.}
-You will see a template for method creation in the editing pane.
-Select it, and replace it by the text of \mthref{scbecellinitialize}.
+今度はこのクラスにいくつかのメソッドを追加してみましょう。
+プロトコルペインにある--all--プロトコルを選択します。それを選択し、メソッド2.2に示されている内容と置き換えてください。
 \protindex{all}
 \index{method!creation}
 \index{browser!defining a method}
@@ -209,105 +191,62 @@ initialize
 \index{initialization}
 
 \noindent
-Note that the characters \ct{''} on line 3 are two separate single quotes with nothing between them, not a double quote!  \ct{''} denotes the empty string.
+3行目''の文字は、間に何の文字も挟んでいない2つの単一引用符です。二重引用符ではないことに注意してください。''空の文字列を表しています。
 
-\dothis{\menu{Accept} this method definition.}
+\dothis{このメソッドの定義をAccept}
 
-What does the above code do?  We won't go into all of the details here (that's what the rest of the book is for!), but we will give you a quick preview.  Let's take it line by line.
+上記のコードは何をするのでしょう？ここではその詳細全てには触れません(本の残りの部分はそのためにあるのです！)。しかし簡単に内容を見てみましょう。1行ずつ進んでいきましょう。
 
-Notice that the method is called \mthind{LOCell}{initialize}.
-The name is very significant!
-By convention, if a class defines a method named \ct{initialize}, it will be called right after the object is created.
-So, when we evaluate \ct{LOCell new}, the message \ct{initialize} will be sent automatically to this newly created object.
-Initialize methods are used to set up the state of objects, typically to set their instance variables; this is exactly what we are doing here.
+initializeと呼ばれるメソッドに注目してください。この名前は非常に重要です。慣習的にinitializeと名付けられたメッソドは、そのメソッドが属するクラスのオブジェクト作られた直後に呼び出されれます。つまり、LOCell new が評価されたとき、initialize メッセージが自動的に新しく作られたオブジェクトに送られます。initializeメソッドはオブジェクトの状態、主にそのインスタンス変数、を設定するために使われます。
 \seeindex{Object!initialization}{initialization}
 \index{initialization}
 
-The first thing that this method does (line 2) is to execute the \ct{initialize} method of its superclass, \ct{SimpleSwitchMorph}.
-The idea here is that any inherited state will be properly initialized by the \ct{initialize} method of the superclass.
-It is always a good idea to initialize inherited state by sending \ct{super initialize} before doing anything else; we don't know exactly what \ct{SimpleSwitchMorph}'s \ct{initialize} method will do, and we don't care, but it's a fair bet that it will set up some instance variables to hold reasonable default values, so we had better call it, or we risk starting in an unclean state.
+このメソッドが最初にすること(2行目)は、そのスーパークラスであるSimpleSwitchMorphのinitializeメソッドです。スーパークラスのinitializeメソッドにより、全ての継承された状態が適切に初期化された、とここでは考えてください。何かをする前に、スーパークラスのinitializeメソッドにより、継承された状態が初期化されるという考えることは常に正しい事です。つまり、SimpleSwitchMorphのinitializeメソッドが何をするかは知らなくとも気にしなくとも構いません。しかし、妥当なデフォルト値を維持するため、いくつかのインスタンス変数を設定するのはまっとうな方法であり、その値を呼び出すことはよいことです。さもなくば、何かをするときに初期化されていない状態から始める危険性をともないます(訳良くない、修正の必要あり)。
 
-The rest of the method sets up the state of this object.
-Sending \ct{self label: ''}, for example, sets the label of this object to the empty string.
-\pvindex{self}
+このメソッドの残りの部分はこのオブジェクトの状態を設定します。例えば、self label:'' をオブジェクトに送ることで、このオブジェクトのラベルに空の文字列を設定します。
 
-The expression \ct{0@0 corner: 16@16} probably needs some explanation. 
-\lct{0@0} represents a \clsind{Point} object with $x$ and $y$ coordinates both set to 0.
-In fact, \ct{0@0} sends the message \ct{@}
-% Yuck... the following should be \mthind{Number}{@} 
-%%% THIS IS BROKEN -- don't do it! (on)
-%\def\atsign{\textsf{@}}%
-%{\makeatletter
-%	\protected@write\@indexfile{}%
-%    {\string\indexentry{\string\atsign|see{Number, \string\atsign}}{\thepage}}%
-%	\protected@write\@indexfile{}%
-%    {\string\indexentry{Number!\string\atsign|hyperpage}{\thepage}}%
-%	\makeatother}
-to the number \ct{0} with argument \ct{0}.
-The effect will be that the number \ct{0} will ask the \ct{Point} class to create a new instance with coordinates (0,0).
-Now we send this newly created point the message \ct{corner: 16@16}, which causes it to create a \clsind{Rectangle} with corners \ct{0@0} and \ct{16@16}.
-This newly created rectangle will be assigned to the \ct{bounds} variable, inherited from the superclass.
-
-Note that the origin of the \pharo screen is the \emph{top left}, and the $y$ coordinate increases \emph{downwards}.
-
-The rest of the method should be self-explanatory.
-Part of the art of writing good \st code is to pick good method names so that \st code can be read like a kind of pidgin English.
-You should be able to imagine the object talking to itself and saying ``\ct{Self use square corners!}'', ``\ct{Self turn off!}''.
-
+0@0 corner: 16@16 で表される式については、恐らくいくつかの説明が必要でしょう。0@0は、両方共0に設定されたx,y座標のPointオブジェクトを意味します。実際に 0@0 で表される式は 数値 0 に、引数が 0 の @ メッセージを送ります。その結果、数値 0 はPointクラスに、座標(0,0)で新たなインスタンスを作るよう指示します。新しく作られた(座標の)点に、corner:16@16 メッセージを送ってみましょう。その結果、角が 0@0 と 16@16の長方形が作られます。この新しく作られた長方形には、スーパークラスから継承された bounds 変数が割り当てられます。Pharo の画面の原点は左上であり、下に向かってy座標の値が増えることに注意してください。
+(以下の行 全部 意味不明、後でやり直し)
+メソッドの残りの部分は自己説明的であるべきです。良いSmalltalkのコードを書く方法の1つは、Smalltalkのコードが英語の混成語のように読めるような良いメソッド名をつけることです。オブジェクトがそれ自体と話したり、”自分で広場の角を使う”、”自分で電源をオフにする”というイメージを持つことができるでしょう。
 %=================================================================
-\section{Inspecting an object}
+\section{オブジェクトを調査}
 
-You can test the effect of the code you have written by creating a new \ct{LOCell} object and inspecting it.
+新たなLOCellを作り、それを調査することによって書いたコードの効果をテストできます。
 
-\dothis{Open a workspace. Type the expression \ct{LOCell new} and \menu{inspect it}.}
+\dothis{workspaceを開き、そこでLOCell newと打ち込み inspect it して下さい。}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{LOCellInspector} 
-   \caption{The inspector used to examine a LOCell object.\figlabel{LOCellInspector}}
+   \caption{LOCellオブジェクトを調べるために使用したインスペクタ。}
 \end{figure}
 
-The left-hand pane of the \ind{inspector} shows a list of instance variables; if you select one (try \mbox{\ct{bounds}),} the value of the \ind{instance variable} is shown in the right pane.
-
-%  You can also use the inspector to change the value of an instance variable.
-%\dothis{Change the value of \ct{bounds} to \ct{0@0 corner: 50@50} and \menu{accept} it.}
-%\on{This does not work any more. I get:}
-%\ct{OTNamedVariableNode(Object)>>doesNotUnderstand: #selectedClass}
-%\on{should use the mini workspace instead to send bounds: ?}
-
-The bottom pane of the inspector is a mini-workspace.  It's useful because in this workspace the pseudo-variable \self is bound to the object selected. 
+インスペクタの左側のペインには、調査したインスタンス変数のリストが表示されます。その中の1つ例えば bounds）を選んで見てください、右側のペインにそのインスタンス変数の値が表示されます。インスペクターの下側にあるペインはmini-workspaceです。擬似変数selfが選択されたオブジェクトに束縛されているため、このworkspaceは便利です(意味不明 後でやり直し)。
 
 \dothis{
-Select the LOCell at the root of the inspector window.
-Type the text \ct{self bounds: (200@200 corner: 250@250)} in the bottom pane and \menu{do it}. The \ct{bounds} variable should change in the inspector.
-Now type the text \ct{self openInWorld} in the mini-workspace and \menu{do it}.}
-The cell should appear near the top left-hand corner of the screen, indeed, exactly where its \ct{bounds} say that it should appear.
-\metaclick on the cell to bring up the morphic \subind{Morphic}{halo}.
-Move the cell with the brown (next to top-right) handle and resize it with the yellow (bottom-right) handle.
-Notice how the bounds reported by the inspector also change.
-(You may have to \actclick{} \menu{refresh} to see the new bounds value.)
+インスペクタウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、self bounds:(200@200 coner: 250@250)と打ち込み do it して下さい。インスペクター上で束縛された値が変化します。次にmini-workspaceに self openinWorldと打ち込み do it して下さい。}
+画面の左上の端にcellが表示されます。実際、boundsメッセージで表示するよう指示した場所に正確に表示されます。cell上でmeta-clickをするとmorphic haroが現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、インスペクターを使って確認して下さい。(新たな bounds の値を見るために refresh action-click が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
 \ifluluelse
 	{\includegraphics[width=\textwidth]{LOCellResize} }
 	{\includegraphics[scale=0.7]{LOCellResize} }
-\caption{Resizing the cell.\figlabel{cellresize}}
+\caption{cellのリサイズ。\figlabel{cellresize}}
 \end{figure}
 
-\dothis{Delete the cell by clicking on the \ct{x} in the pink handle.}
+\dothis{ピンク色のハンドルをクリックすることでcellは消せます。}
 
 %=================================================================
-\section{Defining the class LOGame}
+\section{クラスLOGameの定義}
 
-Now let's create the other class that we need for the game, which we will call \clsind{LOGame}.
+これから、LOGameと呼ばれるゲームを作るのに必要な他のクラスを作りましょう。
 
-\dothis{Make the class definition template visible in the browser main window.}
-Do this by clicking on the package name.
-Edit the code so that it reads as follows, and \menu{accept} it.
+\dothis{ブラウザーのメインウインドウで、クラス定義テンプレートを作ってください。}
+これはパッケージ名をクリックすればできます。以下の通りにコードを書いてください。
 
 \needlines{6}
-\begin{classdef}[sbegame]{Defining the \ct{LOGame} class}
+\begin{classdef}[sbegame]{LOGameクラスを定義します。}
 BorderedMorph subclass: #LOGame
    instanceVariableNames: ''
    classVariableNames: ''
@@ -315,8 +254,7 @@ BorderedMorph subclass: #LOGame
    category: 'PBE-LightsOut'
 \end{classdef}
 
-Here we subclass \clsind{BorderedMorph}; \clsind{Morph} is the superclass of all of the graphical shapes in \pharo, and (surprise!) a \ct{BorderedMorph} is a \ct{Morph} with a border.  
-We could also insert the names of the instance variables between the quotes on the second line, but for now, let's just leave that list empty.
+ここではBorderedMorphをサブクラス化しています。MorphはPharoのグラフィック図形すべてのスーパークラスです。そして(驚くことに)、BorderedMorphは境界線を持ったMorphです(意味不明 再度翻訳する)。2行目にある引用符の間にインスタンス変数の名前を入れることができますが、今はここは空のままにしておきましょう。
 
 Now let's define an \mthind{LOGame}{initialize} method for \ct{LOGame}.
 
