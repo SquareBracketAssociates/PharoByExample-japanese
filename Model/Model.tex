@@ -99,9 +99,7 @@
 例えば、整数も本物のオブジェクトで、他のあらゆるオブジェクトと同様、整数にもメッセージを送ることができます。
 
 \begin{code}{@TEST}
-% 3 + 4            --> 7    "send '+ 4' to 3, yielding 7"
 3 + 4            --> 7    "'+ 4'を3に送ることで, 結果として7が得られます"
-% 20 factorial  --> 2432902008176640000   "send factorial, yielding a big number"
 20 factorial  --> 2432902008176640000   "factorialを送ると, 大きな数が得られます"
 \end{code}
 
@@ -144,7 +142,7 @@ Object new class --> Object
 % and the \emph{behavior} of its instances via methods.
 そしてメソッドを通してインスタンスの\emph{振る舞い}を定義します。
 % Each method has a name, called its \emphsubind{method}{selector}, which is unique within the class.
-各メソッドは名前を持っていて、\emphsubbind{メソッド}{セレクタ}と呼ばれています。名前はそのクラスの中でユニークです。
+各メソッドは名前を持っていて、\emphsubind{メソッド}{セレクタ}と呼ばれています。名前はそのクラスの中でユニークです。
 
 % Since \emph{classes are objects}, and \emph{every object is an instance of a class}, it follows that classes must also be instances of classes.
 \emph{クラスはオブジェクトである}ことから、そして、{全てのオブジェクトはクラスのインスタンスである}ことから、クラスもまた、クラスのインスタンスであるということになります。
@@ -165,11 +163,11 @@ Object new class --> Object
 % Instance variables in \st are private to the \emph{instance} itself.
 \stではインスタンス変数は、その\emph{インスタンス}でプライベートです。
 % This is in contrast to \ind{Java} and \ind{C++}, which allow instance variables (also known as ``fields'' or ``member variables'') to be accessed by any other instance that happens to be of the same class.
-これは、\id{Java}や\ind{C++}と対照的です。それらの言語では、インスタンス変数(``フィールド''とか``メンバ変数''とも呼ばれていますね)は同じクラスの他のインスタンスからのアクセスを許しています。
+これは、\ind{Java}や\ind{C++}と対照的です。それらの言語では、インスタンス変数(``フィールド''とか``メンバ変数''とも呼ばれていますね)は同じクラスの他のインスタンスからのアクセスを許しています。
 % We say that the \emphind{encapsulation boundary} of objects in Java and C++ is the class, whereas in \st it is the instance.
 オブジェクトの\emphind{カプセル化の境界}がJavaやC++ではクラス、\stではインスタンスである、と言います。
 
-\seeindex{variable!instance}{instance variable}
+\seeindex{Henn!instance}{instance variable}
 \seeindex{field}{instance variable}
 \seeindex{attribute}{instance variable}
 \seeindex{slot}{instance variable}
@@ -221,7 +219,7 @@ Point>>>dist: aPoint
 \subsection{メソッド}
 
 % All methods are \subind{method}{public}.\footnote{Well, almost all.  In \pharo, methods whose selectors start with the string \ct{pvt} are private: a \ct{pvt} message can be sent \emph{only} to \self.  However, \ct{pvt} methods are not used very much.}
-全てのメソッドは\subbind{メソッド}{パブリック}です。\footnote{正確には、ほぼ全て、です。\pharoでは、\ct{pvt}で始まるセレクタを持つメソッドはプライベートで、\ct{pvt}メッセージは\selfに\emph{のみ}送ることができます。しかし、\ct{pvt}メソッドはあまり使われていません。}
+全てのメソッドは\subind{メソッド}{パブリック}です。\footnote{正確には、ほぼ全て、です。\pharoでは、\ct{pvt}で始まるセレクタを持つメソッドはプライベートで、\ct{pvt}メッセージは\selfに\emph{のみ}送ることができます。しかし、\ct{pvt}メソッドはあまり使われていません。}
 % Methods are grouped into protocols that indicate their intent.
 メソッドは、その目的に応じてプロトコルにグループ分けされています。
 % Some common protocol names have been established by convention, for example, \protind{accessing} for all accessor methods, and \protind{initialization} for establishing a consistent initial state for the object.
@@ -238,72 +236,101 @@ Point>>>dist: aPoint
 この取り組みには一定の価値がありますが、クラスのインターフェースを乱雑にしたり、もっと悪いことに、外部の世界にプライベートな状態を晒すことにもなります。
 
 %---------------------------------------------------------
-\subsection{The instance side and the class side}
+% \subsection{The instance side and the class side}
+\subsection{インスタンス側とクラス側}
 
-Since classes are objects, they can have their own instance variables and their own methods.
-We call these \emph{class instance variables} and \emph{class methods}, but they are really no different from ordinary instance variables and methods:
-class instance variables are just instance variables defined by a metaclass, and class methods are just methods defined by a \ind{metaclass}. 
+% Since classes are objects, they can have their own instance variables and their own methods.
+クラスはオブジェクトなので、クラス自身のインスタンス変数やメソッドを持つことができます。
+%We call these \emph{class instance variables} and \emph{class methods}, but they are really no different from ordinary instance variables and methods:
+これらは\emph{クラスインスタンス変数}や\emph{クラスメソッド}と呼ばれていますが、実際のところ普通のインスタンス変数やメソッドと何も違いません。
+%class instance variables are just instance variables defined by a metaclass, and class methods are just methods defined by a \ind{metaclass}. 
+クラスインスタンス変数は単にメタクラスで定義されたインスタンス変数にすぎませんし、クラスメソッドは単に\ind{メタクラス}で定義されたメソッドにすぎません。
 \index{class!instance variable}
 \seeindex{variable!class instance}{class, instance variable}
 \index{class!method}
 
-A class and its \ind{metaclass} are two separate classes, even though the former is an instance of the latter. 
-However, this is largely irrelevant to you as a programmer: you are concerned with defining the behavior of your objects and the classes that create them.
+% A class and its \ind{metaclass} are two separate classes, even though the former is an instance of the latter. 
+クラスは\ind{メタクラス}のインスタンスですが、クラスとそのメタクラスは別々のクラスです。
+% However, this is largely irrelevant to you as a programmer: you are concerned with defining the behavior of your objects and the classes that create them.
+しかし、プログラマであるあなたにはおよそ関係ない話です。プログラマが気にかけることは、オブジェクトやそれを生成するクラスの振る舞いを定義することなのです。
 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=\textwidth]{Color-Buttons}
-\caption{Browsing a class and its metaclass.
+% \caption{Browsing a class and its metaclass.
+\caption{クラスとそのメタクラスをブラウズする。
 % \sd{Do we use Key everywhere in the picture as a legend indicator?}
 % \on{sure, wherever appropriate}
 \figlabel{Buttons}}
 \end{center}
 \end{figure}
 
-For this reason, the browser \index{browser} helps you to browse both class and metaclass as if they were a single thing with two ``sides'': the ``\subind{browser}{instance side}'' and the ``\subind{browser}{class side}'', as shown in \figref{Buttons}. Clicking 
-on the \button{instance} button browses the class \ct{Color}, \ie you browse the methods that are executed when messages
-are sent to an instance of \ct{Color}, like the blue color. Pressing the \button{class} button browses the class \ct{Color class}, \ie you see
-the methods that will be executed when messages are sent to the class \ct{Color} itself.
-For example, \ct{Color blue} sends the message \ct{blue} to the class \clsind{Color}.
-You will therefore find the method \ct{blue} defined on the class side of \ct{Color}, not on the instance side.
+%For this reason, the browser \index{browser} helps you to browse both class and metaclass as if they were a single thing with two ``sides'': the ``\subind{browser}{instance side}'' and the ``\subind{browser}{class side}'', as shown in \figref{Buttons}.
+このことから、ブラウザ\index{ブラウザ}は、クラスとメタクラスがあたかも1つのものの2つの側面であるかのように、クラスとメタクラスの両方をブラウズできるようになっています。\figref{Buttons}に示されている、``\subind{ブラウザ}{インスタンス側}''と\subind{ブラウザ}{クラス側}''です。
+% Clicking  on the \button{instance} button browses the class \ct{Color}, \ie you browse the methods that are executed when messages are sent to an instance of \ct{Color}, like the blue color. 
+\button{instance}ボタンをクリックすると、\ct{Color}クラスをブラウズします。つまり、例えば青色のような\ct{Color}のインスタンスにメッセージが送られた時に実行されるメソッドをブラウズします。
+% Pressing the \button{class} button browses the class \ct{Color class}, \ie you see the methods that will be executed when messages are sent to the class \ct{Color} itself.
+\button{class}ボタンを推すと、\ct{Color class}クラスをブラウズします。つまり、\ct{Color}クラス自体にメッセージが送られた時に実行されるメソッドを見ることになります。
+% For example, \ct{Color blue} sends the message \ct{blue} to the class \clsind{Color}.
+例えば、\ct{Color blue}は\ct{blue}メッセージを\clsind{Color}クラスに送ります。
+% You will therefore find the method \ct{blue} defined on the class side of \ct{Color}, not on the instance side.
+したがって、この\ct{blue}メッセージは\ct{Color}のクラス側に定義されています。インスタンス側ではありません。
 \seeindex{class side}{browser!class side}
 \seeindex{instance side}{browser!instance side}
 
 \needlines{5}
 \begin{code}{@TEST | aColor |}
-aColor := Color blue.               "Class side method blue"
+aColor := Color blue.               "クラス側のblueメソッド"
 aColor        --> Color blue
-aColor red  --> 0.0         "Instance side accessor method red"
-aColor blue --> 1.0        "Instance side accessor method blue"
+aColor red  --> 0.0         "インスタンス側のアクセサメソッドred"
+aColor blue --> 1.0        "インスタンス側のアクセサメソッドblue"
 \end{code}
 
-You define a class by filling in the template proposed on the \subind{browser}{instance side}.
-When you accept this template, the system creates not just the class that you defined, but also the corresponding metaclass.
-You can browse the metaclass by clicking on the \button{class} button.
-The only part of the metaclass creation template that makes sense for you to edit directly is the list of instance variable names.
+% You define a class by filling in the template proposed on the \subind{browser}{instance side}.
+\subind{ブラウザ}{インスタンス側}で提供されるテンプレートを埋めることでクラスを定義します。
+% When you accept this template, the system creates not just the class that you defined, but also the corresponding metaclass.
+このテンプレートをアクセプトすると、システムはそのクラスだけでなく、対応するメタクラスも生成します。
+% You can browse the metaclass by clicking on the \button{class} button.
+\button{class}ボタンをクリックするとメタクラスをブラウズできます。
+% The only part of the metaclass creation template that makes sense for you to edit directly is the list of instance variable names.
+メタクラス生成テンプレートで編集するのは、インスタンス変数のリストだけです。
 
-Once a class has been created, clicking the \button{instance} button lets you edit and browse the methods that will be possessed by instances of that class (and of its subclasses). For example, we can see in \figref{Buttons} that the method \ct{hue} is defined on instances of the class \ct{Color}.
-In contrast, the \button{class} button lets you browse and edit the metaclass (in this case \ct{Color class}).
-
-%---------------------------------------------------------
-\subsection{Class methods} 
-
-Class methods can be quite useful; browse \ct{Color class} for some good examples.
-You will see that there are two kinds of \subind{class}{method} defined on a class: those that create instances of the class, like \cmind{Color class}{blue} and those that perform a utility function, like 
-\cmind{Color class}{showColorCube}.
-This is typical, although you will occasionally find class methods used in other ways.
-
-It is convenient to place utility methods on the \subind{browser}{class side} because they can be executed without having to create any additional objects first.
-Indeed, many of them will contain a comment designed to make it easy to execute them.
-
-\dothis{Browse method \ct{Color class>>>showColorCube}, double-click just inside the quotes on the comment \ct{"Color showColorCube"} and type \short{d}.}
-You will see the effect of executing this method.  (Select \menu{World \go \ind{restore display}~(r)} to undo the effects.)
-
-For those familiar with \ind{Java} and \ind{C++},  class methods may seem similar to static methods. 
-However, the uniformity of \st means that they are somewhat different: whereas Java static methods are really just statically-resolved procedures, \st class methods are dynamically-dispatched methods.  This means that inheritance, overriding and super-sends work for class methods in \st, whereas they don't work for static methods in Java.  
+% Once a class has been created, clicking the \button{instance} button lets you edit and browse the methods that will be possessed by instances of that class (and of its subclasses). For example, we can see in \figref{Buttons} that the method \ct{hue} is defined on instances of the class \ct{Color}.
+一旦クラスが生成されると、\button{instance}ボタンをクリックすると、そのクラス(およびそのサブクラス)が持つことになるメソッドを編集したりブラウズしたりできます。例えば、\figref{Buttons}を見ると、\ct{hue}メソッドが\ct{Color}クラスのインスタンスに定義されています。
+% In contrast, the \button{class} button lets you browse and edit the metaclass (in this case \ct{Color class}).
+逆に、\button{class}ボタンでは、そのメタクラス(この場合、\ct{Color class})を
 
 %---------------------------------------------------------
-\subsection{Class instance variables}
+% \subsection{Class methods} 
+\subsection{クラスメソッド} 
+
+% Class methods can be quite useful; browse \ct{Color class} for some good examples.
+クラスメソッドはとても便利なことがあります。\ct{Color class}をブラウズすると良い例がいくつか見つかります。
+% You will see that there are two kinds of \subind{class}{method} defined on a class: those that create instances of the class, like \cmind{Color class}{blue} and those that perform a utility function, like \cmind{Color class}{showColorCube}.
+クラスに定義された\subind{クラス}{メソッド}には2種類あります。\cmind{Color class}{blue}のように、そのクラスのインスタンスをつくるものと、\cmind{Color class}{showColorCube}のように、ユーティリティ的な機能を提供するものです。
+
+% This is typical, although you will occasionally find class methods used in other ways.
+他の用途に使われているクラスメソッドを見かけることもあるでしょうが、これが典型的な用法です。
+
+% It is convenient to place utility methods on the \subind{browser}{class side} because they can be executed without having to create any additional objects first.
+余計なインスタンスを生成することなく実行できるので、\subind{ブラウザ}{クラス側}にユーティリティ的なメソッドを置くと便利です。
+% Indeed, many of them will contain a comment designed to make it easy to execute them.
+実際、そういったユーティリティメソッドの多くは、簡単に実行できるコメントを含んでいます。
+
+% \dothis{Browse method \ct{Color class>>>showColorCube}, double-click just inside the quotes on the comment \ct{"Color showColorCube"} and type \short{d}.}
+\dothis{\ct{Color class>>>showColorCube}メソッドをブラウズして, コメント\ct{"Color showColorCube"}の引用符の内側をダブルクリックして、\short{d}を押してみてください。}
+% You will see the effect of executing this method.  (Select \menu{World \go \ind{restore display}~(r)} to undo the effects.)
+このメソッドを実行した効果がわかるでしょう。(\menu{World \go \ind{restore display}~(r)}を実行して、元に戻してください。)
+
+% For those familiar with \ind{Java} and \ind{C++},  class methods may seem similar to static methods. 
+\ind{Java}や\ind{C++}に慣れている人には、クラスメソッドは静的メソッドに似ているように見えるかもしれません。
+% However, the uniformity of \st means that they are somewhat different: whereas Java static methods are really just statically-resolved procedures, \st class methods are dynamically-dispatched methods.  This means that inheritance, overriding and super-sends work for class methods in \st, whereas they don't work for static methods in Java.  
+しかし、\stの一貫性から、いくぶんの違いがあります。
+Javaの静的メソッドは本当に単に静的に名前解決される手続きに過ぎないのですが、\stのクラスメソッドは動的に探索されるメソッドです。つまり、\stではクラスメソッドを継承したりオーバーライドしたりsuperに送信したりできますが、Javaの静的メソッドではできません。
+
+%---------------------------------------------------------
+% \subsection{Class instance variables}
+\subsection{クラスインスタンス変数}
 With ordinary instance variables, all the instances of a class have the same set of variable names, and the instances of its subclasses inherit those names; however, each instance has its own private set of values.
 The story is exactly the same with class \subind{class}{instance variable}{}s: each class has its own private class instance variables.
 A subclass will inherit those class instance variables, \emph{but it has its own private copies of those variables}.
