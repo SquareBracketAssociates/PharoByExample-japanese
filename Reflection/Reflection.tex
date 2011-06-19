@@ -71,23 +71,23 @@
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
-このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は非常に限られます。
+このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は極めて限られます。
 
 %@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
-他のプログラム(あるいは自分自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
+他のプログラム(あるいはそのプログラム自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
 %@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
 プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 %@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
 イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するデータ構造です。
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
-インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から\emph{変更}できる能力のことです。
+インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から変更できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
-\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更するについて言うのです。
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言うのです。
 
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探求します。
+ここでは多くの実際的な例つまり、\st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
 
 %======================================
 %@\section{Introspection}
@@ -109,7 +109,7 @@ w inspect
 %@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
 このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
-The \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
+\ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
@@ -118,11 +118,11 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 \end{figure}
 
 %@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
-\dothis{それでは空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
+\dothis{それでは、この空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
-\ct!contents!の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
+\ct!contents!変数の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
-このウィンドウに自分自身を更新する合図を送るには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
+このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
 
 %-----------------------------------------------------------------
 %@\subsection{Accessing instance variables}
@@ -135,11 +135,11 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 %@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
 理論上は、そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-実は、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
+実際には、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
 \st では、クラスは、インスタンス変数を、名前か数値インデックスで定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
-インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、\lct{\emph{index}}による位置や、\lct{\emph{aString}}によって識別されるインスタンス変数の値を得るのに用いることがでます。また、インスタンス変数に新しい値を代入するにには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用いるのです。%@?用いることができるのです。
+インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができるのですが、インスタンス変数の識別には、\lct{\emph{index}}による位置や、\lct{\emph{aString}}が用いることができます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに、を用いるのです。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
