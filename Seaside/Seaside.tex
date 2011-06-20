@@ -125,88 +125,79 @@ SeasideはWebサーバを含んでいます。8080ポートで動かすには \c
 
 今度は図\figref{seasideStartup}の\subind{Seaside}の初期画面の下のほうにあるツールバーに注目してみてください。
 Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
-\button{New Session} のボタンを押すと、アプリケーションの新たなセッションが始まります。
-\button{Configure} ボタンではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
+\button{New Session} を押すと、アプリケーションの新たなセッションが始まります。
+\button{Configure} ではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
 
+(\button{Configure}の画面を閉じるには、右上の \link{x} リンクをクリックします)。
+\button{Toggle Halos} を押すと、Seasideで動作しているアプリケーションの状態を調べていくことができます。
+\button{Profiler} と \button{Memory} ボタンはアプリケーション実行時のパフォーマンスに関する詳細な情報を見るためのものです。
 
-(To close the \button{Configure} view, click on the \link{x} in the top right corner.)
-\button{Toggle Halos} provides a way to explore the state of the application running on the Seaside server.
-\button{Profiler} and \button{Memory} provide detailed information about the run-time performance of the application.
-\button{XHTML} can be used to validate the generated web page, but works only  when the web page is publicly accessible from the Internet, because it uses the W3C validation service.
+\button{XHTML} は生成されたWebページのXHTMLをバリデートするときに使います。該当ページが外部からアクセス可能になっていないとこの機能は動作しません。W3Cのバリデータを使っているからです。
 \index{Seaside!halos}
 
-Seaside applications are built up from pluggable ``components''.
-In fact, components are ordinary Smalltalk objects.
-The only thing that is special about them is that they should be instances of classes that inherit from the Seaside framework class \ct{WAComponent}.
-We can explore components and their classes from the \pharo image, or directly from the web interface using halos.
+Seasideのアプリケーションは付け外し可能な「コンポーネント」からできています。Seasideのフレームワークが提供する\ct{WAComponent}クラスを継承したクラスのインスタンスであるということを除けば、実のところコンポーネントは通常のSmalltalkのオブジェクトです。\pharo のイメージからコンポーネントやクラスを探索できますし、Webブラウザからハローを通じて直接たどっていくこともできます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counterHalos}
-\caption{Halos}
+\caption{ハロー}
 \figlabel{counterHalos}
 \end{center}
 \end{figure}
 
-\dothis{Select \button{Toggle Halos}. You should see a web page like \figref{counterHalos}.
-At the top left the text \ct{WACounter} tells us the class of the Seaside component that implements the behavior of this web page. 
-Next to this are three clickable icons. 
-The first, with the pencil, activates a Seaside class browser on this class.
-The second, with the magnifying glass, opens an object inspector on the currently active \ct{WACounter} instance. 
-The third, with the coloured circles, displays the \ind{CSS} style sheet for this component. 
-At the top right, the \link{R} and \link{S} let you toggle between the rendered and source views of the web page. 
-Experiment with all of these links. 
-Note that the \link{++} and \link{{-}{-}} links are also active in the source view.
-Contrast the nicely-formatted source view provided by the Halos with the unformatted source view offered by your browser.}
+\dothis{\button{Toggle Halos}を押してみましょう。\figref{counterHalos}のような画面になるはずです。
+左上に\ct{WACounter}と表示されていますが、これは現在のページの構成要素となっているコンポーネントのクラス名を表しています。 
+隣には3つのボタンアイコンがあります。
+最初の鉛筆のアイコンは、このコンポーネントのクラスブラウザを開くためのものです。2番目の虫眼鏡アイコンでは、現在アクティブになっている\ct{WACounter}のインスタンスのインスペクタを開くことができます。
+3番目の色のついた丸のボタンを押すと、コンポーネントについての\ind{CSS} スタイルシートエディタが表示されます。
+右上には\link{R} と \link{S}のリンクがあります。それぞれクリックするとコンポーネントが通常表示とソース表示とに切り替わります。
+こうしたリンクをすべて試してみましょう。
+ソースビューの表示のときにも、\link{++} や \link{{-}{-}}は有効になっています。フォーマットもされているため、Webブラウザでソース表示をしたときよりも見やすいかもしれません。}
 
-The Seaside class browser and object inspector can be very convenient when the server is running on another computer, especially when the server does not have a display, or if it is in remote place. 
-However, when you are first developing a Seaside application, the server will be running locally, and it is easy to use the ordinary \pharo development tools in the server image.
+Seasideのクラスブラウザやオブジェクト・インスペクタは、サーバが別のマシンで動作していて、画面がなかったり、遠く離れていたりするときには非常に便利です。
+とはいえ、最初にSeasideのアプリケーションを開発するときには、ローカルでサーバを動かすと思います。その場合は\pharoのイメージが提供する通常の開発ツールのほうが使いやすいでしょう。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{haltingCounter}
-\caption{Halting the counter}
+\caption{カウンターアプリをhaltさせる}
 \figlabel{haltingCounter}
 \end{center}
 \end{figure}
 
 \dothis{Using the object inspector link in the web browser, open an inspector on the underlying Smalltalk counter object and evaluate \ct{self halt}.
-The web page will stop loading.
-Now switch to the Seaside image.
-You should see a pre-debugger window (\figref{haltingCounter}) showing a \ct{WACounter} object executing a \ct{halt}.
-Examine this execution in the debugger, and then \button{Proceed}.
-Go back to the web browser and notice that the counter application is running again.}
+\dothis{Webブラウザのオブジェクト・インスペクタのリンクを使い、カウンターのインスペクタを開けてみて、 \ct{self halt}を実行してみましょう。
+Webページはロード途中の状態になります。Seasideのイメージのほうに移ってみてください。ノーティファイアが上がっていて (\figref{haltingCounter})、  \ct{WACounter} のオブジェクトが \ct{halt} の実行で止まっていることが確認できます。
+さらにデバッガを開いて \button{Proceed} を押してみましょう。Webブラウザに戻るとカウンターは再び動作しています。}
 
-Seaside components can be instantiated multiple times and in different contexts.
+Seasideのコンポーネントは、異なるコンテキストで何度も初期化できます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{multiCounterHalos}
-\caption{Independent subcomponents}
+\caption{独立したサブコンポーネント}
 \figlabel{multiCounterHalos}
 \end{center}
 \end{figure}
 
 \dothis{Point your web browser to \url{http://localhost:8080/seaside/examples/multicounter}.
-You will see an application built out of a number of independent instances of the counter component.
-Increment and decrement several of the counters.
-Verify that they behave correctly even if you use the ``back'' button.
-Toggle the halos to see how the application is built out of nested components.
-Use the Seaside class browser to view the implementation of \ct{WAMultiCounter}.
-You should see three methods on the class side (\ct{canBeRoot}, \ct{description}, and \ct{initialize}) and three on the instance side (\ct{children}, \ct{initialize}, and \ct{renderContentOn:}).
-Note that an application is simply a component that is willing to be at the root of the component containment hierarchy; this willingness is indicated by defining a class-side method \ct{canBeRoot}
-to answer \ct{true}.}
+\dothis{WebブラウザのURLを\url{http://localhost:8080/seaside/examples/multicounter}に指定してみてください。
+
+いくつもの独立したカウンターコンポーネントからなるアプリケーションが立ち上がります。
+
+カウンターをいくつか選んで値を変えてみましょう。「戻る」ボタンを押しても問題なく動作します。
+ハローを表示してみると、入れ子になったコンポーネントからアプリケーションができていることがわかります。クラスブラウザを使って、 \ct{WAMultiCounter}の実装がどうなっているか見てみましょう。
+クラスメソッドが3つ(\ct{canBeRoot}、 \ct{description}、 \ct{initialize})、インスタンスメソッドも3つ(\ct{children}、 \ct{initialize}、 \ct{renderContentOn:})定義されていることがわかります。
+アプリケーションでは、クラスメソッドの\ct{canBeRoot}で \ct{true}を返すことで、コンポーネント階層のルートになり得るという宣言を行っています。}
 \index{Seaside!multi-counter}
 
-You can use the Seaside web interface to configure, copy or remove individual applications (\ie root-level components).  Try making the following configuration change.
+SeasideのWebインターフェースを使うと、アプリケーション(\ie ルートになっているコンポーネント)を設定したり、コピーしたり、登録解除したりできます。設定を少しいじってみましょう。
 
-\dothis{Point your web browser to \url{http://localhost:8080/seaside/config}.
-Supply the login and password (\ct{admin} and \ct{seaside} by default).
-Select \link{Configure} next to ``examples.''
-Under the heading ``Add entry point'', enter the new name ``counter2'' for the type \emph{Application} and click on \button{Add} (see \figref{counter2}).
-On the next screen, set the \emph{Root Component} to \clsind{WACounter}, then click \button{Save} and \button{Close}.
-Now we have a new counter installed at \url{http://localhost:8080/seaside/examples/counter2}.
-Use the same configuration interface to remove this entry point.
+\dothis{Webブラウザで\url{http://localhost:8080/seaside/config}を開きます。ユーザIDとパスワードを入れて、ログインしてください。(デフォルトでは\ct{admin} / \ct{seaside} となっています)。
+``examples''の隣にある \link{Configure}　をクリックします。 ``Add entry point''のところで、 ``counter2''と名前を入れ、タイプは \emph{Application} のまま \button{Add}ボタンをクリックします( \figref{counter2}を参照)。
+次の画面で、 \emph{Root Component} を \clsind{WACounter}にして、 \button{Save} を押して、 \button{Close}で閉じます。
+これでカウンターの新しいアプリケーションが \url{http://localhost:8080/seaside/examples/counter2}で起動するようになりました。
+同様に、この設定ツール画面を通じてアプリケーションの登録解除を行うこともできます。
 }
 \index{Seaside!configuration}
 
@@ -214,42 +205,38 @@ Use the same configuration interface to remove this entry point.
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counter2}
-\caption{Configuring a new application}
+\caption{新たなアプリケーションの設定}
 \figlabel{counter2}
 \end{center}
 \end{figure}
 
-Seaside operates in two modes: \emph{development} mode, which is what we have seen so far, and \emph{deployment} mode, in which the toolbar is not available.
-\index{Seaside!deployment mode}
-\index{Seaside!development mode}
-You can put Seaside into deployment mode using either the configuration page (navigate to the entry for the application and click on the \link{Configure} link)
-% \ab{How?  I couldn't find this}
-or click the \button{Configure} button in the toolbar.
-In either case, set the deployment mode to \emph{true}.
-Note that this affects new sessions only.
-You can also set the mode globally by evaluating
-\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}
-or
-\ct{WAGlobalConfiguration setDevelopmentMode}.
+Seasideは2つのモードで動作します。一つは今まで見てきた \emph{開発}モードです。 \emph{デプロイ} モードにすると、画面下のツールバーが非表示となります。
 \index{Seaside!deployment mode}
 \index{Seaside!development mode}
 
-The configuration web page is just another Seaside application, so it too can be controlled from the configuration page.
-If you remove the ``config'' application, you can get it back by evaluating
-\clsind{WADispatcherEditor} \ct{initialize}.
+デプロイモードにするには、全体の設定ツールのページからアプリケーションを選んで、 \link{Configure} をクリックするか、ツールバーに表示されている \link{Configure} をクリックします。
+% \ab{How?  I couldn't find this}
+どちら場合も、デプロイモードのプルダウンボックスが表示されるので、\emph{true}に設定します。
+この設定は新たなセッションを開始したタイミングで有効になります。
+Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}や、\ct{WAGlobalConfiguration setDevelopmentMode}を実行します。
+\index{Seaside!deployment mode}
+\index{Seaside!development mode}
+
+
+設定ツール自体もSeasideのアプリケーションです。そのため同じようにWebブラウザから各種の設定ができます。もしも誤って``config'' のアプリケーションを削除してしまった場合は、
+\clsind{WADispatcherEditor} \ct{initialize}　とすると元に戻ります。
 
 %=================================================================
-\section{Seaside components}
+\section{Seasideのコンポーネント}
 \seclabel{components}
 
 %\ab{This section was too long\,---\,18 pages.  It also contained several self-references (``see section 1.3''). So I broke into smaller sections, by promoting some of the subsections and subsubsections.}
 
-As we mentioned in the previous section, Seaside applications are built out of \emph{\subind{Seaside}{components}.}
-Let's take a closer look at how Seaside works by implementing the \emph{Hello World} component.
+前の節で示したように、Seasideのアプリケーションは\emph{\subind{Seaside}{コンポーネント}}から成り立っています。
+\emph{Hello World}のコンポーネントを作成し、Seasideの仕組みをさらに詳しく見てみましょう。
+コンポーネントを定義するには \clsind{WAComponent}を直接あるいは間接的に継承するようにします(\figref{WACounter})。
 
-Every Seaside component should inherit directly or indirectly from \clsind{WAComponent}, as shown in \figref{WACounter}.
-
-\dothis{Define a subclass of \ct{WAComponent} called \ct{WAHelloWorld}.}
+\dothis{ \ct{WAComponent}を継承した \ct{WAHelloWorld}クラスを定義してみましょう。}
 
 Components must know how to render themselves.
 Usually this is done by implementing the method \mthind{WAPresenter}{renderContentOn:}, which gets as its argument an instance of \clsind{WAHtmlCanvas}, which knows how to render XHTML.
