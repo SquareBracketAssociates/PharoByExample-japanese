@@ -43,129 +43,151 @@
 	\raisebox{-0.8ex}[0pt][0pt]{%
 		\includegraphics[width=1em]{cloverleafKey}}}
 %=================================================================
-\chapter{A quick tour of \pharo}
+%eng-ja \chapter{A quick tour of \pharo}
+\chapter{\pharoの使い方}
 \chalabel{quick}
 
-In this chapter we will give you a high-level tour of \pharo to help you get comfortable with the environment.
-There will be plenty of opportunities to try things out, so it would be a good idea if you have a computer handy when you read this chapter.
+%eng-ja In this chapter we will give you a high-level tour of \pharo to help you get comfortable with the environment.
+%eng-ja There will be plenty of opportunities to try things out, so it would be a good idea if you have a computer handy when you read this chapter.
+%eng-ja 
+%eng-ja We will use this icon: \dothisicon{} to mark places in the text where you should try something out in \pharo.
+%eng-ja In particular, you will fire up \pharo, learn about the different ways of interacting with the system, and discover some of the basic tools.
+%eng-ja You will also learn how to define a new method, create an object and send it messages.
 
-We will use this icon: \dothisicon{} to mark places in the text where you should try something out in \pharo.
-In particular, you will fire up \pharo, learn about the different ways of interacting with the system, and discover some of the basic tools.
-You will also learn how to define a new method, create an object and send it messages.
+この章では、\pharo の快適な使い方について解説します。
+読書するばかりで無く、パソコンを用意して実際にPharoを使っていくことが出来れば、一層理解が深まると思います。
+\pharo を使って実際に試してみてもらいたい箇所には、このアイコン: \dothisicon{} でマークしておきます。
+\pharo の起動や、\pharo と対話する色々な方法を知ったり、基本的なツールの使い方を理解し、メソッドの作成やクラスの作成、メッセージの使い方を覚える事になるでしょう。
 
 %=================================================================
-\section{Getting started}
+%eng-ja \section{Getting started}
+\section{使ってみよう}
 
-\pharo is available as a free \ind{download} from \pharoweb.
-There are three parts that you will need to download, consisting of four files (see \figref{download}).
+%eng-ja \pharo is available as a free \ind{download} from \pharoweb.
+%eng-ja There are three parts that you will need to download, consisting of four files (see \figref{download}).
+\pharo は \pharoweb から \ind{download} することが出来ます。
+３種のパーツから構成されていますが、実際には４個のファイルをダウンロードする事になります(\figref{download})。
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{annotatedDownload-flat}}
-\caption{The \pharo download files for one of the supported platforms.\figlabel{download}}
+%eng-ja \caption{The \pharo download files for one of the supported platforms.\figlabel{download}}
+\caption{サポートしているOS毎にダウンロードする \pharo のファイル\figlabel{download}}
 \end{figure}
 
 \begin{enumerate}
 
-  \item The \emphind{virtual machine} (VM) is the only part of the system that is different for each operating system and processor.  Pre-compiled virtual machines are available for all the major computing environments.  In \figref{download} we see the VM for the selected platform is called \textit{Pharo.exe}.
+%eng-ja   \item The \emphind{virtual machine} (VM) is the only part of the system that is different for each operating system and processor.  Pre-compiled virtual machines are available for all the major computing environments.  In \figref{download} we see the VM for the selected platform is called \textit{Pharo.exe}.
+  \item \emphind{バーチャルマシン} (VM)(\figref{download} の \textit{Pharo.exe})は、各OS毎に異なるファイルです。
 
-  \item The \emphind{sources} file contains the source code for all of the parts of \pharo that don't change very frequently. In \figref{download} it is called \emph{SqueakV39.sources}.\footnote{\pharo is derived from \squeak 3.9, and presently shares the VM with \squeak.}
+%eng-ja   \item The \emphind{sources} file contains the source code for all of the parts of \pharo that don't change very frequently. In \figref{download} it is called \emph{SqueakV39.sources}.\footnote{\pharo is derived from \squeak 3.9, and presently shares the VM with \squeak.}
+  \item \emphind{sources}ファイル(\figref{download} の \emph{SqueakV39.sources})は、\pharo の全てのソースコードを含んでいます。
+このファイルはほぼ変更することはありません。\footnote{\pharo は\squeak 3.9 をベースに作らています。現在のVMは、\squeak と同じものを使っています。}
 
-  \item The current \emph{system \ind{image}} is a snapshot of a running \pharo system, frozen in time.  It consists of two files: an \emph{.}\emphind{image} file, which contains the state of all of the objects in the system (including classes and methods, since they are objects too), and a \emph{.}\emphind{changes} file, which contains a log of all of the changes to the source code of the system.
+%eng-ja   \item The current \emph{system \ind{image}} is a snapshot of a running \pharo system, frozen in time.  It consists of two files: an \emph{.}\emphind{image} file, which contains the state of all of the objects in the system (including classes and methods, since they are objects too), and a \emph{.}\emphind{changes} file, which contains a log of all of the changes to the source code of the system.
 In \figref{download}, these files are called \emph{pharo.image} and \emph{pharo.changes}.
 \end{enumerate}
+  \item 現在の \emph{system \ind{image}} は \emph{.}\emphind{image} ファイル(クラスやメソッド、オブジェクトなどをすべて含みます)と \emph{.}\emphind{changes} ファイル(システムイメージに行った変更のログをすべて含みます)の２つで構成された、\pharo システムのスナップショットになります(\figref{download} の \emph{pharo.image} と \emph{pharo.changes})。
+\end{enumerate}
 
-\dothis{Download and install \pharo on your computer.}
-We recommend that you use the image provided on the \pharo by Example web page.\footnote{\pbe}
+%eng-ja \dothis{Download and install \pharo on your computer.}
+\dothis{\pharo をダウンロードし、インストールしてみましょう。}
+%eng-ja We recommend that you use the image provided on the \pharo by Example web page.\footnote{\pbe}
+\pharo by Example のウェブページからimageファイルをダウンロードしてみましょう。\footnote{\pbe}
 \index{download}
 \seclabel{sbeImage}
 
-Most of the introductory material in this book will work with any version, so if you already have one installed, you may as well continue to use it.
-However, if you notice differences between the appearance or behaviour of your system and what is described here, do not be surprised. 
-% On the other hand, if you are about to download \pharo for the first time, you may as well grab the \emph{\pharo by Example} image.
+%eng-ja Most of the introductory material in this book will work with any version, so if you already have one installed, you may as well continue to use it.
+%eng-ja However, if you notice differences between the appearance or behaviour of your system and what is described here, do not be surprised. 
+ここで紹介する内容は、殆どが \pharo のどんなバージョンでも動作します。
+もし、\pharo を既にインストールしているのなら、それを使っても問題有りません。
+しかし、外見や動作のちょっとした違いがあっても驚かないで下さいね。
 
-As you work in \pharo, the image and changes files are modified, so you need to make sure that they are writable.
-Always keep these two files together.
-Never edit them directly with a text editor, as \pharo uses them to store the objects you work with and to log the changes you make to the source code.
-It is a good idea to keep a backup copy of the downloaded image and changes files so you can always start from a fresh image and reload your code.
+%eng-ja As you work in \pharo, the image and changes files are modified, so you need to make sure that they are writable.
+%eng-ja Always keep these two files together.
+%eng-ja Never edit them directly with a text editor, as \pharo uses them to store the objects you work with and to log the changes you make to the source code.
+%eng-ja It is a good idea to keep a backup copy of the downloaded image and changes files so you can always start from a fresh image and reload your code.
+\pharo でなにか作業している時、imageファイルとchangesファイルは常に内容が更新されているため、確実に書き込み可能ファイルにし、同じ場所に置いて下さい。
+また、絶対に他のアプリケーションで直接変更しないでください。
+ダウンロードしたファイルは、バックアップのコピーを取っておきましょう。
 
-The \emphind{sources} file and the VM can be read-only\,---\,they can be shared between different users.
-All of these files can be placed in the same directory, but it is also possible to put the Virtual Machine and sources file in separate directory where everyone has access to them.
-Do whatever works best for your style of working and your operating system.
-
-%\sd{it would be really nice to have a setup and startup section on PC, Mac and Linux}
-%\ab{I agree entirely; the reason that this is not here is because I could do only the Mac section.  Damien can probably do Windoze.  Perhaps we can ask on the list for a Linux volunteer?}
+%eng-ja The \emphind{sources} file and the VM can be read-only\,---\,they can be shared between different users.
+%eng-ja All of these files can be placed in the same directory, but it is also possible to put the Virtual Machine and sources file in separate directory where everyone has access to them.
+%eng-ja Do whatever works best for your style of working and your operating system.
+\emphind{sources} ファイルとVMは書き込み不可にすることが可能で、複数のユーザーで共有することが出来ます。
+同じ場所に置いたものを共有で使っても構わないですし、個人ごとにファイルをコピーしてもいいでしょう。
+OSや作業スタイルに合わせて使ってください。
 
 %-----------------------------------------------------------------
 \begin{figure}[htb]
-% \centerline {\includegraphics[width=0.6\textwidth]{download}}
 \centerline {\includegraphics[width=\textwidth]{startup}}
-\caption{A fresh \pbe image.\figlabel{startup}}
+%eng-ja \caption{A fresh \pbe image.\figlabel{startup}}
+\caption{\pbe からダウンロードした状態の imageファイル\figlabel{startup}}
 \end{figure}
 
 \index{launching \pharo}
-\paragraph{Launching.} To start \pharo, do whatever your operating system expects: drag the \emph{.}\emphind{image} file onto the icon of the virtual machine, or double-click the \emph{.image} file, or  at the command line type the name of the virtual machine followed by the path to the \emph{.image} file. (When you have multiple VMs installed on your machine the operating system may not automatically pick the right one; in this case it is safer to drag and drop the image onto the virtual machine, or to use the command line.)
+%eng-ja \paragraph{Launching.} To start \pharo, do whatever your operating system expects: drag the \emph{.}\emphind{image} file onto the icon of the virtual machine, or double-click the \emph{.image} file, or  at the command line type the name of the virtual machine followed by the path to the \emph{.image} file. (When you have multiple VMs installed on your machine the operating system may not automatically pick the right one; in this case it is safer to drag and drop the image onto the virtual machine, or to use the command line.)
+\paragraph{起動してみましょう。} \pharo の起動は、普通のアプリケーションと同様です。
+VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド・ドロップしたり、\emph{.image} ファイルをダブルクリックする、コマンドラインで VM ファイルの後にパスを付けて \emph{.image} ファイルをタイプしてもいいでしょう。
+使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っておく必要があるなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ・アンド・ドロップまたはコマンドラインからの起動を勧めます)。
 
-Once \pharo is running, you should see a single large window, possibly containing some open workspace windows (see \figref{startup}), and it's not obvious how to proceed!
-You might notice a menu bar, but \pharo mainly makes use of context-dependent pop-up menus.
-% You will notice that there is no menu bar, or at least not a useful one.  
-% Instead,  \pharo makes heavy use of context-dependent pop-up menus.
+%eng-ja Once \pharo is running, you should see a single large window, possibly containing some open workspace windows (see \figref{startup}), and it's not obvious how to proceed!
+%eng-ja You might notice a menu bar, but \pharo mainly makes use of context-dependent pop-up menus.
+\pharo を起動すると、大きめのウィンドウが現れます(\figref{startup}を見てください)。
+このウィンドウの中では更に複数の workspace ウィンドウを開くことが出来ます。
+メニューバーも有りますが、\pharo では主にコンテキスト(文脈)に依存したポップアップメニューを使うことになります。
 
-\dothis{Start \pharo. You can dismiss any open workspaces by \click{ing} on the red button in the top left corner of the workspace window.}
+%eng-ja \dothis{Start \pharo. You can dismiss any open workspaces by \click{ing} on the red button in the top left corner of the workspace window.}
+\dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\clickすると、workspace ウィンドウを閉じることができます。}
 
-You can minimize windows (so that they move to the dock on the bottom of the screen) by \click{ing} on the orange button.  Clicking on the green button will cause the window to take up the entire screen.
+%eng-ja You can minimize windows (so that they move to the dock on the bottom of the screen) by \click{ing} on the orange button.  Clicking on the green button will cause the window to take up the entire screen.
+ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタンを\clickしてください。
 
 %-----------------------------------------------------------------
-\paragraph{First Interaction.}
+%eng-ja \paragraph{First Interaction.}
+\paragraph{\pharo を使い始めましょう。}
 
-A good place to get started is the \ind{world menu} shown in \figref{threeButtons:click}. 
+%eng-ja A good place to get started is the \ind{world menu} shown in \figref{threeButtons:click}. 
+\figref{threeButtons:click} のように、\ind{world menu} を表示しましょう。
 
-\dothis{Click with the mouse on the background of the main window to show the world menu, then choose \menu{Workspace} to create a new workspace.}
-
-%\begin{figure}[tbh]
-%	\centering
-%	\subfigure[The world menu]{\figlabel{threeButtons:click}% click
-%		\includegraphics[width=0.25\linewidth]{worldMenu}}\hfill
-%	\subfigure[The contextual menu]{\figlabel{threeButtons:actclick}% action click
-%		\includegraphics[width=0.35\linewidth]{yellowButtonMenuOnWorkspace}}\hfill
-%	\subfigure[The morphic halo]{\figlabel{threeButtons:metaclick}% meta click
-%		\includegraphics[width=0.35\linewidth]{morphicHaloOnWorkspace}}% these braces needed (else no whitespace at end of line)
-%	\caption{The world menu (brought up by \click{ing}), a contextual menu (\actclick{ing}), and a morphic \subind{Morphic}{halo} (\metaclick{ing}).\figlabel{threeButtons}}
-%\end{figure}
+%eng-ja \dothis{Click with the mouse on the background of the main window to show the world menu, then choose \menu{Workspace} to create a new workspace.}
+\dothis{マウスカーソルがメインウィンドウのバックグラウンドにある状態で、マウスのボタンをクリックし、表示された world メニューから \menu{Workspace} を選択すると、新しい workspace ウィンドウが出てきます。}
 
 \begin{figure}[tbh]
 	\centering
-	\subfigure[The world menu]{\figlabel{threeButtons:click}% click
+	\subfigure[world メニュー]{\figlabel{threeButtons:click}% click
 		\includegraphics[width=0.40\linewidth]{worldMenu}}\hfill
-	\subfigure[The contextual menu]{\figlabel{threeButtons:actclick}% action click
+	\subfigure[コンテキストメニュー]{\figlabel{threeButtons:actclick}% action click
 		\includegraphics[width=0.55\linewidth]{yellowButtonMenuOnWorkspace}}\hfill
-	\subfigure[The morphic halo]{\figlabel{threeButtons:metaclick}% meta click
+	\subfigure[morphic halo]{\figlabel{threeButtons:metaclick}% meta click
 		\includegraphics[width=0.60\linewidth]{morphicHaloOnWorkspace}}% these braces needed (else no whitespace at end of line)
-	\caption{The world menu (brought up by \click{ing}), a contextual menu (\actclick{ing}), and a morphic \subind{Morphic}{halo} (\metaclick{ing}).\figlabel{threeButtons}}
+%eng-ja 	\caption{The world menu (brought up by \click{ing}), a contextual menu (\actclick{ing}), and a morphic \subind{Morphic}{halo} (\metaclick{ing}).\figlabel{threeButtons}}
+	\caption{world メニュー(\click)、コンテキストメニュー(\actclick)、morphic \subind{Morphic}{halo} (\metaclick).\figlabel{threeButtons}}
 \end{figure}
 \seeindex{morphic halo}{Morphic}
 
-%% ON: I had to shrink this and move it up to avoid
-%% it running over the end of the page.
-%\begin{wrapfigure}[19]{r}{0.25\linewidth}
-%% The parameters are the number of narrow lines to the right of the figure [19],
-%% the placement {r} for right, and the width of the figure. Capital R will allow some float.
-%% Inside the wrapfig environment, linewidth is special --- the width of the figure.
-%\includegraphics[width=0.95\linewidth]{colouredMouse}
-%\caption{The author's mouse. \click{ing} the scroll wheel activates the blue button.}
-%\figlabel{colouredMouse}
-%\end{wrapfigure}
+%eng-ja \st was originally designed for a computer with a \ind{three button mouse}.  If your mouse has fewer than three buttons, you will have to press extra keys while \click{ing} the mouse to simulate the extra buttons.  A two-button mouse works quite well with \pharo, but if you have only a single-button mouse, you should seriously consider buying a two-button mouse with a clickable scroll wheel: it will make working with \pharo much more pleasant.
+\st は、元々の設計時点から3ボタンマウスを想定しています。
+使っているマウスのボタンが足りないときは、キーボードの\emph{control}キーや\emph{ALT}キー、\emph{meta}キーなどが修飾キーとして使われます(キーを押しながらマウスボタンを\clickしてください)。
+それでも、一番良い方法は3つボタンマウスをどこからか引っ張り出して来ることです。
+これだけで、\pharo をビックリするほど快適に使うことができます。
 
-\st was originally designed for a computer with a \ind{three button mouse}.  If your mouse has fewer than three buttons, you will have to press extra keys while \click{ing} the mouse to simulate the extra buttons.  A two-button mouse works quite well with \pharo, but if you have only a single-button mouse, you should seriously consider buying a two-button mouse with a clickable scroll wheel: it will make working with \pharo much more pleasant.
-
-\pharo avoids terms like ``left mouse click'' because different computers, mice, keyboards and personal configurations mean that different users will need to press different physical buttons to achieve the same effect.
-Originally \st introduced colours to stand for the different mouse buttons.\footnote{The button colours were \emph{red}, \emph{yellow} and \emph{blue}. The authors of this book could never remember which colour referred to which button.}
+%eng-ja \pharo avoids terms like ``left mouse click'' because different computers, mice, keyboards and personal configurations mean that different users will need to press different physical buttons to achieve the same effect.
+%eng-ja Originally \st introduced colours to stand for the different mouse buttons.\footnote{The button colours were \emph{red}, \emph{yellow} and \emph{blue}. The authors of this book could never remember which colour referred to which button.}
+色々なコンピュータやマウス、キーボード、個人環境が有るため、\pharo では``左マウスボタンのクリック''という表現は避けています。
+元来、\st は異なるマウスボタンを色で表現していました。\footnote{マウスボタンの色は、\emph{赤}、\emph{黄}そして\emph{青}です。}
 \index{red button}
 \index{yellow button}
 \index{blue button}
-Since many users will use various modifiers keys (\emph{control}, \emph{ALT}, \emph{meta} \etc) to achieve the same effect, we will instead use the following terms:
+%eng-ja Since many users will use various modifiers keys (\emph{control}, \emph{ALT}, \emph{meta} \etc) to achieve the same effect, we will instead use the following terms:
+マウスボタンが違ったり、修飾キー(\emph{control}キー、\emph{ALT}キー、\emph{meta}キー、\etc)を押しながらマウスを使うような状況を統一するため、次の用語を使います:
+
 \begin{description}
-\item [\click:] this is the most often used mouse button, and is normally equivalent to \click{ing} a single-mouse button without any modifier key; \click{} on the image to bring up the ``World'' menu (\figref{threeButtons:click}).
-\item [\actclick:] this is the next most used button; it is used to bring up a contextual menu, that is, a menu that offers different sets of actions depending on where the mouse is pointing; see \figref{threeButtons:actclick}. If you do not have a multi-button mouse, then normally you will configure the \emph{control} modifier key to \actclick with the mouse button.
+\item [\click:] 
+%eng-ja this is the most often used mouse button, and is normally equivalent to \click{ing} a single-mouse button without any modifier key; \click{} on the image to bring up the ``World'' menu (\figref{threeButtons:click}).
+修飾キー等を使うことがない、一番使われる(\clickされる)マウスボタンです。背景部分を\click{} して ``World'' メニュー(\figref{threeButtons:click})を表示してみましょう。
+\item [\actclick:] 
+%eng-ja this is the next most used button; it is used to bring up a contextual menu, that is, a menu that offers different sets of actions depending on where the mouse is pointing; see \figref{threeButtons:actclick}. If you do not have a multi-button mouse, then normally you will configure the \emph{control} modifier key to \actclick with the mouse button.
+次によく使われるボタンはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスポインタが指している場所により違うメニュー表示を行うことがあります(\figref{threeButtons:actclick})。マルチボタンのマウスを使わない場合、\emph{control} 等の修飾キーを使った \actclick を行い、表示することになります。
 \item [\metaclick:] Finally, you may \metaclick on any object displayed in the image to activate the ``morphic \subind{Morphic}{halo}'', an array of handles that are used to perform operations on the on-screen objects themselves, such as rotating them or resizing them; see \figref{threeButtons:metaclick}.\footnote{Note that the morphic handles are inactive by default in \pharo, but you can turn them on using the Preferences Browser, which we will see shortly.}
 If you let the mouse linger over a handle, a help balloon will explain its function.
 In \pharo, how you \metaclick depends on your operating system:
