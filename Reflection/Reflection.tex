@@ -71,23 +71,23 @@
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
-このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は非常に限られます。
+このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は極めて限られます。
 
 %@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
-他のプログラム(あるいは自分自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
+他のプログラム(あるいはそのプログラム自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
 %@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
 プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 %@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
 イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するデータ構造です。
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
-インターセッションとは、こうしたデータ構造が変更できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から\emph{変更}できる能力のことです。
+インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から変更できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
-\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、実行時システムの構造を解釈するしかたを変更するについて言うのです。
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言うのです。
 
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは多くの実際的な例: \st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探求します。
+ここでは多くの実際的な例つまり、\st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
 
 %======================================
 %@\section{Introspection}
@@ -109,7 +109,7 @@ w inspect
 %@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
 このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
-The \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
+\ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
@@ -118,11 +118,11 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 \end{figure}
 
 %@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
-\dothis{それでは空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
+\dothis{それでは、この空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
-\ct!contents!の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
+\ct!contents!変数の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
-このウィンドウに自分自身を更新する合図を送るには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
+このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
 
 %-----------------------------------------------------------------
 %@\subsection{Accessing instance variables}
@@ -135,51 +135,51 @@ The \ct!contents!インスタンス変数はワークスペースがそのテキ
 %@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
 理論上は、そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-実は、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
+実際には、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
-\st では、クラスは、インスタンス変数を、名前か数値インデックスで定義します。
+\st では、クラスは、インスタンス変数を、名前か添字で定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
-インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッド用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、\lct{\emph{index}}による位置や、\lct{\emph{aString}}によって識別されるインスタンス変数の値を得るのに用いることがでます。また、インスタンス変数に新しい値を代入するにには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用いるのです。%@?用いることができるのです。
+インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッドを、用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに用います。%@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
 \mthindex{Object}{instVarNamed:put:}
 
 %@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
-たとえば、以下を評価することにより、最初のワークスペースで\ct!w!にバインドされたオブジェクトの内部状態を変更することができます: %@?自信なし
+たとえば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@英文が変?
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
 %@\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
-\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利でるとは言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードはわかりづらく、保守しづらいものになりかねません。}
+\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利だと言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードは、よりわかりづらく、保守しづらいものになりかねません。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
 \ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>!が見付かるでしょう。なお、ここで、\ct!N!は整数です。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見付かるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
 \begin{code}{}
 Object>>>instVarAt: index 
 %@	"Primitive. Answer a fixed variable in an object. ..."
-	"プリミティブ。オブジェクト内に固定長の変数を返す。..." %@固定長の?
+	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。..."
 	!\textbf{<primitive: 73>}!
 %@	"Access beyond fixed variables."
-	"固定長の変数を超えた変数にアクセスする。"
+	"固定長配列の範囲を超えた変数にアクセスする。"
 	^self basicAt: index - self class instSize		
 \end{code}
 
 %@Typically, the code after the primitive invocation is not executed.
 通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
 %@It is executed only if the primitive fails. In this specific case, if we try to access a variable that does not exist, then the code following the primitive will be tried.
-プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。今のこの例では、存在しない変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
+プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
 %@This also allows the debugger to be started on primitive methods.
 これにより、プリミティブメソッドからデバッガを開始することも可能になります。
 %@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
-いくらプリミティブメソッドのコードは変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
+いくらプリミティブメソッドのコードが変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
@@ -193,9 +193,9 @@ Object>>>instVarAt: index
 この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 %@In the same spirit, it is possible to gather instances that have specific properties.
-同様の考えで、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の考えで?
+同様の精神にもとづき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神にもとづき?
 %@For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
-たとえば、SketchMorph!クラスのインスタンスで、その\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
+たとえば、SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
@@ -214,7 +214,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
 
 %@The method is implemented in \ct{Object} as follows:
-このメソッドは、以下のように、\ct{Object}クラスで実装されています:
+このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@? Pharo-1.1.1には、このメソッドは無い。
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
@@ -229,9 +229,9 @@ Object>>>instanceVariableValues
 \end{code}
 
 %@This method iterates over the indices of instance variables that the class defines, starting just after the last index used by the superclasses.
-このメソッドは、そのクラスが定義する一連のインスタンス変数のインデックスについて、繰り返し処理します。このときのインデックスは、スーパークラスで用いられていた最後のインデックスの直後の値から始まります。
+このメソッドは、そのクラスが定義する一連のインスタンス変数の添字について、繰り返し処理します。このときの添字は、スーパークラスで用いられていた最後の添字の直後の値から始まります。
 %@(The method \ct!instSize! returns the number of all named instance variables that a class defines.)
-(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 。)or)。
+(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 「。)」か「)。」か?
 
 %-----------------------------------------------------------------
 %@\subsection{Querying classes and interfaces}
@@ -358,7 +358,7 @@ String allSubInstances size -->  101675
 以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッドを列挙するよう依頼することができるからです。%@?exhibitingは何にかかる?
 \begin{itemize}
 %@\item \mthind{Behavior}{whichSelectorsAccess:} returns the list of all selectors of methods that read or write the instance variable named by the argument
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が示すインスタンス変数を読み書きするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター?
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数が示すインスタンス変数を読み書きするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
 %@\item \mthind{Behavior}{whichSelectorsStoreInto:} returns the selectors of methods that modify the value of an instance variable
 \item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターを返す
 %@\item \mthind{Behavior}{whichSelectorsReferTo:} returns the selectors of methods that send a given message
@@ -383,7 +383,7 @@ Point crossReference --> an Array(
 %@\item \mthind{Behavior}{whichClassIncludesSelector:} returns the superclass that implements the given message
 \item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するスーパークラスを返す
 %@\item \mthind{Behavior}{unreferencedInstanceVariables} returns the list of instance variables that are neither used in the receiver class nor any of its subclasses
-\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
+\item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
 
 \begin{code}{@TEST}
@@ -392,9 +392,9 @@ Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
 %@\clsind{SystemNavigation} is a facade that supports various useful methods for querying and browsing the source code of the system.
-\clsind{SystemNavigation} は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
+\clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
 %@\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
-\ct{SystemNavigation} \mthind{SystemNavigation class}{default} は、システムをナビゲートするのに使えるインスタンスを返します。
+\ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるインスタンスを返します。
 %@For example:
 たとえば:
 
@@ -468,7 +468,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@In \figref{CompiledMethod}, the \ind{explorer} shows the structure of class \clsind{Point}.
 \figref{CompiledMethod}が示しているのは、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示している様子です。
 %@You can see that the class stores its methods in a dictionary, indexing them by their selector.
-ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書のインデックスになっています。
+ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書の見出しになっています。
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
 The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*の\ind{バイトコード}を指しています。
 
@@ -481,7 +481,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Let us consider the relationship between classes and methods.
 クラスとメソッドの関係について考えてみましょう。
 %@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-\figref{MethodsAsObjects} で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
+\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
 %@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
@@ -568,14 +568,14 @@ SystemNavigation default
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
 %@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
-この限定されたスコープの中で、\menu{refactoring scope>super-sends} を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
+この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
 %@Now \click on any method and select \menu{refactor>code critics}.
 さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
-\menu{Lint checks>Possible bugs>Sends different super message} とナビゲートして、\menu{browse}を\actclick してみましょう。
+\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
-\figref{sendDifferentSuper} では、そのような19個のメソッドが、\ct{Collection} 階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
 %@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
@@ -585,7 +585,7 @@ SystemNavigation default
 %@Browser environments can also be created programmatically.
 ブラウザー環境はまた、プログラム的に作ることができます。
 %@Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
-たとえば、以下のように、\clsind{Collection} とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment} オブジェクトとして表示することができます。
+たとえば、以下のように、\clsind{Collection}とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示することができます。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -594,9 +594,11 @@ SystemNavigation default
 	open.
 \end{code}{}
 
-Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
+%@Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
+この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
 
-Finally, we can find just those methods that send a different super message programmatically as follows:
+%@Finally, we can find just those methods that send a different super message programmatically as follows:
+最終的に、このようなメソッド、つまり異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見付け出すことができます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -606,20 +608,28 @@ Finally, we can find just those methods that send a different super message prog
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
-Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
+%@Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
+ここでは、各コンパイル済みメソッドに、その (Refactoring Browser) 解析木について尋ね、superメッセージが、メソッドセレクターと異なっているかを探り出しています。
+%@Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things?
 
 %======================================
-\section{Accessing the run-time context}
+%@\section{Accessing the run-time context}
+\section{実行時コンテクストにアクセスする}
 
-We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
+%@We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
+これまで、\st のリフレクティブな機能により、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできることを見てきました。しかし、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
-\subsection{Method contexts}
+%@\subsection{Method contexts}
+\subsection{メソッドコンテクスト}
 
-In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
-On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
-How is this possible?
+%@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
+実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- けっして、イメージの中ではない、ということです!
+%@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
+その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
+%@How is this possible?
+これは、どのようにして可能なのでしょうか?
 
 Actually, there is nothing magical about the debugger.
 The secret is the pseudo-variable \pvind{thisContext}, which we have encountered only in passing before.
