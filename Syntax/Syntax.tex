@@ -519,38 +519,52 @@ String>>>lineCount
 %=================================================================
 \section{Block syntax}
 
-Blocks provide a mechanism to defer the evaluation of expressions.
-A \ind{block} is essentially an anonymous function. A block is evaluated by sending it the message \mthind{BlockClosure}{value}.
-The block answers the value of the last expression in its body, unless there is an explicit return (with \ct{^}), in which case it does not answer any value.
+% Blocks provide a mechanism to defer the evaluation of expressions.
+% A \ind{block} is essentially an anonymous function. A block is evaluated by sending it the message \mthind{BlockClosure}{value}.
+% The block answers the value of the last expression in its body, unless there is an explicit return (with \ct{^}), in which case it does not answer any value.
+\ind{ブロック}は，式の評価を遅延させるためのメカニズムを提供します．
+ブロックは本質的には無名の関数で，メッセージ\mthind{BlockClosure}{value}を送ることにより評価することができます．
+ブロックは明示的なリターン(\ct{^}が付いた式)がなければ，本体中の最後の式の値を返します．
 \seeindex{value}{BlockClosure}
 
 \begin{code}{@TEST}
 [ 1 + 2 ] value --> 3
 \end{code}
 
-Blocks may take parameters, each of which is declared with a leading colon.
-A  vertical bar separates the parameter declaration(s) from the body of the block.
-To evaluate a block with one parameter, you must send it the message \mthind{BlockClosure}{value:} with one argument.
-A two-parameter block must be sent \mthind{BlockClosure}{value:value:}, and so on, up to 4 arguments.
+% Blocks may take parameters, each of which is declared with a leading colon.
+% A  vertical bar separates the parameter declaration(s) from the body of the block.
+% To evaluate a block with one parameter, you must send it the message \mthind{BlockClosure}{value:} with one argument.
+% A two-parameter block must be sent \mthind{BlockClosure}{value:value:}, and so on, up to 4 arguments.
+ブロックは引数をとることができます．引数は先頭にコロンをつけて宣言します．
+縦線でブロックの本体と引数宣言を区切ります．
+1つの引数を持ったブロックを評価するためには，1つの引数を持ったメッセージ\mthind{BlockClosure}{value:}を送らなければなりません．
+2つの引数をとるブロックでは\mthind{BlockClosure}{value:value:}を送ります，
+同様に，4つまでの引数を使えます．
 
 \begin{code}{@TEST}
 [ :x | 1 + x ] value: 2 --> 3
 [ :x :y | x + y ] value: 1 value: 2 --> 3
 \end{code}
 
-If you have a block with more than four parameters, you must use \mthind{BlockClosure}{valueWithArguments:} and pass the arguments in an array.
-(A block with a large number of parameters is often a sign of a design problem.)
+% If you have a block with more than four parameters, you must use \mthind{BlockClosure}{valueWithArguments:} and pass the arguments in an array.
+% (A block with a large number of parameters is often a sign of a design problem.)
+4つ以上の引数を持ったブロックには，\mthind{BlockClosure}{valueWithArguments:}を使い，引数の配列を渡します．
+(多くの引数が必要なブロックは設計に問題があるのかもしれません．)
 
-Blocks may also declare local variables, which are surrounded by vertical bars, just like local variable declarations in a method.
-Locals are declared after any arguments:
+% Blocks may also declare local variables, which are surrounded by vertical bars, just like local variable declarations in a method.
+% Locals are declared after any arguments:
+メソッドのローカル変数宣言のように，ブロックにローカル変数(縦線に囲まれる)を宣言することができます．
+ローカル変数は引数の後に宣言します．
 \index{variable!declaration}
 
 \begin{code}{@TEST}
 [ :x :y | | z | z := x+ y. z ] value: 1 value: 2 --> 3
 \end{code}
 
-Blocks are actually lexical \emph{closures}, since they can refer to variables of the surrounding environment.
-The following block refers to the variable \ct{x} of its enclosing environment:
+% Blocks are actually lexical \emph{closures}, since they can refer to variables of the surrounding environment.
+% The following block refers to the variable \ct{x} of its enclosing environment:
+ブロックは外側環境の変数を参照することができるので，レキシカル（静的）\emph{クロージャー}です．
+次のブロックは，環境を包む変数\ct{x}を指します:
 
 \begin{code}{@TEST}
 | x |
@@ -558,8 +572,11 @@ x := 1.
 [ :y | x + y ] value: 2 --> 3
 \end{code}
 
-Blocks are instances of the class \clsind{BlockClosure}.
-This means that they are objects, so they can be assigned to variables and passed as arguments just like any other object.
+% Blocks are instances of the class \clsind{BlockClosure}.
+% This means that they are objects, so they can be assigned to variables and passed as arguments just like any other object.
+ブロックはクラス\clsind{BlockClosure}のインスタンスです．
+つまり，ブロックはオブジェクトです．したがって，変数に代入することができ，他のオブジェクトと同じように引数として渡すことができます．
+
 % For both understandability and performance, it is better for blocks to refer only to their parameters and local variables; blocks that do not refer external variables are optimized by the compiler.
 % MARCUS sez: I would just delete the sentence. There is nothing optimized, accessign outer temps is as fast as inner, so the only reason to avoid accessing outer temps would be that the code is easier to understand. But that's a relatively weak argument, I think.
 % However, the ability to refer (``capture'') non-local variables can be very powerful when it is needed. 
@@ -583,10 +600,14 @@ This means that they are objects, so they can be assigned to variables and passe
 %=================================================================
 \section{Conditionals and loops in a nutshell}
 
-\st offers no special syntax for control constructs.
-Instead, these are typically expressed by sending messages to booleans, numbers and collections, with blocks as arguments.
+% \st offers no special syntax for control constructs.
+% Instead, these are typically expressed by sending messages to booleans, numbers and collections, with blocks as arguments.
+\stは，制御のために特別のシンタックスを使うことはしません．
+代わりに，論理値，数およびコレクションに引数としてのブロックと共にメッセージを送ることにより表現します．
 
-Conditionals are expressed by sending one of the messages \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:} or \mthind{Boolean}{ifTrue:ifFalse:} to the result of a boolean expression. See \charef{basic} for more about booleans.
+% Conditionals are expressed by sending one of the messages \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:} or \mthind{Boolean}{ifTrue:ifFalse:} to the result of a boolean expression. See \charef{basic} for more about booleans.
+条件は，ブール式の結果にメッセージ\mthind{Boolean}{ifTrue:}，\mthind{Boolean}{ifFalse:}あるいは\mthind{Boolean}{ifTrue:ifFalse:}のうちの1つを送ることにより表わします．
+論理値に関する詳細については，\charef{basic}を参照してください．
 
 \begin{code}{}
 (17 * 13 > 220)
@@ -596,9 +617,13 @@ Conditionals are expressed by sending one of the messages \mthind{Boolean}{ifTru
 % ON: Not a test.
 % My regex approach cannot handle multi-line expressions :-(
 
-Loops are typically expressed by sending messages to blocks, integers or collections.
-Since the exit condition for a loop may be repeatedly evaluated, it should be a block rather than a boolean value.
-Here is an example of a very procedural loop:
+% Loops are typically expressed by sending messages to blocks, integers or collections.
+% Since the exit condition for a loop may be repeatedly evaluated, it should be a block rather than a boolean value.
+% Here is an example of a very procedural loop:
+ループは，ブロック，整数あるいはコレクションにメッセージを送ることにより表現します．
+ループの終了条件は繰り返し評価されるかもしれないので，ブール値ではなくブロックです．
+ここに，非常に手続き的なループの一例があげます．
+
 \index{iteration}
 \index{iteration|seealso{Collection, iteration}}
 \seeindex{loops}{iteration}
@@ -613,7 +638,8 @@ n --> 1024
 \cmindex{BlockClosure}{whileTrue:}
 
 \noindent
-\mthind{BlockClosure}{whileFalse:} reverses the exit condition.
+% \mthind{BlockClosure}{whileFalse:} reverses the exit condition.
+\mthind{BlockClosure}{whileFalse:}は終了条件を逆にします．
 \begin{code}{@TEST | n |}
 n := 1.
 [ n > 1000 ] whileFalse: [ n := n*2 ].
@@ -621,7 +647,8 @@ n --> 1024
 \end{code}
 
 \noindent
-\mthind{Integer}{timesRepeat:} offers a simple way to implement a fixed iteration:
+% \mthind{Integer}{timesRepeat:} offers a simple way to implement a fixed iteration:
+\mthind{Integere}{timesRepeat:}は，固定回数の繰り返しを実装する単純な方法です．
 
 \begin{code}{@TEST | n |}
 n := 1.
@@ -629,8 +656,10 @@ n := 1.
 n --> 1024
 \end{code}
 
-We can also send the message \mthind{Number}{to:do:} to a number which then acts as the initial value of a loop counter.
-The two arguments are the upper bound, and a block that takes the current value of the loop counter as its argument:
+% We can also send the message \mthind{Number}{to:do:} to a number which then acts as the initial value of a loop counter.
+% The two arguments are the upper bound, and a block that takes the current value of the loop counter as its argument:
+ループ・カウンターの初期値として作用する数にメッセージ\mthind{Number}{to:do:}を送ることができます．
+2つの引数は，ループ・カウンターの上限と，引数としてループ・カウンターの現在値をとるブロックです．
 
 \needlines{4}
 \begin{code}{@TEST | result |}
@@ -647,15 +676,22 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % \end{code}
 
 \paragraph{High-Order Iterators.}
-Collections comprise a large number of different classes, many of which support the same protocol.
-The most important messages for iterating over collections include
-\mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:}, \mthind{Collection}{detect:} and \mthind{Collection}{inject:into:}.
-These messages define high-level iterators that allow one to write very compact code.
+% Collections comprise a large number of different classes, many of which support the same protocol.
+% The most important messages for iterating over collections include
+% \mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:}, \mthind{Collection}{detect:} and \mthind{Collection}{inject:into:}.
+% These messages define high-level iterators that allow one to write very compact code.
+コレクションには多くの様々なクラスがあります．コレクションの多くは同じプロトコルをサポートします．
+コレクションをイテレートするための重要メッセージは\mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:}, \mthind{collection}{detect:}および\mthind{Collection}{inject:into:}です．
+これらのメッセージは，コンパクトなコードを書くことを可能にする，ハイ・レベルのイテレーターを定義します．
 
-An \clsind{Interval} is a collection that lets one iterate over a sequence of numbers from the starting point to the end.
-\ct{1 to: 10} represents the interval from 1 to 10.
-Since it is a collection, we can send the message \ct{do:} to it.
-The argument is a block that is evaluated for each element of the collection.
+% An \clsind{Interval} is a collection that lets one iterate over a sequence of numbers from the starting point to the end.
+% \ct{1 to: 10} represents the interval from 1 to 10.
+% Since it is a collection, we can send the message \ct{do:} to it.
+% The argument is a block that is evaluated for each element of the collection.
+\clasind{Interval}は数列の始点から終点をイテレートするコレクションです．
+\ct{1 to: 10}は1から10までの区間を表わします．
+これはコレクションなので，メッセージ\ct{do:}を送ることができます．
+引数はコレクションの各要素ごとに評価されるブロックです．
 
 \begin{code}{@TEST | result |}
 result := String new.
@@ -670,14 +706,18 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % n --> 55
 % \end{code}
 
-\ct{collect:} builds a new collection of the same size, transforming each element.
+% \ct{collect:} builds a new collection of the same size, transforming each element.
+\ct{collect:}は各要素を変換して，同じサイズの新しいコレクションを作ります．
 \begin{code}{@TEST}
 (1 to: 10) collect: [ :each | each * each ] --> #(1 4 9 16 25 36 49 64 81 100)
 \end{code}
 
-\ct{select:} and \ct{reject:} build new collections, each containing a subset of the elements satisfying (or not) the boolean block condition.
-\ct{detect:} returns the first element satisfying the condition.
-Don't forget that strings are also collections, so you can iterate over all the characters.
+% \ct{select:} and \ct{reject:} build new collections, each containing a subset of the elements satisfying (or not) the boolean block condition.
+% \ct{detect:} returns the first element satisfying the condition.
+% Don't forget that strings are also collections, so you can iterate over all the characters.
+\ct{select:}と\ct{reject:}はブロックで表した条件を満たす（あるいは満たさない）要素の集合からなる新しいコレクションを作ります．
+\ct{detect:}は，条件を満たす最初の要素を返します．
+さらに，文字列がコレクションであることを忘れないでください．したがって，文字をイテレートすことができます．
 
 \begin{code}{@TEST}
 'hello there' select: [ :char | char isVowel ] --> 'eoee'
@@ -685,9 +725,13 @@ Don't forget that strings are also collections, so you can iterate over all the 
 'hello there' detect: [ :char | char isVowel ] --> $e
 \end{code}
 
-Finally, you should be aware that collections also support a functional-style \emph{fold} operator in the \ct{inject:into:} method.
-This lets you generate a cumulative result using an expression that starts with a seed value and injects each element of the collection.
-Sums and products are typical examples.
+% Finally, you should be aware that collections also support a functional-style \emph{fold} operator in the \ct{inject:into:} method.
+% This lets you generate a cumulative result using an expression that starts with a seed value and injects each element of the collection.
+% Sums and products are typical examples.
+コレクションは関数型の畳み込み演算\pmph{fold}を\ct{inject:into:}メソッドによりサポートします．
+これは，シード値で始まり，コレクションの各要素を反映する式を使って，累積的な結果を生成します．
+代表例は和と積です．
+
 \seeindex{fold}{\ct{Collection>>>inject:into}}
 
 \begin{code}{@TEST}
@@ -695,29 +739,40 @@ Sums and products are typical examples.
 \end{code}
 
 \noindent
-This is equivalent to \ct{0+1+2+3+4+5+6+7+8+9+10}.
-
-More about collections can be found in  \charef{collections}.
+% This is equivalent to \ct{0+1+2+3+4+5+6+7+8+9+10}.
+これは\ct{0+1+2+3+4+5+6+7+8+9+10}と同等です．
+% More about collections can be found in  \charef{collections}.
+コレクションに関して\charef{collections}でさらに詳しく扱います．
 
 %=================================================================
 \section{Primitives and pragmas}
 
-In \st everything is an object, and everything happens by sending messages.
-Nevertheless, at certain points we hit rock bottom.
-Certain objects can only get work done by invoking \ind{virtual machine} \ind{primitive}{}s.
+% In \st everything is an object, and everything happens by sending messages.
+% Nevertheless, at certain points we hit rock bottom.
+% Certain objects can only get work done by invoking \ind{virtual machine} \ind{primitive}{}s.
+\stにおいては，すべてはオブジェクトです．そして，あらゆることがメッセージを送ることにより発生します．
+しかし，ある地点で底に当たります．
+いくつかのオブジェクトは\ind{バーチャルマシン}・\ind{プリミティブ}を呼び出すことが必要になります．
 
-For example, the following are all implemented as primitives:
-memory allocation (\mthind{Behavior}{new}, \mthind{Behavior}{new:}),
-bit manipulation (\mthind{Integer}{bitAnd:}, \mthind{Integer}{bitOr:}, \mthind{Integer}{bitShift:}),
-pointer and integer arithmetic (\ct{+}, \ct{-},  \ct{<},  \ct{>}, \ct{*}, \ct{/ }, \ct{=}, \ct{==}...),
-and array access (\mthind{Object}{at:}, \mthind{Object}{at:put:}).
+% For example, the following are all implemented as primitives:
+% memory allocation (\mthind{Behavior}{new}, \mthind{Behavior}{new:}),
+% bit manipulation (\mthind{Integer}{bitAnd:}, \mthind{Integer}{bitOr:}, \mthind{Integer}{bitShift:}),
+% pointer and integer arithmetic (\ct{+}, \ct{-},  \ct{<},  \ct{>}, \ct{*}, \ct{/ }, \ct{=}, \ct{==}...),
+% and array access (\mthind{Object}{at:}, \mthind{Object}{at:put:}).
+例えば，下記はすべてプリミティブとして実装されています．
+メモリアロケーション(new, new:)，ビット操作(bitAnd:, bitOr:, bitShift:)，ポインターおよび整数演算(+, -, <, >, *, / , =, ==...)，および配列へのアクセスは，(at: , at:put:)．
+
 \seeindex{new@{\ct{new}}}{\ct{Behavior>>>new}}
 
-Primitives are invoked with the syntax \ct{<primitive: aNumber>}.
-A method that invokes such a primitive may also include \st code, which will be evaluated \emph{only} if the primitive fails.
+% Primitives are invoked with the syntax \ct{<primitive: aNumber>}.
+% A method that invokes such a primitive may also include \st code, which will be evaluated \emph{only} if the primitive fails.
+プリミティブはシンタックス\ct{<primitive: aNumber>} で呼び出します．
+プリミティブを呼び出すメソッドはさらに\stコードを含んでいることがあります，そのようなコードはプリミティブが失敗した場合のみ評価されます．
 
-Here we see the code for \cmind{SmallInteger}{+}.
-If the primitive fails, the expression \ct{super + aNumber} will be evaluated and returned.
+% Here we see the code for \cmind{SmallInteger}{+}.
+% If the primitive fails, the expression \ct{super + aNumber} will be evaluated and returned.
+\cmind{SmallInteger}{+}のコードを例にしましょう．
+プリミティブが失敗した場合は，式\ct{super + aNumber}が評価され，値が返されるのです．
 
 \needlines{6}
 \begin{method}[primitive]{A primitive method}
@@ -744,7 +799,9 @@ If the primitive fails, the expression \ct{super + aNumber} will be evaluated an
 %\end{method}
 
 
-In \pharo, the angle bracket syntax is also used for method annotations called pragmas.
+% In \pharo, the angle bracket syntax is also used for method annotations called pragmas.
+\pharoでは，角括弧シンタックスもプラグマと呼ばれるメソッド・アノテーションに使われます．
+
 \sd{we should give an example}\ab{Please do!  Is don't know about these.}\damien{it's the third time we talk about pragmas without saying what they are and how to use them.}
 
 %=================================================================
@@ -752,44 +809,68 @@ In \pharo, the angle bracket syntax is also used for method annotations called p
 
 \begin{itemize}
 
-\item	\pharo has (only) six reserved identifiers also called \textit{pseudo-variables}: \ct{true}, \ct{false}, \ct{nil}, \ct{self}, \ct{super},  and  \ct{thisContext}.
+% \item	\pharo has (only) six reserved identifiers also called \textit{pseudo-variables}: \ct{true}, \ct{false}, \ct{nil}, \ct{self}, \ct{super},  and  \ct{thisContext}.
+\pharoには擬似変数と呼ばれる6つ(だけ)の予約識別子があります．
+\ct{true},\ct{false},\ct{nil},\ct{self},\ct{super},および\ct{thisContext}．
 
-\item	There are five kinds of literal objects: numbers (\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111}), characters (\ct{$a}), strings (\ct{'hello'}), symbols (\ct{#hello}), and arrays (\ct{#('hello' #hi)})
+% \item	There are five kinds of literal objects: numbers (\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111}), characters (\ct{$a}), strings (\ct{'hello'}), symbols (\ct{#hello}), and arrays (\ct{#('hello' #hi)})
+\item		5種類のリテラル・オブジェクトがあります．
+		数(\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111})，文字(\ct{$a})，文字列(\ct{'hello'})，シンボル(\ct{#hello})および配列(\ct{#('hello' #hi)})
 
-\item	Strings are delimited by single quotes, comments by double quotes.
-		To get a quote inside a string, double it.
+% \item	Strings are delimited by single quotes, comments by double quotes.
+% 		To get a quote inside a string, double it.
+\item		文字列はシングルクォート(コメントはダブルクォート)で囲みます．
+		文字列の内部のクォートを得るためには，それを重ねてください．
 
-\item	Unlike strings, symbols are guaranteed to be globally unique.
+% \item	Unlike strings, symbols are guaranteed to be globally unique.
+\item		文字列と異なり，シンボルは大域的に一意であることが保証されます．
 
-\item	Use \ct{#( ... )} to define a literal array.
-		Use \ct|{ ... }| to define a dynamic array.
-		Note that 
-		\ct{#( 1 + 2 ) size --> 3}, but 
-		\ct|{ 1 + 2 } size --> 1|
+% \item	Use \ct{#( ... )} to define a literal array.
+% 		Use \ct|{ ... }| to define a dynamic array.
+% 		Note that 
+%		\ct{#( 1 + 2 ) size --> 3}, but 
+%		\ct|{ 1 + 2 } size --> 1|
+\item		リテラル配列を定義するためには\ct{#(...)}を使います．
+		動的配列を定義するためには\ct|{ ... }|を使ってください．
+		\ct{#( 1 + 2 ) size -→ 3}，\ct|{ 1 + 2 } size -→ 1|の違いに注意してください
 
-\item	There are three kinds of messages:
-		\emph{unary} (\eg \ct{1 asString}, \ct{Array new}),
-		\emph{binary} (\eg \ct{3 + 4}, \ct{'hi' , ' there'}), and
-		\emph{keyword} (\eg \ct{'hi' at: 2 put: $o})
+% \item	There are three kinds of messages:
+%		\emph{unary} (\eg \ct{1 asString}, \ct{Array new}),
+%		\emph{binary} (\eg \ct{3 + 4}, \ct{'hi' , ' there'}), and
+%		\emph{keyword} (\eg \ct{'hi' at: 2 put: $o})
+\item		3種類のメッセージがあります:
+		\emph{単項} (\eg \ct{1 asString}, \ct{Array new})，
+		\emph{二項} (\eg \ct{3 + 4}, \ct{'hi' , ' there'})，
+		\emph{キーワード} (\eg \ct{'hi' at: 2 put: $o})
 
-\item	A \emph{cascaded} message send is a sequence of messages sent to the same target, separated by semi-colons:
-\ct{OrderedCollection new add: #calvin; add: #hobbes; size --> 2}
+% \item	A \emph{cascaded} message send is a sequence of messages sent to the same target, separated by semi-colons:
+\item		カスケードメッセージは，セミコロンによって分けられた同じターゲットへ送られるメッセージのシーケンスです.
+		\ct{OrderedCollection new add: #calvin; add: #hobbes; size --> 2}
 
-\item	Local variables are declared with vertical bars.
-		Use \ct{:=} for assignment.
-		\ct{|x| x:=1}
+% \item	Local variables are declared with vertical bars.
+% 		Use \ct{:=} for assignment.
+\item		ローカル変数は縦線で宣言されます．
+		代入には\ct{:=}を使います．
+ 		\ct{|x| x:=1}
 
-\item	Expressions consist of message sends, cascades and assignments, possibly grouped with parentheses.
-		\emph{Statements} are expressions separated by periods.
+% \item	Expressions consist of message sends, cascades and assignments, possibly grouped with parentheses.
+%		\emph{Statements} are expressions separated by periods.
+\item		式は場合により括弧でグループ化した，メッセージ送信，カスケード，代入により構成します．
+		\emph{ステートメント}はピリオドによって分割した式です．
 
-\item	Block closures are expressions enclosed in square brackets.
-		Blocks may take arguments and can contain temporary variables.
-		The expressions in the block are not evaluated until you send the block a 
-		\ct{value...} message with the correct number of arguments.\\
+% \item	Block closures are expressions enclosed in square brackets.
+%		Blocks may take arguments and can contain temporary variables.
+%		The expressions in the block are not evaluated until you send the block a 
+%		\ct{value...} message with the correct number of arguments.\\
+\item		ブロック・クロージャーは角括弧で囲まれた式です．
+		ブロックは引数をとってもよく，一時変数を使うことができます．
+		ブロックに適切な数の引数を伴ったvalueメッセージを送るまで，ブロック中の式は評価されません．
 		\ct{[:x | x + 2] value: 4 --> 6}.
 
-\item	There is no dedicated syntax for control constructs, just messages that conditionally evaluate blocks.\\
-		\ct{(\st includes: Class) ifTrue: [ Transcript show: Class superclass ]}
+% \item	There is no dedicated syntax for control constructs, just messages that conditionally evaluate blocks.\\
+\item		制御用の専用のシンタックスはありません，
+		条件付きでブロックを評価する単なるメッセージだけがあります．
+ 		\ct{(\st includes: Class) ifTrue: [ Transcript show: Class superclass ]}
 
 \end{itemize}
 
