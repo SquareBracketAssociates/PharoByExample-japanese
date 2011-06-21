@@ -36,7 +36,7 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{���쥯�����}
+\chapter{コレクション}
 \chalabel{collections}
 
 % \ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
@@ -44,13 +44,13 @@
 %\on{recycled some material from \url{https://www.iam.unibe.ch/scg/svn_repos/Lectures/ST-H07/03StandardClasses.ppt}}
 %\sd{Did a first pass: I should have a look at Xavier Briffault's book and at the material mentionned by andrew + lalonde book?}
 %=============================================================
-\section{Ƴ��}
+\section{導入}
 
-���쥯����󥯥饹���� \clsindmain{Collection} ���饹�� \clsind{Stream} ���饹�Υ��֥��饹�ǡ�������Ū�ʤ�ΤΥ��롼�פǤ���Ȥ��ۣ���������Ƥ����ޤ�����\ind{�֥롼�֥å�}��~\cite{Gold83a} ���о줹�뤳�Υ��饹�Υ��롼�פˤ� \ct{Collection} �� 17 �ĤΥ��֥��饹��  \ct{Stream} �� 9 �ĤΥ��֥��饹����� 28 �ĤΥ��饹���ޤޤ�Ƥ��ޤ��������� \st-80 �����ƥब��꡼����������˲��٤����߷פ��줿��ΤǤ����������Υ��饹���Ϥ��Ф��Х��֥������Ȼظ��߷פη���Ū����Ȥ��ƹͤ����ޤ���
+コレクションクラス群は \clsindmain{Collection} クラスと \clsind{Stream} クラスのサブクラスで、汎用目的なもののグループであるとやや曖昧に定義しておきます。「\ind{ブルーブック}」~\cite{Gold83a} に登場するこのクラスのグループには \ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが含まれています。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラス群はしばしばオブジェクト指向設計の系統的な例として考えられます。
 
-\pharo �Ǥϡ���ݥ��饹 \ct{Collection} �� 101 �ĤΥ��֥��饹����ݥ��饹 \ct{Stream} �� 50 �ĤΥ��֥��饹������ޤ����������Τ���¿�� (\mbox{\clsind{Bitmap}��}\mbox{\clsind{FileStream}��}\clsind{CompiledMethod} �ʤ�) �ϥ����ƥ�䥢�ץꥱ�������ΰ����Ȥ��ƻȤ���褦�˺��줿���̤���Ū�Τ�ΤʤΤǡ������ƥ๽���Ȥ��ơ�Collection�פȤ��Ƥϥ��ƥ��꡼������ޤ��󡣤��ξϤ���Ū�Τ���ˡ��֥��쥯������ءפȤ������դ� \ct{Collection} �ȡ����Υ��֥��饹\emph{�����} \scat{Collections-*} �Ȥ��ƥ��ƥ��饤�����줿��Τ�ؤ��ޤ���
-Ʊ�ͤˡ֥��ȥ꡼�೬�ءפ� \ct{Stream} �ȡ����Υ��֥��饹\emph{�����} \scat{Collections-Streams} �Ȥ��ƥ��ƥ��饤�����줿��Τ�ؤ��ޤ���
-����� 56 �ĤΥ��饹�� 982 �Υ�å������˱����Ǥ������ 1609 �ĤΥ᥽�åɤ�������Ƥ���ΤǤ���
+\pharo では、抽象クラス \ct{Collection} は 101 個のサブクラスを、抽象クラス \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成として「Collection」としてはカテゴリー化されません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
+同様に「ストリーム階層」は \ct{Stream} と、そのサブクラス\emph{の中で} \scat{Collections-Streams} としてカテゴライズされたものを指します。
+これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！
 
 % See test case in PBE-Collections for statistics
 
@@ -78,8 +78,8 @@
 %\end{center}
 %\end{figure}
 
-���ξϤǤϥ��쥯����󥯥饹�Τ��� \figref{CollClassesTree} �˼����������˼��夲�ޤ���
-���ȥ꡼��ˤĤ��Ƥ� \charef{streams} ��ʬ���������ޤ���
+この章ではコレクションクラスのうち \figref{CollClassesTree} に示す一部を主に取り上げます。
+ストリームについては \charef{streams} で分けて論じます。
 
 % Note that the stream classes suffer from aging problems since they contain duplicated code and other code smells.
 % ON: We should avoid statements like this!
@@ -89,33 +89,33 @@
 \ifluluelse
 	{\includegraphics[width=\textwidth]{CollectionHierarchy}}
 	{\includegraphics[width=0.8\textwidth]{CollectionHierarchy}}
-\caption{\pharo �ˤ����Ƽ��פʥ��쥯�����}
+\caption{\pharo において主要なコレクション}
 \figlabel{CollClassesTree}
 \end{center}
 \end{figure}
 
 %=========================================================
-\section{���쥯�����μ���}
+\section{コレクションの種類}
 \seclabel{varieties}
 
-���쥯����󥯥饹�����꤯�Ȥ��ˤϡ�����������Υ��쥯�����ˤĤ��ơ����μ����ȡ����줾��ζ������Ȱ㤤�ˤĤ��ơ����ʤ��Ȥ�ɽ��Ū�ˤ����򤷤��֤��ʤ���Фʤ�ޤ���
+コレクションクラス群を上手く使うには、幅広い種類のコレクションについて、その実装と、それぞれの共通点と違いについて、少なくとも表層的には理解して置かなければなりません。
 
-���쥯�������Ѥ����ץ�����ߥ󥰤ϡ����̤����Ǥ򰷤���ꡢ�ץ�����������٤�����ǤȤƤ���Ω���ޤ���
-\ind{Lisp} �� \ct{map} �ؿ��ϡ�����ꥹ�Ȥγ����Ǥ��Ф��ư������Ϥ����ؿ���Ŭ�Ѥ�����̤Υꥹ�Ȥ��ä��֤���ΤǤ�������ϥ��쥯�����Τ褦�ʥ�������ν������Ǥ�����\st-80 �ϥ��쥯����󡦥١����Υץ�����ߥ󥰤��濴�˿������ΤǤ���\ind{ML} �� \ind{Haskell} �Τ褦�ʸ���Ū�ʴؿ����ץ�����ߥ󥰸���� Smalltalk �θ��³�����ȸ����ޤ���
+コレクションを用いたプログラミングは、個別の要素を扱うより、プログラムの抽象度を高める上でとても役立ちます。
+\ind{Lisp} の \ct{map} 関数は、あるリストの各要素に対して引数に渡した関数を適用した結果のリストを作って返すものです。これはコレクションのようなスタイルの初期の例ですが、\st-80 はコレクション・ベースのプログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のような現代的な関数型プログラミング言語は Smalltalk の後に続いたと言えます。
 
-���Υ����ǥ����Ϥʤ��褤�ΤǤ��礦��
-�㤨�г����Υ쥳���ɤΥ��쥯�����Ȥ��ä��ǡ�����¤�����ä��Ȥ��ơ��ʤˤ��δ��˰��פ��뤹�٤Ƥγ����Υǡ����ˤĤ���Ʊ�������򤷤����ȹͤ����Ȥ��ޤ���̿�᷿����˴��줿�ץ�����ޡ��ʤ顢�롼�פ�Ȥ����Ȥ򤹤��פ��Ĥ��Ǥ��礦���Ǥ� Smalltalk �ץ�����ޡ��ʤ餳���񤯤Ǥ��礦:
+このアイディアはなぜよいのでしょう？
+例えば学生のレコードのコレクションといったデータ構造があったとして、なにかの基準に一致するすべての学生のデータについて同じ処理をしたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐ思いつくでしょう。でも Smalltalk プログラマーならこう書くでしょう:
 \begin{code}{}
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-����ϳѥ��å��ǰϤޤ줿���� \ct{true} ���֤� students ���������ǤȤ��뿷�������쥯�����Ȥ�����̣�Ǥ�\footnote{�ѥ��å���μ���̵̾�ؿ� $\lambda x. x~{\sf gpa} < {\sf threshold}$ ��������� $\lambda$�����ȹͤ��뤳�Ȥ��Ǥ��ޤ���}������ \st �����ɤˤϥɥᥤ���ͭ�䤤��碌����Ū�ʥ���ץ뤵�ȥ��쥬�󥹤�����ޤ���
+これは角カッコで囲まれた式が \ct{true} を返す students だけを要素とする新しいコレクションという意味です\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$式だと考えることができます。}。この \st コードにはドメイン固有問い合わせ言語的なシンプルさとエレガンスがあります。
 
-\st ��\emph{���٤Ƥ�}���쥯�����ϥ�å����� \ct{select:} �����򤹤뤳�Ȥ��Ǥ��ޤ��������Υǡ�����¤������ʤΤ������ꥹ�ȤʤΤ����Τ�ɬ�פϤ���ޤ��󡣤ɤ���� \ct{select:} ��å�����������Ǥ��ޤ����롼�פ�Ȥ�������Ȥ��礭���ۤʤ�Ȥ������Ȥ����դ��ޤ��礦���롼�פǤ� \ct{students} ������ʤΤ������ꥹ�ȤʤΤ������餫�����ΤäƤ����ʤ���Фʤ�ޤ���
+\st の\emph{すべての}コレクションはメッセージ \ct{select:} を理解することができます。学生のデータ構造が配列なのか線形リストなのかを知る必要はありません。どちらも \ct{select:} メッセージを理解できます。ループを使うやり方とは大きく異なるということに注意しましょう。ループでは \ct{students} が配列なのか線形リストなのか、あらかじめ知っておかなければなりません。
 
-\st �Ǥϡ�����Υ��쥯��������ꤻ����ñ�ˡ֥��쥯�����פȤ��ä����ˤϡ�������������줿�ץ��ȥ��롢���ʤ���������Ǥ��ޤޤ�Ƥ��뤫��ƥ��Ȥ����Τȡ����Ǥο����夲��Ԥ���Ρ��򥵥ݡ��Ȥ������֥������Ȥ�ؤ��ޤ���\emph{���٤Ƥ�}���쥯������ \protind{testing} ��å������Ǥ��� \mbox{\mthind{Collection}{includes:}��}\mbox{\mthind{Collection}{isEmpty}��}\mthind{Collection}{occurrencesOf:}������Ǥ��ޤ���\emph{���٤Ƥ�}���쥯������ \prot{enumeration} ��å������Ǥ��� \mthind{Collection}{do:}��\mthind{Collection}{select:}��\mthind{Collection}{reject:} (\ct{select:} ��ȿ�Фΰ�)��\mthind{Collection}{collect:} (Lisp �� \ct{map})��\mthind{Collection}{detect:ifNone:}��\mthind{Collection}{inject:into:} (�������ߤ�Ԥ�) �ʤɤʤɤ�����Ǥ��ޤ���emumeration �ץ��ȥ�����������ȡ���ʬ�ʥХ饨�ƥ��������Ƥ���ΤǤȤƤ⶯�ϤǤ���
+\st では、特定のコレクションを指定せずに単に「コレクション」といった場合には、正しく定義されたプロトコル、すなわちある要素が含まれているかをテストするものと、要素の数え上げを行うもの、をサポートしたオブジェクトを指します。\emph{すべての}コレクションは \protind{testing} メッセージである \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解できます。\emph{すべての}コレクションは \prot{enumeration} メッセージである \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対の意)、\mthind{Collection}{collect:} (Lisp の \ct{map})、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などなどを理解できます。emumeration プロトコルは普遍性と、十分なバラエティを備えているのでとても強力です。
 
-\figref{protocols} �ϥ��쥯������ؤˤ����륯�饹��ɸ��ǥ��ݡ��Ȥ��Ƥ���ץ��ȥ����ޤȤ᤿��ΤǤ������줾��Υ᥽�åɤ� \ct{Collection} �Υ��֥��饹������ޤ��Ϻ�������졢��Ŭ�����졢�ޤ�ˤϺ������뤳�Ȥ⤢��ޤ���
+\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、まれには削除されることもあります。
 
 \begin{figure*}
 \begin{center}
@@ -123,7 +123,7 @@ students select: [ :each | each gpa < threshold ]
 	{\begin{tabular}{|l|p{8cm}|}}
 	{\begin{tabular}{|l|p{12cm}|}}
 \hline
-{\bf �ץ��ȥ���} & {\bf �᥽�å�}\\
+{\bf プロトコル} & {\bf メソッド}\\
 \hline
 \protind{accessing}	&	\lct{size}, \lct{capacity}, \lct{at: \emph{anIndex}}, \lct{at: \emph{anIndex} put: \emph{anElement}}	\\
 \hline
@@ -144,7 +144,7 @@ students select: [ :each | each gpa < threshold ]
 & \lct{with:with:with:with:}, \lct{withAll: \emph{aCollection}}	\\
 \hline
 \end{tabular}
-\caption{ɸ��Ū�ʥ��쥯�����ץ��ȥ���\figlabel{protocols}}
+\caption{標準的なコレクションプロトコル\figlabel{protocols}}
 \end{center}
 \end{figure*}
 
@@ -156,99 +156,99 @@ students select: [ :each | each gpa < threshold ]
 %\end{figure*}
 %\on{A useless diagram -- refer to the class hierarchy instead!}
 
-����Ū�ʰ������΢�ǡ��㤦�ץ��ȥ���򥵥ݡ��Ȥ����ꡢƱ���ꥯ�������Ф��ưۤʤ뿶���񤤤򤹤뤵�ޤ��ޤʥ��쥯�����¸�ߤ��Ƥ��ޤ������Τ褦�ʰ㤤����ǽ��פʤ�Τ򸫤Ƥ����ޤ��礦��
+基本的な一貫性の裏で、違うプロトコルをサポートしたり、同じリクエスト対して異なる振る舞いをするさまざまなコレクションが存在しています。そのような違いの中で重要なものを見ていきましょう。
 
 \begin{itemize}
-  \item {\bf ����� (Sequenceable):}
-  \clsind{SequenceableCollection} �Τ��٤ƤΥ��֥��饹�Υ��󥹥��󥹤� \mthind{SequenceableCollection}{first} ���Ǥ���Ϥޤꡢ\mthind{SequenceableCollection}{last} ���Ǥޤ����Τ˷�ޤä�������¤�Ǥ��ޤ� (sequenceable)��
-  �����ǡ�\mbox{\clsind{Set}��}\mbox{\clsind{Bag}��}\clsind{Dictionary} �Υ��󥹥��󥹤Ͻ����������ޤ���
+  \item {\bf 順序性 (Sequenceable):}
+  \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは \mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
+  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序性を持ちません。
 
-  \item {\bf ������ (Sortable):}
-  \clsind{SortedCollection} �Ϥ������Ǥ������󤵤줿���֤��ݤ��ޤ���
+  \item {\bf 整列性 (Sortable):}
+  \clsind{SortedCollection} はその要素を常に整列された状態に保ちます。
 
-  \item {\bf ����ǥå��������� (Indexable):}
-        �ۤȤ�ɤν�����Τ��륳�쥯�����ϥ���ǥå����ǻ��ȤǤ��ޤ� (indexable)���Ĥޤ� \ct{at:} �����Ǥ���Ф���Ȥ������ȤǤ���
-        \clsind{Array} �ϥ���ǥå������ȤǤ���ǡ�����¤�Τʤ��Ǥ�ȤƤ�ȶ�ʤ�Τǡ����ꤵ�줿������������ޤ���\ct{anArray at: n} �� \ct{anArray} �� $\mbox{\ct{n}}^{th}$ ���Ǥ���Ф���\ct{anArray at: n put: v} �� $\mbox{\ct{n}}^{th}$ ���Ǥ��ͤ� \ct{v} ���Ѥ��ޤ���
-        \ct{LinkedList} ��� \ct{SkipList} ��Ͻ�����Ϥ���ޤ�������ǥå����Ǥϻ��ȤǤ��ޤ��󡣤Ĥޤ� \ct{first} �� \ct{last} ������Ǥ��ޤ�����\ct{at:} ������Ǥ��ޤ���
+  \item {\bf インデックス参照性 (Indexable):}
+        ほとんどの順序性のあるコレクションはインデックスで参照できます (indexable)。つまり \ct{at:} で要素を取り出せるということです。
+        \clsind{Array} はインデックス参照できるデータ構造のなかでもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の $\mbox{\ct{n}}^{th}$ 要素を取り出し、\ct{anArray at: n put: v} は $\mbox{\ct{n}}^{th}$ 要素の値を \ct{v} に変えます。
+        \ct{LinkedList} 類と \ct{SkipList} 類は順序性はありますがインデックスでは参照できません。つまり \ct{first} と \ct{last} は理解できますが、\ct{at:} は理解できません。
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
 
-  \item {\bf ���������� (Keyed):}
-	\clsind{Dictionary} �Ȥ��Υ��֥��饹�Υ��󥹥��󥹤ϡ�����ǥå���������˥��������Ǥ򻲾ȤǤ��ޤ���
+  \item {\bf キー参照性 (Keyed):}
+	\clsind{Dictionary} とそのサブクラスのインスタンスは、インデックスの代わりにキーで要素を参照できます。
 
-  \item {\bf ������ (Mutable):}
-        �ۤȤ�ɤΥ��쥯���������Ƥ����� (mutable) �Ǥ�����\ct{Interval} ���� \ct{Symbol} �����㳰�Ǥ���
-        \clsind{Interval} ���饹�� Integer ���ϰϤ򼨤����Ƥ����� (immutable) �Υ��쥯�����Ǥ����㤨�С�\ct{5 to: 16 by: 2} ������ 5, 7, 9, 11,13, 15 ��ޤ।�󥿡��Х�Ǥ������󥿡��Х�� \ct{at:} �ǥ���ǥå������ȤǤ��ޤ�����\ct{at:put:} ���ͤ��ѹ����뤳�ȤϤǤ��ޤ���
+  \item {\bf 可変性 (Mutable):}
+        ほとんどのコレクションは内容が可変 (mutable) ですが、\ct{Interval} 群と \ct{Symbol} 群は例外です。
+        \clsind{Interval} クラスは Integer の範囲を示す内容が不変 (immutable) のコレクションです。例えば、\ct{5 to: 16 by: 2} は要素 5, 7, 9, 11,13, 15 を含むインターバルです。インターバルは \ct{at:} でインデックス参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
-  \item {\bf ��ư������ (Growable):}
-         \ct{Interval} �� \ct{Array} �Υ��󥹥��󥹤Ͼ�˥����������ꤵ��Ƥ��ޤ���¾�μ���Υ��쥯����� (���󥳥쥯����󡢽�����쥯����������ꥹ��) ��������˥������������뤳�Ȥ����ꤨ�ޤ���
+  \item {\bf 自動拡大性 (Growable):}
+         \ct{Interval} や \ct{Array} のインスタンスは常にサイズが固定されています。他の種類のコレクション (整列コレクション、順序コレクション、線形リスト) は生成後にサイズが増えることがありえます。
 
-         ���饹 \clsind{OrderedCollection} �� \ct{Array} �������Ū�Ǥ���\ct{OrderedCollection} ��ɬ�פ˱����ƥ���������礷��\mthind{OrderedCollection}{at:} �� \mthind{OrderedCollection}{at:put:} �˲ä���\mthind{OrderedCollection}{addFirst:} �� \mthind{OrderedCollection}{addLast:} �Ȥ��ä��᥽�åɤ⤢��ޤ���
+         クラス \clsind{OrderedCollection} は \ct{Array} より汎用的です。\ct{OrderedCollection} は必要に応じてサイズを拡大し、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} に加え、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} といったメソッドもあります。
   
-  \item {\bf ��ʣ������ (Accepts duplicates):}
-  	\clsind{Set} �����Ǥ���ʣ���ʤ��褦�ˤ��ޤ�����\clsind{Bag} �Ϥ������ä����Ȥ򤷤ޤ���
-	\clsind{Dictionary}��\ct{Set}��\ct{Bag} �ϳ����Ǥ� \ct{=} �᥽�åɤ��Ѥ��ޤ���\ct{Identity} �Хꥢ��Ȥ���ĤΥ��֥������Ȥ�Ʊ��Ǥ��뤳�Ȥ�Ƚ�ꤹ�� the \ct{==} �᥽�åɤ��Ѥ���\ct{Pluggable} �Хꥢ��Ȥϥ��쥯������������Ϳ����줿Ǥ�դ�Ʊ�ʹط����Ѥ��ޤ���
+  \item {\bf 重複許容性 (Accepts duplicates):}
+  	\clsind{Set} は要素が重複しないようにしますが、\clsind{Bag} はそういったことをしません。
+	\clsind{Dictionary}、\ct{Set}、\ct{Bag} は各要素の \ct{=} メソッドを用います。\ct{Identity} バリアントは二つのオブジェクトが同一であることを判定する the \ct{==} メソッドを用い、\ct{Pluggable} バリアントはコレクション作成時に与えられた任意の同値関係を用います。
 	\index{Pluggable collections}
 
-  \item {\bf �ۼ��� (Heterogeneous):}
-        �ۤȤ�ɤΥ��쥯�����Ϥɤ�ʼ�������Ǥ�������ޤ���
-        ������ \clsind{String}��\clsind{CharacterArray}��\clsind{Symbol} �� \ct{Character} ����������ޤ���
-        \clsind{Array} �Ϥ��ޤ��ޤʥ��֥������Ȥ򺮺ߤ����ݻ��Ǥ��ޤ�����\lct{ByteArray} �� \lct{Byte} ������\clsind{IntegerArray} �� \ct{Integer} ������\clsind{FloatArray} �� \ct{Float} ������������ޤ���
-	\clsind{LinkedList} �����Ǥˤʤ�ˤϡ�ɬ�� \prot{Link \go accessing} �ץ��ȥ��������դ��ʤ���Фʤ�ʤ��Ȥ������󤬤���ޤ���
+  \item {\bf 異種性 (Heterogeneous):}
+        ほとんどのコレクションはどんな種類の要素も持ち得ます。
+        一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は \ct{Character} だけを持ちます。
+        \clsind{Array} はさまざまなオブジェクトを混在して保持できますが、\lct{ByteArray} は \lct{Byte} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを持ち得ます。
+	\clsind{LinkedList} の要素になるには、必ず \prot{Link \go accessing} プロトコルを受け付けなければならないという制約があります。
 \end{itemize}
 
 %  How is the order established? Sorted collections use a supplied total ordering function, intervals are implicitly ordered, while arrays and ordered collections are ordered explicitly when elements are inserted.
 
 %=========================================================
-\section{���쥯�����μ���}
+\section{コレクションの実装}
 \seclabel{implementation}
 
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{CollectionsByImpl}
-\caption{������ˡ�ˤ�ꥫ�ƥ���ʬ���������쥯�����
+\caption{実装技法によりカテゴリ分けしたコレクション
     \figlabel{collsByImpl}}
-% some of collections ������ְ����ΡפȤ��٤��ʤΤ��⤷��ʤ����������ϴ�����������Ȥ���
+% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
 \end{center}
 \end{figure*}
 
-��ǽ�ˤ�륫�ƥ��꡼�����ͤ�����ɤ��Ȥ����櫓�ǤϤ���ޤ��󡣤ɤ���äƥ��쥯����󥯥饹����������Ƥ��뤫��ͤ��ʤ���Фʤ�ޤ���\figref{collsByImpl} �˼����褦�ˡ����פʼ�����ˡ�Ȥ��ƤϸޤĤΤ�Τ�����ޤ���
+機能によるカテゴリーだけ考えれば良いというわけではありません。どうやってコレクションクラスが実装されているかも考えなければなりません。\figref{collsByImpl} に示すように、主要な実装技法としては五つのものがあります。
 
 \begin{enumerate}
-  \item Array �����Ǥ򥳥쥯����󥪥֥������ȼ��Ȥ�(����ǥå������ȤǤ���)���󥹥����ѿ��˳�Ǽ���ޤ�����̤Ȥ��ơ�����ϥ���������Ȥʤꡢ��������˰��Υ��������Ƥ������Ǥ��ޤ���
+  \item Array は要素をコレクションオブジェクト自身の(インデックス参照できる)インスタンス変数に格納します。結果として、配列はサイズ固定となり、その代わりに一回のメモリ割り当てで生成できます。
   \clsindex{Array}
-  \item \clsind{OrderedCollections} �� \clsind{SortedCollections} �����Ǥ�����˳�Ǽ�������󥹥����ѿ��Ǥ�������򻲾Ȥ��ޤ����������뤳�Ȥǡ���������Ū������Υ��������⥳�쥯������礭���ʤä��顢����礭��ʪ�������ؤ��뤳�Ȥ��Ǥ��ޤ���
-  \item set �� dictionary �����ޤ���������Ȥ�������ؤΥ�ե���󥹤����Ѥ��ޤ����������ϥå���ơ��֥�Ȥ����Ѥ��ޤ���Bag �ϵ�����Ȥ��ơ����Ǥ��Τ�Τ򥭡����и�������ͤȤ��ƻ��� \ct{Dictionaly} ��Ȥ��ޤ���
+  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。こうすることで、この内部的な配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
+  \item set や dictionary の類もまた、記憶先として配列へのリファレンスを利用しますが、配列をハッシュテーブルとして用います。Bag は記憶先として、要素そのものをキー、出現回数を値として持つ \ct{Dictionaly} を使います。
   \clsindex{Bag}
-  \item LinkedList �ϰ���Ū����������󥯤η�������ޤ���
+  \item LinkedList は一般的な片方向リンクの形式を取ります。
   \clsindex{LinkedList}
-  \item Interval �ϳ���������λ�������ƥåץ������λ��Ĥ��������Ǽ���ޤ���
+  \item Interval は開始点・終了点・ステップサイズの三つの整数を格納します。
   \clsindex{Interval}
 \end{enumerate}
-�����Υ��饹�˲ä���\ct{Array}��\ct{Set}�����줫��ǥ�������ʥ꡼��¿���μ���ϡ�``\subind{Collection}{weak}'' �Ȥ����Ѽ������ޤ����������Ѽ�Ǥ����Ǥ�夯�ݻ����ޤ���\ie ���ǤΥ����١������쥯������ػߤ��ʤ��Ȥ������ȤǤ���
-% �����ʤ��ΤǸ�ʸ�Ĥ���
+これらのクラスに加え、\ct{Array}、\ct{Set}、それからディクショナリーの多くの種類は、``\subind{Collection}{weak}'' という変種を持ちます。これらの変種では要素を弱く保持します。\ie 要素のガーベージコレクションを禁止しないということです。
+% 自信ないので原文残す。
 % In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
-\pharo �β��ۥޥ���Ϥ����Υ��饹��Ƚ�̤������̤˰����ޤ���
+\pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
 \index{weak collections}
 
-\st �Υ��쥯�����ˤĤ��Ƥ��ܤ����Τꤿ������ LaLonde �� Pugh �Τ��Ф餷���� \cite{LaLo90a} �򻲾Ȥ��Ƥ���������
+\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh のすばらしい本\cite{LaLo90a} を参照してください。
 
 %=========================================================
-\section{Examples of key classes}
-We present now the most common or important collection classes using simple code examples. 
-The main protocols of collections are: \mthind{Collection}{at:}, \mthind{Collection}{at:put:} --- to access an element, \mthind{Collection}{add:}, \mthind{Collection}{remove:} --- to add or remove an element, \mthind{Collection}{size}, \mthind{Collection}{isEmpty}, \mthind{Collection}{include:} --- to get some information about the collection, \mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:} --- to iterate over the collection. 
-Each collection may implement or not such protocols, and when they do, they interpret them to fit with their semantics. We suggest you browse the classes themselves to identify specific and more advanced protocols.
+\section{重要なクラスについての例}
+よく使ったり重要だったりするコレクションクラスについて、簡単なコード例でご説明しましょう。
+紹介するコレクションの主なプロトコルは以下のとおりです：\mthind{Collection}{at:}、\mthind{Collection}{at:put:} --- 要素へのアクセス、\mthind{Collection}{add:}、\mthind{Collection}{remove:} --- 要素の追加または削除、\mthind{Collection}{size}、\mthind{Collection}{isEmpty}、\mthind{Collection}{include:} --- コレクションについての情報の取得、\mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:} --- コレクション全体への繰り返し。
+それぞれのコレクションによってこれらのプロトコルはサポートされていたりしなかったりしますし、サポートされているときは、そのコレクションの意味に沿うように解釈します。それぞれのクラスをブラウズしてみて、特殊だったりより上級向けだったりするプロトコルを探してみるとよいでしょう。
 \seeindex{do:@\ct{do:}}{Collection, \ct{do:}}
 \seeindex{at:@\ct{at:}}{Collection, \ct{at:}}
 \seeindex{at:put:@\ct{at:put:}}{Collection, \ct{at:put:}}
 
-We will focus on the most common collection classes: \clsind{OrderedCollection}, \clsind{Set}, \clsind{SortedCollection}, \clsind{Dictionary}, \clsind{Interval}, and \clsind{Array}.
+以下では次の最も一般的なクラスに的を絞ります。\clsind{OrderedCollection}、\clsind{Set}、\clsind{SortedCollection}、\clsind{Dictionary}、\clsind{Interval}、\clsind{Array}。
 
-\paragraph{Common creation protocol.}
-There are several ways to create instances of collections. The most generic ones use the methods \mthind{Collection class}{new:} and \mthind{Collection class}{with:}. \ct{new: anInteger} creates a collection of size \ct{anInteger} whose elements will all be \ct{nil}.  \mthind{Collection class}{with:} \ct{anObject} creates a collection and adds \ct{anObject} to the created collection. Different collections will realize this behaviour differently.
+\paragraph{一般的な creation プロトコル}
+コレクションのインスタンスを作る方法はいくつかあります。\mthind{Collection Class}{new:} メソッドと \mthind{Collection class}{with:} メソッドを使うのが一番汎用的なやり方でしょう。\ct{new: anInteger} はサイズが \ct{anInteger} ですべての要素が \ct{nil} であるコレクションを作ります。\mthind{Collection class}{with:} \ct{anObject} はコレクションを作り、それに \ct{anObject} を追加します。実際の振る舞いはコレクションが異なれば、それぞれ異なって見えるでしょう。
 
-You can create collections with initial elements using the methods \mthind{Collection class}{with:}, \mthind{Collection class}{with:with:} \etc for up to six elements.
+初期要素を持つコレクションを作るには、\mthind{Collection class}{with:}、\mthind{Collection class}{with:with:} などなど最高6個の要素まで用意されているメソッドを使うことができます。
 
 \begin{code}{@TEST}
 Array with: 1 --> #(1)
@@ -259,15 +259,15 @@ Array with: 1 with: 2 with: 3 with: 4 with: 5 --> #(1 2 3 4 5)
 Array with: 1 with: 2 with: 3 with: 4 with: 5 with: 6 --> #(1 2 3 4 5 6)
 \end{code}
 
-You can also use \ct{addAll:} to add all elements of one kind of collection to another kind:
+あるコレクションにあるすべての要素を別の種類のコレクションに加えるには \ct{addAll:} が使えます。
 
 \begin{code}{@TEST}
 (1 to: 5) asOrderedCollection addAll: '678'; yourself --> an OrderedCollection(1 2 3 4 5 $6 $7 $8)
 \end{code}
 \noindent
-Take care that \mthind{Collection}{addAll:} also returns its argument, and not the receiver!
+\mthind{Collection}{addAll:} は引数を返し、レシーバーを返すわけではないのに注意してください！
 
-You can also create many collections with \mthind{Collection class}{withAll:} or \mthind{Collection class}{newFrom:}
+\mthind{Collection class}{withAll:} や \mthind{Collection class}{newFrom:} で色々なコレクションを作ることができます。
 
 \begin{code}{@TEST}
 Array withAll: #(7 3 1 3)                      --> #(7 3 1 3)
@@ -288,14 +288,14 @@ Bag newFrom: #(7 3 1 3)                                           --> a Bag(7 1 
 Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3} --> a Dictionary(1->7 2->3 3->1 4->3 )
 \end{code}
 \noindent
-Note that these two methods are not identical.
-In particular, \cmind{Dictionary class}{withAll:} interprets its argument as a collection of values, whereas \cmind{Dictionary class}{newFrom:} expects a collection of associations.
+この二つのメソッドは同じではないことにご注意ください。
+具体的には、\cmind{Dictionary class}{withAll:} では与えられたコレクションを値と解釈しますが、\cmind{Dictionary class}{newFrom:} はアソシエーションのコレクションが与えられることを期待しています。
 
 %---------------------------------------------------------
 \subsection{Array}
-An \clsindmain{Array} is a fixed-sized collection of elements accessed by integer indices.
-Contrary to the C convention, the first element of a \st array is at position 1 and not 0. 
-The main protocol to access array elements is the method \mthind{Array}{at:} and \mthind{Array}{at:put:}. \ct{at: anInteger} returns the element at index \ct{anInteger}. \ct{at: anInteger put: anObject} puts \ct{anObject} at index \ct{anInteger}. Arrays are fixed-size collections therefore we cannot add or remove elements at the end of an array. The following code creates an array of size 5, puts values in the first 3 locations and returns the first element. 
+\clsindmain{Array} (配列) はサイズが固定で、整数のインデックスで要素にアクセスできるコレクションです。
+C 流とは異なり、\st の配列の先頭要素は位置 1 であり、0 ではありません。
+配列の要素にアクセスする主なプロトコルは \mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} はインデックス \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は \ct{anObject} をインデックス \ct{anInteger} に入れます。配列はサイズ固定のコレクションなので、配列の末尾の要素の後に要素を追加したり、末尾の要素を削除したりはできません。以下のコードはサイズ 5 の配列をつくり、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
 
 \begin{code}{@TEST | anArray | }
 anArray := Array new: 5.
@@ -305,13 +305,14 @@ anArray at: 3 put: 'ssss'.
 anArray at: 1 --> 4
 \end{code}
 
-There are several ways to create instances of the class \clsind{Array}. We can use \ct{new:}, \ct{with:}, and  the constructs \ct{#( )} and \ct|{ }|.
+クラス \clsind{Array} のインスタンスを作るためにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます。
+% and  the constructs \ct{#( )} and \ct|{ }| の the constructs の定訳を探す必要あり。
 
-\paragraph{Creation with \mthind{Array class}{new:}} \ct{new: anInteger} creates an array of size \ct{anInteger}.
-\ct{Array new: 5} creates an array of size 5.
+\paragraph{\mthind{Array class}{new:} による生成} \ct{new: anInteger} はサイズ \ct{anInteger} の配列を生成します。
+\ct{Array new: 5} はサイズ 5 の配列を生成します。
 
-\paragraph{Creation with \mthind{Array class}{with:}} \ct{with:} methods allow one to specify the value of the elements.  
-The following code creates an array of three elements consisting of the number \ct{4}, the fraction \ct{3/2} and the string \ct{'lulu'}.
+\paragraph{\mthind{Array class}{with:} による生成} \ct{with:} メソッドは要素の値を引数として一つ受け取ります。
+次のコードでは値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列をu生成島s.
 
 \begin{code}{@TEST | anArray |}
 Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
@@ -994,7 +995,3 @@ The \st collection hierarchy provides a common vocabulary for uniformly manipula
 \fi
 %=========================================================
 
-
-% Local Variables:
-% coding: euc-jp
-% End:
