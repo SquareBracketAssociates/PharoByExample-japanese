@@ -231,23 +231,45 @@ Now you can start to fix the bug: the test will tell you when you are done.
 そのテストが作業の終わりを知らせてくれます。
 
 %=================================================================
-\section{What makes a good test?}
+%\section{What makes a good test?}
+\section{いいテストを書くには？}
 
+\if0
 Writing good tests is a skill that can be learned most easily by
 practicing.  Let us look at the properties that tests should have to
 get a maximum benefit.
+\fi
+
+いいテストを書けるようになるには、練習するのが一番です。
+テストのメリットを最大限に活かすヒントを見ていきましょう。
 
 \begin{enumerate}
+\if0
 \item Tests should be repeatable.  You should be able to run a test
   as often as you want, and always get the same answer.
+\fi
 
+\item テストは繰り返し実行可能であるべきです。
+  実行したいときに実行できて、常に同じ結果を出すべきです。
+
+\if0
 \item Tests should run without human intervention.  You should even be
   able to run them during the night.
+\fi
 
+\item テストは人の手を借りずに実行するべきです。
+  例え夜中でも実行できるようにすべきです。
+
+\if0
 \item Tests should tell a story.  Each test should cover one aspect of a 
   piece of code.  A test should act as a scenario that you or someone else can
   read to understand a piece of functionality. \label{prop:oneAspect}
+\fi
 
+\item テストは物語であるべきです。各テストの目的を一つに絞るべきです。
+  テストをシナリオと考え、読めばアプリケーションの機能を理解できるようにすべきです。
+
+\if0
 \item Tests should have a change frequency lower than that of the
   functionality they cover:  you do not want to have to change all your
   tests every time you modify your application.  One way to achieve
@@ -257,6 +279,14 @@ get a maximum benefit.
   is complicated enough to need the test, but you should be aware that such a test 
   may have to be changed, or thrown away entirely, when you think of a better
   implementation.
+\fi
+
+\item テストの変更はなるべく控えるべきです。
+  アプリケーションを変更するたびにテストを変更する必要が出ては大変です。
+  テストを変更せずに済ませるには、公開するインターフェースを主に使ってテストを書きましょう。
+  公開するインターフェースが内部で複雑な処理を行うなら、プライベートなヘルパーメソッドのテストを書いてもいいでしょう。
+  ただし、インターフェースの内部実装が変わったときには、そのテストを変更するか捨てる必要があるかもしれません。
+
 \end{enumerate}
 
 A consequence of property (\ref{prop:oneAspect}) is that 
