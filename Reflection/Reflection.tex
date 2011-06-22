@@ -670,7 +670,7 @@ Integer>>>factorial
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
 %@\ct{thisContext} is not intended to be used for day-to-day programming, but it is essential for implementing tools like debuggers, and for accessing information about the call stack.
-\ct{thisContext}は、日々のプログラミング用として意図されたものではありませんが、デバッガーのようなツールを実装するには不可欠であり、コールスタックについての情報にアクセスするにも不可欠です。
+\ct{thisContext}は、日々のプログラミング用として意図されたものではありませんが、デバッガーのようなツールを実装するには不可欠であり、コールスタックについての情報にアクセスするのにも不可欠です。
 %@You can evaluate the following expression to discover which methods make use of \ct{thisContext}:
 以下の式を評価することにより、どのメソッドが\ct{thisContext}を活用しているかを見出すことができます:
 
@@ -684,13 +684,16 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
 Object>>>subclassResponsibility
-	"This message sets up a framework for the behavior of the class' subclasses.
-	Announce that the subclass should have implemented this message."
+%@	"This message sets up a framework for the behavior of the class' subclasses.
+	"このメッセージは問題のクラスの一連のサブクラスの振舞いについてのフレームワークを設ける。"
+%@	Announce that the subclass should have implemented this message."
+	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
-By convention, methods in \st that send \ct{self subclassResponsibility} are considered to be abstract.  But how does \clsmthind{Object}{subclassResponsibility} provide a useful error message indicating which abstract method has been invoked?  Very simply, by asking \ct{thisContext} for the sender.
+%@By convention, methods in \st that send \ct{self subclassResponsibility} are considered to be abstract.  But how does \clsmthind{Object}{subclassResponsibility} provide a useful error message indicating which abstract method has been invoked?  Very simply, by asking \ct{thisContext} for the sender.
+慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。 \ct{thisContext}にセンダーを尋ねるのです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
@@ -698,14 +701,19 @@ Showing how to use block to build exception and such a kind of point. I think th
 we should have a Reflection applied chapter}
 \lr{I would love to help writing such a chapter}
 %-----------------------------------------------------------------
-\subsection{Intelligent breakpoints}
+%@\subsection{Intelligent breakpoints}
+\subsection{賢いブレークポイント}
 
 \mthindex{Object}{halt}
-The \st way to set a breakpoint is to evaluate \ct{self halt} at an interesting point in a method.  This will cause \ct{thisContext} to be reified, and a \ind{debugger} window will open at the breakpoint.
-Unfortunately this poses problems for methods that are intensively used in the system.
+%@The \st way to set a breakpoint is to evaluate \ct{self halt} at an interesting point in a method.  This will cause \ct{thisContext} to be reified, and a \ind{debugger} window will open at the breakpoint.
+ブレークポイントをかけるための\st のやりかたは、メソッド内の関心のある箇所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開くことになります。
+%@Unfortunately this poses problems for methods that are intensively used in the system.
+不幸なことに、これを、システムの中核的なメソッドに対して行うと、数々の問題を引き起こすことになります。
 
-Suppose, for instance, that we want to explore the execution of \ct{OrderedCollection>>>add:}.
-Setting a breakpoint in this method is problematic.
+%@Suppose, for instance, that we want to explore the execution of \ct{OrderedCollection>>>add:}.
+たとえば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスロアしたかったとしましょう。
+%@Setting a breakpoint in this method is problematic.
+このメソッドにブレークポイントをかけると、やっかいなことになります。
 
 \dothis{Take a \emph{fresh} image and set the following breakpoint:}
 \needlines{3}
