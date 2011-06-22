@@ -167,11 +167,11 @@ Object new class --> Object
 % We say that the \emphind{encapsulation boundary} of objects in Java and C++ is the class, whereas in \st it is the instance.
 オブジェクトの\emphind{カプセル化の境界}がJavaやC++ではクラス、\stではインスタンスである、と言います。
 
-\seeindex{Henn!instance}{instance variable}
-\seeindex{field}{instance variable}
-\seeindex{attribute}{instance variable}
-\seeindex{slot}{instance variable}
-\index{instance variable}
+\seeindex{Henn!instance}{インスタンス変数}
+\seeindex{field}{インスタンス変数}
+\seeindex{attribute}{インスタンス変数}
+\seeindex{slot}{インスタンス変数}
+\index{インスタンス変数}
 
 % In \st, two instances of the same class cannot access each other's instance variables unless the class defines ``\ind{accessor} methods''.
 \stでは、``\ind{アクセサ}メソッド''を定義しない限り、同じクラスの2つのインスタンスはお互いのインスタンス変数にアクセスすることはできません。
@@ -245,9 +245,9 @@ Point>>>dist: aPoint
 これらは\emph{クラスインスタンス変数}や\emph{クラスメソッド}と呼ばれていますが、実際のところ普通のインスタンス変数やメソッドと何も違いません。
 %class instance variables are just instance variables defined by a metaclass, and class methods are just methods defined by a \ind{metaclass}. 
 クラスインスタンス変数は単にメタクラスで定義されたインスタンス変数にすぎませんし、クラスメソッドは単に\ind{メタクラス}で定義されたメソッドにすぎません。
-\index{class!instance variable}
-\seeindex{variable!class instance}{class, instance variable}
-\index{class!method}
+\index{クラス!インスタンス変数}
+\seeindex{変数!クラスインスタンス}{クラス, インスタンス変数}
+\index{クラス!メソッド}
 
 % A class and its \ind{metaclass} are two separate classes, even though the former is an instance of the latter. 
 クラスは\ind{メタクラス}のインスタンスですが、クラスとそのメタクラスは別々のクラスです。
@@ -331,18 +331,27 @@ Javaの静的メソッドは本当に単に静的に名前解決される手続�
 %---------------------------------------------------------
 % \subsection{Class instance variables}
 \subsection{クラスインスタンス変数}
-With ordinary instance variables, all the instances of a class have the same set of variable names, and the instances of its subclasses inherit those names; however, each instance has its own private set of values.
-The story is exactly the same with class \subind{class}{instance variable}{}s: each class has its own private class instance variables.
-A subclass will inherit those class instance variables, \emph{but it has its own private copies of those variables}.
-Just as objects don't share instance variables, neither do classes and their subclasses share class instance variables.
+% With ordinary instance variables, all the instances of a class have the same set of variable names, and the instances of its subclasses inherit those names; however, each instance has its own private set of values.
+通常のインスタンス変数では、あるクラスの全てのインスタンスは同じ変数名のセットを持っていて、サブクラスのインスタンスはそれらの名前を継承します。しかし、各インスタンスはそれぞれのインスタンス自身にプライベートな値のセットを持ちます。
+% The story is exactly the same with class \subind{class}{instance variable}{}s: each class has its own private class instance variables.
+\subind{クラス}{インスタンス変数}{}も全く同様です。各クラスはそれぞれ自身にプライベートなクラスインスタンス変数を持っています。
+% A subclass will inherit those class instance variables, \emph{but it has its own private copies of those variables}.
+サブクラスはそれらのクラスインスタンス変数を継承しますが、\emph{サブクラスはそれ自身にプライベートなコピーのクラスインスタンス変数を持っています。}
+% Just as objects don't share instance variables, neither do classes and their subclasses share class instance variables.
+オブジェクトがインスタンス変数を共有しないのと同様に、クラスとサブクラスもクラスインスタンス変数を共有しません。
 
-You could use a class instance variable called \ct{count} to keep track of how many instances you create of a given class.
-However, any subclass would have its own \ct{count} variable, so subclass instances would be counted separately.
+% You could use a class instance variable called \ct{count} to keep track of how many instances you create of a given class.
+あるクラスについて生成したインスタンスの数を管理するために\ct{count}というクラスインスタンス変数を使うことはできますが、
+% However, any subclass would have its own \ct{count} variable, so subclass instances would be counted separately.
+そのサブクラスはどれも自分自身の\ct{count}変数を持っているので、サブクラスのインスタンスの数は別々に数えられることになります。
 
-\paragraph{Example: class instance variables are not shared with subclasses.}
-Suppose we define classes \ct{Dog} and \ct{Hyena}, where \ct{Hyena} inherits the class instance variable \ct{count} from \ct{Dog}.
+% \paragraph{Example: class instance variables are not shared with subclasses.}
+\paragraph{例題: クラスインスタンス変数はサブクラスと共有されない。}
+% Suppose we define classes \ct{Dog} and \ct{Hyena}, where \ct{Hyena} inherits the class instance variable \ct{count} from \ct{Dog}.
+2つのクラス\ct{Dog}(犬)と\ct{Hyena}(ハイエナ)を定義します。\ct{Hyena}は\ct{Dog}からクラスインスタンス変数\ct{count}を継承します。
 
-\begin{classdef}[dog]{Dogs and Hyenas}
+%\begin{classdef}[dog]{Dogs and Hyenas}
+\begin{classdef}[dog]{犬とハイエナ}
 Object subclass: #Dog
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -359,8 +368,10 @@ Dog subclass: #Hyena
 	category: 'PBE-CIV'
 \end{classdef}
 
-Now suppose we define class methods for \ct{Dog} to initialize its \ct{count} to \ct{0}, and to increment it when new instances are created:
-\begin{method}[dogcount]{Keeping count of new dogs}
+% Now suppose we define class methods for \ct{Dog} to initialize its \ct{count} to \ct{0}, and to increment it when new instances are created:
+さあ、\ct{Dog}の\ct{count}を\ct{0}に初期化するクラスメソッドと、新しいインスタンスが生成されたら1を足すクラスメソッドを定義しましょう：
+% \begin{method}[dogcount]{Keeping count of new dogs}
+\begin{method}[dogcount]{新しい犬の数を数える}
 Dog class>>>initialize
 	super initialize.
 	count := 0.
@@ -373,7 +384,8 @@ Dog class>>>count
 	^ count
 \end{method}
 
-Now when we create a new \ct{Dog} its count is incremented, and so is that of every \ct{Hyena}, but they are counted separately:
+% Now when we create a new \ct{Dog} its count is incremented, and so is that of every \ct{Hyena}, but they are counted separately:
+これで、新しい\ct{Dog}(犬)が生成されるたびに、頭数に1が足されていきます。\ct{Hyena}(ハイエナ}も同様ですが、別々に数えられていきます：
 \begin{code}{}
 Dog initialize.
 Hyena initialize.
@@ -388,26 +400,40 @@ Hyena count --> 1
 \end{code}
 % ON: In order to make this a test, I need the previous code to be part of the setup. Bleh.
 
-Note also that class instance variables are private to a class in exactly the same way that instance variables are private to the instance.
-Since classes and their instances are different objects,
-this has the following immediate consequences:
-\important{A class does not have access to the instance variables of its own instances.}
-\important{An instance of a class does not have access to the class instance variables of its class.}
-For this reason, instance initialization methods must always be defined on the \subind{browser}{instance side}\,---\,the \subind{browser}{class side} has no access to instance variables, so cannot initialize them!  
-All that the class can do is to send \ind{initialization} messages, possibly using accessors, to newly created instances.
+% Note also that class instance variables are private to a class in exactly the same way that instance variables are private to the instance.
+インスタンス変数がインスタンスごとにプライベートなのと同様に、クラスインスタンス変数はクラスごとにプライベートだということにも注意してください。
+% Since classes and their instances are different objects,
+クラスとそのインスタンスは別々のオブジェクトなことから、
+% this has the following immediate consequences:
+以下のことが言えます。
+% \important{A class does not have access to the instance variables of its own instances.}
+\important{クラスはそのインスタンスのインスタンス変数にアクセスすることはできない。}
+% \important{An instance of a class does not have access to the class instance variables of its class.}
+\important{クラスのインスタンスは、そのクラスのクラスインスタンス変数にアクセスすることはできない。}
+% For this reason, instance initialization methods must always be defined on the \subind{browser}{instance side}\,---\,the \subind{browser}{class side} has no access to instance variables, so cannot initialize them!  
+このことから、インスタンスを初期化するメソッドは常に\subind{ブラウザ}{インスタンス側}で定義しなければなりません --- \subind{ブラウザ}{クラス側}からはインスタンス変数にアクセスできないので、初期化できません！
+% All that the class can do is to send \ind{initialization} messages, possibly using accessors, to newly created instances.
+クラスができることは、新しく生成されたインスタンスに、\ind{初期化}メッセージを送信することと、可能ならばアクセサを使うことです。
 
-Similarly, instances can only access class instance variables indirectly, by sending accessor messages to their class.
+% Similarly, instances can only access class instance variables indirectly, by sending accessor messages to their class.
+同じようにインスタンスからクラスインスタンス変数にアクセスするには、クラスにアクセサメッセージを送ることによって間接的にアクセスするしかありません。
 
-\ind{Java} has nothing equivalent to class instance variables.  
-Java and \ind{C++} static variables are more like \st class variables, which we will discuss in \secref{classVars}: all of the subclasses and all of their instances share the same static variable.
+% \ind{Java} has nothing equivalent to class instance variables.  
+\ind{Java}にはクラスインスタンス変数に相当するものはありません。
+% Java and \ind{C++} static variables are more like \st class variables, which we will discuss in \secref{classVars}: all of the subclasses and all of their instances share the same static variable.
+Javaと\ind{C++}の静的変数は、\stではどちらかというと\secref{classVars}で説明するクラス変数に似ています：全てのサブクラスやインスタンスは同一の静的変数を共有します。
 
-\paragraph{Example: Defining a Singleton.}
-The \ind{Singleton pattern}~\cite{Alpe98a} provides a typical example of the use of class instance variables and class methods.
-Imagine that we would like to implement a class \ct{WebServer} and use the Singleton pattern to ensure that it has only one instance.
+% \paragraph{Example: Defining a Singleton.}
+\paragraph{例題: シングルトンを定義する。}
+% The \ind{Singleton pattern}~\cite{Alpe98a} provides a typical example of the use of class instance variables and class methods.
+\ind{シングルトンパターン}~\cite{Alpe98a}はクラスインスタンス変数とクラスメソッドを使う典型例です。
+% Imagine that we would like to implement a class \ct{WebServer} and use the Singleton pattern to ensure that it has only one instance.
+\ct{WebServer}クラスを実装してみましょう。シングルトンパターンを使って、\ct{WebServer}クラスには1つしかインスタンスがないことを保証します。
 
-Clicking on the \button{instance} button in the browser, we define the class \clsind{WebServer} as follows (\clsref{singleton}).
+% Clicking on the \button{instance} button in the browser, we define the class \clsind{WebServer} as follows (\clsref{singleton}).
+ブラウザの\button{instance}ボタンをクリックして、\clsind{WebServer}クラスを以下のように定義します。(\clsref{singleton})
 
-\begin{classdef}[singleton]{A singleton class}
+\begin{classdef}[singleton]{シングルトンクラス}
 Object subclass: #WebServer
 	instanceVariableNames: 'sessions' 	
 	classVariableNames: '' 	
@@ -415,34 +441,54 @@ Object subclass: #WebServer
 	category: 'Web'
 \end{classdef}
 
-Then, clicking on the \button{class} button, we add the instance variable \ct{uniqueInstance} to the \subind{browser}{class side}.
+% Then, clicking on the \button{class} button, we add the instance variable \ct{uniqueInstance} to the \subind{browser}{class side}.
+そして、\button{class}ボタンをクリックして、\subind{ブラウザ}{クラス側}でインスタンス変数\ct{uniqueInstance}を追加します。
 
-\begin{classdef}[webserver]{The class side of the singleton class}
+% \begin{classdef}[webserver]{The class side of the singleton class}
+\begin{classdef}[webserver]{シングルトンクラスのクラス側}
 WebServer class 	
 	instanceVariableNames: 'uniqueInstance'
 \end{classdef}
 
-The consequence of this is that the class \ct{WebServer} now has another instance variable,
-in addition to the variables that it inherits, such as \ct{superclass} and \ct{methodDict}.
+% The consequence of this is that the class \ct{WebServer} now has another instance variable,
+この結果、\{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
+% in addition to the variables that it inherits, such as \ct{superclass} and \ct{methodDict}.
+それまでは、\ct{superclass}や\ct{methodDict}といった変数を継承していました。
 
-We can now define a class \subind{class}{method} named \ct{uniqueInstance} as shown in \mthref{uniqueInstance}. 
-This method first checks whether \ct{uniqueInstance} has been initialized.
-If it has not, the method creates an instance and assigns it to the class instance variable \ct{uniqueInstance}.  
-Finally the value of \ct{uniqueInstance} is returned.
-Since \ct{uniqueInstance} is a class instance variable, this method can directly access it.
+% We can now define a class \subind{class}{method} named \ct{uniqueInstance} as shown in \mthref{uniqueInstance}. 
+さて、これで\subind{クラス}{メソッド}\ct{luniqueInstance}を定義することができます。\mthref{uniqueInstance}に示します。
+% This method first checks whether \ct{uniqueInstance} has been initialized.
+このメソッドはまず、\ct{uniqueInstance}が初期化されているかどうかをチェックします。
+% If it has not, the method creates an instance and assigns it to the class instance variable \ct{uniqueInstance}.
+もしまだならば、インスタンスを生成して、クラスインスタンス変数\ct{uniqueInstance}に代入します。
+% Finally the value of \ct{uniqueInstance} is returned.
+最後に、\ct{uniqueInstance}の値が返されます。
+% Since \ct{uniqueInstance} is a class instance variable, this method can directly access it.
+\ct{uniqueInstance}はクラスインスタンス変数なので、このメソッドは直接アクセスすることができます。
     
-\begin{method}[uniqueInstance]{uniqueInstance (on the class side)}
+% \begin{method}[uniqueInstance]{uniqueInstance (on the class side)}
+\\begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
 WebServer class>>>uniqueInstance
      uniqueInstance ifNil: [uniqueInstance := self new].
      ^ uniqueInstance
 \end{method}
 
-The first time that \ct{WebServer uniqueInstance} is executed, an instance of the class \ct{WebServer} will be created and assigned to the \ct{uniqueInstance} variable. 
-The next time, the previously created instance will be returned instead of creating a new one. 
+% The first time that \ct{WebServer uniqueInstance} is executed, an instance of the class \ct{WebServer} will be created and assigned to the \ct{uniqueInstance} variable. 
+\ct{Webserver uniqueInstance}が最初に実行される時には、\ct{WebServer}クラスのインスタンスが生成され、変数\ct{uniqueInstance}に代入されます。
+% The next time, the previously created instance will be returned instead of creating a new one. 
+次回の実行では、新しいインスタンスを生成することなしに、前回生成されたインスタンスが返されます。
 
-Note that the instance creation code inside the conditional in \mthref{uniqueInstance} is written as \ct{self new} and not as \ct{WebServer new}.
-What is the difference?   Since the \ct{uniqueInstance} method is defined in \ct{WebServer class}, you might think that they were the same.    And indeed, until someone creates a subclass of \lct{WebServer}, they are the same.  But suppose that \ct{ReliableWebServer} is a subclass of \ct{WebServer}, and inherits the \ct{uniqueInstance} method.  We would clearly expect \ct{ReliableWebServer uniqueInstance} to answer a \lct{ReliableWebServer}:. Using \self ensures that this will happen, since it will be bound to the respective class.
-Note also that \ct{WebServer} and \ct{ReliableWebServer} will each have their own class instance variable called \ct{uniqueInstance}.  These two variables will of course have different values.
+% Note that the instance creation code inside the conditional in \mthref{uniqueInstance} is written as \ct{self new} and not as \ct{WebServer new}.
+\mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。
+% What is the difference?   Since the \ct{uniqueInstance} method is defined in \ct{WebServer class}, you might think that they were the same.    And indeed, until someone creates a subclass of \lct{WebServer}, they are the same.  But suppose that \ct{ReliableWebServer} is a subclass of \ct{WebServer}, and inherits the \ct{uniqueInstance} method.  We would clearly expect \ct{ReliableWebServer uniqueInstance} to answer a \lct{ReliableWebServer}:. Using \self ensures that this will happen, since it will be bound to the respective class.
+何が違うのでしょうか？
+\ct{uniqueInstance}メソッドは\ct{WebServer class}に定義されているので、同じことだと思うかもしれません。
+\ct{WebServer}のサブクラスが作られるまでは本当に同じなのですが、\ct{ReliableWebServer}が\lct{WebServer}のサブクラスで、\ct{uniqueInstance}メソッドを継承していたりしたらどうでしょうか。
+\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}であることを期待するでしょう。
+\selfを使うことで、そうなることが保証されます。\selfはメッセージを受けたクラスなので。
+
+% Note also that \ct{WebServer} and \ct{ReliableWebServer} will each have their own class instance variable called \ct{uniqueInstance}.  These two variables will of course have different values.
+\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値を持ちます。
 
 %=========================================================
 \section{Every class has a superclass}
