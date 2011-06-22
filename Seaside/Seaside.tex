@@ -238,11 +238,11 @@ Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} 
 
 \dothis{ \ct{WAComponent}を継承した \ct{WAHelloWorld}クラスを定義してみましょう。}
 
-Components must know how to render themselves.
-Usually this is done by implementing the method \mthind{WAPresenter}{renderContentOn:}, which gets as its argument an instance of \clsind{WAHtmlCanvas}, which knows how to render XHTML.
+コンポーネントでは自身の表示の仕方を定める必要があります。
+このためには\mthind{WAPresenter}{renderContentOn:}をオーバーライドします。引数として XHTMLの生成方法を知っている\clsind{WAHtmlCanvas}が渡ってくるようになっています。
 \index{Seaside!rendering}
 
-\dothis{Implement the following method, and put it in a protocol called \prot{rendering}:}
+\dothis{ \prot{rendering}プロトコルに以下のようにメソッドを定義してみましょう。}
 \needlines{2}
 \begin{code}{}
 WAHelloWorld>>>renderContentOn: html
@@ -250,9 +250,9 @@ WAHelloWorld>>>renderContentOn: html
 \end{code}
 
 \noindent
-Now we must inform Seaside that this component is willing to be a standalone application. 
+次に Seasideに対して、コンポーネントがスタンドアロンのアプリケーションであるという宣言を行います。
 
-\dothis{Implement the following method on the class side of \ct{WAHelloWorld}.}
+\dothis{\ct{WAHelloWorld} のクラス側に以下のメソッドを定義しましょう。}
 
 \begin{code}{}
 WAHelloWorld class>>>canBeRoot
@@ -260,48 +260,44 @@ WAHelloWorld class>>>canBeRoot
 \end{code}
 
 \noindent
-We are almost done!
+ほとんどこれでできあがりです。
 
-\dothis{Point your web browser at \url{http://localhost:8080/seaside/config}, add a new entry point called ``hello'', and set its root component to be \ct{WAHelloWorld}.
-Now point your browser to \url{http://localhost:8080/seaside/hello}.
-That's it!  You should see a web page like \figref{WAHelloWorld}.}
+\dothis{Webブラウザで \url{http://localhost:8080/seaside/config}を開き、 ``hello''のエントリポイントを追加し、ルートのコンポーネントを \ct{WAHelloWorld}に設定します。
+そしてURLを\url{http://localhost:8080/seaside/hello} に変えると、 \figref{WAHelloWorld}}のように表示されています!
 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=\textwidth]{WAHelloWorld}
-\caption{``Hello World'' in Seaside}
+\caption{Seasideの``Hello World''}
 \figlabel{WAHelloWorld}
 \end{center}
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{State backtracking and the ``Counter'' Application}
+\subsection{状態のバックトラックと``Counter''アプリケーション}
 %{Simple and nested components}
 
-The ``counter'' application is only slightly more complex than the ``hello world'' application.
+``hello world''に比べて、「カウンター」のアプリケーションは、ほんの少しだけ難しいものになっています。
 \seclabel{backtracking}
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{WACounter}
-\caption{The \ct{WACounter} class, which implements the \emph{counter} application.  Methods with underlined names are on the class-side; those with plain-text names are on the instance side.}
+\caption{\emph{counter}アプリケーションは\ct{WACounter}クラスにより実装されています。  アンダーラインの引いてあるメソッドはクラスメソッドです。}
 \figlabel{WACounter}
 \end{center}
 \end{figure}
 
-The class \clsind{WACounter} is a standalone application, so \ct{WACounter class} must answer \ct{true} to the  \mthind{WAComponent class}{canBeRoot} message.
-It must also register itself as an application; this is done in its class-side \ct{initialize} method, as shown in \figref{WACounter}.
+ \clsind{WACounter} はスタンドアロンのアプリケーションなので \ct{WACounter class} では  \mthind{WAComponent class}{canBeRoot} を実装して、\ct{true} を返す必要があります。
+ アプリケーションとしての登録は、図 \figref{WACounter}にあるように、クラスメソッド \ct{initialize}の中で行われています。 
 
-\ct{WACounter} defines two methods, \ct{increase} and \ct{decrease}, which will be triggered from the \link{++} and \link{--\,--} links on the web page.  
-It also defines an instance variable \ct{count} to record the state of the counter.
-However, we also want Seaside to synchronize the counter with the browser page:
-when the user clicks on the browser's ``back'' button, we want seaside to ``backtrack'' the state of the \ct{WACounter} object.
-Seaside includes a general mechanism for backtracking, but each application has to tell Seaside which parts of its state to track.  
+\ct{WACounter} には \ct{increase} と \ct{decrease}メソッドがあります。それぞれWebページで \link{++} 、 \link{--\,--} のリンクをクリックしたときに呼び出されます。カウンターの値を保持するため、インスタンス変数としては \ct{count}が定義してあります。
+「戻る」ボタンを押してもカウンターの値がブラウザの値とずれないようにするには、\ct{WACounter} の状態をバックトラックするようにしなければなりません。
+Seasideは、バックトラックのためのメカニズムを最初から持っていますが、アプリケーションのどの部分をバックトラックさせるかは開発者が指定する必要があります。
 
-A component enables backtracking by implementing the \ct{states} method on the instance side: 
+インスタンスメソッドの\ct{states}を実装すると、どの部分をバックトラック対象とするかを定めることができます。
 % \ab{note that xspace messes up again, by inserting a space at the start of this line}
-\ct{states} should answer an array containing all the objects to be tracked.
-In this case, the \ct{WACounter} object adds itself to Seaside's table of backtrackable objects by returning \ct{Array with: self}.
+\ct{states} では対象とすべきオブジェクト群を配列の形で返すようにします。カウンターアプリケーションの場合、 \ct{Array with: self}としています。こうすると \ct{WACounter} のオブジェクト自身がSeasideにバックトラック対象として登録されることになります。
 
 \paragraph{\emph{Caveat.}}
 There is a subtle but important point to watch for when declaring objects for backtracking.
