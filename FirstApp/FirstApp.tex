@@ -259,11 +259,11 @@ BorderedMorph subclass: #LOGame
 
 
 
-Now let's define an \mthind{LOGame}{initialize} method for \ct{LOGame}.
+LOGameのinitializeメソッドを定義しましょう。
 
-\dothis{Type the following into the browser as a method for \ct{LOGame} and try to \menu{accept} it:}
+\dothis{LOGameのメソッドとして以下の内容をブラウザーに打ち込んでください。その後acceptして下さい。}
 
-\begin{numMethod}[sbegameinitialize]{Initializing the game}
+\begin{numMethod}[sbegameinitialize]{ゲームの初期化}
 initialize
    | sampleCell width height n |
    super initialize.
@@ -278,8 +278,7 @@ initialize
 %\sd{it would be nicer if we would not have to create an instance of LOCell for nothing}
 %\on{yes}
 
-\pharo will complain that it doesn't know the meaning of some of the terms.
-\pharo tells you that it doesn't know of a message \ct{cellsPerSide}, and suggests a number of corrections, in case it was a spelling mistake.
+いくつかの用語の認識できない、とPharoは警告してくるでしょう。cellsPerSideメッセージとは何かをPharoは認識していないことを示し、スペルミスの場合はいくつかの修正案を提示してきます。
 
 
 \begin{figure}[htb]
@@ -288,7 +287,7 @@ initialize
 	\ifluluelse
 		{\includegraphics[width=\textwidth]{UnknownSelector}}
 		{\includegraphics[scale=0.7]{UnknownSelector}}
-	\caption{\pharo detecting an unknown selector.\figlabel{unknownSelector}}
+	\caption{Pharoが未知のセレクタを検出。\figlabel{unknownSelector}}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
@@ -296,51 +295,40 @@ initialize
 	\ifluluelse
 		{\includegraphics[width=\textwidth]{DeclareInstanceVar}}
 		{\includegraphics[scale=0.7]{DeclareInstanceVar}}
-	\caption{Declaring a new instance variable.\figlabel{declareInstance}}
+	\caption{新しいインスタンス変数を宣言。\figlabel{declareInstance}}
 \end{minipage}
 \end{figure}
 
-But \ct{cellsPerSide} is not a mistake\,---\,it is just a method that we haven't yet defined\,---\,we will do so in a minute or two.
+しかし、cellsPerSideはスペルミスではありません。Pharoが警告してくるのは、私達がまだこのメソッドを定義されていないからです。これから1,2分でこの定義を行いましょう。
 
-\dothis{So just select the first item from the menu, which confirms that we really meant \ct{cellsPerSide}.}
+\dothis{それではメニューから最初のアイテムを選択し、cellPerSideがスペルミスなどではないことを確認しましょう}。}
 
-Next, \pharo will complain that it doesn't know the meaning of \ct{cells}.  It offers you a number of ways of fixing this.
+次に、cellの意味が認識できないとPharoは警告します。Pharoはこれを修正するために、いくつかの方法を提示してきます。
 
-\dothis{Choose \menu{declare instance} because we want \ct{cells} to be an instance variable.}
-Finally, \pharo will complain about the message \ct{newCellAt:at:} sent on the last line; this is also not a mistake, so confirm that message too.
+\dothis{declare instanceを選択しましょう。なぜならcellをインスタンス変数としたいからです。}
+最後に、最終行に送られるnewCellAt:at:メッセージについてPharoは警告します。もちろんこれは間違いなどではなく、今までと同様に確認して下さい。
 \index{on the fly variable definition}
 \index{instance variable definition} 
 
-If you now look at the class definition once again (which you can do by clicking on the \button{instance} button), you will see that the browser has modified it to include the instance variable \ct{cells}.
+さて、もう一度このクラスの定義を見てみましょう([instance]ボタンをクリックすることでできます)。ブラウザー上からインスタンス変数cellが修正されていることがわかります。
 
-Let's look at this \ct{initialize} method.
-The line \ct{| sampleCell width height n |}  declares 4 temporary variables. They are called temporary variables because their scope and lifetime are limited to this method.  Temporary variables with explanatory names are helpful in making code more readable.  Smalltalk has no special syntax to distinguish constants and variables, and in fact all four of these ``variables'' are really constants. 
-Lines 4--7 define these constants.
+このinitializeメソッドを見てみましょう。
+| sampleCell width height n | が記されている行において、4つの一時変数が宣言されています。これらの変数の影響範囲と生存期限がこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うとコードがより読みやすくなります。Smalltalkでは定数と変数を区別するための特別な記述方法はありません。実際これらの4つの"変数"は全て定数です(意味不明 再翻訳必要)。4-7行目でこれらの中身を定義しています。
 
-How big should our game board be?  Big enough to hold some integral number of cells, and big enough to draw a border around them.
-How many cells is the right number?  5? 10? 100? We don't know yet, and if we did, we would probably change our minds later.  So we delegate the responsibility for knowing that number to another method, which we will call \ct{cellsPerSide}, and which we will write in a minute or two.
-It's because we are sending the \ct{cellsPerSide} message before we define a method with that name that \pharo asked us to ``confirm, correct, or cancel'' when we accepted the method body for \ct{initialize}.
-Don't be put off by this: it is actually good practice to write in terms of other methods that we haven't yet defined.
-Why?  Well, it wasn't until we started writing the \ct{initialize} method that we realized that we needed it, and at that point, we can give it a meaningful name, and move on, without interrupting our flow.
+ゲームボードをどれくらいの大きさにするとよいでしょうか? 必要な数のcellとそれらの境界を表示するために十分な大きさが必要です。cellの数はどれぐらい必要でしょうか? 5? 10? 100? 今はまだどのくらい必要なのかわかりません。今の時点で数を決めてしまうと、後に考えを変えてしまうことになるかもしれません。そこで、その数を知るための責務を、これから1,2分で書きcellsPerSideと呼ぶ別のメソッド委譲します。メソッドを定義する前にcellsPerSideメッセージを送ることにより、initializeのためのメソッド本体をacceptするとき、Pharoから"confirm correct, or cancel"と警告されます。まだ定義していない他のメソッドを書くという点からは実際に良い練習となるのですが、これを避けてはいけません。そればなぜでしょう? 
+initializeメソッドを書き始めるまでは、それが必要だと認識していませんでした。またその時点において、流れを邪魔するものなしに、それに意味のある名前を与えることや移動すること、ができます。(上3行意味不明 後に再翻訳)
+
  
-The fourth line uses this method: 
-the Smalltalk \ct{self cellsPerSide} sends the message \ct{cellsPerSide} to \pvind{self}, i.e., to this very object.  
-The response, which will be the number of cells per side of the game board, is assigned to \ct{n}.
+4行目においてこのメソッドが使われています。Smalltalk式 self cellsPerSide はcellsPerSideメッセージををselfつまりまさにそのObjectに送ります。ゲームボードの一辺に必要なcellの数を決める責務はnにあてがわれました。
 
-The next three lines create a new \ct{LOCell} object, and assign its width and height to the appropriate temporary variables. 
+次の3行で、新たなLOCellオブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。 
 
 %The eighth line sends the message \ct{bounds:} to \self.
 %\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.  
 %The single colon (\ct{:}) at the end of the name says that \ct{bounds:} expects a single parameter, which should be a rectangle object.
-Line 8 sets the \ct{bounds} of the new object.
-Without worrying too much about the details just yet, just believe us that the expression in parentheses creates a square with its origin (\ie its top-left corner) at the point (5,5) and its bottom-right corner far enough away to allow space for the right number of cells.
+8行目では新しいオブジェクトのboundsを設定します。詳細については今はまだそれほど気にはせず、括弧内の式で原点、つまり左上隅(5,5)と右下隅からなる、適切な数のcellを置くことのに十分な数の長方形がつくられることを理解して下さい。次の行では、LOGameオブジェクトのインスタンス変数のcellを、適切な数の行と列をもった、新たに作った Matrix に設定しています。上記のことを new:tabulate: メッセージを Matrix クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることにより実現しています。new:tabulate:は2つのコロン(:)を持つので2つの引数を取ります。引数はコロンの後に書きます。もし今まで引数を全て一緒の括弧内に置く言語を使っている場合、最初のうちはこの書き方が異様に感じるかもしれません。慌てることはありません、単に記法の問題なのですから。この書き方は、メソッド名が引数の役割を説明してくれるので、とてもわかりやすい記法です。例えば次の式、「 Matrix rows: 5 columns: 2」 により、Matrixは2行5列ではなく、5行2列であることは明白です。
 
-The last line sets the \ct{LOGame} object's instance variable \ct{cells} to a newly created \clsind{Matrix} with the right number of rows and columns.   We do this by sending the message \ct{new:tabulate:} to the \ct{Matrix} class (classes are objects too, so we can send them messages).  We know that \mthind{Matrix class}{new:tabulate:} takes two arguments because it has two colons (\ct{:}) in its name.   The arguments go right after the colons.
-If you are used to languages that put all of the arguments together inside parentheses, this may seem weird at first.  Don't panic, it's only syntax!
-It turns out to be a very good syntax because the name of the method can be used to explain the roles of the arguments.  For example, it is pretty clear that \ct{Matrix rows: 5 columns: 2} has 5 rows and 2 columns, and not 2 rows and 5 columns.
-\cmindex{Matrix class}{rows:columns:}
-
-\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]} creates a new \ct{n}{$\times$}\ct{n} matrix and initializes its elements.  The initial value of each element will depend on its coordinates.  The \ct{(i,j)}\textsuperscript{th} element will be initialized to the result of evaluating \ct{self newCellAt: i at: j}.  
+「Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]」 式によりnxnの行列とその要素を初期化しています。 
 
 %:===> Pretty-print is broken! (how to pretty-print?)
 
@@ -354,21 +342,16 @@ It turns out to be a very good syntax because the name of the method can be used
 %If you find yourself using \menu{more\,\ldots} a lot, it's useful to know that you can hold down the {\sc shift} key when you click to directly bring up the \menu{more \ldots} menu.
 
 %=================================================================
-\section{Organizing methods into protocols}
+\section{メソッドをプロトコルにまとめる}
 
-Before we define any more methods, let's take a quick look at the third pane at the top of the browser.
-In the same way that the first pane of the browser lets us categorize classes into packages so we are not overwhelmed by a very long list of class names in the second pane, so the third pane lets us categorize methods so that we are not overwhelmed by a very long list of method names in the fourth pane.   
-These categories of methods are called ``protocols''.
-\index{protocol}
-
-If there are only a few methods in a class, the extra level of hierarchy provided by protocols is not really necessary.
-This is why the browser also offers us the \prot{-{}-all-{}-} virtual protocol, which, you will not be surprised to learn, contains all of the methods in the class.
-\protindex{all}
+メソッドを定義する前に、ブラウザーの上部にある3つめのペインを少し見てみましょう。ブレウザの最初のペイント同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドを分類することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は"プロトコル"とよばれています。
+1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、ブラウザーが仮想的なプロトコル--all--を提供する理由であり、驚く必要はなく、クラスの全てのメソッドに含まれます(日本語おかしい 再翻訳)。
+クラスで唯一のいくつかのメソッドがある場合は、プロトコルによって提供される階層の余分なレベルは本当に必要はありません。これは、ブラウザにも私達提供しています理由です - すべて - あなたが学習しても驚かないでしょう仮想プロトコルは、クラス内のすべてのメソッドが含まれています。\protindex{all}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{Categorize} 
-   \caption{Automatically categorize all uncategorized methods.\figlabel{categorize}}
+   \caption{すべての未分類のメソッドを自動的に分類します。}
 \end{figure}
 
 If you have followed along with this example, the third pane may well contain the protocol \protind{as yet unclassified}.
