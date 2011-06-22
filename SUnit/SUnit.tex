@@ -123,6 +123,7 @@ but you will not know if the observed behaviour is correct.
 テストが実行されなければ、バグも見つけられません！
 また、サンプルメソッドが一見正しい結果を出したとしても、本当に正しい処理が行われた証拠にはなりません。
 
+\if0
 \sunit is valuable because it allows us to write tests that are self-checking:
 the test itself defines what the correct result should be.
 It also helps us to
@@ -132,16 +133,31 @@ automatically.  In less than two minutes you can write tests using
 \sunit, so instead of writing small code snippets in a workspace, we encourage you
 to use \sunit and get all the
 advantages of stored and automatically executable tests.
+\fi
 
+\sunit には十分な価値があります。
+テストの結果が正しいかどうかをテスト自身で検証できます。
+テストをグループ分けしたり、テストに必要な環境の準備をしたり、グループ単位でテストを実行できます。
+もうワークスペースで小さなコードを書かなくても、二分もあれば \sunit でテストを書けるようになります。
+\sunit を使ってテストの自動化をしましょう。
+
+\if0
 In this chapter we start by discussing why we test, and what makes a good test. We then present a series of small 
 examples showing how to use \sunit.
 Finally, we look at the implementation of \sunit, so that you can understand how
 \st uses the power of \ind{reflection} in supporting its tools. 
+\fi
+
+この章では、テストを行う理由とよりよいテストを書く方法の議論から始めます。
+小さな例を挙げながら \sunit の使い方を紹介し、最終的には \sunit の内部実装を見ていきます。
+\sunit を支えている \st の \ind{リフレクション} の力がわかるはずです。
 
 %=================================================================
-\section{Why testing is important}
+%\section{Why testing is important}
+\section{なぜテストは重要か}
 \seclabel{why}
 
+\if0
 Unfortunately, many developers believe that tests are a waste of their time.  
 After all, \emph{they} do not write bugs\,---\,only \emph{other} programmers do that.
 Most of us have said, at some time or other:
@@ -153,7 +169,17 @@ also means that your application is trivial, or that it is not used by you or an
 Think of tests as an investment for the future: having a
 suite of tests will be quite useful now, but it will be \emph{extremely} useful when
 your application, or the environment in which it executes, changes in the future.
+\fi
 
+残念ながら、テストを時間の無駄と思い込んでいる開発者もたくさんいます。
+\emph{彼ら}はバグを作りません\,---\,\emph{他の}プログラマだけがバグを作るのです。
+誰しも一度くらいこう言ってしまった経験があります: 「時間があればテストを書きますよ」。
+絶対にバグのないコードを書けて、絶対にそのコードが将来も変更されないなら、確かにテストは時間の無駄です。
+しかし、そんなコードはごく小さいか誰も使わないようなものがほとんどです。
+テストを将来への投資と考えてください。
+テストはすぐにでも役に立ちますが、将来アプリケーションや実行環境が変わっても\emph{絶対に}役に立ちます。
+
+\if0
 Tests play several roles. First, they provide documentation of the functionality that they cover.  
 Moreover, the documentation is active: watching the tests pass tells you that the documentation is up-to-date.
 Second,
@@ -167,6 +193,16 @@ By writing the tests first\,---\,before the code\,---\,you are compelled to stat
 the context in which your functionality will run, the way it will
 interact with the client code, and the expected results.  
 Your code will improve: try it.
+\fi
+
+テストにはいくつかの役割があります。
+一つは生きたドキュメントです。
+すべてのテストに成功すれば、ドキュメントは最新版です。
+もう一つは、変更したコードが無事動くという確信です。
+もしシステムの一部が壊れたとしても、すぐに原因を見つけられます。
+最後に、実装方法よりもアプリケーションの設計と\emph{ユーザとのインターフェース}を考えるようになります。
+コードを書く前にテストを書いておけば、テストが成功するようにコードを書くしかありません。
+ぜひ試してコードの品質を向上させてください。
 
 %The culture of tests has always been present in the \st
 %community because after writing a method, we would write a small
@@ -177,6 +213,7 @@ Your code will improve: try it.
 %the context of the tests is left unspecified so the reader has to
 %interpret the results and assess if they are right or wrong.
 
+\if0
 We cannot test all aspects of any realistic application.
 Covering a complete application is simply impossible and should not be the
 goal of testing. 
@@ -186,6 +223,13 @@ waiting for an opportunity to damage your system.
 If you find that this has happened, take advantage of it!
 As soon as you uncover the bug, write a test that exposes it, run the test, and watch it fail.
 Now you can start to fix the bug: the test will tell you when you are done.
+\fi
+
+アプリケーションのあらゆる面をすべてテストするのは不可能です。
+いくら良質のテストを書いても、システムを壊す機会を窺っているバグが入り込みます。
+バグを見つけたらすぐにあぶりだすテストを書き、実行し、失敗を確認し、修正を始めましょう。
+そのテストが作業の終わりを知らせてくれます。
+
 %=================================================================
 \section{What makes a good test?}
 
@@ -1170,7 +1214,7 @@ Never get yourself into a situation where you don't want to run your unit test s
 \fi
 
 \index{Feathers, Michael}
-\item[ユニットテストにおける Feathers の法則。]
+\item[Feathers のユニットテストの法則。]
   アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。 \footnote{\url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923} を参照。 2005/9/9 。}
   \begin{quotation}
   \noindent
@@ -1229,7 +1273,12 @@ Never get yourself into a situation where you don't want to run your unit test s
   たくさんのテストが実行されるでしょうが、ファイルシステムにアクセスするテストなら時間がかかるかもしれません。
   わずかなコードの変更にもテストをしたければ、ユニットテストと承認テストを分けるべきです。
 
-\item[Black's Rule of Testing.]
+%\item[Black's Rule of Testing.]
+\item[Black のテストの法則。]
+
+% Rex Black のこと？
+
+\if0
   For every test in the system, you should be able to identify some property for which
   the test increases your confidence.
   It's obvious that there should be no important property that you are not testing.
@@ -1242,6 +1291,19 @@ Never get yourself into a situation where you don't want to run your unit test s
   Second, 
   because one bug in the code might then break many tests, they make it harder to estimate how many bugs remain in the code.
   So, have a property in mind when you write a test.
+\fi
+
+  どのテストも、テスト内容がどうシステムの信頼性につながるのかわかるようにすべきです。
+  テストの必要がないと判断した機能を重要なものと考えるべきではありません。
+  システムの信頼性が高まるような内容でなければ、テストをする必要はありません。
+  例えば同じ目的のテストを複数書いても、かえって二つのデメリットがあります。
+  一つは、テストを読んでもクラスの挙動が理解しにくくなります。
+  もう一つは、コードにいくつバグが残っているのか見積もりにくくなります。
+  たった一つでもバグがあれば、多くのテストが失敗するからです。
+  テストを書くときは常に目的を考えましょう。
+
+% そのまま訳すとわかりにくくなりそうでだいぶ訳を変えましたが、おかしいかも。
+
 \end{description}
 
 %\section{Extending \SUnit}

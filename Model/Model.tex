@@ -39,96 +39,94 @@
 \fi
 %=================================================================
 % \chapter{The \st object model}
-\chapter{\st¥ª¥Ö¥¸¥§¥¯¥È¥â¥Ç¥ë}
+\chapter{\stã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ¢ãƒ‡ãƒ«}
 \chalabel{model}
 
 % \st's programming model is simple and uniform: everything is an object, and objects communicate only by sending each other messages.
-\st¤Î¥×¥í¥°¥é¥ß¥ó¥°¥â¥Ç¥ë¤Ï´Ê·é¤Ç°ì´Ó¤·¤Æ¤¤¤Ş¤¹¡§ Á´¤Æ¤Î¤â¤Î¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¡¢¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥á¥Ã¥»¡¼¥¸¤ò¤ª¸ß¤¤¤ËÁ÷¤ë¤³¤È¤Ë¤è¤Ã¤Æ¤Î¤ß¤ä¤ê¤È¤ê¤ò¤·¤Ş¤¹¡£
+\stã®ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°ãƒ¢ãƒ‡ãƒ«ã¯ç°¡æ½”ã§ä¸€è²«ã—ã¦ã„ã¾ã™ï¼š å…¨ã¦ã®ã‚‚ã®ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ãŠäº’ã„ã«é€ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã®ã¿ã‚„ã‚Šã¨ã‚Šã‚’ã—ã¾ã™ã€‚
 % However, this simplicity and uniformity can be a source of difficulty for programmers used to other languages. In this chapter we present the core concepts of the \st object model; in particular we discuss the consequences of representing classes as objects.
-¤·¤«¤·¤Ê¤¬¤é¡¢¤³¤Î´Ê·é¤µ¤È°ì´ÓÀ­¤¬¡¢Â¾¤Î¸À¸ì¤Ë´·¤ì¤¿¥×¥í¥°¥é¥Ş¤Ë¤È¤Ã¤ÆÆñ¤·¤µ¤Î¸µ¤Ë¤Ê¤Ã¤Æ¤¤¤Ş¤¹¡£
-¤³¤Î¾Ï¤Ç¤Ï¡¢\st¤Î¥ª¥Ö¥¸¥§¥¯¥È¥â¥Ç¥ë¤ÎÃæ¿´³µÇ°¤ò¼¨¤·¤Ş¤¹¡£ÆÃ¤Ë¡¢¥¯¥é¥¹¤ò¥ª¥Ö¥¸¥§¥¯¥È¤È¤·¤ÆÉ½¸½¤¹¤ë¤³¤È¤¬²¿¤ò¤â¤¿¤é¤¹¤Î¤«¤òµÄÏÀ¤·¤Ş¤¹¡£
+ã—ã‹ã—ãªãŒã‚‰ã€ã“ã®ç°¡æ½”ã•ã¨ä¸€è²«æ€§ãŒã€ä»–ã®è¨€èªã«æ…£ã‚ŒãŸãƒ—ãƒ­ã‚°ãƒ©ãƒã«ã¨ã£ã¦é›£ã—ã•ã®å…ƒã«ãªã£ã¦ã„ã¾ã™ã€‚
+ã“ã®ç« ã§ã¯ã€\stã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ¢ãƒ‡ãƒ«ã®ä¸­å¿ƒæ¦‚å¿µã‚’ç¤ºã—ã¾ã™ã€‚ç‰¹ã«ã€ã‚¯ãƒ©ã‚¹ã‚’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦è¡¨ç¾ã™ã‚‹ã“ã¨ãŒä½•ã‚’ã‚‚ãŸã‚‰ã™ã®ã‹ã‚’è­°è«–ã—ã¾ã™ã€‚
 
 %=========================================================
 % \section{The rules of the model}
-\section{¥â¥Ç¥ë¤Îµ¬Â§}
+\section{ãƒ¢ãƒ‡ãƒ«ã®è¦å‰‡}
 \seclabel{rules}
 
 % The \st object model is based on a set of simple 
 % rules that are applied \emph{uniformly}. The rules are as follows:
-\st¤Î¥ª¥Ö¥¸¥§¥¯¥È¥â¥Ç¥ë¤Ï¡¢°Ê²¼¤Î°ìÏ¢¤Î´Ê·é¤Êµ¬Â§¤Ë´ğ¤¤¤Æ¤¤¤Æ¡¢µ¬Â§¤Ï°ì´Ó¤·¤ÆÅ¬ÍÑ¤µ¤ì¤Ş¤¹¡£
+\stã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ¢ãƒ‡ãƒ«ã¯ã€ä»¥ä¸‹ã®ä¸€é€£ã®ç°¡æ½”ãªè¦å‰‡ã«åŸºã„ã¦ã„ã¦ã€è¦å‰‡ã¯ä¸€è²«ã—ã¦é©ç”¨ã•ã‚Œã¾ã™ã€‚
 
 \begin{enumerate}[label={\textbf{Rule \arabic{*}}.}, ref={Rule \arabic{*}}, leftmargin=*]
 \item{} \rulelabel{everything}
 %	Everything is an object.
-	Á´¤Æ¤Î¤â¤Î¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¢¤ë¡£
+	å…¨ã¦ã®ã‚‚ã®ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã€‚
 
 \item{} \rulelabel{instance}
 %	Every object is an instance of a class.
-	Á´¤Æ¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¡£
+	å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹ã€‚
 
 \item{}  \rulelabel{inheritance}
 %	Every class has a superclass.
-	Á´¤Æ¤Î¥¯¥é¥¹¤Ï¥¹¡¼¥Ñ¡¼¥¯¥é¥¹¤ò»ı¤Ã¤Æ¤¤¤ë¡£
+	å…¨ã¦ã®ã‚¯ãƒ©ã‚¹ã¯ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’æŒã£ã¦ã„ã‚‹ã€‚
 
 \item{}  \rulelabel{message}
 %	Everything happens by sending messages.
-	Á´¤Æ¤Î¤³¤È¤Ï¡¢¥á¥Ã¥»¡¼¥¸¤òÁ÷¤ë¤³¤È¤Çµ¯¤³¤ë¡£
+	å…¨ã¦ã®ã“ã¨ã¯ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹ã“ã¨ã§èµ·ã“ã‚‹ã€‚
 
 \item{}  \rulelabel{lookup}
 %	Method lookup follows the inheritance chain.
-	¥á¥½¥Ã¥ÉÃµº÷¤Ï·Ñ¾µ¤ÎÏ¢º¿¤òÃ©¤ë¡£
+	ãƒ¡ã‚½ãƒƒãƒ‰æ¢ç´¢ã¯ç¶™æ‰¿ã®é€£é–ã‚’è¾¿ã‚‹ã€‚
 
 \end{enumerate}
 
 \noindent
 %Let us look at each of these rules in some detail.
-¤Ç¤Ï¡¢¤³¤ì¤é¤Îµ¬Â§¤ò1¤Ä1¤Ä¾ÜºÙ¤Ë¸«¤Æ¤¤¤­¤Ş¤·¤ç¤¦¡£
+ã§ã¯ã€ã“ã‚Œã‚‰ã®è¦å‰‡ã‚’1ã¤1ã¤è©³ç´°ã«è¦‹ã¦ã„ãã¾ã—ã‚‡ã†ã€‚
 
 
 %=========================================================
 % \section{Everything is an Object}
-\section{Á´¤Æ¤Î¤â¤Î¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¢¤ë}
+\section{å…¨ã¦ã®ã‚‚ã®ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹}
 
 %\ruleref{everything}
 
 % The mantra ``everything is an object'' is highly contagious.
-¡ÖÁ´¤Æ¤Î¤â¤Î¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¢¤ë¡×¤È¤¤¤¦¿®Ç°¤Ï¡¢´¶À÷ÎÏ¤¬¹â¤¤¤â¤Î¤Ç¤¹¡£
+ã€Œå…¨ã¦ã®ã‚‚ã®ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã€ã¨ã„ã†ä¿¡å¿µã¯ã€æ„ŸæŸ“åŠ›ãŒé«˜ã„ã‚‚ã®ã§ã™ã€‚
 % After only a short while working with \st, you will start to be surprised at how this rule simplifes everything you do.
-¤Û¤ó¤ÎÃ»¤¤´Ö\st¤ò»È¤Ã¤¿¤À¤±¤Ç¡¢¤³¤Îµ¬Â§¤¬¤¤¤«¤ËÊª»ö¤ò´ÊÃ±¤Ë¤¹¤ë¤Î¤«¡¢¶Ã¤­¤Ï¤¸¤á¤ë¤Ç¤·¤ç¤¦¡£
+ã»ã‚“ã®çŸ­ã„é–“\stã‚’ä½¿ã£ãŸã ã‘ã§ã€ã“ã®è¦å‰‡ãŒã„ã‹ã«ç‰©äº‹ã‚’ç°¡å˜ã«ã™ã‚‹ã®ã‹ã€é©šãã¯ã˜ã‚ã‚‹ã§ã—ã‚‡ã†ã€‚
 % Integers, for example, are truly objects, so you can send messages to them, just as you do to any other object.
-Îã¤¨¤Ğ¡¢À°¿ô¤âËÜÊª¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ç¡¢Â¾¤Î¤¢¤é¤æ¤ë¥ª¥Ö¥¸¥§¥¯¥È¤ÈÆ±ÍÍ¡¢À°¿ô¤Ë¤â¥á¥Ã¥»¡¼¥¸¤òÁ÷¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£
+ä¾‹ãˆã°ã€æ•´æ•°ã‚‚æœ¬ç‰©ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã€ä»–ã®ã‚ã‚‰ã‚†ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨åŒæ§˜ã€æ•´æ•°ã«ã‚‚ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 
 \begin{code}{@TEST}
-% 3 + 4            --> 7    "send '+ 4' to 3, yielding 7"
-3 + 4            --> 7    "'+ 4'¤ò3¤ËÁ÷¤ë¤³¤È¤Ç, ·ë²Ì¤È¤·¤Æ7¤¬ÆÀ¤é¤ì¤Ş¤¹"
-% 20 factorial  --> 2432902008176640000   "send factorial, yielding a big number"
-20 factorial  --> 2432902008176640000   "factorial¤òÁ÷¤ë¤È, Âç¤­¤Ê¿ô¤¬ÆÀ¤é¤ì¤Ş¤¹"
+3 + 4            --> 7    "'+ 4'ã‚’3ã«é€ã‚‹ã“ã¨ã§, çµæœã¨ã—ã¦7ãŒå¾—ã‚‰ã‚Œã¾ã™"
+20 factorial  --> 2432902008176640000   "factorialã‚’é€ã‚‹ã¨, å¤§ããªæ•°ãŒå¾—ã‚‰ã‚Œã¾ã™"
 \end{code}
 
 % The representation of \ct{20 factorial} is certainly different from the representation of \ct{7}, but because they are both objects, none of the code\,---\,not even the implementation of \ct{factorial}\,---\,needs to now about this.
-\ct{20 factorial}¤ÎÆâÉôÉ½¸½¤È\ct{7}¤ÎÆâÉôÉ½¸½¤Ï¼Âºİ¤Ë¤Ï°Û¤Ê¤Ã¤Æ¤¤¤Ş¤¹¤¬¡¢¤½¤ì¤é¤Ï¤É¤Á¤é¤â¥ª¥Ö¥¸¥§¥¯¥È¤Ê¤Î¤Ç¡¢¼Âºİ¤Î¥³¡¼¥É --- \ct{factorial}¤Î¼ÂÁõ¤Ç¤¹¤é --- ¤½¤ÎÆâÉôÉ½¸½¤òÃÎ¤ëÉ¬Í×¤Ï¤¢¤ê¤Ş¤»¤ó¡£
+\ct{20 factorial}ã®å†…éƒ¨è¡¨ç¾ã¨\ct{7}ã®å†…éƒ¨è¡¨ç¾ã¯å®Ÿéš›ã«ã¯ç•°ãªã£ã¦ã„ã¾ã™ãŒã€ãã‚Œã‚‰ã¯ã©ã¡ã‚‰ã‚‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã®ã§ã€å®Ÿéš›ã®ã‚³ãƒ¼ãƒ‰ --- \ct{factorial}ã®å®Ÿè£…ã§ã™ã‚‰ --- ãã®å†…éƒ¨è¡¨ç¾ã‚’çŸ¥ã‚‹å¿…è¦ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
 
 \needlines{3}
 % Perhaps the most fundamental consequence of this rule is the following:
-¤ª¤½¤é¤¯¤³¤Îµ¬Â§¤Î°ìÈÖº¬ËÜÅª¤Êµ¢·ë¤Ï°Ê²¼¤Î¤â¤Î¤Ç¤¹¡£
+ãŠãã‚‰ãã“ã®è¦å‰‡ã®ä¸€ç•ªæ ¹æœ¬çš„ãªå¸°çµã¯ä»¥ä¸‹ã®ã‚‚ã®ã§ã™ã€‚
 % \important{Classes are objects too.}
-\important{¥¯¥é¥¹¤â¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¢¤ë¡£}
+\important{ã‚¯ãƒ©ã‚¹ã‚‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹ã€‚}
 % Furthermore, classes are not second-class objects: they are really first-class objects that you can send messages to, inspect, and so on.
-¤â¤Ã¤È¸À¤¨¤Ğ¡¢¥¯¥é¥¹¤ÏÂèÆóµé¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£¥¯¥é¥¹¤ÏËÜÅö¤Ë¥Õ¥¡¡¼¥¹¥È¥¯¥é¥¹¥ª¥Ö¥¸¥§¥¯¥È¤Ç¡¢¥á¥Ã¥»¡¼¥¸¤òÅê¤²¤¿¤ê¥¤¥ó¥¹¥Ú¥¯¥È¤·¤¿¤ê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£
+ã‚‚ã£ã¨è¨€ãˆã°ã€ã‚¯ãƒ©ã‚¹ã¯ç¬¬äºŒç´šã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚ã‚¯ãƒ©ã‚¹ã¯æœ¬å½“ã«ãƒ•ã‚¡ãƒ¼ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ãŸã‚Šã‚¤ãƒ³ã‚¹ãƒšã‚¯ãƒˆã—ãŸã‚Šã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 %This means that \pharo is a truly reflective system, which gives a great deal of expressive power to developers.
-¤Ä¤Ş¤ê\pharo¤ÏËÜÅö¤Î°ÕÌ£¤Ç¥ê¥Õ¥ì¥¯¥Æ¥£¥Ö¤Ê¥·¥¹¥Æ¥à¤À¤È¤¤¤¦¤³¤È¤Ç¡¢¤³¤Î¤³¤È¤¬³«È¯¼Ô¤ËÈó¾ï¤Ë¶¯ÎÏ¤ÊÉ½¸½ÎÏ¤òÍ¿¤¨¤Æ¤¤¤Ş¤¹¡£
+ã¤ã¾ã‚Š\pharoã¯æœ¬å½“ã®æ„å‘³ã§ãƒªãƒ•ãƒ¬ã‚¯ãƒ†ã‚£ãƒ–ãªã‚·ã‚¹ãƒ†ãƒ ã ã¨ã„ã†ã“ã¨ã§ã€ã“ã®ã“ã¨ãŒé–‹ç™ºè€…ã«éå¸¸ã«å¼·åŠ›ãªè¡¨ç¾åŠ›ã‚’ä¸ãˆã¦ã„ã¾ã™ã€‚
 
 % Deep in the implementation of \st, there are three different kinds of objects.  There are (1) ordinary objects with instance variables that are passed by references, there are (2) \emph{small integers} that are passed by value, and there are (3) indexable objects like arrays that hold a contiguous portion of memory.  The beauty of \st is that you normally don't need to care about the differences between these three kinds of object.
-\st¤Î¼ÂÁõ¤Î¿¼¤¤¤È¤³¤í¤Ç¤Ï¡¢3¤Ä¤Î¼ïÎà¤Î¥ª¥Ö¥¸¥§¥¯¥È¤¬¤¢¤ê¤Ş¤¹¡£(1)¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ò»ı¤Á¡¢»²¾È¤ÇÅÏ¤µ¤ì¤ëÄÌ¾ï¤Î¥ª¥Ö¥¸¥§¥¯¥È¡¢(2)ÃÍ¤ÇÅÏ¤µ¤ì¤ë\emph{¾®¤µ¤ÊÀ°¿ô}¡¢(3)ÇÛÎó¤Î¤è¤¦¤ËÏ¢Â³¤·¤¿¥á¥â¥êÎÎ°è¤ò»ı¤Ä¥¤¥ó¥Ç¥Ã¥¯¥¹ÉÕ¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¹¡£\st¤ÎÈş¤·¤µ¤Ï¡¢¤³¤ì¤é3¼ïÎà¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Î°ã¤¤¤Ë¤Ä¤¤¤ÆÄÌ¾ï¤Ïµ¤¤Ë¤¹¤ëÉ¬Í×¤¬¤Ê¤¤¤È¤³¤í¤Ç¤¹¡£
+\stã®å®Ÿè£…ã®æ·±ã„ã¨ã“ã‚ã§ã¯ã€3ã¤ã®ç¨®é¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚Šã¾ã™ã€‚(1)ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚’æŒã¡ã€å‚ç…§ã§æ¸¡ã•ã‚Œã‚‹é€šå¸¸ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€(2)å€¤ã§æ¸¡ã•ã‚Œã‚‹\emph{å°ã•ãªæ•´æ•°}ã€(3)é…åˆ—ã®ã‚ˆã†ã«é€£ç¶šã—ãŸãƒ¡ãƒ¢ãƒªé ˜åŸŸã‚’æŒã¤ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ä»˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã™ã€‚\stã®ç¾ã—ã•ã¯ã€ã“ã‚Œã‚‰3ç¨®é¡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é•ã„ã«ã¤ã„ã¦é€šå¸¸ã¯æ°—ã«ã™ã‚‹å¿…è¦ãŒãªã„ã¨ã“ã‚ã§ã™ã€‚
 
 %=========================================================
 % \section{Every object is an instance of a class}
-\section{Á´¤Æ¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë}
+\section{å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹}
 
 %\ruleref{instance}
 
 % Every object has a class; you can find out which by sending it the message \ct{class}.
-Á´¤Æ¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¯¥é¥¹¤ò»ı¤Ã¤Æ¤¤¤Ş¤¹¡£¥ª¥Ö¥¸¥§¥¯¥È¤Ë\ct{class}¥á¥Ã¥»¡¼¥¸¤òÁ÷¤ë¤³¤È¤Ç¸«¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£
+å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã‚¯ãƒ©ã‚¹ã‚’æŒã£ã¦ã„ã¾ã™ã€‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«\ct{class}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹ã“ã¨ã§è¦‹ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 
 \begin{code}{@TEST}
 1 class                 --> SmallInteger
@@ -140,60 +138,60 @@ Object new class --> Object
 \end{code}
 
 % A class defines the \emph{structure} of its instances via instance variables,
-¥¯¥é¥¹¤Ï¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤òÄÌ¤·¤Æ¥¤¥ó¥¹¥¿¥ó¥¹¤Î\emph{¹½Â¤}¤òÄêµÁ¤·¤Ş¤¹¡£
+ã‚¯ãƒ©ã‚¹ã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚’é€šã—ã¦ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®\emph{æ§‹é€ }ã‚’å®šç¾©ã—ã¾ã™ã€‚
 % and the \emph{behavior} of its instances via methods.
-¤½¤·¤Æ¥á¥½¥Ã¥É¤òÄÌ¤·¤Æ¥¤¥ó¥¹¥¿¥ó¥¹¤Î\emph{¿¶¤ëÉñ¤¤}¤òÄêµÁ¤·¤Ş¤¹¡£
+ãã—ã¦ãƒ¡ã‚½ãƒƒãƒ‰ã‚’é€šã—ã¦ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®\emph{æŒ¯ã‚‹èˆã„}ã‚’å®šç¾©ã—ã¾ã™ã€‚
 % Each method has a name, called its \emphsubind{method}{selector}, which is unique within the class.
-³Æ¥á¥½¥Ã¥É¤ÏÌ¾Á°¤ò»ı¤Ã¤Æ¤¤¤Æ¡¢\emphsubbind{¥á¥½¥Ã¥É}{¥»¥ì¥¯¥¿}¤È¸Æ¤Ğ¤ì¤Æ¤¤¤Ş¤¹¡£Ì¾Á°¤Ï¤½¤Î¥¯¥é¥¹¤ÎÃæ¤Ç¥æ¥Ë¡¼¥¯¤Ç¤¹¡£
+å„ãƒ¡ã‚½ãƒƒãƒ‰ã¯åå‰ã‚’æŒã£ã¦ã„ã¦ã€\emphsubind{ãƒ¡ã‚½ãƒƒãƒ‰}{ã‚»ãƒ¬ã‚¯ã‚¿}ã¨å‘¼ã°ã‚Œã¦ã„ã¾ã™ã€‚åå‰ã¯ãã®ã‚¯ãƒ©ã‚¹ã®ä¸­ã§ãƒ¦ãƒ‹ãƒ¼ã‚¯ã§ã™ã€‚
 
 % Since \emph{classes are objects}, and \emph{every object is an instance of a class}, it follows that classes must also be instances of classes.
-\emph{¥¯¥é¥¹¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤¢¤ë}¤³¤È¤«¤é¡¢¤½¤·¤Æ¡¢{Á´¤Æ¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ï¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë}¤³¤È¤«¤é¡¢¥¯¥é¥¹¤â¤Ş¤¿¡¢¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¤È¤¤¤¦¤³¤È¤Ë¤Ê¤ê¤Ş¤¹¡£
+\emph{ã‚¯ãƒ©ã‚¹ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã‚ã‚‹}ã“ã¨ã‹ã‚‰ã€ãã—ã¦ã€{å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹}ã“ã¨ã‹ã‚‰ã€ã‚¯ãƒ©ã‚¹ã‚‚ã¾ãŸã€ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹ã¨ã„ã†ã“ã¨ã«ãªã‚Šã¾ã™ã€‚
 % A class whose instances are classes is called a \emphind{metaclass}.
-¥¯¥é¥¹¤ò¥¤¥ó¥¹¥¿¥ó¥¹¤È¤¹¤ë¥¯¥é¥¹¤Ï\emphind{¥á¥¿¥¯¥é¥¹}¤È¸Æ¤Ğ¤ì¤Ş¤¹¡£
+ã‚¯ãƒ©ã‚¹ã‚’ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¨ã™ã‚‹ã‚¯ãƒ©ã‚¹ã¯\emphind{ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹}ã¨å‘¼ã°ã‚Œã¾ã™ã€‚
 % Whenever you create a class, the system automatically creates a metaclass for you.
-¥¯¥é¥¹¤òÄêµÁ¤¹¤ë¤¿¤Ó¤Ë¡¢¥·¥¹¥Æ¥à¤Ï¼«Æ°Åª¤Ë¥á¥¿¥¯¥é¥¹¤òÀ¸À®¤·¤Ş¤¹¡£
+ã‚¯ãƒ©ã‚¹ã‚’å®šç¾©ã™ã‚‹ãŸã³ã«ã€ã‚·ã‚¹ãƒ†ãƒ ã¯è‡ªå‹•çš„ã«ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
 % The metaclass defines the structure and behavior of the class that is its instance.
-¥á¥¿¥¯¥é¥¹¤Ï¡¢¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¥¯¥é¥¹¤Î¹½Â¤¤È¿¶¤ëÉñ¤¤¤òÄêµÁ¤·¤Ş¤¹¡£
+ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã¯ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹ã‚¯ãƒ©ã‚¹ã®æ§‹é€ ã¨æŒ¯ã‚‹èˆã„ã‚’å®šç¾©ã—ã¾ã™ã€‚
 % 99\% \damien{Did any of you verify it is 99\%? Maybe 'Most' would have been better than '99\%'} of the time you will not need to think about metaclasses, and may happily ignore them.
-99\% \damien{¤É¤Ê¤¿¤«¡¢ËÜÅö¤Ë99\%¤À¤È³Î¤«¤á¤Ş¤·¤¿¤«¡©ÂçÄñ¤Î¤â¤Î¤Ï'99\%'¤è¤ê¤âÎÉ¤¤¤«¤â¤·¤ì¤Ş¤»¤ó¤è}¤Î¾ì¹ç¤Ï¡¢¥á¥¿¥¯¥é¥¹¤Ë¤Ä¤¤¤Æ¹Í¤¨¤ëÉ¬Í×¤Ï¤Ê¤¤¤Ç¤·¤ç¤¦¡£¤½¤Î¾ì¹ç¤ÏÌµ»ë¤·¤Æ¤¯¤À¤µ¤Ã¤Æ·ë¹½¤Ç¤¹¡£
+99\% \damien{ã©ãªãŸã‹ã€æœ¬å½“ã«99\%ã ã¨ç¢ºã‹ã‚ã¾ã—ãŸã‹ï¼Ÿå¤§æŠµã®ã‚‚ã®ã¯'99\%'ã‚ˆã‚Šã‚‚è‰¯ã„ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã‚ˆ}ã®å ´åˆã¯ã€ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã«ã¤ã„ã¦è€ƒãˆã‚‹å¿…è¦ã¯ãªã„ã§ã—ã‚‡ã†ã€‚ãã®å ´åˆã¯ç„¡è¦–ã—ã¦ãã ã•ã£ã¦çµæ§‹ã§ã™ã€‚
 % (We will have a closer look at metaclasses in \charef{metaclasses}.)
-(\charef{metaclasses}¤Ç¥á¥¿¥¯¥é¥¹¤Ë¤Ä¤¤¤Æ¾Ü¤·¤¯¸«¤Æ¤ß¤Ş¤·¤ç¤¦¡£)
+(\charef{metaclasses}ã§ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã«ã¤ã„ã¦è©³ã—ãè¦‹ã¦ã¿ã¾ã—ã‚‡ã†ã€‚)
 %---------------------------------------------------------
 % \subsection{Instance variables}
-\subsection{¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô}
+\subsection{ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°}
 
 % Instance variables in \st are private to the \emph{instance} itself.
-\st¤Ç¤Ï¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤Ï¡¢¤½¤Î\emph{¥¤¥ó¥¹¥¿¥ó¥¹}¤Ç¥×¥é¥¤¥Ù¡¼¥È¤Ç¤¹¡£
+\stã§ã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¯ã€ãã®\emph{ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹}ã§ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã§ã™ã€‚
 % This is in contrast to \ind{Java} and \ind{C++}, which allow instance variables (also known as ``fields'' or ``member variables'') to be accessed by any other instance that happens to be of the same class.
-¤³¤ì¤Ï¡¢\id{Java}¤ä\ind{C++}¤ÈÂĞ¾ÈÅª¤Ç¤¹¡£¤½¤ì¤é¤Î¸À¸ì¤Ç¤Ï¡¢¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô(``¥Õ¥£¡¼¥ë¥É''¤È¤«``¥á¥ó¥ĞÊÑ¿ô''¤È¤â¸Æ¤Ğ¤ì¤Æ¤¤¤Ş¤¹¤Í)¤ÏÆ±¤¸¥¯¥é¥¹¤ÎÂ¾¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤«¤é¤Î¥¢¥¯¥»¥¹¤òµö¤·¤Æ¤¤¤Ş¤¹¡£
+ã“ã‚Œã¯ã€\ind{Java}ã‚„\ind{C++}ã¨å¯¾ç…§çš„ã§ã™ã€‚ãã‚Œã‚‰ã®è¨€èªã§ã¯ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°(``ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰''ã¨ã‹``ãƒ¡ãƒ³ãƒå¤‰æ•°''ã¨ã‚‚å‘¼ã°ã‚Œã¦ã„ã¾ã™ã­)ã¯åŒã˜ã‚¯ãƒ©ã‚¹ã®ä»–ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¨±ã—ã¦ã„ã¾ã™ã€‚
 % We say that the \emphind{encapsulation boundary} of objects in Java and C++ is the class, whereas in \st it is the instance.
-¥ª¥Ö¥¸¥§¥¯¥È¤Î\emphind{¥«¥×¥»¥ë²½¤Î¶­³¦}¤¬Java¤äC++¤Ç¤Ï¥¯¥é¥¹¡¢\st¤Ç¤Ï¥¤¥ó¥¹¥¿¥ó¥¹¤Ç¤¢¤ë¡¢¤È¸À¤¤¤Ş¤¹¡£
+ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®\emphind{ã‚«ãƒ—ã‚»ãƒ«åŒ–ã®å¢ƒç•Œ}ãŒJavaã‚„C++ã§ã¯ã‚¯ãƒ©ã‚¹ã€\stã§ã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚ã‚‹ã€ã¨è¨€ã„ã¾ã™ã€‚
 
-\seeindex{variable!instance}{instance variable}
+\seeindex{Henn!instance}{instance variable}
 \seeindex{field}{instance variable}
 \seeindex{attribute}{instance variable}
 \seeindex{slot}{instance variable}
 \index{instance variable}
 
 % In \st, two instances of the same class cannot access each other's instance variables unless the class defines ``\ind{accessor} methods''.
-\st¤Ç¤Ï¡¢``\ind{¥¢¥¯¥»¥µ}¥á¥½¥Ã¥É''¤òÄêµÁ¤·¤Ê¤¤¸Â¤ê¡¢Æ±¤¸¥¯¥é¥¹¤Î2¤Ä¤Î¥¤¥ó¥¹¥¿¥ó¥¹¤Ï¤ª¸ß¤¤¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤Ë¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£
+\stã§ã¯ã€``\ind{ã‚¢ã‚¯ã‚»ã‚µ}ãƒ¡ã‚½ãƒƒãƒ‰''ã‚’å®šç¾©ã—ãªã„é™ã‚Šã€åŒã˜ã‚¯ãƒ©ã‚¹ã®2ã¤ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯ãŠäº’ã„ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚
 % There is no language syntax that provides direct access to the instance variables of any other object.
-Â¾¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ËÄ¾ÀÜ¥¢¥¯¥»¥¹¤¹¤ë¤¿¤á¤Î¸À¸ì¹½Ê¸¤¬¤Ê¤¤¤Î¤Ç¤¹¡£
+ä»–ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã«ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ãŸã‚ã®è¨€èªæ§‹æ–‡ãŒãªã„ã®ã§ã™ã€‚
 % (Actually, a mechanism called \ind{reflection}
-(¼Â¤Î¤È¤³¤í¡¢\charef{metaprog}¤Ç°·¤ï¤ì¤ë\ind{¥ê¥Õ¥ì¥¯¥·¥ç¥ó}¤È¸Æ¤Ğ¤ì¤ëµ¡¹½¤¬Â¾¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Ë¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ÎÃÍ¤Ø¤Î¥¢¥¯¥»¥¹¤òÄó¶¡¤·¤Æ¤¤¤Ş¤¹¡£
+(å®Ÿã®ã¨ã“ã‚ã€\charef{metaprog}ã§æ‰±ã‚ã‚Œã‚‹\ind{ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³}ã¨å‘¼ã°ã‚Œã‚‹æ©Ÿæ§‹ãŒä»–ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã®å€¤ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’æä¾›ã—ã¦ã„ã¾ã™ã€‚
 %, discussed in \charef{metaprog},
 % does provide a way to ask another object for the values of its instance variables; meta-programming is intended for writing tools like the object \ind{inspector}, whose sole purpose is to look inside other objects.)
-¥á¥¿¥×¥í¥°¥é¥ß¥ó¥°¤Ï¥ª¥Ö¥¸¥§¥¯¥È\ind{¥¤¥ó¥¹¥Ú¥¯¥¿}¤Î¤è¤¦¤Ê¥Ä¡¼¥ë¤òµ­½Ò¤¹¤ë¤³¤È¤ò°Õ¿Ş¤·¤Æ¤¤¤Ş¤¹¡£¥¤¥ó¥¹¥Ú¥¯¥¿¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤ÎÃæ¿È¤ò¸«¤ë¤³¤È¤òÌÜÅª¤Ë¤·¤¿¥Ä¡¼¥ë¤Ç¤¹¡£)
+ãƒ¡ã‚¿ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ\ind{ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿}ã®ã‚ˆã†ãªãƒ„ãƒ¼ãƒ«ã‚’è¨˜è¿°ã™ã‚‹ã“ã¨ã‚’æ„å›³ã—ã¦ã„ã¾ã™ã€‚ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸­èº«ã‚’è¦‹ã‚‹ã“ã¨ã‚’ç›®çš„ã«ã—ãŸãƒ„ãƒ¼ãƒ«ã§ã™ã€‚)
 % Instance variables can be accessed by name in any of the instance methods of the class that defines them, and also in the methods defined in its subclasses. This means that \st instance variables are similar to \emph{protected} variables in C++ and Java. However, we prefer to say that they are private, because it is considered bad style in \st to access an instance variable directly from a subclass. 
-¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤Ï¡¢¤½¤ÎÊÑ¿ô¤òÄêµÁ¤·¤Æ¤¤¤ë¥¯¥é¥¹¤Î¥¤¥ó¥¹¥¿¥ó¥¹¥á¥½¥Ã¥É¤«¤é¡¢Ì¾Á°¤Ç¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£
-¤³¤Î¤³¤È¤«¤é¡¢\st¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ÏC++¤äJava¤Î\emph{¥×¥í¥Æ¥¯¥È}ÊÑ¿ô¤Ë»÷¤Æ¤¤¤ë¤È¸À¤¨¤Ş¤¹¡£¤·¤«¤·¤Ê¤¬¤é¡¢¤ä¤Ï¤ê¥×¥é¥¤¥Ù¡¼¥È¤ÈÆÉ¤ó¤À¤Û¤¦¤¬¹¥¤Ş¤·¤¤¤Ç¤·¤ç¤¦¡£¤È¤¤¤¦¤Î¤â¡¢¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤ò¥µ¥Ö¥¯¥é¥¹¤«¤é¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤Ï¡¢\st¤Ç¤ÏÎÉ¤¯¤Ê¤¤¥¹¥¿¥¤¥ë¤È¹Í¤¨¤é¤ì¤Æ¤¤¤ë¤«¤é¤Ç¤¹¡£
+ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¯ã€ãã®å¤‰æ•°ã‚’å®šç¾©ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã‹ã‚‰ã€åå‰ã§ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+ã“ã®ã“ã¨ã‹ã‚‰ã€\stã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¯C++ã‚„Javaã®\emph{ãƒ—ãƒ­ãƒ†ã‚¯ãƒˆ}å¤‰æ•°ã«ä¼¼ã¦ã„ã‚‹ã¨è¨€ãˆã¾ã™ã€‚ã—ã‹ã—ãªãŒã‚‰ã€ã‚„ã¯ã‚Šãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã¨èª­ã‚“ã ã»ã†ãŒå¥½ã¾ã—ã„ã§ã—ã‚‡ã†ã€‚ã¨ã„ã†ã®ã‚‚ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚’ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ã¯ã€\stã§ã¯è‰¯ããªã„ã‚¹ã‚¿ã‚¤ãƒ«ã¨è€ƒãˆã‚‰ã‚Œã¦ã„ã‚‹ã‹ã‚‰ã§ã™ã€‚
 
 % \subsubsection{Example}
-\subsubsection{ÎãÂê}
+\subsubsection{ä¾‹é¡Œ}
 % Method \cmind{Point}{dist:} (\mthref{dist:}) computes the distance between the receiver and another point. The instance variables \ct{x} and \ct{y} of the receiver are accessed directly by the method body.  However, the instance variables of the other point must be accessed by sending it the messages \ct{x} and \ct{y}.
-\cmind{Point}{dist:} (\mthref{dist:})¥á¥½¥Ã¥É¤Ï¡¢¥ì¥·¡¼¥Ğ¤È¤â¤¦1¤Ä¤ÎÅÀ¤È¤Î´Ö¤Îµ÷Î¥¤ò·×»»¤·¤Ş¤¹¡£
-¥ì¥·¡¼¥Ğ¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô\ct{x}¤È\ct{y}¤Ï¡¢¥á¥½¥Ã¥É¤«¤éÄ¾ÀÜ¥¢¥¯¥»¥¹¤µ¤ì¤Æ¤¤¤Ş¤¹¡£
-¤·¤«¤·¡¢¤â¤¦1¤Ä¤ÎÅÀ¤Ï¡¢\ct{x}¥á¥Ã¥»¡¼¥¸¤ä\ct{y}¥á¥Ã¥»¡¼¥¸¤òÁ÷¤ë¤³¤È¤Ç¥¢¥¯¥»¥¹¤·¤Ê¤±¤ì¤Ğ¤Ê¤ê¤Ş¤»¤ó¡£
+\cmind{Point}{dist:} (\mthref{dist:})ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ãƒ¬ã‚·ãƒ¼ãƒã¨ã‚‚ã†1ã¤ã®ç‚¹ã¨ã®é–“ã®è·é›¢ã‚’è¨ˆç®—ã—ã¾ã™ã€‚
+ãƒ¬ã‚·ãƒ¼ãƒã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°\ct{x}ã¨\ct{y}ã¯ã€ãƒ¡ã‚½ãƒƒãƒ‰ã‹ã‚‰ç›´æ¥ã‚¢ã‚¯ã‚»ã‚¹ã•ã‚Œã¦ã„ã¾ã™ã€‚
+ã—ã‹ã—ã€ã‚‚ã†1ã¤ã®ç‚¹ã¯ã€\ct{x}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚„\ct{y}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹ã“ã¨ã§ã‚¢ã‚¯ã‚»ã‚¹ã—ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
 
 \needlines{7}
 \begin{method}[dist:]{the distance between two points}
@@ -210,100 +208,129 @@ Point>>>dist: aPoint
 \end{code}
 
 % The key reason to prefer instance-based encapsulation to class-based encapsulation is that it enables different implementations of the same abstraction to coexist.
-¥¯¥é¥¹¥Ù¡¼¥¹¤Î¥«¥×¥»¥ë²½¤Ç¤Ï¤Ê¤¯¡¢¥¤¥ó¥¹¥¿¥ó¥¹¥Ù¡¼¥¹¤Î¥«¥×¥»¥ë²½¤òÁªÂò¤¹¤ë·è¤á¼ê¤È¤Ê¤Ã¤¿¤Î¤Ï¡¢¥¤¥ó¥¹¥¿¥ó¥¹¥Ù¡¼¥¹¤Î¥«¥×¥»¥ë²½¤ÏÆ±¤¸Ãê¾İ¤Î°Û¤Ê¤ë¼ÂÁõ¤ò¶¦Â¸¤µ¤»¤ë¤³¤È¤¬¤Ç¤­¤ë¤«¤é¤Ç¤¹¡£
+ã‚¯ãƒ©ã‚¹ãƒ™ãƒ¼ã‚¹ã®ã‚«ãƒ—ã‚»ãƒ«åŒ–ã§ã¯ãªãã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ™ãƒ¼ã‚¹ã®ã‚«ãƒ—ã‚»ãƒ«åŒ–ã‚’é¸æŠã™ã‚‹æ±ºã‚æ‰‹ã¨ãªã£ãŸã®ã¯ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ™ãƒ¼ã‚¹ã®ã‚«ãƒ—ã‚»ãƒ«åŒ–ã¯åŒã˜æŠ½è±¡ã®ç•°ãªã‚‹å®Ÿè£…ã‚’å…±å­˜ã•ã›ã‚‹ã“ã¨ãŒã§ãã‚‹ã‹ã‚‰ã§ã™ã€‚
 % For example, method \ct{point>>>dist:}, need not know or care whether the argument \ct{aPoint} is an instance of the same class as the receiver.  The argument object might be represented in polar coordinates, or as a record in a database, or on another computer in a distributed system; as long as it can respond to the messages \ct{x} and \ct{y}, the code in \mthref{dist:} will still work.
-Îã¤¨¤Ğ¡¢\ct{point>>dist:}¥á¥½¥Ã¥É¤Ï¡¢°ú¿ô\ct{aPoint}¤¬¥ì¥·¡¼¥Ğ¤ÈÆ±¤¸¥¯¥é¥¹¤Ê¤Î¤«¤É¤¦¤«ÃÎ¤ëÉ¬Í×¤â¤¢¤ê¤Ş¤»¤ó¤·¡¢µ¤¤Ë¤¹¤ëÉ¬Í×¤â¤Ê¤¤¤«¤é¤Ç¤¹¡£
-°ú¿ô¥ª¥Ö¥¸¥§¥¯¥È¤Ï¶ËºÂÉ¸¤«¤â¤·¤ì¤Ş¤»¤ó¤·¡¢¥Ç¡¼¥¿¥Ù¡¼¥¹¤Î¥ì¥³¡¼¥É¤«¤â¤·¤ì¤Ş¤»¤ó¤·¡¢Ê¬»¶¥·¥¹¥Æ¥à¤ÎÂ¾¤Î·×»»µ¡¾å¤Ë¤¢¤ë¤«¤â¤·¤ì¤Ş¤»¤ó¡£
-\ct{x}¥á¥Ã¥»¡¼¥¸¤ä\ct{y}¥á¥Ã¥»¡¼¥¸¤ËÅú¤¨¤Æ¤¯¤ì¤ë¸Â¤ê¡¢\mthref{dist}¤Î¥³¡¼¥É¤Ï¤Á¤ã¤ó¤ÈÆ°ºî¤¹¤ë¤Ç¤·¤ç¤¦¡£
+ä¾‹ãˆã°ã€\ct{point>>dist:}ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€å¼•æ•°\ct{aPoint}ãŒãƒ¬ã‚·ãƒ¼ãƒã¨åŒã˜ã‚¯ãƒ©ã‚¹ãªã®ã‹ã©ã†ã‹çŸ¥ã‚‹å¿…è¦ã‚‚ã‚ã‚Šã¾ã›ã‚“ã—ã€æ°—ã«ã™ã‚‹å¿…è¦ã‚‚ãªã„ã‹ã‚‰ã§ã™ã€‚
+å¼•æ•°ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯æ¥µåº§æ¨™ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã—ã€ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ¬ã‚³ãƒ¼ãƒ‰ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã—ã€åˆ†æ•£ã‚·ã‚¹ãƒ†ãƒ ã®ä»–ã®è¨ˆç®—æ©Ÿä¸Šã«ã‚ã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã€‚
+\ct{x}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚„\ct{y}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«ç­”ãˆã¦ãã‚Œã‚‹é™ã‚Šã€\mthref{dist}ã®ã‚³ãƒ¼ãƒ‰ã¯ã¡ã‚ƒã‚“ã¨å‹•ä½œã™ã‚‹ã§ã—ã‚‡ã†ã€‚
 
 %---------------------------------------------------------
 % \subsection{Methods}
-\subsection{¥á¥½¥Ã¥É}
+\subsection{ãƒ¡ã‚½ãƒƒãƒ‰}
 
 % All methods are \subind{method}{public}.\footnote{Well, almost all.  In \pharo, methods whose selectors start with the string \ct{pvt} are private: a \ct{pvt} message can be sent \emph{only} to \self.  However, \ct{pvt} methods are not used very much.}
-Á´¤Æ¤Î¥á¥½¥Ã¥É¤Ï\subbind{¥á¥½¥Ã¥É}{¥Ñ¥Ö¥ê¥Ã¥¯}¤Ç¤¹¡£\footnote{Àµ³Î¤Ë¤Ï¡¢¤Û¤ÜÁ´¤Æ¡¢¤Ç¤¹¡£\pharo¤Ç¤Ï¡¢\ct{pvt}¤Ç»Ï¤Ş¤ë¥»¥ì¥¯¥¿¤ò»ı¤Ä¥á¥½¥Ã¥É¤Ï¥×¥é¥¤¥Ù¡¼¥È¤Ç¡¢\ct{pvt}¥á¥Ã¥»¡¼¥¸¤Ï\self¤Ë\emph{¤Î¤ß}Á÷¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£¤·¤«¤·¡¢\ct{pvt}¥á¥½¥Ã¥É¤Ï¤¢¤Ş¤ê»È¤ï¤ì¤Æ¤¤¤Ş¤»¤ó¡£}
+å…¨ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯\subind{ãƒ¡ã‚½ãƒƒãƒ‰}{ãƒ‘ãƒ–ãƒªãƒƒã‚¯}ã§ã™ã€‚\footnote{æ­£ç¢ºã«ã¯ã€ã»ã¼å…¨ã¦ã€ã§ã™ã€‚\pharoã§ã¯ã€\ct{pvt}ã§å§‹ã¾ã‚‹ã‚»ãƒ¬ã‚¯ã‚¿ã‚’æŒã¤ãƒ¡ã‚½ãƒƒãƒ‰ã¯ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã§ã€\ct{pvt}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯\selfã«\emph{ã®ã¿}é€ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚ã—ã‹ã—ã€\ct{pvt}ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã‚ã¾ã‚Šä½¿ã‚ã‚Œã¦ã„ã¾ã›ã‚“ã€‚}
 % Methods are grouped into protocols that indicate their intent.
-¥á¥½¥Ã¥É¤Ï¡¢¤½¤ÎÌÜÅª¤Ë±ş¤¸¤Æ¥×¥í¥È¥³¥ë¤Ë¥°¥ë¡¼¥×Ê¬¤±¤µ¤ì¤Æ¤¤¤Ş¤¹¡£
+ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ãã®ç›®çš„ã«å¿œã˜ã¦ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã«ã‚°ãƒ«ãƒ¼ãƒ—åˆ†ã‘ã•ã‚Œã¦ã„ã¾ã™ã€‚
 % Some common protocol names have been established by convention, for example, \protind{accessing} for all accessor methods, and \protind{initialization} for establishing a consistent initial state for the object.
-¶¦ÄÌ¤·¤Æ»È¤ï¤ì¤Æ¤¤¤ë¥×¥í¥È¥³¥ë¤Ï¥³¥ó¥Ù¥ó¥·¥ç¥ó¤Ë¤è¤Ã¤Æ³ÎÎ©¤µ¤ì¤Æ¤­¤Ş¤·¤¿¡£Îã¤¨¤Ğ¡¢\protind{accessing}¤Ï¥¢¥¯¥»¥µ¥á¥½¥Ã¥É¤Ç¡¢\protind{initialization}¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Î°ì´Ó¤·¤¿½é´ü¾õÂÖ¤ò³ÎÎ©¤¹¤ë¥á¥½¥Ã¥É¤Ç¤¹¡£
+å…±é€šã—ã¦ä½¿ã‚ã‚Œã¦ã„ã‚‹ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã¯ã‚³ãƒ³ãƒ™ãƒ³ã‚·ãƒ§ãƒ³ã«ã‚ˆã£ã¦ç¢ºç«‹ã•ã‚Œã¦ãã¾ã—ãŸã€‚ä¾‹ãˆã°ã€\protind{accessing}ã¯ã‚¢ã‚¯ã‚»ã‚µãƒ¡ã‚½ãƒƒãƒ‰ã§ã€\protind{initialization}ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸€è²«ã—ãŸåˆæœŸçŠ¶æ…‹ã‚’ç¢ºç«‹ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
 % The protocol \protind{private} is sometimes used to group methods that should not be seen from outside.
-\protind{private}¥×¥í¥È¥³¥ë¤Ï¡¢³°¤«¤é¸«¤é¤ì¤ë¤Ù¤­¤Ç¤Ê¤¤¥á¥½¥Ã¥É¤È¤·¤Æ¥°¥ë¡¼¥×Ê¬¤±¤¹¤ë¤Î¤Ë»È¤ï¤ì¤Ş¤¹¡£
+\protind{private}ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã¯ã€å¤–ã‹ã‚‰è¦‹ã‚‰ã‚Œã‚‹ã¹ãã§ãªã„ãƒ¡ã‚½ãƒƒãƒ‰ã¨ã—ã¦ã‚°ãƒ«ãƒ¼ãƒ—åˆ†ã‘ã™ã‚‹ã®ã«ä½¿ã‚ã‚Œã¾ã™ã€‚
 % Nothing, however, prevents you from sending a message that is implemented by such a ``private'' method.
-¤·¤«¤·¡¢¤½¤¦¤¤¤Ã¤¿``private''¥á¥½¥Ã¥É¤¬¤¢¤ë¤«¤é¤È¤¤¤Ã¤Æ¡¢¼Âºİ¤Ë¥á¥Ã¥»¡¼¥¸¤òÁ÷¤ë¤³¤È¤òËÉ¤°¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£
+ã—ã‹ã—ã€ãã†ã„ã£ãŸ``private''ãƒ¡ã‚½ãƒƒãƒ‰ãŒã‚ã‚‹ã‹ã‚‰ã¨ã„ã£ã¦ã€å®Ÿéš›ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹ã“ã¨ã‚’é˜²ãã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚
 % Methods can access all instance variables of the object.
-¥á¥½¥Ã¥É¤Ï¤½¤Î¥ª¥Ö¥¸¥§¥¯¥È¤ÎÁ´¤Æ¤Î¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤Ë¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Ş¤¹¡£
+ãƒ¡ã‚½ãƒƒãƒ‰ã¯ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å…¨ã¦ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 % Some \st developers prefer to access instance variables only through accessors.
-\st³«È¯¼Ô¤ÎÃæ¤Ë¤Ï¡¢¥¢¥¯¥»¥µ¤òÄÌ¤·¤Æ¤Î¤ß¥¤¥ó¥¹¥¿¥ó¥¹ÊÑ¿ô¤Ë¥¢¥¯¥»¥¹¤¹¤ë¤³¤È¤ò¹¥¤à¿Í¤â¤¤¤Ş¤¹¡£
+\sté–‹ç™ºè€…ã®ä¸­ã«ã¯ã€ã‚¢ã‚¯ã‚»ã‚µã‚’é€šã—ã¦ã®ã¿ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ã‚’å¥½ã‚€äººã‚‚ã„ã¾ã™ã€‚
 % This practice has some value, but it also clutters the interface of your classes, and worse, exposes private state to the world.
-¤³¤Î¼è¤êÁÈ¤ß¤Ë¤Ï°ìÄê¤Î²ÁÃÍ¤¬¤¢¤ê¤Ş¤¹¤¬¡¢¥¯¥é¥¹¤Î¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹¤òÍğ»¨¤Ë¤·¤¿¤ê¡¢¤â¤Ã¤È°­¤¤¤³¤È¤Ë¡¢³°Éô¤ÎÀ¤³¦¤Ë¥×¥é¥¤¥Ù¡¼¥È¤Ê¾õÂÖ¤ò»¯¤¹¤³¤È¤Ë¤â¤Ê¤ê¤Ş¤¹¡£
+ã“ã®å–ã‚Šçµ„ã¿ã«ã¯ä¸€å®šã®ä¾¡å€¤ãŒã‚ã‚Šã¾ã™ãŒã€ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’ä¹±é›‘ã«ã—ãŸã‚Šã€ã‚‚ã£ã¨æ‚ªã„ã“ã¨ã«ã€å¤–éƒ¨ã®ä¸–ç•Œã«ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆãªçŠ¶æ…‹ã‚’æ™’ã™ã“ã¨ã«ã‚‚ãªã‚Šã¾ã™ã€‚
 
 %---------------------------------------------------------
-\subsection{The instance side and the class side}
+% \subsection{The instance side and the class side}
+\subsection{ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´ã¨ã‚¯ãƒ©ã‚¹å´}
 
-Since classes are objects, they can have their own instance variables and their own methods.
-We call these \emph{class instance variables} and \emph{class methods}, but they are really no different from ordinary instance variables and methods:
-class instance variables are just instance variables defined by a metaclass, and class methods are just methods defined by a \ind{metaclass}. 
+% Since classes are objects, they can have their own instance variables and their own methods.
+ã‚¯ãƒ©ã‚¹ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã®ã§ã€ã‚¯ãƒ©ã‚¹è‡ªèº«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚„ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒã¤ã“ã¨ãŒã§ãã¾ã™ã€‚
+%We call these \emph{class instance variables} and \emph{class methods}, but they are really no different from ordinary instance variables and methods:
+ã“ã‚Œã‚‰ã¯\emph{ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°}ã‚„\emph{ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰}ã¨å‘¼ã°ã‚Œã¦ã„ã¾ã™ãŒã€å®Ÿéš›ã®ã¨ã“ã‚æ™®é€šã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚„ãƒ¡ã‚½ãƒƒãƒ‰ã¨ä½•ã‚‚é•ã„ã¾ã›ã‚“ã€‚
+%class instance variables are just instance variables defined by a metaclass, and class methods are just methods defined by a \ind{metaclass}. 
+ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¯å˜ã«ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã§å®šç¾©ã•ã‚ŒãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã«ã™ãã¾ã›ã‚“ã—ã€ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã¯å˜ã«\ind{ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹}ã§å®šç¾©ã•ã‚ŒãŸãƒ¡ã‚½ãƒƒãƒ‰ã«ã™ãã¾ã›ã‚“ã€‚
 \index{class!instance variable}
 \seeindex{variable!class instance}{class, instance variable}
 \index{class!method}
 
-A class and its \ind{metaclass} are two separate classes, even though the former is an instance of the latter. 
-However, this is largely irrelevant to you as a programmer: you are concerned with defining the behavior of your objects and the classes that create them.
+% A class and its \ind{metaclass} are two separate classes, even though the former is an instance of the latter. 
+ã‚¯ãƒ©ã‚¹ã¯\ind{ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹}ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã™ãŒã€ã‚¯ãƒ©ã‚¹ã¨ãã®ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã¯åˆ¥ã€…ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+% However, this is largely irrelevant to you as a programmer: you are concerned with defining the behavior of your objects and the classes that create them.
+ã—ã‹ã—ã€ãƒ—ãƒ­ã‚°ãƒ©ãƒã§ã‚ã‚‹ã‚ãªãŸã«ã¯ãŠã‚ˆãé–¢ä¿‚ãªã„è©±ã§ã™ã€‚ãƒ—ãƒ­ã‚°ãƒ©ãƒãŒæ°—ã«ã‹ã‘ã‚‹ã“ã¨ã¯ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚„ãã‚Œã‚’ç”Ÿæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ã®æŒ¯ã‚‹èˆã„ã‚’å®šç¾©ã™ã‚‹ã“ã¨ãªã®ã§ã™ã€‚
 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=\textwidth]{Color-Buttons}
-\caption{Browsing a class and its metaclass.
+% \caption{Browsing a class and its metaclass.
+\caption{ã‚¯ãƒ©ã‚¹ã¨ãã®ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã™ã‚‹ã€‚
 % \sd{Do we use Key everywhere in the picture as a legend indicator?}
 % \on{sure, wherever appropriate}
 \figlabel{Buttons}}
 \end{center}
 \end{figure}
 
-For this reason, the browser \index{browser} helps you to browse both class and metaclass as if they were a single thing with two ``sides'': the ``\subind{browser}{instance side}'' and the ``\subind{browser}{class side}'', as shown in \figref{Buttons}. Clicking 
-on the \button{instance} button browses the class \ct{Color}, \ie you browse the methods that are executed when messages
-are sent to an instance of \ct{Color}, like the blue color. Pressing the \button{class} button browses the class \ct{Color class}, \ie you see
-the methods that will be executed when messages are sent to the class \ct{Color} itself.
-For example, \ct{Color blue} sends the message \ct{blue} to the class \clsind{Color}.
-You will therefore find the method \ct{blue} defined on the class side of \ct{Color}, not on the instance side.
+%For this reason, the browser \index{browser} helps you to browse both class and metaclass as if they were a single thing with two ``sides'': the ``\subind{browser}{instance side}'' and the ``\subind{browser}{class side}'', as shown in \figref{Buttons}.
+ã“ã®ã“ã¨ã‹ã‚‰ã€ãƒ–ãƒ©ã‚¦ã‚¶\index{ãƒ–ãƒ©ã‚¦ã‚¶}ã¯ã€ã‚¯ãƒ©ã‚¹ã¨ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ãŒã‚ãŸã‹ã‚‚1ã¤ã®ã‚‚ã®ã®2ã¤ã®å´é¢ã§ã‚ã‚‹ã‹ã®ã‚ˆã†ã«ã€ã‚¯ãƒ©ã‚¹ã¨ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã®ä¸¡æ–¹ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã§ãã‚‹ã‚ˆã†ã«ãªã£ã¦ã„ã¾ã™ã€‚\figref{Buttons}ã«ç¤ºã•ã‚Œã¦ã„ã‚‹ã€``\subind{ãƒ–ãƒ©ã‚¦ã‚¶}{ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´}''ã¨\subind{ãƒ–ãƒ©ã‚¦ã‚¶}{ã‚¯ãƒ©ã‚¹å´}''ã§ã™ã€‚
+% Clicking  on the \button{instance} button browses the class \ct{Color}, \ie you browse the methods that are executed when messages are sent to an instance of \ct{Color}, like the blue color. 
+\button{instance}ãƒœã‚¿ãƒ³ã‚’ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ã€\ct{Color}ã‚¯ãƒ©ã‚¹ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã—ã¾ã™ã€‚ã¤ã¾ã‚Šã€ä¾‹ãˆã°é’è‰²ã®ã‚ˆã†ãª\ct{Color}ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒé€ã‚‰ã‚ŒãŸæ™‚ã«å®Ÿè¡Œã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã—ã¾ã™ã€‚
+% Pressing the \button{class} button browses the class \ct{Color class}, \ie you see the methods that will be executed when messages are sent to the class \ct{Color} itself.
+\button{class}ãƒœã‚¿ãƒ³ã‚’æ¨ã™ã¨ã€\ct{Color class}ã‚¯ãƒ©ã‚¹ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã—ã¾ã™ã€‚ã¤ã¾ã‚Šã€\ct{Color}ã‚¯ãƒ©ã‚¹è‡ªä½“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒé€ã‚‰ã‚ŒãŸæ™‚ã«å®Ÿè¡Œã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¦‹ã‚‹ã“ã¨ã«ãªã‚Šã¾ã™ã€‚
+% For example, \ct{Color blue} sends the message \ct{blue} to the class \clsind{Color}.
+ä¾‹ãˆã°ã€\ct{Color blue}ã¯\ct{blue}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’\clsind{Color}ã‚¯ãƒ©ã‚¹ã«é€ã‚Šã¾ã™ã€‚
+% You will therefore find the method \ct{blue} defined on the class side of \ct{Color}, not on the instance side.
+ã—ãŸãŒã£ã¦ã€ã“ã®\ct{blue}ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯\ct{Color}ã®ã‚¯ãƒ©ã‚¹å´ã«å®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
 \seeindex{class side}{browser!class side}
 \seeindex{instance side}{browser!instance side}
 
 \needlines{5}
 \begin{code}{@TEST | aColor |}
-aColor := Color blue.               "Class side method blue"
+aColor := Color blue.               "ã‚¯ãƒ©ã‚¹å´ã®blueãƒ¡ã‚½ãƒƒãƒ‰"
 aColor        --> Color blue
-aColor red  --> 0.0         "Instance side accessor method red"
-aColor blue --> 1.0        "Instance side accessor method blue"
+aColor red  --> 0.0         "ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´ã®ã‚¢ã‚¯ã‚»ã‚µãƒ¡ã‚½ãƒƒãƒ‰red"
+aColor blue --> 1.0        "ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´ã®ã‚¢ã‚¯ã‚»ã‚µãƒ¡ã‚½ãƒƒãƒ‰blue"
 \end{code}
 
-You define a class by filling in the template proposed on the \subind{browser}{instance side}.
-When you accept this template, the system creates not just the class that you defined, but also the corresponding metaclass.
-You can browse the metaclass by clicking on the \button{class} button.
-The only part of the metaclass creation template that makes sense for you to edit directly is the list of instance variable names.
+% You define a class by filling in the template proposed on the \subind{browser}{instance side}.
+\subind{ãƒ–ãƒ©ã‚¦ã‚¶}{ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å´}ã§æä¾›ã•ã‚Œã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’åŸ‹ã‚ã‚‹ã“ã¨ã§ã‚¯ãƒ©ã‚¹ã‚’å®šç¾©ã—ã¾ã™ã€‚
+% When you accept this template, the system creates not just the class that you defined, but also the corresponding metaclass.
+ã“ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’ã‚¢ã‚¯ã‚»ãƒ—ãƒˆã™ã‚‹ã¨ã€ã‚·ã‚¹ãƒ†ãƒ ã¯ãã®ã‚¯ãƒ©ã‚¹ã ã‘ã§ãªãã€å¯¾å¿œã™ã‚‹ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã‚‚ç”Ÿæˆã—ã¾ã™ã€‚
+% You can browse the metaclass by clicking on the \button{class} button.
+\button{class}ãƒœã‚¿ãƒ³ã‚’ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã§ãã¾ã™ã€‚
+% The only part of the metaclass creation template that makes sense for you to edit directly is the list of instance variable names.
+ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹ç”Ÿæˆãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã§ç·¨é›†ã™ã‚‹ã®ã¯ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã®ãƒªã‚¹ãƒˆã ã‘ã§ã™ã€‚
 
-Once a class has been created, clicking the \button{instance} button lets you edit and browse the methods that will be possessed by instances of that class (and of its subclasses). For example, we can see in \figref{Buttons} that the method \ct{hue} is defined on instances of the class \ct{Color}.
-In contrast, the \button{class} button lets you browse and edit the metaclass (in this case \ct{Color class}).
-
-%---------------------------------------------------------
-\subsection{Class methods} 
-
-Class methods can be quite useful; browse \ct{Color class} for some good examples.
-You will see that there are two kinds of \subind{class}{method} defined on a class: those that create instances of the class, like \cmind{Color class}{blue} and those that perform a utility function, like 
-\cmind{Color class}{showColorCube}.
-This is typical, although you will occasionally find class methods used in other ways.
-
-It is convenient to place utility methods on the \subind{browser}{class side} because they can be executed without having to create any additional objects first.
-Indeed, many of them will contain a comment designed to make it easy to execute them.
-
-\dothis{Browse method \ct{Color class>>>showColorCube}, double-click just inside the quotes on the comment \ct{"Color showColorCube"} and type \short{d}.}
-You will see the effect of executing this method.  (Select \menu{World \go \ind{restore display}~(r)} to undo the effects.)
-
-For those familiar with \ind{Java} and \ind{C++},  class methods may seem similar to static methods. 
-However, the uniformity of \st means that they are somewhat different: whereas Java static methods are really just statically-resolved procedures, \st class methods are dynamically-dispatched methods.  This means that inheritance, overriding and super-sends work for class methods in \st, whereas they don't work for static methods in Java.  
+% Once a class has been created, clicking the \button{instance} button lets you edit and browse the methods that will be possessed by instances of that class (and of its subclasses). For example, we can see in \figref{Buttons} that the method \ct{hue} is defined on instances of the class \ct{Color}.
+ä¸€æ—¦ã‚¯ãƒ©ã‚¹ãŒç”Ÿæˆã•ã‚Œã‚‹ã¨ã€\button{instance}ãƒœã‚¿ãƒ³ã‚’ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ã€ãã®ã‚¯ãƒ©ã‚¹(ãŠã‚ˆã³ãã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹)ãŒæŒã¤ã“ã¨ã«ãªã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç·¨é›†ã—ãŸã‚Šãƒ–ãƒ©ã‚¦ã‚ºã—ãŸã‚Šã§ãã¾ã™ã€‚ä¾‹ãˆã°ã€\figref{Buttons}ã‚’è¦‹ã‚‹ã¨ã€\ct{hue}ãƒ¡ã‚½ãƒƒãƒ‰ãŒ\ct{Color}ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã«å®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
+% In contrast, the \button{class} button lets you browse and edit the metaclass (in this case \ct{Color class}).
+é€†ã«ã€\button{class}ãƒœã‚¿ãƒ³ã§ã¯ã€ãã®ãƒ¡ã‚¿ã‚¯ãƒ©ã‚¹(ã“ã®å ´åˆã€\ct{Color class})ã‚’
 
 %---------------------------------------------------------
-\subsection{Class instance variables}
+% \subsection{Class methods} 
+\subsection{ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰} 
+
+% Class methods can be quite useful; browse \ct{Color class} for some good examples.
+ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã¨ã¦ã‚‚ä¾¿åˆ©ãªã“ã¨ãŒã‚ã‚Šã¾ã™ã€‚\ct{Color class}ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã™ã‚‹ã¨è‰¯ã„ä¾‹ãŒã„ãã¤ã‹è¦‹ã¤ã‹ã‚Šã¾ã™ã€‚
+% You will see that there are two kinds of \subind{class}{method} defined on a class: those that create instances of the class, like \cmind{Color class}{blue} and those that perform a utility function, like \cmind{Color class}{showColorCube}.
+ã‚¯ãƒ©ã‚¹ã«å®šç¾©ã•ã‚ŒãŸ\subind{ã‚¯ãƒ©ã‚¹}{ãƒ¡ã‚½ãƒƒãƒ‰}ã«ã¯2ç¨®é¡ã‚ã‚Šã¾ã™ã€‚\cmind{Color class}{blue}ã®ã‚ˆã†ã«ã€ãã®ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã¤ãã‚‹ã‚‚ã®ã¨ã€\cmind{Color class}{showColorCube}ã®ã‚ˆã†ã«ã€ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£çš„ãªæ©Ÿèƒ½ã‚’æä¾›ã™ã‚‹ã‚‚ã®ã§ã™ã€‚
+
+% This is typical, although you will occasionally find class methods used in other ways.
+ä»–ã®ç”¨é€”ã«ä½¿ã‚ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¦‹ã‹ã‘ã‚‹ã“ã¨ã‚‚ã‚ã‚‹ã§ã—ã‚‡ã†ãŒã€ã“ã‚ŒãŒå…¸å‹çš„ãªç”¨æ³•ã§ã™ã€‚
+
+% It is convenient to place utility methods on the \subind{browser}{class side} because they can be executed without having to create any additional objects first.
+ä½™è¨ˆãªã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã“ã¨ãªãå®Ÿè¡Œã§ãã‚‹ã®ã§ã€\subind{ãƒ–ãƒ©ã‚¦ã‚¶}{ã‚¯ãƒ©ã‚¹å´}ã«ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£çš„ãªãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç½®ãã¨ä¾¿åˆ©ã§ã™ã€‚
+% Indeed, many of them will contain a comment designed to make it easy to execute them.
+å®Ÿéš›ã€ãã†ã„ã£ãŸãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ãƒ¡ã‚½ãƒƒãƒ‰ã®å¤šãã¯ã€ç°¡å˜ã«å®Ÿè¡Œã§ãã‚‹ã‚³ãƒ¡ãƒ³ãƒˆã‚’å«ã‚“ã§ã„ã¾ã™ã€‚
+
+% \dothis{Browse method \ct{Color class>>>showColorCube}, double-click just inside the quotes on the comment \ct{"Color showColorCube"} and type \short{d}.}
+\dothis{\ct{Color class>>>showColorCube}ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ãƒ–ãƒ©ã‚¦ã‚ºã—ã¦, ã‚³ãƒ¡ãƒ³ãƒˆ\ct{"Color showColorCube"}ã®å¼•ç”¨ç¬¦ã®å†…å´ã‚’ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã—ã¦ã€\short{d}ã‚’æŠ¼ã—ã¦ã¿ã¦ãã ã•ã„ã€‚}
+% You will see the effect of executing this method.  (Select \menu{World \go \ind{restore display}~(r)} to undo the effects.)
+ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã—ãŸåŠ¹æœãŒã‚ã‹ã‚‹ã§ã—ã‚‡ã†ã€‚(\menu{World \go \ind{restore display}~(r)}ã‚’å®Ÿè¡Œã—ã¦ã€å…ƒã«æˆ»ã—ã¦ãã ã•ã„ã€‚)
+
+% For those familiar with \ind{Java} and \ind{C++},  class methods may seem similar to static methods. 
+\ind{Java}ã‚„\ind{C++}ã«æ…£ã‚Œã¦ã„ã‚‹äººã«ã¯ã€ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã¯é™çš„ãƒ¡ã‚½ãƒƒãƒ‰ã«ä¼¼ã¦ã„ã‚‹ã‚ˆã†ã«è¦‹ãˆã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ã€‚
+% However, the uniformity of \st means that they are somewhat different: whereas Java static methods are really just statically-resolved procedures, \st class methods are dynamically-dispatched methods.  This means that inheritance, overriding and super-sends work for class methods in \st, whereas they don't work for static methods in Java.  
+ã—ã‹ã—ã€\stã®ä¸€è²«æ€§ã‹ã‚‰ã€ã„ãã¶ã‚“ã®é•ã„ãŒã‚ã‚Šã¾ã™ã€‚
+Javaã®é™çš„ãƒ¡ã‚½ãƒƒãƒ‰ã¯æœ¬å½“ã«å˜ã«é™çš„ã«åå‰è§£æ±ºã•ã‚Œã‚‹æ‰‹ç¶šãã«éããªã„ã®ã§ã™ãŒã€\stã®ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã¯å‹•çš„ã«æ¢ç´¢ã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚ã¤ã¾ã‚Šã€\stã§ã¯ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç¶™æ‰¿ã—ãŸã‚Šã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãŸã‚Šsuperã«é€ä¿¡ã—ãŸã‚Šã§ãã¾ã™ãŒã€Javaã®é™çš„ãƒ¡ã‚½ãƒƒãƒ‰ã§ã¯ã§ãã¾ã›ã‚“ã€‚
+
+%---------------------------------------------------------
+% \subsection{Class instance variables}
+\subsection{ã‚¯ãƒ©ã‚¹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°}
 With ordinary instance variables, all the instances of a class have the same set of variable names, and the instances of its subclasses inherit those names; however, each instance has its own private set of values.
 The story is exactly the same with class \subind{class}{instance variable}{}s: each class has its own private class instance variables.
 A subclass will inherit those class instance variables, \emph{but it has its own private copies of those variables}.
