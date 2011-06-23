@@ -826,8 +826,10 @@ Object methodDict size --> 408
 
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
 このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理をつとめる実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@?自信無し
-We initialize the two instance variables and we provide an accessor for the message count.
-Initially the \ct{subject} variable points to the proxy object itself.
+%@We initialize the two instance variables and we provide an accessor for the message count.
+これらふたつのインスタンス変数を初期化し、インターセプトされたメッセージの数(\ct!invocationCount!)を返すアクセサを提供します。
+%@Initially the \ct{subject} variable points to the proxy object itself.
+最初は\ct{subject}変数は、プロキシーオブジェクトそれ自身を指しています。
 \begin{code}{}
 LoggingProxy>>>initialize
 	invocationCount := 0.
@@ -839,7 +841,8 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-We simply intercept all messages not understood, print them to the Transcript, update the message count, and forward the message to the real subject.
+%@We simply intercept all messages not understood, print them to the Transcript, update the message count, and forward the message to the real subject.
+理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、\ct!invocationCount!を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -847,15 +850,18 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 	^ aMessage sendTo: subject
 \end{code}
 
-Here comes a bit of magic.
-We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
+%@Here comes a bit of magic.
+ほら、ちょっとした魔法がやって来ます。%@?Here comes英辞郎
+%@We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、\ct{Point}オブジェクトに\mthind{ProtoObject}{become:} と告げます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-This has the effect of swapping all references in the image to the point to now refer to the proxy, and vice versa. Most importantly, the proxy's \ct{subject} instance variable will now refer to the point!
+%@This has the effect of swapping all references in the image to the point to now refer to the proxy, and vice versa. Most importantly, the proxy's \ct{subject} instance variable will now refer to the point!
+\ct!become:!の効果は、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、すべてのプロキシーへの参照を、\ct{Point}オブジェクトへの参照とスワップすることです。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照するのです!
 
 \begin{code}{}
 point invocationCount --> 0
