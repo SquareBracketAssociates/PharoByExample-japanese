@@ -267,7 +267,7 @@ get a maximum benefit.
 \fi
 
 \item テストは物語であるべきです。各テストの目的を一つに絞るべきです。
-  テストをシナリオと考え、読めばアプリケーションの機能を理解できるようにすべきです。
+  テストをシナリオと考え、読めばアプリケーションの機能を理解できるようにすべきです。 \label{prop:oneAspect}
 
 \if0
 \item Tests should have a change frequency lower than that of the
@@ -289,6 +289,7 @@ get a maximum benefit.
 
 \end{enumerate}
 
+\if0
 A consequence of property (\ref{prop:oneAspect}) is that 
 the number of tests should be somewhat proportional to the number of
 functions to be tested: changing one aspect of the
@@ -298,7 +299,15 @@ much stronger message than having 10 tests fail.
 However, it is not always possible to achieve this ideal: 
 in particular, if a change breaks the initialization of an object, or the
 set-up of a test, it is likely to cause all of the tests to fail. 
+\fi
 
+テストの目的を絞り (\ref{prop:oneAspect}) 、テストすべき機能とテストの数のバランスをとりましょう。
+システムの一部を変更したときに動かなくなるテストを少なくするべきです。
+100 のテストに失敗するより、 10 のテストの失敗で済むほうが対処しやすいのですから。
+ただし、いつもこの通りにできるとは限りません。
+例えば変更によってオブジェクトの初期化やテストのセットアップに問題が出れば、すべてのテストが失敗してしまいます。
+
+\if0
 \ind{eXtreme Programming} advocates writing tests before writing code.  This may seem to go
 against our deep instincts as software developers.  
 All we can say is: go ahead and try it.
@@ -307,6 +316,12 @@ to know what we want to code, helps us know when we are done,
 and helps us conceptualize the functionality of a class and to
 design its interface.
 Moreover, test-first development gives us the courage to go fast, because we are not afraid that we will forget something important.  
+\fi
+
+\ind{エクストリーム・プログラミング} では、コードを書く前にテストを書く (テストファースト) ことを提案しています。
+これはソフトウェア開発者の本能と相反するように見えますが、我々は自信を持って言えます: 「さあ進め、さあ試せ」。 
+テストを先に書くことで、どんなコードを書くべきか、何をすべきか、どう要件をクラスに落とせばいいか、どんな API にすればいいのかを考える手助けになります。
+さらに、開発速度を上げる自信にもつながります。開発を急ぐあまりに肝心な点を見落とすかもしれない、といった心配をする必要はありません。
 
 % \on{I cannot understand this without some explanation!}
 
@@ -328,9 +343,11 @@ Moreover, test-first development gives us the courage to go fast, because we are
 
 \section{\sunit by example}
 
+\if0
 Before going into the details of \SUnit, we will show a step by step
 example.  We use an example that tests the class \ct{Set}.  Try
 entering the code as we go along.
+\fi
 
 \SUnit の詳細に触れる前に、一つずつ例を挙げていきます。 \ct{Set} クラスのテストを例に進めますので、例に従ってコードを入力してください。
 %---------------------------------------------------------
