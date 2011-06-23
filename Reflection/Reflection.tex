@@ -685,7 +685,7 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \begin{code}{}
 Object>>>subclassResponsibility
 %@	"This message sets up a framework for the behavior of the class' subclasses.
-	"このメッセージは問題のクラスの一連のサブクラスの振舞いについてのフレームワークを設定する。"
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
 %@	Announce that the subclass should have implemented this message."
 	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
@@ -779,28 +779,37 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 \seclabel{msgnotunderstood}
 
 %@So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
-これまでのところ、\st のリフレクティブな機能は、おもに、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振舞いを実行時に変えることができるか、詳しく見ていきます。
+これまでのところ、\st のリフレクティブな機能は、おもに、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振る舞いを実行時に変えることができるか、詳しく見ていきます。
 
 %@When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
 オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、このメッセージに応答するべきメソッドを探します。
 %@If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
 もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたぐっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見付からなかったら、オブジェクトは\emph{自分自身に} \ct{doesNotUnderstand:}を送ります。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージのメッセージセレクターです。
-The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
+%@The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
+このメソッド検索のプロセスは、振り出しに戻って再開され、\clsmthind{Object}{doesNotUnderstand:}が見付かるまで続けられ、そしてデバッガーが立ち上がります。
 
-But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
-As it turns out, this is a convenient way of realizing certain kinds of very dynamic behaviour. An object that does not understand a message can, by overriding \ct{doesNotUnderstand:}, fall back to an alternative strategy for responding to that message.
+%@But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
+しかし、もし\ct{doesNotUnderstand:}が\ct{Object}のサブクラスでオーバーライドされていて、メソッドの検索パスに入っていたらどうなるでしょう?
+%@As it turns out, this is a convenient way of realizing certain kinds of very dynamic behaviour. An object that does not understand a message can, by overriding \ct{doesNotUnderstand:}, fall back to an alternative strategy for responding to that message.
+結局のところ、これは、ある種の非常に動的な振る舞いを理解するための、便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できないメッセージに応答するための、代替えの戦略に頼ることができるのです。%@?日本語が変
 
-Two very common applications of this technique are (1) to implement \ind{lightweight proxies} for objects, and (2) to dynamically compile or load missing code.
+%@Two very common applications of this technique are (1) to implement \ind{lightweight proxies} for objects, and (2) to dynamically compile or load missing code.
+このテクニックの非常に一般的な応用をふたつ挙げると、(1) オブジェクトの\ind{軽量プロキシー}の実装、そして、(2) 欠けているコードを動的にコンパイルまたはロードすること、です。
 
 %-----------------------------------------------------------------
-\subsection{Lightweight proxies}
+%@\subsection{Lightweight proxies}
+\subsection{軽量プロキシー}
 
-In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
-Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
+%@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
+最初の例として、``\ind{最低限のオブジェクト}''を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
+%@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
+このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@?自信無し
 
-Let us have a look at how this may be implemented\footnote{You can also load \pkg{PBE-Reflection} from \url{http://www.squeaksource.com/PharoByExample/}}.
+%@Let us have a look at how this may be implemented\footnote{You can also load \pkg{PBE-Reflection} from \url{http://www.squeaksource.com/PharoByExample/}}.
+これが、どのように実装することができるか、見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードすることもできます}。
 
-We define a \ct{LoggingProxy} as follows:
+%@We define a \ct{LoggingProxy} as follows:
+\ct{LoggingProxy}を以下のように定義します:
 \begin{code}{}
 ProtoObject subclass: #LoggingProxy
 	instanceVariableNames: 'subject invocationCount'
@@ -808,13 +817,15 @@ ProtoObject subclass: #LoggingProxy
 	poolDictionaries: ''
 	category: 'PBE-Reflection'
 \end{code}
-Note that we subclass \ct{ProtoObject} rather than \ct{Object} because we do not want our proxy to inherit over 400 methods (!) from \ct{Object}.
+%@Note that we subclass \ct{ProtoObject} rather than \ct{Object} because we do not want our proxy to inherit over 400 methods (!) from \ct{Object}.
+\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。なぜなら、\ct{Object}からこのプロキシーに、400個以上のメソッド(!)を継承したくないからです。
 
 \begin{code}{}
 Object methodDict size --> 408
 \end{code}
 
-Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
+%@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理をつとめる実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@?自信無し
 We initialize the two instance variables and we provide an accessor for the message count.
 Initially the \ct{subject} variable points to the proxy object itself.
 \begin{code}{}
