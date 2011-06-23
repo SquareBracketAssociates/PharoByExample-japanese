@@ -685,7 +685,7 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \begin{code}{}
 Object>>>subclassResponsibility
 %@	"This message sets up a framework for the behavior of the class' subclasses.
-	"このメッセージは問題のクラスの一連のサブクラスの振舞いについてのフレームワークを設ける。"
+	"このメッセージは問題のクラスの一連のサブクラスの振舞いについてのフレームワークを設定する。"
 %@	Announce that the subclass should have implemented this message."
 	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
@@ -715,7 +715,8 @@ we should have a Reflection applied chapter}
 %@Setting a breakpoint in this method is problematic.
 このメソッドにブレークポイントをかけると、やっかいなことになります。
 
-\dothis{Take a \emph{fresh} image and set the following breakpoint:}
+%@\dothis{Take a \emph{fresh} image and set the following breakpoint:}
+\dothis{\emph{フレッシュな}仮想イメージを使って、以下のブレークポイントをセットしてみましょう:}
 \needlines{3}
 \begin{code}{}
 OrderedCollection>>>add: newObject
@@ -723,22 +724,30 @@ OrderedCollection>>>add: newObject
 	^self addLast: newObject
 \end{code}
 
-Notice how your image immediately freezes!  We do not even get a debugger window.
-The problem is clear once we understand that (i) \ct{OrderedCollection>>>add:} is used by many parts of the system, so the breakpoint is triggered very soon after we accept the change, but (ii) \emph{the debugger itself} sends \ct{add:} to an instance of \ct{OrderedCollection}, preventing the debugger from opening!
-What we need is a way to \emph{conditionally halt} only if we are in a context of interest.
-This is exactly what \clsmthind{Object}{haltIf:} offers.
+%@Notice how your image immediately freezes!  We do not even get a debugger window.
+この仮想イメージが、どのくらいただちに、フリーズするかに注目してください! デバッガーウィンドウを開けることさえできません。
+%@The problem is clear once we understand that (i) \ct{OrderedCollection>>>add:} is used by many parts of the system, so the breakpoint is triggered very soon after we accept the change, but (ii) \emph{the debugger itself} sends \ct{add:} to an instance of \ct{OrderedCollection}, preventing the debugger from opening!
+いったん次のことを理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われています。そして、ブレークポイントは、変更をacceptしたまさにその直後から有効になります。しかし、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けることができなくなるのです!
+%@What we need is a way to \emph{conditionally halt} only if we are in a context of interest.
+必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する方法です。
+%@This is exactly what \clsmthind{Object}{haltIf:} offers.
+この方法を提供するのが、まさに、\clsmthind{Object}{haltIf:}です。
 
-Suppose now that we only want to halt if \ct{add:} is sent from, say, the context of \ct{OrderedCollectionTest>>>testAdd}.
+%@Suppose now that we only want to halt if \ct{add:} is sent from, say, the context of \ct{OrderedCollectionTest>>>testAdd}.
+さて、haltが、何らかのコンテクスト、たとえば、\ct{add:}が、\ct{OrderedCollectionTest>>>testAdd}のコンテクストから呼ばれたときにだけ起こるようにしたいとしましょう。%@?say: ?
 
-\dothis{Fire up a fresh image again, and set the following breakpoint:}
+%@\dothis{Fire up a fresh image again, and set the following breakpoint:}
+\dothis{再びフレッシュな仮想イメージを立ち上げ、以下のブレークポイントを設定してみましょう:}
 \begin{code}{}
 OrderedCollection>>>add: newObject
 	!\underline{self haltIf: \#testAdd.}!
 	^self addLast: newObject
 \end{code}
 
-This time the image does not freeze. Try running the \ct{OrderedCollectionTest}.
-(You can find it in the \scat{CollectionsTests-Sequenceable} category.)
+%@This time the image does not freeze. Try running the \ct{OrderedCollectionTest}.
+今回は、仮想イメージはフリーズしません。\ct{OrderedCollectionTest}を走らせてみましょう。
+%@(You can find it in the \scat{CollectionsTests-Sequenceable} category.)
+\ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリにあるのを見付けることができるでしょう。%@?くどい?
 
 How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
 \begin{code}{}
