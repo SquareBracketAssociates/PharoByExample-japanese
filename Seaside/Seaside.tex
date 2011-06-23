@@ -299,21 +299,16 @@ Seasideは、バックトラックのためのメカニズムを最初から持�
 % \ab{note that xspace messes up again, by inserting a space at the start of this line}
 \ct{states} では対象とすべきオブジェクト群を配列の形で返すようにします。カウンターアプリケーションの場合、 \ct{Array with: self}としています。こうすると \ct{WACounter} のオブジェクト自身がSeasideにバックトラック対象として登録されることになります。
 
-\paragraph{\emph{Caveat.}}
-There is a subtle but important point to watch for when declaring objects for backtracking.
-Seaside tracks state by making a \emph{copy} of all the objects declared in the \ct{states} array.
-It does this using a \clsind{WASnapshot} object; \ct{WASnapshot} is a subclass of \clsind{IdentityDictionary} that records the objects to be tracked as keys and shallow copies of their state as values.
-If the state of an application is backtracked to a particular snapshot, the state of each object entered into the snapshot dictionary is overwritten by the copy saved in the snapshot.
+\paragraph{\emph{注意}}
+バックトラック対象のオブジェクトの宣言ではちょっとした注意点があります。
+Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過去の状態を保持します。
 
-Here is the point to watch out for:
-In the case of \ct{WACounter}, you might think that the state to be tracked is a number\,---\,the value of the \ct{count} instance variable.
-However, having the \ct{states} method answer \ct{Array with: count} won't work.  
-This is because the object named by \ct{count} is an integer, and integers are immutable.
-The \ct{increase} and \ct{decrease} methods don't change the state of the object \ct{0} into \ct{1} or the object \ct{3} into \ct{2}.
-Instead, they make \ct{count} name a different integer: 
-every time the count is incremented or decremented, the object named by \ct{count} is \emph{replaced} by another.
-This is why \ct{WACounter>>>states} must return \ct{Array with: self}.
-When the state of a \mbox{\ct{WACounter}} object is replaced by a previous state, the \emph{value} of each of the instance variable in the object is replaced by a previous value; this correctly replaces the current value of \ct{count} by a prior value. 
+実際の処理は \clsind{WASnapshot} によって行われます。 \ct{WASnapshot}は \clsind{IdentityDictionary} のサブクラスで、バックトラック対象のオブジェクト群をキーに、シャローコピーされたオブジェクト群を値として持っています。
+特定のスナップショットに状態を戻す必要があるときには、シャローコピーされた情報を使って、オブジェクトの変数の値を上書きします。
+先ほどの\ct{WACounter}の場合、バックトラックの対象は、インスタンス変数\ct{count} の数字だけで良いのではと思うかもしれません。しかし、  \ct{states} メソッドでr\ct{Array with: count} のように書いてもうまく動作しないのです。
+これは\ct{count}の中身が整数で、整数は不変のオブジェクトだからです。
+ \ct{increase} や \ct{decrease} メソッドでは、オブジェクトのそのものが \ct{0}から \ct{1} になったり、 \ct{3}から \ct{2}になっているわけではありません。
+ \ct{count} 変数の中身が代入されて別の整数になっているのです。整数が増えたり減ったりするたびに、 \ct{count} が指すオブジェクトは 別のものに\emph{成り代わって}います。このため、 \ct{WACounter>>>states}では\ct{Array with: self}と書く必要があるのです。 \mbox{\ct{WACounter}} が以前の状態に戻るときには、各インスタンス変数の値がコピーされた\mbox{\ct{WACounter}}から復元されます。これで \ct{count} の値は正しく戻ることになります。
 \index{Seaside!backtracking state}
 \index{WAPresenter!states@\ct{states}}
 
