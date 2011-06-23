@@ -749,7 +749,8 @@ OrderedCollection>>>add: newObject
 %@(You can find it in the \scat{CollectionsTests-Sequenceable} category.)
 \ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリにあるのを見付けることができるでしょう。%@?くどい?
 
-How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
+%@How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
+どうしてこのように動くのでしょうか?\clsmthind{Object}{haltIf:}の実装を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
@@ -764,19 +765,26 @@ Object>>>haltIf: condition
 	...
 \end{code}
 
-Starting from \ct!thisContext!, \ct!haltIf:! goes up through the execution stack, checking if the name of the calling method is the same as the one passed as parameter.
-If this is the case, then it raises an exception which, by default, summons the debugger.
+%@Starting from \ct!thisContext!, \ct!haltIf:! goes up through the execution stack, checking if the name of the calling method is the same as the one passed as parameter.
+\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へとたぐっていきながら、呼び出し側のメソッドの名前が、パラメーターとして与えられたシンボルと一致するかをチェックします。
+%@If this is the case, then it raises an exception which, by default, summons the debugger.
+もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
 
-It is also possible to supply a boolean or a boolean block as an argument to \ct{haltIf:}, but these cases are straightforward and do not make use of \lct{thisContext}.
+%@It is also possible to supply a boolean or a boolean block as an argument to \ct{haltIf:}, but these cases are straightforward and do not make use of \lct{thisContext}.
+booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらのケースについての処理は単純で、\lct{thisContext}は活用されません。
 
 %======================================
-\section{Intercepting messages not understood}
+%@\section{Intercepting messages not understood}
+\section{理解されなかったメッセージをインターセプトする}
 \seclabel{msgnotunderstood}
 
-So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
+%@So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
+これまでのところ、\st のリフレクティブな機能は、おもに、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振舞いを実行時に変えることができるか、詳しく見ていきます。
 
-When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
-If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
+%@When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
+オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、このメッセージに応答するべきメソッドを探します。
+%@If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
+もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたぐっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見付からなかったら、オブジェクトは\emph{自分自身に} \ct{doesNotUnderstand:}を送ります。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージのメッセージセレクターです。
 The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
 
 But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
