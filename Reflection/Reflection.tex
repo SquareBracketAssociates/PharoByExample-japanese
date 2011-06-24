@@ -51,7 +51,7 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st は、リフレクティブな(自分自身を知る)プログラミング言語です。
+\st は、リフレクティブな(自分を客観視することができる)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
 つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
@@ -877,7 +877,7 @@ point class --> LoggingProxy
 %@Curiously, the method \ct{class} is not even implemented in \ct{ProtoObject} but in \ct{Object}, which \ct{LoggingProxy} does not inherit from!
 奇妙なことに、\ct{class}メソッドは、\ct{ProtoObject}で実装されてないばかりか、\ct{Object}で実装されてる\ct{class}メソッドとも違います。\ct{LoggingProxy}は、\ct{Object}を継承していません!
 %@The answer to this riddle is that \ct{class} is never sent as a message but is directly answered by the virtual machine.\footnote{\ct{yourself} is also never truly sent.
-この謎の答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されます。\footnote{\ct{yourself}もまた、本当は、けっして送られません。
+この謎に対する答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されるということです。\footnote{\ct{yourself}もまた、本当は、けっして送られません。
 %@Other messages that may be directly interpreted by the VM, depending on the receiver, include:
 レシーバーが何であるかによって、直接仮想マシンが解釈することもありうるメッセージには以下のものがあります:
 \ct{+- < > <= >= = ~= * / \ ==}
@@ -907,7 +907,7 @@ point invocationCount --> 1
 \end{code}
 
 %@Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
-\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self 送信から生成されます:
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self 送信をごまかされてしまっています: %@?has been cheated out of
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
@@ -916,14 +916,18 @@ Point>>>rect: aPoint
 Although messages can be intercepted by proxies using this technique, one should be aware of the inherent limitations of using a proxy.  In \secref{wrapper} we will see another, more general approach for intercepting messages.
 
 %-----------------------------------------------------------------
-\subsection{Generating missing methods}
+%@\subsection{Generating missing methods}
+\subsection{欠けているメソッドの生成}
 
-The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
-Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
+%@The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
+理解されなかったメッセージをインターセプトすることの、最も一般的な応用例は、欠けているメソッドの動的ロード、欠けているメソッドの動的生成です。
+%@Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
+多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードすることもできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見付かるか、ソースコードが見付かるか、を知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドでロードします。ある時点で、この振る舞いは解除することができ、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存することができます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
-Let us look at a simple variant of this technique where we have a class that automatically adds accessors for its instance variables on-demand:
+%@Let us look at a simple variant of this technique where we have a class that automatically adds accessors for its instance variables on-demand:
+このテクニックの単純な応用例を詳しく見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです: %@?variant?
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -936,9 +940,11 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 			^ aMessage sendTo: self ].
 	^ super doesNotUnderstand: aMessage
 \end{code}
-Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
+%@Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
+理解されなかったメッセージは、どれも、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、クラスに動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
 
-Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
+%@Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
+\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義されたアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
 \needlines{2}
 \begin{code}{}
 myDA := DynamicAccessors new.
