@@ -1119,31 +1119,49 @@ All the other assertion methods that we have seen are not resumable;
 %\section{The implementation of SUnit}
 \section{SUnit の内部実装}
 
+\if0
 The implementation of \sunit makes an interesting case study of a \st framework.
 Let's look at some key aspects of the implementation by following the
 execution of a test.
-%---------------------------------------------------------
-\subsection{Running one test}
+\fi
 
+\sunit の内部実装は、 \st のフレームワークのいい例でもあります。
+テストの実行過程を通して、内部実装の鍵となる面を見てみましょう。
+(訳者注: ここで紹介されている実装と最新版の実装は異なりますが、各メソッドの目的は同じです。)
+
+%---------------------------------------------------------
+%\subsection{Running one test}
+\subsection{テストを一つ実行する}
+
+\if0
 To execute one test, we evaluate the expression
 \ct{(aTestClass selector: aSymbol) run.}
+\fi
 
+テストを一つ実行するには、 \ct{(aTestClass selector: aSymbol) run.} を評価します。
 
 \begin{figure}[tbh]
   \begin{center}
 		{\includegraphics[width=0.7\textwidth]{sunit-scenario}}
-	\caption{Running one test}
+	%\caption{Running one test}
+	\caption{テストを一つ実行する}
 	\figlabel{sunit-scenario}
   \end{center}
 \end{figure}
 
+\if0
 The method \cmind{TestCase}{run} creates an instance of
 \clsind{TestResult} that will accumulate the results of the
 tests, then it sends itself the message \mthind{TestCase}{run:}.
 (See \figref{sunit-scenario}.)
+\fi
+
+\cmind{TestCase}{run} メソッドは、テスト結果を集計する \clsind{TestResult} のインスタンスを生成し、それを引数として自身に \mthind{TestCase}{run:} メッセージを送信します。
+(\figref{sunit-scenario} を参照)
 
 \needlines{6}
-\begin{method}[tastecaserun]{Running a test case}
+%\begin{method}[tastecaserun]{Running a test case}
+\begin{method}[tastecaserun]{テストケースを実行する}
 TestCase>>>run
 	| result |
 	result := TestResult new.
@@ -1155,14 +1173,21 @@ TestCase>>>run
 % be created will be returned by a method so that new
 %\ct{TestResult} can be introduced. }
 
+\if0
 The method
 \cmind{TestCase}{run:} sends the message
 \mthind{TestResult}{runCase:} to the test result:
+\fi
 
-\begin{method}[testcaserun:]{Passing the test case to the test result}
+\cmind{TestCase}{run:} メソッドは \ct{TestResult} に \mthind{TestResult}{runCase:} メッセージを送信します。
+
+%\begin{method}[testcaserun:]{Passing the test case to the test result}
+\begin{method}[testcaserun:]{\ct{TestCase} を \ct{TestResult} に渡す}
 TestCase>>>run: aResult
 	aResult runCase: self
 \end{method}
+
+\if0
 The method \ct{TestResult>>>runCase:} sends
 the message \mthind{TestCase}{runCase} to an individual test, to execute the test.
 \ct{TestResult>>>runCase} deals with 
@@ -1170,7 +1195,14 @@ any exceptions that may be raised during the
 execution of a test, runs a \ct{TestCase} by sending it the
 message \ct{runCase}, and counts the errors, failures
 and passes.
+\fi
+
+\ct{TestResult>>>runCase:} メソッドは、テストを実行するために各 \ct{TestCase} に \mthind{TestCase}{runCase} メッセージを送信します。
+\ct{TestResult>>>runCase} はテストの実行中に発生した例外を捕捉し、エラーとして数えます。
+さらにテストに失敗した回数と成功した回数を数えます。
+
 \begin{method}[testresultruncase]{Catching test case errors and failures}
+%\begin{method}[testresultruncase]{\ct{TestCase} のエラーと失敗をキャッシュする}
 TestResult>>>runCase: aTestCase
 	| testCasePassed |
 	testCasePassed := true.
@@ -1190,24 +1222,39 @@ TestResult>>>runCase: aTestCase
 	testCasePassed ifTrue: [passed add: aTestCase]
 \end{method}
 
+\if0
 The method \ct{TestCase>>>runCase} sends the messages
 \mthind{TestCase}{setUp} and \mthind{TestCase}{tearDown} as shown below.
+\fi
+
+\ct{TestCase>>>runCase} は、自身に \mthind{TestCase}{setUp} メッセージと \mthind{TestCase}{tearDown} を送ります。
+
 \needlines{3}
-\begin{method}[testcaseruncase]{Test case template method}
+%\begin{method}[testcaseruncase]{Test case template method}
+\begin{method}[testcaseruncase]{\ct{TestCase>>runCase} の基本的な実装}
 TestCase>>>runCase
 	[self setUp.
 	self performTest] ensure: [self tearDown]
 \end{method}
 
 %---------------------------------------------------------
-\subsection{Running a \lct{TestSuite}}
+%\subsection{Running a \lct{TestSuite}}
+\subsection{\lct{TestSuite} の実行}
 
+\if0
 To run more than one test, we send the message
 \ct{run} to a \ct{TestSuite} that contains the relevant tests. 
 \ct{TestCase class} provides some functionality to build a test suite from
 its methods.  The expression \ct{MyTestCase buildSuiteFromSelectors} returns a suite containing all the tests defined in the {\ct{MyTestCase} class.
 The core of this process is
-\begin{method}[testcasetestselectors]{Auto-building the test suite}
+\fi
+
+複数のテストを実行するには、 \ct{TestSuite} に \ct{run} メッセージを送信します。
+\ct{TestCase} のクラスメソッドには、 \ct{TestCase} のインスタンスメソッドから \ct{TestSuite} を組み立てるためのメソッドが用意されています。
+\ct{MyTestCase buildSuiteFromSelectors} を評価すると、 \ct{MyTestCase} に定義したすべてのテスト (以下の \ct{TestCase class>>testSelectors} メソッドで取得できます) を含む \ct{TestSuite} を返します。
+
+%\begin{method}[testcasetestselectors]{Auto-building the test suite}
+\begin{method}[testcasetestselectors]{\ct{TestSuite} の組み立て}
 TestCase class>>>testSelectors 
 	^self selectors asSortedCollection asOrderedCollection select: [:each | 
 		('test*' match: each) and: [each numArgs isZero]]
@@ -1219,7 +1266,9 @@ The method \cmind{TestSuite}{run} creates an instance of
 the message \mthind{TestSuite}{run:}, which runs all
 the tests in the suite.  All the resources are then
 released.
-\begin{method}[testsuiterun]{Running a test suite}
+
+%\begin{method}[testsuiterun]{Running a test suite}
+\begin{method}[testsuiterun]{\ct{TestSuite} の実行}
 TestSuite>>>run
 	| result |
  	result := TestResult new.
@@ -1229,12 +1278,14 @@ TestSuite>>>run
 	^result
 \end{method}
 
-\begin{method}[testsuiterun:]{Passing the test result to the test suite}
+%\begin{method}[testsuiterun:]{Passing the test result to the test suite}
+\begin{method}[testsuiterun:]{\ct{TestResult} を \ct{TestSuite} に渡す}
 TestSuite>>>run: aResult
 	self tests do: [:each | 
 		self changed: each.
 		each run: aResult].
 \end{method}
+
 The class \clsind{TestResource} and its subclasses keep track of
 their currently created instances (one per class) that can be accessed
 and created using the class method \mthind{TestResource class}{current}.  This instance is
@@ -1252,16 +1303,21 @@ invoked.
 %\ct{class>>>new} calls the method \ct{initialize}).
 
 \needlines{4}
-\begin{method}[testresourceisavailable]{Test resource availability}
+%\begin{method}[testresourceisavailable]{Test resource availability}
+\begin{method}[testresourceisavailable]{\ct{TestResource} が有効かの確認}
 TestResource class>>>isAvailable
 	^self current notNil and: [self current isAvailable]
 \end{method}
-\begin{method}[testresourcecurrent]{Test resource creation}
+
+%\begin{method}[testresourcecurrent]{Test resource creation}
+\begin{method}[testresourcecurrent]{\ct{TestResource} のインスタンスの生成}
 TestResource class>>>current
 	current isNil ifTrue: [current := self new].
 	^current
 \end{method}
-\begin{method}[restresourceinitialize]{Test resource initialization}
+
+%\begin{method}[restresourceinitialize]{Test resource initialization}
+\begin{method}[restresourceinitialize]{\ct{TestResource} の初期化}
 TestResource>>>initialize
 	super initialize.
 	self setUp
