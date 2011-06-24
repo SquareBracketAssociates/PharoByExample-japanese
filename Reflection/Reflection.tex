@@ -951,20 +951,25 @@ myDA := DynamicAccessors new.
 myDA x --> nil
 \end{code}
 
-Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
+%@Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
+\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう。(\figref{DynamicAccessors}参照).
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
-	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
+%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
+	\caption{アクセサーの動的作成。\figlabel{DynamicAccessors}}
 	% \alex{not sure whether the figure is highly necessary. The code is rather simple and the figure complete to follow in my opinion.}}
 	% \on{trust me, it is useful to see all the steps.}
 \end{figure}
 
-(1) We send \ct{x} to \ct{myDA}, (2) the message is looked up in the class, and (3) not found in the class hierarchy. (4) This causes \ct{self doesNotUnderstand: #x} to be sent back to the object, (5) triggering a new lookup. This time \ct{doesNotUnderstand:} is found immediately in \ct{DynamicAccessors}, (6) which asks its class to compile the string \ct{'x ^ x'}. The \ct{compile} method is looked up (7), and (8) finally found in \ct{Behavior}, which (9-10) adds the new compiled method to the method dictionary of \ct{DynamicAccessors}. Finally, (11-13) the message is resent, and this time it is found.
+%@(1) We send \ct{x} to \ct{myDA}, (2) the message is looked up in the class, and (3) not found in the class hierarchy. (4) This causes \ct{self doesNotUnderstand: #x} to be sent back to the object, (5) triggering a new lookup. This time \ct{doesNotUnderstand:} is found immediately in \ct{DynamicAccessors}, (6) which asks its class to compile the string \ct{'x ^ x'}. The \ct{compile} method is looked up (7), and (8) finally found in \ct{Behavior}, which (9-10) adds the new compiled method to the method dictionary of \ct{DynamicAccessors}. Finally, (11-13) the message is resent, and this time it is found.
+(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見付かりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見付かり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見付かり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最期に、(11-13) メッセージが再送され、今度は、対応するメソッドが見付かります。
 
-The same technique can be used to generate setters for instance variables, or other kinds of boilerplate code, such as visiting methods for a Visitor.
+%@The same technique can be used to generate setters for instance variables, or other kinds of boilerplate code, such as visiting methods for a Visitor.
+同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使うことができます。v
 
-Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to send messages that are composed at run-time:
+%@Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to send messages that are composed at run-time:
+ステップ(13)での、\clsmthind{Object}{perform:}使い方に注意してください。\ct{perform:}メソッドを使えば、実行時に生成されたシンボルを使って、メッセージを送ることができます:
 \begin{code}{@TEST}
 5 perform: #factorial                                             --> 120
 6 perform: ('fac', 'torial') asSymbol                       --> 720
@@ -972,11 +977,14 @@ Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to s
 \end{code}
 
 %======================================
-\section{Objects as method wrappers}
+%@\section{Objects as method wrappers}
+\section{メソッドラッパーとしてのオブジェクト}
 \seclabel{wrapper}
 
-We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
-What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
+%@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
+すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そして\ct{コンパイル済みメソッドオブジェクト}にも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
+%@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
+もしかすると少し意外なことに、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割の役割を担うことができます。All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
 
 \dothis{Define an empty class \ct{Demo}. Evaluate \ct{Demo new answer42} and notice how the usual ``Message Not Understood'' error is raised.}
 
