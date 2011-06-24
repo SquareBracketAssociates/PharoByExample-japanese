@@ -491,12 +491,15 @@ WebServer class>>>uniqueInstance
 \ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値を持ちます。
 
 %=========================================================
-\section{Every class has a superclass}
+% \section{Every class has a superclass}
+\section{全てのクラスはスーパークラスを持っている}
 
 %\ruleref{inheritance}
 
-Each class in \st inherits its behaviour and the description of its structure from a single \emphind{superclass}.
-This means that \st has single \ind{inheritance}.
+% Each class in \st inherits its behaviour and the description of its structure from a single \emphind{superclass}.
+\stでは、それぞれのクラスは単一の\emphind{スーパークラス}から振舞いと構造の記述を継承します。
+% This means that \st has single \ind{inheritance}.
+つまり\stは単一\ind{継承}を持っています。
 
 \needlines{2}
 \begin{code}{@TEST}
@@ -508,16 +511,25 @@ Object superclass           --> ProtoObject
 ProtoObject superclass  --> nil
 \end{code}
 
-Traditionally the root of the \st inheritance hierarchy is the class \clsind{Object} (since everything is an object).
-In \pharo, the root is actually a class called \clsind{ProtoObject}, but you will normally not pay any attention to this class.
-\ct{ProtoObject} encapsulates the minimal set of messages that all objects \emph{must} have.  However, most classes inherit from \ct{Object}, which defines many additional messages that almost all objects ought to understand and respond to.
-Unless you have a very good reason to do otherwise, when creating application classes you should normally subclass \ct{Object}, or one of its subclasses.
+% Traditionally the root of the \st inheritance hierarchy is the class \clsind{Object} (since everything is an object).
+伝統的には、\stの継承階層のルートは\clsind{Object}クラスです。(なぜなら、全てのものはオブジェクトだからです。)
+% In \pharo, the root is actually a class called \clsind{ProtoObject}, but you will normally not pay any attention to this class.
+\pharoでは、実際にはルートは\clsind{ProtoObject}と呼ばれるクラスです。しかし、通常はこのクラスに注意する必要はありません。
+% \ct{ProtoObject} encapsulates the minimal set of messages that all objects \emph{must} have.  However, most classes inherit from \ct{Object}, which defines many additional messages that almost all objects ought to understand and respond to.
+\ct{ProtoObject}は全てのオブジェクトが持って\emph{いなければならない}最低限のメッセージをカプセル化しています。
+しかしながら、ほとんどのクラスは\ct{Object}から継承していて、\ct{Object}はほとんど全てのオブジェクトが理解し対応するべき沢山のメッセージを追加して定義しています。
+% Unless you have a very good reason to do otherwise, when creating application classes you should normally subclass \ct{Object}, or one of its subclasses.
+特別な理由がないかぎり、アプリケーションクラスを生成する時には、通常\ct{Object}やそのサブクラスのどれかのサブクラスとするべきです。
 
-\dothis{A new class is normally created by sending the message
+% \dothis{A new class is normally created by sending the message
+\dothis{新しいクラスを生成するには、既存のクラスに
 \ct{subclass: instanceVariableNames: ...}
-to an existing class.
-There are a few other methods to create classes.
-Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation} to see what they are.}
+% to an existing class.
+というメッセージを送ります。
+% There are a few other methods to create classes.
+他にもいくつかクラスを生成するメソッドがあります。
+% Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation} to see what they are.}
+\prot{Kernel-Classes \go Class \go subclass creation}プロトコルを見て、どのようなメソッドがあるか見てみてください。
 \scatindex{Kernel-Classes}
 \protindex{creation}
 
@@ -525,27 +537,41 @@ Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation
 %An abstract class is an ordinary class in which the implementation of some methods is deferred to a subclass.
 %This is repeated in the next section
 
-Although \pharo does not provide multiple inheritance, it supports a mechanism called \emphind{trait}{}s for sharing behaviour across unrelated classes.
-Traits are collections of methods that can be reused by multiple classes that are not related by inheritance. Using traits allows one to share code between different classes without duplicating code.
+% Although \pharo does not provide multiple inheritance, it supports a mechanism called \emphind{trait}{}s for sharing behaviour across unrelated classes.
+\pharoには多重継承はありませんが、互いに関係のないクラスで同じ振る舞いを共有する\emphind{trait}{}と呼ばれるメカニズムをサポートしています。
+% Traits are collections of methods that can be reused by multiple classes that are not related by inheritance. Using traits allows one to share code between different classes without duplicating code.
+トレイツはメソッドの集合で、継承関係にない複数のクラスの間で再利用されます。
+トレイツを使うと、同じをコードを繰り返し定義することなく、別々のクラスの間で共有させることができます。
 
 %---------------------------------------------------------
-\subsection{Abstract methods and abstract classes}
+% \subsection{Abstract methods and abstract classes}
+\subsection{抽象メソッドと抽象クラス}
 
-An \subind{class}{abstract} class is a class that exists to be subclassed, rather than to be instantiated.
-An abstract class is usually incomplete, in the sense that it does not define all of the methods that it uses.
-The ``missing'' methods\,---\,those that the other methods assume, but which are not themselves defined\,---\,are called \subind{method}{abstract} methods.
-\seeindex{abstract class}{class, abstract}
-\seeindex{abstract method}{method, abstract}
+% An \subind{class}{abstract} class is a class that exists to be subclassed, rather than to be instantiated.
+\subind{クラス}{抽象}クラスは、インスタンスを生成するのではなく、サブクラスを生成するために存在するクラスです。
+% An abstract class is usually incomplete, in the sense that it does not define all of the methods that it uses.
+抽象クラスは通常は不完全で、必要なメソッドの全てが実装されてはいません。
+% The ``missing'' methods\,---\,those that the other methods assume, but which are not themselves defined\,---\,are called \subind{method}{abstract} methods.
+``ない''メソッド---他のメソッドがそのメソッドがあることを想定しているのに定義されていないメソッド---を\subind{メソッド}{抽象}メソッドと呼びます。
+\seeindex{抽象クラス}{クラス, 抽象}
+\seeindex{抽象メソッド}{メソッド, 抽象}
 
-\st has no dedicated syntax to specify that a method or a class is abstract. 
-By convention, the body of an abstract method consists of the expression \mbox{\ct{self subclassResponsibility}.} 
-This is known as a ``marker method'', and indicates that subclasses have the responsibility to define a concrete version of the method. 
-\ct{self subclassResponsibility} methods should always be overridden, and thus should never be executed.
-If you forget to override one, and it is executed, an exception will be raised. 
+% \st has no dedicated syntax to specify that a method or a class is abstract. 
+\stには、抽象メソッドや抽象クラスであることを指定する特別な構文はありません。
+% By convention, the body of an abstract method consists of the expression \mbox{\ct{self subclassResponsibility}.} 
+コード規約として、抽象メソッドの本文は\mbox{\ct{self subclassResponsibility}}と書きます。
+% This is known as a ``marker method'', and indicates that subclasses have the responsibility to define a concrete version of the method. 
+これはいわゆる``マーカーメソッド''といって、サブクラスにそのメソッドの具体的な定義を定義する責任があることを示しています。
+% \ct{self subclassResponsibility} methods should always be overridden, and thus should never be executed.
+\ct{self subclassResponsibility}メソッドは必ずオーバーライドされなければならず、したがって、絶対に実行してはならないというものです。
+% If you forget to override one, and it is executed, an exception will be raised. 
+もしオーバーライドし忘れたら、そのメソッドが実行され、例外が発生してしまいます。
 \cmindex{Object}{subclassResponsibility}
 
-A class is considered abstract if one of its methods is abstract.
-Nothing actually prevents you from creating an instance of an abstract class; everything will work until an abstract method is invoked. 
+% A class is considered abstract if one of its methods is abstract.
+抽象メソッドを持つクラスが抽象クラスです。
+% Nothing actually prevents you from creating an instance of an abstract class; everything will work until an abstract method is invoked. 
+実際には抽象クラスのインスタンスを生成しないようにする仕組みはありません。抽象メソッドが実行されるまでは、普通に動作します。
 
 \subsubsection{Example: the class \ct{Magnitude}.}
 \clsind{Magnitude} is an abstract class that helps us to  define objects that can be compared to each other. Subclasses of \ct{Magnitude} should implement the methods \ct{<}, \ct{=} and \ct{hash}. Using such messages \ct{Magnitude} defines other methods such as \ct{>}, \ct{>=}, \ct{<=}, \ct{max:}, \ct{min:} \ct{between:and:} and others for comparing objects. Such methods are inherited by subclasses. The method \mthind{Magnitude}{<} is abstract and defined as shown in \mthref{MagnitudeLessThan}.
