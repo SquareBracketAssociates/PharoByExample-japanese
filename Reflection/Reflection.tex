@@ -869,19 +869,24 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-This works nicely in most cases, but there are some shortcomings:
+%@This works nicely in most cases, but there are some shortcomings:
+これは、多くの場合、うまく働きますが、いくつか欠点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
-Curiously, the method \ct{class} is not even implemented in \ct{ProtoObject} but in \ct{Object}, which \ct{LoggingProxy} does not inherit from!
-The answer to this riddle is that \ct{class} is never sent as a message but is directly answered by the virtual machine.\footnote{\ct{yourself} is also never truly sent.
-Other messages that may be directly interpreted by the VM, depending on the receiver, include:
+%@Curiously, the method \ct{class} is not even implemented in \ct{ProtoObject} but in \ct{Object}, which \ct{LoggingProxy} does not inherit from!
+奇妙なことに、\ct{class}メソッドは、\ct{ProtoObject}で実装されてないばかりか、\ct{Object}で実装されてる\ct{class}メソッドとも違います。\ct{LoggingProxy}は、\ct{Object}を継承していません!
+%@The answer to this riddle is that \ct{class} is never sent as a message but is directly answered by the virtual machine.\footnote{\ct{yourself} is also never truly sent.
+この謎の答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されます。\footnote{\ct{yourself}もまた、本当は、けっして送られません。
+%@Other messages that may be directly interpreted by the VM, depending on the receiver, include:
+レシーバーが何であるかによって、直接仮想マシンが解釈することもありうるメッセージには以下のものがあります:
 \ct{+- < > <= >= = ~= * / \ ==}
 \ct{@ bitShift: // bitAnd: bitOr:}
 \ct{at: at:put: size}
 \ct{next nextPut: atEnd}
 \ct{blockCopy: value value: do: new new: x y}.
-Selectors that are never sent, because they are inlined by the compiler and transformed to comparison and jump bytecodes:
+%@Selectors that are never sent, because they are inlined by the compiler and transformed to comparison and jump bytecodes:
+以下のセレクターは、けっして送られません。なぜなら、これらはコンパイラーによって、比較とジャンプのバイトコードにインライン展開されるからです:
 \ct{ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:}
 \ct{and: or:}
 \ct{whileFalse: whileTrue: whileFalse whileTrue}
@@ -891,7 +896,8 @@ Selectors that are never sent, because they are inlined by the compiler and tran
 Attempts to send these messages to non-boolean objects can be intercepted and execution can be resumed with a valid boolean value by overriding \ct{mustBeBoolean} in the receiver or by catching the \ct{NonBooleanReceiver} exception.
 }% NB: Notes by Lukas Renggli
 
-Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
+%@Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
+このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self 送信は、インターセプトできません:
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -900,7 +906,8 @@ point rect: (3@4)        --> 1@2 corner: 3@4
 point invocationCount --> 1
 \end{code}
 
-Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
+%@Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self 送信から生成されます:
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
