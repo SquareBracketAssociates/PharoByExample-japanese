@@ -1129,21 +1129,30 @@ mark
 メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前後に実行させることができます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
-\section{Pragmas}
+%@\section{Pragmas}
+\section{プラグマ}
 
-A \emphind{pragma} is an annotation that specifies data about a program, but is not involved in the execution of the program. Pragmas have no direct effect on the operation of the method they annotate.
-Pragmas have a number of uses, among them:
+%@A \emphind{pragma} is an annotation that specifies data about a program, but is not involved in the execution of the program. Pragmas have no direct effect on the operation of the method they annotate.
+\emphind{プラグマ}は、プログラムについてのデータを明記する注釈ですが、プログラムの実行には関わらりません。プラグマはそれらがアノテート(注釈)するメソッドの操作に直接の影響を及ぼしません。
+%@Pragmas have a number of uses, among them:
+プラグマにはいくつもの利用法があります、それらはたとえば以下のようなものです:
 \begin{itemize}
-\item Information for the compiler: \indmain{pragmas} can be used by the compiler to make a method call a primitive function. This function has to be defined by the virtual machine or by an external plug-in.
-\item Runtime processing: Some pragmas are available to be examined at runtime.
+%@\item Information for the compiler: \indmain{pragmas} can be used by the compiler to make a method call a primitive function. This function has to be defined by the virtual machine or by an external plug-in.
+\item コンパイラーへの情報: \indmain{プラグマ}は、コンパイラがメソッド呼び出しをプリミティブ関数にするのに用いられます。この関数は、バーチャルマシンか外部プラグインによって定義されなければなりません。
+%@\item Runtime processing: Some pragmas are available to be examined at runtime.
+\item 実行時処理: いくつかのプラグマは、実行時の検査に使うことができます。%@?プログラムの実行には関わらないのではなかったか?
 \end{itemize}
 
-Pragmas can be applied to a program's method declarations only. A method may declare one or more pragmas, and the pragmas have to be declared prior any Smalltalk statement. Each pragma is in effect a static message send with literal arguments.
+%@Pragmas can be applied to a program's method declarations only. A method may declare one or more pragmas, and the pragmas have to be declared prior any Smalltalk statement. Each pragma is in effect a static message send with literal arguments.
+プラグマはプログラムのメソッド宣言にのみ、適用することができます。メソッドは、1個かそれ以上のプラグマを宣言することができ、プラグマはどのSmalltalkの文よりも先に宣言されなければなりません。各プラグマは基本的にはリテラル引数をともなった静的メッセージ送信です。
 
-We briefly saw pragmas when we introduced primitives earlier in this chapter. A primitive is nothing more than a pragma declaration. 
-Consider \ct{<primitive: 73>} as contained in \ct{instVarAt:}. The pragma's selector is \ct{primitive:} and its arguments is an immediate literal value, \ct{73}. 
+%@We briefly saw pragmas when we introduced primitives earlier in this chapter. A primitive is nothing more than a pragma declaration. 
+我々は、この章の最初の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブはプラグマ宣言以上の何物でもありません。 
+%@Consider \ct{<primitive: 73>} as contained in \ct{instVarAt:}. The pragma's selector is \ct{primitive:} and its arguments is an immediate literal value, \ct{73}. 
+\ct{instVarAt:}内の\ct{<primitive: 73>}を考慮してください。このプラグマのセレクターは\ct{primitive:}であり、その引数はリテラル値、\ct{73}です。
 
-The compiler is probably the bigger user of pragmas. SUnit is another tool that makes use of annotations. SUnit is able to estimate the coverage of an application from a test unit. One may want to exclude some methods from the coverage. This is the case of the \ct!documentation! method in \ct!SplitJointTest class!:
+%@The compiler is probably the bigger user of pragmas. SUnit is another tool that makes use of annotations. SUnit is able to estimate the coverage of an application from a test unit. One may want to exclude some methods from the coverage. This is the case of the \ct!documentation! method in \ct!SplitJointTest class!:
+コンパイラーはおそらく、プラグマの大口ユーザです。SUnitはまたひとつの、アノテーションを活用するツールです。SUnitはテストユニットからアプリケーションのカバレッジを見積ることができます。いくつかのメソッドをカバレッジから除外したいと思う人がいるかもしれません。これは、\ct!SplitJointTest class!の\ct!documentation!メソッドのケースです:
 
 \begin{code}{}
 SplitJointTest class>>>documentation
@@ -1153,7 +1162,8 @@ SplitJointTest class>>>documentation
 	^ 'This package provides function.... "
 \end{code}
 
-By simply annotating a method with the pragma \ct!<ignoreForCoverage>! one can control the scope of the coverage.
+%@By simply annotating a method with the pragma \ct!<ignoreForCoverage>! one can control the scope of the coverage.
+単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジの範囲をコントロールすることができます。
 
 %Beside the compiler, Lint is a heavy user of pragmas. Lint is a static code analyzer that flags suspicious, non-portable constructs and code that is likely to contain bugs. It may happen that a method needs to be excluded from Lint analysis. This is the case here:
 
