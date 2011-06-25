@@ -44,7 +44,7 @@
 
 %=================================================================
 %@\chapter{Reflection}\chalabel{reflection}
-\chapter{リフレクション}\chalabel{reflection}
+し\chapter{リフレクション}\chalabel{reflection}
 
 %\alex{I addressed lukas comments using editorial macros. Please, if you read this, remove this comment and remove the editorial macros, else their purpose is diminished}
 
@@ -318,7 +318,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
 %@One of the most interesting metrics in the domain of object-oriented languages is the number of methods that extend methods inherited from the superclass.
-オブジェクト指向言語のドメインにおいて、もっとも興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
+オブジェクト指向言語のドメインにおいて、最も興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
 %@This informs us about the relation between the class and its superclasses.
 このことにより、クラスとそのスーパークラスの関係を知ることができます。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
@@ -679,7 +679,7 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
 %@As it turns out, one of the most common applications is to discover the sender of a message.
-結局のところ、\ct{thisContext}のもっとも一般的な応用のひとつは、メッセージのセンダーを見出すことです。
+結局のところ、\ct{thisContext}の最も一般的な応用のひとつは、メッセージのセンダーを見出すことです。
 %@Here is a typical application:
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
@@ -1014,26 +1014,36 @@ run: oldSelector with: arguments in: aReceiver
 この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まりますが、しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
 %@The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
 VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送り、このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
-Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
+%@Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
+\ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身メッセージをに移譲します。
 
-We can now remove the fake method as follows:
+%@We can now remove the fake method as follows:
+ここで、この偽のメソッドは、以下のようにして、削除することができます:
 \begin{code}{}
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
+%@If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
+\ct{ObjectsAsMethodsExample}を良く見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクト、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのか) %@?自信なし。
 
 %-------------------------------------------------------------------------
-\subsection{Using method wrappers to perform test coverage}
+%@\subsection{Using method wrappers to perform test coverage}
+\subsection{メソッドラッパーを、テストカバレッジの測定に使う}
 
-Method wrappers are a well-known technique for intercepting messages \cite{Bran98a}.
-In the original implementation\footnote{http://www.squeaksource.com/MethodWrappers.html}, a method wrapper is an instance of a subclass of \ct{CompiledMethod}. When installed, a method wrapper can perform special actions before or after invoking the original method.
-When uninstalled, the original method is returned to its rightful position in the method dictionary.
+%@Method wrappers are a well-known technique for intercepting messages \cite{Bran98a}.
+メソッドラッパーは、メッセージをインターセプトするための、良く知られたテクニックです\cite{Bran98a}。
+%@In the original implementation\footnote{http://www.squeaksource.com/MethodWrappers.html}, a method wrapper is an instance of a subclass of \ct{CompiledMethod}. When installed, a method wrapper can perform special actions before or after invoking the original method.
+オリジナルの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーとして、\ct{CompiledMethod}のサブクラスのインスタンスを使います。インストールされるとメソッドラッパーは、オリジナルのメソッドを呼び出す前かあとに、特別なアクションを実行することができます。
+%@When uninstalled, the original method is returned to its rightful position in the method dictionary.
+アンインストールされると、オリジナルのメソッドは、メソッド辞書内の、本来あるべき位置に戻されます。
 
-In Pharo, \ind{method wrappers} can be implemented more easily by implementing \ct{run:with:in:} instead of by subclassing \ct{CompiledMethod}. In fact, there exists a lightweight implementation of objects as method wrappers\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}, but it is not part of standard Pharo at the time of this writing.
+%@In Pharo, \ind{method wrappers} can be implemented more easily by implementing \ct{run:with:in:} instead of by subclassing \ct{CompiledMethod}. In fact, there exists a lightweight implementation of objects as method wrappers\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}, but it is not part of standard Pharo at the time of this writing.
+Pharoでは、\ind{メソッドラッパー}は、\ct{CompiledMethod}をサブクラスするかわりに、\ct{run:with:in:}を実装すればよく、より簡単に実装することができます。実際、オブジェクトによる軽量のメソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
 
-Nevertheless, the Pharo Test Runner uses precisely this technique to evaluate test coverage.
-Let's have a quick look at how it works.
+%@Nevertheless, the Pharo Test Runner uses precisely this technique to evaluate test coverage.
+にもかかわらず、Pharoのテストランナーは、カバレッジを評価するのに、まさにこのテクニックを使っています。
+%@Let's have a quick look at how it works.
+テストランナーがどのように動作するか、ザッと見てみましょう。
 
 The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
 \begin{code}{}
