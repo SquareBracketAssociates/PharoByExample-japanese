@@ -44,7 +44,7 @@
 
 %=================================================================
 %@\chapter{Reflection}\chalabel{reflection}
-し\chapter{リフレクション}\chalabel{reflection}
+\chapter{リフレクション}\chalabel{reflection}
 
 %\alex{I addressed lukas comments using editorial macros. Please, if you read this, remove this comment and remove the editorial macros, else their purpose is diminished}
 
@@ -803,7 +803,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 %@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
 最初の例として、``\ind{最低限のオブジェクト}''を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
 %@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
-このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@?自信無し
+このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@? ???
 
 %@Let us have a look at how this may be implemented\footnote{You can also load \pkg{PBE-Reflection} from \url{http://www.squeaksource.com/PharoByExample/}}.
 これが、どのように実装することができるか、見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードすることもできます}。
@@ -825,7 +825,7 @@ Object methodDict size --> 408
 \end{code}
 
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@?自信無し
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@? ???
 %@We initialize the two instance variables and we provide an accessor for the message count.
 これらふたつのインスタンス変数を初期化し、インターセプトされたメッセージの数(\ct!invocationCount!)を返すアクセサを提供します。
 %@Initially the \ct{subject} variable points to the proxy object itself.
@@ -851,7 +851,7 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 \end{code}
 
 %@Here comes a bit of magic.
-ほら、ちょっとした魔法がやって来ます。%@?Here comes英辞郎
+ほら、ちょっとした魔法がやって来ます。%@?Here comes: 英辞郎
 %@We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
 \ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、\ct{Point}オブジェクトに\mthind{ProtoObject}{become:} と告げます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
@@ -1024,7 +1024,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
 %@If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
-\ct{ObjectsAsMethodsExample}を良く見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクト、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのか) %@?自信なし。
+\ct{ObjectsAsMethodsExample}を良く見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクト、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのか) %@? ???
 
 %-------------------------------------------------------------------------
 %@\subsection{Using method wrappers to perform test coverage}
@@ -1045,15 +1045,18 @@ Pharoでは、\ind{メソッドラッパー}は、\ct{CompiledMethod}をサブ�
 %@Let's have a quick look at how it works.
 テストランナーがどのように動作するか、ザッと見てみましょう。
 
-The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
+%@The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
+テストカバレッジのエントリーポイントは、\clsmthind{TestRunner}{runCoverage}です:
 \begin{code}{}
 TestRunner>>>runCoverage
 	| packages methods |
-	... "identify methods to check for coverage"
+%@	... "identify methods to check for coverage"
+	... "カバレッジを測定するメソッドを識別する" %@? ???
 	self collectCoverageFor: methods
 \end{code}
 
-The method \clsmthind{TestRunner}{collectCoverageFor:} clearly illustrates the coverage checking algorithm:
+%@The method \clsmthind{TestRunner}{collectCoverageFor:} clearly illustrates the coverage checking algorithm:
+この\clsmthind{TestRunner}{collectCoverageFor:}メソッドは、カバレッジチェックのアルゴリズムを、明瞭に説明しています:
 \begin{code}{}
 TestRunner>>>collectCoverageFor: methods
 	| wrappers suite |
@@ -1069,13 +1072,19 @@ TestRunner>>>collectCoverageFor: methods
 			[ UIManager default inform: 'Congratulations. Your tests cover all code under analysis.' ]
 		ifFalse: ...
 \end{code}
-A wrapper is created for each method to be checked, and each wrapper is installed.
-The tests are run, and all wrappers are uninstalled.
-Finally the user obtains feedback concerning the methods that have not been covered.
+%@A wrapper is created for each method to be checked, and each wrapper is installed.
+チェックする各メソッドについて1個ずつラッパーが作られ、そして、各ラッパーがインストールされます。
+%@The tests are run, and all wrappers are uninstalled.
+テストが実行され、すべてのラッパーはアンインストールされます。
+%@Finally the user obtains feedback concerning the methods that have not been covered.
+最後に、カバーされなかったメソッドについてのフィードバックが、得られます。
 
-How does the wrapper itself work?
-The \ct{TestCoverage} wrapper has three instance variables, \ct{hasRun}, \ct{reference} and \ct{method}.
-They are initialized as follows:
+%@How does the wrapper itself work?
+ラッパーそれ自身は、どのように動くのでしょうか?
+%@The \ct{TestCoverage} wrapper has three instance variables, \ct{hasRun}, \ct{reference} and \ct{method}.
+次の\ct{TestCoverage}ラッパーには、3個のインスタンス変数: \ct{hasRun}、\ct{reference}、\ct{method}があります。
+%@They are initialized as follows:
+これらは以下のように初期化されます。
 \begin{code}{}
 TestCoverage class>>>on: aMethodReference
 	^ self new initializeOn: aMethodReference
@@ -1086,7 +1095,8 @@ TestCoverage>>>initializeOn: aMethodReference
 	method := reference compiledMethod
 \end{code}
 
-The install and uninstall methods simply update the method dictionary in the obvious way:
+%@The install and uninstall methods simply update the method dictionary in the obvious way:
+installメソッドと、uninstallメソッドは、自明な方法で、メソッド辞書を更新します:
 \begin{code}{}
 TestCoverage>>>install
 	reference actualClass methodDictionary
@@ -1099,7 +1109,8 @@ TestCoverage>>>uninstall
 		put: method
 \end{code}
 \noindent
-and the \ct{run:with:in:} method simply updates the \ct{hasRun} variable, uninstalls the wrapper (since coverage has been verified), and resends the message to the original method
+%@and the \ct{run:with:in:} method simply updates the \ct{hasRun} variable, uninstalls the wrapper (since coverage has been verified), and resends the message to the original method
+そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパー(それ自身)をアンインストールし(カバレッジが検証されたから)、オリジナルのメソッドにメッセージを再送します。%@?resends the message to the original method?
 \begin{code}{}
 run: aSelector with: anArray in: aReceiver
 	self mark; uninstall.
@@ -1108,11 +1119,14 @@ run: aSelector with: anArray in: aReceiver
 mark
 	hasRun := true
 \end{code}
-(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
+%@(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
+テ(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
 
-That's all there is to it!
+%@That's all there is to it!
+ただそれだけのことです。
 
-Method wrappers can be used to perform any kind of suitable behaviour before or after the normal operation of a method.  Typical applications are instrumentation (collecting statistics about the calling patterns of methods), checking optional pre- and post-conditions, and memoization (optionally cacheing computed values of methods).
+%@Method wrappers can be used to perform any kind of suitable behaviour before or after the normal operation of a method.  Typical applications are instrumentation (collecting statistics about the calling patterns of methods), checking optional pre- and post-conditions, and memoization (optionally cacheing computed values of methods).
+メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前後に実行させることができます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
 \section{Pragmas}
