@@ -312,25 +312,26 @@ Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過�
 \index{Seaside!backtracking state}
 \index{WAPresenter!states@\ct{states}}
 
-\section{Rendering XHTML}
+\section{XHTMLのレンダリング}
 
-The purpose of a web application is to create, or ``render'', web pages.  As we mentioned in \secref{components}, each Seaside component is responsible for rendering itself.  
-So, lets start our exploration of rendering by seeing how the counter component renders itself.
+Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{コンポーネント}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
+レンダリングの仕組みを知るため、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
 
-\subsection{Rendering the Counter}
+\subsection{カウンターのレンダリング}
 
-The rendering of the counter is relatively straightforward; the code is shown in \figref{WACounter}.
-The current value of the counter is displayed as an XHTML heading, and the increment and decrement operations are implemented as html anchors (that is, links) with callbacks to blocks that will send \ct{increase} and \ct{decrease} to the counter object.
+カウンターのレンダリングは比較的単純です。 \figref{WACounter}のコードを見てください。
+カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装されていて、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
 
-We will have a closer look at the rendering protocol in a moment.
-But before we do, let's have a quick look at the \subind{Seaside}{multi-counter}.
+レンダリングで送るメッセージ群についてはすぐ後で詳しく解説しますが、その前に\subind{Seaside}{マルチカウンター}のほうもどうなっているか見てみましょう。
 
-\subsection{From Counter to MultiCounter}
+\subsection{CounterからMultiCounterへ}
 
-\ct{WAMultiCounter}, shown in \figref{WAMultiCounter} is also a standalone application, so it overrides \mthind{WAComponent class}{canBeRoot} to answer \ct{true}.
-In addition, it is a \emph{composite} component, so Seaside requires it to declare its children by implementing a method \ct{children} that answers an array of all the components it contains.
-It renders itself by rendering each of its subcomponents, separated by a horizontal rule.
-Aside from instance and class-side initialization methods, there is nothing else to the multi-counter!
+まず \figref{WAMultiCounter} で示すように\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
+
+マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返すようにしています。
+
+レンダリングでは、サブコンポーネントの表示を、水平線で区切りながら行うように書いています。
+そのほか初期化を行うためのインスタンスメソッド、クラスメソッドがありますが、基本的にはこれだけで良いのです!
 
 \begin{figure}[bht]
 \begin{center}
