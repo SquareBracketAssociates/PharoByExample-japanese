@@ -1261,11 +1261,17 @@ TestCase class>>>testSelectors
 \end{method}
 \cmindex{MyTestCase class}{buildSuiteFromSelectors}
 
+\if0
 The method \cmind{TestSuite}{run} creates an instance of
 \ct{TestResult}, verifies that all the resources are available, and then sends itself
 the message \mthind{TestSuite}{run:}, which runs all
 the tests in the suite.  All the resources are then
 released.
+\fi
+
+\cmind{TestSuite}{run} は \ct{TestResult} のインスタンスを生成し、すべてのリソースが問題なく使えるかどうかを検証します。
+続けて自身に \cmind{TestSuite}{run:} を送り、自身の管理するすべてのテストを実行します。
+リソースはテストの実行後に解放されます。
 
 %\begin{method}[testsuiterun]{Running a test suite}
 \begin{method}[testsuiterun]{\ct{TestSuite} の実行}
@@ -1286,16 +1292,27 @@ TestSuite>>>run: aResult
 		each run: aResult].
 \end{method}
 
+\if0
 The class \clsind{TestResource} and its subclasses keep track of
 their currently created instances (one per class) that can be accessed
 and created using the class method \mthind{TestResource class}{current}.  This instance is
 cleared when the tests have finished running and the resources are
 reset.
+\fi
 
+\clsind{TestResource} クラスとそのサブクラスは、生成したインスタンス (クラスに一つずつ) を保持しており、 \mthind{TestResource class}{current} で取得できます。
+このインスタンスはテストの終了後に消され、リソースはリセットされます。
+
+\if0
 The resource availability check makes it possible for the resource to be 
 re-created if needed, as shown in the class method \cmind{TestResource class}{isAvailable}.  During the \ct{TestResource}
 instance creation, it is initialized and the method \mthind{TestResource}{setUp} is
 invoked.
+\fi
+
+リソースが使えるかどうかを知るには \cmind{TestResource class}{isAvailable} クラスメソッドを使います。
+リソースが有効であれば、必要に応じてリソースを再構築、つまり \ct{TestResource} のインスタンスを再生成できます。
+インスタンスを生成するたびに \mthind{TestResource}{setUp} メソッドが実行されます。
 
 %(Note it may happen that your version of \sunit 3.0 does
 %not correctly initialize the resource.  A version with this bug
