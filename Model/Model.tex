@@ -385,7 +385,7 @@ Dog class>>>count
 \end{method}
 
 % Now when we create a new \ct{Dog} its count is incremented, and so is that of every \ct{Hyena}, but they are counted separately:
-これで、新しい\ct{Dog}(犬)が生成されるたびに、頭数に1が足されていきます。\ct{Hyena}(ハイエナ}も同様ですが、別々に数えられていきます：
+これで、新しい\ct{Dog}(犬)が生成されるたびに、頭数に1が足されていきます。\ct{Hyena}(ハイエナ)も同様ですが、別々に数えられていきます：
 \begin{code}{}
 Dog initialize.
 Hyena initialize.
@@ -451,7 +451,7 @@ WebServer class
 \end{classdef}
 
 % The consequence of this is that the class \ct{WebServer} now has another instance variable,
-この結果、\{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
+この結果、\ct{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
 % in addition to the variables that it inherits, such as \ct{superclass} and \ct{methodDict}.
 それまでは、\ct{superclass}や\ct{methodDict}といった変数を継承していました。
 
@@ -467,7 +467,7 @@ WebServer class
 \ct{uniqueInstance}はクラスインスタンス変数なので、このメソッドは直接アクセスすることができます。
     
 % \begin{method}[uniqueInstance]{uniqueInstance (on the class side)}
-\\begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
+\begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
 WebServer class>>>uniqueInstance
      uniqueInstance ifNil: [uniqueInstance := self new].
      ^ uniqueInstance
@@ -529,7 +529,7 @@ ProtoObject superclass  --> nil
 % There are a few other methods to create classes.
 他にもいくつかクラスを生成するメソッドがあります。
 % Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation} to see what they are.}
-\prot{Kernel-Classes \go Class \go subclass creation}プロトコルを見て、どのようなメソッドがあるか見てみてください。
+\prot{Kernel-Classes \go Class \go subclass creation}プロトコルを見て、どのようなメソッドがあるか見てみてください。}
 \scatindex{Kernel-Classes}
 \protindex{creation}
 
@@ -540,8 +540,8 @@ ProtoObject superclass  --> nil
 % Although \pharo does not provide multiple inheritance, it supports a mechanism called \emphind{trait}{}s for sharing behaviour across unrelated classes.
 \pharoには多重継承はありませんが、互いに関係のないクラスで同じ振る舞いを共有する\emphind{trait}{}と呼ばれるメカニズムをサポートしています。
 % Traits are collections of methods that can be reused by multiple classes that are not related by inheritance. Using traits allows one to share code between different classes without duplicating code.
-トレイツはメソッドの集合で、継承関係にない複数のクラスの間で再利用されます。
-トレイツを使うと、同じをコードを繰り返し定義することなく、別々のクラスの間で共有させることができます。
+トレイトはメソッドの集合で、継承関係にない複数のクラスの間で再利用されます。
+トレイトを使うと、同じをコードを繰り返し定義することなく、別々のクラスの間で共有させることができます。
 
 %---------------------------------------------------------
 % \subsection{Abstract methods and abstract classes}
@@ -573,8 +573,13 @@ ProtoObject superclass  --> nil
 % Nothing actually prevents you from creating an instance of an abstract class; everything will work until an abstract method is invoked. 
 実際には抽象クラスのインスタンスを生成しないようにする仕組みはありません。抽象メソッドが実行されるまでは、普通に動作します。
 
-\subsubsection{Example: the class \ct{Magnitude}.}
-\clsind{Magnitude} is an abstract class that helps us to  define objects that can be compared to each other. Subclasses of \ct{Magnitude} should implement the methods \ct{<}, \ct{=} and \ct{hash}. Using such messages \ct{Magnitude} defines other methods such as \ct{>}, \ct{>=}, \ct{<=}, \ct{max:}, \ct{min:} \ct{between:and:} and others for comparing objects. Such methods are inherited by subclasses. The method \mthind{Magnitude}{<} is abstract and defined as shown in \mthref{MagnitudeLessThan}.
+% \subsubsection{Example: the class \ct{Magnitude}.}
+\subsubsection{例題: \ct{Magnitude}クラス}
+%\clsind{Magnitude} is an abstract class that helps us to  define objects that can be compared to each other. Subclasses of \ct{Magnitude} should implement the methods \ct{<}, \ct{=} and \ct{hash}. Using such messages \ct{Magnitude} defines other methods such as \ct{>}, \ct{>=}, \ct{<=}, \ct{max:}, \ct{min:} \ct{between:and:} and others for comparing objects. Such methods are inherited by subclasses. The method \mthind{Magnitude}{<} is abstract and defined as shown in \mthref{MagnitudeLessThan}.
+\clsind{Magnitude}は互いに比較するクラスを定義するのに役立つ抽象クラスです。
+\ct{Magnitude}のサブクラスは\ct{<}および\ct{=}、\ct{hash}の3つのメソッドを定義しなければなりません。
+\ct{Magnitude}では、それらのメッセージを使って\ct{>}および\ct{>=}、\ct{<=}、\ct{max:}、\ct{min:}、\ct{between:and:}等のメソッドを定義しています。
+\mthind{Magnitude}{<}は抽象メソッドで、\mthref{MagnitudeLessThan}に示すように定義されています。
 
 \begin{method}[MagnitudeLessThan]{\ct{Magnitude>>><}}
 Magnitude>>>< aMagnitude 
@@ -583,16 +588,19 @@ Magnitude>>>< aMagnitude
 \end{method}
 
 \noindent
-By contrast, the method \mthind{Magnitude}{>=} is concrete; it is defined in terms of \ct{<}:
+% By contrast, the method \mthind{Magnitude}{>=} is concrete; it is defined in terms of \ct{<}:
+対照的に、\mthind{Magnitude}{>=}は具象メソッドで、\ct{<}を使って定義されています。
 
 \begin{method}[Magnitude>=]{\ct{Magnitude>>>>=}}
 >= aMagnitude 
 	"Answer whether the receiver is greater than or equal to the argument."
 	^(self < aMagnitude) not
 \end{method}
-The same is true of the other comparison methods.
+% The same is true of the other comparison methods.
+他の比較メソッドも同様です。
 
-\clsind{Character} is a subclass of \ct{Magnitude}; it overrides the \mthind{Object}{subclassResponsibility} method for \ct{<} with its own version of \ct{<} (see \mthref{CharacterLessThan}).  \ct{Character} also defines methods \ct{=} and \ct{hash}; it inherits from \ct{Magnitude} the methods \ct{>=}, \ct{<=}, \ct{~=} and others.
+% \clsind{Character} is a subclass of \ct{Magnitude}; it overrides the \mthind{Object}{subclassResponsibility} method for \ct{<} with its own version of \ct{<} (see \mthref{CharacterLessThan}).  \ct{Character} also defines methods \ct{=} and \ct{hash}; it inherits from \ct{Magnitude} the methods \ct{>=}, \ct{<=}, \ct{~=} and others.
+\clsind{Character}は\ct{Magnitude}のサブクラスで、\ct{<}メソッドの\mthind{Object}{subclassResponsibility}をオーバーライドして独自のメソッドを定義しています(\mthref{CharacterLessThan}参照)。\ct{Character}は\ct{=}メソッドおよび\ct{hash}メソッドも定義していて、\ct{>=}および\ct{<=}、\ct{~=}等のメソッドを\ct{Magnitude}から継承しています。
 
 \begin{method}[CharacterLessThan]{\ct{Character>>><}}
 Character>>>< aCharacter 
@@ -601,63 +609,85 @@ Character>>>< aCharacter
 \end{method}
 
 %---------------------------------------------------------
-\subsection{Traits}
-A \emphind{trait} is a collection of methods that can be included in the behaviour of a class without the need for inheritance.
-This makes it easy for classes to have a unique superclass, yet still share useful methods with otherwise unrelated classes.
+% \subsection{Traits}
+\subsection{トレイト}
+% A \emphind{trait} is a collection of methods that can be included in the behaviour of a class without the need for inheritance.
+\emphind{トレイト}は、継承なしにクラスの振る舞いに取り込むことができるメソッドの集合です。
+% This makes it easy for classes to have a unique superclass, yet still share useful methods with otherwise unrelated classes.
+これによって、単一継承の容易さを保ちながら、別々のクラスに有用なメソッドを共通化することができます。
 
-To define a new trait, simply replace the subclass creation template by a message to the class \clsind{Trait}.
+% To define a new trait, simply replace the subclass creation template by a message to the class \clsind{Trait}.
+新しいトレイトを定義する方法は、単にサブクラス定義のテンプレートの代わりに、\clsind{Trait}クラスへのメッセージに置き換えるだけです。
 
 \needspace{5\baselineskip}
-\begin{classdef}[tauthor]{Defining a new trait}
+% \begin{classdef}[tauthor]{Defining a new trait}
+\begin{classdef}[tauthor]{新しいトレイトを定義する}
 Trait named: #TAuthor
 	uses: { }
 	category: 'PBE-LightsOut'
 \end{classdef}
 
 \noindent
-Here we define the trait \ct{TAuthor} in the category \scat{PBE-LightsOut}.
-This trait does not \emph{use} any other existing traits.
-In general we can specify a \emph{trait composition expression} of other traits to use as part of the \ct{uses:} keyword argument.
-Here we simply provide an empty array.
+% Here we define the trait \ct{TAuthor} in the category \scat{PBE-LightsOut}.
+ここでは、\scat{PBE-LightsOut}カテゴリに\ct{TAuthor}トレイトを定義しています。
+% This trait does not \emph{use} any other existing traits.
+このトレイトは既存のトレイトは\emph{使って}いません。
+% In general we can specify a \emph{trait composition expression} of other traits to use as part of the \ct{uses:} keyword argument.
+一般には、\ct{uses:}キーワードの引数の一部に、他のトレイトの\emph{トレイト合成式}を使うことができます。
+% Here we simply provide an empty array.
+ここでは単に空の配列を与えています。
 
-Traits may contain methods, but no instance variables.
-Suppose we would like to be able to add an \ct{author} method to various classes, independent of where they occur in the hierarchy.
-We might do this as follows:
+% Traits may contain methods, but no instance variables.
+トレイトはメソッドは持つことができますが、インスタンス変数は持ちません。
+% Suppose we would like to be able to add an \ct{author} method to various classes, independent of where they occur in the hierarchy.
+% We might do this as follows:
+以下のようにすると、色々なクラスに、階層のどこに位置するかに関係なく\ct{author}メソッドを追加できるようになります。
 
-\begin{method}[author]{An author method}
-TAuthor>>>author
-    "Returns author initials"
-	^ 'on'    "oscar nierstrasz"
+% \begin{method}[author]{An author method}
+\begin{method}[author]{authorメソッド}
+TAuthor>>>authorj
+    "著者の頭文字を返す"
+	^ 'on'    "oscar nierstraszの頭文字"
 \end{method}
 
 \noindent
-Now we can use this trait in a class that already has its own superclass, for instance the \ct{LOGame} class that we defined in \charef{firstApp}.
-We simply modify the class creation template for \ct{LOGame} to include a \ct{uses:} keyword argument that specifies that \ct{TAuthor} should be used.
+% Now we can use this trait in a class that already has its own superclass, for instance the \ct{LOGame} class that we defined in \charef{firstApp}.
+さあ、これで既にスーパークラスを持っているクラスに対してこのトレイトを使うことができます。例えば、\charef{firstApp}で定義した\ct{LOGame}クラスです。
+% We simply modify the class creation template for \ct{LOGame} to include a \ct{uses:} keyword argument that specifies that \ct{TAuthor} should be used.
+単に、\ct{LOGame}クラスを生成するテンプレートを書き変えて、\ct{uses:}キーワードの引数で\ct{TAuthor}を使うように指定するだけです。
 
-\begin{classdef}[sbegamewithtrait]{Using a trait}
+% \begin{classdef}[sbegamewithtrait]{Using a trait}
+\begin{classdef}[sbegamewithtrait]{トレイトを使う}
 BorderedMorph subclass: #LOGame
 	uses: TAuthor
-	instanceVariableNames: 'cells'
-	classVariableNames: ''
+	instanceVariableNames: -'cells'ss
+	classVariableNames: ''e
 	poolDictionaries: ''
 	category: 'PBE-LightsOut'
 \end{classdef}
 
-If we now instantiate \ct{LOGame}, it will respond to the \ct{author} message as expected.
+% If we now instantiate \ct{LOGame}, it will respond to the \ct{author} message as expected.
+これで、\ct{LOGame}のインスタンスを生成したら、そのインスタンスは期待通り\ct{author}メッセージに答えてくれるでしょう。
 
 \begin{code}{}
 LOGame new author --> 'on'
 \end{code}
 
-Trait composition expressions may combine multiple traits using the \ct{+} operator.
-In case of conflicts (\ie if multiple traits define methods with the same name), these conflicts can be resolved by explicitly removing these methods (with \ct{-}), or by redefining these methods in the class or trait that you are defining.
-It is also possible to \emph{alias} methods (with \ct{@}), providing a new name for them.
+% Trait composition expressions may combine multiple traits using the \ct{+} operator.
+トレイト合成式では複数のトレイトを\ct{+}演算子でつなげることができます。
+% In case of conflicts (\ie if multiple traits define methods with the same name), these conflicts can be resolved by explicitly removing these methods (with \ct{-}), or by redefining these methods in the class or trait that you are defining.
+もし不整合(例えば、複数のトレイトが同じ名前のメソッドを定義したら)があれば、\ct{-}演算子でそれらのメソッドを明示的に除外したり、あるいは、今定義しているクラスやトレイトで再定義することで、不整合を解消することができます。
+% It is also possible to \emph{alias} methods (with \ct{@}), providing a new name for them.
+\ct{@}演算子でメソッドに\emph{エイリアス}として新しい名前を与えることも可能です。
 
-Traits are used in the system kernel.
-One good example is the class \mbox{\clsind{Behavior}.}
+% Traits are used in the system kernel.
+トレイトはシステムの中核部分で使われています。
+% One good example is the class \mbox{\clsind{Behavior}.}
+\mbox{\clsind{Behavior}}クラスが良い例です。
 
 \needlines{8}
-\begin{classdef}[behaviorwithtraits]{\ct{Behavior} defined using traits}
+% \begin{classdef}[behaviorwithtraits]{\ct{Behavior} defined using traits}
+\begin{classdef}[behaviorwithtraits]{\ct{Behavior}の定義で使われているトレイト}
 Object subclass: #Behavior
 	uses: TPureBehavior @ {#basicAddTraitSelector:withMethod:->#addTraitSelector:withMethod:}
 	instanceVariableNames: 'superclass methodDict format'
@@ -666,8 +696,10 @@ Object subclass: #Behavior
 	category: 'Kernel-Classes'
 \end{classdef}
 \noindent
-Here we see that the method \ct{addTraitSelector:withMethod:} defined in the trait \ct{TPureBehavior} has been aliased to \ct{basicAddTraitSelector:withMethod:}.
-Support for traits is currently being added to the browsers.
+% Here we see that the method \ct{addTraitSelector:withMethod:} defined in the trait \ct{TPureBehavior} has been aliased to \ct{basicAddTraitSelector:withMethod:}.
+ここでは、\ct{TPureBehavior}で定義されている\ct{addTraitSelector:withMethod:}メソッドが\ct{basicAddTraitSelector:withMethod:}にエイリアスされています。
+% Support for traits is currently being added to the browsers.
+現在、ブラウザにトレイトへのサポートが追加されているところです。
 
 %=========================================================
 \section{Everything happens by sending messages}
