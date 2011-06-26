@@ -146,7 +146,7 @@ w inspect
 \mthindex{Object}{instVarNamed:put:}
 
 %@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
-例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@英文が変?
+例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@?英文が変?
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
@@ -343,8 +343,7 @@ Point someInstance --> 0@0
 %@You can also gather all the instances with \ct!#allInstances!, or the number of alive instances in memory with \ct!#instanceCount!.
 また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができ、また、メモリ中で生きているインスタンスの数を得るのに、\ct!#instanceCount!を用いることができます。
 
-%@\alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
-\alex{Pharo0.1-10342dev09.96.3仮想イメージの中では、"ByteString instanceCount --> 63607"となりました} %@?\alex{}とは?
+\alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
 \mthindex{Behavior}{instanceCount}
 \mthindex{Behavior}{allSubInstances}
