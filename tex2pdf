@@ -1,0 +1,3 @@
+#!/bin/sh
+platex --interaction=nonstopmode --synctex --kanji=utf8 $1
+dvipdfm ${1%tex}dvi
