@@ -256,7 +256,7 @@ Object>>>instanceVariableValues
 \mthindex{Object}{isKindOf:}
 
 %@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
-\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: レシーバーのクラスに...メソッドが定義されている?
+\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: 「レシーバーのクラス」というように「クラス」を補った。
 %@For instance:
 例えば:
 \needlines{3}
@@ -480,7 +480,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Let us consider the relationship between classes and methods.
 クラスとメソッドの関係について考えてみましょう。
 %@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
+\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%@?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
 %@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
@@ -540,7 +540,7 @@ SystemNavigation default
 %@A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
 \ct{MethodReference}は、コンパイル済みメソッドのための軽量のプロキシーで、たくさんのツールがこのプロキシーを使っています。
 %@There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
-\clsmthind{CompiledMethod}{methodReference}というメソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照を返します。%@?convenienceは名詞だが、英辞郎に、「便利な」という訳例があった。
+\clsmthind{CompiledMethod}{methodReference}という簡便メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照を返します。%@?convenience: 簡便?
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
