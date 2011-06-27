@@ -342,27 +342,28 @@ Webアプリケーションでは、Webページを動的に生成して表示(�
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{More about Rendering XHTML}
+\subsection{レンダリング詳細}
 
-As you can see from these examples, Seaside does not use templates to generate web pages.
-Instead it generates XTHML programmatically.
-The basic idea is that every Seaside component should override the method \mthind{WAPresenter}{renderContentOn:}; this message will be sent by the framework to each component that needs to be rendered.
-This \ct{renderContentOn:} message will have an argument that is an \seeindex{canvas}{html canvas} \emphind{html canvas} onto which the component should render itself.  By convention, the html canvas parameter is called \ct{html}.
-An html canvas is analogous to the graphics canvas used by Morphic (and most other drawing frameworks) to abstract away from the device-dependent details of drawing.
- 
+今までの例で見てきたように、SeasideではWebページ生成でテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
+Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはフレームワークの側からコンポーネントのレンダリングのときに呼び出されます。
+\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似ています。デバイス固有となる描画の詳細を隠す役割を持っています。
 
-Here are some of the most basic rendering methods:
+基本的なレンダリングメッセージをいくつか挙げてみます。
 \begin{code}{}
-html text: 'hello world'.  "render a plain text string"
-html html: '&ndash;'.     "render an XHTML incantation"
-html render: 1.              "render any object"
+html text: 'hello world'.  "テキストを表示"
+html html: '&ndash;'.     "XHTMLの直接指定"
+html render: 1.              "オブジェクトのレンダリング"
 \end{code}
 
-The message \ct{render: anyObject} can be sent to an html canvas to render \ct{anyObject}; it is normally used to render subcomponents.  \lct{anyObject} will itself be sent the message \ct{renderContentOn:}
-this is what happens in the multi-counter (see \figref{WAMultiCounter}).
+\ct{任意のオブジェクト}を表示するのに \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
+マルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
 
-\subsection{Using Brushes}
+\subsection{ブラシの利用}
 \seclabel{brushes}
+
+キャンバスでは描画を行うため、たくさんの \emphind{ブラシ} を使うことができます。
+XHTMLの各要素(段落、テーブル、リストなど)に対応したブラシがあります。
+To see the full protocol of brushes and convenience methods, you should browse the class \clsind{WACanvas} and its subclasses.
 
 A canvas provides a number of \emphind{brushes} that can be used to render (\ie ``paint'') content on the canvas.
 There are brushes for every kind of XHTML element\,---\,paragraphs, tables, lists, and so on.
