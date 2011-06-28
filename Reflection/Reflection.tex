@@ -53,14 +53,14 @@
 %@\st is a reflective programming language.
 \st は、リフレクティブな(自分を客観視することができる)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
+つまりこれは、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
-より技術的には、次のような意味です。実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
+より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
-\st のメタオブジェクトは、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどです。
+\st のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
-このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれ、多くの今風のプログラミング言語は、これをサポートします。
+このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、リフレクションをサポートしています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
@@ -71,7 +71,7 @@
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
-このことは\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は極めて限られます。
+このタイプのリフレクションは、\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語がこれをサポートしますが、静的な言語では、サポートの範囲は極めて限られます。
 
 %@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
 他のプログラム(あるいはそのプログラム自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
@@ -571,7 +571,7 @@ SystemNavigation default
 %@Now \click on any method and select \menu{refactor>code critics}.
 さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
-\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。
+\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
 \figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見つかったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
