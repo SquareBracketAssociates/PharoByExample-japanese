@@ -363,14 +363,10 @@ html render: 1.              "オブジェクトのレンダリング"
 
 キャンバスでは描画を行うため、たくさんの \emphind{ブラシ} を使うことができます。
 XHTMLの各要素(段落、テーブル、リストなど)に対応したブラシがあります。
-To see the full protocol of brushes and convenience methods, you should browse the class \clsind{WACanvas} and its subclasses.
+ブラシやそれに関連する便利メソッドを知るには、\clsind{WACanvas} とそのサブクラスをブラウズすると良いでしょう。
+ \ct{renderContentOn:} の引数は、\clsind{WACanvas}を継承した \clsind{WARenderCanvas}のインスタンスになっています。
 
-A canvas provides a number of \emphind{brushes} that can be used to render (\ie ``paint'') content on the canvas.
-There are brushes for every kind of XHTML element\,---\,paragraphs, tables, lists, and so on.
-To see the full protocol of brushes and convenience methods, you should browse the class \clsind{WACanvas} and its subclasses.
-The argument to \ct{renderContentOn:} is actually an instance of the subclass \clsind{WARenderCanvas}.
-
-We have already seen the following brush used in the counter and multi-counter examples:
+すでにカウンターとマルチカウンターの例で、以下のブラシを使いました。
 \needlines{2}
 \begin{code}{}
 html horizontalRule.
@@ -378,15 +374,15 @@ html horizontalRule.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=\textwidth]{RenderingDemo}
-\caption{RenderingDemo}
+\includegraphics[width=\textwidth]{レンダリングのデモ}
+\caption{レンダリングのデモ}
 \figlabel{RenderingDemo}
 \end{center}
 \end{figure}
 
-In \figref{RenderingDemo} we can see the output of many of the basic brushes offered by Seaside.\footnote{The source code for \mthref{renderdemo} is in the package \ct{PBE-SeasideDemo} in the project \url{http://www.squeaksource.com/PharoByExample}.}
-The root component \ct{SeasideDemo} simply renders its subcomponents, which are instances of \ct{SeasideHtmlDemo}, \ct{SeasideFormDemo}, \ct{SeasideEditCallDemo} and \ct{SeasideDialogDemo}, as shown in \mthref{renderdemo}.
-
+図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろ使ってみた例です。 \footnote{
+ \mthref{renderdemo}のソースコードは  \url{http://www.squeaksource.com/PharoByExample}プロジェクトの\ct{PBE-SeasideDemo}パッケージ内にあります。} \ct{SeasideDemo} のルートコンポーネントは単にサブコンポーネントの表示を行うだけです。サブコンポーネントは \mthref{renderdemo}を読むとわかりますが、\ct{SeasideHtmlDemo}、 \ct{SeasideFormDemo}、\ct{SeasideEditCallDemo} 、\ct{SeasideDialogDemo}となっています。
+ 
 \needspace{7ex}
 \begin{method}[renderdemo]{\lct{SeasideDemo>>renderContentOn:}}
 SeasideDemo>>>renderContentOn: html
