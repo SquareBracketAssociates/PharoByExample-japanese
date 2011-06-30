@@ -702,61 +702,99 @@ Object subclass: #Behavior
 現在、ブラウザにトレイトへのサポートが追加されているところです。
 
 %=========================================================
-\section{Everything happens by sending messages}
+%\section{Everything happens by sending messages}
+\section{あらゆるコトは、メッセージ送信で起こる}
 
 %\ruleref{message}
 
-This rule captures the essence of programming in \st.
+% This rule captures the essence of programming in \st.
+この規則は、\stプログラミングの本質を捉えています。
 
-In procedural programming, the choice of which piece of code to execute when a procedure is called is made by the caller.
-The caller chooses the procedure or function to execute \emph{statically}, by name.  
+% In procedural programming, the choice of which piece of code to execute when a procedure is called is made by the caller.
+手続き的プログラミングでは、手続きが呼ばれた時にどのコードが使われるかは、呼び出し側が決めます。
+% The caller chooses the procedure or function to execute \emph{statically}, by name.  
+呼び出し側が、名前で、\emph{静的に}、手続きや関数を選んで実行します。
 
-In object-oriented programming, we do \emph{not} ``call methods'': we ``\subind{message}{send} messages.''
-The choice of terminology is significant.
-Each object has its own responsibilities.
-We do not \emph{tell} an object what to do by applying some procedure to it.
-Instead, we politely \emph{ask} an object to do something for us by sending it a message.
-The message is \emph{not} a piece of code: it is nothing but a name and a list of arguments.
-The receiver then decides how to respond by selecting its own \emph{method} for doing what was asked.
-Since different objects may have different methods for responding to the same message, the method must be chosen \emph{dynamically}, when the message is received.
+% In object-oriented programming, we do \emph{not} ``call methods'': we ``\subind{message}{send} messages.''
+オブジェクト指向プログラミングでは、``メソッドを呼び出し''\emph{ません}。``メッセージを\subind{メッセージ}{送信}''ます。
+% The choice of terminology is significant.
+この用語の違いは重要です。
+% Each object has its own responsibilities.
+それぞれのオブジェクトにはそれぞれの責任があります。
+% We do not \emph{tell} an object what to do by applying some procedure to it.
+オブジェクトを手続きに渡すことで、そのオブジェクトが何をすべきか\emph{指示する}ようなことはしません。
+% Instead, we politely \emph{ask} an object to do something for us by sending it a message.
+そうではなく、オブジェクトにメッセージを送ることで、オブジェクトに何かをするように\emph{お願い}するのです。
+% The message is \emph{not} a piece of code: it is nothing but a name and a list of arguments.
+ここで、メッセージはコードでは\emph{ありません}。まさに名前と引数のリストだけです。
+% The receiver then decides how to respond by selecting its own \emph{method} for doing what was asked.
+メッセージを受けたレシーバは、そこで、頼まれたことを実行するための\emph{メソッド}を選択して、どう対応するのかを決めます。
+% Since different objects may have different methods for responding to the same message, the method must be chosen \emph{dynamically}, when the message is received.
+同じメッセージに対してオブジェクトによって別々のメソッドを持っていることがあるので、メソッドはメッセージを受け取った時に\emph{動的に}選択されなければなりません。
 \begin{code}{@TEST}
-3 + 4         --> 7          "send message + with argument 4 to integer  3"
-(1@2) + 4 --> 5@6    "send message + with argument 4 to point (1@2)"
+% 3 + 4         --> 7          "send message + with argument 4 to integer  3"
+3 + 4         --> 7          "整数「3」にメッセージ「+」と引数「4」を送信する"
+% (1@2) + 4 --> 5@6    "send message + with argument 4 to point (1@2)"
+(1@2) + 4 --> 5@6    "点「(1@2)」にメッセージ「+」と引数「4」を送信する"
 \end{code}
 \noindent
-As a consequence, we can send the \emph{same message} to different objects, each of which may have \emph{its own method} for responding to the message.
-We do not tell the \ct{SmallInteger} \ct{3} or the \ct{Point} \ct{1@2} how to respond to the message \ct{+ 4}.
-Each has its own method for \ct{+}, and responds to \ct{+ 4} accordingly.
+% As a consequence, we can send the \emph{same message} to different objects, each of which may have \emph{its own method} for responding to the message.
+したがって、\emph{同じメッセージ}を異なるオブジェクトに送信することができ、それぞれのオブジェクトはそのメッセージに対応するために\emph{オブジェクト毎のメソッド}を持つことができます。
+% We do not tell the \ct{SmallInteger} \ct{3} or the \ct{Point} \ct{1@2} how to respond to the message \ct{+ 4}.
+\ct{+ 4}というメッセージにどう対応するのかを\ct{SmallInteger} \ct{3}や\ct{Point} \ct{1@2}に指示しないのです。
+% Each has its own method for \ct{+}, and responds to \ct{+ 4} accordingly.
+それぞれが\ct{+}メソッドを持っていて、そのメソッドに従って\ct{+ 4}に対応するのです。
 
-One of the consequences of \st's model of message sending is that it encourages a style in which objects tend to have very small methods and delegate tasks to other objects, rather than implementing huge, procedural methods that assume too much responsibility.
-Joseph Pelrine
+% One of the consequences of \st's model of message sending is that it encourages a style in which objects tend to have very small methods and delegate tasks to other objects, rather than implementing huge, procedural methods that assume too much responsibility.
+\stのメッセージ送信のモデルの帰結として言えることがあります。オブジェクトはとても小さなメソッドを持ち他のオブジェクトに仕事を移譲し、巨大で手続き的なメソッドで過大な責任をかかえることを避ける傾向を持つということです。
+% Joseph Pelrine
+ジョセフ・ペルリン(Joseph Pelrine)はこの原則を次のように簡潔に表現しています。
 \ab{Citation?}
 \on{sorry, just personal communication and my own lecture notes!}
-expresses this principle succinctly as follows:
-\important{Don't do anything that you can push off onto someone else.}
+% expresses this principle succinctly as follows:
+% \important{Don't do anything that you can push off onto someone else.}
+\important{誰かに押しつけられる仕事を自分でやらないこと。}
 \index{Pelrine, Joseph}
 
-Many object-oriented languages provide both static and dynamic operations for objects; in \st there are only dynamic message sends. Instead of providing static class operations, for instance, classes are objects and we simply send messages to classes.
+% Many object-oriented languages provide both static and dynamic operations for objects; in \st there are only dynamic message sends. Instead of providing static class operations, for instance, classes are objects and we simply send messages to classes.
+多くのオブジェクト指向言語はオブジェクトに対して静的動的両方の操作方法を提供していますが、\stでは動的なメッセージ送信だけです。
+静的な操作の代わりに、例えば、クラスがオブジェクトであることで、単にクラスにメッセージを送ります。
 
-\emph{Nearly} everything in \st happens by sending messages.
-At some point action must take place:
+% \emph{Nearly} everything in \st happens by sending messages.
+\stでは、\emph{ほぼ}全てのコトはメッセージ送信で起こります。
+% At some point action must take place:
+いずれかの時点で、メッセージ送信ではない処理が必ず発生します。
 \begin{itemize}
-  \item \emph{Variable declarations} are not message sends.
-  		In fact, variable \subind{variable}{declaration}{}s are not even executable.
-  		Declaring a variable just causes space to be allocated for an object reference.
-  \item \emph{Assignments} are not message sends.
-  		An \ind{assignment} to a variable causes that variable name to be freshly bound in the scope of its definition.
-  \item \emph{Returns} are not message sends.
-  		A \ind{return} simply causes the computed result to be returned to the sender.
-  \item \emph{Primitives} are not message sends.
-  		They are implemented in the \ind{virtual machine}.
-		\index{primitive}
+%  \item \emph{Variable declarations} are not message sends.
+  \item \emph{変数宣言}はメッセージ送信ではありません。
+%  		In fact, variable \subind{variable}{declaration}{}s are not even executable.
+		実際、変数\subind{変数}{宣言}{}は実行可能ですらありません。
+%  		Declaring a variable just causes space to be allocated for an object reference.
+		変数宣言はオブジェクトへの参照を格納する領域を確保する意味しかありません。
+%  \item \emph{Assignments} are not message sends.
+  \item \emph{代入}はメッセージ送信ではありません。
+%  		An \ind{assignment} to a variable causes that variable name to be freshly bound in the scope of its definition.
+		変数への\ind{代入}はその定義スコープ内で名前を束縛します。
+%  \item \emph{Returns} are not message sends.
+  \item \emph{リターン}はメッセージ送信ではありません。
+%  		A \ind{return} simply causes the computed result to be returned to the sender.
+		\ind{リターン}は計算結果をメッセージの送り手に返します。
+%  \item \emph{Primitives} are not message sends.
+  \item \emph{プリミティブ}はメッセージ送信ではありません。
+%  		They are implemented in the \ind{virtual machine}.
+		プリミティブは\ind{仮想マシン}に実装されています。
+		\index{プリミティブ}
 \end{itemize}
-Other than these few exceptions, pretty much everything else does truly happen by sending messages.
-In particular, since there are no ``public fields'' in \st, the only way to update an \ind{instance variable} of another object is to send it a message asking that it update its own field.
-Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style.
-Joseph Pelrine also states this very nicely:
-\important{Don't let anyone else play with your data.}
+% Other than these few exceptions, pretty much everything else does truly happen by sending messages.
+これら僅かな例外を除いて、他の色々なコトはメッセージ送信で起こるのです。
+% In particular, since there are no ``public fields'' in \st, the only way to update an \ind{instance variable} of another object is to send it a message asking that it update its own field.
+特に、\stには``パブリックなフィールド''はないので、他のオブジェクトの\ind{インスタンス変数}を更新するには、メッセージを送ってそのオブジェクト自身のフィールドを更新するようにお願いするしかありません。
+% Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style.
+もちろん、全てのインスタンス変数についてセッターメソッドやゲッターメソッドを定義するのは、オブジェクト指向として良いスタイルとは言えません。
+% Joseph Pelrine also states this very nicely:
+ジョセフ・ペルリンは次のようにも言っています。
+% \important{Don't let anyone else play with your data.}
+\important{あなたが持っているデータを他人に弄らせるな。}
 
 %=========================================================
 \section{Method lookup follows the inheritance chain} 
