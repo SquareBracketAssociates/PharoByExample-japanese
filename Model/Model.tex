@@ -385,7 +385,7 @@ Dog class>>>count
 \end{method}
 
 % Now when we create a new \ct{Dog} its count is incremented, and so is that of every \ct{Hyena}, but they are counted separately:
-これで、新しい\ct{Dog}(犬)が生成されるたびに、頭数に1が足されていきます。\ct{Hyena}(ハイエナ}も同様ですが、別々に数えられていきます：
+これで、新しい\ct{Dog}(犬)が生成されるたびに、頭数に1が足されていきます。\ct{Hyena}(ハイエナ)も同様ですが、別々に数えられていきます：
 \begin{code}{}
 Dog initialize.
 Hyena initialize.
@@ -451,7 +451,7 @@ WebServer class
 \end{classdef}
 
 % The consequence of this is that the class \ct{WebServer} now has another instance variable,
-この結果、\{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
+この結果、\ct{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
 % in addition to the variables that it inherits, such as \ct{superclass} and \ct{methodDict}.
 それまでは、\ct{superclass}や\ct{methodDict}といった変数を継承していました。
 
@@ -467,7 +467,7 @@ WebServer class
 \ct{uniqueInstance}はクラスインスタンス変数なので、このメソッドは直接アクセスすることができます。
     
 % \begin{method}[uniqueInstance]{uniqueInstance (on the class side)}
-\\begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
+\begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
 WebServer class>>>uniqueInstance
      uniqueInstance ifNil: [uniqueInstance := self new].
      ^ uniqueInstance
@@ -491,12 +491,15 @@ WebServer class>>>uniqueInstance
 \ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値を持ちます。
 
 %=========================================================
-\section{Every class has a superclass}
+% \section{Every class has a superclass}
+\section{全てのクラスはスーパークラスを持っている}
 
 %\ruleref{inheritance}
 
-Each class in \st inherits its behaviour and the description of its structure from a single \emphind{superclass}.
-This means that \st has single \ind{inheritance}.
+% Each class in \st inherits its behaviour and the description of its structure from a single \emphind{superclass}.
+\stでは、それぞれのクラスは単一の\emphind{スーパークラス}から振舞いと構造の記述を継承します。
+% This means that \st has single \ind{inheritance}.
+つまり\stは単一\ind{継承}を持っています。
 
 \needlines{2}
 \begin{code}{@TEST}
@@ -508,16 +511,25 @@ Object superclass           --> ProtoObject
 ProtoObject superclass  --> nil
 \end{code}
 
-Traditionally the root of the \st inheritance hierarchy is the class \clsind{Object} (since everything is an object).
-In \pharo, the root is actually a class called \clsind{ProtoObject}, but you will normally not pay any attention to this class.
-\ct{ProtoObject} encapsulates the minimal set of messages that all objects \emph{must} have.  However, most classes inherit from \ct{Object}, which defines many additional messages that almost all objects ought to understand and respond to.
-Unless you have a very good reason to do otherwise, when creating application classes you should normally subclass \ct{Object}, or one of its subclasses.
+% Traditionally the root of the \st inheritance hierarchy is the class \clsind{Object} (since everything is an object).
+伝統的には、\stの継承階層のルートは\clsind{Object}クラスです。(なぜなら、全てのものはオブジェクトだからです。)
+% In \pharo, the root is actually a class called \clsind{ProtoObject}, but you will normally not pay any attention to this class.
+\pharoでは、実際にはルートは\clsind{ProtoObject}と呼ばれるクラスです。しかし、通常はこのクラスに注意する必要はありません。
+% \ct{ProtoObject} encapsulates the minimal set of messages that all objects \emph{must} have.  However, most classes inherit from \ct{Object}, which defines many additional messages that almost all objects ought to understand and respond to.
+\ct{ProtoObject}は全てのオブジェクトが持って\emph{いなければならない}最低限のメッセージをカプセル化しています。
+しかしながら、ほとんどのクラスは\ct{Object}から継承していて、\ct{Object}はほとんど全てのオブジェクトが理解し対応するべき沢山のメッセージを追加して定義しています。
+% Unless you have a very good reason to do otherwise, when creating application classes you should normally subclass \ct{Object}, or one of its subclasses.
+特別な理由がないかぎり、アプリケーションクラスを生成する時には、通常\ct{Object}やそのサブクラスのどれかのサブクラスとするべきです。
 
-\dothis{A new class is normally created by sending the message
+% \dothis{A new class is normally created by sending the message
+\dothis{新しいクラスを生成するには、既存のクラスに
 \ct{subclass: instanceVariableNames: ...}
-to an existing class.
-There are a few other methods to create classes.
-Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation} to see what they are.}
+% to an existing class.
+というメッセージを送ります。
+% There are a few other methods to create classes.
+他にもいくつかクラスを生成するメソッドがあります。
+% Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation} to see what they are.}
+\prot{Kernel-Classes \go Class \go subclass creation}プロトコルを見て、どのようなメソッドがあるか見てみてください。}
 \scatindex{Kernel-Classes}
 \protindex{creation}
 
@@ -525,30 +537,49 @@ Have a look at the protocol \prot{Kernel-Classes \go Class \go subclass creation
 %An abstract class is an ordinary class in which the implementation of some methods is deferred to a subclass.
 %This is repeated in the next section
 
-Although \pharo does not provide multiple inheritance, it supports a mechanism called \emphind{trait}{}s for sharing behaviour across unrelated classes.
-Traits are collections of methods that can be reused by multiple classes that are not related by inheritance. Using traits allows one to share code between different classes without duplicating code.
+% Although \pharo does not provide multiple inheritance, it supports a mechanism called \emphind{trait}{}s for sharing behaviour across unrelated classes.
+\pharoには多重継承はありませんが、互いに関係のないクラスで同じ振る舞いを共有する\emphind{trait}{}と呼ばれるメカニズムをサポートしています。
+% Traits are collections of methods that can be reused by multiple classes that are not related by inheritance. Using traits allows one to share code between different classes without duplicating code.
+トレイトはメソッドの集合で、継承関係にない複数のクラスの間で再利用されます。
+トレイトを使うと、同じをコードを繰り返し定義することなく、別々のクラスの間で共有させることができます。
 
 %---------------------------------------------------------
-\subsection{Abstract methods and abstract classes}
+% \subsection{Abstract methods and abstract classes}
+\subsection{抽象メソッドと抽象クラス}
 
-An \subind{class}{abstract} class is a class that exists to be subclassed, rather than to be instantiated.
-An abstract class is usually incomplete, in the sense that it does not define all of the methods that it uses.
-The ``missing'' methods\,---\,those that the other methods assume, but which are not themselves defined\,---\,are called \subind{method}{abstract} methods.
-\seeindex{abstract class}{class, abstract}
-\seeindex{abstract method}{method, abstract}
+% An \subind{class}{abstract} class is a class that exists to be subclassed, rather than to be instantiated.
+\subind{クラス}{抽象}クラスは、インスタンスを生成するのではなく、サブクラスを生成するために存在するクラスです。
+% An abstract class is usually incomplete, in the sense that it does not define all of the methods that it uses.
+抽象クラスは通常は不完全で、必要なメソッドの全てが実装されてはいません。
+% The ``missing'' methods\,---\,those that the other methods assume, but which are not themselves defined\,---\,are called \subind{method}{abstract} methods.
+``ない''メソッド---他のメソッドがそのメソッドがあることを想定しているのに定義されていないメソッド---を\subind{メソッド}{抽象}メソッドと呼びます。
+\seeindex{抽象クラス}{クラス, 抽象}
+\seeindex{抽象メソッド}{メソッド, 抽象}
 
-\st has no dedicated syntax to specify that a method or a class is abstract. 
-By convention, the body of an abstract method consists of the expression \mbox{\ct{self subclassResponsibility}.} 
-This is known as a ``marker method'', and indicates that subclasses have the responsibility to define a concrete version of the method. 
-\ct{self subclassResponsibility} methods should always be overridden, and thus should never be executed.
-If you forget to override one, and it is executed, an exception will be raised. 
+% \st has no dedicated syntax to specify that a method or a class is abstract. 
+\stには、抽象メソッドや抽象クラスであることを指定する特別な構文はありません。
+% By convention, the body of an abstract method consists of the expression \mbox{\ct{self subclassResponsibility}.} 
+コード規約として、抽象メソッドの本文は\mbox{\ct{self subclassResponsibility}}と書きます。
+% This is known as a ``marker method'', and indicates that subclasses have the responsibility to define a concrete version of the method. 
+これはいわゆる``マーカーメソッド''といって、サブクラスにそのメソッドの具体的な定義を定義する責任があることを示しています。
+% \ct{self subclassResponsibility} methods should always be overridden, and thus should never be executed.
+\ct{self subclassResponsibility}メソッドは必ずオーバーライドされなければならず、したがって、絶対に実行してはならないというものです。
+% If you forget to override one, and it is executed, an exception will be raised. 
+もしオーバーライドし忘れたら、そのメソッドが実行され、例外が発生してしまいます。
 \cmindex{Object}{subclassResponsibility}
 
-A class is considered abstract if one of its methods is abstract.
-Nothing actually prevents you from creating an instance of an abstract class; everything will work until an abstract method is invoked. 
+% A class is considered abstract if one of its methods is abstract.
+抽象メソッドを持つクラスが抽象クラスです。
+% Nothing actually prevents you from creating an instance of an abstract class; everything will work until an abstract method is invoked. 
+実際には抽象クラスのインスタンスを生成しないようにする仕組みはありません。抽象メソッドが実行されるまでは、普通に動作します。
 
-\subsubsection{Example: the class \ct{Magnitude}.}
-\clsind{Magnitude} is an abstract class that helps us to  define objects that can be compared to each other. Subclasses of \ct{Magnitude} should implement the methods \ct{<}, \ct{=} and \ct{hash}. Using such messages \ct{Magnitude} defines other methods such as \ct{>}, \ct{>=}, \ct{<=}, \ct{max:}, \ct{min:} \ct{between:and:} and others for comparing objects. Such methods are inherited by subclasses. The method \mthind{Magnitude}{<} is abstract and defined as shown in \mthref{MagnitudeLessThan}.
+% \subsubsection{Example: the class \ct{Magnitude}.}
+\subsubsection{例題: \ct{Magnitude}クラス}
+%\clsind{Magnitude} is an abstract class that helps us to  define objects that can be compared to each other. Subclasses of \ct{Magnitude} should implement the methods \ct{<}, \ct{=} and \ct{hash}. Using such messages \ct{Magnitude} defines other methods such as \ct{>}, \ct{>=}, \ct{<=}, \ct{max:}, \ct{min:} \ct{between:and:} and others for comparing objects. Such methods are inherited by subclasses. The method \mthind{Magnitude}{<} is abstract and defined as shown in \mthref{MagnitudeLessThan}.
+\clsind{Magnitude}は互いに比較するクラスを定義するのに役立つ抽象クラスです。
+\ct{Magnitude}のサブクラスは\ct{<}および\ct{=}、\ct{hash}の3つのメソッドを定義しなければなりません。
+\ct{Magnitude}では、それらのメッセージを使って\ct{>}および\ct{>=}、\ct{<=}、\ct{max:}、\ct{min:}、\ct{between:and:}等のメソッドを定義しています。
+\mthind{Magnitude}{<}は抽象メソッドで、\mthref{MagnitudeLessThan}に示すように定義されています。
 
 \begin{method}[MagnitudeLessThan]{\ct{Magnitude>>><}}
 Magnitude>>>< aMagnitude 
@@ -557,16 +588,19 @@ Magnitude>>>< aMagnitude
 \end{method}
 
 \noindent
-By contrast, the method \mthind{Magnitude}{>=} is concrete; it is defined in terms of \ct{<}:
+% By contrast, the method \mthind{Magnitude}{>=} is concrete; it is defined in terms of \ct{<}:
+対照的に、\mthind{Magnitude}{>=}は具象メソッドで、\ct{<}を使って定義されています。
 
 \begin{method}[Magnitude>=]{\ct{Magnitude>>>>=}}
 >= aMagnitude 
 	"Answer whether the receiver is greater than or equal to the argument."
 	^(self < aMagnitude) not
 \end{method}
-The same is true of the other comparison methods.
+% The same is true of the other comparison methods.
+他の比較メソッドも同様です。
 
-\clsind{Character} is a subclass of \ct{Magnitude}; it overrides the \mthind{Object}{subclassResponsibility} method for \ct{<} with its own version of \ct{<} (see \mthref{CharacterLessThan}).  \ct{Character} also defines methods \ct{=} and \ct{hash}; it inherits from \ct{Magnitude} the methods \ct{>=}, \ct{<=}, \ct{~=} and others.
+% \clsind{Character} is a subclass of \ct{Magnitude}; it overrides the \mthind{Object}{subclassResponsibility} method for \ct{<} with its own version of \ct{<} (see \mthref{CharacterLessThan}).  \ct{Character} also defines methods \ct{=} and \ct{hash}; it inherits from \ct{Magnitude} the methods \ct{>=}, \ct{<=}, \ct{~=} and others.
+\clsind{Character}は\ct{Magnitude}のサブクラスで、\ct{<}メソッドの\mthind{Object}{subclassResponsibility}をオーバーライドして独自のメソッドを定義しています(\mthref{CharacterLessThan}参照)。\ct{Character}は\ct{=}メソッドおよび\ct{hash}メソッドも定義していて、\ct{>=}および\ct{<=}、\ct{~=}等のメソッドを\ct{Magnitude}から継承しています。
 
 \begin{method}[CharacterLessThan]{\ct{Character>>><}}
 Character>>>< aCharacter 
@@ -575,63 +609,85 @@ Character>>>< aCharacter
 \end{method}
 
 %---------------------------------------------------------
-\subsection{Traits}
-A \emphind{trait} is a collection of methods that can be included in the behaviour of a class without the need for inheritance.
-This makes it easy for classes to have a unique superclass, yet still share useful methods with otherwise unrelated classes.
+% \subsection{Traits}
+\subsection{トレイト}
+% A \emphind{trait} is a collection of methods that can be included in the behaviour of a class without the need for inheritance.
+\emphind{トレイト}は、継承なしにクラスの振る舞いに取り込むことができるメソッドの集合です。
+% This makes it easy for classes to have a unique superclass, yet still share useful methods with otherwise unrelated classes.
+これによって、単一継承の容易さを保ちながら、別々のクラスに有用なメソッドを共通化することができます。
 
-To define a new trait, simply replace the subclass creation template by a message to the class \clsind{Trait}.
+% To define a new trait, simply replace the subclass creation template by a message to the class \clsind{Trait}.
+新しいトレイトを定義する方法は、単にサブクラス定義のテンプレートの代わりに、\clsind{Trait}クラスへのメッセージに置き換えるだけです。
 
 \needspace{5\baselineskip}
-\begin{classdef}[tauthor]{Defining a new trait}
+% \begin{classdef}[tauthor]{Defining a new trait}
+\begin{classdef}[tauthor]{新しいトレイトを定義する}
 Trait named: #TAuthor
 	uses: { }
 	category: 'PBE-LightsOut'
 \end{classdef}
 
 \noindent
-Here we define the trait \ct{TAuthor} in the category \scat{PBE-LightsOut}.
-This trait does not \emph{use} any other existing traits.
-In general we can specify a \emph{trait composition expression} of other traits to use as part of the \ct{uses:} keyword argument.
-Here we simply provide an empty array.
+% Here we define the trait \ct{TAuthor} in the category \scat{PBE-LightsOut}.
+ここでは、\scat{PBE-LightsOut}カテゴリに\ct{TAuthor}トレイトを定義しています。
+% This trait does not \emph{use} any other existing traits.
+このトレイトは既存のトレイトは\emph{使って}いません。
+% In general we can specify a \emph{trait composition expression} of other traits to use as part of the \ct{uses:} keyword argument.
+一般には、\ct{uses:}キーワードの引数の一部に、他のトレイトの\emph{トレイト合成式}を使うことができます。
+% Here we simply provide an empty array.
+ここでは単に空の配列を与えています。
 
-Traits may contain methods, but no instance variables.
-Suppose we would like to be able to add an \ct{author} method to various classes, independent of where they occur in the hierarchy.
-We might do this as follows:
+% Traits may contain methods, but no instance variables.
+トレイトはメソッドは持つことができますが、インスタンス変数は持ちません。
+% Suppose we would like to be able to add an \ct{author} method to various classes, independent of where they occur in the hierarchy.
+% We might do this as follows:
+以下のようにすると、色々なクラスに、階層のどこに位置するかに関係なく\ct{author}メソッドを追加できるようになります。
 
-\begin{method}[author]{An author method}
-TAuthor>>>author
-    "Returns author initials"
-	^ 'on'    "oscar nierstrasz"
+% \begin{method}[author]{An author method}
+\begin{method}[author]{authorメソッド}
+TAuthor>>>authorj
+    "著者の頭文字を返す"
+	^ 'on'    "oscar nierstraszの頭文字"
 \end{method}
 
 \noindent
-Now we can use this trait in a class that already has its own superclass, for instance the \ct{LOGame} class that we defined in \charef{firstApp}.
-We simply modify the class creation template for \ct{LOGame} to include a \ct{uses:} keyword argument that specifies that \ct{TAuthor} should be used.
+% Now we can use this trait in a class that already has its own superclass, for instance the \ct{LOGame} class that we defined in \charef{firstApp}.
+さあ、これで既にスーパークラスを持っているクラスに対してこのトレイトを使うことができます。例えば、\charef{firstApp}で定義した\ct{LOGame}クラスです。
+% We simply modify the class creation template for \ct{LOGame} to include a \ct{uses:} keyword argument that specifies that \ct{TAuthor} should be used.
+単に、\ct{LOGame}クラスを生成するテンプレートを書き変えて、\ct{uses:}キーワードの引数で\ct{TAuthor}を使うように指定するだけです。
 
-\begin{classdef}[sbegamewithtrait]{Using a trait}
+% \begin{classdef}[sbegamewithtrait]{Using a trait}
+\begin{classdef}[sbegamewithtrait]{トレイトを使う}
 BorderedMorph subclass: #LOGame
 	uses: TAuthor
-	instanceVariableNames: 'cells'
-	classVariableNames: ''
+	instanceVariableNames: -'cells'ss
+	classVariableNames: ''e
 	poolDictionaries: ''
 	category: 'PBE-LightsOut'
 \end{classdef}
 
-If we now instantiate \ct{LOGame}, it will respond to the \ct{author} message as expected.
+% If we now instantiate \ct{LOGame}, it will respond to the \ct{author} message as expected.
+これで、\ct{LOGame}のインスタンスを生成したら、そのインスタンスは期待通り\ct{author}メッセージに答えてくれるでしょう。
 
 \begin{code}{}
 LOGame new author --> 'on'
 \end{code}
 
-Trait composition expressions may combine multiple traits using the \ct{+} operator.
-In case of conflicts (\ie if multiple traits define methods with the same name), these conflicts can be resolved by explicitly removing these methods (with \ct{-}), or by redefining these methods in the class or trait that you are defining.
-It is also possible to \emph{alias} methods (with \ct{@}), providing a new name for them.
+% Trait composition expressions may combine multiple traits using the \ct{+} operator.
+トレイト合成式では複数のトレイトを\ct{+}演算子でつなげることができます。
+% In case of conflicts (\ie if multiple traits define methods with the same name), these conflicts can be resolved by explicitly removing these methods (with \ct{-}), or by redefining these methods in the class or trait that you are defining.
+もし不整合(例えば、複数のトレイトが同じ名前のメソッドを定義したら)があれば、\ct{-}演算子でそれらのメソッドを明示的に除外したり、あるいは、今定義しているクラスやトレイトで再定義することで、不整合を解消することができます。
+% It is also possible to \emph{alias} methods (with \ct{@}), providing a new name for them.
+\ct{@}演算子でメソッドに\emph{エイリアス}として新しい名前を与えることも可能です。
 
-Traits are used in the system kernel.
-One good example is the class \mbox{\clsind{Behavior}.}
+% Traits are used in the system kernel.
+トレイトはシステムの中核部分で使われています。
+% One good example is the class \mbox{\clsind{Behavior}.}
+\mbox{\clsind{Behavior}}クラスが良い例です。
 
 \needlines{8}
-\begin{classdef}[behaviorwithtraits]{\ct{Behavior} defined using traits}
+% \begin{classdef}[behaviorwithtraits]{\ct{Behavior} defined using traits}
+\begin{classdef}[behaviorwithtraits]{\ct{Behavior}の定義で使われているトレイト}
 Object subclass: #Behavior
 	uses: TPureBehavior @ {#basicAddTraitSelector:withMethod:->#addTraitSelector:withMethod:}
 	instanceVariableNames: 'superclass methodDict format'
@@ -640,65 +696,105 @@ Object subclass: #Behavior
 	category: 'Kernel-Classes'
 \end{classdef}
 \noindent
-Here we see that the method \ct{addTraitSelector:withMethod:} defined in the trait \ct{TPureBehavior} has been aliased to \ct{basicAddTraitSelector:withMethod:}.
-Support for traits is currently being added to the browsers.
+% Here we see that the method \ct{addTraitSelector:withMethod:} defined in the trait \ct{TPureBehavior} has been aliased to \ct{basicAddTraitSelector:withMethod:}.
+ここでは、\ct{TPureBehavior}で定義されている\ct{addTraitSelector:withMethod:}メソッドが\ct{basicAddTraitSelector:withMethod:}にエイリアスされています。
+% Support for traits is currently being added to the browsers.
+現在、ブラウザにトレイトへのサポートが追加されているところです。
 
 %=========================================================
-\section{Everything happens by sending messages}
+%\section{Everything happens by sending messages}
+\section{あらゆるコトは、メッセージ送信で起こる}
 
 %\ruleref{message}
 
-This rule captures the essence of programming in \st.
+% This rule captures the essence of programming in \st.
+この規則は、\stプログラミングの本質を捉えています。
 
-In procedural programming, the choice of which piece of code to execute when a procedure is called is made by the caller.
-The caller chooses the procedure or function to execute \emph{statically}, by name.  
+% In procedural programming, the choice of which piece of code to execute when a procedure is called is made by the caller.
+手続き的プログラミングでは、手続きが呼ばれた時にどのコードが使われるかは、呼び出し側が決めます。
+% The caller chooses the procedure or function to execute \emph{statically}, by name.  
+呼び出し側が、名前で、\emph{静的に}、手続きや関数を選んで実行します。
 
-In object-oriented programming, we do \emph{not} ``call methods'': we ``\subind{message}{send} messages.''
-The choice of terminology is significant.
-Each object has its own responsibilities.
-We do not \emph{tell} an object what to do by applying some procedure to it.
-Instead, we politely \emph{ask} an object to do something for us by sending it a message.
-The message is \emph{not} a piece of code: it is nothing but a name and a list of arguments.
-The receiver then decides how to respond by selecting its own \emph{method} for doing what was asked.
-Since different objects may have different methods for responding to the same message, the method must be chosen \emph{dynamically}, when the message is received.
+% In object-oriented programming, we do \emph{not} ``call methods'': we ``\subind{message}{send} messages.''
+オブジェクト指向プログラミングでは、``メソッドを呼び出し''\emph{ません}。``メッセージを\subind{メッセージ}{送信}''ます。
+% The choice of terminology is significant.
+この用語の違いは重要です。
+% Each object has its own responsibilities.
+それぞれのオブジェクトにはそれぞれの責任があります。
+% We do not \emph{tell} an object what to do by applying some procedure to it.
+オブジェクトを手続きに渡すことで、そのオブジェクトが何をすべきか\emph{指示する}ようなことはしません。
+% Instead, we politely \emph{ask} an object to do something for us by sending it a message.
+そうではなく、オブジェクトにメッセージを送ることで、オブジェクトに何かをするように\emph{お願い}するのです。
+% The message is \emph{not} a piece of code: it is nothing but a name and a list of arguments.
+ここで、メッセージはコードでは\emph{ありません}。まさに名前と引数のリストだけです。
+% The receiver then decides how to respond by selecting its own \emph{method} for doing what was asked.
+メッセージを受けたレシーバは、そこで、頼まれたことを実行するための\emph{メソッド}を選択して、どう対応するのかを決めます。
+% Since different objects may have different methods for responding to the same message, the method must be chosen \emph{dynamically}, when the message is received.
+同じメッセージに対してオブジェクトによって別々のメソッドを持っていることがあるので、メソッドはメッセージを受け取った時に\emph{動的に}選択されなければなりません。
 \begin{code}{@TEST}
-3 + 4         --> 7          "send message + with argument 4 to integer  3"
-(1@2) + 4 --> 5@6    "send message + with argument 4 to point (1@2)"
+% 3 + 4         --> 7          "send message + with argument 4 to integer  3"
+3 + 4         --> 7          "整数「3」にメッセージ「+」と引数「4」を送信する"
+% (1@2) + 4 --> 5@6    "send message + with argument 4 to point (1@2)"
+(1@2) + 4 --> 5@6    "点「(1@2)」にメッセージ「+」と引数「4」を送信する"
 \end{code}
 \noindent
-As a consequence, we can send the \emph{same message} to different objects, each of which may have \emph{its own method} for responding to the message.
-We do not tell the \ct{SmallInteger} \ct{3} or the \ct{Point} \ct{1@2} how to respond to the message \ct{+ 4}.
-Each has its own method for \ct{+}, and responds to \ct{+ 4} accordingly.
+% As a consequence, we can send the \emph{same message} to different objects, each of which may have \emph{its own method} for responding to the message.
+したがって、\emph{同じメッセージ}を異なるオブジェクトに送信することができ、それぞれのオブジェクトはそのメッセージに対応するために\emph{オブジェクト毎のメソッド}を持つことができます。
+% We do not tell the \ct{SmallInteger} \ct{3} or the \ct{Point} \ct{1@2} how to respond to the message \ct{+ 4}.
+\ct{+ 4}というメッセージにどう対応するのかを\ct{SmallInteger} \ct{3}や\ct{Point} \ct{1@2}に指示しないのです。
+% Each has its own method for \ct{+}, and responds to \ct{+ 4} accordingly.
+それぞれが\ct{+}メソッドを持っていて、そのメソッドに従って\ct{+ 4}に対応するのです。
 
-One of the consequences of \st's model of message sending is that it encourages a style in which objects tend to have very small methods and delegate tasks to other objects, rather than implementing huge, procedural methods that assume too much responsibility.
-Joseph Pelrine
+% One of the consequences of \st's model of message sending is that it encourages a style in which objects tend to have very small methods and delegate tasks to other objects, rather than implementing huge, procedural methods that assume too much responsibility.
+\stのメッセージ送信のモデルの帰結として言えることがあります。オブジェクトはとても小さなメソッドを持ち他のオブジェクトに仕事を移譲し、巨大で手続き的なメソッドで過大な責任をかかえることを避ける傾向を持つということです。
+% Joseph Pelrine
+ジョセフ・ペルリン(Joseph Pelrine)はこの原則を次のように簡潔に表現しています。
 \ab{Citation?}
 \on{sorry, just personal communication and my own lecture notes!}
-expresses this principle succinctly as follows:
-\important{Don't do anything that you can push off onto someone else.}
+% expresses this principle succinctly as follows:
+% \important{Don't do anything that you can push off onto someone else.}
+\important{誰かに押しつけられる仕事を自分でやらないこと。}
 \index{Pelrine, Joseph}
 
-Many object-oriented languages provide both static and dynamic operations for objects; in \st there are only dynamic message sends. Instead of providing static class operations, for instance, classes are objects and we simply send messages to classes.
+% Many object-oriented languages provide both static and dynamic operations for objects; in \st there are only dynamic message sends. Instead of providing static class operations, for instance, classes are objects and we simply send messages to classes.
+多くのオブジェクト指向言語はオブジェクトに対して静的動的両方の操作方法を提供していますが、\stでは動的なメッセージ送信だけです。
+静的な操作の代わりに、例えば、クラスがオブジェクトであることで、単にクラスにメッセージを送ります。
 
-\emph{Nearly} everything in \st happens by sending messages.
-At some point action must take place:
+% \emph{Nearly} everything in \st happens by sending messages.
+\stでは、\emph{ほぼ}全てのコトはメッセージ送信で起こります。
+% At some point action must take place:
+いずれかの時点で、メッセージ送信ではない処理が必ず発生します。
 \begin{itemize}
-  \item \emph{Variable declarations} are not message sends.
-  		In fact, variable \subind{variable}{declaration}{}s are not even executable.
-  		Declaring a variable just causes space to be allocated for an object reference.
-  \item \emph{Assignments} are not message sends.
-  		An \ind{assignment} to a variable causes that variable name to be freshly bound in the scope of its definition.
-  \item \emph{Returns} are not message sends.
-  		A \ind{return} simply causes the computed result to be returned to the sender.
-  \item \emph{Primitives} are not message sends.
-  		They are implemented in the \ind{virtual machine}.
-		\index{primitive}
+%  \item \emph{Variable declarations} are not message sends.
+  \item \emph{変数宣言}はメッセージ送信ではありません。
+%  		In fact, variable \subind{variable}{declaration}{}s are not even executable.
+		実際、変数\subind{変数}{宣言}{}は実行可能ですらありません。
+%  		Declaring a variable just causes space to be allocated for an object reference.
+		変数宣言はオブジェクトへの参照を格納する領域を確保する意味しかありません。
+%  \item \emph{Assignments} are not message sends.
+  \item \emph{代入}はメッセージ送信ではありません。
+%  		An \ind{assignment} to a variable causes that variable name to be freshly bound in the scope of its definition.
+		変数への\ind{代入}はその定義スコープ内で名前を束縛します。
+%  \item \emph{Returns} are not message sends.
+  \item \emph{リターン}はメッセージ送信ではありません。
+%  		A \ind{return} simply causes the computed result to be returned to the sender.
+		\ind{リターン}は計算結果をメッセージの送り手に返します。
+%  \item \emph{Primitives} are not message sends.
+  \item \emph{プリミティブ}はメッセージ送信ではありません。
+%  		They are implemented in the \ind{virtual machine}.
+		プリミティブは\ind{仮想マシン}に実装されています。
+		\index{プリミティブ}
 \end{itemize}
-Other than these few exceptions, pretty much everything else does truly happen by sending messages.
-In particular, since there are no ``public fields'' in \st, the only way to update an \ind{instance variable} of another object is to send it a message asking that it update its own field.
-Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style.
-Joseph Pelrine also states this very nicely:
-\important{Don't let anyone else play with your data.}
+% Other than these few exceptions, pretty much everything else does truly happen by sending messages.
+これら僅かな例外を除いて、他の色々なコトはメッセージ送信で起こるのです。
+% In particular, since there are no ``public fields'' in \st, the only way to update an \ind{instance variable} of another object is to send it a message asking that it update its own field.
+特に、\stには``パブリックなフィールド''はないので、他のオブジェクトの\ind{インスタンス変数}を更新するには、メッセージを送ってそのオブジェクト自身のフィールドを更新するようにお願いするしかありません。
+% Of course, providing setter and getter methods for all the instance variables of an object is not good object-oriented style.
+もちろん、全てのインスタンス変数についてセッターメソッドやゲッターメソッドを定義するのは、オブジェクト指向として良いスタイルとは言えません。
+% Joseph Pelrine also states this very nicely:
+ジョセフ・ペルリンは次のようにも言っています。
+% \important{Don't let anyone else play with your data.}
+\important{あなたが持っているデータを他人に弄らせるな。}
 
 %=========================================================
 \section{Method lookup follows the inheritance chain} 
