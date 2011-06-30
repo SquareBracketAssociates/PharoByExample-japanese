@@ -397,29 +397,21 @@ SeasideDemo>>>renderContentOn: html
 \end{method}
 
 \noindent
-Recall that a root component must always declare its children, or Seaside will refuse to render them.
+コンポーネントはサブコンポーネントを返すようにするというのを覚えているでしょうか。Seasideはレンダリングのたびにサブコンポーネントを再利用します。
 \begin{code}{}
 SeasideDemo>>>children
 	^ { htmlDemo . formDemo . editDemo . dialogDemo }
 \end{code}
 
-Notice that there are two different ways of instantiating the \ct{heading} brush.
-The first way is to set the text directly by sending the message \ct{heading:}.
-The second way is to instantiate the brush by sending \ct{heading}, and then to send a cascade of messages to the brush to set its properties and render it.
-Many of the available brushes can be used in these two ways.
+上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストを直接メッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
 
-\important{If you send a \ind{cascade} of messages to a brush including the message \mthind{WABrush}{with:}, then \ct{with:} should be the \emph{final} message.
-\ct{with:}  both sets the content and renders the result.}
+\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るのであれば、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
+\ct{with:} によってブラシのレンダリングが始まるからです。}
 
+\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトのレベル1になります。次の見出しではレベルを2に明示的に設定しています。
+ サブコンポーネントはXHTMLで\emph{div}の中に囲まれる形になります。divには ``subcomponent''という\ind{CSS}のクラスを付与しています(CSSの使い方については\secref{css}で解説します)。  \ct{with:} メッセージの引数は、文字列とは限りません。この例ではコンポーネントを渡しています。次の例でも出てきますが、レンダリングの操作を記述したブロックでも良いのです。
 
-In \mthref{renderdemo}, the first heading is at level 1, since this is the default.
-We explicitly set the level of the second heading to 2.
-The subcomponent is rendered as an XHTML \emph{div} with the \ind{CSS} class ``subcomponent''.
-(More on CSS in \secref{css}.)
-Also note that the argument to the \ct{with:} keyword message need not be a literal string: it can be another component, or even\,---\,as in the next example\,---\,a block containing further rendering actions.
-
-The \ct{SeasideHtmlDemo} component demonstrates many of the most basic brushes.
-Most of the code should be self-explanatory.
+\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用法がわかるでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderContentOn: html 
@@ -429,15 +421,16 @@ SeasideHtmlDemo>>>renderContentOn: html
 	self renderLinkWithCallbackOn: html
 \end{code}
 
-It is common practice to break up long rendering methods into many helper methods, as we have done here.
+上のように、レンダリングのメソッドが長くなった場合には細かいメソッド群に分割することがよく行われます。
 
-\important{Don't put all your rendering code into a single method. 
-Split it into helper methods named using the pattern \ct{render*On:}.
-All rendering methods go in the \prot{rendering} protocol.
-Don't send \ct{renderContentOn:} from your own code, use \ct{render:} instead.}
+\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送りるようにしてください。}
 
-Look at the following code.  
-The first helper method, \ct{SeasideHtmlDemo>>>renderParagraphsOn:}, shows you how to generate XHTML paragraphs, plain and emphasized text, and images.
+さらにコードを見ていきましょう。
+
+最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の仕方の例になっています。
+
+
+
 Note that in Seaside simple elements are rendered by specifying the text they contain directly, whereas complex elements are specified using blocks.
 This is a simple convention to help you structure your rendering code.
 
