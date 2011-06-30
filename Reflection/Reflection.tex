@@ -51,16 +51,16 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st は、リフレクティブな(自分自身を知る)プログラミング言語です。
+\st は、リフレクティブな(自分を客観視することができる)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまり、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
+つまりこれは、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
-より技術的には、次のような意味です。実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるようになります。
+より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
-\st のメタオブジェクトは、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどです。
+\st のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
-このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれ、多くの今風のプログラミング言語は、これをサポートします。
+このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、リフレクションをサポートしています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
@@ -71,7 +71,7 @@
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
 逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
-このことは\emph{インターセッション}とも呼ばれ、おもに動的なプログラミング言語がこれをサポートしますが、静的な言語ではサポートの範囲は極めて限られます。
+このタイプのリフレクションは、\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語がこれをサポートしますが、静的な言語では、サポートの範囲は極めて限られます。
 
 %@A program that manipulates other programs (or even itself) is a \emphind{metaprogram}.
 他のプログラム(あるいはそのプログラム自身までも)を操作するプログラムは、\emphind{メタプログラム}です。
@@ -85,7 +85,7 @@
 \emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を調べ・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言うのです。
 
 %@In this chapter we will focus mainly on \ind{structural reflection}.
-この章では、おもに、\ind{構造的リフレクション}に焦点をあてます。
+この章では、主に、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
 ここでは多くの実際的な例つまり、\st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
 
@@ -146,7 +146,7 @@ w inspect
 \mthindex{Object}{instVarNamed:put:}
 
 %@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
-たとえば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@英文が変?
+例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@?英文が変?
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
@@ -158,7 +158,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
 \ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見付かるでしょう。なお、ここで、\ct!N!は整数です。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
@@ -195,7 +195,7 @@ Object>>>instVarAt: index
 %@In the same spirit, it is possible to gather instances that have specific properties.
 同様の精神にもとづき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神にもとづき?
 %@For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
-たとえば、SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
+例えば、SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
@@ -208,7 +208,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 %@Let us consider the message \ct!instanceVariableValues!, which returns a collection of all values of instance variables defined by this class, excluding the inherited instance variables.
 \ct!instanceVariableValues!メッセージについて考えてみましょう。これは、クラスが定義しているすべてのインスタンス変数の値のコレクションを返します。ただし、継承されたインスタンス変数は除きます。
 %@For instance:
-たとえば:
+例えば:
 \begin{code}{@TEST}
 (1@2) instanceVariableValues --> an OrderedCollection(1 2)
 \end{code}
@@ -246,7 +246,7 @@ Object>>>instanceVariableValues
 %@\lct{isKindOf: \emph{aClass}} returns true if the receiver is instance of \lct{\emph{aClass}} or of one of its superclasses.
 \lct{isKindOf: \emph{aClass}}は、レシーバーが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであるときに、trueを返します。
 %@For instance:
-たとえば:
+例えば:
 \begin{code}{@TEST}
 1.5 class                     --> Float
 1.5 isKindOf: Number --> true
@@ -256,9 +256,9 @@ Object>>>instanceVariableValues
 \mthindex{Object}{isKindOf:}
 
 %@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
-\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: レシーバーのクラスに...メソッドが定義されている?
+\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: 「レシーバーのクラス」というように「クラス」を補った。
 %@For instance:
-たとえば:
+例えば:
 \needlines{3}
 \begin{code}{@TEST}
 %@1.5 respondsTo: #floor      --> true    "since Number implements floor"
@@ -318,7 +318,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
 %@One of the most interesting metrics in the domain of object-oriented languages is the number of methods that extend methods inherited from the superclass.
-オブジェクト指向言語のドメインにおいて、もっとも興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
+オブジェクト指向言語のドメインにおいて、最も興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
 %@This informs us about the relation between the class and its superclasses.
 このことにより、クラスとそのスーパークラスの関係を知ることができます。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
@@ -343,8 +343,7 @@ Point someInstance --> 0@0
 %@You can also gather all the instances with \ct!#allInstances!, or the number of alive instances in memory with \ct!#instanceCount!.
 また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができ、また、メモリ中で生きているインスタンスの数を得るのに、\ct!#instanceCount!を用いることができます。
 
-%@\alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
-\alex{Pharo0.1-10342dev09.96.3仮想イメージの中では、"ByteString instanceCount --> 63607"となりました} %@?\alex{}とは?
+\alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
 \mthindex{Behavior}{instanceCount}
 \mthindex{Behavior}{allSubInstances}
@@ -364,7 +363,7 @@ String allSubInstances size -->  101675
 %@\item \mthind{Behavior}{whichSelectorsReferTo:} returns the selectors of methods that send a given message
 \item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメッセージセレクターを返す
 %@\item \mthind{Behavior}{crossReference} associates each message with the set of methods that send it.
-\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける %@?Method Finderで探したが、crossReferenceというメソッドは見付からなかった。
+\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける %@?Method Finderで探したが、crossReferenceというメソッドは見つからなかった。
 \end{itemize}
 
 \begin{code}{} % TOO FRAGILE TO TEST
@@ -396,7 +395,7 @@ Rectangle unreferencedInstanceVariables            --> #()
 %@\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
 \ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるインスタンスを返します。
 %@For example:
-たとえば:
+例えば:
 
 \mthindex{SystemNavigation}{allClassesImplementing:}
 \begin{code}{@TEST}
@@ -433,7 +432,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 %@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
 おそれく次のことは、それほどよく知られていないでしょう。このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されています。%@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
 %@For example, you can programmatically browse all implementors of the message \ct{ifTrue:} by evaluating:
-たとえば、プログラム的に\ct{ifTrue:}メッセージのすべてのインプリメンターをブラウズするのは、以下を評価することで可能です:
+例えば、プログラム的に\ct{ifTrue:}メッセージのすべてのインプリメンターをブラウズするのは、以下を評価することで可能です:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
@@ -446,7 +445,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
-とりわけ便利なのは、\ct{browseAllSelect:}メソッドと\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super送信を行うものをブラウズする、ふたつの異った方法です (最初の方法は、かなり総当たり式の方法です; 2番目の方法は、より好ましくいもので、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
+とりわけ便利なのは、\ct{browseAllSelect:}メソッドと\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法です (最初の方法は、かなり総当たり式の方法です; 2番目の方法は、より好ましくいもので、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -481,7 +480,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Let us consider the relationship between classes and methods.
 クラスとメソッドの関係について考えてみましょう。
 %@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: 
+\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%@?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
 %@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
@@ -498,7 +497,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@We can exploit the relationships between classes and methods to pose queries about the system.
 クラスとメソッドの関係をフルに使って、\pharo のシステムについてのクエリを送ることができます。
 %@For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
-たとえば、どのメソッドが、与えられたクラスに新規に導入されたかということを見出すことは、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは見出すことは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで可能になります: %@?少し日本語が変。
+例えば、どのメソッドが、与えられたクラスに新規に導入されたかということを見出すことは、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは見出すことは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで可能になります: %@?少し日本語が変。
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -526,7 +525,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 % As a slightly more complex example, we can browse 
 
 %@To browse the super-sends within a given hierarchy, for example within the Collections hierarchy, we can pose a more sophisticated query:
-与えられた階層内のsuper送信をブラウズするには、たとえば、Collectionの階層内のsuper送信をブラウズするには、より洗練されたクエリを送ることができます:
+与えられた階層内のsuper-送信をブラウズするには、例えば、Collectionの階層内のsuper-送信をブラウズするには、より洗練されたクエリを送ることができます:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -537,11 +536,11 @@ SystemNavigation default
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
 %@Note how we navigate from classes to method dictionaries to compiled methods to identify the methods we are interested in.
-関心のあるメソッド(super送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。
+関心のあるメソッド(super-送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。
 %@A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
 \ct{MethodReference}は、コンパイル済みメソッドのための軽量のプロキシーで、たくさんのツールがこのプロキシーを使っています。
 %@There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
-\clsmthind{CompiledMethod}{methodReference}というメソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照を返します。%@?convenienceは名詞だが、英辞郎に、「便利な」という訳例があった。
+\clsmthind{CompiledMethod}{methodReference}という簡便メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照を返します。%@?convenience: 簡便?
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
@@ -556,7 +555,7 @@ SystemNavigation default
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
 \lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出すことに関心があったとしましょう。
 %@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
-このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\selfにメッセージを送ることで済みます!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super-送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super-送信は、通常は、\self-送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\selfにメッセージを送ることで済みます!)
 
 %@The refactoring browser provides us with an elegant way to restrict our query to just the classes and methods we are interested in.
 リファクタリングブラウザーというツールは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
@@ -568,24 +567,24 @@ SystemNavigation default
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
 %@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
-この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super送信を行っているすべてのメソッドが列挙されます。
+この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super-送信を行っているすべてのメソッドが列挙されます。
 %@Now \click on any method and select \menu{refactor>code critics}.
 さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
-\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。
+\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
-\figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見付かったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見つかったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
 %@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
-	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見付けている様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
 %@Browser environments can also be created programmatically.
 ブラウザー環境はまた、プログラム的に作ることができます。
 %@Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
-たとえば、以下のように、\clsind{Collection}とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示することができます。
+例えば、以下のように、\clsind{Collection}とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、superを送っているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示することができます。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -598,7 +597,7 @@ SystemNavigation default
 この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
 
 %@Finally, we can find just those methods that send a different super message programmatically as follows:
-最終的に、このようなメソッド、つまり異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見付け出すことができます:
+最終的に、このようなメソッド、つまり異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見つけ出すことができます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -625,7 +624,7 @@ SystemNavigation default
 \subsection{メソッドコンテクスト}
 
 %@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
-実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- けっして、イメージの中ではない、ということです!
+実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、イメージの中ではない、ということです!
 %@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
 その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
 %@How is this possible?
@@ -634,7 +633,7 @@ SystemNavigation default
 %@Actually, there is nothing magical about the debugger.
 実は、デバッガーには何の魔法もありません。
 %@The secret is the pseudo-variable \pvind{thisContext}, which we have encountered only in passing before.
-秘密は、\pvind{thisContext}という疑似変数にあって、%@?which we have encountered only in passing before.: ???
+秘密は、\pvind{thisContext}という疑似変数にあって、%@?which~: 意味不明。
 %@Whenever \ct{thisContext} is referred to in a running method, the entire run-time context of that method is reified and made available to the image as a series of chained \clsind{MethodContext} objects.
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
@@ -679,13 +678,13 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
 %@As it turns out, one of the most common applications is to discover the sender of a message.
-結局のところ、\ct{thisContext}のもっとも一般的な応用のひとつは、メッセージのセンダーを見出すことです。
+結局のところ、\ct{thisContext}の最も一般的な応用のひとつは、メッセージのセンダーを見出すことです。
 %@Here is a typical application:
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
 Object>>>subclassResponsibility
 %@	"This message sets up a framework for the behavior of the class' subclasses.
-	"このメッセージは問題のクラスの一連のサブクラスの振舞いについてのフレームワークを設ける。"
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
 %@	Announce that the subclass should have implemented this message."
 	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
@@ -711,11 +710,12 @@ we should have a Reflection applied chapter}
 不幸なことに、これを、システムの中核的なメソッドに対して行うと、数々の問題を引き起こすことになります。
 
 %@Suppose, for instance, that we want to explore the execution of \ct{OrderedCollection>>>add:}.
-たとえば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスロアしたかったとしましょう。
+例えば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスロアしたかったとしましょう。
 %@Setting a breakpoint in this method is problematic.
 このメソッドにブレークポイントをかけると、やっかいなことになります。
 
-\dothis{Take a \emph{fresh} image and set the following breakpoint:}
+%@\dothis{Take a \emph{fresh} image and set the following breakpoint:}
+\dothis{\emph{フレッシュな}仮想イメージを使って、以下のブレークポイントをセットしてみましょう:}
 \needlines{3}
 \begin{code}{}
 OrderedCollection>>>add: newObject
@@ -723,24 +723,33 @@ OrderedCollection>>>add: newObject
 	^self addLast: newObject
 \end{code}
 
-Notice how your image immediately freezes!  We do not even get a debugger window.
-The problem is clear once we understand that (i) \ct{OrderedCollection>>>add:} is used by many parts of the system, so the breakpoint is triggered very soon after we accept the change, but (ii) \emph{the debugger itself} sends \ct{add:} to an instance of \ct{OrderedCollection}, preventing the debugger from opening!
-What we need is a way to \emph{conditionally halt} only if we are in a context of interest.
-This is exactly what \clsmthind{Object}{haltIf:} offers.
+%@Notice how your image immediately freezes!  We do not even get a debugger window.
+この仮想イメージが、どのくらいただちに、フリーズするかに注目してください! デバッガーウィンドウを開けることさえできません。
+%@The problem is clear once we understand that (i) \ct{OrderedCollection>>>add:} is used by many parts of the system, so the breakpoint is triggered very soon after we accept the change, but (ii) \emph{the debugger itself} sends \ct{add:} to an instance of \ct{OrderedCollection}, preventing the debugger from opening!
+いったん次のことを理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われています。そして、ブレークポイントは、変更をacceptしたまさにその直後から有効になります。しかし、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けることができなくなるのです!
+%@What we need is a way to \emph{conditionally halt} only if we are in a context of interest.
+必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する方法です。
+%@This is exactly what \clsmthind{Object}{haltIf:} offers.
+この方法を提供するのが、まさに、\clsmthind{Object}{haltIf:}です。
 
-Suppose now that we only want to halt if \ct{add:} is sent from, say, the context of \ct{OrderedCollectionTest>>>testAdd}.
+%@Suppose now that we only want to halt if \ct{add:} is sent from, say, the context of \ct{OrderedCollectionTest>>>testAdd}.
+さて、haltが、何らかのコンテクスト、例えば、\ct{add:}が、\ct{OrderedCollectionTest>>>testAdd}のコンテクストから呼ばれたときにだけ起こるようにしたいとしましょう。%@?say: ?
 
-\dothis{Fire up a fresh image again, and set the following breakpoint:}
+%@\dothis{Fire up a fresh image again, and set the following breakpoint:}
+\dothis{再びフレッシュな仮想イメージを立ち上げ、以下のブレークポイントを設定してみましょう:}
 \begin{code}{}
 OrderedCollection>>>add: newObject
 	!\underline{self haltIf: \#testAdd.}!
 	^self addLast: newObject
 \end{code}
 
-This time the image does not freeze. Try running the \ct{OrderedCollectionTest}.
-(You can find it in the \scat{CollectionsTests-Sequenceable} category.)
+%@This time the image does not freeze. Try running the \ct{OrderedCollectionTest}.
+今回は、仮想イメージはフリーズしません。\ct{OrderedCollectionTest}を走らせてみましょう。
+%@(You can find it in the \scat{CollectionsTests-Sequenceable} category.)
+\ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリにあるのを見つけることができるでしょう。%@?くどい?
 
-How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
+%@How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
+どうしてこのように動くのでしょうか?\clsmthind{Object}{haltIf:}の実装を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
@@ -755,35 +764,51 @@ Object>>>haltIf: condition
 	...
 \end{code}
 
-Starting from \ct!thisContext!, \ct!haltIf:! goes up through the execution stack, checking if the name of the calling method is the same as the one passed as parameter.
-If this is the case, then it raises an exception which, by default, summons the debugger.
+%@Starting from \ct!thisContext!, \ct!haltIf:! goes up through the execution stack, checking if the name of the calling method is the same as the one passed as parameter.
+\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へとたぐっていきながら、呼び出し側のメソッドの名前が、パラメーターとして与えられたシンボルと一致するかをチェックします。
+%@If this is the case, then it raises an exception which, by default, summons the debugger.
+もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
 
-It is also possible to supply a boolean or a boolean block as an argument to \ct{haltIf:}, but these cases are straightforward and do not make use of \lct{thisContext}.
+%@It is also possible to supply a boolean or a boolean block as an argument to \ct{haltIf:}, but these cases are straightforward and do not make use of \lct{thisContext}.
+booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらのケースについての処理は単純で、\lct{thisContext}は活用されません。
 
 %======================================
-\section{Intercepting messages not understood}
+%@\section{Intercepting messages not understood}
+\section{理解されなかったメッセージをインターセプトする}
 \seclabel{msgnotunderstood}
 
-So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
+%@So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
+これまでのところ、\st のリフレクティブな機能は、主に、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振る舞いを実行時に変えることができるか、詳しく見ていきます。
 
-When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
-If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
-The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
+%@When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
+オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、このメッセージに応答するべきメソッドを探します。
+%@If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
+もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたぐっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見つからなかったら、オブジェクトは\emph{自分自身に} \ct{doesNotUnderstand:}を送ります。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージのメッセージセレクターです。
+%@The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
+このメソッド検索のプロセスは、振り出しに戻って再開され、\clsmthind{Object}{doesNotUnderstand:}が見つかるまで続けられ、そしてデバッガーが立ち上がります。
 
-But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
-As it turns out, this is a convenient way of realizing certain kinds of very dynamic behaviour. An object that does not understand a message can, by overriding \ct{doesNotUnderstand:}, fall back to an alternative strategy for responding to that message.
+%@But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
+しかし、もし\ct{doesNotUnderstand:}が\ct{Object}のサブクラスでオーバーライドされていて、メソッドの検索パスに入っていたらどうなるでしょう?
+%@As it turns out, this is a convenient way of realizing certain kinds of very dynamic behaviour. An object that does not understand a message can, by overriding \ct{doesNotUnderstand:}, fall back to an alternative strategy for responding to that message.
+結局のところ、これは、ある種の非常に動的な振る舞いを理解するための、便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できないメッセージに応答するための、代替えの戦略に頼ることができるのです。%@?日本語が変
 
-Two very common applications of this technique are (1) to implement \ind{lightweight proxies} for objects, and (2) to dynamically compile or load missing code.
+%@Two very common applications of this technique are (1) to implement \ind{lightweight proxies} for objects, and (2) to dynamically compile or load missing code.
+このテクニックの非常に一般的な応用をふたつ挙げると、(1) オブジェクトの\ind{軽量プロキシー}の実装、そして、(2) 欠けているコードを動的にコンパイルまたはロードすること、です。
 
 %-----------------------------------------------------------------
-\subsection{Lightweight proxies}
+%@\subsection{Lightweight proxies}
+\subsection{軽量プロキシー}
 
-In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
-Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
+%@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
+最初の例として、``\ind{最低限のオブジェクト}''を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
+%@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
+このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@? ???
 
-Let us have a look at how this may be implemented\footnote{You can also load \pkg{PBE-Reflection} from \url{http://www.squeaksource.com/PharoByExample/}}.
+%@Let us have a look at how this may be implemented\footnote{You can also load \pkg{PBE-Reflection} from \url{http://www.squeaksource.com/PharoByExample/}}.
+これが、どのように実装することができるか、見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードすることもできます}。
 
-We define a \ct{LoggingProxy} as follows:
+%@We define a \ct{LoggingProxy} as follows:
+\ct{LoggingProxy}を以下のように定義します:
 \begin{code}{}
 ProtoObject subclass: #LoggingProxy
 	instanceVariableNames: 'subject invocationCount'
@@ -791,15 +816,19 @@ ProtoObject subclass: #LoggingProxy
 	poolDictionaries: ''
 	category: 'PBE-Reflection'
 \end{code}
-Note that we subclass \ct{ProtoObject} rather than \ct{Object} because we do not want our proxy to inherit over 400 methods (!) from \ct{Object}.
+%@Note that we subclass \ct{ProtoObject} rather than \ct{Object} because we do not want our proxy to inherit over 400 methods (!) from \ct{Object}.
+\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。なぜなら、\ct{Object}からこのプロキシーに、400個以上のメソッド(!)を継承したくないからです。
 
 \begin{code}{}
 Object methodDict size --> 408
 \end{code}
 
-Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
-We initialize the two instance variables and we provide an accessor for the message count.
-Initially the \ct{subject} variable points to the proxy object itself.
+%@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@? ???
+%@We initialize the two instance variables and we provide an accessor for the message count.
+これらふたつのインスタンス変数を初期化し、インターセプトされたメッセージの数(\ct!invocationCount!)を返すアクセサを提供します。
+%@Initially the \ct{subject} variable points to the proxy object itself.
+最初は\ct{subject}変数は、プロキシーオブジェクトそれ自身を指しています。
 \begin{code}{}
 LoggingProxy>>>initialize
 	invocationCount := 0.
@@ -811,7 +840,8 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-We simply intercept all messages not understood, print them to the Transcript, update the message count, and forward the message to the real subject.
+%@We simply intercept all messages not understood, print them to the Transcript, update the message count, and forward the message to the real subject.
+理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、\ct!invocationCount!を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -819,15 +849,18 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 	^ aMessage sendTo: subject
 \end{code}
 
-Here comes a bit of magic.
-We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
+%@Here comes a bit of magic.
+ほら、ちょっとした魔法がやって来ます。%@?Here comes: 英辞郎
+%@We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、\ct{Point}オブジェクトに\mthind{ProtoObject}{become:} と告げます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-This has the effect of swapping all references in the image to the point to now refer to the proxy, and vice versa. Most importantly, the proxy's \ct{subject} instance variable will now refer to the point!
+%@This has the effect of swapping all references in the image to the point to now refer to the proxy, and vice versa. Most importantly, the proxy's \ct{subject} instance variable will now refer to the point!
+\ct!become:!の効果は、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、すべてのプロキシーへの参照を、\ct{Point}オブジェクトへの参照とスワップすることです。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照するのです!
 
 \begin{code}{}
 point invocationCount --> 0
@@ -835,19 +868,24 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-This works nicely in most cases, but there are some shortcomings:
+%@This works nicely in most cases, but there are some shortcomings:
+これは、多くの場合、うまく働きますが、いくつか欠点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
-Curiously, the method \ct{class} is not even implemented in \ct{ProtoObject} but in \ct{Object}, which \ct{LoggingProxy} does not inherit from!
-The answer to this riddle is that \ct{class} is never sent as a message but is directly answered by the virtual machine.\footnote{\ct{yourself} is also never truly sent.
-Other messages that may be directly interpreted by the VM, depending on the receiver, include:
+%@Curiously, the method \ct{class} is not even implemented in \ct{ProtoObject} but in \ct{Object}, which \ct{LoggingProxy} does not inherit from!
+奇妙なことに、\ct{class}メソッドは、\ct{ProtoObject}で実装されてないばかりか、\ct{Object}で実装されてる\ct{class}メソッドとも違います。\ct{LoggingProxy}は、\ct{Object}を継承していません!
+%@The answer to this riddle is that \ct{class} is never sent as a message but is directly answered by the virtual machine.\footnote{\ct{yourself} is also never truly sent.
+この謎に対する答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されるということです。\footnote{\ct{yourself}もまた、本当は、決して送られません。
+%@Other messages that may be directly interpreted by the VM, depending on the receiver, include:
+レシーバーが何であるかによって、直接仮想マシンが解釈することもありうるメッセージには以下のものがあります:
 \ct{+- < > <= >= = ~= * / \ ==}
 \ct{@ bitShift: // bitAnd: bitOr:}
 \ct{at: at:put: size}
 \ct{next nextPut: atEnd}
 \ct{blockCopy: value value: do: new new: x y}.
-Selectors that are never sent, because they are inlined by the compiler and transformed to comparison and jump bytecodes:
+%@Selectors that are never sent, because they are inlined by the compiler and transformed to comparison and jump bytecodes:
+以下のセレクターは、決して送られません。なぜなら、これらはコンパイラーによって、比較とジャンプのバイトコードにインライン展開されるからです:
 \ct{ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:}
 \ct{and: or:}
 \ct{whileFalse: whileTrue: whileFalse whileTrue}
@@ -857,7 +895,8 @@ Selectors that are never sent, because they are inlined by the compiler and tran
 Attempts to send these messages to non-boolean objects can be intercepted and execution can be resumed with a valid boolean value by overriding \ct{mustBeBoolean} in the receiver or by catching the \ct{NonBooleanReceiver} exception.
 }% NB: Notes by Lukas Renggli
 
-Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
+%@Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
+このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self-送信は、インターセプトできません:
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -866,7 +905,8 @@ point rect: (3@4)        --> 1@2 corner: 3@4
 point invocationCount --> 1
 \end{code}
 
-Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
+%@Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信をごまかされてしまっています: %@?has been cheated out of
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
@@ -875,14 +915,18 @@ Point>>>rect: aPoint
 Although messages can be intercepted by proxies using this technique, one should be aware of the inherent limitations of using a proxy.  In \secref{wrapper} we will see another, more general approach for intercepting messages.
 
 %-----------------------------------------------------------------
-\subsection{Generating missing methods}
+%@\subsection{Generating missing methods}
+\subsection{欠けているメソッドの生成}
 
-The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
-Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
+%@The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
+理解されなかったメッセージをインターセプトすることの、最も一般的な応用例は、欠けているメソッドの動的ロード、欠けているメソッドの動的生成です。
+%@Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
+多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードすることもできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、ソースコードが見つかるか、を知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドでロードします。ある時点で、この振る舞いは解除することができ、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存することができます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
-Let us look at a simple variant of this technique where we have a class that automatically adds accessors for its instance variables on-demand:
+%@Let us look at a simple variant of this technique where we have a class that automatically adds accessors for its instance variables on-demand:
+このテクニックの単純な応用例を詳しく見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです: %@?variant?
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -895,29 +939,36 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 			^ aMessage sendTo: self ].
 	^ super doesNotUnderstand: aMessage
 \end{code}
-Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
+%@Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
+理解されなかったメッセージは、どれも、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、クラスに動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
 
-Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
+%@Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
+\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義されたアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
 \needlines{2}
 \begin{code}{}
 myDA := DynamicAccessors new.
 myDA x --> nil
 \end{code}
 
-Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
+%@Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
+\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう。(\figref{DynamicAccessors}参照).
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
-	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
+%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
+	\caption{アクセサーの動的作成。\figlabel{DynamicAccessors}}
 	% \alex{not sure whether the figure is highly necessary. The code is rather simple and the figure complete to follow in my opinion.}}
 	% \on{trust me, it is useful to see all the steps.}
 \end{figure}
 
-(1) We send \ct{x} to \ct{myDA}, (2) the message is looked up in the class, and (3) not found in the class hierarchy. (4) This causes \ct{self doesNotUnderstand: #x} to be sent back to the object, (5) triggering a new lookup. This time \ct{doesNotUnderstand:} is found immediately in \ct{DynamicAccessors}, (6) which asks its class to compile the string \ct{'x ^ x'}. The \ct{compile} method is looked up (7), and (8) finally found in \ct{Behavior}, which (9-10) adds the new compiled method to the method dictionary of \ct{DynamicAccessors}. Finally, (11-13) the message is resent, and this time it is found.
+%@(1) We send \ct{x} to \ct{myDA}, (2) the message is looked up in the class, and (3) not found in the class hierarchy. (4) This causes \ct{self doesNotUnderstand: #x} to be sent back to the object, (5) triggering a new lookup. This time \ct{doesNotUnderstand:} is found immediately in \ct{DynamicAccessors}, (6) which asks its class to compile the string \ct{'x ^ x'}. The \ct{compile} method is looked up (7), and (8) finally found in \ct{Behavior}, which (9-10) adds the new compiled method to the method dictionary of \ct{DynamicAccessors}. Finally, (11-13) the message is resent, and this time it is found.
+(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最期に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。
 
-The same technique can be used to generate setters for instance variables, or other kinds of boilerplate code, such as visiting methods for a Visitor.
+%@The same technique can be used to generate setters for instance variables, or other kinds of boilerplate code, such as visiting methods for a Visitor.
+同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使うことができます。v
 
-Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to send messages that are composed at run-time:
+%@Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to send messages that are composed at run-time:
+ステップ(13)での、\clsmthind{Object}{perform:}使い方に注意してください。\ct{perform:}メソッドを使えば、実行時に生成されたシンボルを使って、メッセージを送ることができます:
 \begin{code}{@TEST}
 5 perform: #factorial                                             --> 120
 6 perform: ('fac', 'torial') asSymbol                       --> 720
@@ -925,20 +976,28 @@ Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to s
 \end{code}
 
 %======================================
-\section{Objects as method wrappers}
+%@\section{Objects as method wrappers}
+\section{メソッドラッパーとしてのオブジェクト}
 \seclabel{wrapper}
 
-We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
-What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
+%@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
+すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そして\ct{コンパイル済みメソッドオブジェクト}にも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
+%@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
+少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割の役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
-\dothis{Define an empty class \ct{Demo}. Evaluate \ct{Demo new answer42} and notice how the usual ``Message Not Understood'' error is raised.}
+%@\dothis{Define an empty class \ct{Demo}. Evaluate \ct{Demo new answer42} and notice how the usual ``Message Not Understood'' error is raised.}
+\dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されるかどうかを確認しましょう。}
 
-Now we will install a plain \st object in the method dictionary of our \ct{Demo} class.
+%@Now we will install a plain \st object in the method dictionary of our \ct{Demo} class.
+さあここで、普通の\st オブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録することにしましょう。
 
-\dothis{Evaluate \lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}
-Now try again to print the result of \ct{Demo new answer42}. This time we get the answer \ct{42}.}
+%@\dothis{Evaluate \lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}
+\dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
+%@Now try again to print the result of \ct{Demo new answer42}. This time we get the answer \ct{42}.}
+さて、もういちど\ct{Demo new answer42}.の結果をprintしてみましょう。今度は、\ct{42}が得られます。}
 
-If we take look at the class \clsind{ObjectsAsMethodsExample} we will find the following methods:
+%@If we take look at the class \clsind{ObjectsAsMethodsExample} we will find the following methods:
+\clsind{ObjectsAsMethodsExample}を見ると、以下のメソッドが見つかるはずです:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
 %\on{ObjectsAsMethodsExample is part of the standard pharo image -- it is not in PBE-Reflection}
 \needlines{5}
@@ -950,38 +1009,53 @@ run: oldSelector with: arguments in: aReceiver
 	^self perform: oldSelector withArguments: arguments
 \end{code}
 
-When our \ct{Demo} instance receives the message \ct{answer42}, method lookup proceeds as usual, however the virtual machine will detect that in place of a compiled method, an ordinary \st object is trying to play this role.
-The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
-Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
+%@When our \ct{Demo} instance receives the message \ct{answer42}, method lookup proceeds as usual, however the virtual machine will detect that in place of a compiled method, an ordinary \st object is trying to play this role.
+この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まりますが、しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
+%@The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
+VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送り、このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
+%@Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
+\ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身にメッセージを移譲します。
 
-We can now remove the fake method as follows:
+%@We can now remove the fake method as follows:
+ここで、このためのメソッドは、以下のようにして、削除することができます:
 \begin{code}{}
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
+%@If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
+\ct{ObjectsAsMethodsExample}をよく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクト、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのか) %@? ???
 
 %-------------------------------------------------------------------------
-\subsection{Using method wrappers to perform test coverage}
+%@\subsection{Using method wrappers to perform test coverage}
+\subsection{メソッドラッパーを、テストカバレッジの測定に使う}
 
-Method wrappers are a well-known technique for intercepting messages \cite{Bran98a}.
-In the original implementation\footnote{http://www.squeaksource.com/MethodWrappers.html}, a method wrapper is an instance of a subclass of \ct{CompiledMethod}. When installed, a method wrapper can perform special actions before or after invoking the original method.
-When uninstalled, the original method is returned to its rightful position in the method dictionary.
+%@Method wrappers are a well-known technique for intercepting messages \cite{Bran98a}.
+メソッドラッパーは、メッセージをインターセプトするための、よく知られたテクニックです\cite{Bran98a}。
+%@In the original implementation\footnote{http://www.squeaksource.com/MethodWrappers.html}, a method wrapper is an instance of a subclass of \ct{CompiledMethod}. When installed, a method wrapper can perform special actions before or after invoking the original method.
+もともとの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーとして、\ct{CompiledMethod}のサブクラスのインスタンスを使います。インストールされるとメソッドラッパーは、もともとのメソッドを呼び出す前かあとに、特別なアクションを実行することができます。
+%@When uninstalled, the original method is returned to its rightful position in the method dictionary.
+アンインストールされると、もともとのメソッドは、メソッド辞書内の、本来あるべき位置に戻されます。
 
-In Pharo, \ind{method wrappers} can be implemented more easily by implementing \ct{run:with:in:} instead of by subclassing \ct{CompiledMethod}. In fact, there exists a lightweight implementation of objects as method wrappers\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}, but it is not part of standard Pharo at the time of this writing.
+%@In Pharo, \ind{method wrappers} can be implemented more easily by implementing \ct{run:with:in:} instead of by subclassing \ct{CompiledMethod}. In fact, there exists a lightweight implementation of objects as method wrappers\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}, but it is not part of standard Pharo at the time of this writing.
+Pharoでは、\ind{メソッドラッパー}は、\ct{CompiledMethod}をサブクラスするかわりに、\ct{run:with:in:}を実装すればよく、より簡単に実装することができます。実際、オブジェクトによる軽量のメソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
 
-Nevertheless, the Pharo Test Runner uses precisely this technique to evaluate test coverage.
-Let's have a quick look at how it works.
+%@Nevertheless, the Pharo Test Runner uses precisely this technique to evaluate test coverage.
+にもかかわらず、Pharoのテストランナーは、カバレッジを評価するのに、まさにこのテクニックを使っています。
+%@Let's have a quick look at how it works.
+テストランナーがどのように動作するか、ザッと見てみましょう。
 
-The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
+%@The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
+テストカバレッジのエントリーポイントは、\clsmthind{TestRunner}{runCoverage}です:
 \begin{code}{}
 TestRunner>>>runCoverage
 	| packages methods |
-	... "identify methods to check for coverage"
+%@	... "identify methods to check for coverage"
+	... "カバレッジを測定するメソッドを識別する" %@? ???
 	self collectCoverageFor: methods
 \end{code}
 
-The method \clsmthind{TestRunner}{collectCoverageFor:} clearly illustrates the coverage checking algorithm:
+%@The method \clsmthind{TestRunner}{collectCoverageFor:} clearly illustrates the coverage checking algorithm:
+この\clsmthind{TestRunner}{collectCoverageFor:}メソッドは、カバレッジチェックのアルゴリズムを、明瞭に説明しています:
 \begin{code}{}
 TestRunner>>>collectCoverageFor: methods
 	| wrappers suite |
@@ -997,13 +1071,19 @@ TestRunner>>>collectCoverageFor: methods
 			[ UIManager default inform: 'Congratulations. Your tests cover all code under analysis.' ]
 		ifFalse: ...
 \end{code}
-A wrapper is created for each method to be checked, and each wrapper is installed.
-The tests are run, and all wrappers are uninstalled.
-Finally the user obtains feedback concerning the methods that have not been covered.
+%@A wrapper is created for each method to be checked, and each wrapper is installed.
+チェックする各メソッドについて1個ずつラッパーが作られ、そして、各ラッパーがインストールされます。
+%@The tests are run, and all wrappers are uninstalled.
+テストが実行され、すべてのラッパーはアンインストールされます。
+%@Finally the user obtains feedback concerning the methods that have not been covered.
+最後に、カバーされなかったメソッドについてのフィードバックが、得られます。
 
-How does the wrapper itself work?
-The \ct{TestCoverage} wrapper has three instance variables, \ct{hasRun}, \ct{reference} and \ct{method}.
-They are initialized as follows:
+%@How does the wrapper itself work?
+ラッパーそれ自身は、どのように動くのでしょうか?
+%@The \ct{TestCoverage} wrapper has three instance variables, \ct{hasRun}, \ct{reference} and \ct{method}.
+次の\ct{TestCoverage}ラッパーには、3個のインスタンス変数: \ct{hasRun}、\ct{reference}、\ct{method}があります。
+%@They are initialized as follows:
+これらは以下のように初期化されます。
 \begin{code}{}
 TestCoverage class>>>on: aMethodReference
 	^ self new initializeOn: aMethodReference
@@ -1014,7 +1094,8 @@ TestCoverage>>>initializeOn: aMethodReference
 	method := reference compiledMethod
 \end{code}
 
-The install and uninstall methods simply update the method dictionary in the obvious way:
+%@The install and uninstall methods simply update the method dictionary in the obvious way:
+installメソッドと、uninstallメソッドは、自明な方法で、メソッド辞書を更新します:
 \begin{code}{}
 TestCoverage>>>install
 	reference actualClass methodDictionary
@@ -1027,7 +1108,8 @@ TestCoverage>>>uninstall
 		put: method
 \end{code}
 \noindent
-and the \ct{run:with:in:} method simply updates the \ct{hasRun} variable, uninstalls the wrapper (since coverage has been verified), and resends the message to the original method
+%@and the \ct{run:with:in:} method simply updates the \ct{hasRun} variable, uninstalls the wrapper (since coverage has been verified), and resends the message to the original method
+そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパー(それ自身)をアンインストールし(カバレッジが検証されたから)、もともとのメソッドにメッセージを再送します。%@?resends the message to the original method?
 \begin{code}{}
 run: aSelector with: anArray in: aReceiver
 	self mark; uninstall.
@@ -1036,28 +1118,40 @@ run: aSelector with: anArray in: aReceiver
 mark
 	hasRun := true
 \end{code}
-(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
+%@(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
+テ(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
 
-That's all there is to it!
+%@That's all there is to it!
+ただそれだけのことです。
 
-Method wrappers can be used to perform any kind of suitable behaviour before or after the normal operation of a method.  Typical applications are instrumentation (collecting statistics about the calling patterns of methods), checking optional pre- and post-conditions, and memoization (optionally cacheing computed values of methods).
+%@Method wrappers can be used to perform any kind of suitable behaviour before or after the normal operation of a method.  Typical applications are instrumentation (collecting statistics about the calling patterns of methods), checking optional pre- and post-conditions, and memoization (optionally cacheing computed values of methods).
+メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前後に実行させることができます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
-\section{Pragmas}
+%@\section{Pragmas}
+\section{プラグマ}
 
-A \emphind{pragma} is an annotation that specifies data about a program, but is not involved in the execution of the program. Pragmas have no direct effect on the operation of the method they annotate.
-Pragmas have a number of uses, among them:
+%@A \emphind{pragma} is an annotation that specifies data about a program, but is not involved in the execution of the program. Pragmas have no direct effect on the operation of the method they annotate.
+\emphind{プラグマ}は、プログラムについてのデータについて詳細に述べるためのアノテーション(注釈)ですが、プログラムの実行には関与しません。プラグマは、それらがアノテートするメソッドの操作に、直接影響しません。
+%@Pragmas have a number of uses, among them:
+プラグマには、いくつもの使い道があります、それらは、例えば以下のようなものです:
 \begin{itemize}
-\item Information for the compiler: \indmain{pragmas} can be used by the compiler to make a method call a primitive function. This function has to be defined by the virtual machine or by an external plug-in.
-\item Runtime processing: Some pragmas are available to be examined at runtime.
+%@\item Information for the compiler: \indmain{pragmas} can be used by the compiler to make a method call a primitive function. This function has to be defined by the virtual machine or by an external plug-in.
+\item コンパイラーへの情報: \indmain{プラグマ}は、コンパイラがメソッド呼び出しをプリミティブ関数にするのに用いられます。このプリミティブ関数は、バーチャルマシンか外部プラグインが定義しなければなりません。
+%@\item Runtime processing: Some pragmas are available to be examined at runtime.
+\item 実行時処理: いくつかのプラグマは、実行時にこれを検査することができます。%@?プログラムの実行には関与しないのではなかったか?
 \end{itemize}
 
-Pragmas can be applied to a program's method declarations only. A method may declare one or more pragmas, and the pragmas have to be declared prior any Smalltalk statement. Each pragma is in effect a static message send with literal arguments.
+%@Pragmas can be applied to a program's method declarations only. A method may declare one or more pragmas, and the pragmas have to be declared prior any Smalltalk statement. Each pragma is in effect a static message send with literal arguments.
+プラグマが適用可能なのは、プログラムのメソッド宣言においてのみです。メソッドは、1個かそれ以上のプラグマを宣言することができ、そしてプラグマは、どのSmalltalkの文よりも先に宣言されなければなりません。各プラグマは、事実上、リテラル引数をともなった静的メッセージ送信です。
 
-We briefly saw pragmas when we introduced primitives earlier in this chapter. A primitive is nothing more than a pragma declaration. 
-Consider \ct{<primitive: 73>} as contained in \ct{instVarAt:}. The pragma's selector is \ct{primitive:} and its arguments is an immediate literal value, \ct{73}. 
+%@We briefly saw pragmas when we introduced primitives earlier in this chapter. A primitive is nothing more than a pragma declaration. 
+この章の最初の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上のなにものでもありません。 
+%@Consider \ct{<primitive: 73>} as contained in \ct{instVarAt:}. The pragma's selector is \ct{primitive:} and its arguments is an immediate literal value, \ct{73}. 
+\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。%@?immediate: 訳さなかった。
 
-The compiler is probably the bigger user of pragmas. SUnit is another tool that makes use of annotations. SUnit is able to estimate the coverage of an application from a test unit. One may want to exclude some methods from the coverage. This is the case of the \ct!documentation! method in \ct!SplitJointTest class!:
+%@The compiler is probably the bigger user of pragmas. SUnit is another tool that makes use of annotations. SUnit is able to estimate the coverage of an application from a test unit. One may want to exclude some methods from the coverage. This is the case of the \ct!documentation! method in \ct!SplitJointTest class!:
+コンパイラーはおそらく、プラグマの大口ユーザです。SUnitもまた、アノテーションを活用するツールです。SUnitは、テストユニットからアプリケーションのカバレッジを見積ることができます。いくつかのメソッドを、カバレッジから除外したいと思うかもしれません。以下は、\ct!SplitJointTest class!の\ct!documentation!メソッドの場合です:
 
 \begin{code}{}
 SplitJointTest class>>>documentation
@@ -1067,7 +1161,8 @@ SplitJointTest class>>>documentation
 	^ 'This package provides function.... "
 \end{code}
 
-By simply annotating a method with the pragma \ct!<ignoreForCoverage>! one can control the scope of the coverage.
+%@By simply annotating a method with the pragma \ct!<ignoreForCoverage>! one can control the scope of the coverage.
+このように単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジの範囲をコントロールすることができます。
 
 %Beside the compiler, Lint is a heavy user of pragmas. Lint is a static code analyzer that flags suspicious, non-portable constructs and code that is likely to contain bugs. It may happen that a method needs to be excluded from Lint analysis. This is the case here:
 
@@ -1083,7 +1178,8 @@ By simply annotating a method with the pragma \ct!<ignoreForCoverage>! one can c
 
 %One of the pragmas used by Lint to filter out methods is \ct{lint:rationale:author:}.
 
-As instances of the class \clsind{Pragma}, pragmas are first class objects. A compiled method answers to the message \mthind{CompiledMethod}{pragmas}. This method returns an array of pragmas. 
+%@As instances of the class \clsind{Pragma}, pragmas are first class objects. A compiled method answers to the message \mthind{CompiledMethod}{pragmas}. This method returns an array of pragmas. 
+プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メッセージに答えます。この\ct!pragmas!メソッドは、プラグマの配列を返します。
 
 \begin{code}{}
 (SplitJoinTest class >> #showDocumentation) pragmas.
@@ -1091,39 +1187,59 @@ As instances of the class \clsind{Pragma}, pragmas are first class objects. A co
 (Float>>#+) pragmas --> an Array(<primitive: 41>)
 \end{code}
 
-Methods defining a particular query may be retrieved from a class. The class side of \ct!SplitJoinTest! contains some methods annotated with \ct!<ignoreForCoverage>!:
+%@Methods defining a particular query may be retrieved from a class. The class side of \ct!SplitJoinTest! contains some methods annotated with \ct!<ignoreForCoverage>!:
+特定のクエリを定義するメソッドが、クラスから取り出されることがあり得ます。\ct!SplitJoinTest!のクラス側には、\ct!<ignoreForCoverage>!とアノテートされた、いくつかのメソッドがあります: %@!retrieved: ???
 
 \begin{code}{@TEST}
 Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignoreForCoverage> <ignoreForCoverage> <ignoreForCoverage>)
 \end{code}
 
-A variant of \ct{allNamed:in:} may be found on the class side of \ct{Pragma}.
+%@A variant of \ct{allNamed:in:} may be found on the class side of \ct{Pragma}.
+\ct{allNamed:in:}の変種が、\ct{Pragma}のクラス側に見付かるでしょう。
 
-A pragma knows in which method it is defined (using \ct{method}), the name of the method (\ct{selector}), the class that contains the method (\ct{methodClass}), its number of arguments (\ct{numArgs}), about the literals the pragma has for arguments (\ct{hasLiteral:} and \ct{hasLiteralSuchThat:}). 
+%@A pragma knows in which method it is defined (using \ct{method}), the name of the method (\ct{selector}), the class that contains the method (\ct{methodClass}), its number of arguments (\ct{numArgs}), about the literals the pragma has for arguments (\ct{hasLiteral:} and \ct{hasLiteralSuchThat:}). 
+プラグマは、どのメソッドの中で、そのプラグマが定義されたか知っていおり(\ct{method}を使えばわかります)、そのメソッドの名前を(\ct{selector})、そのメソッドを含むクラスを(\ct{methodClass})、プラグマの引数の数を(\ct{numArgs})、プラグマに特定の引数リテラルがあるかどうかを(\ct{hasLiteral:}そして\ct{hasLiteralSuchThat:})知っています。 
 
 \lr{Typically pragmas are performed on an interpreter object that understands the pragma message.}
 
 %======================================
-\section{Chapter summary}
+%@\section{Chapter summary}
+\section{章のまとめ}
 
-Reflection refers to the ability to query, examine and even modify the metaobjects of the run-time system as ordinary objects.
+%@Reflection refers to the ability to query, examine and even modify the metaobjects of the run-time system as ordinary objects.
+リフレクションと言った場合、それは、実行時システムのメタオブジェクトについて、これにクエリを送ることができたり、これが分析できたり、これを変更することさえできたりすることを指します。こうした点で、メタオブジェクトは、普通のオブジェクトと同等です。
 
 \begin{itemize}
-\item The Inspector uses \ct{instVarAt:} and related methods to query and modify ``private'' instance variables of objects.
-\item Send \ct{Behavior>>>allInstances} to query instances of a class.
-\item The messages \ct{class}, \ct{isKindOf:}, \ct{respondsTo:} \etc  are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
-\item \ct{SystemNavigation} is a utility class holding many useful queries for navigation and browsing the class hierarchy. For example, use \ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.} to find and browse all methods with a given source string. (Slow, but thorough!)
-\item Every \st class points to an instance of \ct{MethodDictionary} which maps selectors to instances of \ct{CompiledMethod}. A compiled method knows its class, closing the loop.
-\item \ct{MethodReference} is a leightweight proxy for a compiled method, providing additional convenience methods, and used by many \st tools. 
-\item \ct{BrowserEnvironment}, part of the Refactoring Browser infrastructure, offers a more refined interface than \ct{SystemNavigation} for querying the system, since the result of a query can be used as a the scope of a new query. Both GUI and programmatic interfaces are available.
-\item \ct{thisContext} is a pseudo-variable that reifies the run-time stack of the virtual machine. It is mainly used by the debugger to dynamically construct an interactive view of the stack. It is also especially useful for dynamically determining the sender of a message.
-\item Intelligent breakpoints can be set using \ct{haltIf:}, taking a method selector as its argument. \ct{haltIf:} halts only if the named method occurs as a sender in the run-time stack.
-\item A common way to intercept messages sent to a given target is to use a ``minimal object'' as a proxy for that target. The proxy implements as few methods as possible, and traps all message sends by implementing \ct{doesNotunderstand:}. It can then perform some additional action and then forward the message to the original target.
-\item Send \ct{become:} to swap the references of two objects, such as a proxy and its target.
-\item Beware, some messages, like \ct{class} and \ct{yourself} are never really sent, but are interpreted by the VM.  Others, like \ct{+}, \ct{-} and \ct{ifTrue:} may be directly interpreted or inlined by the VM depending on the receiver.
-\item Another typical use for overriding \ct{doesNotUnderstand:} is to lazily load or compile missing methods.
-\item \ct{doesNotUnderstand:} cannot trap \self-sends.
-\item A more rigorous way to intercept messages is to use an object as a method wrapper. Such an object is installed in a method dictionary in place of a compiled method. It should implement \ct{run:with:in:} which is sent by the VM when it detects an ordinary object instead of a compiled method in the method dictionary. This technique is used by the SUnit Test Runner to collect coverage data.
+%@\item The Inspector uses \ct{instVarAt:} and related methods to query and modify ``private'' instance variables of objects.
+\item インスペクターは、\ct{instVarAt:}や、関連するメソッドを用いて、オブジェクトの``プライベート''なインスタンス変数にクエリを送ったり、これを変更したりします。
+%@\item Send \ct{Behavior>>>allInstances} to query instances of a class.
+\item与えられたクラスの(すべての)インスタンス知りたければ、\ct{Behavior>>>allInstances}をそのクラスに送りましょう。
+%@\item The messages \ct{class}, \ct{isKindOf:}, \ct{respondsTo:} \etc  are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
+\item ct{class}、\ct{isKindOf:}、\ct{respondsTo:} \etc メソッドは、メトリクスを収集したり、開発ツールを構築するのには便利ですが、通常のアプリケーションでは、これらを使うことは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反し、コードを理解しづらく、保守しづらいものにします。
+%@\item \ct{SystemNavigation} is a utility class holding many useful queries for navigation and browsing the class hierarchy. For example, use \ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.} to find and browse all methods with a given source string. (Slow, but thorough!)
+\item \ct{SystemNavigation} はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、任意の文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な方法です!)
+%@\item Every \st class points to an instance of \ct{MethodDictionary} which maps selectors to instances of \ct{CompiledMethod}. A compiled method knows its class, closing the loop.
+\item どの \st クラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いのことを知っていることになります。
+%@\item \ct{MethodReference} is a leightweight proxy for a compiled method, providing additional convenience methods, and used by many \st tools. 
+\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡便メソッドを提供しするもので、多くの\st ツールが、この\ct{MethodReference}を使っています。
+%@\item \ct{BrowserEnvironment}, part of the Refactoring Browser infrastructure, offers a more refined interface than \ct{SystemNavigation} for querying the system, since the result of a query can be used as a the scope of a new query. Both GUI and programmatic interfaces are available.
+\item \ct{BrowserEnvironment}、これはリファクタリングブラウザのインフラの一部ですが、これによって、\ct{SystemNavigation}より洗練されたインターフェースでもって、システムにクエリを送ることができます。クエリの結果が、次の新しいクエリのスコープとして使えるからです。GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。%@?scope: カタカナのままにした。
+%@\item \ct{thisContext} is a pseudo-variable that reifies the run-time stack of the virtual machine. It is mainly used by the debugger to dynamically construct an interactive view of the stack. It is also especially useful for dynamically determining the sender of a message.
+\item \ct{thisContext}疑似変数です。この疑似変数は、仮想マシンの実行時スタックを具現化したものです。\ct{thisContext}は、主にデバッガーで使われ、スタックの会話的なビューを動的に構築するのに使われます。\ct{thisContext}はまた、メッセージのセンダーを動的に特定したい場合に、とりわけ便利です。%@?したい場合に: 意訳しすぎか?
+%@\item Intelligent breakpoints can be set using \ct{haltIf:}, taking a method selector as its argument. \ct{haltIf:} halts only if the named method occurs as a sender in the run-time stack.
+\item \ct{haltIf:}を使えば、賢いブレークポイントを設定することができます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数が示すメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
+%@\item A common way to intercept messages sent to a given target is to use a ``minimal object'' as a proxy for that target. The proxy implements as few methods as possible, and traps all message sends by implementing \ct{doesNotunderstand:}. It can then perform some additional action and then forward the message to the original target.
+\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、``最低限のオブジェクト''を使います。最低限のオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、もともとのターゲットにメッセージを転送する前後に、ある種の追加のアクションを実行することができます。%@?「前後に」なんて書いていない
+%@\item Send \ct{become:} to swap the references of two objects, such as a proxy and its target.
+\item ふたつのオブジェクト参照を交換するには、\ct{become:}を使いましょう。\ct{become:}は、プロキシーとそのターゲットを交換するのに使えます。
+%@\item Beware, some messages, like \ct{class} and \ct{yourself} are never really sent, but are interpreted by the VM.  Others, like \ct{+}, \ct{-} and \ct{ifTrue:} may be directly interpreted or inlined by the VM depending on the receiver.
+\item 注意してください。いくつかのメッセージ、例えば\ct{class}や\ct{yourself}は、決して実際には送られず、代わりに、VMによって捕捉されます。他の、例えば、\ct{+}, \ct{-} and \ct{ifTrue:} も、直接VMによって解釈されるか、インライン展開されます。このようなことが起こるかどうかは、レシーバーによって異なります。%@?VMがインライン展開する?
+%@\item Another typical use for overriding \ct{doesNotUnderstand:} is to lazily load or compile missing methods.
+\item \ct{doesNotUnderstand:}をオーバーライドする、典型的な例としては、欠けているメソッドの遅延ロードまたは遅延コンパイルです。
+%@\item \ct{doesNotUnderstand:} cannot trap \self-sends.
+\item \ct{doesNotUnderstand:}は、\self-送信を捕捉することはできません。
+%@\item A more rigorous way to intercept messages is to use an object as a method wrapper. Such an object is installed in a method dictionary in place of a compiled method. It should implement \ct{run:with:in:} which is sent by the VM when it detects an ordinary object instead of a compiled method in the method dictionary. This technique is used by the SUnit Test Runner to collect coverage data.
+\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトすることができます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。ラッパーは、\ct{run:with:in:}を実装しなければなりあせん。このメッセージは、VMが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを収集するのに使われています。%@?意訳しすぎか?
 \end{itemize}
 
 %=========================================================
