@@ -354,24 +354,21 @@ initializeメソッドを書き始めるまでは、それが必要だと認識�
    \caption{すべての未分類のメソッドを自動的に分類します。}
 \end{figure}
 
-If you have followed along with this example, the third pane may well contain the protocol \protind{as yet unclassified}.
+この例に沿って作業をしている場合は、3つ目のペインまだ分類されていないプロトコルが含まれているかもしれません。
 
-\dothis{\Actclick in the protocol pane and select \menu{various \go categorize automatically} to fix this, and move the \ct{initialize} methods to a new protocol called \protind{initialization}.}
-How does \pharo{} know that this is the right protocol?  Well, in general \pharo{} can't know, but in this case there is also an \ct{initialize} method in a superclass, and \pharo assumes that our \ct{initialize} method should go in the same category as the one that it overrides.
+\dothis{プロトコルペインをAction-clickして下さい。その後varius⇒categorize automaticallyを選択決定し、その後initializationと呼ばれる新しいプロトコルであるinitializeメソッドに作業を移してください。}
+Pharoはどのようにして、このプロトコルが妥当であるかを知るのでしょうか。一般的に、Pharoは知りません。しかしこのケースにおいてはスーパークラスはinitializeメソッドを持っています。そしてPharoは今回のinitializeメソッドがオーバーライドすべきメソッドに分類されると判断します。
 \index{method!categorize}
 
 %You may find that \pharo has already put your \ct{initialize} method into the \protind{initialization} protocol.
 %If so, it's probably because you have loaded a package called \ct{AutomaticMethodCategorizer} into your image.
 
-\paragraph{A typographic convention.} Smalltalkers frequently use the notation ``\verb|>>|'' to identify the class to which a method belongs, so, for example, the \ct{cellsPerSide} method in class \ct{LOGame} would be referred to as \ct{LOGame>>cellsPerSide}.
-To indicate that this is \emph{not} \st syntax, we will use the special symbol \ct{>>>} instead, so this method will appear in the text as \ct{LOGame>>>cellsPerSide}
-\cmindex{Behavior}{>>}
+\paragraph{表記規則。} Smalltalkersは、メソッドが属するクラスを識別するため、よく``\verb|>>|''の表記法使用します。例えば\ct{LOGame}クラスのcellsPerSideメソッドでは \ct{LOGame>>cellsPerSide}となります。
 
-From now on, when we show a method in this book, we will write the name of the method in this form.  Of course, when you actually type the code into the browser, you don't have to type the class name or the \ct{>>>}; instead, you just make sure that the appropriate class is selected in the class pane.  
+以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にプラウザー上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
+さあ、これから\ct{LOGame>>>initialize}メソッドで使う他の2つのメソッドを定義しましょう。
 
-Now let's define the other two methods that are used by the \ct{LOGame>>>initialize} method. Both of them can go in the \prot{initialization} protocol.
-
-\begin{method}[sbegamecellsperside]{A constant method.}
+\begin{method}[sbegamecellsperside]{定数メソッド。}
 LOGame>>>cellsPerSide
    "The number of cells along each side of the game"
    ^ 10
@@ -379,10 +376,10 @@ LOGame>>>cellsPerSide
 \cmindex{LOGame}{cellsPerSide}
 \index{constant methods}
 
-This method could hardly be simpler: it answers the constant 10.  One advantage of representing constants as methods is that if the program evolves so that the constant then depends on some other features, the method can be changed to calculate this value.
+このメソッドは非常にシンプルで、単に定数10を返すだけです。メソッドで定数を表記する利点の1つは、～時、この値を計算するためにこのメソッドで変更することができるからです。他の要因に依存しているこの定数によってこのプログラムが進化するならば、この値を計算することでメソッドを変更することができます。
 
 \needlines{10}
-\begin{method}[newCellAt:at:]{An initialization helper method}
+\begin{method}[newCellAt:at:]{初期化補助メソッド}
 LOGame>>>newCellAt: i at: j
    "Create a cell for position (i,j) and add it to my on-screen
    representation at the appropriate screen position.  Answer the new cell"
@@ -396,14 +393,12 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 %   ^ c      "omit this final line to create a bug"
 
-\dothis{Add the methods \ct{LOGame>>>cellsPerSide} and \ct{LOGame>>>newCellAt:at:}.}
-Confirm the spelling of the new selectors \ct{toggleNeighboursOfCellAt:at:} and \ct{mouseAction:}.
+\dothis{\ct{LOGame>>>cellsPerSide}メソッドと\ct{LOGame>>>newCellAt:at:}メソッドの追加。}
+新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} answers a new LOCell, specialized to position \ct{(i, j)} in the \clsind{Matrix} of cells.
-The last line defines the new cell's \ct{mouseAction} to be the \emph{block}
-\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}
- In effect, this defines the callback behaviour to perform when the mouse is clicked.
-The corresponding method also needs to be defined.
+\Mthref{newCellAt:at:} 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
+メソッド2.6において新しいLOCellは、cell\clsind{Matrix}の(i,j)の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}
+\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによりマウスをクリックしたときに呼び出される振る舞いを定義しています。それに対応する定義もする必要があります。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{The callback method}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
@@ -414,93 +409,83 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
 \end{method}
 \cmindex{LOGame}{toggleNeighboursOfCellAt:at:}
 
-\Mthref{toggleNeighboursOfCellAt:at:} toggles the state of the four cells to the north, south, west and east of cell (\ct{i}, \ct{j}).  The only complication is that the board is finite, so we have to make sure that a neighboring cell exists before we toggle its state.
+\Mthref{toggleNeighboursOfCellAt:at:} はcell(\ct{i}, \ct{j})の東西南北の位置にある4つのセルの状態を切り替えます。唯一の難点はボードが有限であることです。そのため隣接するcellが存在することを、状態を切り替える前に確認しなければなりません。
 
-\dothis{Place this method in a new protocol called \prot{game logic}. (\Actclick in the protocol pane to add a new protocol.)}
-To move the method, you can simply click on its name and drag it to the newly-created protocol (\figref{dragMethod}).
+\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\Actclickして下さい)}
+メソッドを移動するためには、たんにその名前をクリックし、新たに作ったプロトコルまで持って行ってください。 (\figref{dragMethod}).
 
 \begin{figure}[htbp]
    \centering
    \ifluluelse
 		{\includegraphics[width=\textwidth]{DragMethod} }
 		{\includegraphics[scale=0.7]{DragMethod} }
-   \caption{Drag a method to a protocol.\figlabel{dragMethod}}
+   \caption{メソッドをプロトコルへ持って行く。\figlabel{dragMethod}}
 \end{figure}
 
-To complete the Lights Out game, we need to define two more methods in class \ct{LOCell} to handle mouse events.
-\begin{method}[mouseAction:]{A typical setter method}
+Lights Out gameを完成するために、\ct{LOCell}クラスでマウスのイベントを操作する、もう2つのメソッドを定義する必要があります。
+\begin{method}[mouseAction:]{典型的なセッターメソッド}
 LOCell>>>mouseAction: aBlock
    ^ mouseAction := aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-\Mthref{mouseAction:} does nothing more than set the cell's \ct{mouseAction} variable to the argument, and then answers the new value.
-Any method that \emph{changes} the value of an instance variable in this way is called a \emph{setter method}; a method that \emph{answers} the current value of an instance variable is called a \emph{getter method}.
+\Mthref{mouseAction:} では、cellのmouxeAction変数に引数を設定し、その新たな値を返す以上のことはしていません。このような方法でインスタンス変数の値を変更するメソッドはセッターメソッドと呼ばれています。また、インスタンス変数の現在の値を返すメソッドはゲッターメソッドと呼ばれています。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
 
-If you are used to getters and setters in other programming languages, you might expect these methods to be called \ct{setmouseAction} and \ct{getmouseAction}.
-The \st convention is different.
-A getter always has the same name as the variable it gets, and a setter is named similarly, but with a trailing ``\ct{:}'', hence \ct{mouseAction} and \ct{mouseAction:}.
+もし他のプログラミング言語においてゲッターとセッターを使うことに慣れていた場合、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし慣習的にSmalltalkでは違います。ゲッター名は常に、そのメソッドが得る値と同じ名前にします。セッター名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''が付きます。
 
-Collectively, setters and getters are called  \emphind{accessor} methods, and by convention they should be placed in the \protind{accessing} protocol.
-In Smalltalk, \emph{all} instance variables are private to the object that owns them, so the only way for another object to read or write those variables in the Smalltalk language is through accessor methods like this one\footnote{In fact, the instance variables can be accessed in subclasses too.}.
+セッターとゲッターは合わせてアクセサメソッドと呼ばれています。また慣習として、これらは\protind{accessing}プロトコルに置かれるべきです。Smalltalkにおいて全てのインスタンス変数はそれらを持つオブジェクトに対しプライベートです。そのため他のオブジェクトがSmalltalk言語でそれらの変数を読み書きする唯一の方法は、このようにアクセサメソッドを使うことです。\footnote{実際にインスタンス変数はサブクラスにもアクセスできます。
+}.
 
-\dothis{Go to the class \ct{LOCell}, define \ct{LOCell>>>mouseAction:} and put it in the \prot{accessing} protocol.}
+\dothis{\ct{LOCell}クラスを表示し、\ct{LOCell>>>mouseAction:}を定義し、\prot{accessing}プロトコルに置いてください。}
 
-Finally, we need to define a method \ct{mouseUp:}; this will be called automatically by the GUI framework if the mouse button is released while the mouse is over this cell on the screen.
+最後に\ct{mouseUp:}メソッドを定義する必要があります。このメソッドはGUIフレームワークにより、マウスがスクリーン上のcellの上にあり、マウスボタンを離されたときに自動的に呼び出されます。
 
-\begin{method}[sbecellmouseup]{An event handler}
+\begin{method}[sbecellmouseup]{イベントハンドラ}
 LOCell>>>mouseUp: anEvent
    mouseAction value
 \end{method}
 \cmindex{LOCell}{mouseUp:}
 
-\dothis{Add the method \ct{LOCell>>>mouseUp:} and then
-  \menu{categorize automatically} methods.}
+\dothis{\ct{LOCell>>>mouseUp:}を追加し、\menu{categorize automatically}メソッドを実行してください。}
 \index{method!categorize}
 
-What this method does is to send the message \ct{value} to the object stored in the instance variable \ct{mouseAction}. 
-Recall that in \ct{LOGame>>>newCellAt: i at: j} we assigned the following code fragment to \ct{mouseAction}:
+このメソッドはメッセージの値を、\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。 \ct{LOGame>>>newCellAt: i at: j}を再度呼び出すことにより、以下のコードの断片を\ct{mouseAction}:にあてがっています。
 
-\ct{[self toggleNeighboursOfCellAt: i at: j ]} 
+\ct{[self toggleNeighboursOfCellAt: i at: j ]}
 
-\noindent
-Sending the \ct{value} message causes this code fragment to be evaluated, and consequently the state of the cells will toggle.
+値のメッセージを送ることにより、このコードの断片は評価されます。その結果としてcellの状態が切り替わります。
 
 %=================================================================
-\section{Let's try our code}
+\section{コードを実行してみましょう}
 
-That's it: the Lights Out game is complete!
+以上でLights Out ゲームは完成しました！
+全ての手順に従ってきたのならば、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことはできるはずです。
 
-If you have followed all of the steps, you should be able to play the game, consisting of just 2 classes and 7 methods.
+\dothis{workspace上で、\ct{LOGame new openInWorld} と打ち込み、\menu{do it}して下さい。}
 
-\dothis{In a workspace, type \ct{LOGame new openInWorld} and \menu{do it}.}
+ゲームが開き、cellをクリックでき、またそれがどのように動作するかを見ることができるでしょう。
 
-The game will open, and you should be able to click on the cells and see how it works.
-
-Well, so much for theory\ldots{}
-When you click on a cell, a \emphind{notifier} window called the \clsind{PreDebugWindow}window appears with an error message!
-As depicted in \figref{lightsOutError}, it says \ct{MessageNotUnderstood: LOGame>>>toggleState}.
+理論上は動くはずです\ldots{}
+理論上は動くはずです…。cell上でクリックするとき、エラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる通知ウインドウが表示されます。 \figref{lightsOutError}に描かれているように、このウインドウは、\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline{\includegraphics[width=\textwidth]{Error}}}
 	{\centerline{\includegraphics[scale=0.7]{Error}}}
-\caption{There is a bug in our game when a cell is clicked!
+\caption{cellをクリックしたときにゲームでバグが発生
 \figlabel{lightsOutError}}
 \end{figure}
 
 \noindent
-What happened? To find out, let's use one of Smalltalk's more powerful tools: the \ind{debugger}.
+何が起こったのでしょう? それを見つけるために、Smalltalkで使うとても役に立つツール、\ind{debugger}を使いましょう。
 
-\dothis{Click on the \menu{debug} button in the notifer window.}
-The debugger will appear.
-In the upper part of the debugger window you can see the execution stack, showing all the active methods; selecting any one of them will show, in the middle pane, the Smalltalk code being executed in that method, with the part that triggered the error highlighted.
+\dothis{通知ウインドウにある\menu{debug}ボタンをクリックしてください。}
+デバッガーが表示されます。デバッガーウインドウの上側には実行処理のスタックが表示されます。そこでは全ての有効なメソッドが表示されます。そのなかの1つを選んぶと真ん中のペイン上でSmalltalkコードがそのメソッドの中で実行され、エラーを引き起こした部分がハイライトされます。
 
-\dothis{Click on the line labelled
-\ct{LOGame>>>toggleNeighboursOfCellAt:at:} (near the top).}
-The debugger will show you the \ind{execution context} within this method where the error occurred (\figref{debugToggle}).
+\dothis{(上部付近の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
+エラーの発生した、このメソッドにある実行コンテキストをデバッガーで見ることができます(\figref{debugToggle}).
 
 \begin{figure}[ht]
 \ifluluelse
@@ -510,10 +495,9 @@ The debugger will show you the \ind{execution context} within this method where 
 \figlabel{debugToggle}}
 \end{figure}
 
-At the bottom of the debugger are two small inspector windows.  On the left, you can inspect the object that is the receiver of the message that caused the selected method to execute, so you can look here to see the values of the instance variables.
-On the right you can inspect an object that represents the currently executing method itself, so you can look here to see the values of the method's parameters and temporary variables.
+デバッガーの下側には2つの小さなインスペクタウインドウがあります。左側のウインドウでは、選んだコードを実行するメッセージを受けたオブジェクトの中の値を見ることができます。つまりこのインスタンス変数の値をここで見ることができます。右側のウインドウでは、 現在実行したメソッドそれ自体が表すオブジェクトの中の値を見ることができます。つまりメソッドのパラメーター値や一時変数の値などを見ることができます。
 
-Using the debugger, you can execute code step by step, inspect objects in parameters and local variables, evaluate code just as you can in a workspace, and, most surprisingly to those used to other debuggers, change the code while it is being debugged! Some Smalltalkers program in the debugger almost all the time, rather than in the browser.  The advantage of this is that you see the method that you are writing as it will be executed, with real parameters in the actual execution context.
+デバッガーを使うことによって、workspace上で式を評価するのと同様に、オブジェクトの中のパラメータや局所変数の値を見ながら、コードを1行ずつ実行することができます。デバッガーを使って一番驚くべきことは、デバッグ中にコードを書き換えることができることです。Smalltalkerの内の何人かはむしろブラウザー上よりも、ほとんどの時間デバッガー上でプログラムをしています。デバッガー上でプログラムをする利点は、今書いているメソッドが意図した通りに動くかどうかを、実際の実行コンテキスト中のパラメーターと共に見ることができることです。
 
 In this case we can see in the first line of the top panel that the \ct{toggleState} message has been sent to an instance of \ct{LOGame}, while it should clearly have been an instance of \lct{LOCell}.
 The problem is most likely with the initialization of the \ct{cells} matrix.
