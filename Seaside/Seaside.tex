@@ -492,14 +492,14 @@ SeasideHtmlDemo>>>renderLinkWithCallbackOn: html
 			with: toggleValue ]
 \end{code}
 
-\important{Note that actions should appear only in callbacks.
-The code executed while rendering should not change the state of the application!}
+\important{アプリケーションの状態を変えるような処理は、コールバックの中でのみ書くようにします。
+レンダリングのコードの中に、直接そのようなコードを書くべきではありません。}
 
 %-----------------------------------------------------------------
-\subsection{Forms}
+\subsection{フォーム}
 
-Forms are rendered just like the other examples that we have already seen.
-Here is the code for the \ct{SeasideFormDemo} component in \figref{RenderingDemo}.
+フォームも今までの例と同様のやり方で表示できます。
+図\figref{RenderingDemo}の\ct{SeasideFormDemo} コンポーネントのコードを示します。
 \index{Seaside!XHTML forms}
 
 \begin{code}{}
