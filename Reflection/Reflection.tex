@@ -53,7 +53,7 @@
 %@\st is a reflective programming language.
 \st は、リフレクティブな(自分を客観視することができる)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまりこれは、プログラムが自分自身の実行過程や構造について考える(リフレクトする)ことができるという意味です。
+つまりこれは、プログラムが自分自身の実行過程や構造について『考える(リフレクトする)』ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
 より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
@@ -800,7 +800,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 \subsection{軽量プロキシー}
 
 %@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
-最初の例として、``\ind{最低限のオブジェクト}''を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
+最初の例として、『\ind{最低限のオブジェクト}』を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
 %@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
 このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@? ???
 
@@ -1211,7 +1211,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 
 \begin{itemize}
 %@\item The Inspector uses \ct{instVarAt:} and related methods to query and modify ``private'' instance variables of objects.
-\item インスペクターは、\ct{instVarAt:}や、関連するメソッドを用いて、オブジェクトの``プライベート''なインスタンス変数にクエリを送ったり、これを変更したりします。
+\item インスペクターは、\ct{instVarAt:}や、関連するメソッドを用いて、オブジェクトの『プライベートな』インスタンス変数にクエリを送ったり、これを変更したりします。
 %@\item Send \ct{Behavior>>>allInstances} to query instances of a class.
 \item与えられたクラスの(すべての)インスタンス知りたければ、\ct{Behavior>>>allInstances}をそのクラスに送りましょう。
 %@\item The messages \ct{class}, \ct{isKindOf:}, \ct{respondsTo:} \etc  are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
@@ -1229,7 +1229,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 %@\item Intelligent breakpoints can be set using \ct{haltIf:}, taking a method selector as its argument. \ct{haltIf:} halts only if the named method occurs as a sender in the run-time stack.
 \item \ct{haltIf:}を使えば、賢いブレークポイントを設定することができます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数が示すメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
 %@\item A common way to intercept messages sent to a given target is to use a ``minimal object'' as a proxy for that target. The proxy implements as few methods as possible, and traps all message sends by implementing \ct{doesNotunderstand:}. It can then perform some additional action and then forward the message to the original target.
-\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、``最低限のオブジェクト''を使います。最低限のオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、もともとのターゲットにメッセージを転送する前後に、ある種の追加のアクションを実行することができます。%@?「前後に」なんて書いていない
+\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、『最低限のオブジェクト』を使います。最低限のオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、もともとのターゲットにメッセージを転送する前後に、ある種の追加のアクションを実行することができます。%@?「前後に」なんて書いていない
 %@\item Send \ct{become:} to swap the references of two objects, such as a proxy and its target.
 \item ふたつのオブジェクト参照を交換するには、\ct{become:}を使いましょう。\ct{become:}は、プロキシーとそのターゲットを交換するのに使えます。
 %@\item Beware, some messages, like \ct{class} and \ct{yourself} are never really sent, but are interpreted by the VM.  Others, like \ct{+}, \ct{-} and \ct{ifTrue:} may be directly interpreted or inlined by the VM depending on the receiver.
