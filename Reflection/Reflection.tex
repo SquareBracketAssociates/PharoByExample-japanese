@@ -51,9 +51,9 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st は、リフレクティブな(自分を客観視することができる)プログラミング言語です。
+\st は、自分を客観視することができる(リフレクティブな)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまりこれは、プログラムが自分自身の実行過程や構造について『考える(リフレクトする)』ことができるという意味です。
+つまりこれは、プログラムが自分自身の実行過程や構造について「考える(リフレクトする)」ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
 より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
@@ -78,7 +78,7 @@
 %@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
 プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 %@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
-イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといったデータ構造を\emph{調べる}ことができる能力のことです。これらのデータ構造は、その言語を定義するデータ構造です。
+イントロスペクションとは、メタオブジェクトのデータ構造を\emph{調べる}ことができる能力のことです。オブジェクト、クラス、メソッド、そして実行時スタックといったメタオブジェクトのデータ構造は、その言語を定義します。
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
 インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から変更できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
@@ -120,9 +120,9 @@ w inspect
 %@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
 \dothis{それでは、この空文字列のところに\ct!'hello'!と入力してから、\emph{accept}してみましょう。}
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
-\ct!contents!変数の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは何も再描画しません。
+\ct!contents!変数の値は変りますが、ワークスペースウィンドウは、そのことに気付きません。だからワークスペースは自分自身を再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
-このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。
+このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。%@? インスペクターの右側が灰色になって、Workspaceは何も変わらない。
 
 %-----------------------------------------------------------------
 %@\subsection{Accessing instance variables}
@@ -133,9 +133,9 @@ w inspect
 %@In \st, all instance variables are protected.
 \st では、すべてのインスタンス変数は保護されています。
 %@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
-理論上は、そのクラスが何らかのアクセサを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
+理論上は、そのクラスが何らかのアクセサーを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-実際には、インスペクターは、アクセサがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
+実際には、インスペクターは、アクセサーがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
 \st では、クラスは、インスタンス変数を、名前か添字で定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
@@ -146,7 +146,7 @@ w inspect
 \mthindex{Object}{instVarNamed:put:}
 
 %@For instance, you can change the value of the \ct!w! binding of the first workspace by evaluating:
-例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます: %@?英文が変?
+例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされたもうひとつのワークスペースオブジェクトの、内部状態を変更することができます:
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
@@ -156,7 +156,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
-\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}であり、そのことは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
+\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。そのことは、\ct!instVarAt:!や\ct!instVarAt:put:!が、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
 これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
@@ -193,9 +193,9 @@ Object>>>instVarAt: index
 この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 %@In the same spirit, it is possible to gather instances that have specific properties.
-同様の精神にもとづき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神にもとづき?
+同様の精神に基づき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神に基づき?
 %@For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
-例えば、SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されている\ct!すべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るには、次の式を試してみましょう:
+例えば、\ct!SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されているすべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るために、次の式を試してみましょう:
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
@@ -256,7 +256,7 @@ Object>>>instanceVariableValues
 \mthindex{Object}{isKindOf:}
 
 %@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
-\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: 「レシーバーのクラス」というように「クラス」を補った。
+\lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスやその先祖クラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: 「レシーバーのクラスやその先祖クラス」というように補った。
 %@For instance:
 例えば:
 \needlines{3}
@@ -272,9 +272,9 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 %@\important{\emph{Caveat:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
 \important{\emph{警告:}いくらこれらの機能が、とりわけ開発ツールを定義するのに便利だからと言っても、これらは通常、典型的なアプリケーションには適していません。
 %@Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
-オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ること、設計上の欠陥を典型的に示すものです。なぜならそれは、カプセル化の原則を破るからです。%@?少し日本語が変?
+オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示すものです。なぜならそれは、カプセル化の原則を破る行為だからです。
 %@Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
-開発ツールは、しかしながら、通常のアプリケーションではありません。なぜなら、開発ツールは、ソフトウェアそれ自身を対象領域とするものだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
+開発ツールは、しかしながら、通常のアプリケーションではありません。なぜなら、開発ツールは、ソフトウェアそれ自身を対象領域とするものだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}%@?As such ???
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
 %\on{let's not mention this if we don't actually write such a chapter!}
@@ -284,11 +284,11 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \subsection{コードメトリクス}
 
 %@Let's see how we can use \st's introspection features to quickly extract some code metrics.
-\st のイントロスペクション機能をどのように使えば、いくつかのコードメトリクスが、手早く抽出できるか、見てみましょう。
+\st のイントロスペクション機能を使えば、いくつかのコードメトリクスが、手早く抽出できます。どのように使うのか、見てみましょう。
 %@Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
 コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、局所的に定義されたメソッドやインスタンス変数の数。
 %@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
-以下に、\ct!Morph!クラスのメトリクスをいくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
+以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
@@ -308,7 +308,7 @@ Morph allInstVarNames size. -->      6 "インスタンス変数の数"
 %@Morph selectors size.             -->  998 "number of new methods"
 Morph selectors size.             -->  998 "Morphで新しく定義されたメソッドの数"
 %@Morph instVarNames size.     -->      6 "number of new variables"
-Morph instVarNames size.     -->      6 "Morphで新しく定義されたインスタンス変数メソッドの数"
+Morph instVarNames size.     -->      6 "Morphで新しく定義されたインスタンス変数の数"
 %@Morph subclasses size.          -->    45 "direct subclasses"
 Morph subclasses size.          -->    45 "直接のサブクラスの数"
 %@Morph allSubclasses size.      -->  326 "total subclasses"
@@ -800,7 +800,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 \subsection{軽量プロキシー}
 
 %@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
-最初の例として、『\ind{最低限のオブジェクト}』を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
+最初の例として、「\ind{最低限のオブジェクト}」を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
 %@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
 このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}でトラップされます。この\ct{doesNotUnderstand:}メッセージを実装することにより、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取ることができます。%@? ???
 
@@ -826,7 +826,7 @@ Object methodDict size --> 408
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
 このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@? ???
 %@We initialize the two instance variables and we provide an accessor for the message count.
-これらふたつのインスタンス変数を初期化し、インターセプトされたメッセージの数(\ct!invocationCount!)を返すアクセサを提供します。
+これらふたつのインスタンス変数を初期化し、インターセプトされたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
 %@Initially the \ct{subject} variable points to the proxy object itself.
 最初は\ct{subject}変数は、プロキシーオブジェクトそれ自身を指しています。
 \begin{code}{}
@@ -1211,7 +1211,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 
 \begin{itemize}
 %@\item The Inspector uses \ct{instVarAt:} and related methods to query and modify ``private'' instance variables of objects.
-\item インスペクターは、\ct{instVarAt:}や、関連するメソッドを用いて、オブジェクトの『プライベートな』インスタンス変数にクエリを送ったり、これを変更したりします。
+\item インスペクターは、\ct{instVarAt:}や、関連するメソッドを用いて、オブジェクトの「プライベートな」インスタンス変数にクエリを送ったり、これを変更したりします。
 %@\item Send \ct{Behavior>>>allInstances} to query instances of a class.
 \item与えられたクラスの(すべての)インスタンス知りたければ、\ct{Behavior>>>allInstances}をそのクラスに送りましょう。
 %@\item The messages \ct{class}, \ct{isKindOf:}, \ct{respondsTo:} \etc  are useful for gathering metrics or building development tools, but they should be avoided in regular applications: they violate the encapsulation of objects and make your code harder to understand and maintain.
@@ -1229,7 +1229,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 %@\item Intelligent breakpoints can be set using \ct{haltIf:}, taking a method selector as its argument. \ct{haltIf:} halts only if the named method occurs as a sender in the run-time stack.
 \item \ct{haltIf:}を使えば、賢いブレークポイントを設定することができます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数が示すメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
 %@\item A common way to intercept messages sent to a given target is to use a ``minimal object'' as a proxy for that target. The proxy implements as few methods as possible, and traps all message sends by implementing \ct{doesNotunderstand:}. It can then perform some additional action and then forward the message to the original target.
-\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、『最低限のオブジェクト』を使います。最低限のオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、もともとのターゲットにメッセージを転送する前後に、ある種の追加のアクションを実行することができます。%@?「前後に」なんて書いていない
+\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、「最低限のオブジェクト」を使います。最低限のオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、もともとのターゲットにメッセージを転送する前後に、ある種の追加のアクションを実行することができます。%@?「前後に」なんて書いていない
 %@\item Send \ct{become:} to swap the references of two objects, such as a proxy and its target.
 \item ふたつのオブジェクト参照を交換するには、\ct{become:}を使いましょう。\ct{become:}は、プロキシーとそのターゲットを交換するのに使えます。
 %@\item Beware, some messages, like \ct{class} and \ct{yourself} are never really sent, but are interpreted by the VM.  Others, like \ct{+}, \ct{-} and \ct{ifTrue:} may be directly interpreted or inlined by the VM depending on the receiver.
