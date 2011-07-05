@@ -312,14 +312,14 @@ anArray at: 1 --> 4
 \ct{Array new: 5} はサイズ 5 の配列を生成します。
 
 \paragraph{\mthind{Array class}{with:} による生成} \ct{with:} メソッドは要素の値を引数として一つ受け取ります。
-次のコードでは値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列をu生成島s.
+次のコードでは値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列を生成します。
 
 \begin{code}{@TEST | anArray |}
 Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
-\paragraph{Literal creation with \ct|\#()|.}
-\ct{#()} creates \ind{literal arrays} with static (or ``\subind{Array}{literal}'') elements that have to be known when the expression is compiled, and not when it is executed. The following code creates an array of size 2 where the first element is the (literal) number \ct{1} and the second the (literal) string \ct{'here'}.
+\paragraph{\ct|\#()| を用いたリテラル生成}
+\ct{#()} は静的な (または ``\subind{Array}{リテラル}'') 要素を持つ\ind{静的配列}を生成します。静的というのは式がコンパイルされたときに値が分かっているもので、実行時に評価されるものではないということです。以下のコードは最初の要素が (リテラル) 数値 \ct{1} で、次の要素が (リテラル) 文字列である、サイズ2の配列を生成します。
 
 \seeindex{\#@{\textsf{\#( )}}}{Array, literal}
 \seeindex{\{@{\textsf{\{ \}}}}{Array, dynamic}
@@ -328,17 +328,17 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 #(1 'here') size --> 2
 \end{code}
 
-Now, if you evaluate \ct{#(1+2)}, you do not get an array with a single element \ct{3} but instead you get the array \ct{#(1 #+ 2)} \ie with three elements: \ct{1}, the symbol \ct{#+} and the number \ct{2}.
+\ct{#(1+2)} を評価した場合、要素 \ct{3} 一つだけを持つ配列ではなく、\ct{#(1 #+ 2)} \ie 三つの要素、\ct{1}、シンボル \ct{#+}、数 \ct{2} を持つ配列になります。
 
 \begin{code}{@TEST}
 #(1+2) -->  #(1 #+ 2)
 \end{code}
 
 \noindent
-This occurs because the construct \ct{#()} causes the compiler to interpret literally the expressions contained in the array. The expression is scanned and the resulting elements are fed to a new array. Literal arrays contain numbers, \ct{nil}, \ct{true}, \ct{false}, symbols and strings.
+これは \ct{#()} によって、配列に格納される式を定数としてコンパイラが解釈するからです。\ct{#()} 式はスキャンされて結果として得られた要素がそれぞれ生成される配列に格納されます。静的配列は数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
 
-\paragraph{Dynamic creation with \ct|\{ \}|.}
-Finally, you can create a dynamic array using the construct \ct|{}|. \ct|{ a . b }| is equivalent to \lct{Array with: a with: b}. This means in particular that the expressions enclosed by \ct|{| and \ct|}| are executed. 
+\paragraph{\ct|\{ \}| を用いた動的生成}
+\ct|{}| を使うことで動的配列を作ることができます。\ct|{ a , b }| は \lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式は評価時に実行されるということです。
 
 \begin{code}{@TEST | anArray |}
 { 1 + 2 } --> #(3)
@@ -346,8 +346,8 @@ Finally, you can create a dynamic array using the construct \ct|{}|. \ct|{ a . b
 {10 atRandom . 1/3} at: 2 --> (1/3)
 \end{code}
 
-\paragraph{Element Access.}
-Elements of all sequenceable collections can be accessed with \mthind{Array}{at:} and \mthind{Array}{at:put:}.
+\paragraph{要素へのアクセス}
+順序性を持つすべてのコレクションは \mthind{Array}{at:} および \mthind{Array}{at:put:} で要素にアクセスできます。
 
 \begin{code}{@TEST | anArray |}
 anArray := #(1 2 3 4 5 6) copy.
@@ -358,15 +358,15 @@ anArray at: 3 --> 33
 \cmindex{Array}{copy}
 
 \noindent
-Be careful with code that modifies literal arrays!
-The compiler tries to allocate space just once for literal arrays.
-Unless you copy the array, the second time you evaluate the code your ``literal'' array may not have the value you expect.
-(Without cloning, the second time around, the literal \ct{#(1 2 3 4 5 6)} will actually be \ct{#(1 2 33 4 5 6)}!)
-Dynamic arrays do not have this problem.
+静的配列を変更するときには十分注意してください！
+コンパイラは静的配列については、格納する領域を最初の一回だけ確保します。
+配列をコピーしていないので、上の例を二回目に評価したとき、``静的'' 配列は期待通りの結果にならないでしょう。
+(コピーを取らなければ、二回目の実行時には、静的配列 \ct{#(1 2 3 4 5 6)} は実際のところ\ct{#(1 2 33 4 5 6)} になっているのです！)
+動的配列にはこのような問題はありません。
 
 %---------------------------------------------------------
 \subsection{OrderedCollection}
-\clsindmain{OrderedCollection} is one of the collections that can grow, and to which elements can be added sequentially. It offers a variety of methods such as \mthind{OrderedCollection}{add:}, \mthind{OrderedCollection}{addFirst:}, \mthind{OrderedCollection}{addLast:}, and \mthind{OrderedCollection}{addAll:}. 
+\clsindmain{OrderedCollection} は自動でサイズを拡張し、順序を保持して要素を追加できるコレクションの一種です。\mthind{OrderedCollection}{add:}、\mthind{OrderedCollection}{addFirst:}、\mthind{OrderedCollection}{addLast:}、\mthind{OrderedCollection}{addAll:} などの多様なメソッドを提供しています。
 
 \begin{code}{@TEST | ordCol |}
 ordCol := OrderedCollection new.
@@ -374,7 +374,7 @@ ordCol add: 'Seaside'; add: 'SqueakSource'; addFirst: 'Monticello'.
 ordCol --> an OrderedCollection('Monticello' 'Seaside' 'SqueakSource')
 \end{code}
 
-\paragraph{Removing Elements.} The method \mthind{OrderedCollection}{remove:} \ct{anObject} removes the first occurrence of an object from the collection. If the collection does not include such an object, it raises an error. 
+\paragraph{要素の削除} メソッド \mthind{OrderedCollection}{remove:} \ct{anObject} は \ct{anObject} と一致する最初のオブジェクトをコレクションから削除jするものです。もしそのオブジェクトが存在しない場合は、エラーを起こします。
 
 \begin{code}{@TEST | ordCol | ordCol := OrderedCollection with: 'Monticello' with: 'Seaside' with: 'SqueakSource'.}
 ordCol add: 'Monticello'.
@@ -382,16 +382,15 @@ ordCol remove: 'Monticello'.
 ordCol --> an OrderedCollection('Seaside' 'SqueakSource' 'Monticello')
 \end{code}
 
-There is a variant of \ct{remove:} named \mthind{OrderedCollection}{remove:ifAbsent:} that allows one to specify 
-as second argument a block that is executed in case the element to be removed is not in the collection. 
+\ct{remove:} の変種として \mthind{OrderedCollection}{remove:ifAbsent:} という名のものがあります。これは削除しようとした要素がコレクションに存在しないときの動作を第二引数としてブロックで渡すことができるものです。
 
 \begin{code}{@TEST | ordCol res | ordCol := OrderedCollection with: 'Seaside' with: 'SqueakSource' with: 'Monticello'.}
 res := ordCol remove: 'zork' ifAbsent: [33].
 res --> 33
 \end{code}
 
-\paragraph{Conversion.}
-It is possible to get an \ct{OrderedCollection} from an \ct{Array} (or any other collection) by sending the message \mthind{Collection}{asOrderedCollection}:
+\paragraph{変換}
+\ct{Array} から (またはその他どんなコレクションからも)、メッセージ \mthind{Collection}{asOrderedCollection}: を送ることで \ct{OrderedCollection} へ変換することができます。
 
 \begin{code}{@TEST}
 #(1 2 3) asOrderedCollection --> an OrderedCollection(1 2 3)
@@ -415,20 +414,20 @@ It is possible to get an \ct{OrderedCollection} from an \ct{Array} (or any other
 
 %---------------------------------------------------------
 \subsection{Interval}
-The class \clsindmain{Interval} represents ranges of numbers. For example, the interval of numbers from 1 to 100 is defined as follows:
+\clsindmain{Interval} クラスは値の範囲を表現します。例えば 1 から 100 までの数の範囲は以下のように表現できます：
 \cmindex{Interval class}{from:to:}
 \begin{code}{@TEST}
 Interval from: 1 to: 100 --> (1 to: 100)
 \end{code}
 
 \noindent
-The \mthind{Interval class}{printString} of this interval reveals that the class \ct{Number} provides us with a convenience method called \mthind{Number}{to:} to generate intervals:
+このインターバルの \mthind{Interval class}{printString} した結果により、\mthind{Number}{to:} というインターバルを生成する便利なメソッドがあることが分かります。
 
 \begin{code}{}
 (Interval from: 1 to: 100) = (1 to: 100) --> true
 \end{code}
 
-We can use \cmind{Interval class}{from:to:by:} or \cmind{Number}{to:by:} to specify the step between two numbers as follow:
+\cmind{Interval class}{from:to:by:} または \cmind{Number}{to:by:} によって、以下のように二つの値の間にある刻みを持った範囲を表現できます：
 
 \begin{code}{@TEST}
 (Interval from: 1 to: 100 by: 0.5) size --> 199
@@ -438,8 +437,8 @@ We can use \cmind{Interval class}{from:to:by:} or \cmind{Number}{to:by:} to spec
 
 %---------------------------------------------------------
 \subsection{Dictionary}
-Dictionaries are important collections whose elements are accessed using keys. 
-Among the most commonly used messages of dictionary you will find \mthind{Dictionary}{at:}, \mthind{Dictionary}{at:put:}, \mthind{Dictionary}{at:ifAbsent:}, \mthind{Dictionary}{keys} and \mthind{Dictionary}{values}.
+ディクショナリーは要素をキーによってアクセスできる重要なコレクションです。
+ディクショナリーのメッセージの中でよく使うものとしては \mthind{Dictionary}{at:}、\mthind{Dictionary}{at:put:}、\mthind{Dictionary}{at:ifAbsent:}、\mthind{Dictionary}{keys}、\mthind{Dictionary}{values} があります。
 \seeindex{keys}{Dictionary, keys}
 \seeindex{values}{Dictionary, values}
 
@@ -453,10 +452,10 @@ colors keys          --> a Set(#blue #yellow #red)
 colors values       --> {Color blue. Color yellow. Color red}
 \end{code}
 
-Dictionaries compare keys by equality. Two keys are considered to be the same if they return true when compared using \ct{=}. A common and difficult to spot bug is to use as key an object whose \ct{=} method has been redefined but not its \ct{hash} method. Both methods are used in the implementation of dictionary and when comparing objects.
+ディクショナリーはキーを同値性によって比較します。二つのキーを \ct{=} で比較したときに真であるならば、それは等しいとされます。よくあるけれど見つけにくいバグとしては、キーとして使うオブジェクトで \ct{=} を再定義しているにも関わらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドはどちらもディクショナリーの中でオブジェクトの比較に用いられます。
 \index{Dictionary!overriding \ct{=} and \ct{hash}}
 
-The class \clsindmain{Dictionary} clearly illustrates that the collection hierarchy is based on subclassing and not subtyping.  Even though \ct{Dictionary} is a subclass of \clsind{Set}, we would normally not want to use a \ct{Dictionary} where a \ct{Set} is expected. In its implementation, however, a \ct{Dictionary} can clearly be seen as consisting of a set of associations (key value) created using the message \mthind{Object}{->}. We can create a \ct{Dictionary} from a collection of associations, or we may convert a dictionary to an array of associations.
+クラス \clsindmain{Dictionary} のクラス階層はサブクラスの考え方に基づいており、サブタイプに基づいているわけではないということが明確に示されています。\ct{Dictionary} は \ct{Set} のサブクラスではありますが、普通は \ct{Dictionary} を \ct{Set} のように使おうとは思わないでしょう。しかし実装においては、\ct{Dictionary} はメッセージ \mthind{Object}{->} により生成される関連 (キー - 値) の集合として表現できるのです。ということで \ct{Dictionary} は関連のコレクションから作ることもできますし、ディクショナリーを関連の配列に変換することもできます。
 \seeindex{association}{Object, \ct{->}}
 
 \needlines{5}
@@ -466,11 +465,12 @@ colors removeKey: #blue.
 colors associations --> {#yellow->Color yellow. #red->Color red}
 \end{code}
 
-\paragraph{IdentityDictionary.}
-While a dictionary uses the result of the messages \ct{=} and \ct{hash} to determine if two keys are the same, the class \clsindmain{IdentityDictionary} uses the identity (message \mthind{ProtoObject}{==}) of the key instead of its values, \ie it considers two keys to be equal \emph{only} if they are the same object.
+\paragraph{IdentityDictionary}
+ディクショナリーが二つのキーが同じであるかを判定するのにメッセージ \ct{=} および \ct{hash} を用いるのに対し、クラス \clsindmain{IdentityDictionary} はキーの値ではなく、その同一性 (メッセージ \mthind{ProtoObject}{==} で判定する) を用います。\ie このクラスは二つのキーが同じオブジェクトであるとき\emph{だけ}一致するとします。
 
-Often \ct{Symbol}s are used as keys, in which case it is natural to use an \ct{IdentityDictionary}, since a \clsind{Symbol} is guaranteed to be globally unique.
-If, on the other hand, your keys are \ct{String}s, it is better to use a plain \ct{Dictionary}, or you may get into trouble:
+しばしばキーとしては \ct{Symbol} が用いられますが、\ct{IdentityDictionary} を使うならごく自然なことです。なぜなら \clsind{Symbol} はグローバルに一意であることが保証されているからです。
+% globally unique = グローバルに一意、と訳。
+言い換えれば、もしキーとして文字列を使うなら \ct{Dictionary} クラスを使うべきです。でないと問題が生じるでしょう：
 
 \begin{code}{@TEST | a b trouble |}
 a := 'foobar'.
@@ -483,26 +483,25 @@ trouble at: 'foobar' --> 'a'
 \end{code}
 
 \noindent
-Since \ct{a} and \ct{b} are different objects, they are treated as different objects.
-Interestingly, the literal \mbox{\ct{'foobar'}} is allocated just once, so is really the same object as \ct{a}.
-You don't want your code to depend on behaviour like this!
-A plain \ct{Dictionary} would give the same value for any key equal to \ct{'foobar'}.
+\ct{a} と \ct{b} はそれぞれ別のオブジェクトなので、異なるオブジェクトとして扱われます。
+興味深いことですが、リテラル \mbox{\ct{'foobar'}} は一度しか確保されないので、\ct{a} と全く同じオブジェクトになります。
+この振る舞いに依存したコードを書こうなんて思わないでくださいね！
+ただの \ct{Dictionary} は \ct{'foobar'} と値が等しいキーであれば同じ値を返します。
 
-Use only globally unique objects (like \ct{Symbol}s or \ct{SmallInteger}s) as keys for a \ct{IdentityDictionary}, and \ct{String}s (or other objects) as keys for a plain \ct{Dictionary}.
+\ct{IdentityDictionary} ではキーとしてグローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うならただの \ct{Dictionary} を使いましょう。
 
-
-Note that the global \glbind{Smalltalk} is an instance of \clsind{SystemDictionary}, a subclass of \ct{IdentityDictionary}, hence all its keys are \ct{Symbol}s (actually, \ct{ByteSymbol}s, which contain only 8-bit characters).
+特筆すべきはグローバル変数 \glbind{Smalltalk} は \clsind{SystemDictionary} のインスタンスであり、これは \ct{IdentityDictionary} のサブクラスですので、すべてのキーは \ct {Symbol} (実際は 8bit 文字しか格納できない \ct{ByteSymbol}) だということです。
 
 \begin{code}{@TEST}
 Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)
 \end{code}
 \noindent
-Sending \ct{keys} or \ct{values} to a \ct{Dictionary} results in a \ct{Set}, which we look at next.
+\ct{keys} または \ct{values} を \ct{Dictionary} に送ると結果は \ct{Set} となりますが、このクラスについては次に説明します。
 % Since every key has the same class, the set of classes of keys contains only a single element, \ct{ByteSymbol}.
 
 %---------------------------------------------------------
 \subsection{Set}
-The class \clsindmain{Set} is a collection which behaves as a mathematical set, \ie as a collection with no duplicate elements and without any order. In a \ct{Set} elements are added using the message \mthind{Set}{add:} and they cannot be accessed using the message \ct{at:}. Objects put in a set should implement the methods \ct{hash} and \ct{=}.
+クラス \clsindmain{Set} (集合) は数学的な「集合」の意味を持つコレクションです。\ie 重複した要素を持たず、要素間に順序もありません。\ct{Set} の要素を加えるにはメッセージ \mthind{Set}{add:} を用い、また \ct{at:} によってアクセスすることはできません。Set に格納されるオブジェクトはメソッド \ct{hash} と \ct{=} が実装されていなければなりません。
 
 \begin{code}{@TEST | s | }
 s := Set new.
@@ -510,7 +509,7 @@ s add: 4/2; add: 4; add:2.
 s size --> 2
 \end{code}
 
-You can also create sets using \cmind{Set class}{newFrom:} or the conversion message \cmind{Collection}{asSet}:
+Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \cmind{Collection}{asSet} を用いることができます：
 
 \begin{code}{@TEST}
 (Set newFrom: #( 1 2 3 1 4 )) = #(1 2 3 4 3 2 1) asSet --> true
@@ -521,15 +520,15 @@ You can also create sets using \cmind{Set class}{newFrom:} or the conversion mes
 { Color black. Color white. (Color red + Color blue + Color green) } asSet size --> 2
 \end{code}
 \noindent
-Note that red + blue + green = white.
+red + blue + green = white になることに注意してください。
 
-A \clsindmain{Bag} is much like a \ct{Set} except that it does allow duplicates:
+\clsindmain{Bag} は \ct{Set} ととても似ていますが、重複を許すという違いがあります。
 \begin{code}{@TEST}
 { Color black. Color white. (Color red + Color blue + Color green) } asBag size --> 3
 \end{code}
 
-The set operations \emph{union}, \emph{intersection} and \emph{membership test} are implemented by the \ct{Collection} messages \mthind{Collection}{union:}, \mthind{Collection}{intersection:} and \mthind{Collection}{includes:}.
-The receiver is first converted to a \ct{Set}, so these operations work for all kinds of collections!
+集合演算である \emph{union (集合和)}、\emph{intersection (集合積)}、\emph{要素テスト} は \ct{Collection} メッセージの \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
+これらの操作ではレシーバーは最初に \ct{Set} に変換されるので、すべてのコレクションでちゃんと動くのです！
 \seeindex{Set!union}{Collection, \ct{union:}}
 \seeindex{Set!intersection}{Collection, \ct{intersection:}}
 \seeindex{Set!membership}{Collection, \ct{includes:}}
@@ -540,40 +539,40 @@ The receiver is first converted to a \ct{Set}, so these operations work for all 
 #Smalltalk includes: $k     --> true
 \end{code}
 
-As we explain below, elements of a set are accessed using iterators (see \secref{iterators}).
+あとで説明するように、Set の各要素はイテレータでアクセスできます (\secref{iterators} 参照)。
 
 %---------------------------------------------------------
 \subsection{SortedCollection}
-In contrast to an \ct{OrderedCollection}, a \clsindmain{SortedCollection} maintains its elements in sort order. By default, a sorted collection uses the message \mthind{Magnitude}{<=} to establish sort order, so it can sort instances of subclasses of the abstract class \clsind{Magnitude}, which defines the protocol of comparable objects (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...).
+\ct{OrderedCollection} とは対照的に、\clsindmain{SortedCollection} は要素をソート順を保って格納します。デフォルトでは、SortedCollection はソート順を決めるのに \mthind{Magnitude}{<=} を用いるので、オブジェクトを比較するプロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を提供する抽象クラス \clsind{Magnitude} のサブクラスのインスタンスをソートできます。
 (See \charef{basic}.)
 
-You can create a \ct{SortedCollection} by creating a new instance and adding elements to it:
+\ct{SortedCollection} はまず new で生成し、要素を次のように追加していくことができます：
 \begin{code}{@TEST}
 SortedCollection new add: 5; add: 2; add: 50; add: -10; yourself. --> a SortedCollection(-10 2 5 50)
 \end{code}
 
 \noindent
-More usually, though, one will send the conversion message \mthind{Collection}{asSortedCollection} to an existing collection:
+しかし、もっと一般的なやり方は、すでにあるコレクションに変換メッセージ \mthind{Collection}{asSortedCollection} を送ることでしょう：
 \begin{code}{@TEST}
 #(5 2 50 -10) asSortedCollection --> a SortedCollection(-10 2 5 50)
 \end{code}
 
-This example answers the following FAQ:
+この例は次の FAQ に対する答えとなります:
 
-\important{FAQ: How do you sort a collection?\\
-{\sc Answer}: Send the message \ct{asSortedCollection} to it.}
+\important{FAQ: コレクションをソートするにはどうすればいいでしょうか？\\
+{\sc Answer}: \ct{asSortedCollection} メッセージを送りなさい。}
 
 \begin{code}{@TEST}
 'hello' asSortedCollection --> a SortedCollection($e $h $l $l $o)
 \end{code}
 
-How do you get a \ct{String} back from this result?
-\ct{asString} unfortunately returns the \ct{printString} representation, which is not what we want:
+では結果を \ct{String} にもどすには？
+残念なことに \ct{asString} は \ct{printString} 表現を返すので、望む結果は得られません。
 \begin{code}{@TEST}
 'hello' asSortedCollection asString --> 'a SortedCollection($e $h $l $l $o)'
 \end{code}
 \noindent
-The correct answer is to either use \ct{String class>>>newFrom:}, \ct{String class>>>withAll:} or \ct{Object>>>as:}:
+正解は \ct{String class>>>newFrom:}、\ct{String class>>>withAll:}、\ct{Object>>>as:} のどれかを用いることです：
 \begin{code}{@TEST}
 'hello' asSortedCollection as: String              --> 'ehllo'
 String newFrom: ('hello' asSortedCollection) --> 'ehllo'
@@ -581,12 +580,12 @@ String withAll: ('hello' asSortedCollection)     --> 'ehllo'
 \end{code}
 \seeindex{Collection!sorting}{Collection, \ct{asSortedCollection}}
 
-It is possible to have different kinds of elements in a \ct{SortedCollection} as long as they are all comparable. For example we can mix different kinds of numbers such as integers, floats and fractions:
+すべての要素に互換性がありさえすれば、\ct{SortedCollection} は異なった種類の要素を持つこともできます。例えば整数、浮動小数点数、分数といった異なった種類の数を混ぜることができます：
 \begin{code}{@TEST | col |}
 { 5. 2/-3. 5.21 } asSortedCollection --> a SortedCollection((-2/3) 5 5.21)
 \end{code}
 
-Imagine that you want to sort objects that do not define the method \ct{<=} or that you would like to have a different sorting criterion. You can do this by supplying a two argument block, called a sortblock, to the sorted collection. For example, the class \ct{Color} is not a Magnitude and it does not implement the method \ct{<=}, but we can specify a block stating that the colors should be sorted according to their luminance (a measure of brightness).
+もしかしたらメソッド \ct{<=} が定義されていないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合、ソートブロックと呼ばれる、二つの引数を持つブロックを SortedCollection に与えればよいのです。例えば、クラス \ct{Color} は大小関係を持ちません (Magnitude ではない) し、メソッド \ct{<=} も実装していませんが、次のようにブロックを指定することで色を明度 (明るさの尺度) によってソートすることができるのです：
 
 \begin{code}{@TEST | col |}
 col := SortedCollection sortBlock: [:c1 :c2 | c1 luminance <= c2 luminance].
@@ -597,9 +596,9 @@ col --> a SortedCollection(Color black Color red Color yellow Color white)
 
 %---------------------------------------------------------
 \subsection{String}
-A \st \clsindmain{String} represents a collection of \ct{Character}s.
-It is sequenceable, indexable, mutable and homogeneous, containing only \clsind{Character} instances.
-Like \ct{Array}s, \ct{String}s have a dedicated syntax, and are normally created by directly specifying a \ct{String} literal within single quotes, but the usual collection creation methods will work as well.
+\st の \clsindmain{String}(文字列) は \ct{Character} のコレクションとして表現されます。
+文字列は順序性があり、インデックス参照可能で、変更可能で、同じ種類の要素、すなわち \clsind{Character} のインスタンスしか持つことができません。
+\ct{Array} のように、\ct{String} は専用の文法を持ち、通常は \ct{String} リテラルは一重引用符で直接表現されますが、通常のコレクション作成メソッドもちゃんと動きます。
 
 \begin{code}{@TEST | s1 s2 |}
 'Hello'                                             --> 'Hello'
@@ -608,25 +607,25 @@ String with: $h with: $i with: $BANG       --> 'hiBANG'
 String newFrom: #($h $e $l $l $o) --> 'hello'
 \end{code}
 
-In actual fact, \ct{String} is abstract.
-When we instantiate a \ct{String} we actually get either an 8-bit \clsind{ByteString} or a 32-bit \clsind{WideString}.
-To keep things simple, we usually ignore the difference and just talk about instances of \ct{String}.
+実際は、\ct{String} は抽象クラスです。
+\ct{String} のインスタンスを作ったときに実際に得られるのは8ビット文字の \clsind{ByteString} か32ビット文字の \clsind{WideString} です。
+話を簡単にするために、その際は無視して単に \ct{String} のインスタンスについて述べます。
 
-Two instances of \ct{String} can be concatenated with a comma.
+\ct{String} の二つのインスタンスはコンマによって結合できます。
 \index{Collection!comma operator}
 \begin{code}{@TEST |s|}
 s := 'no', ' ', 'worries'.
 s -->  'no worries'
 \end{code}
 
-Since a string is a mutable collection we can also change it using the method \mthind{String}{at:put:}.
+String は変更可能コレクションなので　\mthind{String}{at:put:} を用いることもできます。
 
 \begin{code}{@TEST |s| s := 'no', ' ', 'worries'.}
 s at: 4 put: $h; at: 5 put: $u.
 s --> 'no hurries'
 \end{code}
 
-Note that the comma method is defined by \ct{Collection}, so it will work for any kind of collection!
+コンマメソッドは \ct{Collection} で定義されているので、どんな種類のコレクションでも使えることに注意してください！
 \begin{code}{@TEST}
 (1 to: 3) , '45' --> #(1 2 3 $4 $5)
 \end{code}
@@ -634,7 +633,7 @@ Note that the comma method is defined by \ct{Collection}, so it will work for an
 \seeindex{String!comma}{Collection, comma operator}
 \index{Collection!comma operator}
 
-We can also modify an existing string using \mthind{String}{replaceAll:with:} or \mthind{String}{replaceFrom:to:with:} as shown below. Note that the number of characters and the interval should have the same size.
+すでにある文字列を以下に示すように \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することができます。後者の文字数とインターバルは同じサイズでなければならないことに注意してください。
 
 \begin{code}{@TEST |s| s := 'no hurries' copy.}
 s replaceAll: $n with: $N.
@@ -643,37 +642,37 @@ s replaceFrom: 4 to: 5 with: 'wo'.
 s --> 'No worries'
 \end{code}
 
-In contrast to the methods described above, the method \mthind{String}{copyReplaceAll:} creates a new string.
-(Curiously, here the arguments are substrings rather than individual characters, and their sizes do not have to match.)
+上のメソッドと異なり、\mthind{String}{copyReplaceAll:} は新たな文字列を生成します。
+(奇妙に見えますが、引数は個別の文字ではなく、どちらかといえば部分文字列であり、またサイズが一致している必要はありません。)
 
 \begin{code}{@TEST |s| s:= 'No worries' copy.}
 s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
 \end{code}
 
-A quick look at the implementation of these methods reveals that they are defined not only for \ct{String}s, but for any kind of \ct{SequenceableCollection}, so the following also works:
+実装をちょっと見てみれば、これらのメソッドは \ct{String} 専用ではなく、どんな \ct{SequenceableCollection} にも使えることが分かるので、例えば次のようなものもちゃんと動きます。
 
 \begin{code}{@TEST}
 (1 to: 6) copyReplaceAll: (3 to: 5) with: { 'three'. 'etc.' } --> #(1 2 'three' 'etc.' 6)
 \end{code}
 
-\paragraph{String matching.}
+\paragraph{文字列のマッチ}
 \index{String!pattern matching}
-It is possible to ask whether a pattern matches a string by sending the \mthind{String}{match:} message.
-The pattern can specify \ct{*} to match an arbitrary series of characters and \# to match a single character. Note that \ct{match:} is sent to the pattern and not the string to be matched.
+\mthind{String}{match:} メッセージを文字列に投げることによりパターンにマッチするかをテストできます。
+パターンでは \ct{*} を任意の長さの文字列にマッチする意味で、また \# を一文字にマッチする意味で使用できます。注意したいのは \ct{match:} はパターンに送るもので、マッチさせたい文字列に送るメッセージではないということです。
 \begin{code}{@TEST}
 'Linux *' match: 'Linux mag'                      --> true
 'GNU/Linux #ag' match: 'GNU/Linux tag' --> true
 \end{code}
 
-Another useful method is \ct{findString:}.
+もう一つ便利なメソッドは \ct{findString:} です。
 \begin{code}{@TEST}
 'GNU/Linux mag' findString: 'Linux'                                                      --> 5
 'GNU/Linux mag' findString: 'linux' startingAt: 1 caseSensitive: false  --> 5
 \end{code}
 
-More advanced pattern matching facilities offering the capabilities of Perl are also available in the \pkgind{Regex} package.
+Perl が提供しているようなより優れたパターンマッチングの機能も、\pkgind{Regex} パッケージで提供されています。
 
-\paragraph{Some tests on strings.} The  following examples illustrate the use of \mbox{\mthind{String}{isEmpty},} \mthind{String}{includes:} and \mthind{String}{anySatisfy:} which are further messages defined not only on Strings but more generally on collections. 
+\paragraph{文字列に対する試験} 以下の例では文字列だけでなく他の一般的なコレクションにも定義されているメッセージ \mbox{\mthind{String}{isEmpty}、}\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
 
 \begin{code}{@TEST}
 'Hello' isEmpty --> false
@@ -682,14 +681,17 @@ More advanced pattern matching facilities offering the capabilities of Perl are 
 'Joe' anySatisfy: [:c | c isLowercase] --> true
 \end{code}
 
-\paragraph{String templating.}
-There are three messages that are useful to manage string \subind{String}{templating}: \mthind{String}{format:}, \mthind{String}{expandMacros} and \mthind{String}{expandMacrosWith:}.
+\paragraph{文字列のテンプレート化}
+文字列のテンプレート化に便利なメッセージが三つあります。\mthind{String}{format:}、\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:} です。\index{String!テンプレート化}
 
 \begin{code}{@TEST}
 '{1} is {2}' format: {'Pharo' . 'cool'}  --> 'Pharo is cool'
 \end{code}
 
-The messages of the expandMacros family offer variable substitution, using \ct{<n>} for carriage return, \ct{<t>} for tabulation, \ct{<1s>}, \ct{<2s>}, \ct{<3s>} for arguments (\ct{<1p>}, \ct{<2p>}, surrounds the string with single quotes), and \ct{<1?value1:value2>} for conditional.
+expandMacros 族のメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>} も同様、一重引用符で囲われた文字列)、\ct{<1?value1:value2>} による真偽値による値の埋め込み、などをサポートしています。
+
+% 訳ちょっと強引。Sumim さんのブログを参考にしました。 http://d.hatena.ne.jp/sumim/20061130/p1
+% The messages of the expandMacros family offer variable substitution, using \ct{<n>} for carriage return, \ct{<t>} for tabulation, \ct{<1s>}, \ct{<2s>}, \ct{<3s>} for arguments (\ct{<1p>}, \ct{<2p>}, surrounds the string with single quotes), and \ct{<1?value1:value2>} for conditional.
 
 \begin{code}{@TEST}
 'look-<t>-here' expandMacros                                         --> 'look-	-here'
@@ -700,8 +702,8 @@ The messages of the expandMacros family offer variable substitution, using \ct{<
 '<1?Quentin:Thibaut> plays' expandMacrosWith: false    --> 'Thibaut plays'
 \end{code}
 
-\paragraph{Some other utility methods.}
-The class \ct{String} offers numerous other utilities including the messages \mthind{String}{asLowercase}, \mthind{String}{asUppercase} and \mthind{String}{capitalized}. 
+\paragraph{その他のユーティリティメソッド}
+クラス \ct{String} は \mthind{String}{asLowercase}、\mthind{String}{asUppercase}、\mthind{String}{capitalized} などのユーティリティメッセージを受け取ります。
 
 \begin{code}{@TEST}
 'XYZ' asLowercase --> 'xyz'
@@ -711,16 +713,16 @@ The class \ct{String} offers numerous other utilities including the messages \mt
 'this sentence is without a doubt far too long' contractTo: 20 --> 'this sent...too long'
 \end{code}
 
-Note that there is generally a difference between asking an object its string representation by sending the message \mthind{Object}{printString} and converting it to a string by sending the message \mthind{Object}{asString}.
-Here is an example of the difference.
+\mthind{Object}{printString} によってオブジェクトにその文字列表現を問い合わせたときと、\mthind{Object}{asString} によってオブジェクトを文字列に変換したときの結果は一般的に異なるということにご注意ください。
+違いの例は次のとおりです。
 
 \begin{code}{@TEST}
 #ASymbol printString --> '#ASymbol'
 #ASymbol asString    --> 'ASymbol'
 \end{code}
 
-A symbol is similar to a string but is guaranteed to be globally unique.  For this reason symbols are preferred to strings as keys for dictionaries, in particular for instances of \ct{IdentityDictionary}.
-See also \charef{basic} for more about \clsind{String} and \clsind{Symbol}.
+シンボルは文字列と似ていますが、グローバルに単一であることが保証されるという点で異なります。このためディクショナリーの、とりわけ \ct{IdentifyDictionary} のインスタンスのキーとして、シンボルは文字列より適しています。
+\clsind{String} と \clsind{Symbol} については \charef{basic} もご覧ください。
 
 %=========================================================
 \section{Collection iterators}
