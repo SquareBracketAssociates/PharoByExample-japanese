@@ -526,23 +526,27 @@ SeasideFormDemo>>>renderContentOn: html
 			text: 'done' ]
 \end{code}{}
 
-Since a form is a complex entity, it is rendered using a block.
-Note that all the state changes happen in the callbacks, not as part of the rendering.
+フォーム要素は複雑なので、ブロックを使ってレンダリングしています。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
 
-There is one Seaside feature used here that is worth special mention, namely the message \mthind{WAAnchorTag}{on:of:}.
-In the example, this message is used to bind a text input field to the variable \ct{heading}.
-Anchors and buttons also support this message.
-The first argument is the name of an instance variable for which accessors have been defined;  the second argument is the object to which this instance variable belongs.
-Both observer (\ct{heading}) and mutator (\ct{heading:}) accessor messages must be understood by the object, with the usual naming convention.
-In the case here of a text input field, this saves us the trouble of having to define a callback that updates the field as well as having to bind the default contents of the html input field to the current value of the instance variable.
-Using \ct{on: #heading of: self}, the \ct{heading} variable is updated automatically whenever the user updates the text input field.
+ \mthind{WAAnchorTag}{on:of:}については説明が必要でしょう。
+上の例ではテキストフィールドに、自身のインスタンス変数\ct{heading}を対応させるために使われています。
+アンカーやボタンもこのメッセージに答えられます。
 
-The same message is used twice more in this example, to cause the selection of a colour on the html form to update the \ct{color} variable, and to bind the result of the checkbox to the \ct{checked} variable.
-Many other examples can be found in the functional tests for Seaside.
-Have a look at the category \scat{Seaside-Tests-Functional}, or just point your browser to \url{http://localhost:8080/seaside/tests/alltests}.
-Select \menu{WAInputTest} and click on the \button{Restart} button to see most of the features of forms.
+最初の引数はインスタンス変数の名前です。2番目の引数は変数を保持するオブジェクトを指定します。
+通常の名前付けルールで、インスタンス変数のアクセッサー (\ct{heading}) とミューテイター (\ct{heading:})がクラスに定義されていることが前提となっています。
 
-Don't forget, if you \button{Toggle Halos}, you can browse the source code of the examples directly using the Seaside class browser.
+このテキストフィールドの例では、デフォルト値を設定したり、新たな値の設定に関するコールバックを設定したりするコードを省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
+
+すぐ後にコンボボックスの選択で\ct{color} 変数を指定した別の例があります。その後にはチェックボックスの例があり、 \ct{checked} 変数の値が更新されるようになっています。
+
+Seasideの機能テストのコードを見ると、さらにさまざまなフォーム例が見つかります。
+%2.8ベース。修正の必要あり(ume)　
+% URL -> http://localhost:8080/tests/functional/WAInputPostFunctionalTest
+% menu -> WAInputGetFunctionalTest, (WAInputPostFunctionalTest)
+ \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。また、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}のURLを指定し、
+\menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
+
+ぜひ\button{Toggle Halos}ボタンを押すと、Webブラウザから対応するソースコードにすぐアクセスできるようになるというSeasideの機能を活用してください。
 
 %-----------------------------------------------------------------
 \section{CSS: Cascading style sheets}
