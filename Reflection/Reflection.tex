@@ -322,7 +322,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 %@This informs us about the relation between the class and its superclasses.
 このことにより、クラスとそのスーパークラスの関係を知ることができます。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
-次の節では、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識をフルに使ってどう答えるか、について示します。%@?will see: 示します? our knowledge: これまでの知識
+次の節以降で、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識をフルに使ってどう答えるか、について示します。%@?will see: 示します? our knowledge: これまでの知識
 
 %======================================
 %@\section{Browsing code}
@@ -331,17 +331,17 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 %@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
 \st では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
 %@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
-これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、これらのメッセージは、すべてのクラスが、これを理解することができます。
+これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、すべてのクラスが(\ct{Class}は、\ct{Behavior}を継承しています)、これらのメッセージを理解することができます。
 
 %@As we saw previously, you can obtain an instance of a given class by sending it the message \ct!#someInstance!.
-以前見たように、与えられたクラスのインスタンスは、そのクラスにメッセージ: \ct!#someInstance!メッセージを送ることにより、得ることができます。%@?As we saw previouslyだと!?
+以前見たように、与えられたクラスのインスタンスは、そのクラスに\ct!#someInstance!メッセージを送ることにより、得ることができます。%@?As we saw previouslyだと!?
 \mthindex{Behavior}{someInstance}
 \begin{code}{@TEST} % Possibly fragile!
 Point someInstance --> 0@0
 \end{code}
 
 %@You can also gather all the instances with \ct!#allInstances!, or the number of alive instances in memory with \ct!#instanceCount!.
-また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができ、また、メモリ中で生きているインスタンスの数を得るのに、\ct!#instanceCount!を用いることができます。
+また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中で生きているインスタンスの数は、\ct!#instanceCount!を用いて得ることができます。
 
 \alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
@@ -357,7 +357,7 @@ String allSubInstances size -->  101675
 以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッドを列挙するよう依頼することができるからです。%@?exhibitingは何にかかる?
 \begin{itemize}
 %@\item \mthind{Behavior}{whichSelectorsAccess:} returns the list of all selectors of methods that read or write the instance variable named by the argument
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が示すインスタンス変数を読み書きするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数(変数名)が示すインスタンス変数を読むか書くかするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
 %@\item \mthind{Behavior}{whichSelectorsStoreInto:} returns the selectors of methods that modify the value of an instance variable
 \item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターを返す
 %@\item \mthind{Behavior}{whichSelectorsReferTo:} returns the selectors of methods that send a given message
