@@ -231,7 +231,7 @@ Object>>>instanceVariableValues
 %@This method iterates over the indices of instance variables that the class defines, starting just after the last index used by the superclasses.
 このメソッドは、そのクラスが定義する一連のインスタンス変数の添字について、繰り返し処理します。このときの添字は、スーパークラスで用いられていた最後の添字の直後の値から始まります。
 %@(The method \ct!instSize! returns the number of all named instance variables that a class defines.)
-(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します。) %@? 「。)」か「)。」か?
+(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します)。
 
 %-----------------------------------------------------------------
 %@\subsection{Querying classes and interfaces}
@@ -633,7 +633,7 @@ SystemNavigation default
 %@Actually, there is nothing magical about the debugger.
 実は、デバッガーには何の魔法もありません。
 %@The secret is the pseudo-variable \pvind{thisContext}, which we have encountered only in passing before.
-秘密は、\pvind{thisContext}という疑似変数にあって、%@?which~: 意味不明。
+秘密は、\pvind{thisContext}という疑似変数にあって、%@?which~: 翻訳不能???
 %@Whenever \ct{thisContext} is referred to in a running method, the entire run-time context of that method is reified and made available to the image as a series of chained \clsind{MethodContext} objects.
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
@@ -824,7 +824,7 @@ Object methodDict size --> 408
 \end{code}
 
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。%@? ???
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。
 %@We initialize the two instance variables and we provide an accessor for the message count.
 これらふたつのインスタンス変数を初期化し、インターセプトしたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
 %@Initially the \ct{subject} variable points to the proxy object itself.
@@ -893,7 +893,7 @@ point class --> LoggingProxy
 \ct{caseOf: caseOf:otherwise:}
 \ct{ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:}
 %@Attempts to send these messages to non-boolean objects can be intercepted and execution can be resumed with a valid boolean value by overriding \ct{mustBeBoolean} in the receiver or by catching the \ct{NonBooleanReceiver} exception.
-翻訳不能%@? ???
+これらのメッセージを、非論理値オブジェクトに送ろうとしたとき、レシーバーのクラスで、\ct{mustBeBoolean}が定義されていれば、そのメッセージ送信をインターセプトし、妥当な論理値でもって実行を再開することができます。さもなくば、\ct{NonBooleanReceiver}例外をキャッチすることができます。
 }% NB: Notes by Lukas Renggli
 
 %@Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
@@ -907,28 +907,28 @@ point invocationCount --> 1
 \end{code}
 
 %@Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
-\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信をごまかされてしまっています: %@?has been cheated out of
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信を、数え損なっています: %@?has been cheated out of
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
 \end{code}
 
 %@Although messages can be intercepted by proxies using this technique, one should be aware of the inherent limitations of using a proxy.  In \secref{wrapper} we will see another, more general approach for intercepting messages.
-このテクニックを使えば、プロキシーによって、メッセージをインターセプトできますが、プロキシーを使うときは、プロキシーに特有の制限に注意するべきです。\secref{wrapper}では、メッセージをインターセプトするための、他の、より一般的なアプローチを見ていきます。
+このプロキシーのテクニックを使えば、メッセージをインターセプトすることができますが、プロキシーを使うときは、それ特有の制限に注意するべきです。\secref{wrapper}では、メッセージをインターセプトするための、他の、より一般的なアプローチを見ていきます。
 
 %-----------------------------------------------------------------
 %@\subsection{Generating missing methods}
 \subsection{欠けているメソッドの生成}
 
 %@The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
-理解されなかったメッセージをインターセプトすることの、最も一般的な応用例は、欠けているメソッドの動的ロード、欠けているメソッドの動的生成です。
+理解されなかったメッセージのインターセプトすることの応用例として最も一般的なのは、欠けているメソッドを動的にロードすることと、欠けているメソッドを動的に生成することです。
 %@Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
-多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードすることもできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、ソースコードが見つかるか、を知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドでロードします。ある時点で、この振る舞いは解除することができ、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存することができます。
+多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードすることもできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドで動的にロードします。ある時点で、この振る舞いは解除することができま、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存することができます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
 %@Let us look at a simple variant of this technique where we have a class that automatically adds accessors for its instance variables on-demand:
-このテクニックの単純な応用例を詳しく見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです: %@?variant?
+このテクニックの単純な応用例を詳しく見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです: %@?variant: 応用例?
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -942,10 +942,10 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 	^ super doesNotUnderstand: aMessage
 \end{code}
 %@Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
-理解されなかったメッセージは、どれも、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、クラスに動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
+理解されなかったメッセージは、どれも、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
 
 %@Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
-\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義されたアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
+\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義された\ct{x}へのアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
 \needlines{2}
 \begin{code}{}
 myDA := DynamicAccessors new.
@@ -953,7 +953,7 @@ myDA x --> nil
 \end{code}
 
 %@Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
-\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう。(\figref{DynamicAccessors}参照).
+\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう(\figref{DynamicAccessors}参照)。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
@@ -964,10 +964,10 @@ myDA x --> nil
 \end{figure}
 
 %@(1) We send \ct{x} to \ct{myDA}, (2) the message is looked up in the class, and (3) not found in the class hierarchy. (4) This causes \ct{self doesNotUnderstand: #x} to be sent back to the object, (5) triggering a new lookup. This time \ct{doesNotUnderstand:} is found immediately in \ct{DynamicAccessors}, (6) which asks its class to compile the string \ct{'x ^ x'}. The \ct{compile} method is looked up (7), and (8) finally found in \ct{Behavior}, which (9-10) adds the new compiled method to the method dictionary of \ct{DynamicAccessors}. Finally, (11-13) the message is resent, and this time it is found.
-(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最期に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。
+(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最後に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。%@?self doesNotUnderstand:_#x: 引数はSymbolじゃないだろう?
 
 %@The same technique can be used to generate setters for instance variables, or other kinds of boilerplate code, such as visiting methods for a Visitor.
-同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使うことができます。v
+同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使うことができます。
 
 %@Note the use of \clsmthind{Object}{perform:} in step (13) which can be used to send messages that are composed at run-time:
 ステップ(13)での、\clsmthind{Object}{perform:}使い方に注意してください。\ct{perform:}メソッドを使えば、実行時に生成されたシンボルを使って、メッセージを送ることができます:
@@ -985,7 +985,7 @@ myDA x --> nil
 %@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
 すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そして\ct{コンパイル済みメソッドオブジェクト}にも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
 %@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
-少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割の役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
+少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
 %@\dothis{Define an empty class \ct{Demo}. Evaluate \ct{Demo new answer42} and notice how the usual ``Message Not Understood'' error is raised.}
 \dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されるかどうかを確認しましょう。}
@@ -1012,20 +1012,20 @@ run: oldSelector with: arguments in: aReceiver
 \end{code}
 
 %@When our \ct{Demo} instance receives the message \ct{answer42}, method lookup proceeds as usual, however the virtual machine will detect that in place of a compiled method, an ordinary \st object is trying to play this role.
-この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まりますが、しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
+この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
 %@The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
-VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送り、このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
+VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
 %@Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
 \ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身にメッセージを移譲します。
 
 %@We can now remove the fake method as follows:
-ここで、このためのメソッドは、以下のようにして、削除することができます:
+ここで、この偽のメソッドを削除するには、以下のようにします:
 \begin{code}{}
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
 %@If we take a closer look at \ct{ObjectsAsMethodsExample}, we will see that its superclass also implements the methods \ct{flushcache}, \ct{methodClass:} and \lct{selector:}, but they are all empty.  These messages may be sent to a compiled method, so they need to be implemented by an object pretending to be a compiled method.  (\ct{flushcache} is the most important method to be implemented; others may be required depending on whether the method is installed using \clsmthind{Behavior}{addSelector:withMethod:} or directly using \clsmthind{MethodDictionary}{at:put:}.)
-\ct{ObjectsAsMethodsExample}をよく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクト、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのか) %@? ???
+\ct{ObjectsAsMethodsExample}をよく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクトは、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのかという場合によってです)。 %@? ???
 
 %-------------------------------------------------------------------------
 %@\subsection{Using method wrappers to perform test coverage}
