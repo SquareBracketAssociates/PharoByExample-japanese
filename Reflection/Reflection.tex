@@ -380,7 +380,7 @@ Point crossReference --> an Array(
 以下のメッセージは、継承に着眼します: %@?take inheritance into account: 継承に着眼?
 \begin{itemize}
 %@\item \mthind{Behavior}{whichClassIncludesSelector:} returns the superclass that implements the given message
-\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するスーパークラスを返す
+\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す
 %@\item \mthind{Behavior}{unreferencedInstanceVariables} returns the list of instance variables that are neither used in the receiver class nor any of its subclasses
 \item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
@@ -391,7 +391,7 @@ Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
 %@\clsind{SystemNavigation} is a facade that supports various useful methods for querying and browsing the source code of the system.
-\clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、ソースコードをブラウズするのに便利なメソッドのことです。
+\clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、これをブラウズするのに便利なメソッドのことです。
 %@\ct{SystemNavigation} \mthind{SystemNavigation class}{default} returns an instance you can use to navigate the system.
 \ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるインスタンスを返します。
 %@For example:
@@ -419,20 +419,20 @@ SystemNavigation default allUnimplementedCalls size --> 270
 %@Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
 送られるのに実装されていないメッセージには、しかしながら、もっと問題があります。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗することになるからです。
 %@They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
-これらは、未完了の実装、廃止されたAPI、あるいはライブラリの欠落の兆候でしょう。
+これらは、未完了の実装、廃止されたAPI、あるいは欠落したライブラリの兆候でしょう。
 
 \mthindex{SystemNavigation}{allCallsOn:}
 %@\ct!SystemNavigation default allCallsOn: #Point! returns all messages sent explicitly to \ct!Point! as a receiver.
-\ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるメッセージを返します。
+\ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるすべてのメッセージを返します。
 
 %@All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
 これらすべての機能は、\pharo のプログラミング環境、とくにコードブラウザー、に統合されています。
 %@As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
-すでにきっとお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための (\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための (\short{n})。
+きっとすでにお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための(\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための(\short{n})。
 %@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
-おそれく次のことは、それほどよく知られていないでしょう。このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されています。%@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
+おそらく次のことは、それほどよく知られていないでしょう。このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されています。%@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
 %@For example, you can programmatically browse all implementors of the message \ct{ifTrue:} by evaluating:
-例えば、プログラム的に\ct{ifTrue:}メッセージのすべてのインプリメンターをブラウズするのは、以下を評価することで可能です:
+例えば、プログラム的に、\ct{ifTrue:}メッセージを実装しているすべてのクラスをブラウズすることは、以下を評価すれば可能です:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
@@ -445,7 +445,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
-とりわけ便利なのは、\ct{browseAllSelect:}メソッドと\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法です (最初の方法は、かなり総当たり式の方法です; 2番目の方法は、より好ましくいもので、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
+とりわけ便利なのは、\ct{browseAllSelect:}メソッドと、\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法です(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、もっと良い方法で、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -458,7 +458,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \section{クラス、メソッド辞書、そしてメソッド}
 
 %@Since classes are objects, we can inspect or explore them just like any other object.
-クラスはオブジェクトなので、他のオブジェクトとまったく同様、クラスをインスペクトやエクスプロアすることもできます。
+クラスはオブジェクトなので、他のあらゆるオブジェクトとまったく同様、クラスをインスペクトやエクスプロアすることもできます。
 
 \mthindex{Object}{explore}
 %@\dothis{Evaluate \ct{Point explore}.}
@@ -480,13 +480,13 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Let us consider the relationship between classes and methods.
 クラスとメソッドの関係について考えてみましょう。
 %@In \figref{MethodsAsObjects} we see that classes and metaclasses have the common superclass \ct{Behavior}. This is where \mthind{Behavior}{new} is defined, amongst other key methods for classes.
-\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス---\ct{Behavior}があることを見ました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%@?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
+\figref{MethodsAsObjects}で、クラスとメタクラスには共通のスーパークラス、\ct{Behavior}、があることを理解しました。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。%@?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
 %@Every class has a method dictionary, which maps method selectors to \ind{compiled methods}.
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 %@Each compiled method knows the class in which it is installed.
 コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
 %@In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
-\figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}というインスタンス変数に、アソシエーションとして格納されていることがわかります。
+\figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}というインスタンス変数に、アソシエーションとして格納されていることさえわかります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
@@ -497,7 +497,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@We can exploit the relationships between classes and methods to pose queries about the system.
 クラスとメソッドの関係をフルに使って、\pharo のシステムについてのクエリを送ることができます。
 %@For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
-例えば、どのメソッドが、与えられたクラスに新規に導入されたかということを見出すことは、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは見出すことは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで可能になります: %@?少し日本語が変。
+例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで見出すことができます:
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -508,11 +508,11 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@A compiled method does not simply store the bytecode of a method.
 コンパイル済みメソッドは、単に、メソッドのバイトコードを格納しているだけではありません。
 %@It is also an object that provides numerous useful methods for querying the system.
-コンパイル済みメソッド自身がまた、システムにクエリを送るための、多数の便利なメソッドを提供するオブジェクトなのです。
+コンパイル済みメソッド自身がオブジェクトであって、このオブジェクトは、システムにクエリを送るための、多数の便利なメソッドを提供します。
 %@One such method is \ct{isAbstract} (which tells if the method sends \ct{subclassResponsibility}).
 そのようなメソッドのひとつに、\ct{isAbstract}があります(\ct{isAbstract}メソッドは、コンパイル済みメソッドが、\ct{subclassResponsibility}を送るかどうか、教えてくれます)。
 %@We can use it to identify all the abstract methods of an abstract class
-\ct{isAbstract}メソッドを使えば、抽象クラスのすべての抽象メソッドを識別することができます。
+\ct{isAbstract}メソッドを使えば、任意の抽象クラスのすべての抽象メソッドを識別することができます。
 \needlines{4}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -550,18 +550,18 @@ SystemNavigation default
 \section{ブラウジング環境}
 
 %@Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
-\clsind{SystemNavigation}は、システムコードに対してプログラム的にクエリを送り、プログラム的にこれをブラウズする方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
+\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
-\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出すことに関心があったとしましょう。
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出したかったとしましょう。
 %@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
-このように、何かをオーバーライドしているわけではないメソッドが、\super-送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super-送信は、通常は、\self-送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\selfにメッセージを送ることで済みます!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super-送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super-送信は、通常は、\self-送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self　にメッセージを送れば済みます!)
 
 %@The refactoring browser provides us with an elegant way to restrict our query to just the classes and methods we are interested in.
 リファクタリングブラウザーというツールは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
 
 %@\dothis{Open a browser on the class \ct{Collection}.
-\dothis{ブラウザーを開けて、\ct{Collection}.を見てみましょう。
+\dothis{ブラウザーを開けて、\ct{Collection}を見てみましょう。
 %@\actclick on the class name and select \menu{refactoring scope>subclasses with}.
 クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
@@ -574,7 +574,7 @@ SystemNavigation default
 \menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
-\figref{sendDifferentSuper}では、そのような19個のメソッドが、\ct{Collection}階層の中に見つかったのを見ることができます。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
 %@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
