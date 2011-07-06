@@ -417,7 +417,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 %@Note that messages implemented but not sent are not necessarily useless, since they may be sent implicitly (\eg using \ct{perform:}).
 ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも用なし、ということではありません。なぜなら、それらは間接的に送られることもありうるからです(\eg \ct{perform:}を使って)。
 %@Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
-送られるのに実装されていないメッセージには、しかしながら、もっと問題があります。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗することになるからです。
+送られるのに実装されていないメッセージは、しかしながら、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗することになるからです。
 %@They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
 これらは、未完了の実装、廃止されたAPI、あるいは欠落したライブラリの兆候でしょう。
 
@@ -550,7 +550,7 @@ SystemNavigation default
 \section{ブラウジング環境}
 
 %@Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
-\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
+\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
 \lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出したかったとしましょう。
@@ -594,10 +594,10 @@ SystemNavigation default
 \end{code}{}
 
 %@Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
-この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
+この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。%@?how? dad
 
 %@Finally, we can find just those methods that send a different super message programmatically as follows:
-最終的に、このようなメソッド、つまり異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見つけ出すことができます:
+最終的に、このようなメソッド、つまり自身と異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見つけ出すことができます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -608,27 +608,27 @@ SystemNavigation default
 	open
 \end{code}
 %@Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
-ここでは、各コンパイル済みメソッドに、その (Refactoring Browser) 解析木について尋ね、superメッセージが、メソッドセレクターと異なっているかを探り出しています。
+ここでは、各コンパイル済みメソッドに、その(リファクタリングブラウザーによる)解析木について尋ね、superメッセージが、メソッドセレクターと異なっているかを探り出しています。%@?(Refactoring Browser): ???
 %@Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
-\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things?
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が聞けるかがわかります。%@?see some the things: ???
 
 %======================================
 %@\section{Accessing the run-time context}
 \section{実行時コンテクストにアクセスする}
 
 %@We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
-これまで、\st のリフレクティブな機能により、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできることを見てきました。しかし、実行時環境についてはどうでしょう?
+これまで、\st のリフレクティブな機能をどのように用いて、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるか見てきました。しかし、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
 %@\subsection{Method contexts}
 \subsection{メソッドコンテクスト}
 
 %@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
-実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、イメージの中ではない、ということです!
+実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、仮想イメージの中ではない、ということです!
 %@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
-その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスすることができます。そして幸運なことに、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
+その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスすることができます。そして幸いにも、この実行時コンテクストをエクスプロアすることができます。それはちょうど、他の任意のオブジェクトをエクスプロアすることができるのと同様です。
 %@How is this possible?
-これは、どのようにして可能なのでしょうか?
+これは、どのようにして可能になっているのでしょうか?
 
 %@Actually, there is nothing magical about the debugger.
 実は、デバッガーには何の魔法もありません。
@@ -638,7 +638,7 @@ SystemNavigation default
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
 %@We can easily experiment with this mechanism ourselves.
-このメカニズムについて、簡単に、自分自身で実験することができます。
+このメカニズムについて、簡単に、自分で実験することができます。
 
 %@\dothis{Change the definition of \ct{Integer>>>factorial} by inserting the underlined expression as shown below:}
 \dothis{\ct{Integer>>>factorial}の定義を変えてみましょう。以下のようにします:}
@@ -654,7 +654,7 @@ Integer>>>factorial
 \end{code}
 
 %@\dothis{Now evaluate \ct{3 factorial} in a workspace. You should obtain both a debugger window and an explorer, as shown in \figref{exploringThisContext}.}
-\dothis{さあ、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が得られるはずです。}
+\dothis{さあ、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
@@ -678,7 +678,7 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
 %@As it turns out, one of the most common applications is to discover the sender of a message.
-結局のところ、\ct{thisContext}の最も一般的な応用のひとつは、メッセージのセンダーを見出すことです。
+結局のところ、\ct{thisContext}の最も一般的な応用例のひとつは、メッセージのセンダーを見出すことです。
 %@Here is a typical application:
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
@@ -705,12 +705,12 @@ we should have a Reflection applied chapter}
 
 \mthindex{Object}{halt}
 %@The \st way to set a breakpoint is to evaluate \ct{self halt} at an interesting point in a method.  This will cause \ct{thisContext} to be reified, and a \ind{debugger} window will open at the breakpoint.
-ブレークポイントをかけるための\st のやりかたは、メソッド内の関心のある箇所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開くことになります。
+ブレークポイントをかけるための\st のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開くことになります。
 %@Unfortunately this poses problems for methods that are intensively used in the system.
 不幸なことに、これを、システムの中核的なメソッドに対して行うと、数々の問題を引き起こすことになります。
 
 %@Suppose, for instance, that we want to explore the execution of \ct{OrderedCollection>>>add:}.
-例えば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスロアしたかったとしましょう。
+例えば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスプロアしたかったとしましょう。
 %@Setting a breakpoint in this method is problematic.
 このメソッドにブレークポイントをかけると、やっかいなことになります。
 
@@ -749,7 +749,7 @@ OrderedCollection>>>add: newObject
 \ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリにあるのを見つけることができるでしょう。%@?くどい?
 
 %@How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
-どうしてこのように動くのでしょうか?\clsmthind{Object}{haltIf:}の実装を見てみましょう:
+どのようにして、こう動くのでしょうか?\clsmthind{Object}{haltIf:}の実装を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
@@ -765,7 +765,7 @@ Object>>>haltIf: condition
 \end{code}
 
 %@Starting from \ct!thisContext!, \ct!haltIf:! goes up through the execution stack, checking if the name of the calling method is the same as the one passed as parameter.
-\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へとたぐっていきながら、呼び出し側のメソッドの名前が、パラメーターとして与えられたシンボルと一致するかをチェックします。
+\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へと遡りながら、呼び出し側のメソッドの名前が、パラメーターと一致するかをチェックします。
 %@If this is the case, then it raises an exception which, by default, summons the debugger.
 もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
 
