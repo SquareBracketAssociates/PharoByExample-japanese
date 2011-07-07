@@ -429,10 +429,7 @@ SeasideHtmlDemo>>>renderContentOn: html
 
 最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の仕方の例になっています。
 
-
-
-Note that in Seaside simple elements are rendered by specifying the text they contain directly, whereas complex elements are specified using blocks.
-This is a simple convention to help you structure your rendering code.
+Seasideでは単純な要素であれば単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderParagraphsOn: html 
@@ -450,8 +447,7 @@ SeasideHtmlDemo>>>renderParagraphsOn: html
 			width: '50']
 \end{code}
 
-The next helper method, \ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}, shows you how to generate lists and tables.
-A table uses two levels of blocks to display each of its rows and the cells within the rows.
+次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使って、列と列の中のセルを表示させるようにします。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderListsAndTablesOn: html 
@@ -464,9 +460,9 @@ SeasideHtmlDemo>>>renderListsAndTablesOn: html
 			html tableData: 'A table with one data cell.']]
 \end{code}
 
-The next example shows how we can specify CSS \emph{div}s and \emph{span}s with \emph{class} or \emph{id} attributes.
-Of course, the messages \ct{class:} and \ct{id:} can also be sent to the other brushes, not just to \emph{div}s and \emph{span}s.
-The method \ct{SeasideDemoWidget>>>style} defines how these XHTML elements should be displayed (see \secref{css}).
+次の例は、\emph{div}や \emph{span}の要素に、CSSの \emph{class} や \emph{id} 属性を指定するやり方を示しています。もちろん
+ \ct{class:} や \ct{id:} といったメッセージは、\emph{div} \emph{span}以外のブラシにも送ることができます。
+\ct{SeasideDemoWidget>>>style} のメソッドで、XHTMLの要素が実際にどのようなスタイルで表示されるかを定義しています(\secref{css}を参照)。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderDivsAndSpansOn: html 
@@ -479,8 +475,7 @@ SeasideHtmlDemo>>>renderDivsAndSpansOn: html
 				with: 'A span with class ''highlight''.']
 \end{code}
 
-Finally we see a simple example of a link, created by binding a simple \subind{Seaside}{callback} to an ``anchor'' (\ie a link).
-Clicking on the link will cause the subsequent text to toggle between ``true'' and ``false'' by toggling the instance variable \ct{toggleValue}.
+最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わるのですが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行で変化するからです。
 
 \needlines{3}
 \begin{code}{}
@@ -497,14 +492,14 @@ SeasideHtmlDemo>>>renderLinkWithCallbackOn: html
 			with: toggleValue ]
 \end{code}
 
-\important{Note that actions should appear only in callbacks.
-The code executed while rendering should not change the state of the application!}
+\important{アプリケーションの状態を変えるような処理は、コールバックの中でのみ書くようにします。
+レンダリングのコードの中に、直接そのようなコードを書くべきではありません。}
 
 %-----------------------------------------------------------------
-\subsection{Forms}
+\subsection{フォーム}
 
-Forms are rendered just like the other examples that we have already seen.
-Here is the code for the \ct{SeasideFormDemo} component in \figref{RenderingDemo}.
+フォームも今までの例と同様のやり方で表示できます。
+図\figref{RenderingDemo}の\ct{SeasideFormDemo} コンポーネントのコードを示します。
 \index{Seaside!XHTML forms}
 
 \begin{code}{}
@@ -531,44 +526,46 @@ SeasideFormDemo>>>renderContentOn: html
 			text: 'done' ]
 \end{code}{}
 
-Since a form is a complex entity, it is rendered using a block.
-Note that all the state changes happen in the callbacks, not as part of the rendering.
+フォーム要素は複雑なので、ブロックを使ってレンダリングしています。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
 
-There is one Seaside feature used here that is worth special mention, namely the message \mthind{WAAnchorTag}{on:of:}.
-In the example, this message is used to bind a text input field to the variable \ct{heading}.
-Anchors and buttons also support this message.
-The first argument is the name of an instance variable for which accessors have been defined;  the second argument is the object to which this instance variable belongs.
-Both observer (\ct{heading}) and mutator (\ct{heading:}) accessor messages must be understood by the object, with the usual naming convention.
-In the case here of a text input field, this saves us the trouble of having to define a callback that updates the field as well as having to bind the default contents of the html input field to the current value of the instance variable.
-Using \ct{on: #heading of: self}, the \ct{heading} variable is updated automatically whenever the user updates the text input field.
+ \mthind{WAAnchorTag}{on:of:}については説明が必要でしょう。
+上の例ではテキストフィールドに、自身のインスタンス変数\ct{heading}を対応させるために使われています。
+アンカーやボタンもこのメッセージに答えられます。
 
-The same message is used twice more in this example, to cause the selection of a colour on the html form to update the \ct{color} variable, and to bind the result of the checkbox to the \ct{checked} variable.
-Many other examples can be found in the functional tests for Seaside.
-Have a look at the category \scat{Seaside-Tests-Functional}, or just point your browser to \url{http://localhost:8080/seaside/tests/alltests}.
-Select \menu{WAInputTest} and click on the \button{Restart} button to see most of the features of forms.
+最初の引数はインスタンス変数の名前です。2番目の引数は変数を保持するオブジェクトを指定します。
+通常の名前付けルールで、インスタンス変数のアクセッサー (\ct{heading}) とミューテイター (\ct{heading:})がクラスに定義されていることが前提となっています。
 
-Don't forget, if you \button{Toggle Halos}, you can browse the source code of the examples directly using the Seaside class browser.
+このテキストフィールドの例では、デフォルト値を設定したり、新たな値の設定に関するコールバックを設定したりするコードを省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
+
+すぐ後にコンボボックスの選択で\ct{color} 変数を指定した別の例があります。その後にはチェックボックスの例があり、 \ct{checked} 変数の値が更新されるようになっています。
+
+Seasideの機能テストのコードを見ると、さらにさまざまなフォーム例が見つかります。
+%2.8ベース。修正の必要あり(ume)　
+% URL -> http://localhost:8080/tests/functional/WAInputPostFunctionalTest
+% menu -> WAInputGetFunctionalTest, (WAInputPostFunctionalTest)
+ \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。また、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}のURLを指定し、
+\menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
+
+ぜひ\button{Toggle Halos}ボタンを押すと、Webブラウザから対応するソースコードにすぐアクセスできるようになるというSeasideの機能を活用してください。
 
 %-----------------------------------------------------------------
-\section{CSS: Cascading style sheets}
+\section{CSS: カスケーディング・スタイル・シート}
 \seclabel{css}
 
 %\ab{I think that it just needs a few paragraphs telling the reader the key ideas behind CSS, and the new terminology that the CSS folks introduce, before going in to the details of how you define their "thingies".  Now I have forgotten what they call their "thingies" --- I know that there are effectively paragraph styles (divs) and character styles (spans), but I've forgotten what they call them.  So, I think that the text needs to tell the reader, for each thingie, (1) the CSS concept behind the thingie, (2) what it looks like in a CSS style sheet , (3) what it looks like in html, and (4) how to do it in Seaside.   Maybe (3) can be omitted, because it's not needed to use Seaside.}
 % \on{I think we do most of that already.}
 
-Cascading Style Sheets\footnote{\url{http://www.w3.org/Style/CSS/}}, or \ind{CSS} for short, have emerged as a standard way for web applications to separate style from content.
-Seaside relies on CSS to avoid cluttering your rendering code with layout considerations.
+\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する方法として標準的なものになってきました。SeasideはCSSの技術を使い、レンダリングのコードが見栄えを意識して煩雑になるのを防いでいます。
 
-You can set the CSS style sheet for your web components by defining the method \ct{style}, which should return a string containing the CSS rules for that component.
-The styles of all the components displayed on a web page are joined together, so each component can have its own style.
-A better approach can be to define an abstract class for your web application that defines a common style for all its subclasses.
+コンポーネントは \ct{style}というメソッドを定義することで、使用するスタイルシートを決めることができます。メソッドの中身は単なるCSSの文字列で、コンポーネントが使うスタイルを定めたものにします。
 
-Actually, for deployed applications, it is more common to define style sheets as external files.
-This way the look and feel of the component is completely separate from its functionality.
-(Have a look at \clsind{WAFileLibrary}, which provides a way to serve static files without the need for a standalone server.)
+Webページ内に配置されるコンポーネントのスタイルシートは結合されて一つになりますが、各コンポーネントは自身のスタイルを定義で
+きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
 
-If you already are familiar with CSS, then that's all you need to know.
-Otherwise, read on for a very brief introduction to CSS.
+しかしデプロイ時には、外部ファイルとしてスタイルシートを用意するのが一般的です。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
+( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です。)
+
+CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
 Instead of directly encoding display attributes in the paragraph and text elements of your web pages, with CSS you will define different classes of elements and place all display considerations in a separate style sheet.
 Paragraph-like entities are called \emph{div}s and text-like entities are \emph{span}s.
