@@ -567,13 +567,11 @@ Webページ内に配置されるコンポーネントのスタイルシート�
 
 CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
-Instead of directly encoding display attributes in the paragraph and text elements of your web pages, with CSS you will define different classes of elements and place all display considerations in a separate style sheet.
-Paragraph-like entities are called \emph{div}s and text-like entities are \emph{span}s.
-You would then define symbolic names, like ``highlight'' (see example below) for text to be highlighted, and specify how highlighted text is to be displayed in your style sheet.
+CSSを使うと、段落やテキストの表示属性を直接Webページに埋め込む代わりに、表示情報を分類分けして、スタイルシートに別途定義できます。段落に該当する要素が \emph{div}で、インラインのテキスト要素は \emph{span} と呼ばれます。
+例えば自分で``highlight''といった形で、要素に名前をつけて、ハイライトされるテキストとして定義することもできます(例を参照のこと)。スタイルシートの中では、ハイライトがどのように表示されるべきかを記述します。
 
-Basically a CSS style sheet consists of a set of rules that specify how to format given XHTML elements.
-Each rule consists of two parts.
-There is a \emph{selector} that specifies which XHTML elements the rule applies to, and there is a \emph{declaration} which sets a number of attributes for that element.
+基本的に CSS は、XHTMLの要素をどのようなフォーマットで表示するかについて一覧のルールを記述したものです。ルールは二つの部分から成り立っています。
+ \emph{セレクター}と呼ばれる部分ではその XHTML 要素にルールを適用するかを指定します。 \emph{宣言} の箇所では、要素に適用される属性の値を定義します。
 
 \begin{figure}[tb]
 \begin{code}{}
@@ -607,43 +605,36 @@ td {
 .field { background-color: lightgrey; }
 '
 \end{code}
-\caption{\lct{SeasideDemoWidget} common style sheet.
+\caption{\lct{SeasideDemoWidget} 共通スタイルシート
 \figlabel{democss}}
 \end{figure}
-\figref{democss} illustrates a simple style sheet for the rendering demo shown earlier in \figref{RenderingDemo}.
-The first rule specifies a preference for the fonts to use for the \ct{body} of the web page.
-The next few rules specify properties of second-level headings (\ct{h2}), tables (\ct{table}), and table data (\ct{td}).
 
-The remaining rules have selectors that will match XHTML elements that have the given ``class'' or ``id'' attributes.
-CSS selectors for class attributes start with a ``\ct{.}'' and those for id attributes with ``\ct{#}''.
-The main difference between class and id attributes is that many elements may have the same class, but only one element may have a given id (\ie an \emph{identifier}). 
-So, whereas a class attribute, such as \ct{highlight}, may occur multiple times on any page, an id must identify a \emph{unique} element on the page, such as a particular menu, the modified date, or author.
-Note that a particular XHTML element may have multiple classes, in which case all the applicable display attributes will be applied in sequence.
+\figref{democss} は、\figref{RenderingDemo}で使われているスタイルシートのメソッドを示したものです。
+最初のルールは \ct{body}要素で使われるフォントを指定しています。さらに、見出しレベル2 (\ct{h2})、テーブル (\ct{table})、セル (\ct{td})についての定義が続きます。
+
+
+残りのルールは、特定の``class'' や ``id''を持つ XHTML要素についてです。クラス属性のCSSのセレクターは``\ct{.}''でid 属性のセレクターは``\ct{#}''で始まります。
+classと id の違いは、ページ内でid属性の要素は一つしか存在できませんが(\emph{IDのため})、クラス属性の要素は複数あっても良いということです。 \ct{highlight}はクラス属性なので、ページ内に何度も出てきてかまいません。id属性はページ内で \emph{唯一}の要素、例えばメニュー、更新日、作者の名前などで使われます。また、XHTMLの各要素には、複数のクラス属性が指定できます。その場合は指定された順番に沿って、表示の属性が適用されていきます。
 
 % This style sheet expects at most one element to specify the \emph{author} of the web page.
 
-Selector conditions may be combined, so the selector \ct{div.subcomponent} will only match an XHTML element if it is both a div \emph{and} it has a class attribute equal to ``subcomponent''.
+セレクターは組み合わせることができます。 \ct{div.subcomponent} というセレクターは、divで、クラス属性が``subcomponent''の要素のみを選択することになります。
 
-It is also possible to specify nested elements, though this is seldom necessary.
-For example, the selector ``\ct{p span}'' will match a span within a paragraph but not within a div.
+あまり必要になることはありませんが、ネストした要素を指定することも可能です。例えば ``\ct{p span}''は、段落内(p)のspanを選択します。div内のspanにマッチすることはありません。
 
-There are numerous books and web sites to help you learn CSS.
-For a dramatic demonstration of the power of CSS, we recommend you to have a look at the CSS Zen Garden\footnote{\url{http://www.csszengarden.com/}}, which shows how the same content can be rendered in radically different ways simply by changing the CSS style sheet.
+CSSについては多くの本やWebページがあります。CSSでどれだけのことができるかを知るには、CSS Zen　Garden\footnote{\url{http://www.csszengarden.com/}}のサイトを見てみると良いでしょう。CSSのスタイルシートを変えるだけで、同じ内容の文書をまったく異なったものに見さられるということがわかります。
 
 %-----------------------------------------------------------------
-\section{Managing control flow}
+\section{制御フローの管理}
 
-Seaside makes it particularly easy to design web applications with non-trivial control flow.
-There are basically two mechanisms that you can use:
+Seaside では、複雑なフローを持つWebアプリケーションを開発するのが、特に簡単にできるようになっています。基本的に二つの仕組みが提供されています。
 
 \begin{enumerate}
-  \item A component can \emph{call} another component by sending \ct{caller call: callee}.
-  The caller is temporarily replaced by the callee, until the callee returns control by sending \ct{answer:}.
-  The caller is usually \ct{self}, but could also be any other currently visible component.
+  \item コンポーネントは別のコンポーネントを \ct{caller call: callee}のように書いて、\emph{呼び出す}ことができます。呼び出し側は一時的に表示されなくなり、呼ばれた側に制御が移ります。\ct{answer:}によって、制御を元に返すことができます。呼び出し側は定型的には \ct{self}ですが、現在表示されているコンポーネントであればどれでもかまいません。
 
-  \item A workflow can be defined as a \emphsubind{Seaside}{task}.
-  This is a special kind of component that subclasses \clsind{WATask} (instead of \clsind{WAComponent}). \seclabel{task}
-  Instead of defining \ct{renderContentOn:}, it defines no content of its own, but rather defines a \ct{go} method that sends a series of \ct{call:} messages to activate various subcomponents in turn.
+  \item 全体のワークフローは \emphsubind{Seaside}{タスク}の仕組みで定義できます。\clsind{WAComponent}でなく、\clsind{WATask}を継承することで、特別なコンポーネントになります。 \seclabel{task} タスクは内部にコンポーネントを持ちません。
+   \ct{renderContentOn:}を実装する代わりに、 \ct{go} メソッドを定義し、全体の流れを、コンポーネントを順番に \ct{call:}形で書いていきます。
+  
 \end{enumerate}
 \index{Seaside!control flow}
 
