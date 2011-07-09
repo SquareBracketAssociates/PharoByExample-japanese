@@ -639,16 +639,14 @@ Seaside では、複雑なフローを持つWebアプリケーションを開発
 \index{Seaside!control flow}
 
 %-----------------------------------------------------------------
-\subsection{Call and answer}
+\subsection{call:とanswer:}
 
-Call and answer are used to realize simple dialogues.
+call:とanuswer:は単純なダイアログ形式のUIを実現するために使われます。
 
-There is a trivial example of \ct{call:} and \ct{answer:} in the rendering demo of \figref{RenderingDemo}.
-The component \ct{SeasideEditCallDemo} displays a text field and an \emph{edit} link.
-The callback for the edit link calls a new instance of \ct{SeasideEditAnswerDemo} initialized to the value of the text field.
-The callback also updates this text field to the result which is sent as an answer.
-
-(We underline the \ct{call:} and \ct{answer:} sends to draw attention to them.)
+ \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
+ \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
+ 
+(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています。)
 
 \begin{code}{}
 SeasideEditCallDemo>>>renderContentOn: html 
@@ -661,15 +659,11 @@ SeasideEditCallDemo>>>renderContentOn: html
 		with: 'edit'
 \end{code}{}
 
-What is particularly elegant is that the code makes absolutely no reference to the new web page that must be created.
-At run-time, a new page is created in which the \ct{SeasideEditCallDemo} component is replaced by a \ct{SeasideEditAnswerDemo} component; the parent component and the other peer components are untouched.
+次に表示されるべきWebページ全体を意識する部分がまったくない、というところがエレガントです。実行すると \ct{SeasideEditCallDemo} コンポーネントの部分が \ct{SeasideEditAnswerDemo} コンポーネントに成り代わり、ページ全体の表示が行われます。外側のコンポーネントや隣接するコンポーネントはそのままです。
 
-\important{\mthind{WAComponent}{call:} and \mthind{WAComponent}{answer:} should never be used while rendering.
-They may safely be sent from within a \subind{Seaside}{callback}, or from within the \mthind{WATask}{go} method of a task.}
+\important{\mthind{WAComponent}{call:} や \mthind{WAComponent}{answer:} はレンダリングの中に直接記述してはいけません。\subind{Seaside}{コールバック}や、タスクの\mthind{WATask}{go}メソッドの中で書くようにします。
 
-The \ct{SeasideEditAnswerDemo} component is also remarkably simple.
-It just renders a form with a text field.
-The submit button is bound to a callback that will answer the final value of the text field.
+ \ct{SeasideEditAnswerDemo} コンポーネントも非常にシンプルです。テキストフィールドの初期値を表示し、送信ボタンのコールバックで、最終的なテキストフィールドの値を返すように書いてあるだけです。
 
 \begin{code}{}
 SeasideEditAnswerDemo>>>renderContentOn: html
@@ -682,10 +676,9 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 		]
 \end{code}{}
 
-That's it.
+わずかこれだけでページの遷移が実現できます。
 
-Seaside takes care of the control flow and the correct rendering of all the components.
-Interestingly, the ``back'' button of the browser will also work just fine (though side effects are not rolled back unless we take additional steps).
+Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
 
 %-----------------------------------------------------------------
 \subsection{Convenience methods}
