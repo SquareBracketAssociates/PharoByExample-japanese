@@ -681,24 +681,19 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
 
 %-----------------------------------------------------------------
-\subsection{Convenience methods}
+\subsection{便利なメソッド群}
 
-Since certain call--answer dialogues are very common, Seaside provides some convenience methods to save you the trouble of writing components like \ct{SeasideEditAnswerDemo}.
-The generated dialogues are shown in \figref{dialogs}.
-We can see these convenience methods being used within \ct{SeasideDialogDemo>>>renderContentOn:}
-\index{Seaside!convenience methods}
+call/answerを使ったダイアログには非常に良く出てくるパターンがあります。そのためSeasideは、\ct{SeasideEditAnswerDemo}のような些細なコンポーネントをわざわ書かずにすむように、便利なメソッドを提供しています。便利メソッドによって生成されるダイアログを図で示しました(\figref{dialogs})。これらの便利メソッドの使用例は \ct{SeasideDialogDemo>>>renderContentOn:}で確認できます。
 
 \begin{figure}[b]
 \begin{center}
 \includegraphics[width=\textwidth]{dialogs}
-\caption{Some standard dialogs}
+\caption{標準ダイアログ}
 \figlabel{dialogs}
 \end{center}
 \end{figure}
 
-The message \mthind{WAComponent}{request:} performs a call to a component that will let you edit a text field.
-The component answers the edited string.
-An optional label and default value may also be specified.
+\mthind{WAComponent}{request:}では、編集できるテキストフィールド付きのコンポーネントが開きます。ユーザが入力したテキストが呼び出し側に返るようになっています。ラベルやデフォルト値も指定できます。
 
 \needlines{3}
 \begin{code}{}
@@ -709,8 +704,7 @@ SeasideDialogDemo>>>renderContentOn: html
 ...
 \end{code}
 
-The message \mthind{WAComponent}{inform:} calls a component that simply displays the argument message and waits for the user to click ``ok''.
-The called component just returns \ct{self}.
+\mthind{WAComponent}{inform:} では、単にユーザが指定した文字列を表示するコンポーネントが開きます。``ok''ボタンを押すとコンポーネントが閉じて制御が呼び出し側に戻ります。コンポーネントは単に\ct{self}を返すだけです。
 
 \begin{code}{}
 ...
