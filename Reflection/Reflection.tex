@@ -62,9 +62,9 @@
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
 このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、リフレクションをサポートしています。
 
+%@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
-%@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 	\caption{具現化とリフレクション。\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \end{figure}
 
@@ -111,9 +111,9 @@ w inspect
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
 \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
+%@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
-%@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
 	\caption{\ct!ワークスペース!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
@@ -161,13 +161,13 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
+%@	"Primitive. Answer a fixed variable in an object. ..."
+%@	"Access beyond fixed variables."
 \needlines{5}
 \begin{code}{}
 Object>>>instVarAt: index 
-%@	"Primitive. Answer a fixed variable in an object. ..."
 	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。..."
 	!\textbf{<primitive: 73>}!
-%@	"Access beyond fixed variables."
 	"固定長配列の範囲を超えた変数にアクセスする。"
 	^self basicAt: index - self class instSize		
 \end{code}
@@ -181,9 +181,9 @@ Object>>>instVarAt: index
 %@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
 いくらプリミティブメソッドのコードが変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
 
+%@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
-%@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
 	\caption{\ct!ワークスペース!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
@@ -215,10 +215,10 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 
 %@The method is implemented in \ct{Object} as follows:
 このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@? Pharo-1.1.1には、このメソッドは無い。
+%@	"Answer a collection whose elements are the values of those instance variables of the receiver which were added by the receiver's class."	
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
-%@	"Answer a collection whose elements are the values of those instance variables of the receiver which were added by the receiver's class."	
 	"レシーバーのクラスが追加した、すべてのレシーバーのインスタンス変数の値を要素とするコレクションを返す。"	
 	| c |
 	c := OrderedCollection new.
@@ -247,6 +247,10 @@ Object>>>instanceVariableValues
 \lct{isKindOf: \emph{aClass}}は、レシーバーが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであるときに、trueを返します。
 %@For instance:
 例えば:
+%@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
+%@For instance:
+%@1.5 respondsTo: #floor      --> true    "since Number implements floor"
+%@Exception respondsTo: #, --> true    "exception classes can be grouped"
 \begin{code}{@TEST}
 1.5 class                     --> Float
 1.5 isKindOf: Number --> true
@@ -255,16 +259,12 @@ Object>>>instanceVariableValues
 \mthindex{Object}{class}
 \mthindex{Object}{isKindOf:}
 
-%@\lct{respondsTo: \emph{aSymbol}} returns true if the receiver has a method whose selector is \lct{\emph{aSymbol}}.
 \lct{respondsTo: \emph{aSymbol}}は、レシーバーのクラスやその先祖クラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。%@?receiver has a method: 「レシーバーのクラスやその先祖クラス」というように補った。
-%@For instance:
 例えば:
 \needlines{3}
 \begin{code}{@TEST}
-%@1.5 respondsTo: #floor      --> true    "since Number implements floor"
 1.5 respondsTo: #floor      --> true    "Numberがfloorを実装しているので"
 1.5 floor                            --> 1
-%@Exception respondsTo: #, --> true    "exception classes can be grouped"
 Exception respondsTo: #, --> true    "例外クラスはグループ化することができる"
 \end{code}
 \mthindex{Object}{respondsTo:}
@@ -290,6 +290,14 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 %@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
 以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
+%@Morph allSuperclasses size.  -->       2 "inheritance depth"
+%@Morph allSelectors size.        --> 1378 "number of methods"
+%@Morph allInstVarNames size. -->      6 "number of instance variables"
+%@Morph selectors size.             -->  998 "number of new methods"
+%@Morph instVarNames size.     -->      6 "number of new variables"
+%@Morph subclasses size.          -->    45 "direct subclasses"
+%@Morph allSubclasses size.      -->  326 "total subclasses"
+%@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
 \mthindex{Behavior}{allInstVarNames}
@@ -299,21 +307,13 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \mthindex{Behavior}{allSubclasses}
 \mthindex{ClassDescription}{linesOfCode}
 \begin{code}{}
-%@Morph allSuperclasses size.  -->       2 "inheritance depth"
 Morph allSuperclasses size.  -->       2 "インヘリタンスの深さ"
-%@Morph allSelectors size.        --> 1378 "number of methods"
 Morph allSelectors size.        --> 1378 "メソッドの数"
-%@Morph allInstVarNames size. -->      6 "number of instance variables"
 Morph allInstVarNames size. -->      6 "インスタンス変数の数"
-%@Morph selectors size.             -->  998 "number of new methods"
 Morph selectors size.             -->  998 "Morphで新しく定義されたメソッドの数"
-%@Morph instVarNames size.     -->      6 "number of new variables"
 Morph instVarNames size.     -->      6 "Morphで新しく定義されたインスタンス変数の数"
-%@Morph subclasses size.          -->    45 "direct subclasses"
 Morph subclasses size.          -->    45 "直接のサブクラスの数"
-%@Morph allSubclasses size.      -->  326 "total subclasses"
 Morph allSubclasses size.      -->  326 "サブクラスの総数"
-%@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
 Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
@@ -438,9 +438,9 @@ SystemNavigation default allUnimplementedCalls size --> 270
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{code}
 
+%@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{implementors}
-%@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 	\caption{すべての\ct!\#ifTrue:の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
@@ -471,9 +471,9 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
 The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*の\ind{バイトコード}を指しています。
 
+%@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
-%@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
 	\caption{\ct!Point!クラスと\ct!Point!クラスの\ct!\#*!メソッドをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞?
 \end{figure}
 
@@ -488,9 +488,9 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
 \figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}というインスタンス変数に、アソシエーションとして格納されていることさえわかります。
 
+%@	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
-%@	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
 	\caption{クラス、メソッド辞書、そしてコンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
@@ -575,9 +575,9 @@ SystemNavigation default
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
 \figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+%@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-%@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
 	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
@@ -594,7 +594,7 @@ SystemNavigation default
 \end{code}{}
 
 %@Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
-この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。%@?how? dad
+この例は、先程の例、つまり\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。%@?how?
 
 %@Finally, we can find just those methods that send a different super message programmatically as follows:
 最終的に、このようなメソッド、つまり自身と異なったsuperメッセージを送っているメソッドを、以下のようにして、プログラム的に見つけ出すことができます:
@@ -643,10 +643,10 @@ SystemNavigation default
 %@\dothis{Change the definition of \ct{Integer>>>factorial} by inserting the underlined expression as shown below:}
 \dothis{\ct{Integer>>>factorial}の定義を変えてみましょう。以下のようにします:}
 
+%@	"Answer the factorial of the receiver."
 \mthindex{Object}{halt}
 \begin{code}{}
 Integer>>>factorial
-%@	"Answer the factorial of the receiver."
 	"レシーバーの階乗を返す。"
 	self = 0 ifTrue: [!\underline{thisContext explore. self halt.}! ^ 1].
 	self > 0 ifTrue: [^ self * (self - 1) factorial].
@@ -656,9 +656,9 @@ Integer>>>factorial
 %@\dothis{Now evaluate \ct{3 factorial} in a workspace. You should obtain both a debugger window and an explorer, as shown in \figref{exploringThisContext}.}
 \dothis{さあ、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
 
+%@	\caption{Exploring \lct{thisContext}.\figlabel{exploringThisContext}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
-%@	\caption{Exploring \lct{thisContext}.\figlabel{exploringThisContext}}
 	\caption{\lct{thisContext}をエクスプロアしている様子。\figlabel{exploringThisContext}}
 \end{figure}
 
@@ -681,11 +681,11 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 結局のところ、\ct{thisContext}の最も一般的な応用例のひとつは、メッセージのセンダーを見出すことです。
 %@Here is a typical application:
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
+%@	"This message sets up a framework for the behavior of the class' subclasses.
+%@	Announce that the subclass should have implemented this message."
 \begin{code}{}
 Object>>>subclassResponsibility
-%@	"This message sets up a framework for the behavior of the class' subclasses.
 	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
-%@	Announce that the subclass should have implemented this message."
 	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
@@ -955,9 +955,9 @@ myDA x --> nil
 %@Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
 \ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう(\figref{DynamicAccessors}参照)。
 
+%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
-%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
 	\caption{アクセサーの動的作成。\figlabel{DynamicAccessors}}
 	% \alex{not sure whether the figure is highly necessary. The code is rather simple and the figure complete to follow in my opinion.}}
 	% \on{trust me, it is useful to see all the steps.}
@@ -1048,10 +1048,10 @@ Pharoでは、\ind{メソッドラッパー}は、より簡単に実装するこ
 
 %@The entry point for test coverage is the method \clsmthind{TestRunner}{runCoverage}:
 テストカバレッジのエントリーポイントは、\clsmthind{TestRunner}{runCoverage}です:
+%@	... "identify methods to check for coverage"
 \begin{code}{}
 TestRunner>>>runCoverage
 	| packages methods |
-%@	... "identify methods to check for coverage"
 	... "カバレッジを測定するメソッドを識別する" %@? ???
 	self collectCoverageFor: methods
 \end{code}
@@ -1150,7 +1150,7 @@ mark
 %@We briefly saw pragmas when we introduced primitives earlier in this chapter. A primitive is nothing more than a pragma declaration. 
 この章の最初の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上の何物でもありません。 
 %@Consider \ct{<primitive: 73>} as contained in \ct{instVarAt:}. The pragma's selector is \ct{primitive:} and its arguments is an immediate literal value, \ct{73}. 
-\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。%@?consider: dad??? immediate: 訳さなかった。
+\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。%@?consider ~ as: 検討??? immediate: 訳さなかった。
 
 %@The compiler is probably the bigger user of pragmas. SUnit is another tool that makes use of annotations. SUnit is able to estimate the coverage of an application from a test unit. One may want to exclude some methods from the coverage. This is the case of the \ct!documentation! method in \ct!SplitJointTest class!:
 コンパイラーはおそらく、プラグマの大口ユーザです。SUnitもまた、アノテーションを活用するツールです。SUnitは、テストユニットからアプリケーションのカバレッジを見積ることができます。SUnitでは、いくつかのメソッドを、カバレッジから除外したいと思うかもしれません。以下は、\ct!SplitJointTest class!の\ct!documentation!メソッドの場合です:
