@@ -123,7 +123,7 @@ SeasideはWebサーバを含んでいます。8080ポートで動かすには \c
 カウンターは、ちゃんと表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
 
 
-今度は図\figref{seasideStartup}の\subind{Seaside}の初期画面の下のほうにあるツールバーに注目してみてください。
+今度は図\figref{seasideStartup}の\subind{Seaside}{toolbar}の初期画面の下のほうにあるツールバーに注目してみてください。
 Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
 \button{New Session} を押すと、アプリケーションの新たなセッションが始まります。
 \button{Configure} ではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
@@ -567,13 +567,11 @@ Webページ内に配置されるコンポーネントのスタイルシート�
 
 CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
-Instead of directly encoding display attributes in the paragraph and text elements of your web pages, with CSS you will define different classes of elements and place all display considerations in a separate style sheet.
-Paragraph-like entities are called \emph{div}s and text-like entities are \emph{span}s.
-You would then define symbolic names, like ``highlight'' (see example below) for text to be highlighted, and specify how highlighted text is to be displayed in your style sheet.
+CSSを使うと、段落やテキストの表示属性を直接Webページに埋め込む代わりに、表示情報を分類分けして、スタイルシートに別途定義できます。段落に該当する要素が \emph{div}で、インラインのテキスト要素は \emph{span} と呼ばれます。
+例えば自分で``highlight''といった形で、要素に名前をつけて、ハイライトされるテキストとして定義することもできます(例を参照のこと)。スタイルシートの中では、ハイライトがどのように表示されるべきかを記述します。
 
-Basically a CSS style sheet consists of a set of rules that specify how to format given XHTML elements.
-Each rule consists of two parts.
-There is a \emph{selector} that specifies which XHTML elements the rule applies to, and there is a \emph{declaration} which sets a number of attributes for that element.
+基本的に CSS は、XHTMLの要素をどのようなフォーマットで表示するかについて一覧のルールを記述したものです。ルールは二つの部分から成り立っています。
+ \emph{セレクター}と呼ばれる部分ではその XHTML 要素にルールを適用するかを指定します。 \emph{宣言} の箇所では、要素に適用される属性の値を定義します。
 
 \begin{figure}[tb]
 \begin{code}{}
@@ -607,57 +605,48 @@ td {
 .field { background-color: lightgrey; }
 '
 \end{code}
-\caption{\lct{SeasideDemoWidget} common style sheet.
+\caption{\lct{SeasideDemoWidget} 共通スタイルシート
 \figlabel{democss}}
 \end{figure}
-\figref{democss} illustrates a simple style sheet for the rendering demo shown earlier in \figref{RenderingDemo}.
-The first rule specifies a preference for the fonts to use for the \ct{body} of the web page.
-The next few rules specify properties of second-level headings (\ct{h2}), tables (\ct{table}), and table data (\ct{td}).
 
-The remaining rules have selectors that will match XHTML elements that have the given ``class'' or ``id'' attributes.
-CSS selectors for class attributes start with a ``\ct{.}'' and those for id attributes with ``\ct{#}''.
-The main difference between class and id attributes is that many elements may have the same class, but only one element may have a given id (\ie an \emph{identifier}). 
-So, whereas a class attribute, such as \ct{highlight}, may occur multiple times on any page, an id must identify a \emph{unique} element on the page, such as a particular menu, the modified date, or author.
-Note that a particular XHTML element may have multiple classes, in which case all the applicable display attributes will be applied in sequence.
+\figref{democss} は、\figref{RenderingDemo}で使われているスタイルシートのメソッドを示したものです。
+最初のルールは \ct{body}要素で使われるフォントを指定しています。さらに、見出しレベル2 (\ct{h2})、テーブル (\ct{table})、セル (\ct{td})についての定義が続きます。
+
+
+残りのルールは、特定の``class'' や ``id''を持つ XHTML要素についてです。クラス属性のCSSのセレクターは``\ct{.}''でid 属性のセレクターは``\ct{#}''で始まります。
+classと id の違いは、ページ内でid属性の要素は一つしか存在できませんが(\emph{IDのため})、クラス属性の要素は複数あっても良いということです。 \ct{highlight}はクラス属性なので、ページ内に何度も出てきてかまいません。id属性はページ内で \emph{唯一}の要素、例えばメニュー、更新日、作者の名前などで使われます。また、XHTMLの各要素には、複数のクラス属性が指定できます。その場合は指定された順番に沿って、表示の属性が適用されていきます。
 
 % This style sheet expects at most one element to specify the \emph{author} of the web page.
 
-Selector conditions may be combined, so the selector \ct{div.subcomponent} will only match an XHTML element if it is both a div \emph{and} it has a class attribute equal to ``subcomponent''.
+セレクターは組み合わせることができます。 \ct{div.subcomponent} というセレクターは、divで、クラス属性が``subcomponent''の要素のみを選択することになります。
 
-It is also possible to specify nested elements, though this is seldom necessary.
-For example, the selector ``\ct{p span}'' will match a span within a paragraph but not within a div.
+あまり必要になることはありませんが、ネストした要素を指定することも可能です。例えば ``\ct{p span}''は、段落内(p)のspanを選択します。div内のspanにマッチすることはありません。
 
-There are numerous books and web sites to help you learn CSS.
-For a dramatic demonstration of the power of CSS, we recommend you to have a look at the CSS Zen Garden\footnote{\url{http://www.csszengarden.com/}}, which shows how the same content can be rendered in radically different ways simply by changing the CSS style sheet.
+CSSについては多くの本やWebページがあります。CSSでどれだけのことができるかを知るには、CSS Zen　Garden\footnote{\url{http://www.csszengarden.com/}}のサイトを見てみると良いでしょう。CSSのスタイルシートを変えるだけで、同じ内容の文書をまったく異なったものに見さられるということがわかります。
 
 %-----------------------------------------------------------------
-\section{Managing control flow}
+\section{制御フローの管理}
 
-Seaside makes it particularly easy to design web applications with non-trivial control flow.
-There are basically two mechanisms that you can use:
+Seaside では、複雑なフローを持つWebアプリケーションを開発するのが、特に簡単にできるようになっています。基本的に二つの仕組みが提供されています。
 
 \begin{enumerate}
-  \item A component can \emph{call} another component by sending \ct{caller call: callee}.
-  The caller is temporarily replaced by the callee, until the callee returns control by sending \ct{answer:}.
-  The caller is usually \ct{self}, but could also be any other currently visible component.
+  \item コンポーネントは別のコンポーネントを \ct{caller call: callee}のように書いて、\emph{呼び出す}ことができます。呼び出し側は一時的に表示されなくなり、呼ばれた側に制御が移ります。\ct{answer:}によって、制御を元に返すことができます。呼び出し側は定型的には \ct{self}ですが、現在表示されているコンポーネントであればどれでもかまいません。
 
-  \item A workflow can be defined as a \emphsubind{Seaside}{task}.
-  This is a special kind of component that subclasses \clsind{WATask} (instead of \clsind{WAComponent}). \seclabel{task}
-  Instead of defining \ct{renderContentOn:}, it defines no content of its own, but rather defines a \ct{go} method that sends a series of \ct{call:} messages to activate various subcomponents in turn.
+  \item 全体のワークフローは \emphsubind{Seaside}{タスク}の仕組みで定義できます。\clsind{WAComponent}でなく、\clsind{WATask}を継承することで、特別なコンポーネントになります。 \seclabel{task} タスクは内部にコンポーネントを持ちません。
+   \ct{renderContentOn:}を実装する代わりに、 \ct{go} メソッドを定義し、全体の流れを、コンポーネントを順番に \ct{call:}形で書いていきます。
+  
 \end{enumerate}
 \index{Seaside!control flow}
 
 %-----------------------------------------------------------------
-\subsection{Call and answer}
+\subsection{call:とanswer:}
 
-Call and answer are used to realize simple dialogues.
+call:とanuswer:は単純なダイアログ形式のUIを実現するために使われます。
 
-There is a trivial example of \ct{call:} and \ct{answer:} in the rendering demo of \figref{RenderingDemo}.
-The component \ct{SeasideEditCallDemo} displays a text field and an \emph{edit} link.
-The callback for the edit link calls a new instance of \ct{SeasideEditAnswerDemo} initialized to the value of the text field.
-The callback also updates this text field to the result which is sent as an answer.
-
-(We underline the \ct{call:} and \ct{answer:} sends to draw attention to them.)
+ \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
+ \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
+ 
+(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています。)
 
 \begin{code}{}
 SeasideEditCallDemo>>>renderContentOn: html 
@@ -670,15 +659,11 @@ SeasideEditCallDemo>>>renderContentOn: html
 		with: 'edit'
 \end{code}{}
 
-What is particularly elegant is that the code makes absolutely no reference to the new web page that must be created.
-At run-time, a new page is created in which the \ct{SeasideEditCallDemo} component is replaced by a \ct{SeasideEditAnswerDemo} component; the parent component and the other peer components are untouched.
+次に表示されるべきWebページ全体を意識する部分がまったくない、というところがエレガントです。実行すると \ct{SeasideEditCallDemo} コンポーネントの部分が \ct{SeasideEditAnswerDemo} コンポーネントに成り代わり、ページ全体の表示が行われます。外側のコンポーネントや隣接するコンポーネントはそのままです。
 
-\important{\mthind{WAComponent}{call:} and \mthind{WAComponent}{answer:} should never be used while rendering.
-They may safely be sent from within a \subind{Seaside}{callback}, or from within the \mthind{WATask}{go} method of a task.}
+\important{\mthind{WAComponent}{call:} や \mthind{WAComponent}{answer:} はレンダリングの中に直接記述してはいけません。\subind{Seaside}{コールバック}や、タスクの\mthind{WATask}{go}メソッドの中で書くようにします。
 
-The \ct{SeasideEditAnswerDemo} component is also remarkably simple.
-It just renders a form with a text field.
-The submit button is bound to a callback that will answer the final value of the text field.
+ \ct{SeasideEditAnswerDemo} コンポーネントも非常にシンプルです。テキストフィールドの初期値を表示し、送信ボタンのコールバックで、最終的なテキストフィールドの値を返すように書いてあるだけです。
 
 \begin{code}{}
 SeasideEditAnswerDemo>>>renderContentOn: html
@@ -691,30 +676,24 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 		]
 \end{code}{}
 
-That's it.
+わずかこれだけでページの遷移が実現できます。
 
-Seaside takes care of the control flow and the correct rendering of all the components.
-Interestingly, the ``back'' button of the browser will also work just fine (though side effects are not rolled back unless we take additional steps).
+Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
 
 %-----------------------------------------------------------------
-\subsection{Convenience methods}
+\subsection{便利なメソッド群}
 
-Since certain call--answer dialogues are very common, Seaside provides some convenience methods to save you the trouble of writing components like \ct{SeasideEditAnswerDemo}.
-The generated dialogues are shown in \figref{dialogs}.
-We can see these convenience methods being used within \ct{SeasideDialogDemo>>>renderContentOn:}
-\index{Seaside!convenience methods}
+call/answerを使ったダイアログには非常に良く出てくるパターンがあります。そのためSeasideは、\ct{SeasideEditAnswerDemo}のような些細なコンポーネントをわざわ書かずにすむように、便利なメソッドを提供しています。便利メソッドによって生成されるダイアログを図で示しました(\figref{dialogs})。これらの便利メソッドの使用例は \ct{SeasideDialogDemo>>>renderContentOn:}で確認できます。
 
 \begin{figure}[b]
 \begin{center}
 \includegraphics[width=\textwidth]{dialogs}
-\caption{Some standard dialogs}
+\caption{標準ダイアログ}
 \figlabel{dialogs}
 \end{center}
 \end{figure}
 
-The message \mthind{WAComponent}{request:} performs a call to a component that will let you edit a text field.
-The component answers the edited string.
-An optional label and default value may also be specified.
+\mthind{WAComponent}{request:}では、編集できるテキストフィールド付きのコンポーネントが開きます。ユーザが入力したテキストが呼び出し側に返るようになっています。ラベルやデフォルト値も指定できます。
 
 \needlines{3}
 \begin{code}{}
@@ -725,8 +704,7 @@ SeasideDialogDemo>>>renderContentOn: html
 ...
 \end{code}
 
-The message \mthind{WAComponent}{inform:} calls a component that simply displays the argument message and waits for the user to click ``ok''.
-The called component just returns \ct{self}.
+\mthind{WAComponent}{inform:} では、単にユーザが指定した文字列を表示するコンポーネントが開きます。``ok''ボタンを押すとコンポーネントが閉じて制御が呼び出し側に戻ります。コンポーネントは単に\ct{self}を返すだけです。
 
 \begin{code}{}
 ...
@@ -737,8 +715,7 @@ The called component just returns \ct{self}.
 ...
 \end{code}
 
-The message \mthind{WAComponent}{confirm:} asks a questions and waits for the user to select either ``Yes'' or ``No''.
-The component answers a boolean, which can be used to perform further actions.
+\mthind{WAComponent}{confirm:} を使うと``Yes''/``No''の質問ダイアログとなり、ユーザはどちらかを選ぶことになります。真偽値を呼び出し側に返すので、それによって次の動作を決めることができます。
 
 \begin{code}{}
 ...
@@ -752,16 +729,16 @@ The component answers a boolean, which can be used to perform further actions.
 		with: 'self confirm:'.
 \end{code}
 
-A few further convenience methods, such as \mthind{WAComponent}{chooseFrom:caption:}, are defined in the \prot{convenience} protocol of \clsind{WAComponent}.
+\clsind{WAComponent}の\prot{convenience}プロトコルには、 \mthind{WAComponent}{chooseFrom:caption:}ような役に立つメソッドがさらに定義されています。
 
 %-----------------------------------------------------------------
-\subsection{Tasks}
+\subsection{タスク}
 
-A \subind{Seaside}{task} is a component that subclasses \clsind{WATask}.
-It does not render anything itself, but simply calls other components in a control flow defined by implementing the method \mthind{WATask}{go}.
+ \clsind{WATask}を継承すると、\subind{Seaside}{タスク}を定義できます。タスクは自身ではレンダリングを行いません。単に制御フローに沿って他のコンポーネントをcall:していくだけです。 \mthind{WATask}{go}に、制御の流れを書いていきます。
 
-\clsind{WAConvenienceTest} is a simple example of a task defined in the category \scat{Seaside-Tests-Functional}.
-To see its effect, just point your browser to \url{http://localhost:8080/seaside/tests/alltests}, select \menu{WAConvenienceTest} and click \button{Restart}.
+\scat{Seaside-Tests-Functional}クラスカテゴリに定義されている\clsind{WAConvenienceTest} は、タスクの簡単な使用例になっています。動作を確認するには、Webブラウザで \url{http://localhost:8080/seaside/tests/alltests}のURLを開き、 \menu{WAConvenienceTest} を選択して \button{Restart}ボタンを押します。
+
+%URLが古い。該当するクラスも3.0には存在しない。
 
 \begin{code}{}
 WAConvenienceTest>>>go
@@ -770,8 +747,7 @@ WAConvenienceTest>>>go
 	self informCheese
 \end{code}
 
-This task calls in turn three components.
-The first, generated by the convenience method \mthind{WAComponent}{chooseFrom: caption:}, is a \clsind{WAChoiceDialog} that asks the user to choose a cheese.
+このタスクでは3つのコンポーネントの呼び出しを順番に行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開き、ユーザは好きなチーズを選択します。
 
 \begin{code}{}
 WAConvenienceTest>>>chooseCheese
@@ -783,7 +759,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-The second is a \clsind{WAYesOrNoDialog} to confirm the choice (generated by the convenience method \mthind{WAComponent}{confirm:}).
+次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです。)
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese
