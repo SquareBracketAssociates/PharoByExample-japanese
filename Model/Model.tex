@@ -318,7 +318,7 @@ aColor blue --> 1.0        "インスタンス側のアクセサメソッドblue
 実際、そういったユーティリティメソッドの多くは、簡単に実行できるコメントを含んでいます。
 
 % \dothis{Browse method \ct{Color class>>>showColorCube}, double-click just inside the quotes on the comment \ct{"Color showColorCube"} and type \short{d}.}
-\dothis{\ct{Color class>>>showColorCube}メソッドをブラウズして, コメント\ct{"Color showColorCube"}の引用符の内側をダブルクリックして、\short{d}を押してみてください。}
+\dothis{ \ct{Color class>>>showColorCube}メソッドをブラウズして, コメント\ct{"Color showColorCube"}の引用符の内側をダブルクリックして、\short{d}を押してみてください。}
 % You will see the effect of executing this method.  (Select \menu{World \go \ind{restore display}~(r)} to undo the effects.)
 このメソッドを実行した効果がわかるでしょう。(\menu{World \go \ind{restore display}~(r)}を実行して、元に戻してください。)
 
@@ -797,59 +797,83 @@ Object subclass: #Behavior
 \important{あなたが持っているデータを他人に弄らせるな。}
 
 %=========================================================
-\section{Method lookup follows the inheritance chain} 
+% \section{Method lookup follows the inheritance chain} 
+\section{メソッド探索は継承の連鎖を辿る}
 
 %\ruleref{lookup}
 
-What exactly happens when an object receives a message?
+% What exactly happens when an object receives a message?
+オブジェクトがメッセージを受け取る時、何が起こるのでしょう？
 
-The process is quite simple:
-the class of the receiver looks up the method to use to handle the message.
-If this class does not have a method, it asks its \ind{superclass}, and so on, up the \ind{inheritance} chain.
-When the method is found, the arguments are bound to the parameters of the method, and the \ind{virtual machine} executes it.
-\index{method!lookup}
+% The process is quite simple:
+とても単純な過程をたどります：
+% the class of the receiver looks up the method to use to handle the message.
+メッセージを受けたレシーバのクラスはそのメッセージを処理するのに用いるメソッドを探索します。
+% If this class does not have a method, it asks its \ind{superclass}, and so on, up the \ind{inheritance} chain.
+もしそのクラスがメソッドを持っていなければ、その\ind{スーパークラス}に頼みます。それを続けて、\ind{継承}の連鎖を上がっていきます。
+% When the method is found, the arguments are bound to the parameters of the method, and the \ind{virtual machine} executes it.
+メソッドが見つかれば、渡された引数はそのメソッドの引数に束縛されて、\ind{仮想マシン}がそれを実行します。
+% \index{method!lookup}
+\index{メソッド!探索}
 
-It is essentially as simple as this.
-Nevertheless there are a few questions that need some care to answer:
+% It is essentially as simple as this.
+メソッド探索の本質はこんなに簡単なのですが、
+% Nevertheless there are a few questions that need some care to answer:
+いくつか注意しなければならないことがあります。
 
 \begin{itemize}
-  \item \emph{What happens when a method does not explicitly return a value?}
-  \item \emph{What happens when a class reimplements a superclass method?}
-  \item \emph{What is the difference between \pvind{self} and \pvind{super} sends?}
-  \item \emph{What happens when no method is found?}
+%  \item \emph{What happens when a method does not explicitly return a value?}
+  \item \emph{メソッドが明示的に値を返していない場合は、どうなるのでしょうか？}
+%  \item \emph{What happens when a class reimplements a superclass method?}
+  \item \emph{あるクラスがスーパークラスのメソッドを再実装している場合は、どうなるのでしょうか？}
+%  \item \emph{What is the difference between \pvind{self} and \pvind{super} sends?}
+  \item \emph{\pvind{self}送信と\pvind{super}送信は何が違うのでしょうか？}
+%  \item \emph{What happens when no method is found?}
+  \item \emph{メソッドが見つからない場合には、どうなるのでしょうか？}
 \end{itemize}
 
-The rules for method lookup that we present here are conceptual: virtual machine implementors use all kinds of tricks and optimizations to speed-up method lookup. 
-That's their job, but you should never be able to detect that they are doing something different from our rules.
+% The rules for method lookup that we present here are conceptual: virtual machine implementors use all kinds of tricks and optimizations to speed-up method lookup. 
+ここでは、メソッド探索の概念的な規則を示します。仮想マシンを実装する人はありとあらゆるトリックや最適化を駆使してメソッド探索を高速化するのですが、
+% That's their job, but you should never be able to detect that they are doing something different from our rules.
+それは彼等に任せておきましょう。ここで示す規則から外れているとは判らないように、やっているはずです。
 % Whatever the implementation does, these rules will give you a clear understanding of the semantics of sending messages to \self and \super.
 
-First let us look at the basic lookup strategy, and then consider these further questions.
+% First let us look at the basic lookup strategy, and then consider these further questions.
+まず、探索の基本戦略から見ていきましょう。その上で、上記の一連の疑問文について考察しましょう。
 
 %---------------------------------------------------------
-\subsection{Method lookup}
-Suppose we create an instance of \ct{EllipseMorph}.
+% \subsection{Method lookup}
+\subsection{メソッド探索}
+% Suppose we create an instance of \ct{EllipseMorph}.
+\ct{EllipseMorph}のインスタンスを生成してみます。
 \begin{code}{@TEST | anEllipse |}
 anEllipse := EllipseMorph new.
 \end{code}
 \noindent
-If we now send this object the message \ct{defaultColor}, we get the result \ct{Color yellow}:
+% If we now send this object the message \ct{defaultColor}, we get the result \ct{Color yellow}:
+ここで、このオブジェクトに\ct{defaultColor}メッセージを送ったら、\ct{Color yellow}という結果が得られます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse defaultColor --> Color yellow
 \end{code}
 \noindent
-The class \ct{EllipseMorph} implements \ct{defaultColor}, so the appropriate method is found immediately.
+% The class \ct{EllipseMorph} implements \ct{defaultColor}, so the appropriate method is found immediately.
+\ct{EllipseMorph}クラスは\ct{defaultColor}を実装しているので、適切なメソッドが直ちに見つかります。
 
-\begin{method}[defaultColor]{A locally implemented method}
+% \begin{method}[defaultColor]{A locally implemented method}
+\begin{method}[defaultColor]{レシーバのクラス自体に実装されたメソッド}
 EllipseMorph>>>defaultColor
 	"answer the default color/fill style for the receiver"
 	^ Color yellow
 \end{method}
 \cmindex{EllipseMorph}{defaultColor}
 
-In contrast, if we send the message \ct{openInWorld} to \ct{anEllipse}, the method is not immediately found, since the class \ct{EllipseMorph} does not implement \ct{openInWorld}.
-The search therefore continues in the superclass, \lct{BorderedMorph}, and so on, until an \ct{openInWorld} method is found in the class \ct{Morph} (see \figref{openInWorldLookup}).
+% In contrast, if we send the message \ct{openInWorld} to \ct{anEllipse}, the method is not immediately found, since the class \ct{EllipseMorph} does not implement \ct{openInWorld}.
+一方、\ct{anEllipse}に\ct{openInWorld}メッセージを送ると、メソッドは直ちには見つかりません。\ct{anEllipse}クラスは\ct{openInWorld}を実装していないからです。
+% The search therefore continues in the superclass, \lct{BorderedMorph}, and so on, until an \ct{openInWorld} method is found in the class \ct{Morph} (see \figref{openInWorldLookup}).
+したがって、続いてスーパークラスである\lct{BorderedMorph}を探索していって、\ct{Morph}クラスで\ct{openInWorld}メソッドが見つかるまで続きます。
 
-\begin{method}[openInWorld]{An inherited method}
+% \begin{method}[openInWorld]{An inherited method}
+\begin{method}[openInWorld]{継承されたメソッド}
 Morph>>>openInWorld
 	"Add this morph to the world."
 
@@ -860,65 +884,96 @@ Morph>>>openInWorld
 \begin{figure}[htb]
 \begin{center}
 	{\includegraphics[width=0.8\textwidth]{openInWorldLookup}}
-\caption{Method lookup follows the inheritance hierarchy.\figlabel{openInWorldLookup}}
+% \caption{Method lookup follows the inheritance hierarchy.\figlabel{openInWorldLookup}}
+\caption{継承階層に従っていくメソッド探索\figlabel{openInWorldLookup}}
 \end{center}
 \end{figure}
 
 %---------------------------------------------------------
-\subsection{Returning self}
+% \subsection{Returning self}
+\subsection{selfを返す}
 
-Notice that \ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor}) explicitly returns \ct{Color yellow} whereas \ct{Morph>>>openInWorld} (\mthref{openInWorld}) does not appear to return anything.
+%Notice that \ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor}) explicitly returns \ct{Color yellow} whereas \ct{Morph>>>openInWorld} (\mthref{openInWorld}) does not appear to return anything.
+\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})は返り値を示すものがないことに注目してください。
 
-Actually a method \emph{always} answers a message with a value\,---\,which is, of course, an object.
-The answer may be defined by the \ct{^} construct in the method, but if execution reaches the end of the method without executing a \ct{^}, the method still answers a value: it answers the object that received the message.
-We usually say that the method ``answers \self'', because in Smalltalk the pseudo-variable \self represents the receiver of the message, rather like \ct{this} in \ind{Java}.
-\index{variable!pseudo}
+% Actually a method \emph{always} answers a message with a value\,---\,which is, of course, an object.
+実際にはメソッドは\emph{常に}値を答えます---もちろん、値というのはオブジェクトです。
+% The answer may be defined by the \ct{^} construct in the method, but if execution reaches the end of the method without executing a \ct{^}, the method still answers a value: it answers the object that received the message.
+答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまった場合、それでもなおメソッドは値を答えます。その場合、メソッドは、そのメッセージを受け取ったオブジェクトを答えます。
+% We usually say that the method ``answers \self'', because in Smalltalk the pseudo-variable \self represents the receiver of the message, rather like \ct{this} in \ind{Java}.
+そのことを、``\selfを答える''と言います。Smalltalkでは疑似変数\selfはメッセージを受けたレシーバを指します。\ind{Java}の\ct{this}みたいなものです。
+% \index{variable!pseudo}
+\index{変数!疑似}
 \index{return}
 \seeindex{caret}{return}
 
-This suggests that \mthref{openInWorld} is equivalent to \mthref{openInWorldReturnSelf}:
+% This suggests that \mthref{openInWorld} is equivalent to \mthref{openInWorldReturnSelf}:
+つまり、\mthref{openInWorld}は\mthref{openInWorldReturnSelf}と同じことです。
 
 \needlines{5}
-\begin{method}[openInWorldReturnSelf]{Explicitly returning self}
+% \begin{method}[openInWorldReturnSelf]{Explicitly returning self}
+\begin{method}[openInWorldReturnSelf]{明示的にselfを返す}
 Morph>>>openInWorld
 	"Add this morph to the world."
 	
     self openInWorld: self currentWorld
-	^ self		"Don't do this unless you mean it!"
+	^ self		"不要なので、通常はわざわざ書かないこと！"
 \end{method}
 
-Why is writing \ct{^ self} explicitly not a good thing to do?
-Well, when you return something explicitly, you are communicating that you are returning something of interest to the sender.
-When you explicitly return \self, you are saying that you expect the sender to use the returned value.
-This is not the case here, so it is best not to explicitly return \self.
+% Why is writing \ct{^ self} explicitly not a good thing to do?
+なぜ上記のような場合には\ct{^ self}と明示的に書かないほうがいいのかと言うと、
+% Well, when you return something explicitly, you are communicating that you are returning something of interest to the sender.
+何か明示的に返す場合には、メッセージを送ったセンダーにとって何か意味があることだということをコードに書いていると言えます。
+% When you explicitly return \self, you are saying that you expect the sender to use the returned value.
+\selfを明示的に返すのであれば、センダーにその返り値を使ってほしい、と言う意味になるのです。
+% This is not the case here, so it is best not to explicitly return \self.
+上記のコードではそういう意図はないので、\selfを返すということを明示しないほうがよいでしょう。
 
-This is a common idiom in \st, which Kent Beck refers to as ``Interesting return value'' \cite{Beck97a}:
+% This is a common idiom in \st, which Kent Beck refers to as ``Interesting return value'' \cite{Beck97a}:
+これは\stでは日常的なイディオムで、ケント・ベックは``興味を惹くような返り値'' \cite{Beck97a} と呼んでいます。
 \index{Beck, Kent}
 
-\important{Return a value only when you intend for the sender to use the value.}
+% \important{Return a value only when you intend for the sender to use the value.}
+\important{センダーにその値を使ってほしい時にだけ、返り値を示すこと。}
 
 %---------------------------------------------------------
-\subsection{Overriding and extension}
+% \subsection{Overriding and extension}
+\subsection{オーバーライドと拡張}
 
-If we look again at the \ct{EllipseMorph} class hierarchy in \figref{openInWorldLookup}, we see that the classes \ct{Morph} and \mbox{\ct{EllipseMorph}} both implement \ct{defaultColor}.
-In fact, if we open a new morph (\ct{Morph new openInWorld}) we see that we get a blue morph, whereas an ellipse will be yellow by default.
-\index{method!overriding}
-\index{method!extension}
-\seeindex{overriding}{method, overriding}
-\seeindex{extension}{method, extension}
+% If we look again at the \ct{EllipseMorph} class hierarchy in \figref{openInWorldLookup}, we see that the classes \ct{Morph} and \mbox{\ct{EllipseMorph}} both implement \ct{defaultColor}.
+\figref{openInWorldLookup}で示された\ct{EllipseMorph}クラスの階層では、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。
+% In fact, if we open a new morph (\ct{Morph new openInWorld}) we see that we get a blue morph, whereas an ellipse will be yellow by default.
+実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青いモーフが出ます。楕円の場合にはデフォルトで黄色です。
+% \index{method!overriding}
+\index{メソッド!オーバーライド}
+% \index{method!extension}
+\index{メソッド!拡張}
+% \seeindex{overriding}{method, overriding}
+\seeindex{オーバーライド}{メソッド, オーバーライド}
+% \seeindex{extension}{method, extension}
+\seeindex{拡張}{メソッド, 拡張}
 
-We say that \ct{EllipseMorph} \emph{overrides} the \ct{defaultColor} method that it inherits from \ct{Morph}.
-The inherited method no longer exists from the point of view of \ct{anEllipse}.
+% We say that \ct{EllipseMorph} \emph{overrides} the \ct{defaultColor} method that it inherits from \ct{Morph}.
+これを、\ct{EllipseMorph}が\ct{Morph}から継承した\ct{defaultColor}メソッドを\emph{オーバーライド}する、と言います。
+% The inherited method no longer exists from the point of view of \ct{anEllipse}.
+継承したメソッドは、\ct{anEllipse}の視点からは見えなくなります。
 
-Sometimes we do not want to override inherited methods, but rather \emph{extend} them with some new functionality, that is, we would like to be able to invoke the overridden method \emph{in addition to} the new functionality we are defining in the subclass.
-In \st, as in many object-oriented languages that support single inheritance, this can be done with the help of \super sends.
+% Sometimes we do not want to override inherited methods, but rather \emph{extend} them with some new functionality, that is, we would like to be able to invoke the overridden method \emph{in addition to} the new functionality we are defining in the subclass.
+継承したメソッドをオーバーライドするのではなく、機能を追加して\emph{拡張}したいこともあります。つまり、サブクラスで定義する新しい機能\emph{に加えて}オーバーライドされたメソッドを実行したい、ということです。
+% In \st, as in many object-oriented languages that support single inheritance, this can be done with the help of \super sends.
+\stでは、\super送信すれば可能です。単一継承をサポートする多くのオブジェクト指向言語によく見られる方法です。
 
-The most important application of this mechanism is in the \ct{initialize} method.
-Whenever a new instance of a class is initialized, it is critical to also initialize any inherited instance variables.
-However, the knowledge of how to do this is already captured in the \ct{initialize} methods of each of the superclass in the inheritance chain.
-The subclass has no business even trying to initialize inherited instance variables!
+% The most important application of this mechanism is in the \ct{initialize} method.
+\ct{initialize}メソッドは、この仕組みの一番重要な応用例です。
+% Whenever a new instance of a class is initialized, it is critical to also initialize any inherited instance variables.
+あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。
+% However, the knowledge of how to do this is already captured in the \ct{initialize} methods of each of the superclass in the inheritance chain.
+しかし、どうやって初期化するのかは、継承の連鎖の中でスーパークラスそれぞれの\ct{initialize}メソッドに既に記述されています。
+% The subclass has no business even trying to initialize inherited instance variables!
+サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
 
-It is therefore good practice whenever implementing an initialize method to send \ct{super initialize} before performing any further \ind{initialization}:
+% It is therefore good practice whenever implementing an initialize method to send \ct{super initialize} before performing any further \ind{initialization}:
+以上のことから、良いプラクティスでは、\ct{initialize}メソッドを実装する時には常にまず\ct{super initialize}を送信してから他の\ind{初期化}を続けます。
 \index{super!initialize}
 
 \needlines{6}
@@ -929,87 +984,125 @@ BorderedMorph>>>initialize
 	self borderInitialize
 \end{method}
 
-\important{An \ct{initialize} method should always start by sending \ct{super initialize}.}
+% \important{An \ct{initialize} method should always start by sending \ct{super initialize}.}
+\important{ \ct{initialize}メソッドは、必ず\ct{super initialize}で始めること。}
 
 %---------------------------------------------------------
-\subsection{Self sends and super sends}
+% \subsection{Self sends and super sends}
+\subsection{self送信とsuper送信}
 
-We need \super \subind{super}{send}{}s to compose inherited behaviour that would otherwise be overridden.
-The usual way to compose methods, whether inherited or not, however, is by means of \self \subind{self}{send}{}s.
+% We need \super \subind{super}{send}{}s to compose inherited behaviour that would otherwise be overridden.
+\super\subind{super}{送信}{}は、継承されオーバーライドされてしまう振る舞いを組み入れるのに用います。
+% The usual way to compose methods, whether inherited or not, however, is by means of \self \subind{self}{send}{}s.
+しかしながら、継承されたものであろうとそうでなかろうと、メソッドを組み入れるには通常、\self\subind{self}{送信}{}を用います。
 
-How do \self sends differ from \super sends?
-Like \self, \super represents the receiver of the message.
-The only thing that changes is the \ind{method lookup}.
-Instead of lookup starting in the class of the receiver, it starts in the superclass of the class of the method where the \super send occurs.
+% How do \self sends differ from \super sends?
+\self送信と\super送信の違いは何でしょうか？ 
+% Like \self, \super represents the receiver of the message.
+\selfと同様に、\superはメッセージを受けたレシーバを表わします。
+% The only thing that changes is the \ind{method lookup}.
+違うのは、\ind{メソッド探索}だけです。
+% Instead of lookup starting in the class of the receiver, it starts in the superclass of the class of the method where the \super send occurs.
+\super送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
 
-Note that \super is \emph{not} the superclass!
-It is a common and natural mistake to think this.
-It is also a mistake to think that lookup starts in the superclass of the receiver.
-We shall see with the following example precisely how this works.
+% Note that \super is \emph{not} the superclass!
+\superはスーパークラス\emph{ではない}ことに注意してください！
+%It is a common and natural mistake to think this.
+スーパークラスのことだと思うのは、よく見られる間違いです。
+% It is also a mistake to think that lookup starts in the superclass of the receiver.
+また、レシーバのスーパークラスから探索を始めるというのも、間違いです。
+% We shall see with the following example precisely how this works.
+どういうことか、以下に例を示します。
 
-Consider the message \ct{constructorString}, which we can send to any morph:
+% Consider the message \ct{constructorString}, which we can send to any morph:
+\ct{constructorString}メッセージは、どんなモーフにも送信することができます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'
 \end{code}
-The return value is a string that can be evaluated to recreate the morph.
+% The return value is a string that can be evaluated to recreate the morph.
+返り値は、評価するとそのモーフを再生成できる文字列です。
 
-How exactly is this result obtained through a combination of \self and \super sends?
-First, \ct{anEllipse constructorString} will cause the method \ct{constructorString} to be found in the class \ct{Morph},
-as shown in \figref{constructorStringLookup}.
+% How exactly is this result obtained through a combination of \self and \super sends?
+\selfと\superをどう組み合わせて、この文字列が得られるのでしょうか？
+% First, \ct{anEllipse constructorString} will cause the method \ct{constructorString} to be found in the class \ct{Morph},
+% as shown in \figref{constructorStringLookup}.
+まず最初に、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。
+\figref{constructorStringLookup}を見てください。
 
 \begin{figure}[htb]
 \begin{center}
 \ifluluelse
 	{\includegraphics[width=\textwidth]{constructorStringLookup}}
 	{\includegraphics[width=0.8\textwidth]{constructorStringLookup}}
-\caption{\self and \super sends\figlabel{constructorStringLookup}}
+\caption{\self送信と\super送信\figlabel{constructorStringLookup}}
 \end{center}
 \end{figure}
 
 \needlines{2}
-\begin{method}[constructorString]{A \self send}
+\begin{method}[constructorString]{\self送信}
 Morph>>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
 \end{method}
-The method \cmind{Morph}{constructorString} performs a \self send of \lct{printConstructorOn:indent:}.
-This message is also looked up, starting in the class \lct{EllipseMorph}, and found in \ct{Morph}.
-This method in turn does a \self send of \lct{printConstructorOn:indent:nodeDict:}, which does a \self send of \ct{fullPrintOn:}.
-Once again, \ct{fullPrintOn:} is looked up starting in the class \ct{EllipseMorph}, and \mthind{BorderedMorph}{fullPrintOn:} is found in \ct{BorderedMorph} (see \figref{constructorStringLookup} once again).
-What is critical to notice is that the \self send causes the method lookup to start again in the class of the receiver, namely the class of \ct{anEllipse}.
+% The method \cmind{Morph}{constructorString} performs a \self send of \lct{printConstructorOn:indent:}.
+\cmind{Morph}{constructorString}メソッドが\lct{printConstructorOn:indent:}を\self送信します。
+% This message is also looked up, starting in the class \lct{EllipseMorph}, and found in \ct{Morph}.
+このメッセージもまた探索され、探索は\lct{EllipseMorph}クラスから始まって、\ct{Morph}で見つかります。
+% This method in turn does a \self send of \lct{printConstructorOn:indent:nodeDict:}, which does a \self send of \ct{fullPrintOn:}.
+次にこのメソッドは\lct{printConstructorOn:indent:nodeDict:}を\self送信します。それがまた\ct{fullPrintOn:}を\self送信します。
+% Once again, \ct{fullPrintOn:} is looked up starting in the class \ct{EllipseMorph}, and \mthind{BorderedMorph}{fullPrintOn:} is found in \ct{BorderedMorph} (see \figref{constructorStringLookup} once again).
+さらに、\ct{fullPrintOn:}は\ct{EllipseMorph}クラスから探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を参照してください。)
+% What is critical to notice is that the \self send causes the method lookup to start again in the class of the receiver, namely the class of \ct{anEllipse}.
+注意していただきたいのは、\self送信ではレシーバのクラス、この場合には\ct{anEllipse}クラスから、メソッド探索を始めます。
 
-\important{A \self send triggers a \emph{dynamic} method lookup starting in the class of the receiver.}
+% \important{A \self send triggers a \emph{dynamic} method lookup starting in the class of the receiver.}
+\important{\self送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
 
 \needlines{4}
-\begin{method}[fullPrintOn]{Combining \super and \self sends}
+% \begin{method}[fullPrintOn]{Combining \super and \self sends}
+\begin{method}[fullPrintOn]{\super送信と\self送信を組み合わせる}
 BorderedMorph>>>fullPrintOn: aStream
 	aStream nextPutAll: '('.
 	!\textbf{super fullPrintOn: aStream.}!
 	aStream nextPutAll: ') setBorderWidth: '; print: borderWidth;
 		nextPutAll: ' borderColor: ' , (self colorString: borderColor)
 \end{method}
-At this point, \ct{BorderedMorph>>>fullPrintOn:} does a \super send to extend the 
-\ct{fullPrintOn:} behaviour it inherits from its superclass.
-Because this is a \super send, the lookup now starts in the superclass of the class where the \super send occurs, namely in \ct{Morph}.
-We then immediately find and evaluate \ct{Morph>>>fullPrintOn:}.
+% At this point, \ct{BorderedMorph>>>fullPrintOn:} does a \super send to extend the 
+% \ct{fullPrintOn:} behaviour it inherits from its superclass.
+こうすると\ct{BorderedMorph>>>fullPrintOn:}は、\super送信をして、スーパークラスから継承した\ct{fullPrintOn:}を拡張しています。
+% Because this is a \super send, the lookup now starts in the superclass of the class where the \super send occurs, namely in \ct{Morph}.
+\super送信なので、メソッド探索は\super送信が発生したクラスのスーパークラスである\ct{Morph}クラスから開始します。
+% We then immediately find and evaluate \ct{Morph>>>fullPrintOn:}.
+すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それを評価します。
 
-Note that the \super lookup did not start in the superclass of the receiver.
-This would have caused lookup to start from \ct{BorderedMorph}, resulting in an infinite loop!
+% Note that the \super lookup did not start in the superclass of the receiver.
+\super送信の探索はレシーバのスーパークラスから開始しているのではない、ということに注意してください。
+% This would have caused lookup to start from \ct{BorderedMorph}, resulting in an infinite loop!
+もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
 
-\important{A \super send triggers a \emph{static} method lookup starting in the superclass of the class of the method performing the \super send.}
+% \important{A \super send triggers a \emph{static} method lookup starting in the superclass of the class of the method performing the \super send.}
+\important{\super送信は、\emph{静的な}メソッド探索を、\super送信を行なっているメソッドを定義しているクラスのスーパークラスから開始します。}
 
-If you think carefully about \super send and \figref{constructorStringLookup}, you will realize that \super bindings are static: all that matters is the class in which the text of the \super send is found.
-By contrast, the meaning of \self is dynamic: it always represents the receiver of the currently executing message. This means that  \emph{all}  messages sent to \self are looked-up by starting in the receiver's class.
+% If you think carefully about \super send and \figref{constructorStringLookup}, you will realize that \super bindings are static: all that matters is the class in which the text of the \super send is found.
+\super送信と\figref{constructorStringLookup}から、\superは静的束縛だということが判ります。\super送信をしているソースコードがどのクラスにあるかだけで全て決まります。
+% By contrast, the meaning of \self is dynamic: it always represents the receiver of the currently executing message. This means that  \emph{all}  messages sent to \self are looked-up by starting in the receiver's class.
+対照的に、\self送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\selfに送られた\emph{全ての}メッセージは、そのレシーバのクラスから探索を開始します。
 
 %---------------------------------------------------------
-\subsection{Message not understood}
+% \subsection{Message not understood}
+\subsection{メッセージ}
 
-What happens if the method we are looking for is not found?
+% What happens if the method we are looking for is not found?
+探しているメソッドが見つからなかったら、どうなるのでしょうか？
+% \index{message!not understood}
 \index{message!not understood}
 
-Suppose we send the message \ct{foo} to our ellipse.
-First the normal method lookup would go through the inheritance chain all the way up to \clsind{Object} (or rather \clsind{ProtoObject}) looking for this method.
-When this method is not found, the \ind{virtual machine} will cause the object to send \ct{self doesNotUnderstand: #foo}.
-(See \figref{fooNotFound}.)
+% Suppose we send the message \ct{foo} to our ellipse.
+楕円に\ct{foo}メッセージを送ってみましょう。
+% First the normal method lookup would go through the inheritance chain all the way up to \clsind{Object} (or rather \clsind{ProtoObject}) looking for this method.
+まず最初に、通常のメソッド探索が開始され、\ct{foo}メソッドを探して\clsind{Object}(正確には\clsind{ProtoObject})まで継承の連鎖を一通り探索します。
+% When this method is not found, the \ind{virtual machine} will cause the object to send \ct{self doesNotUnderstand: #foo}.
+% (See \figref{fooNotFound}.)
+メソッドが見つからない場合、\ind{仮想マシン}がそのオブジェクトに\ct{self doesNotUnderstand: #foo}メッセージを送信させます。(\figref{fooNotFound}を参照)
 
 \begin{figure}[htb]
 \begin{center}
@@ -1020,16 +1113,24 @@ When this method is not found, the \ind{virtual machine} will cause the object t
 \end{center}
 \end{figure}
 
-Now, this is a perfectly ordinary, dynamic message send, so the lookup starts again from the class \ct{EllipseMorph}, but this time searching for the method \ct{doesNotUnderstand:}.
-As it turns out, \ct{Object} implements \ct{doesNotUnderstand:}.
-This method will create a new \ct{MessageNotUnderstood} object which is capable of starting a Debugger in the current execution context.
+% Now, this is a perfectly ordinary, dynamic message send, so the lookup starts again from the class \ct{EllipseMorph}, but this time searching for the method \ct{doesNotUnderstand:}.
+さあ、これは全く普通の動的なメッセージ送信なので、探索はまた\ct{EllipseMorph}から始まります。ただし、今度は\ct{doesNotUnderstand:}メソッドを探します。
+% As it turns out, \ct{Object} implements \ct{doesNotUnderstand:}.
+結局のところ、\ct{Object}が\ct{doesNotUnderstand:}を実装しています。
+% This method will create a new \ct{MessageNotUnderstood} object which is capable of starting a Debugger in the current execution context.
+このメソッドは、\ct{MessageNotUnderstood}オブジェクトを生成します。\ct{MessageNotUnderstood}オブジェクトは、現在実行しているコンテキストでデバッガを立ち上げることができます。
 
-Why do we take this convoluted path to handle such an obvious error?
-Well, this offers developers an easy way to intercept such errors and take alternative action.
-One could easily override the method \mthind{Object}{doesNotUnderstand:} in any subclass of \ct{Object} and  provide a different way of handling the error.
+% Why do we take this convoluted path to handle such an obvious error?
+なぜこんな明らかなエラーを扱うのにこんなに複雑なことをするのかというと、
+% Well, this offers developers an easy way to intercept such errors and take alternative action.
+こうすると開発者がエラーを捕まえて別のアクションをするようにするのが簡単になるのです。
+% One could easily override the method \mthind{Object}{doesNotUnderstand:} in any subclass of \ct{Object} and  provide a different way of handling the error.
+\mthind{Object}{doesNotUnderstand:}は\ct{Object}のどのサブクラスでもオーバーライドして、エラーを別のやり方で処理することができます。
 
-In fact, this can be an easy way to implement automatic delegation of messages from one object to another.
-A \ct{Delegator} object could simply delegate all messages it does not understand to another object whose responsibility it is to handle them, or raise an error itself!
+% In fact, this can be an easy way to implement automatic delegation of messages from one object to another.
+実際、あるオブジェクトから別のオブジェクトにメッセージを自動的に移譲する実装が簡単になります。
+% A \ct{Delegator} object could simply delegate all messages it does not understand to another object whose responsibility it is to handle them, or raise an error itself!
+\ct{Delegator}オブジェクトは実装していない全てのメッセージを単純に別のオブジェクトに移譲して、そのメッセージを処理させたりそのオブジェクトにエラーを発生させることができます。
 
 %=========================================================
 \section{Shared variables}
