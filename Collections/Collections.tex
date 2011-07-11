@@ -725,39 +725,38 @@ expandMacros 族のメッセージは、\ct{<n>} によるキャリッジリタ�
 \clsind{String} と \clsind{Symbol} については \charef{basic} もご覧ください。
 
 %=========================================================
-\section{Collection iterators}
+\section{コレクションのイテレータ}
 \seclabel{iterators}
 
-In \st loops and conditionals are simply messages sent to collections or other objects such as integers or blocks (see also \charef{syntax}). In addition to low-level messages such as \ct{to:do:} which evaluates a block with an argument ranging from an initial to a final number, the \st collection hierarchy offers various high-level iterators. Using such iterators will make your code more robust and compact. 
+\st では、ループや条件分岐は、コレクションや、整数やブロックのようなその他のオブジェクトへの単なるメッセージ送信です (\charef{syntax} も参照のこと)。先頭要素から最後の要素に対して引数付きのブロックを評価する \ct{to:do:} のような低水準のメッセージに加え、\st のコレクション階層はさまざまなイテレータを提供しています。イテレータを使うことでコードがより堅牢に、コンパクトになります。
 \index{Collection!iteration}
 
 %---------------------------------------------------------
-\subsection{Iterating (\lct{do:})}
-The method \mthind{Collection}{do:} is the basic collection iterator. It applies its argument (a block taking a single argument) to each element of the receiver.
-The following example prints all the strings contained in the receiver to the transcript.
+\subsection{イテレーション (\lct{do:})}
+メソッド \mthind{Collection}{do:} は基本となるコレクション・イテレータです。引数 (一つの引数を取るブロックです) をレシーバーの各要素に順に適用していきます。
+次の例ではレシーバーに含まれるすべての文字列をトランスクリプトにプリントします。
 
 \begin{code}{}
 #('bob' 'joe' 'toto') do: [:each | Transcript show: each; cr].
 \end{code}
 
-\paragraph{Variants.} There are a lot of variants of \ct{do:}, such as \mbox{\mthind{Collection}{do:without:},} \mbox{\mthind{SequenceableCollection}{doWithIndex:}} and \mthind{OrderedCollection}{reverseDo:}:
-For the indexed collections (\ct{Array}, \ct{OrderedCollection}, \ct{SortedCollection}) the method \mthind{SequenceableCollection}{doWithIndex:} also gives access to the current index. This method is related to \ct{to:do:} which is defined in class \ct{Number}.
+\paragraph{派生系} \ct{do:} には沢山の派生系が存在します。例えば \mbox{\mthind{Collection}{do:without:}、}\mbox{\mthind{SequenceableCollection}{doWithIndex:}、}\mthind{OrderedCollection}{reverseDo:} などです：
+インデックス可能コレクション (\ct{Array}、\ct{OrderedCollection}、\ct{SortedCollection}) には要素と同時にそのインデックスも参照できる \mthind{SequenceableCollection}{doWithIndex:} があります。このクラスは \ct{Number} クラスで定義されている \ct{to:do:} に関係しています。
 
 \begin{code}{@TEST}
 #('bob' 'joe' 'toto') doWithIndex: [:each :i | (each = 'joe') ifTrue: [ ^ i ] ] --> 2
 \end{code}
 
-For ordered collections, \mthind{OrderedCollection}{reverseDo:} walks the collection in the reverse order. 
+順序ありコレクションの \mthind{OrderedCollection}{reverseDo:} はすべての要素を逆順に処理します。
 
-The following code shows an interesting message: \mthind{Collection}{do:separatedBy:} which 
-executes the second block only in between two elements.
+次のコードは面白いメッセージを示しています：\mthind{Collection}{do:separatedBy:} は二番目のブロックを二つの要素の間でだけ実行します。
 \begin{code}{@TEST | res | }
 res := ''.
 #('bob' 'joe' 'toto') do: [:e | res := res, e ] separatedBy: [res := res, '.'].
 res --> 'bob.joe.toto'
 \end{code}
 \noindent
-Note that this code is not especially efficient since it creates intermediate strings and it would be better to use a write stream to buffer the result (see \charef{streams}):
+このコードは一時文字列を作っているという点でとてもできが良いとは言いがたく、結果をためておくのにはライトストリームを用いたほうがいいということに注意しましょう (see \charef{streams} 参照):
 \begin{code}{@TEST}
 String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delimiter: '.' ] --> 'bob.joe.toto'
 \end{code}
@@ -774,8 +773,8 @@ String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delim
 %res --> 'bob.joe.toto'
 
 
-\paragraph{Dictionaries.}
-When the message \mthind{Dictionary}{do:} is sent to a dictionary, the elements taken into account are the values, not the associations. The proper methods to use are \mthind{Dictionary}{keysDo:}, \mthind{Dictionary}{valuesDo:}, and \mthind{Dictionary}{associationsDo:}, which iterate respectively on keys, values or associations.
+\paragraph{ディクショナリー}
+\mthind{Dictionary}{do:} をディクショナリーに送ると、要素のうち値だけが取り出され、関連が取り出されるわけではありません。\mthind{Dictionary}{keysDo:}、\mthind{Dictionary}{valuesDo:}、and \mthind{Dictionary}{associationsDo:} を使う方がより適当です。それぞれキー、値、関連を取り出します。
 
 \begin{code}{}
 colors := Dictionary newFrom: { #yellow -> Color yellow. #blue -> Color blue. #red -> Color red }.
@@ -785,11 +784,11 @@ colors associationsDo: [:value | Transcript show: value;cr].  "displays the asso
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Collecting results (\lct{collect:})}
-If you want to process the elements of a collection and produce a new collection as a result, rather than using \ct{do:}, you are probably better off using \ct{collect:}, or one of the other iterator methods.
-Most of these can be found in the \protind{enumerating} protocol of \ct{Collection} and its subclasses.
+\subsection{結果の集積 (\lct{collect:})}
+コレクションの要素に何かの処理を行い、その結果を新たなコレクションとしたい場合、\ct{do:} を用いるより、\ct{collect:} またはその他のイテレータメソッドを用いたほうが良いでしょう。
+これらのメソッドのほとんどは \ct{Collection} およびそのサブクラスの \protind{enumerating} プロトコルに分類されています。
 
-Imagine that we want a collection containing the doubles of the elements in another collection. Using the method \ct{do:} we must write the following:
+例えば各要素を倍にしたコレクションを新たに作る場合を考えてみましょう。メソッド \ct{do:} を使うなら次のように書くことになります：
 
 \begin{code}{@TEST | double |}
 double := OrderedCollection new.
@@ -798,13 +797,13 @@ double --> an OrderedCollection(2 4 6 8 10 12)
 \end{code}
 
 \noindent
-The method \mthind{Collection}{collect:} executes its argument block for each element and returns a new collection containing the results. 
-Using \ct{collect:} instead, the code is much simpler:
+メソッド \mthind{Collection}{collect:} は引数で渡されたブロックを各要素に対し実行し、その結果を入れた新たなコレクションを返します。
+\ct{collect:} を代わりに用いることで、コードはとてもシンプルになります。
 \begin{code}{@TEST}
 #(1 2 3 4 5 6) collect: [:e | 2 * e] --> #(2 4 6 8 10 12)
 \end{code}
 
-The advantages of \ct{collect:} over \mthind{Collection}{do:} are even more dramatic in the following example, where we take a collection of integers and generate as a result a collection of absolute values of these integers:
+\mthind{Collection}{do:} に比べ \ct{collect:} が優れていることは、次の例のほうがoはっきりしているでしょう。整数のコレクションを取り、その絶対値からなるコレクションを生成するものです：
 
 \begin{code}{@TEST |aCol result|}
 aCol :=  #( 2 -3 4 -35 4 -11).
@@ -813,28 +812,28 @@ result := aCol species new: aCol size.
 result --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-Contrast the above with the much simpler following expression:
+上の例を、ずっとシンプルな以下の式と比べてみてください。
 \begin{code}{@TEST}
 #( 2 -3 4 -35 4 -11) collect: [:each | each abs ] --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-A further advantage of the second solution is that it will also work for sets and bags.
+二つ目の解のもう一つ良い点は set や bug でも同じように動くことです。。
 
-Generally you should avoid using \ct{do:}, unless you want to send messages to each of the elements of a collection.
+一般的にコレクションの要素それぞれにメッセージを送りたいのでなければ、\ct{do:} の利用は避けたほうが良いです。
 
-Note that sending the message \ct{collect:} returns the same kind of collection as the receiver.
-For this reason the following code fails.
-(A \ct{String} cannot hold integer values.)
+メッセージ \ct{collect:} を送ると、レシーバーと同じ種類のコレクションが返ることに注意しましょう。
+以下のコードが失敗するのはこれが原因です。
+(\ct{String} は整数を保持できないので)
 \begin{code}{}
-'abc' collect: [:ea | ea asciiValue ]      "errorBANG"
+'abc' collect: [:ea | ea asciiValue ]      "エラー発生"
 \end{code}
 \noindent
-Instead we must first convert the string to an \ct{Array} or an \ct{OrderedCollection}:
+最初に文字列を \ct{Array} または \ct{OrderedCollection} に変換しておく必要があります：
 \begin{code}{@TEST}
 'abc' asArray collect: [:ea | ea asciiValue ] --> #(97 98 99)
 \end{code}
 
-Actually \ct{collect:} is not guaranteed to return a collection of exactly the same class as the receiver, but only the same \emph{``species''}.  In the case of an \ct{Interval}, the species is actually an \ct{Array}!
+実は \ct{collect:} はレシーバーと完全に同じクラスのコレクションを返すという保証はなく、単に同じ \emph{``種族''} であるということが保証されているだけなのです。\ct{Interval} の例では、実際の種族は \ct{Array} になるのです！
 \begin{code}{@TEST}
 (1 to: 5) collect: [ :ea | ea * 2 ] --> #(2 4 6 8 10)
 \end{code}
