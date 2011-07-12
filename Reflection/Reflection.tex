@@ -441,7 +441,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 %@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{implementors}
-	\caption{すべての\ct!\#ifTrue:の実装をブラウズしている様子。\figlabel{implementors}}
+	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
@@ -469,7 +469,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@You can see that the class stores its methods in a dictionary, indexing them by their selector.
 ここでは、クラスがそのメソッドを辞書に格納していることが確認できます。セレクターが、辞書の見出しになっています。
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
-The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*の\ind{バイトコード}を指しています。
+The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
 
 %@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
 \begin{figure}[ht]\centering

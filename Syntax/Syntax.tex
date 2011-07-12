@@ -301,7 +301,7 @@ item[単項メッセージ] は，レシーバー(例えば\ct{3})へ送られ�
 
 % \item[Keyword messages] consist of multiple keywords (like \ct{raisedTo:modulo:}), each ending with a colon and taking a single argument. 
 % In the expression \ct{2 raisedTo: 6 modulo: 10}, the \emphind{message selector} \ct{raisedTo:modulo:} takes the two arguments \ct{6} and \ct{10}, one following each colon.  We send the message to the receiver \ct{2}.
-\item[キーワード・メッセージ]は，それぞれコロンで終わり，ひとつの引き数を取る複数のキーワード(例えば \ct{raisedTo:modulo:)から構成されます．
+\item[キーワード・メッセージ]は，それぞれコロンで終わり，ひとつの引き数を取る複数のキーワード(例えば \ct{raisedTo:modulo:})から構成されます．
 	式\ct{2 raisedTo: 6 modulo: 10} では，\emphind{メッセージセレクター} \ct{raisedTo:modulo:}はそれぞれコロンで終わり，引数 \ct{6} および \ct{10} を取り，レシーバー \ct{2} へメッセージを送ります．
 	\index{message!keyword}
 	\seeindex{keyword message}{message, keyword}
@@ -415,7 +415,7 @@ item[単項メッセージ] は，レシーバー(例えば\ct{3})へ送られ�
 % (First we send \ct{factorial} to \ct{3}, then we send \ct{+ 6} to \ct{1}, and finally we send \ct{raisedTo: 7} to \ct{2}.)  
 % Recall that we use the notation \lct{\emph{expression}}\ct{-->}\lct{\emph{result}} to show the result of evaluating an expression.
 (最初に，\ct{3}へ\ct{factorial}を送ります．次に，\ct{1}へ\ct{+ 6}を送ります．最後に，\ct{2}へ\ct{raisedTo: 7}を送ります．)
-式を評価した結果を示すために，\式\ct{-->}結果という表記を使うことを思い出してください．
+式を評価した結果を示すために，式\ct{-->}結果という表記を使うことを思い出してください．
 
 % Precedence aside, evaluation is strictly from left to right, so
 評価順は，厳密に左から右です，
@@ -688,7 +688,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % \ct{1 to: 10} represents the interval from 1 to 10.
 % Since it is a collection, we can send the message \ct{do:} to it.
 % The argument is a block that is evaluated for each element of the collection.
-\clasind{Interval}は数列の始点から終点をイテレートするコレクションです．
+\clsind{Interval}は数列の始点から終点をイテレートするコレクションです．
 \ct{1 to: 10}は1から10までの区間を表わします．
 これはコレクションなので，メッセージ\ct{do:}を送ることができます．
 引数はコレクションの各要素ごとに評価されるブロックです．
@@ -728,7 +728,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % Finally, you should be aware that collections also support a functional-style \emph{fold} operator in the \ct{inject:into:} method.
 % This lets you generate a cumulative result using an expression that starts with a seed value and injects each element of the collection.
 % Sums and products are typical examples.
-コレクションは関数型の畳み込み演算\pmph{fold}を\ct{inject:into:}メソッドによりサポートします．
+コレクションは関数型の畳み込み演算\emph{fold}を\ct{inject:into:}メソッドによりサポートします．
 これは，シード値で始まり，コレクションの各要素を反映する式を使って，累積的な結果を生成します．
 代表例は和と積です．
 
@@ -808,14 +808,11 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \section{Chapter summary}
 
 \begin{itemize}
-
-% \item	\pharo has (only) six reserved identifiers also called \textit{pseudo-variables}: \ct{true}, \ct{false}, \ct{nil}, \ct{self}, \ct{super},  and  \ct{thisContext}.
-\pharoには擬似変数と呼ばれる6つ(だけ)の予約識別子があります．
+\item \pharoには擬似変数と呼ばれる6つ(だけ)の予約識別子があります．
 \ct{true},\ct{false},\ct{nil},\ct{self},\ct{super},および\ct{thisContext}．
 
-% \item	There are five kinds of literal objects: numbers (\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111}), characters (\ct{$a}), strings (\ct{'hello'}), symbols (\ct{#hello}), and arrays (\ct{#('hello' #hi)})
-\item		5種類のリテラル・オブジェクトがあります．
-		数(\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111})，文字(\ct{$a})，文字列(\ct{'hello'})，シンボル(\ct{#hello})および配列(\ct{#('hello' #hi)})
+% \item	There are five kinds of literal objects: numbers (\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111}), characters (\ct{a}), strings (\ct{'hello'}), symbols (\ct{#hello}), and arrays (\ct{#('hello' #hi)})
+\item		5種類のリテラル・オブジェクトがあります．数(\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111})，文字(\ct{\$a})，文字列(\ct{'hello'})，シンボル(\ct{#hello})および配列(\ct{#('hello' #hi)})
 
 % \item	Strings are delimited by single quotes, comments by double quotes.
 % 		To get a quote inside a string, double it.
@@ -841,7 +838,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \item		3種類のメッセージがあります:
 		\emph{単項} (\eg \ct{1 asString}, \ct{Array new})，
 		\emph{二項} (\eg \ct{3 + 4}, \ct{'hi' , ' there'})，
-		\emph{キーワード} (\eg \ct{'hi' at: 2 put: $o})
+		\emph{キーワード} (\eg \ct{'hi' at: 2 put: \$o})
 
 % \item	A \emph{cascaded} message send is a sequence of messages sent to the same target, separated by semi-colons:
 \item		カスケードメッセージは，セミコロンによって分けられた同じターゲットへ送られるメッセージのシーケンスです.
