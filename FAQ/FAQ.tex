@@ -32,7 +32,7 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{Frequently Asked Questions}
+\chapter{よくある質問}
 \label{app:faq}
 
 \on{These should be *real* (not invented) FAQs.
@@ -41,36 +41,36 @@ Check the ST lecture notes for more FAQs.
 We should also try to mine more from newbies.}
 
 %=================================================================
-\section{Getting started}
+\section{はじめに}
 \begin{faq}
-Where do I get the latest Pharo?
+最新のPharoはどこで入手出来ますか？
 \end{faq}
 \answer
 \url{http://www.pharo-project.org/}
 \index{download}
 
 \begin{faq}
-Which \pharo image should I use with this book?
+この本ではどの \pharo のイメージを使うのがいいですか？
 \end{faq}
 \answer
-You should be able to use any \pharo image, but we recommend you to use the prepared image on the \pharo by Example web site: {\pbe}.
-You should also be able to use most other images, but you may find that the hands-on exercises behave differently in surprising ways.
+どのPharoイメージを使っても大丈夫ですが、Pharo by Example のＷＥＢサイト（\url{http://PharoByExample.org}）に置いてあるイメージを使うことをお勧めします。
+また、他のほとんどのイメージも使用可能ですが演習ではあっと驚くくらい動作が異なることがあります。
 
 %=================================================================
-\section{Collections}
+\section{コレクション}
 
 \begin{faq}
-How do I sort an \clsind{OrderedCollection}?
+\clsind{OrderedCollection} を並べ替えるにはどうすればいいですか？
 \end{faq}
 \answer
-Send it the message \mthind{Collection}{asSortedCollection}.
+インスタンスに \mthind{Collection}{asSortedCollection} メッセージを送ります。
 
 \begin{code}{@TEST}
 #(7 2 6 1) asSortedCollection --> a SortedCollection(1 2 6 7)
 \end{code}
 
 \begin{faq}
-How do I convert a collection of characters to a \clsind{String}?
+文字の配列（collectionクラス）を文字列（\clsind{String}）に変換するにはどうすればいいですか？
 \end{faq}
 \answer
 \begin{code}{@TEST}
@@ -78,39 +78,39 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 \end{code}
 
 %=================================================================
-\section{Browsing the system}
+\section{システムブラウザー}
 
 % See \faqref{packagebrowser}
 
 \begin{faq}\faqlabel{packagebrowser}
-The browser does not look like the one described in the book. What gives?
+ブラウザーがこの本で使用されているものとは違います。どうしたらいいですか？
 \end{faq}
 \answer
-You are probably using an image in which a different version of the \ind{OmniBrowser} is installed as the default browser.  In this book we assume that the OmniBrowser \emph{Package Browser} is installed as the default.  You can change the default by clicking on the menu bar of the browser.  Just click on the gray lozenge in the top right corner of the window, select ``Choose new default Browser'', and then pick the O2PackageBrowserAdaptor.  The next browser you open will be the Package Browser.
+おそらく異なるバージョンの \ind{OmniBrowser} がデフォルトのブラウザーとしてインストールされているイメージを使用しているからです。このチュートリアルでは、デフォルトブラウザーとして OmniBrowser \emph{Package Browser}パッケージブラウザーがインストールされていることを前提としています。デフォルトブラウザーはブラウザーのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の菱形のバーをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選びます。次回以降開かれるブラウザーはパッケージブラウザーになります。
 
 \begin{figure}[tbh]
 	\centering
-	\subfigure[Choose a new browser]{\figlabel{chooseNewBrowser}
+	\subfigure[Choose new default browser を選択]{\figlabel{chooseNewBrowser}
 		\includegraphics[width=0.45\linewidth]{chooseNewBrowser}}\hfill
-	\subfigure[Select the OB Package Browser]{\figlabel{O2PackageBrowserAdaptor}
+	\subfigure[O2PackageBrowserAdaptor を選択]{\figlabel{O2PackageBrowserAdaptor}
 		\includegraphics[width=0.45\linewidth]{O2PackageBrowserAdaptor}}\hfill
-	\caption{Changing the default browser}
+	\caption{デフォルトブラウザーの変更}
 \end{figure}
 \seeindex{morphic halo}{Morphic}
 
 \begin{faq}
-How do I search for a class?
+クラスを検索するにはどうしたらいいですか？
 \end{faq}
 \answer
-\short{b} (browse) on the class name, or \short{f} in the category pane of the browser.
+クラス名の文字列を選択して \short{b} (browse)、または、ブラウザーのカテゴリーペーン上にマウスカーソルがある状態で \short{f}
 \index{keyboard shortcut!browse it}
 \index{keyboard shortcut!find ...}
 
 \begin{faq}
-How do I find/browse all sends to super?
+スーパークラスにメッセージを送っている全てのメソッド検索したりブラウズするにはどうしたらいいですか？
 \end{faq}
 \answer
-The second solution is much faster:
+ふたつ目の手法の方が高速です:
 \begin{code}{}
 SystemNavigation default browseMethodsWithSourceString: 'super'.
 SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
@@ -119,7 +119,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \clsindex{SystemNavigation}
 
 \begin{faq}
-How do I browse all super \subind{super}{send}{}s within a hierarchy?
+特定の階層内でスーパークラスにメッセージを送っている全てのメソッドをブラウズするにはどうしたらいいですか？
 \end{faq}
 \answer
 \begin{code}{}
@@ -133,10 +133,10 @@ browseSuperSends value: OrderedCollection.
 \end{code}
 
 \begin{faq}
-How do I find out which new methods are introduced by a class?  (I.e., not including overridden methods.)
+サブクラスによって新たに追加されたメソッドを見つけるにはどうしたらいいですか？（すなわち、親クラスのメソッドをオーバーライドしていないメソッドのこと）
 \end{faq}
 \answer
-Here we ask which methods are introduced by \ct{True}:
+\ct{True}クラスによって追加された新しいメソッドを調べるのは次の通りです:
 \begin{code}{@TEST | newMethods |}
 newMethods := [:aClass| aClass methodDict keys select:
 	[:aMethod | (aClass superclass canUnderstand: aMethod) not ]].
@@ -144,7 +144,7 @@ newMethods value: True --> an IdentitySet(#asBit #xor:)
 \end{code}
 
 \begin{faq}
-How do I tell which methods of a class are abstract?
+特定のクラスにおいてどのメソッドが抽象的メソッドであるかわかりますか？
 \end{faq}
 \answer
 \begin{code}{@TEST | abstractMethods |}
@@ -155,18 +155,18 @@ abstractMethods value: Collection --> an IdentitySet(#remove:ifAbsent: #add: #do
 \end{code}
 
 \begin{faq}
-How do I generate a view of the \ind{AST} of an expression?
+\ind{AST} のビューを生成するにはどうしたらいいですか？
 \end{faq}
 \answer
-Load AST from squeaksource.com. Then evaluate:
+squeaksource.com からASTをロードし、
 \begin{code}{}
 (RBParser parseExpression: '3+4') explore
 \end{code}
-(Alternatively \emph{explore it}.)
+を実行します。（またはそれを \emph{explore it} します）
 \clsindex{RBParser}
 
 \begin{faq}
-How do I find all the Traits in the system?
+システムにある全てのトレイトを見つけるにはどうしたらいいですか？
 \end{faq}
 \answer
 \begin{code}{}
@@ -174,7 +174,7 @@ Smalltalk allTraits
 \end{code}
 
 \begin{faq}
-How do I find which classes use traits?
+トレイトを使用しているクラスを探すにはどうしたらいいですか？
 \end{faq}
 \answer
 \begin{code}{}
@@ -185,72 +185,72 @@ Smalltalk allClasses select: [:each | each hasTraitComposition and: [each traitC
 % But this is broken for some reason!
 
 %=================================================================
-\section{Using Monticello and SqueakSource}
+\section{Monticello で SqueakSource を使う}
 
 \begin{faq}
-How do I load a \ind{SqueakSource} project?
+\ind{SqueakSource} からプロジェクトをロードするにはどうしたらいいですか？
 \index{Monticello}
 \end{faq}
 \answer
 \begin{enumerate}
-  \item Find the project you want in \url{http://squeaksource.com}
-  \item Copy the registration code snippet
-  \item Select \menu{open \go Monticello browser}
-  \item Select \menu{+Repository \go HTTP}
-  \item Paste and accept the Registration code snippet; enter your password
-  \item Select the new repository and \menu{Open} it
-  \item Select and load the latest version
+  \item ロードしたいプロジェクトを \url{http://squeaksource.com} から探します
+  \item プロジェクトのリポジトリ情報をクリップボードにコピーします
+  \item \menu{open \go Monticello browser} を選択して Monticello browser を開きます
+  \item \menu{+Repository \go HTTP} を選択します
+  \item リポジトリ情報をペーストし、必要ならパスワードを入力してOKします
+  \item いま作ったばかりの新しいリポジトリを選択して \menu{Open} を選択します
+  \item 最新のバージョンのファイル名を選択してLoadします
 \end{enumerate}
 
 \begin{faq}
-How do I create a SqueakSource project?
+SqueakSourceプロジェクトを新規作成するにはどうしたらいいですか？
 \end{faq}
 \answer
 \begin{enumerate}
-  \item Go to \url{http://squeaksource.com}
-  \item Register yourself as a new member
-  \item Register a project (name = category)
-  \item Copy the Registration code snippet
-  \item \menu{open \go Monticello browser}
-  \item \menu{+Package} to add the category
-  \item Select the package
-  \item \menu{+Repository \go HTTP}
-  \item Paste and accept the Registration code snippet; enter your password
-  \item \menu{Save} to save the first version
+  \item ウェブブラウザーで \url{http://squeaksource.com} を開きます
+  \item メンバー登録を行います
+  \item プロジェクトを登録します（名前＝カテゴリーとなります）
+  \item リポジトリー情報をクリップボードにコピーします
+  \item \menu{open \go Monticello browser} を選択して Monticello browser を開きます
+  \item \menu{+Package} を選択してカテゴリーを登録します
+  \item パッケージを選択します
+  \item \menu{+Repository \go HTTP} を選択します
+  \item リポジトリ情報をペーストし、必要ならパスワードを入力してOKします
+  \item 最初のバージョンをSaveします \menu{Save} します
 \end{enumerate}
 
 \begin{faq}
+既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを自分の \ct{Money} プロジェクトのパッケージに入れるにはどうしたらいいですか？
 How do I extend \ct{Number} with \ct{Number>>>chf} but have Monticello recognize it as being part of my \ct{Money} project?
 \end{faq}
 \answer
-Put it in a method-category named \ct{*Money}.
-Monticello gathers all methods that are in other categories named like *package and includes them in your package.
+そのメソッドのメソッドカテゴリを \ct{*Money} にします。Monticello は　‘*package’ で始ますべてのカテゴリ内のメソッドをまとめてpackageパッケージに入れます。
 
 %=================================================================
-\section{Tools}
+\section{ツール}
 
 \begin{faq}
-How do I programmatically open the \ind{SUnit} \ind{TestRunner}?
+プログラムソース中から nd{SUnit} \ind{TestRunner} を開くにはどうしたらいいですか？
 \end{faq}
 \answer
-Evaluate \ct{TestRunner open}.
+ \ct{TestRunner open}. を 実行します
 
 \begin{faq}
-Where can I find the \ind{Refactoring Browser}?
+\ind{Refactoring Browser} はどこにありますか？ 
 \end{faq}
 \answer
-Load AST then Refactoring Engine from squeaksource.com:
+ASTをロードして、その後、squeaksource.com のリファクタリングエンジンをロードして下さい:
 \url{http://www.squeaksource.com/AST}
 \url{http://www.squeaksource.com/RefactoringEngine}
 
 \begin{faq}
-How do I register the browser that I want to be the default?
+デフォルトのブラウザーを設定するにはどうしたらいいですか？
 \end{faq}
 \answer
-Click the menu icon in the top right of the Browser window.
+ブラウザーウィンドウの右上隅にある灰色の菱形のバーをクリックします。
 
 %=================================================================
-\section{Regular expressions and parsing}
+\section{正規表現と構文解析}
 
 %\begin{faq}
 %How can I work with regular expressions?
@@ -265,27 +265,27 @@ Click the menu icon in the top right of the Browser window.
 %\index{Bykov, Vassili}
 
 \begin{faq}
-Where is the documentation for the RegEx package?
+RegEx（正規表現）パッケージに関するドキュメントはどこにありますか？
 \end{faq}
 \answer
-Look at the \menu{DOCUMENTATION} protocol of \ct{RxParser class} in the \menu{VB-Regex} category.
+\menu{VB-Regex} カテゴリにある \ct{RxParser class} クラスの \menu{DOCUMENTATION} プロトコルを参照して下さい。
 
 \begin{faq}
-Are there tools for writing parsers?
+パーサーを書くための何かいいツールはありますか？
 \end{faq}
 \answer
-Use \ind{SmaCC}\,---\,the Smalltalk Compiler Compiler.
-You should install at least SmaCC-lr.13.
-Load it from \url{http://www.squeaksource.com/SmaccDevelopment.html}.
-There is a nice tutorial online:
+\ind{SmaCC}（the Smalltalk Compiler Compiler）を使って下さい。
+その場合SmaCC-lr.13以降をインストールして下さい。
+\url{http://www.squeaksource.com/SmaccDevelopment.html} からロード出来ます。
+ここにはとても良く出来たオンラインチュートリアルかあります:
 \url{http://www.refactory.com/Software/SmaCC/Tutorial.html}
 
 \begin{faq}
-Which packages should I load from SqueakSource SmaccDevelopment to write parsers?
+パーサーを書くためには SqueakSource の SmaccDevelopment にあるどのパッケージをロードしたらいいですか？
 \end{faq}
 \answer
-Load the latest version of \ind{SmaCCDev}{}\,---\,the runtime is already there.
-(SmaCC-Development is for \squeak 3.8)
+\ind{SmaCCDev} の最新バージョンをロードして下さい。ランタイムはすでに存在します
+（SmaCC-Development は \squeak 3.8 用です）
 
 %=================================================================
 \ifx\wholebook\relax\else\end{document}\fi
