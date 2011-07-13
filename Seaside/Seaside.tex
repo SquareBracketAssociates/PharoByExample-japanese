@@ -764,64 +764,59 @@ WAConvenienceTest>>>confirmCheese
 	^self confirm: 'Is ', cheese,  ' your favorite cheese?'
 \end{code}
 
-Finally a \clsind{WAFormDialog} is called (via the convenience method \mthind{WAComponent}{inform:}).
+最後に便利メソッド \mthind{WAComponent}{inform:})によって、\clsind{WAFormDialog} が呼び出されます。
 
 \begin{code}{}
 WAConvenienceTest>>>informCheese
 	self inform: 'Your favorite cheese is ', cheese, '.'
 \end{code}
 
-The generated dialogues are shown in \figref{chooseCheese}.
+生成されるダイアログを図 \figref{chooseCheese}に示します。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{chooseCheese}
-\caption{A simple task}
+\caption{単純なタスクの例}
 \figlabel{chooseCheese}
 \end{center}
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{Transactions}
+\subsection{トランザクション}
+% 3.0で未サポートとなった機能。訳す?
 
-We saw in \secref{backtracking} that Seaside can keep track of the correspondence between the state of components and individual web pages by having components register their state for backtracking:
-all that a component need do is implement the method \ct{states} to answer an array of all the objects whose state must be tracked.
+ \secref{backtracking} で Seasideはバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態を、Webページごとに記録できるという話をしました。コンポーネント側でしなければならないことは、単に \ct{states} メソッドを定義して、バックトラック対象のオブジェクトを配列の形で返すだけでした。
 
-Sometimes, however, we do not want to backtrack state: instead we want to \emph{prevent} the user from accidentally undoing effects that should be permanent.
-This is often referred to as ``the shopping cart problem''.
-Once you have checked-out your shopping cart and paid for the items you have purchased, it should not be possible to go ``back'' with the browser and add more items to the shopping cart!
+しかし時にはバックトラックしたくないときもあります。ユーザが一度行った操作を、間違って取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
 
-Seaside allows you to prevent this by defining a task within which certain actions are grouped together as \emph{transactions}.
-You can backtrack within a transaction, but once a transaction is complete, you can no longer go back to it.
-The corresponding pages are \emph{invalidated}, and any attempt to go back to them will cause Seaside to generate a warning and redirect the user to the most recent valid page.
+Seasideでは\emph{トランザクション}として、いくつかの操作をひとまとめにしてタスク内で定義することによって、この機能を実現できます。
+トランザクションの中ではバックトラックができますが、トランザクション終了後は戻ることができません。トランザクションを越えて戻ろうとすると、そのページは \emph{無効}になります。無効なページに戻ろうとしても、Seasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{sushiStore}
-\caption{The Sushi Store}
+\caption{寿司屋デモ}
 \figlabel{sushiStore}
 \end{center}
 \end{figure}
 
-The Seaside \emphsubind{Seaside}{Sushi Store} is sample application that illustrates many of the features of Seaside, including transactions.
-This application is bundled with your installation of Seaside, so you can try it out by pointing your browser at
-\url{http://localhost:8080/seaside/examples/store}.\footnote{If you cannot find it in your image, there is a version of the sushi store available on SqueakSource from \url{http://www.squeaksource.com/SeasideExamples/}.}
+Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
+このサンプルはSeasideに含まれており、Webブラウザで\url{http://localhost:8080/seaside/examples/store}のURLを指定すると起動します。\footnote{もしも同梱されていない場合はSqueakSourceのページ(\url{http://www.squeaksource.com/SeasideExamples/})からロードできます。 }
 
-The sushi store supports the following workflow:
+寿司屋デモのワークフローは以下のようになっています。
 \begin{enumerate}[itemsep=0pt]
-  \item Visit the store.
-  \item Browse or search for sushi.
-  \item Add sushi to your shopping cart.
-  \item Checkout.
-  \item Verify your order.
-  \item Enter shipping address.
-  \item Verify shipping address.
-  \item Enter payment information.
-  \item Your fish is on its way!
+  \item サイトを訪れる
+  \item 寿司をブラウズ、検索する
+  \item ショッピングカートに寿司を追加する
+  \item 注文処理を開始する
+  \item カートの内容を確認する
+  \item 届け先の住所を入力する
+  \item 住所を確認する
+  \item 支払い情報を入力する
+  \item 寿司を待つ
 \end{enumerate}
 
-If you toggle the \subind{Seaside}{halos}, you will see that the top-level component of the sushi store is an instance of \clsind{WAStore}.
-It does nothing but render the title bar, and then it renders \ct{task}, an instance of \clsind{WAStoreTask}.
+ \subind{Seaside}{ハロ}を表示させてみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
