@@ -18,15 +18,16 @@ about testing, see the Wiki link under:
 
 http://www.squeaksource.com/PharoByExample.html
 
-Last update: 2010-05-16T12:50:36+02:00
+Last update: 2011-07-11T18:38:33-07:00
 
 ===== CHAPTER: Preface ==========
 
 -----
-3 + 4 "--> 7    if you select 3+4 and 'print it', you will see 7"
+3 + 4 "--> 7    「3+4を選択して'print it'を選ぶと7が得られる」"
+%翻訳メモ: メニューは日本語版にあわせて翻訳しておくか?
 -----
 
-===== CHAPTER: A quick tour of Pharo ==========
+===== CHAPTER: Pharoの使い方 ==========
 
 -----
 BouncingAtomsMorph new openInWorld
@@ -42,7 +43,7 @@ shout
 	^ self asUppercase, '!'
 -----
 
-===== CHAPTER: A first application ==========
+===== CHAPTER: 最初のアプリケーション ==========
 
 -----
 SimpleSwitchMorph subclass: #LOCell
@@ -210,7 +211,7 @@ result "--> '1 2 3 4 5 6 7 8 9 10 '"
   ^ super + aNumber
 -----
 
-===== CHAPTER: Understanding message syntax ==========
+===== CHAPTER: メッセージ構文を理解しよう ==========
 
 -----
 89 sin "--> 0.860069405812453"
@@ -220,15 +221,15 @@ Float pi "--> 3.141592653589793"
 true not "--> false"
 Object class "--> Object class  The class of Object is Object class (!)"
 -----
-100@100 "--> 100@100  creates a Point object"
+100@100 "--> 100@100  Pointオブジェクトを生成"
 3 + 4 "--> 7"
 10 - 1 "--> 9"
 4 <= 3 "--> false"
-(4/3) * 3 = 4 "--> true  equality is just a binary message, and Fractions are exact"
-(3/4) == (3/4) "--> false  two equal Fractions are not the same object"
+(4/3) * 3 = 4 "--> true  同値性のテストも単なる2項メッセージ。分数オブジェクトは値を正確に表現できる"
+(3/4) == (3/4) "--> false  別個に作られた２つの分数オブジェクトは同一ではない"
 -----
-1 to: 10 "--> (1 to: 10)  creates an interval"
-Color r: 1 g: 0 b: 0 "--> Color red  creates a new color"
+1 to: 10 "--> (1 to: 10)  区間オブジェクトを生成"
+Color r: 1 g: 0 b: 0 "--> Color red  色オブジェクトを返す"
 12 between: 8 and: 15 "--> true"
 
 nums := Array newFrom: (1 to: 5).
@@ -244,48 +245,48 @@ nums "--> #(6 2 3 4 5)"
 [:aClass | aClass methodDict keys select: [:aMethod | (aClass>>aMethod) isAbstract ]] value: Boolean "--> an IdentitySet(#or: #| #and: #& #ifTrue: #ifTrue:ifFalse: #ifFalse: #not #ifFalse:ifTrue:)"
 -----
         aPen color: Color yellow
-(1)                       Color yellow "unary message is sent first"
+(1)                       Color yellow "単項メッセージがまず送られる"
  "--> aColor"
-(2)   aPen color: aColor "keyword message is sent next"
+(2)   aPen color: aColor "キーワードメッセージが次に送られる"
 -----
       aPen go: 100 + 20   
-(1)                 100 + 20 "binary message first"
+(1)                 100 + 20 "2項メッセージがまず送られる"
  "-->   120"
-(2)  aPen go: 120 "then keyword message"
+(2)  aPen go: 120 "キーワードメッセージが次に送られる"
 -----
-1.5 tan rounded asString = (((1.5 tan) rounded) asString) "--> true    parentheses not needed here"
-3 + 4 factorial "--> 27    (not 5040)"
+1.5 tan rounded asString = (((1.5 tan) rounded) asString) "--> true    かっこは不要"
+3 + 4 factorial "--> 27    (5040ではない)"
 (3 + 4) factorial "--> 5040"
 -----
 (FMSound lowMajorScaleOn: FMSound clarinet) play 
-"(1) send the message clarinet to the FMSound class to create a clarinet sound.
- (2) send this sound to FMSound as argument to the lowMajorScaleOn: keyword message.
- (3) play the resulting sound."
+"(1) メッセージclarinetがFMSoundクラスに送られ、クラリネットの音色オブジェクトが作られる。
+ (2) このオブジェクトがFMSoundに送られるlowMajorScaleOn:キーワードメッセージの引数として送られる。
+ (3) 結果の音オブジェクトにplayが送られ、演奏される。"
 -----
       (65@325 extent: 134@100) center
-(1)   65@325 "binary"
+(1)   65@325 "2項"
  "--> aPoint"
-(2)                                134@100 "binary"
+(2)                                134@100 "2項"
  "--> anotherPoint"
-(3)   aPoint extent: anotherPoint "keyword"
+(3)   aPoint extent: anotherPoint "キーワード"
  "--> aRectangle"
-(4)   aRectangle center "unary"
+(4)   aRectangle center "単項"
  "--> 132@375"
 -----
-3 + 4 * 5 "--> 35    (not 23)  Binary messages sent from left to right"
+3 + 4 * 5 "--> 35    (23ではない)  2項メッセージが左から右に実行されるため"
 3 + (4 * 5) "--> 23"
-1 + 1/3 "--> (2/3)    and not 4/3"
+1 + 1/3 "--> (2/3)    4/3ではない"
 1 + (1/3) "--> (4/3)"
-1/3 + 2/3 "--> (7/9)    and not 1"
+1/3 + 2/3 "--> (7/9)    1ではない"
 (1/3) + (2/3) "--> 1"
 -----
-"As there is no priority among binary messages, the leftmost message + is evaluated first even if by the rules of arithmetic the * should be sent first."
+"2項メッセージ同士には優先順位の違いがないので、算数の約束としては*がまず先に実行されるべきですが、ここでは左端の+がまず評価されます。"
 
       20 + 2 * 5 
 (1)  20 + 2 "--> 22"
 (2)  22       * 5 "--> 110"
 -----
-"The messages surrounded by parentheses are evaluated first therefore * is sent prior to + which produces the correct behaviour."
+"かっこで囲まれたメッセージが先に評価されるので、*が+の前に実行され、正しく動作します。"
 
     20 + (2 * 5) 
 (1)        (2 * 5) "--> 10"
@@ -305,9 +306,9 @@ ord := OrderedCollection new.
 (ord includes: $a)
    ifTrue:[...]
 -----
-[ x isReady ] whileTrue: [ y doSomething ] "both the receiver and the argument must be blocks"
-4 timesRepeat: [ Beeper beep ] "the argument is evaluated more than once, so must be a block"
-(x isReady) ifTrue: [ y doSomething ] "receiver is evaluated once, so is not a block"
+[ x isReady ] whileTrue: [ y doSomething ] "レシーバーと引数の両方ともブロックでなくてはならない"
+4 timesRepeat: [ Beeper beep ] "引数は2回以上実行されるので、ブロックでなくてはならない"
+(x isReady) ifTrue: [ y doSomething ] "引数は一度だけ評価されるのでブロックではない"
 -----
 | box |
 box := 20@30 corner: 60@90.
@@ -325,11 +326,11 @@ Transcript
 Point new setX: 25 setY: 35; isZero "--> false"
 -----
 
-===== CHAPTER: The Smalltalk object model ==========
+===== CHAPTER: Smalltalkオブジェクトモデル ==========
 
 -----
-3 + 4 "--> 7    send '+ 4' to 3, yielding 7"
-20 factorial "--> 2432902008176640000   send factorial, yielding a big number"
+3 + 4 "--> 7    '+ 4'を3に送ることで, 結果として7が得られます"
+20 factorial "--> 2432902008176640000   factorialを送ると, 大きな数が得られます"
 -----
 1 class "--> SmallInteger"
 20 factorial class "--> LargePositiveInteger"
@@ -347,10 +348,10 @@ Point>>dist: aPoint
 -----
 1@1 dist: 4@5 "--> 5.0"
 -----
-aColor := Color blue. "Class side method blue"
+aColor := Color blue. "クラス側のblueメソッド"
 aColor "--> Color blue"
-aColor red "--> 0.0         Instance side accessor method red"
-aColor blue "--> 1.0        Instance side accessor method blue"
+aColor red "--> 0.0         インスタンス側のアクセサメソッドred"
+aColor blue "--> 1.0        インスタンス側のアクセサメソッドblue"
 -----
 Object subclass: #Dog
 	instanceVariableNames: ''
@@ -425,14 +426,14 @@ Trait named: #TAuthor
 	uses: { }
 	category: 'PBE-LightsOut'
 -----
-TAuthor>>author
- "Returns author initials"
-	^ 'on' "oscar nierstrasz"
+TAuthor>>authorj
+ "著者の頭文字を返す"
+	^ 'on' "oscar nierstraszの頭文字"
 -----
 BorderedMorph subclass: #LOGame
 	uses: TAuthor
-	instanceVariableNames: 'cells'
-	classVariableNames: ''
+	instanceVariableNames: -'cells'ss
+	classVariableNames: ''e
 	poolDictionaries: ''
 	category: 'PBE-LightsOut'
 -----
@@ -445,8 +446,10 @@ Object subclass: #Behavior
 	poolDictionaries: ''
 	category: 'Kernel-Classes'
 -----
-3 + 4 "--> 7          send message + with argument 4 to integer  3"
-(1@2) + 4 "--> 5@6    send message + with argument 4 to point (1@2)"
+% 3 + 4 "--> 7          send message + with argument 4 to integer  3"
+3 + 4 "--> 7          整数「3」にメッセージ「+」と引数「4」を送信する"
+% (1@2) + 4 "--> 5@6    send message + with argument 4 to point (1@2)"
+(1@2) + 4 "--> 5@6    点「(1@2)」にメッセージ「+」と引数「4」を送信する"
 -----
 anEllipse := EllipseMorph new.
 -----
@@ -465,14 +468,14 @@ Morph>>openInWorld
 	"Add this morph to the world."
 	
     self openInWorld: self currentWorld
-	^ self		"Don't do this unless you mean it!"
+	^ self		"不要なので、通常はわざわざ書かないこと！"
 -----
 BorderedMorph>>initialize
 	"initialize the state of the receiver"
 	super initialize.
 	self borderInitialize
 -----
-anEllipse constructorString "--> '((EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow) setBorderWidth: 1 borderColor: Color black)'"
+anEllipse constructorString "--> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'"
 -----
 Morph>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
@@ -609,13 +612,15 @@ TestResource subclass: #MyTestResource
 	instanceVariableNames: ''
 
 MyTestCase class>>resources
-	"associate the resource with this class of test cases"
+%	"associate the resource with this class of test cases"
+	"このクラスのテストで使うリソースを返す"
 	^{ MyTestResource }
 -----
 | e |
 e := 42.
 self assert: e = 23
-	description: 'expected 23, got ', e printString
+%	description: 'expected 23, got ', e printString
+	description: '期待した値は 23 、実際の値は ', e printString
 -----
 #assert:description:
 #deny:description:
@@ -628,7 +633,8 @@ aCollection do:
 	[:each |
 	self
 		assert: each even
-		description: each printString , ' is not even'
+%		description: each printString , ' is not even'
+		description: each printString , ' は偶数ではありません'
 		resumable: true]
 -----
 TestCase>>run
@@ -640,6 +646,7 @@ TestCase>>run
 TestCase>>run: aResult
 	aResult runCase: self
 -----
+%\begin{method}[testresultruncase]{\ct{TestCase} のエラーと失敗をキャッシュする}
 TestResult>>runCase: aTestCase
 	| testCasePassed |
 	testCasePassed := true.
@@ -712,7 +719,7 @@ $a "--> $a"
 #(1 2 3) "--> #(1 2 3)"
 Color red "--> Color red"
 -----
-{10@10 . 100@100} "--> {10@10 . 100@100}"
+{10@10. 100@100} "--> {10@10. 100@100}"
 {Browser new . 100@100} "--> an Array(a Browser 100@100)"
 -----
 #(10@10 100@100) "--> #(10 #@ 10 100 #@ 100)"
@@ -916,7 +923,7 @@ True>>not
 (1>2) and: [ (1/0) > 0 ] "--> false    argument block is never evaluated, so no exception"
 -----
 
-===== CHAPTER: Collections ==========
+===== CHAPTER: コレクション ==========
 
 -----
 students select: [ :each | each gpa < threshold ]
@@ -950,7 +957,7 @@ anArray at: 2 put: 3/2.
 anArray at: 3 put: 'ssss'.
 anArray at: 1 "--> 4"
 -----
-Array with: 4 with: 3/2 with: 'lulu' "-->  {4 . (3/2) . 'lulu'}"
+Array with: 4 with: 3/2 with: 'lulu' "-->  {4. (3/2). 'lulu'}"
 -----
 #(1 'here') size "--> 2"
 -----
@@ -993,11 +1000,11 @@ colors at: #blue put: Color blue.
 colors at: #red put: Color red.
 colors at: #yellow "--> Color yellow"
 colors keys "--> a Set(#blue #yellow #red)"
-colors values "--> {Color blue . Color yellow . Color red}"
+colors values "--> {Color blue. Color yellow. Color red}"
 -----
 colors := Dictionary newFrom: { #blue->Color blue . #red->Color red . #yellow->Color yellow }.
 colors removeKey: #blue.
-colors associations "--> {#yellow->Color yellow . #red->Color red}"
+colors associations "--> {#yellow->Color yellow. #red->Color red}"
 -----
 a := 'foobar'.
 b := a copy.
@@ -1120,7 +1127,7 @@ result "--> #(2 3 4 35 4 11)"
 -----
 #( 2 -3 4 -35 4 -11) collect: [:each | each abs ] "--> #(2 3 4 35 4 11)"
 -----
-'abc' collect: [:ea | ea asciiValue ] "error!"
+'abc' collect: [:ea | ea asciiValue ] "エラー発生"
 -----
 'abc' asArray collect: [:ea | ea asciiValue ] "--> #(97 98 99)"
 -----
@@ -1171,7 +1178,7 @@ Book>>hash
    ^ title hash xor: authors hash
 -----
 
-===== CHAPTER: Streams ==========
+===== CHAPTER: ストリーム ==========
 
 -----
 r := ReadStream on: (1 to: 1000).
@@ -1185,7 +1192,8 @@ w nextPut: $b.
 w contents. "-->  'ab'"
 -----
 w := WriteStream on: (OrderedCollection new: 20).
-w nextPut: 12. "-->  raises an error"
+%w nextPut: 12. "-->  raises an error"
+w nextPut: 12. "-->  エラー"
 -----
 StandardFileStream
   fileNamed: 'test.txt'
@@ -1206,9 +1214,11 @@ stream next: 3. "-->   'bcd'"
 stream next: 2. "-->   'ef'"
 -----
 stream := ReadStream on: '-143'.
-negative := (stream peek = $-). "look at the first element without reading it"
+%negative := (stream peek = $-). "look at the first element without reading it"
+negative := (stream peek = $-). "読み込むことなく最初の要素を調べる"
 negative. "--> true"
-negative ifTrue: [stream next]. "ignores the minus character"
+%negative ifTrue: [stream next]. "ignores the minus character"
+negative ifTrue: [stream next]. "マイナスの文字を無視する"
 number := stream upToEnd.
 number. "--> '143'"
 -----
@@ -1221,29 +1231,36 @@ stream position: 2.
 stream peek "--> $c"
 -----
 stream := 'abcdef' readStream.
-stream next. "--> $a    stream is now positioned just after the a"
-stream skip: 3. "stream is now after the d"
+%stream next. "--> $a    stream is now positioned just after the a"
+stream next. "--> $a    ストリームはaの真後ろに位置している"
+%stream skip: 3. "stream is now after the d"
+stream skip: 3. "dの後ろに位置している"
 stream position. "-->   4"
-stream skip: -2. "stream is after the b"
+%stream skip: -2. "stream is after the b"
+stream skip: -2. "bの後ろに位置している"
 stream position. "--> 2"
 stream reset.
 stream position. "--> 0"
-stream skipTo: $e. "stream is just after the e now"
+%stream skipTo: $e. "stream is just after the e now"
+stream skipTo: $e. "ストリームはeの後ろに移った"
 stream next. "--> $f"
 stream contents. "--> 'abcdef'"
 -----
 stream1 := #(1 4 9 11 12 13) readStream.
 stream2 := #(1 2 3 4 5 10 13 14 15) readStream.
 
-"The variable result will contain the sorted collection."
+%"The variable result will contain the sorted collection."
+"変数にはソートされたコレクションが含まれる."
 result := OrderedCollection new.
 [stream1 atEnd not & stream2 atEnd not]
   whileTrue: [stream1 peek < stream2 peek
- "Remove the smallest element from either stream and add it to the result."
+% "Remove the smallest element from either stream and add it to the result."
+ "両方のストリームのもっとも小さな要素が取り除かれてresultに加えられる."
     ifTrue: [result add: stream1 next]
     ifFalse: [result add: stream2 next]].
 
-"One of the two streams might not be at its end. Copy whatever remains."
+%"One of the two streams might not be at its end. Copy whatever remains."
+"どちらかのストリームが終わりにない場合，残っている全てをコピーする."
 result
   addAll: stream1 upToEnd;
   addAll: stream2 upToEnd.
@@ -1647,7 +1664,7 @@ DieMorph>>drawOn: aCanvas
 		do: [:aPoint | self drawDotOn: theCanvas at: aPoint]
 -----
 
-===== CHAPTER: Classes and metaclasses ==========
+===== CHAPTER: クラスとメタクラス ==========
 
 -----
 Color blue "--> Color blue"
@@ -1674,7 +1691,7 @@ TranslucentColor subclasses "--> #()"
 TranslucentColor allSuperclasses "--> an OrderedCollection(Color Object ProtoObject)"
 TranslucentColor instVarNames "--> #('alpha')"
 TranslucentColor allInstVarNames "--> #('rgb' 'cachedDepth' 'cachedBitPattern' 'alpha')"
-TranslucentColor selectors "-->  an IdentitySet(#pixelValueForDepth: #pixelWord32 #convertToCurrentVersion:refStream: #isTransparent #scaledPixelValue32 #bitPatternForDepth: #storeArrayValuesOn: #setRgb:alpha: #alpha #isOpaque #pixelWordForDepth: #isTranslucentColor #hash #isTranslucent #alpha: #storeOn: #asNontranslucentColor #privateAlpha #balancedPatternForDepth:)"
+TranslucentColor selectors "-->  an IdentitySet(#pixelWord32 #asNontranslucentColor #privateAlpha #pixelValueForDepth: #isOpaque #isTranslucentColor #storeOn: #pixelWordForDepth: #scaledPixelValue32 #alpha #bitPatternForDepth: #hash #isTransparent #isTranslucent #balancedPatternForDepth: #setRgb:alpha: #alpha: #storeArrayValuesOn:)"
 -----
 TranslucentColor class superclass "--> Color class"
 TranslucentColor superclass class "--> Color class"
@@ -1685,7 +1702,7 @@ TranslucentColor class superclass superclass "--> Object class"
 -----
 TranslucentColor blue "--> Color blue"
 -----
-TranslucentColor new class "--> TranslucentColor    not Behavior!"
+TranslucentColor new class "--> TranslucentColor    Behaviorのインスタンスではない！"
 -----
 TranslucentColor superclass "--> Color"
 Color superclass "--> Object"
@@ -1715,9 +1732,9 @@ WAHelloWorld>>renderContentOn: html
 WAHelloWorld class>>canBeRoot
 	^ true
 -----
-html text: 'hello world'. "render a plain text string"
-html html: '&ndash;'. "render an XHTML incantation"
-html render: 1. "render any object"
+html text: 'hello world'. "テキストを表示"
+html html: '&ndash;'. "XHTMLの直接指定"
+html render: 1. "オブジェクトのレンダリング"
 -----
 html horizontalRule.
 -----
@@ -2049,7 +2066,7 @@ new Ajax.Updater(
 return false
 -----
 
-===== CHAPTER: Reflection ==========
+===== CHAPTER: リフレクション ==========
 
 -----
 w := Workspace new.
@@ -2059,9 +2076,9 @@ w inspect
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 -----
 Object>>instVarAt: index 
-	"Primitive. Answer a fixed variable in an object. ..."
+	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。..."
 	!\textbf{<primitive: 73>}!
-	"Access beyond fixed variables."
+	"固定長配列の範囲を超えた変数にアクセスする。"
 	^self basicAt: index - self class instSize		
 -----
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
@@ -2069,7 +2086,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 (1@2) instanceVariableValues "--> an OrderedCollection(1 2)"
 -----
 Object>>instanceVariableValues
-	"Answer a collection whose elements are the values of those instance variables of the receiver which were added by the receiver's class."	
+	"レシーバーのクラスが追加した、すべてのレシーバーのインスタンス変数の値を要素とするコレクションを返す。"	
 	| c |
 	c := OrderedCollection new.
 	self class superclass instSize + 1
@@ -2081,18 +2098,18 @@ Object>>instanceVariableValues
 1.5 isKindOf: Number "--> true"
 1.5 isKindOf: Integer "--> false"
 -----
-1.5 respondsTo: #floor "--> true    since Number implements floor"
+1.5 respondsTo: #floor "--> true    Numberがfloorを実装しているので"
 1.5 floor "--> 1"
-Exception respondsTo: #, "--> true    exception classes can be grouped"
+Exception respondsTo: #, "--> true    例外クラスはグループ化することができる"
 -----
-Morph allSuperclasses size. "-->       2 inheritance depth"
-Morph allSelectors size. "--> 1378 number of methods"
-Morph allInstVarNames size. "-->      6 number of instance variables"
-Morph selectors size. "-->  998 number of new methods"
-Morph instVarNames size. "-->      6 number of new variables"
-Morph subclasses size. "-->    45 direct subclasses"
-Morph allSubclasses size. "-->  326 total subclasses"
-Morph linesOfCode. "--> 5968 total lines of code!"
+Morph allSuperclasses size. "-->       2 インヘリタンスの深さ"
+Morph allSelectors size. "--> 1378 メソッドの数"
+Morph allInstVarNames size. "-->      6 インスタンス変数の数"
+Morph selectors size. "-->  998 Morphで新しく定義されたメソッドの数"
+Morph instVarNames size. "-->      6 Morphで新しく定義されたインスタンス変数の数"
+Morph subclasses size. "-->    45 直接のサブクラスの数"
+Morph allSubclasses size. "-->  326 サブクラスの総数"
+Morph linesOfCode. "--> 5968 総コード行数"
 -----
 Point someInstance "--> 0@0"
 -----
@@ -2153,7 +2170,7 @@ SystemNavigation default
 	open
 -----
 Integer>>factorial
-	"Answer the factorial of the receiver."
+	"レシーバーの階乗を返す。"
 	self = 0 ifTrue: [!\underline{thisContext explore. self halt.}! ^ 1].
 	self > 0 ifTrue: [^ self * (self - 1) factorial].
 	self error: 'Not valid for negative integers'
@@ -2161,8 +2178,8 @@ Integer>>factorial
 SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 -----
 Object>>subclassResponsibility
-	"This message sets up a framework for the behavior of the class' subclasses.
-	Announce that the subclass should have implemented this message."
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
+	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 -----
@@ -2250,7 +2267,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 -----
 TestRunner>>runCoverage
 	| packages methods |
-	... "identify methods to check for coverage"
+	... "カバレッジを測定するメソッドを識別する"%@? ???
 	self collectCoverageFor: methods
 -----
 TestRunner>>collectCoverageFor: methods
@@ -2298,7 +2315,7 @@ SplitJointTest class>>documentation
 	
 	^ 'This package provides function.... "
 -----
-(SplitJoinTest class >> #showDocumentation) pragmas
+(SplitJoinTest class >> #showDocumentation) pragmas.
  "--> an Array(<ignoreForCoverage>)"
 (Float>>#+) pragmas "--> an Array(<primitive: 41>)"
 -----

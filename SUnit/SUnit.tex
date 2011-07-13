@@ -39,10 +39,13 @@
 \chalabel{SUnit}
 
 %=================================================================
-\section{Introduction}
+%\section{Introduction}
+
+\section{はじめに}
 
 \on{Would be nice to have an example of test-driven development with SUnit from beginning to end. Perhaps this is for another chapter?}
 
+\if0
 \indmain{SUnit} is a minimal yet powerful framework that supports the
 creation and deployment of tests.
 As might be guessed from its name, the design of \sunit focussed on \emph{Unit Tests}, 
@@ -51,10 +54,15 @@ but in fact it can be used for integration tests and functional tests as well.
 originally developed by Kent Beck and subsequently extended by Joseph
 Pelrine and others to incorporate the
 notion of a resource, which we will describe in \secref{resource}.
+\fi
+
+\indmain{SUnit} は小さいながらも強力な、テストの作成と運用のためのフレームワークです。その名前からわかるように、 \emph{ユニットテスト} を対象として設計されていますが、統合テストや機能テストにも使えます。 \sunit は Kent Beck が開発し、 Joseph Pelrine を始めとする開発者達がテストリソース (\secref{resource}) の概念を取り入れました。
+
 \index{Beck, Kent}
 \index{Pelrine, Joseph}
 \seeindex{resource}{test, resource}
 
+\if0
 The interest in testing and \ind{Test Driven Development}
 is not limited to \pharo or \st.  
 Automated testing has become a hallmark of the \ind{Agile software development} movement, and any
@@ -69,7 +77,18 @@ This chapter describes \SUnit~3.3 (the current version as of this writing); the 
 \url{sunit.sourceforge.net}, where updates can be found.
 \index{xUnit}
 \index{Net@.Net}
+\fi
 
+テストと\ind{テスト駆動開発}のメリットは \pharo や \st に留まりません。
+テスト自動化は\ind{アジャイルソフトウェア開発}の特徴であり、ソフトウェアの品質を上げたい開発者なら採用するでしょう。 
+ユニットテストの効果を評価する開発者は多く、今では多くの言語に \xUnit{} ライブラリがあります (\ind{Java} 、 \ind{Python} 、 \ind{Perl} 、 .Net 、\ind{Oracle} など) 。
+\seeindex{Matrix!free will}{Oracle} % sorry, couldn't resist
+この章では \SUnit~3.3 (原文の執筆時のバージョン) について解説します。
+\sunit の最新版は \url{sunit.sourceforge.net} で確認できます。
+\index{xUnit}
+\index{Net@.Net}
+
+\if0
 Neither testing, nor the building of test suites, is new:  everybody knows that
 tests are a good way to catch errors.
 \mbox{\ind{eXtreme Programming},} by making testing a
@@ -79,7 +98,7 @@ chore that programmers dislike.
 The \st community has a long tradition of
 testing because of the incremental style of development supported by its
 programming environment.  
-In traditional \st development, the programmer would write tests in a workspace 
+In traditional \st development, the programmer would write tests in a workspace
 as soon as a method was finished.
 Sometimes a test would be incorporated as a comment at the head of the method that it exercised, or tests that needed some set up would be included as example methods in the class.
 The problem with these practices is that tests in a workspace are not available to other programmers who modify the code; comments and example methods are better in this respect, 
@@ -90,7 +109,21 @@ Moreover, an example method does not
 inform the reader of the expected result:
 you can run the example and see the\,---\,perhaps surprising\,---\,result, 
 but you will not know if the observed behaviour is correct.
+\fi
 
+テストは新しい概念ではありません。
+誰でもテストはエラーを発見するいい方法だと知っています。
+\mbox{\ind{エクストリーム・プログラミング}} (eXtreme Programming) ではテストの実践方法が考案され、テストの\emph{自動化}が重視されました。
+その結果テストの価値が上がり、プログラマにとってテストは面倒な作業から楽しい作業に変わりました。
+\st のプログラミング環境がインクリメンタルな開発を支えることから、 \st コミュニティは長らくテストを重視してきました。
+\st の伝統的な開発では、実装したメソッドをすぐにワークスペースでテストします。
+メソッドのコメントにテストを書いたり、テストの準備がいる場合はサンプルメソッドとして実装する場合もあります。
+ワークスペースにテストを書くと (\st イメージを共有しない限り) 他のプログラマから使えないので、その点ではコメントやサンプルメソッドのほうがまだ便利です。
+ただ、メソッドの開発に合わせてテストを見直し、さらに自動的に実行させるのは簡単ではありません。
+テストが実行されなければ、バグも見つけられません！
+また、サンプルメソッドが一見正しい結果を出したとしても、本当に正しい処理が行われた証拠にはなりません。
+
+\if0
 \sunit is valuable because it allows us to write tests that are self-checking:
 the test itself defines what the correct result should be.
 It also helps us to
@@ -100,16 +133,31 @@ automatically.  In less than two minutes you can write tests using
 \sunit, so instead of writing small code snippets in a workspace, we encourage you
 to use \sunit and get all the
 advantages of stored and automatically executable tests.
+\fi
 
+\sunit には十分な価値があります。
+テストの結果が正しいかどうかをテスト自身で検証できます。
+テストをグループ分けしたり、テストに必要な環境の準備をしたり、グループ単位でテストを実行できます。
+もうワークスペースで小さなコードを書かなくても、二分もあれば \sunit でテストを書けるようになります。
+\sunit を使ってテストの自動化をしましょう。
+
+\if0
 In this chapter we start by discussing why we test, and what makes a good test. We then present a series of small 
 examples showing how to use \sunit.
 Finally, we look at the implementation of \sunit, so that you can understand how
 \st uses the power of \ind{reflection} in supporting its tools. 
+\fi
+
+この章では、テストを行う理由とよりよいテストを書く方法の議論から始めます。
+小さな例を挙げながら \sunit の使い方を紹介し、最終的には \sunit の内部実装を見ていきます。
+\sunit を支えている \st の \ind{リフレクション} の力がわかるはずです。
 
 %=================================================================
-\section{Why testing is important}
+%\section{Why testing is important}
+\section{なぜテストは重要か}
 \seclabel{why}
 
+\if0
 Unfortunately, many developers believe that tests are a waste of their time.  
 After all, \emph{they} do not write bugs\,---\,only \emph{other} programmers do that.
 Most of us have said, at some time or other:
@@ -121,7 +169,17 @@ also means that your application is trivial, or that it is not used by you or an
 Think of tests as an investment for the future: having a
 suite of tests will be quite useful now, but it will be \emph{extremely} useful when
 your application, or the environment in which it executes, changes in the future.
+\fi
 
+残念ながら、テストを時間の無駄と思い込んでいる開発者もたくさんいます。
+\emph{彼ら}はバグを作りません\,---\,\emph{他の}プログラマだけがバグを作るのです。
+誰しも一度くらいこう言ってしまった経験があります: 「時間があればテストを書きますよ」。
+絶対にバグのないコードを書けて、絶対にそのコードが将来も変更されないなら、確かにテストは時間の無駄です。
+しかし、そんなコードはごく小さいか誰も使わないようなものがほとんどです。
+テストを将来への投資と考えてください。
+テストはすぐにでも役に立ちますが、将来アプリケーションや実行環境が変わっても\emph{絶対に}役に立ちます。
+
+\if0
 Tests play several roles. First, they provide documentation of the functionality that they cover.  
 Moreover, the documentation is active: watching the tests pass tells you that the documentation is up-to-date.
 Second,
@@ -135,6 +193,16 @@ By writing the tests first\,---\,before the code\,---\,you are compelled to stat
 the context in which your functionality will run, the way it will
 interact with the client code, and the expected results.  
 Your code will improve: try it.
+\fi
+
+テストにはいくつかの役割があります。
+一つは生きたドキュメントです。
+すべてのテストに成功すれば、ドキュメントは最新版です。
+もう一つは、変更したコードが無事動くという確信です。
+もしシステムの一部が壊れたとしても、すぐに原因を見つけられます。
+最後に、実装方法よりもアプリケーションの設計と\emph{ユーザとのインターフェース}を考えるようになります。
+コードを書く前にテストを書いておけば、テストが成功するようにコードを書くしかありません。
+ぜひ試してコードの品質を向上させてください。
 
 %The culture of tests has always been present in the \st
 %community because after writing a method, we would write a small
@@ -145,6 +213,7 @@ Your code will improve: try it.
 %the context of the tests is left unspecified so the reader has to
 %interpret the results and assess if they are right or wrong.
 
+\if0
 We cannot test all aspects of any realistic application.
 Covering a complete application is simply impossible and should not be the
 goal of testing. 
@@ -154,24 +223,53 @@ waiting for an opportunity to damage your system.
 If you find that this has happened, take advantage of it!
 As soon as you uncover the bug, write a test that exposes it, run the test, and watch it fail.
 Now you can start to fix the bug: the test will tell you when you are done.
-%=================================================================
-\section{What makes a good test?}
+\fi
 
+アプリケーションのあらゆる面をすべてテストするのは不可能です。
+いくら良質のテストを書いても、システムを壊す機会を窺っているバグが入り込みます。
+バグを見つけたらすぐにあぶりだすテストを書き、実行し、失敗を確認し、修正を始めましょう。
+そのテストが作業の終わりを知らせてくれます。
+
+%=================================================================
+%\section{What makes a good test?}
+\section{いいテストを書くには？}
+
+\if0
 Writing good tests is a skill that can be learned most easily by
 practicing.  Let us look at the properties that tests should have to
 get a maximum benefit.
+\fi
+
+いいテストを書けるようになるには、練習するのが一番です。
+テストのメリットを最大限に活かすヒントを見ていきましょう。
 
 \begin{enumerate}
+\if0
 \item Tests should be repeatable.  You should be able to run a test
   as often as you want, and always get the same answer.
+\fi
 
+\item テストは繰り返し実行可能であるべきです。
+  実行したいときに実行できて、常に同じ結果を出すべきです。
+
+\if0
 \item Tests should run without human intervention.  You should even be
   able to run them during the night.
+\fi
 
+\item テストは人の手を借りずに実行するべきです。
+  例え夜中でも実行できるようにすべきです。
+
+\if0
 \item Tests should tell a story.  Each test should cover one aspect of a 
   piece of code.  A test should act as a scenario that you or someone else can
   read to understand a piece of functionality. \label{prop:oneAspect}
+\fi
 
+\item テストは物語であるべきです。各テストの目的を一つに絞るべきです。
+  テストをシナリオと考え、読めばアプリケーションの機能を理解できるようにすべきです。 \label{prop:oneAspect}
+
+\if0
 \item Tests should have a change frequency lower than that of the
   functionality they cover:  you do not want to have to change all your
   tests every time you modify your application.  One way to achieve
@@ -181,8 +279,17 @@ get a maximum benefit.
   is complicated enough to need the test, but you should be aware that such a test 
   may have to be changed, or thrown away entirely, when you think of a better
   implementation.
+\fi
+
+\item テストの変更はなるべく控えるべきです。
+  アプリケーションを変更するたびにテストを変更する必要が出ては大変です。
+  テストを変更せずに済ませるには、公開するインターフェースを主に使ってテストを書きましょう。
+  公開するインターフェースが内部で複雑な処理を行うなら、プライベートなヘルパーメソッドのテストを書いてもいいでしょう。
+  ただし、インターフェースの内部実装が変わったときには、そのテストを変更するか捨てる必要があるかもしれません。
+
 \end{enumerate}
 
+\if0
 A consequence of property (\ref{prop:oneAspect}) is that 
 the number of tests should be somewhat proportional to the number of
 functions to be tested: changing one aspect of the
@@ -192,7 +299,15 @@ much stronger message than having 10 tests fail.
 However, it is not always possible to achieve this ideal: 
 in particular, if a change breaks the initialization of an object, or the
 set-up of a test, it is likely to cause all of the tests to fail. 
+\fi
 
+テストの目的を絞り (\ref{prop:oneAspect}) 、テストすべき機能とテストの数のバランスをとりましょう。
+システムの一部を変更したときに動かなくなるテストを少なくするべきです。
+100 のテストに失敗するより、 10 のテストの失敗で済むほうが対処しやすいのですから。
+ただし、いつもこの通りにできるとは限りません。
+例えば変更によってオブジェクトの初期化やテストのセットアップに問題が出れば、すべてのテストが失敗してしまいます。
+
+\if0
 \ind{eXtreme Programming} advocates writing tests before writing code.  This may seem to go
 against our deep instincts as software developers.  
 All we can say is: go ahead and try it.
@@ -201,6 +316,12 @@ to know what we want to code, helps us know when we are done,
 and helps us conceptualize the functionality of a class and to
 design its interface.
 Moreover, test-first development gives us the courage to go fast, because we are not afraid that we will forget something important.  
+\fi
+
+\ind{エクストリーム・プログラミング} では、コードを書く前にテストを書く (テストファースト) ことを提案しています。
+これはソフトウェア開発者の本能と相反するように見えますが、我々は自信を持って言えます: 「さあ進め、さあ試せ」。 
+テストを先に書くことで、どんなコードを書くべきか、何をすべきか、どう要件をクラスに落とせばいいか、どんな API にすればいいのかを考える手助けになります。
+さらに、開発速度を上げる自信にもつながります。開発を急ぐあまりに肝心な点を見落とすかもしれない、といった心配をする必要はありません。
 
 % \on{I cannot understand this without some explanation!}
 
@@ -218,19 +339,32 @@ Moreover, test-first development gives us the courage to go fast, because we are
 
 % Now let's write our first test, and show you the benefits of using \SUnit.
 %=================================================================
+%\section{\sunit by example}
+
 \section{\sunit by example}
 
+\if0
 Before going into the details of \SUnit, we will show a step by step
 example.  We use an example that tests the class \ct{Set}.  Try
 entering the code as we go along.
-%---------------------------------------------------------
-\subsection{Step 1: create the test class}
+\fi
 
+\SUnit の詳細に触れる前に、一つずつ例を挙げていきます。 \ct{Set} クラスのテストを例に進めますので、例に従ってコードを入力してください。
+%---------------------------------------------------------
+%\subsection{Step 1: create the test class}
+
+\subsection{ステップ 1: テストクラスを作る}
+
+\if0
 \dothis{First you should create a new subclass of \clsind{TestCase} called
 \ct{ExampleSetTest}.   Add two instance variables so that your new
 class looks like this:}
+\fi
 
-\begin{classdef}[exampleSetTest]{An Example Set Test class}
+\dothis{まず、 \clsind{TestCase} のサブクラス \ct{ExampleSetSet} を作ります。このクラスに二つのインスタンス変数 \ct{full} と \ct{empty} を追加します。}
+
+%\begin{classdef}[exampleSetTest]{An Example Set Test class}
+\begin{classdef}[exampleSetTest]{ExampleSetTest クラス}
 TestCase subclass: #ExampleSetTest
 	instanceVariableNames: 'full empty'
 	classVariableNames: ''
@@ -238,69 +372,119 @@ TestCase subclass: #ExampleSetTest
 	category: 'MySetTest'
 \end{classdef}
 
-
+\if0
 We will use the class \ct{ExampleSetTest} to group all the tests related to
 the class \ct{Set}.  It defines the context in which the tests
 will run.  Here the context is described by
 the two instance variables \ct{full} and \ct{empty}
 that we will use to represent a full and an empty set.
+\fi
 
+\ct{ExampleSetTest} クラスに \ct{Set} クラスのテストをまとめます。このクラスにはテスト実行時のコンテキスト (テストの実行に必要な状況、状態) を定義します。コンテキストは二つのインスタンス変数 \ct{full} と \ct{empty} で表します。 \ct{full} は要素を持つセット、 \ct{empty} は空のセットを表します。
+
+\if0
 The name of the class is not critical, but by convention it should end in \ct{Test}.
 If you define a class called \ct{Pattern} and call the corresponding test class \ct{PatternTest}, the two classes will be alphabetized together in the browser (assuming that they are in the same category).  It \emph{is} critical that your class be a subclass of \ct{TestCase}.
-%---------------------------------------------------------
-\subsection{Step 2: initialize the test context}
+\fi
 
+クラスの名前は重要ではありませんが、 \ct{Test} で終わる名前にすべきです。 \ct{Pattern} クラスのテストクラスなら \ct{PatternTest} とすれば、ブラウザで見たときに (どちらも同じカテゴリであれば) 両方のクラスがアルファベット順に並びます。テストクラスが \ct{TestCase} のサブクラスであるほうが重要です。
+
+%---------------------------------------------------------
+%\subsection{Step 2: initialize the test context}
+
+\subsection{ステップ 2: テスト環境を整える}
+
+\if0
 The method \mthind{TestCase}{setUp} defines the context in which the tests will run, a bit like an initialize method.
 \ct{setUp} is invoked before the execution of each test
 method defined in the test class.
 \index{SUnit!set up method}
 \seeindex{testing}{SUnit}
+\fi
 
+\mthind{TestCase}{setUp} メソッドで、テスト実行時の状態を定義します。ちょっと初期化メソッドに似ていますね。 \ct{setUp} は (テストクラスに実装した) 各テストメソッドの実行前に実行されます。
+
+\index{SUnit!set up method}
+\seeindex{testing}{SUnit}
+
+\if0
 \dothis{Define the \ct{setUp} method as follows, to initialize the \ct{empty} variable to refer to an empty set and the \ct{full} variable to
 refer to a set containing two elements. }
+\fi
+
+\dothis{\ct{setUp} メソッドを次のように定義してください。インスタンス変数 \ct{empty} に空のセットを代入し、 \ct{full} に二つの要素を持つセットを代入します。}
 
 \needlines{3}
-\begin{method}[setupExampleSetTest]{Setting up a fixture}
+%\begin{method}[setupExampleSetTest]{Setting up a fixture}
+\begin{method}[setupExampleSetTest]{フィクスチャを設定する}
 ExampleSetTest>>>setUp
 	empty := Set new.
 	full := Set with: 5 with: 6
 \end{method}
 
 \noindent
+\if0
 In testing jargon the context is called the \emph{fixture} for the
 test.
+\fi
+
+このテストではコンテキストのことを \emph{フィクスチャ} と呼びます。テスト用語です。
+
 \index{SUnit!fixture}
 \seeindex{fixture}{SUnit, fixture}
 
 %---------------------------------------------------------
-\subsection{Step 3: write some test methods}
+%\subsection{Step 3: write some test methods}
+\subsection{ステップ 3: テストメソッドを書く}
 
+\if0
 Let's create some tests by defining some methods in the class
 \ct{ExampleSetTest}.  
 Each method represents one test; 
 the name of the method should start with the string `\ct{test}' so that \sunit
 will collect them into test suites.
 Test methods take no arguments.
+\fi
 
+それではテストを書いてみましょう。
+\ct{ExampleSetTest} にテスト用のメソッドを定義します。
+一つのメソッドで一つのテストを表します。
+テストメソッドは名前を `\ct{test}' で始め、引数を取りません。
+\sunit はテストメソッドを集めてテストスイートとしてまとめます。
+
+\if0
 \dothis{Define the following test methods.}
 The first test, named \ct{testIncludes}, tests the
 \ct{includes:} method of \ct{Set}.  The test says that sending the
 message \ct{includes: 5} to a set containing 5 should return
 \ct{true}.  Clearly, this test relies on the fact
 that the \ct{setUp} method has already run.
+\fi
 
-\begin{method}[testIncludes]{Testing set membership}
+\dothis{次のテストメソッドを定義します。}
+
+最初のテスト \ct{testIncludes} は、 \ct{Set} の \ct{includes:} メソッドをテストします。
+\ct{5} を要素に持つ \ct{Set} に \ct{includes: 5} のメッセージを送ると \ct{true} が返ると仮定します。
+明らかに \ct{setUp} メソッドが先に実行されることが前提になっています。
+
+%\begin{method}[testIncludes]{Testing set membership}
+\begin{method}[testIncludes]{\ct{Set} の要素のテスト}
 ExampleSetTest>>>testIncludes
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
 \end{method}
 
+\if0
 The second test, named \ct{testOccurrences}, verifies that the
 number of occurrences of~5 in \ct{full} set is equal to one, even if we
 add another element~5 to the set.
+\fi
+
+二つ目のテスト \ct{testOccurrences} は、 \ct{Set} に同じ要素が一つしか含まれないことを検証します。 \ct{full} にはすでに \ct{5} が含まれていますが、さらに \ct{5} を追加しても \ct{5} の数は変わりません。
 
 \needlines{6}
-\begin{method}[testOccurrences]{Testing occurrences}
+%\begin{method}[testOccurrences]{Testing occurrences}
+\begin{method}[testOccurrences]{同じ要素の数のテスト}
 ExampleSetTest>>>testOccurrences
 	self assert: (empty occurrencesOf: 0) = 0.
 	self assert: (full occurrencesOf: 5) = 1.
@@ -308,47 +492,83 @@ ExampleSetTest>>>testOccurrences
 	self assert: (full occurrencesOf: 5) = 1
 \end{method}
 
+\if0
 Finally, we test that the set no
 longer contains the element 5 after we have removed it.
+\fi
 
-\begin{method}[testRemove]{Testing removal}
+最後に \ct{5} を削除し、 \ct{Set} が \ct{5} を含まないことをテストします。
+
+%\begin{method}[testRemove]{Testing removal}
+\begin{method}[testRemove]{要素を削除するテスト}
 ExampleSetTest>>>testRemove
 	full remove: 5.
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
 \end{method}
 
+\if0
 \noindent
 Note the use of the method \mthind{TestCase}{deny:} to assert something that should not be true.
 \ct{aTest deny: anExpression} is equivalent to \ct{aTest assert: anExpression not}, but is much more readable.
-%---------------------------------------------------------
-\subsection{Step 4: run the tests}
+\fi
 
+\noindent
+\ct{true} を返すべきではないテストに \mthind{TestCase}{deny:} メソッドを使っているのに注意してください。
+\ct{aTest deny: anExpression} は \ct{aTest assert: anExpression not} と同じ意味ですが、よりわかりやすくなります。
+
+%---------------------------------------------------------
+%\subsection{Step 4: run the tests}
+\subsection{ステップ 4: テストを実行する}
+
+\if0
 The easiest way to run the tests is directly from the browser.  Simply \actclick on the package, class name, or on an individual test method, and select \menu{run the tests (t)}.
 The test methods will be flagged red or green, depending on whether they pass or not, and the class will be flagged fully or partially green or red depending on whether all, some or none of the tests pass.
+\fi
+
+テストの実行にはブラウザを使うと簡単です。
+パッケージ、クラス名、テストメソッドのいずれかを選択し、メニューから \menu{run the tests (t)} を実行します。
+テストの成功したメソッドには緑のマークが、失敗したメソッドには赤のマークがつきます。
+すべてのテストに成功するとクラスに緑のマークが、一つでも失敗すると赤のマークがつきます。
 
 \begin{figure}[tbh]
   \begin{center}
 	\includegraphics[width=\linewidth]{browser-tests}
-	\caption{Running \sunit tests from the browser}
+%	\caption{Running \sunit tests from the browser}
+	\caption{ブラウザから \sunit のテストを実行する}
 	\figlabel{browser-tests}
   \end{center}
 \end{figure}
 
+% 最新版の Pharo ではデザインが多少変わっています。
+
+\if0
 You can also select sets of test suites to run, and obtain a more detailed log of the results using the \sunit \emphind{Test Runner}, which you can open by selecting \menu{World \go Test Runner}.
 The \emph{TestRunner}, shown in \figref{test-runner}, is designed to make it easy  to execute groups of tests.
 The left-most pane lists all of the categories that contain test classes (\ie  subclasses of \ct{TestCase}); when some of these categories are selected, the test classes that they contain appear in the pane to the right.
 Abstract classes are italicized, and the test class hierarchy is shown by indentation, so subclasses of \ct{ClassTestCase} are indented more than subclasses of \ct{TestCase}.
+\fi
+
+\menu{World} メニューから \menu{Test Runner} を選択すると開く \sunit \emphind{テストランナー} (図 \figref{test-runner}) を使えば、テストの詳細な内容と実行結果を見られます。
+\emph{テストランナー} はまとまったテストを簡単に実行できるように設計されています。
+最も左にあるペインでは、テストクラス (\ie \ct{TestCase} のサブクラス) を含むすべてのカテゴリを表示しています。カテゴリを選択すると、そのカテゴリに含まれるテストクラスのクラス階層が隣のペインに表示されます。
+イタリック体のフォントで表示されるクラスは抽象クラス (テストメソッドを含まないテストクラス) です。
+
+% ここまで読み進めた読者には "the test class hierarchy is shown by indentation, ..." のくだりは冗長と考えて省略しました。
+% また、 TestCase が表示されるのは "SUnit-Kernel" カテゴリを選んだ場合か、どのカテゴリも選ばない場合です。
 
 \begin{figure}[tbh]
   \begin{center}
 	\includegraphics[width=\linewidth]{test-runner}
-	\caption{The \pharo \sunit Test Runner}
+%	\caption{The \pharo \sunit Test Runner}
+	\caption{\pharo \sunit テストランナー}
 	\figlabel{test-runner}
   \end{center}
 \end{figure}
 
-\dothis{Open a Test Runner, select the category \menu{MySetTest}, and click the \button{Run Selected} button.}
+%\dothis{Open a Test Runner, select the category \menu{MySetTest}, and click the \button{Run Selected} button.}
+
+\dothis{テストランナーを開いて \menu{MySetTest} カテゴリを選択し、 \button{Run Selected} ボタンをクリックします。}
 
 % ON: With OB, you don't need this.
 %You can also run a single test by executing a \menu{print it} on the following code: \ct{ExampleSetTest run: #testRemove}.  
@@ -364,11 +584,19 @@ Abstract classes are italicized, and the test class hierarchy is shown by indent
 %	self deny: (full includes: 5)
 %\end{method}
 
-\dothis{Introduce a bug in \ct{ExampleSetTest>>>testRemove} and run the tests again. For example, change \ct{5} to \ct{4}.}
+%\dothis{Introduce a bug in \ct{ExampleSetTest>>>testRemove} and run the tests again. For example, change \ct{5} to \ct{4}.}
+\dothis{\ct{ExampleSetTest>>>testRemove} にバグを入れて、再度テストを実行してみましょう。例えば、 \ct{5} を \ct{4} にします。}
 
+\if0
 The tests that did not pass (if any) are listed in the right-hand panes of
 the \emph{Test Runner};
 if you want to debug one, to see why it failed, just click on the name.
+\fi
+
+失敗したテストは \emph{テストランナー} の右のペインに表示されます。
+失敗の原因を知りたければ、表示されたテストメソッドをクリックしてください。
+ここからデバッグもできます。
+
 %Alternatively, you can execute the following expressions:
 %\begin{code}{}
 %(ExampleSetTest selector: #testRemove) debug
@@ -379,13 +607,22 @@ if you want to debug one, to see why it failed, just click on the name.
 %\end{code}
 
 %---------------------------------------------------------
-\subsection{Step 5: interpret the results}
+%\subsection{Step 5: interpret the results}
+\subsection{ステップ 5: 結果を分析する}
 
+\if0
 The method \mthind{TestCase}{assert:}\,, which is defined in the class
 \ct{TestCase}, expects a boolean argument, usually the value of a tested expression.  When the argument is
 true, the
 test passes; when the argument is false, the test fails.
+\fi
 
+\ct{TestCase} クラスの \mthind{TestCase}{assert:}\ メソッドは論理値の引数を一つ
+とります。
+通常はこの値にテストする式の戻り値を指定します。
+引数が真ならテストに成功、偽なら失敗とみなします。
+
+\if0
 There are actually three possible outcomes of a test.
 The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes.
 In the test runner, when all of the tests pass, the bar at the top turns green.
@@ -396,86 +633,183 @@ However, it is also possible that some kind of error occurs during the execution
 If an error occurs, the assertions in the test method may not have been executed at all,
 so we can't say that the test has failed; nevertheless, something is clearly wrong!
 In the {test runner}, failing tests cause the bar at the top to turn yellow, and are listed in the middle pane on the right, whereas erroneous tests cause the bar to turn red, and are listed in the bottom pane on the right.
+\fi
 
-\dothis{Modify your tests to provoke both errors and failures.}
+% 原文が回りくどいので構成を変えました。
+
+テストの実行結果は 3 通りあります。
+一つはすべてのテストに成功する場合。
+すべてのテストに成功すると、{テストランナー}の右上のバーが緑に変わります。
+次に、一つでもテストに\emph{失敗}する場合。
+{テストランナー}のバーが黄色に変わり、その下のペインに失敗したテストが表示されます。
+最後に、テストの実行中にエラー (例外) が発生する場合。
+例えば \emph{message not understood} や \emph{index out of bounds} といったエラーえす。
+エラーが発生するとバーが赤に変わり、エラーの発生したテストが表示されます。
+
+%\dothis{Modify your tests to provoke both errors and failures.}
+\dothis{エラーしたり失敗するようにテストを変更してみましょう。}
 
 %=================================================================
-\section{The \SUnit cook book}
+%\section{The \SUnit cook book}
+
+\section{\SUnit クックブック}
+
+\if0
 This section will give you more details on how to use \SUnit.  If you
 have used another testing framework such as \JUnit\footnote{\url{http://junit.org}},
 much of this will be familiar, since all these frameworks have their roots in \SUnit.
 Normally you will use \SUnit's GUI to run tests, but there are
 situations where you may not want to use it.
+\fi
+
+この章では \SUnit の詳しい使い方を解説します。
+\JUnit\footnote{\url{http://junit.org}} などの他のテスティングフレームワークの経験があるなら、 \SUnit は親しみやすいでしょう。どのフレームワークも \SUnit にルーツがあります。
+通常 \SUnit では GUI でテストを実行しますが、 GUI を使いたくない場合もあるでしょう。
+
 %---------------------------------------------------------
-\subsection{Other assertions}
+%\subsection{Other assertions}
+\subsection{様々なアサーション}
+
+\if0
 In addition to \ct{assert:} and \ct{deny:}, there are several other methods that can be used to make assertions.
+\fi
 
+\ct{assert:} や \ct{deny:} の他にもアサーション用のメソッドがあります。
+
+\if0
 First, \mthind{TestCase}{assert:description:} and \mthind{TestCase}{deny:description:} take a second argument which is a message string that can be used to describe the reason for the failure, if it is not obvious from the test itself.   These methods are described in~\secref{descriptionStrings}.
+\fi
 
+一つ目は \mthind{TestCase}{assert:description:} と \mthind{TestCase}{deny:description:} です。
+二つ目の引数には、テストの失敗時に表示する理由を示す文字列を指定します。
+失敗の原因がわかりにくい場合に使うといいでしょう。
+~\secref{descriptionStrings}でこれらのメソッドについて触れます。
+
+\if0
 Next, \sunit provides two additional methods, \mthind{TestCase}{should:raise:} and
 \mthind{TestCase}{shouldnt:raise:} for testing exception propagation.
 For example, you would use 
 \ct{(self should: aBlock raise: anException)} to test that a particular exception is raised during the execution of \ct{aBlock}.  \Mthref{ESTtestIllegal}
 illustrates the use of \mbox{\ct{should:raise:}.}
+\fi
 
-\dothis{Try running this test.}
+二つ目は \mthind{TestCase}{should:raise:} と \mthind{TestCase}{shouldnt:raise:} です。
+テストの実行時に適切な例外が発生するかどうかをテストします。
+例えば \ct{(self should: aBlock raise: anException)} を実行すると、 \ct{aBlock} の実行中に例外 \ct{anException} が発生すればテストは成功です。
+\Mthref{ESTtestIllegal} に \mbox{\ct{should:raise:}} を使った例を示します。
+
+%\dothis{Try running this test.}
+
+\dothis{このテストを実行してみましょう。}
+
+\if0
 Note that the first argument of the \ct{should:} and \ct{shouldnt:} methods is a \emphind{block} that \emph{contains} the expression to be evaluated.   
+\fi
 
-\begin{method}[ESTtestIllegal]{Testing error raising}
+\ct{should:} と \ct{shouldnt:} の最初の引数は、評価する式を\emph{含む}\emphind{ブロック}です。
+
+%\begin{method}[ESTtestIllegal]{Testing error raising}
+\begin{method}[ESTtestIllegal]{エラーの発生をテストする}
 ExampleSetTest>>>testIllegal
 	self should: [empty at: 5] raise: Error.
 	self should: [empty at: 5 put: #zork] raise: Error
 \end{method}
 
+\if0
 \sunit is portable: it can be used from all dialects of \st.  To make
 \sunit portable, its developers factored-out the dialect-dependent aspects.  The class method \cmind{TestResult class}{error} answers
 the system's error class in a dialect-independent fashion. 
 You can take advantage of this: if you want to write tests that will work in any dialect of \st, instead of 
 \mthref{ESTtestIllegal} you would write:
+\fi
+
+\sunit では処理系依存のコードをできるだけ避けて移植性を高めており、どの \st 処理系でも使えるようになっています。
+例えばシステムエラーのクラスは処理系によって異なるため、 \cmind{TestResult class}{error} メソッドで返すようにしています。
+処理系に依存しないようにするには、 \mthref{ESTtestIllegal} のコードを次のように書き換えます。
 
 \needlines{4}
-\begin{method}[portabletestillegal]{Portable error handling}
+%\begin{method}[portabletestillegal]{Portable error handling}
+\begin{method}[portabletestillegal]{移植性の高いエラー捕捉方法}
 ExampleSetTest>>>testIllegal
 	self should: [empty at: 5] raise: TestResult error.
 	self should: [empty at: 5 put: #zork] raise: TestResult error
 \end{method}
 
-\dothis{Give it a try.}
+%\dothis{Give it a try.}
+\dothis{試してみましょう。}
 
 %---------------------------------------------------------
-\subsection{Running a single test}
+\subsection{メニューを使わずにテストランナーを開く}
+
+ワークスペースなどで \ct{TestRunner open} を実行 (コンテキストメニューから \menu{do it} を選択) します。
+
+% この内容は次の "Running a single test" で書かれていますが、
+% あまり関係がないため独立させました。
+
+%---------------------------------------------------------
+%\subsection{Running a single test}
+
+\subsection{テストを一つだけ実行する}
+
+\if0
 Normally, you will run your tests using the Test Runner.
 If you don't want to launch the Test Runner from the \menu{open\,\ldots} menu, you can execute \ct{TestRunner open} as a \menu{print it}.
 
 You can run a single test as follows.
+\fi
+
+テストランナーを開かずにテストを一つだけ実行したい場合、次のコードを実行します。
 
 \begin{code}{}
 ExampleSetTest run: #testRemove --> 1 run, 1 passed, 0 failed, 0 errors
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Running all the tests in a test class}
+%\subsection{Running all the tests in a test class}
+\subsection{テストクラスに定義されたすべてのテストを実行する}
 
+\if0
 Any subclass of \ct{TestCase} responds to the message \ct{suite}, which will build a test suite that contains all the
 methods in the class whose names start with the string ``\ct{test}''.
 To run the tests in the suite, send it the message \ct{run}.
 For example:
+\fi
+
+\ct{TestCase} のサブクラスに \ct{suite} メッセージを送ると、名前が ``\ct{test}'' で始まるメソッドを集めてテストスイートを組み立てます。
+このテストスイートに \ct{run} メッセージを送ってテストを実行します。
+次に例を示します。
 
 \begin{code}{}
 ExampleSetTest suite run --> 5 run, 5 passed, 0 failed, 0 errors
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Must I subclass TestCase?}
+%\subsection{Must I subclass TestCase?}
 
+\subsection{必ず TestCase クラスを継承しなければならない？}
+
+\if0
 In \JUnit{} you can build a \clsind{TestSuite} from an arbitrary class
 containing \ct{test*} methods.  In \st you can do the same
 but you will then have to create a suite by hand and your class will
 have to implement all the essential \ct{TestCase} methods like \ct{assert:}.
 We recommend that you not try to do this.  The framework is there: use it.
-%=================================================================
-\section{The SUnit framework}
+\fi
 
+\ct{TestCase} クラスを継承しなくても \clsind{TestSuite} は組み立てられます。
+ただし、自分で \ct{TestCase} クラスの主要なメソッド (\ct{assert:} など) を実装したり、テストスイートを自分で作る必要が出てきます。
+\ct{TestCase} クラスを継承しましょう。
+
+% JUnit の説明が少し違います。
+% JUnit 3.x 系では TestCase クラスを継承して test* メソッドを定義しますが、
+% 4.x 系ではアノテーションを使って任意のメソッドをテストに指定します。
+% JUnit の説明のほうが多くなるので割愛しました。
+
+%=================================================================
+%\section{The SUnit framework}
+\section{SUnit フレームワーク}
+
+\if0
 \sunit consists of four main classes: \clsind{TestCase},
 \clsind{TestSuite}, \clsind{TestResult}, and \clsind{TestResource}, as shown in \figref{sunit-classes}.
 The notion of a \emph{test resource} was introduced in \sunit 3.1 to represent a resource that is expensive to set-up but which can be used by
@@ -483,11 +817,18 @@ a whole series of tests.  A \ct{TestResource}
 specifies a \ct{setUp} method that is executed just once before a suite of tests;
 this is in distinction to the \ct{TestCase>>>setUp} method, which is executed before
 each test.
+\fi
+
+SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
+\clsind{TestSuite} 、 \clsind{TestResult} 、 \clsind{TestResource} (\figref{sunit-classes}) 。
+\emph{テストリソース}は \sunit 3.1 で導入された概念で、コストの高いセットアップに使われます。
+\ct{TestResource} の \ct{setUp} メソッドは \ct{TestCase>>>setUp} と異なり、テストスイートの実行前に一度だけ実行されます。 \ct{TestCase>>>setUp} は各テストの実行前に setUp メソッドが実行されます。
 
 \begin{figure}[htb]
   \begin{center}
 		{\includegraphics[width=0.8\textwidth]{sunit-classes}}
-	\caption{The four classes representing the core of \SUnit}
+%	\caption{The four classes representing the core of \SUnit}
+	\caption{\SUnit を構成する 4 つのクラス}
 	\figlabel{sunit-classes}
   \end{center}
 \end{figure}
@@ -496,10 +837,16 @@ each test.
 %---------------------------------------------------------
 \subsection{TestCase}
 
+\if0
 \clsindmain{TestCase} is an abstract class that is designed to be subclassed; each of its subclasses represents a group of tests that share a common context (that is, a test suite).
 Each test is run by creating a new instance of a subclass of \ct{TestCase},
 running \mthind{TestCase}{setUp}, running the test method itself, and then running \mthind{TestCase}{tearDown}.
+\fi
 
+\clsindmain{TestCase} は抽象クラスです。サブクラスにテストを記述し、テスト間で実行時の状態を共有します (テストスイート) 。
+各テストは、それぞれ \ct{TestCase} のサブクラスのインスタンスを生成してから実行されます。 \mthind{TestCase}{setUp} を実行し、テストメソッドを実行し、最後に \mthind{TestCase}{tearDown} を実行します。
+
+\if0
 The context is specified
 by instance variables of the subclass
 and by the specialization of the method
@@ -508,9 +855,14 @@ Subclasses of \ct{TestCase} can also override method
 \ct{tearDown}, which is invoked after the execution of each test,
 and can be used to release any objects
 allocated during \ct{setUp}.
+\fi
+
+実行時の状態をインスタンス変数で表し、オーバーライドした \ct{setUp} メソッドで初期化します。 \ct{setUp} で初期化したオブジェクトの終了処理を行うには、 \ct{tearDown} メソッドをオーバーライドします。
+
 %---------------------------------------------------------
 \subsection{TestSuite}
 
+\if0
 Instances of the class \clsindmain{TestSuite} contain a collection of test cases.  An
 instance of \ct{TestSuite} contains tests, and other test suites.
 That is, a test suite contains sub-instances of
@@ -519,25 +871,51 @@ Both individual \lct{TestCase}s and \lct{TestSuite}s understand the same protoco
 This is in fact an application of the composite
 pattern in which \ct{TestSuite} is the composite and the
 \ct{TestCase}s are the leaves\,---\,see \textit{Design Patterns} for more information on this pattern\cite{Gamm95a}.
+\fi
+
+\clsindmain{TestSuite} はテストケース (テストとテストスイート) の集合を含みます。つまり、 \ct{TestSuite} は \ct{TestCase} と \ct{TestSuite} のインスタンスを含みます。
+\lct{TestCase} と \lct{TestSuite} の間に継承関係はありませんが、どちらも同じプロトコルを実装しているので同じように扱えます。
+例えば、どちらも \ct{run} メソッドが定義されています。
+\ct{TestSuite} を枝、 \ct{TestCase} を葉として Composite パターンを適用しています (詳しくは\textit{デザインパターン}を参照してください) 。
+
 %---------------------------------------------------------
 \subsection{TestResult}
 
+\if0
 The class \clsindmain{TestResult} represents the results of a
 \ct{TestSuite} execution.  It records the number of tests passed,
 the number of tests failed, and the number of errors signalled.
+\fi
+
+\clsindmain{TestResult} は \ct{TestSuite} の実行結果を扱います。
+成功したテストの数、失敗したテストの数、エラーの発生したテストの数を記録します。
 
 %---------------------------------------------------------
 \subsection{TestResource}
 \seclabel{resource}
 
+\if0
 One of the important  features of a suite of tests is that they should be independent of each other: the failure of one test should not cause an avalanche of failures of other tests that depend upon it, nor should the order in which the tests are run matter.
 Performing \ct{setUp} before each test and \ct{tearDown} afterwards helps to reinforce this independence. 
+\fi
 
+テストでは、各テストが互いに独立していることが重要です。
+一つのテストの失敗が他のテストに波及しないように、テストの実行順序が結果に影響ようにすべきです。
+\ct{setUp} と \ct{tearDown} で調整しましょう。
+
+\if0
 However, there are occasions where setting up the necessary context is just too time-consuming for it to be practical to do once before the execution of each test.
 Moreover, if it is known that the test cases do not disrupt the resources used by the tests, then it is wasteful to set them up afresh for each test; it is sufficient to set them up once for each suite of tests.
 Suppose, for example, that a suite of tests needs to query a database, or do some analysis on some compiled code.
 In such cases, it may make sense to set up the database and open a connection to it, or to compile some source code, before any of the tests start to run.
+\fi
 
+しかし、テストのたびに環境を用意していては時間がかかり過ぎる場合があります。
+さらに環境を壊さずに済むテストなら、一度作った環境を使い回せば十分です。
+例えばデータベースに問い合わせをするテストなら、事前に用意しておいたデータベースに接続するだけで準備できます。
+コンパイルされたコードを分析するテストなら、同様に事前にソースコードをコンパイルしておけば十分です。
+
+\if0
 Where should we cache these resources, so that they can be shared by a suite of tests?
 The instance variables of a particular \ct{TestCase} sub-instance won't do, because such an instance persists only for the duration of a single test.
 A global variable would work, but using too many global variables pollutes the name space, and the binding between the global and the tests that depend on it will not be explicit.
@@ -545,7 +923,18 @@ A better solution is to put the necessary resources in a singleton object of som
 The class \clsindmain{TestResource} exists to be subclassed by such resource classes.
 Each subclass of \lct{TestResource} understands the message  \ct{current}, which will answer a singleton instance of that subclass.
 Methods \ct{setUp} and \ct{tearDown} should be overridden in the subclass to ensure that the resource is initialized and finalized.
+\fi
 
+リソースをキャッシュさえすれば、テスト間で共有できるようになるでしょうか？
+\ct{TestCase} のインスタンス変数はキャッシュとして使えません。
+\ct{TestCase} クラスのインスタンスは一つのテストでしか使われないからです。
+グローバル変数ならできますが、多用するとシステムがグローバル変数であふれてしまいますし、各テストとグローバル変数の関係がわかりにくくなります。
+必要なリソースを含むシングルトンオブジェクトをクラスに持たせるのがいい方法です。
+そのための抽象クラスとして \clsindmain{TestResource} が用意されています。
+\lct{TestResource} のサブクラスに \ct{current} メッセージを送ると、サブクラスのシングルトンインスタンスを得られます。
+リソースの初期化と終了処理を行うには、 \ct{setUp} と \ct{tearDown} をオーバーライドしてください。
+
+\if0
 One thing remains: somehow, \sunit has to be told which resources are associated with which test suite.
 A resource is associated
 with a particular subclass of \ct{TestCase} 
@@ -555,20 +944,34 @@ By default, the resources of
 a \ct{TestSuite} are
 the union of the resources of
 the \ct{TestCase}s that it contains.
+\fi
 
+もう一つ、どうにかしてリソースとテストスイートを関連付ける必要があります。
+\ct{TestCase} のサブクラスで \ct{resources} \emph{クラスメソッド} をオーバーライドし、テストクラスで使うリソースを返すようにします。
+\ab{}
+デフォルトでは、 \ct{TestSuite} のリソースはすべての \ct{TestCase} のリソースの集合です。
+
+\if0
 Here is an example. 
 We define a subclass of \ct{TestResource} called
 \ct{MyTestResource} and we associate it with \ct{MyTestCase}
 by specializing the class method \ct{resources} to return an array
 of the test classes that it will use.
+\fi
+
+次にリソースの例を示します。
+\ct{TestResource} のサブクラス \ct{MyTestResource} を定義します。
+次に \ct{MyTestCase} のクラスメソッド \ct{resources} で、このクラスのテストで使うリソースの配列を返します。
 
 \needlines{8}
-\begin{classdef}[mytestresource]{An example of a TestResource subclass}
+%\begin{classdef}[mytestresource]{An example of a TestResource subclass}
+\begin{classdef}[mytestresource]{TestResource のサブクラスの使用例}
 TestResource subclass: #MyTestResource
 	instanceVariableNames: ''
 
 MyTestCase class>>>resources
-	"associate the resource with this class of test cases"
+%	"associate the resource with this class of test cases"
+	"このクラスのテストで使うリソースを返す"
 	^{ MyTestResource }
 \end{classdef}
 
@@ -591,26 +994,42 @@ MyTestCase class>>>resources
 % \on{Do we really need the empty setUp and tearDown methods here?}
 
 %=================================================================
-\section{Advanced features of SUnit}
+%\section{Advanced features of SUnit}
+\section{SUnit のさらなる機能}
+
+\if0
 In addition to \ct{TestResource}, the current version of \sunit contains assertion
 description strings, logging support, and resumable test failures.
+\fi
+
+現在の \sunit は \ct{TestResource} に加えて、アサーションの詳細、ロギング、失敗したテストの実行再開に対応しています。
 
 %---------------------------------------------------------
-\subsection{Assertion description strings}
+%\subsection{Assertion description strings}
+\subsection{アサーションの詳細}
 \seclabel{descriptionStrings}
 
+\if0
 The \ct{TestCase} assertion protocol includes a
 number of methods that allow the programmer to supply a description of the assertion.  The description is a \ct{String}; if the test case
 fails, this string will be displayed by the test runner.  Of
 course, this string can be constructed dynamically.
+\fi
+
+\ct{TestCase} のアサーションプロトコルには、アサーションの詳細を文字列 (\ct{String}) で知らせるメソッドが含まれています。
+テストに失敗すると、テストランナーにアサーションの詳細が表示されます。
+もちろん、詳細を表す文字列を動的に生成しても大丈夫です。
+
 \begin{code}{}
 | e |
 e := 42.
 self assert: e = 23
-	description: 'expected 23, got ', e printString
+%	description: 'expected 23, got ', e printString
+	description: '期待した値は 23 、実際の値は ', e printString
 \end{code}
 
-The relevant methods in \ct{TestCase} are:
+%The relevant methods in \ct{TestCase} are:
+\ct{TestCase} 関連のメソッドを次に示します:
 \begin{code}{}
 #assert:description:
 #deny:description:
@@ -623,70 +1042,126 @@ The relevant methods in \ct{TestCase} are:
 \cmindex{TestCase}{shouldnt:description:}
 
 %---------------------------------------------------------
-\subsection{Logging support}
+%\subsection{Logging support}
+\subsection{ロギング}
+
+\if0
 The description strings described above may also be logged to a
 \ct{Stream} such as the \ct{Transcript}, or a file stream.
 You can choose whether to log by overriding
 \cmind{TestCase}{isLogging} in your test class; you must also choose where
 to log by overriding \cmind{TestCase}{failureLog} to answer an appropriate stream.
+\fi
+
+前節で触れたアサーションの詳細は、 \ct{Transcript} などのストリーム (\ct{Stream}) やファイルシステムにも出力できます。
+出力の有無を設定するには、テストクラスの \cmind{TestCase}{isLogging} をオーバーライドして論理値を返すようにします。
+出力するなら真を、しないなら偽を指定します。
+出力先の指定は \cmind{TestCase}{failureLog} をオーバーライドし、出力したいストリームを返すようにします。
+デフォルトでは \ct{Transcript} が指定されています。
 
 %---------------------------------------------------------
-\subsection{Continuing after a failure}
+%\subsection{Continuing after a failure}
+\subsection{テストの失敗後も実行を続ける}
+
+\if0
 \sunit also allows us to specify whether or not a test should continue after a failure.  This is a really
 powerful feature that uses the exception mechanisms offered
 by \st.  To see what this can be used for, let's look at an
 example. Consider the following test expression:
+\fi
+
+\sunit では、テストの失敗後に実行を続けるかどうかを指定できます。
+\st の例外処理の仕組みを利用した、非常に強力な機能です。
+どのように動くのか、例を見てみましょう。
+まず、次のテストコードを見てください。
+
 \begin{code}{}
 aCollection do: [ :each | self assert: each even]
 \end{code}
+
+\if0
 In this case, as soon as the test finds the first element of the collection that isn't
 \ct{even}, the test stops. 
 However, we would usually like to
 continue, and see both how many elements, and which elements, aren't
 \ct{even}, and maybe also log this information.  You can do this
 as follows:
+\fi
+
+このコードではコレクションの要素を順に調べ、偶数 (\ct{even}) ではないオブジェクトがあれば、すぐにテストが失敗します。
+できれば偶数ではないオブジェクトがいくつあるのか把握したいので、このコードを次の要に変更します。
+
 \begin{code}{}
 aCollection do:
 	[:each |
 	self
 		assert: each even
-		description: each printString , ' is not even'
+%		description: each printString , ' is not even'
+		description: each printString , ' は偶数ではありません'
 		resumable: true]
 \end{code}
+
+\if0
 This will print out a message on your logging stream for each element
 that fails.  It doesn't accumulate failures, \ie if the assertion
 fails 10~times in your test method, you'll still only see one failure.
 All the other assertion methods that we have seen are not resumable;
 \ct{assert: p description: s} is equivalent to \ct{assert: p description: s resumable: false}.
+\fi
+
+これで、失敗した要素についてのメッセージをログ出力できます。
+実行を続けても失敗回数は増えないので、例え 10 回以上アサーションに失敗しても、テストの失敗は 1 回と見なされます。
+これまで見てきたアサーション用のメソッドは、失敗後に実行を続けないアサーションと同じ意味です。
+つまり、 \ct{assert: p description: s} なら \ct{assert: p description: s resumable: false} と同じです。
+
 \cmindex{Collection}{do:}
 %=================================================================
-\section{The implementation of SUnit}
+%\section{The implementation of SUnit}
+\section{SUnit の内部実装}
 
+\if0
 The implementation of \sunit makes an interesting case study of a \st framework.
 Let's look at some key aspects of the implementation by following the
 execution of a test.
-%---------------------------------------------------------
-\subsection{Running one test}
+\fi
 
+\sunit の内部実装は、 \st のフレームワークのいい例でもあります。
+テストの実行過程を通して、内部実装の鍵となる面を見てみましょう。
+(訳者注: ここで紹介されている実装と最新版の実装は異なりますが、各メソッドの目的は同じです。)
+
+%---------------------------------------------------------
+%\subsection{Running one test}
+\subsection{テストを一つ実行する}
+
+\if0
 To execute one test, we evaluate the expression
 \ct{(aTestClass selector: aSymbol) run.}
+\fi
 
+テストを一つ実行するには、 \ct{(aTestClass selector: aSymbol) run.} を評価します。
 
 \begin{figure}[tbh]
   \begin{center}
 		{\includegraphics[width=0.7\textwidth]{sunit-scenario}}
-	\caption{Running one test}
+	%\caption{Running one test}
+	\caption{テストを一つ実行する}
 	\figlabel{sunit-scenario}
   \end{center}
 \end{figure}
 
+\if0
 The method \cmind{TestCase}{run} creates an instance of
 \clsind{TestResult} that will accumulate the results of the
 tests, then it sends itself the message \mthind{TestCase}{run:}.
 (See \figref{sunit-scenario}.)
+\fi
+
+\cmind{TestCase}{run} メソッドは、テスト結果を集計する \clsind{TestResult} のインスタンスを生成し、それを引数として自身に \mthind{TestCase}{run:} メッセージを送信します。
+(\figref{sunit-scenario} を参照)
 
 \needlines{6}
-\begin{method}[tastecaserun]{Running a test case}
+%\begin{method}[tastecaserun]{Running a test case}
+\begin{method}[tastecaserun]{テストケースを実行する}
 TestCase>>>run
 	| result |
 	result := TestResult new.
@@ -698,14 +1173,21 @@ TestCase>>>run
 % be created will be returned by a method so that new
 %\ct{TestResult} can be introduced. }
 
+\if0
 The method
 \cmind{TestCase}{run:} sends the message
 \mthind{TestResult}{runCase:} to the test result:
+\fi
 
-\begin{method}[testcaserun:]{Passing the test case to the test result}
+\cmind{TestCase}{run:} メソッドは \ct{TestResult} に \mthind{TestResult}{runCase:} メッセージを送信します。
+
+%\begin{method}[testcaserun:]{Passing the test case to the test result}
+\begin{method}[testcaserun:]{\ct{TestCase} を \ct{TestResult} に渡す}
 TestCase>>>run: aResult
 	aResult runCase: self
 \end{method}
+
+\if0
 The method \ct{TestResult>>>runCase:} sends
 the message \mthind{TestCase}{runCase} to an individual test, to execute the test.
 \ct{TestResult>>>runCase} deals with 
@@ -713,7 +1195,14 @@ any exceptions that may be raised during the
 execution of a test, runs a \ct{TestCase} by sending it the
 message \ct{runCase}, and counts the errors, failures
 and passes.
+\fi
+
+\ct{TestResult>>>runCase:} メソッドは、テストを実行するために各 \ct{TestCase} に \mthind{TestCase}{runCase} メッセージを送信します。
+\ct{TestResult>>>runCase} はテストの実行中に発生した例外を捕捉し、エラーとして数えます。
+さらにテストに失敗した回数と成功した回数を数えます。
+
 \begin{method}[testresultruncase]{Catching test case errors and failures}
+%\begin{method}[testresultruncase]{\ct{TestCase} のエラーと失敗をキャッシュする}
 TestResult>>>runCase: aTestCase
 	| testCasePassed |
 	testCasePassed := true.
@@ -733,36 +1222,59 @@ TestResult>>>runCase: aTestCase
 	testCasePassed ifTrue: [passed add: aTestCase]
 \end{method}
 
+\if0
 The method \ct{TestCase>>>runCase} sends the messages
 \mthind{TestCase}{setUp} and \mthind{TestCase}{tearDown} as shown below.
+\fi
+
+\ct{TestCase>>>runCase} は、自身に \mthind{TestCase}{setUp} メッセージと \mthind{TestCase}{tearDown} を送ります。
+
 \needlines{3}
-\begin{method}[testcaseruncase]{Test case template method}
+%\begin{method}[testcaseruncase]{Test case template method}
+\begin{method}[testcaseruncase]{\ct{TestCase>>runCase} の基本的な実装}
 TestCase>>>runCase
 	[self setUp.
 	self performTest] ensure: [self tearDown]
 \end{method}
 
 %---------------------------------------------------------
-\subsection{Running a \lct{TestSuite}}
+%\subsection{Running a \lct{TestSuite}}
+\subsection{\lct{TestSuite} の実行}
 
+\if0
 To run more than one test, we send the message
 \ct{run} to a \ct{TestSuite} that contains the relevant tests. 
 \ct{TestCase class} provides some functionality to build a test suite from
 its methods.  The expression \ct{MyTestCase buildSuiteFromSelectors} returns a suite containing all the tests defined in the {\ct{MyTestCase} class.
 The core of this process is
-\begin{method}[testcasetestselectors]{Auto-building the test suite}
+\fi
+
+複数のテストを実行するには、 \ct{TestSuite} に \ct{run} メッセージを送信します。
+\ct{TestCase} のクラスメソッドには、 \ct{TestCase} のインスタンスメソッドから \ct{TestSuite} を組み立てるためのメソッドが用意されています。
+\ct{MyTestCase buildSuiteFromSelectors} を評価すると、 \ct{MyTestCase} に定義したすべてのテスト (以下の \ct{TestCase class>>testSelectors} メソッドで取得できます) を含む \ct{TestSuite} を返します。
+
+%\begin{method}[testcasetestselectors]{Auto-building the test suite}
+\begin{method}[testcasetestselectors]{\ct{TestSuite} の組み立て}
 TestCase class>>>testSelectors 
 	^self selectors asSortedCollection asOrderedCollection select: [:each | 
 		('test*' match: each) and: [each numArgs isZero]]
 \end{method}
 \cmindex{MyTestCase class}{buildSuiteFromSelectors}
 
+\if0
 The method \cmind{TestSuite}{run} creates an instance of
 \ct{TestResult}, verifies that all the resources are available, and then sends itself
 the message \mthind{TestSuite}{run:}, which runs all
 the tests in the suite.  All the resources are then
 released.
-\begin{method}[testsuiterun]{Running a test suite}
+\fi
+
+\cmind{TestSuite}{run} は \ct{TestResult} のインスタンスを生成し、すべてのリソースが問題なく使えるかどうかを検証します。
+続けて自身に \cmind{TestSuite}{run:} を送り、自身の管理するすべてのテストを実行します。
+リソースはテストの実行後に解放されます。
+
+%\begin{method}[testsuiterun]{Running a test suite}
+\begin{method}[testsuiterun]{\ct{TestSuite} の実行}
 TestSuite>>>run
 	| result |
  	result := TestResult new.
@@ -772,22 +1284,35 @@ TestSuite>>>run
 	^result
 \end{method}
 
-\begin{method}[testsuiterun:]{Passing the test result to the test suite}
+%\begin{method}[testsuiterun:]{Passing the test result to the test suite}
+\begin{method}[testsuiterun:]{\ct{TestResult} を \ct{TestSuite} に渡す}
 TestSuite>>>run: aResult
 	self tests do: [:each | 
 		self changed: each.
 		each run: aResult].
 \end{method}
+
+\if0
 The class \clsind{TestResource} and its subclasses keep track of
 their currently created instances (one per class) that can be accessed
 and created using the class method \mthind{TestResource class}{current}.  This instance is
 cleared when the tests have finished running and the resources are
 reset.
+\fi
 
+\clsind{TestResource} クラスとそのサブクラスは、生成したインスタンス (クラスに一つずつ) を保持しており、 \mthind{TestResource class}{current} で取得できます。
+このインスタンスはテストの終了後に消され、リソースはリセットされます。
+
+\if0
 The resource availability check makes it possible for the resource to be 
 re-created if needed, as shown in the class method \cmind{TestResource class}{isAvailable}.  During the \ct{TestResource}
 instance creation, it is initialized and the method \mthind{TestResource}{setUp} is
 invoked.
+\fi
+
+リソースが使えるかどうかを知るには \cmind{TestResource class}{isAvailable} クラスメソッドを使います。
+リソースが有効であれば、必要に応じてリソースを再構築、つまり \ct{TestResource} のインスタンスを再生成できます。
+インスタンスを生成するたびに \mthind{TestResource}{setUp} メソッドが実行されます。
 
 %(Note it may happen that your version of \sunit 3.0 does
 %not correctly initialize the resource.  A version with this bug
@@ -795,25 +1320,36 @@ invoked.
 %\ct{class>>>new} calls the method \ct{initialize}).
 
 \needlines{4}
-\begin{method}[testresourceisavailable]{Test resource availability}
+%\begin{method}[testresourceisavailable]{Test resource availability}
+\begin{method}[testresourceisavailable]{\ct{TestResource} が有効かの確認}
 TestResource class>>>isAvailable
 	^self current notNil and: [self current isAvailable]
 \end{method}
-\begin{method}[testresourcecurrent]{Test resource creation}
+
+%\begin{method}[testresourcecurrent]{Test resource creation}
+\begin{method}[testresourcecurrent]{\ct{TestResource} のインスタンスの生成}
 TestResource class>>>current
 	current isNil ifTrue: [current := self new].
 	^current
 \end{method}
-\begin{method}[restresourceinitialize]{Test resource initialization}
+
+%\begin{method}[restresourceinitialize]{Test resource initialization}
+\begin{method}[restresourceinitialize]{\ct{TestResource} の初期化}
 TestResource>>>initialize
 	super initialize.
 	self setUp
 \end{method}
 %=================================================================
-\section{Some advice on testing}
+%\section{Some advice on testing}
 
+\section{テストのポイント}
+
+\if0
 While the mechanics of testing are easy, writing good tests is not.
 Here is some advice on how to design tests.
+\fi
+
+テストの仕組みは簡単ですが、いいテストを書くのは簡単ではありません。いくつかテストのポイントを紹介します。
 
 \begin{description}
 %\item[Self-contained tests.] You do not
@@ -830,6 +1366,7 @@ Here is some advice on how to design tests.
 %  functionality, because one bug in the code will then break many tests at the same time.
 %  This is covered by Black's rule, below.
 
+\if0
 \index{Feathers, Michael}
 \item[Feathers' Rules for Unit tests.]
   Michael Feathers, an  agile process consultant and author, writes:\footnote{See \url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923}. 9 September 2005} 
@@ -848,8 +1385,41 @@ Tests that do these things aren't bad. Often they are worth writing, and they ca
  }
   \end{quotation}
 Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
- 
-\item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
+\fi
+
+\index{Feathers, Michael}
+\item[Feathers のユニットテストの法則。]
+  アジャイル開発コンサルタントでもあり、「レガシーコード改善ガイド」の著者でもある Michael Feathers は次のように書いています。 \footnote{\url{http://www.artima.com/weblogs/viewpost.jsp?thread=126923} を参照。 2005/9/9 。}
+  \begin{quotation}
+  \noindent
+  {\it
+  次のテストはユニットテストではありません:
+  \begin{itemize}
+	\item データベースと対話したり、
+	\item インターネットに接続したり、
+	\item ファイルシステムに触ったり、
+	\item 他のユニットテストと並行して実行できなかったり、
+	\item 特別な環境 (設定ファイルの編集が必要など) を準備しなければならない。
+ \end{itemize}
+\if0
+Tests that do these things aren't bad. Often they are worth writing, and they can be written in a unit test harness. However, it is important to be able to separate them from true unit tests so that we can keep a set of tests that we can run fast whenever we make our changes.
+\fi
+
+このようなテストも悪くはありません。
+書く価値はありますし、ユニットテストの補助にもなります。
+しかしコードを変更したらすぐにテストできるように、本当のユニットテストとは分けておくべきです。
+
+ }
+  \end{quotation}
+
+\if0
+Never get yourself into a situation where you don't want to run your unit test suite because it takes too long.   
+\fi
+
+決して、時間がかかるという理由でテストを避けてはいけません。
+
+\if0
+ \item[Unit Tests \textit{vs.}\ Acceptance Tests.] Unit tests capture one piece of
   functionality, and as such make it easier to identify bugs in that functionality.
   As far as
   possible try to have unit tests for each method that could possibly fail, and group them per class.
@@ -865,8 +1435,24 @@ Never get yourself into a situation where you don't want to run your unit test s
   file system.
   You can write them using \sunit, but you won't want to run them each time you make a small change,
   so they should be separated from the true unit tests.
+\fi
  
-\item[Black's Rule of Testing.]
+ \item[ユニットテスト \textit{vs.}\ 承認テスト。] ユニットテストは機能の一部を単体でテストし、機能に関するバグを容易に見つけられます。
+  各テストを失敗するまで可能な限り実行し、クラス単位で結果をまとめます。
+  しかし、複雑な環境のテストや再帰的なテストが必要ならば、シナリオに沿ってテストを書くほうが簡単です。
+  このようなテストは承認テストまたは機能テストと呼ばれます。
+  Feathers の法則を守らないテストは、いい承認テストになるかもしれません。
+  テストする機能に沿って承認テストをまとめましょう。
+  例えばコンパイラを書く場合、ソースコードから生成するコードの承認テストを書くでしょう。
+  たくさんのテストが実行されるでしょうが、ファイルシステムにアクセスするテストなら時間がかかるかもしれません。
+  わずかなコードの変更にもテストをしたければ、ユニットテストと承認テストを分けるべきです。
+
+%\item[Black's Rule of Testing.]
+\item[Black のテストの法則。]
+
+% Rex Black のこと？
+
+\if0
   For every test in the system, you should be able to identify some property for which
   the test increases your confidence.
   It's obvious that there should be no important property that you are not testing.
@@ -879,6 +1465,19 @@ Never get yourself into a situation where you don't want to run your unit test s
   Second, 
   because one bug in the code might then break many tests, they make it harder to estimate how many bugs remain in the code.
   So, have a property in mind when you write a test.
+\fi
+
+  どのテストも、テスト内容がどうシステムの信頼性につながるのかわかるようにすべきです。
+  テストの必要がないと判断した機能を重要なものと考えるべきではありません。
+  システムの信頼性が高まるような内容でなければ、テストをする必要はありません。
+  例えば同じ目的のテストを複数書いても、かえって二つのデメリットがあります。
+  一つは、テストを読んでもクラスの挙動が理解しにくくなります。
+  もう一つは、コードにいくつバグが残っているのか見積もりにくくなります。
+  たった一つでもバグがあれば、多くのテストが失敗するからです。
+  テストを書くときは常に目的を考えましょう。
+
+% そのまま訳すとわかりにくくなりそうでだいぶ訳を変えましたが、おかしいかも。
+
 \end{description}
 
 %\section{Extending \SUnit}
@@ -1229,8 +1828,10 @@ Never get yourself into a situation where you don't want to run your unit test s
 %%		 show: 'MyTestResource>>>tearDown has run.';
 %%		 cr
 %=================================================================
-\section{Chapter summary}
+%\section{Chapter summary}
+\section{まとめ}
 
+\if0
 This chapter explained why tests are an important investment in 
 the future of your code.  
 We explained in a step-by-step fashion how
@@ -1239,7 +1840,14 @@ Then we gave an overview of the core of the \sunit framework by presenting
 the classes \ct{TestCase}, \ct{TestResult}, \ct{TestSuite}
 and \lct{TestResources}.  Finally we looked deep inside \sunit by
 following the execution of a test and a test suite.
+\fi
 
+この章では、なぜテストが重要な投資であるのかを説明しました。
+\ct{Set} クラスのテストを一つずつ定義しながら説明しました。
+\sunit フレームワークの中心となるクラス群、 \ct{TestCase} 、 \ct{TestResult} 、 \ct{TestSuite} 、 \ct{TestResource} の全体像をお見せしました。
+テストとテストスイートの実行過程の深層を見てきました。
+
+\if0
 \begin{itemize}
   \item To maximize their potential, unit tests should be fast, repeatable, independent of any direct human interaction and cover a single unit of functionality.
   \item Tests for a class called \ct{MyClass} belong in a class classed \ct{MyClassTest}, which should be introduced as a subclass of \lct{TestCase}.
@@ -1247,6 +1855,22 @@ following the execution of a test and a test suite.
   \item Each test method should start with the word ``test''.
   \item Use the \ct{TestCase} methods \ct{assert:}, \ct{deny:} and others to make assertions.
   \item Run tests using the SUnit test runner tool (in the tool bar).
+\end{itemize}
+\fi
+
+\begin{itemize}
+  \item ユニットテストの効果を最大限に引き出すポイント: 高速、繰り返し可能、 途中で人の操作を要求しない、一つの機能のみをテストする。
+
+  \item テストクラス名は「元のクラス名 + \ct{Test} 」にします (\ct{MyClass} のテストクラスなら \ct{MyClassTest}) 。テストクラスは \ct{TestCase} のサブクラスとして定義すべきです。
+
+  \item \ct{setUp} メソッドでテストデータを初期化してください。
+
+  \item 各テストメソッド名は ``test'' で始めるべきです。
+
+  \item \ct{TestCase} の \ct{assert:} や \ct{deny:} などのメソッドでアサーションを定義します。
+
+  \item SUnit のテストランナーを使ってテストを実行しましょう。テストランナーはツールバーにあります。
+
 \end{itemize}
 
 %=============================================================
