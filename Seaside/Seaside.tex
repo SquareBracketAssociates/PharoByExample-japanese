@@ -795,30 +795,28 @@ Seasideでは\emph{トランザクション}として、いくつかの操作を
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{sushiStore}
-\caption{The Sushi Store}
+\caption{寿司屋デモ}
 \figlabel{sushiStore}
 \end{center}
 \end{figure}
 
-The Seaside \emphsubind{Seaside}{Sushi Store} is sample application that illustrates many of the features of Seaside, including transactions.
-This application is bundled with your installation of Seaside, so you can try it out by pointing your browser at
-\url{http://localhost:8080/seaside/examples/store}.\footnote{If you cannot find it in your image, there is a version of the sushi store available on SqueakSource from \url{http://www.squeaksource.com/SeasideExamples/}.}
+Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
+このサンプルはSeasideに含まれており、Webブラウザで\url{http://localhost:8080/seaside/examples/store}のURLを指定すると起動します。\footnote{もしも同梱されていない場合はSqueakSourceのページ(\url{http://www.squeaksource.com/SeasideExamples/})からロードできます。 }
 
-The sushi store supports the following workflow:
+寿司屋デモのワークフローは以下のようになっています。
 \begin{enumerate}[itemsep=0pt]
-  \item Visit the store.
-  \item Browse or search for sushi.
-  \item Add sushi to your shopping cart.
-  \item Checkout.
-  \item Verify your order.
-  \item Enter shipping address.
-  \item Verify shipping address.
-  \item Enter payment information.
-  \item Your fish is on its way!
+  \item サイトを訪れる
+  \item 寿司をブラウズ、検索する
+  \item ショッピングカートに寿司を追加する
+  \item 注文処理を開始する
+  \item カートの内容を確認する
+  \item 届け先の住所を入力する
+  \item 住所を確認する
+  \item 支払い情報を入力する
+  \item 寿司を待つ
 \end{enumerate}
 
-If you toggle the \subind{Seaside}{halos}, you will see that the top-level component of the sushi store is an instance of \clsind{WAStore}.
-It does nothing but render the title bar, and then it renders \ct{task}, an instance of \clsind{WAStoreTask}.
+ \subind{Seaside}{ハロ}を表示させてみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
