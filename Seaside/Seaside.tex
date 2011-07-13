@@ -1,4 +1,4 @@
-% $Author$
+﻿% $Author$
 % $Date$
 % $Revision$
 % $Id$
@@ -44,175 +44,158 @@
 
 %=================================================================
 
-\ind{Seaside} is a framework for building web applications in Smalltalk.  It was originally developed by Avi Bryant \index{Bryant, Avi} in 2002; once mastered, Seaside makes web applications almost as easy to write as desktop applications.
+\ind{Seaside} はSmalltalkでWebアプリケーションを作成するためのフレームワークです。2002年にAvi Bryant \index{Bryant, Avi} によって開発が始まりました。一度マスターすれば、デスクトップアプリケーションと同じようにWebアプリケーションを容易に作ることができるようになります。
 
-Two of the better known applications built with Seaside are \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} and \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}.
-Seaside is unusual in that it is thoroughly object-oriented: there are no XHTML templates, no complicated control flows through web pages, and no encoding of state in URLs. Instead, you just send messages to objects.  What a nice idea!
+Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} と \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}があります。
+徹底してオブジェクト指向というのがSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵ですよね。
 
-\section{Why do we need Seaside?}
+\section{なぜSeaside?}
 
-Modern web applications try to interact with the user in the same way as desktop applications: they ask the user questions and the user responds, usually by filling in a form or clicking a button.
-But the web works the other way around: the user's browser makes a request of the server, and the server responds with a new web page.
-So \ind{web application development} frameworks have to cope with a host of problems, chief among them being the management of this ``inverted'' control flow. 
-Because of this, many web applications try to forbid the use of the browser's ``back'' button due to the difficulty of keeping track of the state of a session. 
-Expressing non-trivial control flows across multiple web pages is often cumbersome, and multiple control flows can be difficult or impossible to express.
+現在のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに質問し、ユーザはフォームを記入したりボタンを押してこれに応えます。
+ところがWebの仕組みは実際には逆なのです。Webブラウザがサーバにリクエストをすると、新しいページがサーバから返ってきます。
+そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのはこの逆になっている制御フローです。
+そこで、多くのWebアプリケーションはブラウザの「戻る」ボタンを押すことを禁じています。押されてしまうとセッションの状態を保つのが困難になるからです。
+複数のWebページ間の簡単な制御の流れを表現するだけでも、やっかいなものになります。さらに制御の流れが複数になったりすると、表現するのがきわめて難しくなるか、不可能になってしまいます。
 
 % Seaside is a component-based framework that uses ``\ind{continuations}''\footnote{A \emph{continuation} represents ``the rest of the computation'' at any point in a computation. In Smalltalk, a continuation is just an object that captures the current state of the computation, and which can be resumed at any point.} to keep track of multiple points in the control flow of web applications. Continuations are managed automatically by Seaside, so web developers do not even have to be aware of the underlying machinery. It just works.
 
 \index{Seaside!backtracking state}
 \index{Seaside!transactions}
 \index{Seaside!components}
-Seaside is a component-based framework that makes web development easier in several ways.
-First,  control flow can be expressed naturally using message sends.
-Seaside keeps track of which web page corresponds to which point in the execution of the web application.
-This means that the browser's ``back'' button works correctly.
+SeasideではWebアプリケーション開発を容易にするため、コンポーネントベースのフレームワークを採用しています。
+まず、制御の流れはメッセージ送信により自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態をページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
-Second, state is managed for you.
-As the developer, you have the choice of enabling 
-backtracking of state, so that navigation ``back'' in time will undo side-effects.
-Alternatively, you can use the transaction support built into Seaside to prevent users from undoing permanent side-effects when they use the back button.
-You do not have to encode state information in the URL\,---\,this too is managed automatically for you.
+また、状態はSeasideが自動的に管理します。
+バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が元に戻るようになります。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
+URLに状態を埋め込んだりする必要もありません。URL生成もSeasideが行ってくれます。
 
-Third, web pages are built up from nested components, each of which can support its own, independent control flow.
-There are no XHTML templates\,---\,instead valid XHTML is generated programmatically using a simple Smalltalk protocol.
-Seaside supports Cascading Style Sheets (\ind{CSS}), so content and layout are cleanly separated.
+Webページはコンポーネント群によって構成されます。それぞれが独立した制御フローを持つことができます。
+XHTMLのテンプレートはありません。正しいXHMLはシンプルなSmalltalkのメッセージ送信によってプログラム的に生成されます。
+SeasideはCSS\ind{CSS}をサポートしています。そのためページの内容とレイアウトは明確に分離されます。
 \seeindex{Cascading Style Sheets}{CSS}
 
-Finally, Seaside provides a convenient web-based development interface, making it easy to develop applications iteratively, debug applications interactively, and recompile and extend applications while the server is running.
-
+最後に、Seasideは、Webブラウザ上での便利な開発ツールも提供しています。これによってインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
 %=================================================================
-\section{Getting started}
+\section{はじめに}
 
-The easiest way to get started is to download the ``Seaside \subind{Seaside}{One-Click Experience}'' from the Seaside \subind{Seaside}{web site}\footnote{\url{http://seaside.st}}.
-This is a prepackaged version of Seaside 2.8 for \ind{Mac OSX}, \ind{Linux} and \ind{Windows}.
-The same web site lists many pointers to additional resources, including documentation and tutorials.
-Be warned, however, that Seaside has evolved considerably over the years, and not all available material refers to the latest version of Seaside.
+\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードするとすぐにSeasideを始めることができます。
+ファイルには\ind{Windows} \ind{Mac OSX}, \ind{Linux} 用のSeaside 2.8の環境一式が同梱されています。。
+Seasideのサイトには他にもドキュメントやチュートリアルなど、たくさんのリンクがあります。Seasideは長年に渡って進化を続けているものなので、すべてが最新のSeasideについてのものであるとは限らないので注意してください。
 
 % If you are feeling more adventurous, an alternative to the ``one-click'' image is to start with the latest \ind{\pharo web image}\footnote{\url{http://pharo-project.org/download}}, and install Seaside yourself by following the manual \subind{Seaside}{installation} instructions on the Seaside web site.
 
-Seaside includes a web server; you can turn the server on, telling it to listen on port 8080, by evaluating \clsind{WAKom} \ct{startOn: 8080},
-and you can turn it off again by evaluating \ct{WAKom stop}.
-In the default installation, the default \subind{Seaside}{administrator login} is \lct{admin} and the default password is \lct{seaside}.
-To change them, evaluate: \clsind{WADispatcherEditor} \ct{initialize}.
-This will prompt you for a new name and password.
-
+SeasideはWebサーバを含んでいます。8080ポートで動かすには \clsind{WAKom} \ct{startOn: 8080} を実行します。
+サーバを終了するときは、\ct{WAKom stop} です。
+デフォルトでは、管理者ユーザ名は \lct{admin} パスワードは \lct{seaside}になっています。
+ \clsind{WADispatcherEditor} \ct{initialize} と実行すると、新たなユーザとパスワードを聞いてくるようになります。
 
 \begin{figure}[tbh]
 \begin{center}
 \includegraphics[width=\textwidth]{seasideStartup}
-\caption{Starting up Seaside
+\caption{Seasideの初期画面
 }
 \figlabel{seasideStartup}
 \end{center}
 \end{figure}
 
-\dothis{Start the Seaside server and direct a web browser to \url{http://localhost:8080/seaside/}.}
+\dothis{Seasideを開始してWebブラウザのURLを \url{http://localhost:8080/seaside/}にします。}
 
 \noindent
-You should see a web page that looks like \figref{seasideStartup}.
+\figref{seasideStartup}のようなページが表示されます。
 
 \noindent
-\dothis{Navigate to the \lct{examples{\go}counter} page. (\figref{counter})}
+\dothis{\lct{examples{\go}counter}ページをクリックしてください。 (\figref{counter})}
 
 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{counter}
-\caption{The counter.}
+\caption{カウンターのアプリケーション}
 \figlabel{counter}
 \end{center}
 \end{figure}
 
 \noindent
-This page is a small Seaside application: it displays a \subind{Seaside}{counter} that can be incremented or decremented by clicking on the \link{++} and \link{--\,--} links.
+これはSeasideアプリケーションのサンプルです。\link{++}や \link{--\,--}のリンクをクリックするとカウンターの値を変えることができます。
 
 \noindent
-\dothis{Play with the counter by clicking on these links.
-Use your browser's ``back'' button to go back to a previous state, and then click on \link{++} again.
-Notice how the counter is correctly incremented with respect to the currently displayed state, rather than the state that the counter was in when you started using the ``back'' button.}
+\dothis{リンクをクリックして値を変えてみましょう。Webブラウザの「戻る」ボタンで前の状態に戻ってから\link{++}のリンクをまたクリックしてみてください。
+カウンターは、ちゃんと表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
 
-Notice the \subind{Seaside}{toolbar} at the bottom of the web page in \figref{seasideStartup}.
-Seaside supports a notion of ``sessions'' to keep track of the state of the application for different users.
-\button{New Session} will start a new session on the counter application.
-\button{Configure} allows you to configure the settings of your application through a convenient web-interface.
-(To close the \button{Configure} view, click on the \link{x} in the top right corner.)
-\button{Toggle Halos} provides a way to explore the state of the application running on the Seaside server.
-\button{Profiler} and \button{Memory} provide detailed information about the run-time performance of the application.
-\button{XHTML} can be used to validate the generated web page, but works only  when the web page is publicly accessible from the Internet, because it uses the W3C validation service.
+
+今度は図\figref{seasideStartup}の\subind{Seaside}{toolbar}の初期画面の下のほうにあるツールバーに注目してみてください。
+Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
+\button{New Session} を押すと、アプリケーションの新たなセッションが始まります。
+\button{Configure} ではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
+
+(\button{Configure}の画面を閉じるには、右上の \link{x} リンクをクリックします)。
+\button{Toggle Halos} を押すと、Seasideで動作しているアプリケーションの状態を調べていくことができます。
+\button{Profiler} と \button{Memory} ボタンはアプリケーション実行時のパフォーマンスに関する詳細な情報を見るためのものです。
+
+\button{XHTML} は生成されたWebページのXHTMLをバリデートするときに使います。該当ページが外部からアクセス可能になっていないとこの機能は動作しません。W3Cのバリデータを使っているからです。
 \index{Seaside!halos}
 
-Seaside applications are built up from pluggable ``components''.
-In fact, components are ordinary Smalltalk objects.
-The only thing that is special about them is that they should be instances of classes that inherit from the Seaside framework class \ct{WAComponent}.
-We can explore components and their classes from the \pharo image, or directly from the web interface using halos.
+Seasideのアプリケーションは付け外し可能な「コンポーネント」からできています。Seasideのフレームワークが提供する\ct{WAComponent}クラスを継承したクラスのインスタンスであるということを除けば、実のところコンポーネントは通常のSmalltalkのオブジェクトです。\pharo のイメージからコンポーネントやクラスを探索できますし、Webブラウザからハローを通じて直接たどっていくこともできます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counterHalos}
-\caption{Halos}
+\caption{ハロー}
 \figlabel{counterHalos}
 \end{center}
 \end{figure}
 
-\dothis{Select \button{Toggle Halos}. You should see a web page like \figref{counterHalos}.
-At the top left the text \ct{WACounter} tells us the class of the Seaside component that implements the behavior of this web page. 
-Next to this are three clickable icons. 
-The first, with the pencil, activates a Seaside class browser on this class.
-The second, with the magnifying glass, opens an object inspector on the currently active \ct{WACounter} instance. 
-The third, with the coloured circles, displays the \ind{CSS} style sheet for this component. 
-At the top right, the \link{R} and \link{S} let you toggle between the rendered and source views of the web page. 
-Experiment with all of these links. 
-Note that the \link{++} and \link{{-}{-}} links are also active in the source view.
-Contrast the nicely-formatted source view provided by the Halos with the unformatted source view offered by your browser.}
+\dothis{\button{Toggle Halos}を押してみましょう。\figref{counterHalos}のような画面になるはずです。
+左上に\ct{WACounter}と表示されていますが、これは現在のページの構成要素となっているコンポーネントのクラス名を表しています。 
+隣には3つのボタンアイコンがあります。
+最初の鉛筆のアイコンは、このコンポーネントのクラスブラウザを開くためのものです。2番目の虫眼鏡アイコンでは、現在アクティブになっている\ct{WACounter}のインスタンスのインスペクタを開くことができます。
+3番目の色のついた丸のボタンを押すと、コンポーネントについての\ind{CSS} スタイルシートエディタが表示されます。
+右上には\link{R} と \link{S}のリンクがあります。それぞれクリックするとコンポーネントが通常表示とソース表示とに切り替わります。
+こうしたリンクをすべて試してみましょう。
+ソースビューの表示のときにも、\link{++} や \link{{-}{-}}は有効になっています。フォーマットもされているため、Webブラウザでソース表示をしたときよりも見やすいかもしれません。}
 
-The Seaside class browser and object inspector can be very convenient when the server is running on another computer, especially when the server does not have a display, or if it is in remote place. 
-However, when you are first developing a Seaside application, the server will be running locally, and it is easy to use the ordinary \pharo development tools in the server image.
+Seasideのクラスブラウザやオブジェクト・インスペクタは、サーバが別のマシンで動作していて、画面がなかったり、遠く離れていたりするときには非常に便利です。
+とはいえ、最初にSeasideのアプリケーションを開発するときには、ローカルでサーバを動かすと思います。その場合は\pharoのイメージが提供する通常の開発ツールのほうが使いやすいでしょう。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{haltingCounter}
-\caption{Halting the counter}
+\caption{カウンターアプリをhaltさせる}
 \figlabel{haltingCounter}
 \end{center}
 \end{figure}
 
-\dothis{Using the object inspector link in the web browser, open an inspector on the underlying Smalltalk counter object and evaluate \ct{self halt}.
-The web page will stop loading.
-Now switch to the Seaside image.
-You should see a pre-debugger window (\figref{haltingCounter}) showing a \ct{WACounter} object executing a \ct{halt}.
-Examine this execution in the debugger, and then \button{Proceed}.
-Go back to the web browser and notice that the counter application is running again.}
+%\dothis{Using the object inspector link in the web browser, open an inspector on the underlying Smalltalk counter object and evaluate \ct{self halt}}.
+\dothis{Webブラウザのオブジェクト・インスペクタのリンクを使い、カウンターのインスペクタを開けてみて、 \ct{self halt}を実行してみましょう。
+Webページはロード途中の状態になります。Seasideのイメージのほうに移ってみてください。ノーティファイアが上がっていて (\figref{haltingCounter})、  \ct{WACounter} のオブジェクトが \ct{halt} の実行で止まっていることが確認できます。
+さらにデバッガを開いて \button{Proceed} を押してみましょう。Webブラウザに戻るとカウンターは再び動作しています。}
 
-Seaside components can be instantiated multiple times and in different contexts.
+Seasideのコンポーネントは、異なるコンテキストで何度も初期化できます。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{multiCounterHalos}
-\caption{Independent subcomponents}
+\caption{独立したサブコンポーネント}
 \figlabel{multiCounterHalos}
 \end{center}
 \end{figure}
 
-\dothis{Point your web browser to \url{http://localhost:8080/seaside/examples/multicounter}.
-You will see an application built out of a number of independent instances of the counter component.
-Increment and decrement several of the counters.
-Verify that they behave correctly even if you use the ``back'' button.
-Toggle the halos to see how the application is built out of nested components.
-Use the Seaside class browser to view the implementation of \ct{WAMultiCounter}.
-You should see three methods on the class side (\ct{canBeRoot}, \ct{description}, and \ct{initialize}) and three on the instance side (\ct{children}, \ct{initialize}, and \ct{renderContentOn:}).
-Note that an application is simply a component that is willing to be at the root of the component containment hierarchy; this willingness is indicated by defining a class-side method \ct{canBeRoot}
-to answer \ct{true}.}
+%\dothis{Point your web browser to \url{http://localhost:8080/seaside/examples/multicounter}}.
+\dothis{WebブラウザのURLを\url{http://localhost:8080/seaside/examples/multicounter}に指定してみてください。
+いくつもの独立したカウンターコンポーネントからなるアプリケーションが立ち上がります。
+カウンターをいくつか選んで値を変えてみましょう。「戻る」ボタンを押しても問題なく動作します。
+ハローを表示してみると、入れ子になったコンポーネントからアプリケーションができていることがわかります。クラスブラウザを使って、 \ct{WAMultiCounter}の実装がどうなっているか見てみましょう。
+クラスメソッドが3つ(\ct{canBeRoot}、 \ct{description}、 \ct{initialize})、インスタンスメソッドも3つ(\ct{children}、 \ct{initialize}、 \ct{renderContentOn:})定義されていることがわかります。
+アプリケーションでは、クラスメソッドの\ct{canBeRoot}で \ct{true}を返すことで、コンポーネント階層のルートになり得るという宣言を行っています。}
 \index{Seaside!multi-counter}
 
-You can use the Seaside web interface to configure, copy or remove individual applications (\ie root-level components).  Try making the following configuration change.
+SeasideのWebインターフェースを使うと、アプリケーション(\ie ルートになっているコンポーネント)を設定したり、コピーしたり、登録解除したりできます。設定を少しいじってみましょう。
 
-\dothis{Point your web browser to \url{http://localhost:8080/seaside/config}.
-Supply the login and password (\ct{admin} and \ct{seaside} by default).
-Select \link{Configure} next to ``examples.''
-Under the heading ``Add entry point'', enter the new name ``counter2'' for the type \emph{Application} and click on \button{Add} (see \figref{counter2}).
-On the next screen, set the \emph{Root Component} to \clsind{WACounter}, then click \button{Save} and \button{Close}.
-Now we have a new counter installed at \url{http://localhost:8080/seaside/examples/counter2}.
-Use the same configuration interface to remove this entry point.
+\dothis{Webブラウザで\url{http://localhost:8080/seaside/config}を開きます。ユーザIDとパスワードを入れて、ログインしてください。(デフォルトでは\ct{admin} / \ct{seaside} となっています)。
+``examples''の隣にある \link{Configure}　をクリックします。 ``Add entry point''のところで、 ``counter2''と名前を入れ、タイプは \emph{Application} のまま \button{Add}ボタンをクリックします( \figref{counter2}を参照)。
+次の画面で、 \emph{Root Component} を \clsind{WACounter}にして、 \button{Save} を押して、 \button{Close}で閉じます。
+これでカウンターの新しいアプリケーションが \url{http://localhost:8080/seaside/examples/counter2}で起動するようになりました。
+同様に、この設定ツール画面を通じてアプリケーションの登録解除を行うこともできます。
 }
 \index{Seaside!configuration}
 
@@ -220,48 +203,44 @@ Use the same configuration interface to remove this entry point.
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{counter2}
-\caption{Configuring a new application}
+\caption{新たなアプリケーションの設定}
 \figlabel{counter2}
 \end{center}
 \end{figure}
 
-Seaside operates in two modes: \emph{development} mode, which is what we have seen so far, and \emph{deployment} mode, in which the toolbar is not available.
-\index{Seaside!deployment mode}
-\index{Seaside!development mode}
-You can put Seaside into deployment mode using either the configuration page (navigate to the entry for the application and click on the \link{Configure} link)
-% \ab{How?  I couldn't find this}
-or click the \button{Configure} button in the toolbar.
-In either case, set the deployment mode to \emph{true}.
-Note that this affects new sessions only.
-You can also set the mode globally by evaluating
-\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}
-or
-\ct{WAGlobalConfiguration setDevelopmentMode}.
+Seasideは2つのモードで動作します。一つは今まで見てきた \emph{開発}モードです。 \emph{デプロイ} モードにすると、画面下のツールバーが非表示となります。
 \index{Seaside!deployment mode}
 \index{Seaside!development mode}
 
-The configuration web page is just another Seaside application, so it too can be controlled from the configuration page.
-If you remove the ``config'' application, you can get it back by evaluating
-\clsind{WADispatcherEditor} \ct{initialize}.
+デプロイモードにするには、全体の設定ツールのページからアプリケーションを選んで、 \link{Configure} をクリックするか、ツールバーに表示されている \link{Configure} をクリックします。
+% \ab{How?  I couldn't find this}
+どちら場合も、デプロイモードのプルダウンボックスが表示されるので、\emph{true}に設定します。
+この設定は新たなセッションを開始したタイミングで有効になります。
+Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}や、\ct{WAGlobalConfiguration setDevelopmentMode}を実行します。
+\index{Seaside!deployment mode}
+\index{Seaside!development mode}
+
+
+設定ツール自体もSeasideのアプリケーションです。そのため同じようにWebブラウザから各種の設定ができます。もしも誤って``config'' のアプリケーションを削除してしまった場合は、
+\clsind{WADispatcherEditor} \ct{initialize}　とすると元に戻ります。
 
 %=================================================================
-\section{Seaside components}
+\section{Seasideのコンポーネント}
 \seclabel{components}
 
 %\ab{This section was too long\,---\,18 pages.  It also contained several self-references (``see section 1.3''). So I broke into smaller sections, by promoting some of the subsections and subsubsections.}
 
-As we mentioned in the previous section, Seaside applications are built out of \emph{\subind{Seaside}{components}.}
-Let's take a closer look at how Seaside works by implementing the \emph{Hello World} component.
+前の節で示したように、Seasideのアプリケーションは\emph{\subind{Seaside}{コンポーネント}}から成り立っています。
+\emph{Hello World}のコンポーネントを作成し、Seasideの仕組みをさらに詳しく見てみましょう。
+コンポーネントを定義するには \clsind{WAComponent}を直接あるいは間接的に継承するようにします(\figref{WACounter})。
 
-Every Seaside component should inherit directly or indirectly from \clsind{WAComponent}, as shown in \figref{WACounter}.
+\dothis{ \ct{WAComponent}を継承した \ct{WAHelloWorld}クラスを定義してみましょう。}
 
-\dothis{Define a subclass of \ct{WAComponent} called \ct{WAHelloWorld}.}
-
-Components must know how to render themselves.
-Usually this is done by implementing the method \mthind{WAPresenter}{renderContentOn:}, which gets as its argument an instance of \clsind{WAHtmlCanvas}, which knows how to render XHTML.
+コンポーネントでは自身の表示の仕方を定める必要があります。
+このためには\mthind{WAPresenter}{renderContentOn:}をオーバーライドします。引数として XHTMLの生成方法を知っている\clsind{WAHtmlCanvas}が渡ってくるようになっています。
 \index{Seaside!rendering}
 
-\dothis{Implement the following method, and put it in a protocol called \prot{rendering}:}
+\dothis{ \prot{rendering}プロトコルに以下のようにメソッドを定義してみましょう。}
 \needlines{2}
 \begin{code}{}
 WAHelloWorld>>>renderContentOn: html
@@ -269,9 +248,9 @@ WAHelloWorld>>>renderContentOn: html
 \end{code}
 
 \noindent
-Now we must inform Seaside that this component is willing to be a standalone application. 
+次に Seasideに対して、コンポーネントがスタンドアロンのアプリケーションであるという宣言を行います。
 
-\dothis{Implement the following method on the class side of \ct{WAHelloWorld}.}
+\dothis{\ct{WAHelloWorld} のクラス側に以下のメソッドを定義しましょう。}
 
 \begin{code}{}
 WAHelloWorld class>>>canBeRoot
@@ -279,86 +258,78 @@ WAHelloWorld class>>>canBeRoot
 \end{code}
 
 \noindent
-We are almost done!
+ほとんどこれでできあがりです。
 
-\dothis{Point your web browser at \url{http://localhost:8080/seaside/config}, add a new entry point called ``hello'', and set its root component to be \ct{WAHelloWorld}.
-Now point your browser to \url{http://localhost:8080/seaside/hello}.
-That's it!  You should see a web page like \figref{WAHelloWorld}.}
+\dothis{Webブラウザで \url{http://localhost:8080/seaside/config}を開き、 ``hello''のエントリポイントを追加し、ルートのコンポーネントを \ct{WAHelloWorld}に設定します。
+そしてURLを\url{http://localhost:8080/seaside/hello} に変えると、 \figref{WAHelloWorld}}のように表示されています!
 
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=\textwidth]{WAHelloWorld}
-\caption{``Hello World'' in Seaside}
+\caption{Seasideの``Hello World''}
 \figlabel{WAHelloWorld}
 \end{center}
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{State backtracking and the ``Counter'' Application}
+\subsection{状態のバックトラックと``Counter''アプリケーション}
 %{Simple and nested components}
 
-The ``counter'' application is only slightly more complex than the ``hello world'' application.
+``hello world''に比べて、「カウンター」のアプリケーションは、ほんの少しだけ難しいものになっています。
 \seclabel{backtracking}
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{WACounter}
-\caption{The \ct{WACounter} class, which implements the \emph{counter} application.  Methods with underlined names are on the class-side; those with plain-text names are on the instance side.}
+\caption{\emph{counter}アプリケーションは\ct{WACounter}クラスにより実装されています。  アンダーラインの引いてあるメソッドはクラスメソッドです。}
 \figlabel{WACounter}
 \end{center}
 \end{figure}
 
-The class \clsind{WACounter} is a standalone application, so \ct{WACounter class} must answer \ct{true} to the  \mthind{WAComponent class}{canBeRoot} message.
-It must also register itself as an application; this is done in its class-side \ct{initialize} method, as shown in \figref{WACounter}.
+ \clsind{WACounter} はスタンドアロンのアプリケーションなので \ct{WACounter class} では  \mthind{WAComponent class}{canBeRoot} を実装して、\ct{true} を返す必要があります。
+ アプリケーションとしての登録は、図 \figref{WACounter}にあるように、クラスメソッド \ct{initialize}の中で行われています。 
 
-\ct{WACounter} defines two methods, \ct{increase} and \ct{decrease}, which will be triggered from the \link{++} and \link{--\,--} links on the web page.  
-It also defines an instance variable \ct{count} to record the state of the counter.
-However, we also want Seaside to synchronize the counter with the browser page:
-when the user clicks on the browser's ``back'' button, we want seaside to ``backtrack'' the state of the \ct{WACounter} object.
-Seaside includes a general mechanism for backtracking, but each application has to tell Seaside which parts of its state to track.  
+\ct{WACounter} には \ct{increase} と \ct{decrease}メソッドがあります。それぞれWebページで \link{++} 、 \link{--\,--} のリンクをクリックしたときに呼び出されます。カウンターの値を保持するため、インスタンス変数としては \ct{count}が定義してあります。
+「戻る」ボタンを押してもカウンターの値がブラウザの値とずれないようにするには、\ct{WACounter} の状態をバックトラックするようにしなければなりません。
+Seasideは、バックトラックのためのメカニズムを最初から持っていますが、アプリケーションのどの部分をバックトラックさせるかは開発者が指定する必要があります。
 
-A component enables backtracking by implementing the \ct{states} method on the instance side: 
+インスタンスメソッドの\ct{states}を実装すると、どの部分をバックトラック対象とするかを定めることができます。
 % \ab{note that xspace messes up again, by inserting a space at the start of this line}
-\ct{states} should answer an array containing all the objects to be tracked.
-In this case, the \ct{WACounter} object adds itself to Seaside's table of backtrackable objects by returning \ct{Array with: self}.
+\ct{states} では対象とすべきオブジェクト群を配列の形で返すようにします。カウンターアプリケーションの場合、 \ct{Array with: self}としています。こうすると \ct{WACounter} のオブジェクト自身がSeasideにバックトラック対象として登録されることになります。
 
-\paragraph{\emph{Caveat.}}
-There is a subtle but important point to watch for when declaring objects for backtracking.
-Seaside tracks state by making a \emph{copy} of all the objects declared in the \ct{states} array.
-It does this using a \clsind{WASnapshot} object; \ct{WASnapshot} is a subclass of \clsind{IdentityDictionary} that records the objects to be tracked as keys and shallow copies of their state as values.
-If the state of an application is backtracked to a particular snapshot, the state of each object entered into the snapshot dictionary is overwritten by the copy saved in the snapshot.
+\paragraph{\emph{注意}}
+バックトラック対象のオブジェクトの宣言ではちょっとした注意点があります。
+Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過去の状態を保持します。
 
-Here is the point to watch out for:
-In the case of \ct{WACounter}, you might think that the state to be tracked is a number\,---\,the value of the \ct{count} instance variable.
-However, having the \ct{states} method answer \ct{Array with: count} won't work.  
-This is because the object named by \ct{count} is an integer, and integers are immutable.
-The \ct{increase} and \ct{decrease} methods don't change the state of the object \ct{0} into \ct{1} or the object \ct{3} into \ct{2}.
-Instead, they make \ct{count} name a different integer: 
-every time the count is incremented or decremented, the object named by \ct{count} is \emph{replaced} by another.
-This is why \ct{WACounter>>>states} must return \ct{Array with: self}.
-When the state of a \mbox{\ct{WACounter}} object is replaced by a previous state, the \emph{value} of each of the instance variable in the object is replaced by a previous value; this correctly replaces the current value of \ct{count} by a prior value. 
+実際の処理は \clsind{WASnapshot} によって行われます。 \ct{WASnapshot}は \clsind{IdentityDictionary} のサブクラスで、バックトラック対象のオブジェクト群をキーに、シャローコピーされたオブジェクト群を値として持っています。
+特定のスナップショットに状態を戻す必要があるときには、シャローコピーされた情報を使って、オブジェクトの変数の値を上書きします。
+先ほどの\ct{WACounter}の場合、バックトラックの対象は、インスタンス変数\ct{count} の数字だけで良いのではと思うかもしれません。しかし、  \ct{states} メソッドでr\ct{Array with: count} のように書いてもうまく動作しないのです。
+これは\ct{count}の中身が整数で、整数は不変のオブジェクトだからです。
+ \ct{increase} や \ct{decrease} メソッドでは、オブジェクトのそのものが \ct{0}から \ct{1} になったり、 \ct{3}から \ct{2}になっているわけではありません。
+ \ct{count} 変数の中身が代入されて別の整数になっているのです。整数が増えたり減ったりするたびに、 \ct{count} が指すオブジェクトは 別のものに\emph{成り代わって}います。このため、 \ct{WACounter>>>states}では\ct{Array with: self}と書く必要があるのです。 \mbox{\ct{WACounter}} が以前の状態に戻るときには、各インスタンス変数の値がコピーされた\mbox{\ct{WACounter}}から復元されます。これで \ct{count} の値は正しく戻ることになります。
 \index{Seaside!backtracking state}
 \index{WAPresenter!states@\ct{states}}
 
-\section{Rendering XHTML}
+\section{XHTMLのレンダリング}
 
-The purpose of a web application is to create, or ``render'', web pages.  As we mentioned in \secref{components}, each Seaside component is responsible for rendering itself.  
-So, lets start our exploration of rendering by seeing how the counter component renders itself.
+Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{コンポーネント}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
+レンダリングの仕組みを知るため、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
 
-\subsection{Rendering the Counter}
+\subsection{カウンターのレンダリング}
 
-The rendering of the counter is relatively straightforward; the code is shown in \figref{WACounter}.
-The current value of the counter is displayed as an XHTML heading, and the increment and decrement operations are implemented as html anchors (that is, links) with callbacks to blocks that will send \ct{increase} and \ct{decrease} to the counter object.
+カウンターのレンダリングは比較的単純です。 \figref{WACounter}のコードを見てください。
+カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装されていて、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
 
-We will have a closer look at the rendering protocol in a moment.
-But before we do, let's have a quick look at the \subind{Seaside}{multi-counter}.
+レンダリングで送るメッセージ群についてはすぐ後で詳しく解説しますが、その前に\subind{Seaside}{マルチカウンター}のほうもどうなっているか見てみましょう。
 
-\subsection{From Counter to MultiCounter}
+\subsection{CounterからMultiCounterへ}
 
-\ct{WAMultiCounter}, shown in \figref{WAMultiCounter} is also a standalone application, so it overrides \mthind{WAComponent class}{canBeRoot} to answer \ct{true}.
-In addition, it is a \emph{composite} component, so Seaside requires it to declare its children by implementing a method \ct{children} that answers an array of all the components it contains.
-It renders itself by rendering each of its subcomponents, separated by a horizontal rule.
-Aside from instance and class-side initialization methods, there is nothing else to the multi-counter!
+まず \figref{WAMultiCounter} で示すように\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
+
+マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返すようにしています。
+
+レンダリングでは、サブコンポーネントの表示を、水平線で区切りながら行うように書いています。
+そのほか初期化を行うためのインスタンスメソッド、クラスメソッドがありますが、基本的にはこれだけで良いのです!
 
 \begin{figure}[bht]
 \begin{center}
@@ -369,34 +340,31 @@ Aside from instance and class-side initialization methods, there is nothing else
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{More about Rendering XHTML}
+\subsection{レンダリング詳細}
 
-As you can see from these examples, Seaside does not use templates to generate web pages.
-Instead it generates XTHML programmatically.
-The basic idea is that every Seaside component should override the method \mthind{WAPresenter}{renderContentOn:}; this message will be sent by the framework to each component that needs to be rendered.
-This \ct{renderContentOn:} message will have an argument that is an \seeindex{canvas}{html canvas} \emphind{html canvas} onto which the component should render itself.  By convention, the html canvas parameter is called \ct{html}.
-An html canvas is analogous to the graphics canvas used by Morphic (and most other drawing frameworks) to abstract away from the device-dependent details of drawing.
- 
+今までの例で見てきたように、SeasideではWebページ生成でテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
+Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはフレームワークの側からコンポーネントのレンダリングのときに呼び出されます。
+\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似ています。デバイス固有となる描画の詳細を隠す役割を持っています。
 
-Here are some of the most basic rendering methods:
+基本的なレンダリングメッセージをいくつか挙げてみます。
 \begin{code}{}
-html text: 'hello world'.  "render a plain text string"
-html html: '&ndash;'.     "render an XHTML incantation"
-html render: 1.              "render any object"
+html text: 'hello world'.  "テキストを表示"
+html html: '&ndash;'.     "XHTMLの直接指定"
+html render: 1.              "オブジェクトのレンダリング"
 \end{code}
 
-The message \ct{render: anyObject} can be sent to an html canvas to render \ct{anyObject}; it is normally used to render subcomponents.  \lct{anyObject} will itself be sent the message \ct{renderContentOn:}
-this is what happens in the multi-counter (see \figref{WAMultiCounter}).
+\ct{任意のオブジェクト}を表示するのに \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
+マルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
 
-\subsection{Using Brushes}
+\subsection{ブラシの利用}
 \seclabel{brushes}
 
-A canvas provides a number of \emphind{brushes} that can be used to render (\ie ``paint'') content on the canvas.
-There are brushes for every kind of XHTML element\,---\,paragraphs, tables, lists, and so on.
-To see the full protocol of brushes and convenience methods, you should browse the class \clsind{WACanvas} and its subclasses.
-The argument to \ct{renderContentOn:} is actually an instance of the subclass \clsind{WARenderCanvas}.
+キャンバスでは描画を行うため、たくさんの \emphind{ブラシ} を使うことができます。
+XHTMLの各要素(段落、テーブル、リストなど)に対応したブラシがあります。
+ブラシやそれに関連する便利メソッドを知るには、\clsind{WACanvas} とそのサブクラスをブラウズすると良いでしょう。
+ \ct{renderContentOn:} の引数は、\clsind{WACanvas}を継承した \clsind{WARenderCanvas}のインスタンスになっています。
 
-We have already seen the following brush used in the counter and multi-counter examples:
+すでにカウンターとマルチカウンターの例で、以下のブラシを使いました。
 \needlines{2}
 \begin{code}{}
 html horizontalRule.
@@ -405,14 +373,14 @@ html horizontalRule.
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{RenderingDemo}
-\caption{RenderingDemo}
+\caption{レンダリングのデモ}
 \figlabel{RenderingDemo}
 \end{center}
 \end{figure}
 
-In \figref{RenderingDemo} we can see the output of many of the basic brushes offered by Seaside.\footnote{The source code for \mthref{renderdemo} is in the package \ct{PBE-SeasideDemo} in the project \url{http://www.squeaksource.com/PharoByExample}.}
-The root component \ct{SeasideDemo} simply renders its subcomponents, which are instances of \ct{SeasideHtmlDemo}, \ct{SeasideFormDemo}, \ct{SeasideEditCallDemo} and \ct{SeasideDialogDemo}, as shown in \mthref{renderdemo}.
-
+図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろ使ってみた例です。 \footnote{
+ \mthref{renderdemo}のソースコードは  \url{http://www.squeaksource.com/PharoByExample}プロジェクトの\ct{PBE-SeasideDemo}パッケージ内にあります。} \ct{SeasideDemo} のルートコンポーネントは単にサブコンポーネントの表示を行うだけです。サブコンポーネントは \mthref{renderdemo}を読むとわかりますが、\ct{SeasideHtmlDemo}、 \ct{SeasideFormDemo}、\ct{SeasideEditCallDemo} 、\ct{SeasideDialogDemo}となっています。
+ 
 \needspace{7ex}
 \begin{method}[renderdemo]{\lct{SeasideDemo>>renderContentOn:}}
 SeasideDemo>>>renderContentOn: html
@@ -427,29 +395,21 @@ SeasideDemo>>>renderContentOn: html
 \end{method}
 
 \noindent
-Recall that a root component must always declare its children, or Seaside will refuse to render them.
+コンポーネントはサブコンポーネントを返すようにするというのを覚えているでしょうか。Seasideはレンダリングのたびにサブコンポーネントを再利用します。
 \begin{code}{}
 SeasideDemo>>>children
 	^ { htmlDemo . formDemo . editDemo . dialogDemo }
 \end{code}
 
-Notice that there are two different ways of instantiating the \ct{heading} brush.
-The first way is to set the text directly by sending the message \ct{heading:}.
-The second way is to instantiate the brush by sending \ct{heading}, and then to send a cascade of messages to the brush to set its properties and render it.
-Many of the available brushes can be used in these two ways.
+上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストを直接メッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
 
-\important{If you send a \ind{cascade} of messages to a brush including the message \mthind{WABrush}{with:}, then \ct{with:} should be the \emph{final} message.
-\ct{with:}  both sets the content and renders the result.}
+\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るのであれば、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
+\ct{with:} によってブラシのレンダリングが始まるからです。}
 
+\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトのレベル1になります。次の見出しではレベルを2に明示的に設定しています。
+ サブコンポーネントはXHTMLで\emph{div}の中に囲まれる形になります。divには ``subcomponent''という\ind{CSS}のクラスを付与しています(CSSの使い方については\secref{css}で解説します)。  \ct{with:} メッセージの引数は、文字列とは限りません。この例ではコンポーネントを渡しています。次の例でも出てきますが、レンダリングの操作を記述したブロックでも良いのです。
 
-In \mthref{renderdemo}, the first heading is at level 1, since this is the default.
-We explicitly set the level of the second heading to 2.
-The subcomponent is rendered as an XHTML \emph{div} with the \ind{CSS} class ``subcomponent''.
-(More on CSS in \secref{css}.)
-Also note that the argument to the \ct{with:} keyword message need not be a literal string: it can be another component, or even\,---\,as in the next example\,---\,a block containing further rendering actions.
-
-The \ct{SeasideHtmlDemo} component demonstrates many of the most basic brushes.
-Most of the code should be self-explanatory.
+\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用法がわかるでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderContentOn: html 
@@ -459,17 +419,15 @@ SeasideHtmlDemo>>>renderContentOn: html
 	self renderLinkWithCallbackOn: html
 \end{code}
 
-It is common practice to break up long rendering methods into many helper methods, as we have done here.
+上のように、レンダリングのメソッドが長くなった場合には細かいメソッド群に分割することがよく行われます。
 
-\important{Don't put all your rendering code into a single method. 
-Split it into helper methods named using the pattern \ct{render*On:}.
-All rendering methods go in the \prot{rendering} protocol.
-Don't send \ct{renderContentOn:} from your own code, use \ct{render:} instead.}
+\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送りるようにしてください。}
 
-Look at the following code.  
-The first helper method, \ct{SeasideHtmlDemo>>>renderParagraphsOn:}, shows you how to generate XHTML paragraphs, plain and emphasized text, and images.
-Note that in Seaside simple elements are rendered by specifying the text they contain directly, whereas complex elements are specified using blocks.
-This is a simple convention to help you structure your rendering code.
+さらにコードを見ていきましょう。
+
+最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の仕方の例になっています。
+
+Seasideでは単純な要素であれば単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderParagraphsOn: html 
@@ -487,8 +445,7 @@ SeasideHtmlDemo>>>renderParagraphsOn: html
 			width: '50']
 \end{code}
 
-The next helper method, \ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}, shows you how to generate lists and tables.
-A table uses two levels of blocks to display each of its rows and the cells within the rows.
+次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使って、列と列の中のセルを表示させるようにします。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderListsAndTablesOn: html 
@@ -501,9 +458,9 @@ SeasideHtmlDemo>>>renderListsAndTablesOn: html
 			html tableData: 'A table with one data cell.']]
 \end{code}
 
-The next example shows how we can specify CSS \emph{div}s and \emph{span}s with \emph{class} or \emph{id} attributes.
-Of course, the messages \ct{class:} and \ct{id:} can also be sent to the other brushes, not just to \emph{div}s and \emph{span}s.
-The method \ct{SeasideDemoWidget>>>style} defines how these XHTML elements should be displayed (see \secref{css}).
+次の例は、\emph{div}や \emph{span}の要素に、CSSの \emph{class} や \emph{id} 属性を指定するやり方を示しています。もちろん
+ \ct{class:} や \ct{id:} といったメッセージは、\emph{div} \emph{span}以外のブラシにも送ることができます。
+\ct{SeasideDemoWidget>>>style} のメソッドで、XHTMLの要素が実際にどのようなスタイルで表示されるかを定義しています(\secref{css}を参照)。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderDivsAndSpansOn: html 
@@ -516,8 +473,7 @@ SeasideHtmlDemo>>>renderDivsAndSpansOn: html
 				with: 'A span with class ''highlight''.']
 \end{code}
 
-Finally we see a simple example of a link, created by binding a simple \subind{Seaside}{callback} to an ``anchor'' (\ie a link).
-Clicking on the link will cause the subsequent text to toggle between ``true'' and ``false'' by toggling the instance variable \ct{toggleValue}.
+最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わるのですが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行で変化するからです。
 
 \needlines{3}
 \begin{code}{}
@@ -534,14 +490,14 @@ SeasideHtmlDemo>>>renderLinkWithCallbackOn: html
 			with: toggleValue ]
 \end{code}
 
-\important{Note that actions should appear only in callbacks.
-The code executed while rendering should not change the state of the application!}
+\important{アプリケーションの状態を変えるような処理は、コールバックの中でのみ書くようにします。
+レンダリングのコードの中に、直接そのようなコードを書くべきではありません。}
 
 %-----------------------------------------------------------------
-\subsection{Forms}
+\subsection{フォーム}
 
-Forms are rendered just like the other examples that we have already seen.
-Here is the code for the \ct{SeasideFormDemo} component in \figref{RenderingDemo}.
+フォームも今までの例と同様のやり方で表示できます。
+図\figref{RenderingDemo}の\ct{SeasideFormDemo} コンポーネントのコードを示します。
 \index{Seaside!XHTML forms}
 
 \begin{code}{}
@@ -568,52 +524,52 @@ SeasideFormDemo>>>renderContentOn: html
 			text: 'done' ]
 \end{code}{}
 
-Since a form is a complex entity, it is rendered using a block.
-Note that all the state changes happen in the callbacks, not as part of the rendering.
+フォーム要素は複雑なので、ブロックを使ってレンダリングしています。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
 
-There is one Seaside feature used here that is worth special mention, namely the message \mthind{WAAnchorTag}{on:of:}.
-In the example, this message is used to bind a text input field to the variable \ct{heading}.
-Anchors and buttons also support this message.
-The first argument is the name of an instance variable for which accessors have been defined;  the second argument is the object to which this instance variable belongs.
-Both observer (\ct{heading}) and mutator (\ct{heading:}) accessor messages must be understood by the object, with the usual naming convention.
-In the case here of a text input field, this saves us the trouble of having to define a callback that updates the field as well as having to bind the default contents of the html input field to the current value of the instance variable.
-Using \ct{on: #heading of: self}, the \ct{heading} variable is updated automatically whenever the user updates the text input field.
+ \mthind{WAAnchorTag}{on:of:}については説明が必要でしょう。
+上の例ではテキストフィールドに、自身のインスタンス変数\ct{heading}を対応させるために使われています。
+アンカーやボタンもこのメッセージに答えられます。
 
-The same message is used twice more in this example, to cause the selection of a colour on the html form to update the \ct{color} variable, and to bind the result of the checkbox to the \ct{checked} variable.
-Many other examples can be found in the functional tests for Seaside.
-Have a look at the category \scat{Seaside-Tests-Functional}, or just point your browser to \url{http://localhost:8080/seaside/tests/alltests}.
-Select \menu{WAInputTest} and click on the \button{Restart} button to see most of the features of forms.
+最初の引数はインスタンス変数の名前です。2番目の引数は変数を保持するオブジェクトを指定します。
+通常の名前付けルールで、インスタンス変数のアクセッサー (\ct{heading}) とミューテイター (\ct{heading:})がクラスに定義されていることが前提となっています。
 
-Don't forget, if you \button{Toggle Halos}, you can browse the source code of the examples directly using the Seaside class browser.
+このテキストフィールドの例では、デフォルト値を設定したり、新たな値の設定に関するコールバックを設定したりするコードを省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
+
+すぐ後にコンボボックスの選択で\ct{color} 変数を指定した別の例があります。その後にはチェックボックスの例があり、 \ct{checked} 変数の値が更新されるようになっています。
+
+Seasideの機能テストのコードを見ると、さらにさまざまなフォーム例が見つかります。
+%2.8ベース。修正の必要あり(ume)　
+% URL -> http://localhost:8080/tests/functional/WAInputPostFunctionalTest
+% menu -> WAInputGetFunctionalTest, (WAInputPostFunctionalTest)
+ \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。また、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}のURLを指定し、
+\menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
+
+ぜひ\button{Toggle Halos}ボタンを押すと、Webブラウザから対応するソースコードにすぐアクセスできるようになるというSeasideの機能を活用してください。
 
 %-----------------------------------------------------------------
-\section{CSS: Cascading style sheets}
+\section{CSS: カスケーディング・スタイル・シート}
 \seclabel{css}
 
 %\ab{I think that it just needs a few paragraphs telling the reader the key ideas behind CSS, and the new terminology that the CSS folks introduce, before going in to the details of how you define their "thingies".  Now I have forgotten what they call their "thingies" --- I know that there are effectively paragraph styles (divs) and character styles (spans), but I've forgotten what they call them.  So, I think that the text needs to tell the reader, for each thingie, (1) the CSS concept behind the thingie, (2) what it looks like in a CSS style sheet , (3) what it looks like in html, and (4) how to do it in Seaside.   Maybe (3) can be omitted, because it's not needed to use Seaside.}
 % \on{I think we do most of that already.}
 
-Cascading Style Sheets\footnote{\url{http://www.w3.org/Style/CSS/}}, or \ind{CSS} for short, have emerged as a standard way for web applications to separate style from content.
-Seaside relies on CSS to avoid cluttering your rendering code with layout considerations.
+\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する方法として標準的なものになってきました。SeasideはCSSの技術を使い、レンダリングのコードが見栄えを意識して煩雑になるのを防いでいます。
 
-You can set the CSS style sheet for your web components by defining the method \ct{style}, which should return a string containing the CSS rules for that component.
-The styles of all the components displayed on a web page are joined together, so each component can have its own style.
-A better approach can be to define an abstract class for your web application that defines a common style for all its subclasses.
+コンポーネントは \ct{style}というメソッドを定義することで、使用するスタイルシートを決めることができます。メソッドの中身は単なるCSSの文字列で、コンポーネントが使うスタイルを定めたものにします。
 
-Actually, for deployed applications, it is more common to define style sheets as external files.
-This way the look and feel of the component is completely separate from its functionality.
-(Have a look at \clsind{WAFileLibrary}, which provides a way to serve static files without the need for a standalone server.)
+Webページ内に配置されるコンポーネントのスタイルシートは結合されて一つになりますが、各コンポーネントは自身のスタイルを定義で
+きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
 
-If you already are familiar with CSS, then that's all you need to know.
-Otherwise, read on for a very brief introduction to CSS.
+しかしデプロイ時には、外部ファイルとしてスタイルシートを用意するのが一般的です。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
+( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です。)
 
-Instead of directly encoding display attributes in the paragraph and text elements of your web pages, with CSS you will define different classes of elements and place all display considerations in a separate style sheet.
-Paragraph-like entities are called \emph{div}s and text-like entities are \emph{span}s.
-You would then define symbolic names, like ``highlight'' (see example below) for text to be highlighted, and specify how highlighted text is to be displayed in your style sheet.
+CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
-Basically a CSS style sheet consists of a set of rules that specify how to format given XHTML elements.
-Each rule consists of two parts.
-There is a \emph{selector} that specifies which XHTML elements the rule applies to, and there is a \emph{declaration} which sets a number of attributes for that element.
+CSSを使うと、段落やテキストの表示属性を直接Webページに埋め込む代わりに、表示情報を分類分けして、スタイルシートに別途定義できます。段落に該当する要素が \emph{div}で、インラインのテキスト要素は \emph{span} と呼ばれます。
+例えば自分で``highlight''といった形で、要素に名前をつけて、ハイライトされるテキストとして定義することもできます(例を参照のこと)。スタイルシートの中では、ハイライトがどのように表示されるべきかを記述します。
+
+基本的に CSS は、XHTMLの要素をどのようなフォーマットで表示するかについて一覧のルールを記述したものです。ルールは二つの部分から成り立っています。
+ \emph{セレクター}と呼ばれる部分ではその XHTML 要素にルールを適用するかを指定します。 \emph{宣言} の箇所では、要素に適用される属性の値を定義します。
 
 \begin{figure}[tb]
 \begin{code}{}
@@ -647,57 +603,48 @@ td {
 .field { background-color: lightgrey; }
 '
 \end{code}
-\caption{\lct{SeasideDemoWidget} common style sheet.
+\caption{\lct{SeasideDemoWidget} 共通スタイルシート
 \figlabel{democss}}
 \end{figure}
-\figref{democss} illustrates a simple style sheet for the rendering demo shown earlier in \figref{RenderingDemo}.
-The first rule specifies a preference for the fonts to use for the \ct{body} of the web page.
-The next few rules specify properties of second-level headings (\ct{h2}), tables (\ct{table}), and table data (\ct{td}).
 
-The remaining rules have selectors that will match XHTML elements that have the given ``class'' or ``id'' attributes.
-CSS selectors for class attributes start with a ``\ct{.}'' and those for id attributes with ``\ct{#}''.
-The main difference between class and id attributes is that many elements may have the same class, but only one element may have a given id (\ie an \emph{identifier}). 
-So, whereas a class attribute, such as \ct{highlight}, may occur multiple times on any page, an id must identify a \emph{unique} element on the page, such as a particular menu, the modified date, or author.
-Note that a particular XHTML element may have multiple classes, in which case all the applicable display attributes will be applied in sequence.
+\figref{democss} は、\figref{RenderingDemo}で使われているスタイルシートのメソッドを示したものです。
+最初のルールは \ct{body}要素で使われるフォントを指定しています。さらに、見出しレベル2 (\ct{h2})、テーブル (\ct{table})、セル (\ct{td})についての定義が続きます。
+
+
+残りのルールは、特定の``class'' や ``id''を持つ XHTML要素についてです。クラス属性のCSSのセレクターは``\ct{.}''でid 属性のセレクターは``\ct{#}''で始まります。
+classと id の違いは、ページ内でid属性の要素は一つしか存在できませんが(\emph{IDのため})、クラス属性の要素は複数あっても良いということです。 \ct{highlight}はクラス属性なので、ページ内に何度も出てきてかまいません。id属性はページ内で \emph{唯一}の要素、例えばメニュー、更新日、作者の名前などで使われます。また、XHTMLの各要素には、複数のクラス属性が指定できます。その場合は指定された順番に沿って、表示の属性が適用されていきます。
 
 % This style sheet expects at most one element to specify the \emph{author} of the web page.
 
-Selector conditions may be combined, so the selector \ct{div.subcomponent} will only match an XHTML element if it is both a div \emph{and} it has a class attribute equal to ``subcomponent''.
+セレクターは組み合わせることができます。 \ct{div.subcomponent} というセレクターは、divで、クラス属性が``subcomponent''の要素のみを選択することになります。
 
-It is also possible to specify nested elements, though this is seldom necessary.
-For example, the selector ``\ct{p span}'' will match a span within a paragraph but not within a div.
+あまり必要になることはありませんが、ネストした要素を指定することも可能です。例えば ``\ct{p span}''は、段落内(p)のspanを選択します。div内のspanにマッチすることはありません。
 
-There are numerous books and web sites to help you learn CSS.
-For a dramatic demonstration of the power of CSS, we recommend you to have a look at the CSS Zen Garden\footnote{\url{http://www.csszengarden.com/}}, which shows how the same content can be rendered in radically different ways simply by changing the CSS style sheet.
+CSSについては多くの本やWebページがあります。CSSでどれだけのことができるかを知るには、CSS Zen　Garden\footnote{\url{http://www.csszengarden.com/}}のサイトを見てみると良いでしょう。CSSのスタイルシートを変えるだけで、同じ内容の文書をまったく異なったものに見さられるということがわかります。
 
 %-----------------------------------------------------------------
-\section{Managing control flow}
+\section{制御フローの管理}
 
-Seaside makes it particularly easy to design web applications with non-trivial control flow.
-There are basically two mechanisms that you can use:
+Seaside では、複雑なフローを持つWebアプリケーションを開発するのが、特に簡単にできるようになっています。基本的に二つの仕組みが提供されています。
 
 \begin{enumerate}
-  \item A component can \emph{call} another component by sending \ct{caller call: callee}.
-  The caller is temporarily replaced by the callee, until the callee returns control by sending \ct{answer:}.
-  The caller is usually \ct{self}, but could also be any other currently visible component.
+  \item コンポーネントは別のコンポーネントを \ct{caller call: callee}のように書いて、\emph{呼び出す}ことができます。呼び出し側は一時的に表示されなくなり、呼ばれた側に制御が移ります。\ct{answer:}によって、制御を元に返すことができます。呼び出し側は定型的には \ct{self}ですが、現在表示されているコンポーネントであればどれでもかまいません。
 
-  \item A workflow can be defined as a \emphsubind{Seaside}{task}.
-  This is a special kind of component that subclasses \clsind{WATask} (instead of \clsind{WAComponent}). \seclabel{task}
-  Instead of defining \ct{renderContentOn:}, it defines no content of its own, but rather defines a \ct{go} method that sends a series of \ct{call:} messages to activate various subcomponents in turn.
+  \item 全体のワークフローは \emphsubind{Seaside}{タスク}の仕組みで定義できます。\clsind{WAComponent}でなく、\clsind{WATask}を継承することで、特別なコンポーネントになります。 \seclabel{task} タスクは内部にコンポーネントを持ちません。
+   \ct{renderContentOn:}を実装する代わりに、 \ct{go} メソッドを定義し、全体の流れを、コンポーネントを順番に \ct{call:}形で書いていきます。
+  
 \end{enumerate}
 \index{Seaside!control flow}
 
 %-----------------------------------------------------------------
-\subsection{Call and answer}
+\subsection{call:とanswer:}
 
-Call and answer are used to realize simple dialogues.
+call:とanuswer:は単純なダイアログ形式のUIを実現するために使われます。
 
-There is a trivial example of \ct{call:} and \ct{answer:} in the rendering demo of \figref{RenderingDemo}.
-The component \ct{SeasideEditCallDemo} displays a text field and an \emph{edit} link.
-The callback for the edit link calls a new instance of \ct{SeasideEditAnswerDemo} initialized to the value of the text field.
-The callback also updates this text field to the result which is sent as an answer.
-
-(We underline the \ct{call:} and \ct{answer:} sends to draw attention to them.)
+ \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
+ \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
+ 
+(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています。)
 
 \begin{code}{}
 SeasideEditCallDemo>>>renderContentOn: html 
@@ -710,15 +657,11 @@ SeasideEditCallDemo>>>renderContentOn: html
 		with: 'edit'
 \end{code}{}
 
-What is particularly elegant is that the code makes absolutely no reference to the new web page that must be created.
-At run-time, a new page is created in which the \ct{SeasideEditCallDemo} component is replaced by a \ct{SeasideEditAnswerDemo} component; the parent component and the other peer components are untouched.
+次に表示されるべきWebページ全体を意識する部分がまったくない、というところがエレガントです。実行すると \ct{SeasideEditCallDemo} コンポーネントの部分が \ct{SeasideEditAnswerDemo} コンポーネントに成り代わり、ページ全体の表示が行われます。外側のコンポーネントや隣接するコンポーネントはそのままです。
 
-\important{\mthind{WAComponent}{call:} and \mthind{WAComponent}{answer:} should never be used while rendering.
-They may safely be sent from within a \subind{Seaside}{callback}, or from within the \mthind{WATask}{go} method of a task.}
+\important{\mthind{WAComponent}{call:} や \mthind{WAComponent}{answer:} はレンダリングの中に直接記述してはいけません。\subind{Seaside}{コールバック}や、タスクの\mthind{WATask}{go}メソッドの中で書くようにします。}
 
-The \ct{SeasideEditAnswerDemo} component is also remarkably simple.
-It just renders a form with a text field.
-The submit button is bound to a callback that will answer the final value of the text field.
+\ct{SeasideEditAnswerDemo} コンポーネントも非常にシンプルです。テキストフィールドの初期値を表示し、送信ボタンのコールバックで、最終的なテキストフィールドの値を返すように書いてあるだけです。
 
 \begin{code}{}
 SeasideEditAnswerDemo>>>renderContentOn: html
@@ -731,30 +674,24 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 		]
 \end{code}{}
 
-That's it.
+わずかこれだけでページの遷移が実現できます。
 
-Seaside takes care of the control flow and the correct rendering of all the components.
-Interestingly, the ``back'' button of the browser will also work just fine (though side effects are not rolled back unless we take additional steps).
+Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
 
 %-----------------------------------------------------------------
-\subsection{Convenience methods}
+\subsection{便利なメソッド群}
 
-Since certain call--answer dialogues are very common, Seaside provides some convenience methods to save you the trouble of writing components like \ct{SeasideEditAnswerDemo}.
-The generated dialogues are shown in \figref{dialogs}.
-We can see these convenience methods being used within \ct{SeasideDialogDemo>>>renderContentOn:}
-\index{Seaside!convenience methods}
+call/answerを使ったダイアログには非常に良く出てくるパターンがあります。そのためSeasideは、\ct{SeasideEditAnswerDemo}のような些細なコンポーネントをわざわ書かずにすむように、便利なメソッドを提供しています。便利メソッドによって生成されるダイアログを図で示しました(\figref{dialogs})。これらの便利メソッドの使用例は \ct{SeasideDialogDemo>>>renderContentOn:}で確認できます。
 
 \begin{figure}[b]
 \begin{center}
 \includegraphics[width=\textwidth]{dialogs}
-\caption{Some standard dialogs}
+\caption{標準ダイアログ}
 \figlabel{dialogs}
 \end{center}
 \end{figure}
 
-The message \mthind{WAComponent}{request:} performs a call to a component that will let you edit a text field.
-The component answers the edited string.
-An optional label and default value may also be specified.
+\mthind{WAComponent}{request:}では、編集できるテキストフィールド付きのコンポーネントが開きます。ユーザが入力したテキストが呼び出し側に返るようになっています。ラベルやデフォルト値も指定できます。
 
 \needlines{3}
 \begin{code}{}
@@ -765,8 +702,7 @@ SeasideDialogDemo>>>renderContentOn: html
 ...
 \end{code}
 
-The message \mthind{WAComponent}{inform:} calls a component that simply displays the argument message and waits for the user to click ``ok''.
-The called component just returns \ct{self}.
+\mthind{WAComponent}{inform:} では、単にユーザが指定した文字列を表示するコンポーネントが開きます。``ok''ボタンを押すとコンポーネントが閉じて制御が呼び出し側に戻ります。コンポーネントは単に\ct{self}を返すだけです。
 
 \begin{code}{}
 ...
@@ -777,8 +713,7 @@ The called component just returns \ct{self}.
 ...
 \end{code}
 
-The message \mthind{WAComponent}{confirm:} asks a questions and waits for the user to select either ``Yes'' or ``No''.
-The component answers a boolean, which can be used to perform further actions.
+\mthind{WAComponent}{confirm:} を使うと``Yes''/``No''の質問ダイアログとなり、ユーザはどちらかを選ぶことになります。真偽値を呼び出し側に返すので、それによって次の動作を決めることができます。
 
 \begin{code}{}
 ...
@@ -792,16 +727,16 @@ The component answers a boolean, which can be used to perform further actions.
 		with: 'self confirm:'.
 \end{code}
 
-A few further convenience methods, such as \mthind{WAComponent}{chooseFrom:caption:}, are defined in the \prot{convenience} protocol of \clsind{WAComponent}.
+\clsind{WAComponent}の\prot{convenience}プロトコルには、 \mthind{WAComponent}{chooseFrom:caption:}ような役に立つメソッドがさらに定義されています。
 
 %-----------------------------------------------------------------
-\subsection{Tasks}
+\subsection{タスク}
 
-A \subind{Seaside}{task} is a component that subclasses \clsind{WATask}.
-It does not render anything itself, but simply calls other components in a control flow defined by implementing the method \mthind{WATask}{go}.
+ \clsind{WATask}を継承すると、\subind{Seaside}{タスク}を定義できます。タスクは自身ではレンダリングを行いません。単に制御フローに沿って他のコンポーネントをcall:していくだけです。 \mthind{WATask}{go}に、制御の流れを書いていきます。
 
-\clsind{WAConvenienceTest} is a simple example of a task defined in the category \scat{Seaside-Tests-Functional}.
-To see its effect, just point your browser to \url{http://localhost:8080/seaside/tests/alltests}, select \menu{WAConvenienceTest} and click \button{Restart}.
+\scat{Seaside-Tests-Functional}クラスカテゴリに定義されている\clsind{WAConvenienceTest} は、タスクの簡単な使用例になっています。動作を確認するには、Webブラウザで \url{http://localhost:8080/seaside/tests/alltests}のURLを開き、 \menu{WAConvenienceTest} を選択して \button{Restart}ボタンを押します。
+
+%URLが古い。該当するクラスも3.0には存在しない。
 
 \begin{code}{}
 WAConvenienceTest>>>go
@@ -810,8 +745,7 @@ WAConvenienceTest>>>go
 	self informCheese
 \end{code}
 
-This task calls in turn three components.
-The first, generated by the convenience method \mthind{WAComponent}{chooseFrom: caption:}, is a \clsind{WAChoiceDialog} that asks the user to choose a cheese.
+このタスクでは3つのコンポーネントの呼び出しを順番に行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開き、ユーザは好きなチーズを選択します。
 
 \begin{code}{}
 WAConvenienceTest>>>chooseCheese
@@ -823,7 +757,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-The second is a \clsind{WAYesOrNoDialog} to confirm the choice (generated by the convenience method \mthind{WAComponent}{confirm:}).
+次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです。)
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese

@@ -20,8 +20,8 @@
 \usepackage{graphicx}
 \usepackage{theorem}
 \usepackage[english]{babel}
-% ON: pdfsync breaks the use of p{width} for tabular columns!
-\ifdefined\usepdfsync\usepackage{pdfsync}\fi % Requires texlive 2007
+%%% ON: pdfsync breaks the use of p{width} for tabular columns!
+%%\ifdefined\usepdfsync\usepackage{pdfsync}\fi % Requires texlive 2007
 %=============================================================
 %:More packages
 %Stef should check which ones are used!
@@ -72,7 +72,7 @@
 ]{hyperref}   % should come last
 %=============================================================
 %:PDF version
-\pdfminorversion=3 % Set PDF to 1.3 for Lulu
+%%\pdfminorversion=3 % Set PDF to 1.3 for Lulu
 %=============================================================
 %:URL style
 \makeatletter
@@ -145,17 +145,17 @@
 \newcommand{\hw}[1]{\nnbb{Hernan}{#1}} % Wilkinson
 %=============================================================
 %:Abbreviation macros
-\newcommand{\ie}{\emph{i.e.},\xspace}
-\newcommand{\eg}{\emph{e.g.},\xspace}
-\newcommand{\etc}{etc.\xspace}
+\newcommand{\ie}{\emph{すなわち}、}
+\newcommand{\eg}{\emph{例えば}、}
+\newcommand{\etc}{などなど。}
 %=============================================================
 %:Cross reference macros
-\newcommand{\charef}[1]{Chapter~\ref{cha:#1}\xspace}
-\newcommand{\secref}[1]{Section~\ref{sec:#1}\xspace}
-\newcommand{\figref}[1]{Figure~\ref{fig:#1}\xspace}
-\newcommand{\Figref}[1]{Figure~\ref{fig:#1}\xspace}
-\newcommand{\appref}[1]{Appendix~\ref{app:#1}\xspace}
-\newcommand{\tabref}[1]{Table~\ref{tab:#1}\xspace}
+\newcommand{\charef}[1]{第~\ref{cha:#1}~章}
+\newcommand{\secref}[1]{\ref{sec:#1}~節}
+\newcommand{\figref}[1]{図~\ref{fig:#1}\xspace}
+\newcommand{\Figref}[1]{図~\ref{fig:#1}\xspace}
+\newcommand{\appref}[1]{付録~\ref{app:#1}\xspace}
+\newcommand{\tabref}[1]{表~\ref{tab:#1}\xspace}
 \newcommand{\faqref}[1]{FAQ~\ref{faq:#1}, p.~\pageref{faq:#1}\xspace}
 % APB: I removed trailing \xspace commands from these macros because
 % \xspace mostly doesn't work.  If you want a space after your

@@ -41,38 +41,38 @@
 %Then we need a cookbook of how to do simple things in Morphic.
 %The observer pattern and its implementation with changed:  and update: messages could go here.  Or in ``Idiomatic design patterns'' later.}
 
-\indmain{Morphic} is the name given to \pharo's graphical interface.
-Morphic is written in \st, so it is fully portable between operating systems; as a consequence, \pharo looks exactly the same on Unix, MacOS and Windows.
-What distinguishes Morphic from most other user interface toolkits is that it does not have separate modes for ``composing'' and ``running'' the interface: all the graphical elements can be assembled and disassembled by the user, at any time.\footnote{We thank Hilaire Fernandes for permission to base this chapter on his original article in French.}
+\indmain{Morphic}は、\pharo のGUIに付けられた名前です。
+Morphicは\st で書かれており、さまざまなOSの間で完全な互換性があります。結果として、\pharo はUnix, MacOS, Windowsのいずれにおいても全く同じ見た目★になっています。
+Morphicと他の多くのGUIツールキット★（user interface toolkits）との違いは、インタフェースを「構成すること」と「実行すること」との間に差がないということです。画面上の全ての部品★（graphical elements）は、いつでもユーザーがまとめたり分けたりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
 
 \ab{After the first printing, I took an editing pass, correcting some errors and grammatical infelicities.}
 
 \on{I have commented out the LabelstickerMorph and PyramidMorph examples, as they do not really add much over the other examples we have already. The source code is now available in the example subdirectory, in case someone would like to try and use them after all.}
 
 %=================================================================
-\section{The history of Morphic}
+\section{Morphicの歴史}
 
-Morphic was developed by John Maloney and Randy Smith for the \ind{Self} programming language, starting around 1993. 
-Maloney later wrote a new version of Morphic for \squeak, but the basic ideas behind the Self version are still alive and well in \pharo Morphic: \emph{directness} and \emph{liveness}.
-Directness means that the shapes on the screen are objects that can be examined or changed directly, that is, by pointing at them using the mouse.
-Liveness means that the user interface is always able to respond to user actions: information on the screen is continuously updated as the world that it describes changes.
-A simple example of this is that you can detach a menu item and keep it as a button.
+Morphicは、John MaloneyとRandy Smithによって、\ind{Self}プログラミング言語のために、1993年頃から開発が始められました。
+Maloneyは、後に\squeak のために新しくMorphicを書き直しましたが、Self版の基本的な考え方は今でも\pharo のMorphicに受け継がれています。その基本的な考え方とは、\emph{directness}と\emph{liveness}です。
+Directnessとは、画面上の図形がオブジェクトであり、マウスでクリックして直接調べたり変更したりできるということです。
+Livenessとは、GUIがいつでもユーザーに反応できることです。つまり、画面上の情報は、それが表している世界が変わるたびに自動的に更新されます。
+単純な例を挙げるなら、メニューから項目を取り外したものをボタンとして機能させられるということです。
 
-\dothis{Bring up the world menu. \Metaclick once on the world menu to bring up its morphic halo\footnote{Recall that you should set \button{halosEnabled} in the Preferences browser. Alternatively, you can evaluate \ct{Preferences enable: \#halosEnabled} in a workspace.}, then \metaclick again on the menu item you want to detach to bring up its halo.  Now drag that item elsewhere on the screen by grabbing the black handle \grabHandle, as shown in \figref{detachingMenu}.}
+\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic Haloが現れます。\footnote{Preferencesブラウザで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、適当なメニュー項目の上で更に\metaclick をすると、メニュー項目の上にHaloが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
 \index{Morphic!halo}
 \index{blue button}
 
 \begin{figure}[ht]
 	\centerline{\includegraphics[width=0.3\textwidth]{detachingMenu}}
-	\caption{Detaching a morph, here the \menu{Workspace} menu item, to make it an independent button.
+	\caption{\menu{Workspace}メニューのモーフを取り外して独立したボタンにしているところ。
 		\figlabel{detachingMenu}}
 \end{figure}
 
-All of the objects that you see on the screen when you run \pharo are \emph{Morphs}, that is, they are instances of subclasses of class \ct{Morph}.
-\mbox{\ct{Morph}} itself is a large class with many methods; this makes it possible for subclasses to implement interesting behaviour with little code.
-You can create a morph to represent any object, although how good a representation you get depends on the object!
+\pharo を起動した後の画面上にある全てのオブジェクトは、\emph{モーフ}と呼ばれます。もちろん、これらのオブジェクトは\ct{Morph}クラスのインスタンスです。
+\mbox{\ct{Morph}}クラスは多くのメソッドを持つ大きなクラスであるため、少ないコードで面白い動作をするサブクラスを作れます。
+あらゆるオブジェクトを表現するモーフを作れますが、どのくらい良い表現が得られるかはそのオブジェクトによります。★(訳ダメ)
 
-\dothis{To create a morph to represent a string object, execute the following code in a workspace.} % , one line at a time.}
+\dothis{文字列オブジェクトを表すモーフを作るには、ワークスペースで以下のコードを実行します。} % , one line at a time.}
 \begin{code}{}
 'Morph' asMorph openInWorld
 \end{code}
@@ -85,37 +85,37 @@ You can create a morph to represent any object, although how good a representati
 %\cmindex{Morph}{openInWorld}
 % ON: openViewerForArgument is gone in pharo!
 
-This creates a Morph to represent the string \ct{'Morph'}, and then opens it (that is, displays it) in the ``world'', which is the name that \pharo gives to the screen.  
-You should obtain a graphical element\,---\,a Morph\,---\,which you can manipulate by \metaclick{ing}.
+これは、\ct{'Morph'}という文字列を表すモーフを作り、「ワールド」上で開きます。（つまり、表示します）「ワールド」とは、\pharo の画面のことです。
+表示されいてるモーフは\metaclick で掴めます。
 %The second line opens a ``viewer'' that shows you attributes of this Morph, such as its \ct{x} and \ct{y}  coordinates on the screen.  Clicking on one of the yellow exclamation marks sends a message to the Morph, which responds appropriately.
 
-Of course, it is possible to define morphs that are more interesting graphical representations than the one that you have just seen.
-The method \mthind{Object}{asMorph} has a default implementation in class \ct{Object} class that just creates a StringMorph.
-So, for example, \ct{Color tan asMorph} returns a StringMorph labeled with the result of \clsind{Color} \ct{tan printString}.
-Let's change this so that we get a coloured rectangle instead.
+もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
+class \ct{Object}クラスにある\mthind{Object}{asMorph}メソッドのデフォルトの実装では、単にStringMorphを作るだけです。
+例えば、\ct{Color tan asMorph}は、単に\clsind{Color} \ct{tan printString}というラベルを持つStringMorphを返します。
+代わりに色のついた長方形を返すようにしましょう。
 
-\dothis{Open a browser on the \ct{Color} class and add the following method to it:}
+\dothis{ブラウザを開き\ct{Color}クラスに以下のメソッドを追加します。}
 \needlines{3}
-\begin{method}{Getting a morph for an instance of \ct{Color}.}
+\begin{method}{\ct{Color}のインスタンスを表すモーフを返す}
 Color>>>asMorph
 	^ Morph new color: self
 \end{method}
 \noindent
-Now execute \ct{Color orange asMorph} \mthind{Morph}{openInWorld} in a workspace. Instead of the string-like morph, you get an orange rectangle!
+ワークスペースで\ct{Color orange asMorph} \mthind{Morph}{openInWorld}を実行すれば、文字列のモーフの代わりにオレンジ色の長方形が現れます。
 
 
 %=================================================================
-\section{Manipulating morphs}
+\section{モーフを操作する}
 
-Morphs are objects, so we can manipulate them like any other object in \st: by sending messages, we can change their properties, create new subclasses of Morph, and so on.
+モーフはオブジェクトです。つまり、\st の他のオブジェクトと同様に操作できます。
+メッセージを送ることで属性を変えたり、新しいMorphのサブクラスを作ったりできます。
+どんなモーフも（たとえ画面に表示されていないものであっても）位置と大きさを持っています。
+便宜上、全てのモーフは画面上の四角形の領域を占めていると考えます。不規則な形状の場合、その位置と大きさは、そのモーフを囲む最小の四角形の「箱」となります。この箱を、モーフのバウンディングボックス★、あるいは単に「bounds★」と言います。
+\mthind{Morph}{position}メソッドは、モーフの左上の座標（またはモーフのバウンディングボックスの左上の座標）を表す\ct{Point}オブジェクトを返します。
+この座標系の原点は画面の左上の端にあります。$y$座標は画面の\emph{下に}向って増えていき、$x$座標は右に向って増えていきます。
+\ct{extent}メソッドも\ct{Point}オブジェクトを返しますが、位置ではなくモーフの幅と高さからなる座標値を返します。
 
-Every morph, even if it is not currently open on the screen, has a position and a size.  
-For convenience, all morphs are considered to occupy a rectangular region of the screen; if they are irregularly shaped, their position and size are those of the smallest rectangular ``box'' that surrounds them, which is known as the morph's bounding box, or just its ``bounds''.
-The \mthind{Morph}{position} method returns a \ct{Point} that describes the location of the morph's upper left corner (or the upper left corner of its bounding box). 
-The origin of the coordinate system is the screen's upper left corner, with $y$ coordinates increasing \emph{down} the screen and $x$ coordinates increasing to the right.
-The \ct{extent} method also returns a point, but this point specifies the width and height of the morph rather than a location.
-
-\dothis{Type the following code into a workspace and \menu{do it}:}
+\dothis{ワークスペースに以下のコードを入力し\menu{do it}します。}
 \begin{code}{}
 joe := Morph new color: Color blue.
 joe openInWorld.
@@ -123,27 +123,28 @@ bill := Morph new color: Color red .
 bill openInWorld.
 \end{code}
 \noindent
-Then type \ct{joe position} and \menu{print it}.
-To move joe, execute \ct{joe position: (joe position + (10@3))} repeatedly.
+さらに、\ct{joe position}と入力して\menu{print it}します。joeを動かすために、\ct{joe position: (joe position + (10@3))}を繰り返して実行します。
 
-It is possible to do a similar thing with size.
-\ct{joe} \mthind{Morph}{extent} answers joe's size; to have joe grow, execute \ct{joe extent: (joe extent * 1.1)}.
-To change the color of a morph, send it the \mthind{Morph}{color:} message with the desired \ct{Color} object as argument, for instance, \ct{joe color: Color orange}.
-To add transparency, try \ct{joe color: (Color orange alpha: 0.5)}.
+大きさについても同様のことが可能です。
+\ct{joe} \mthind{Morph}{extent}はjoeの大きさを返します。
+joeを大きくするには、\ct{joe extent: (joe extent * 1.1)}を実行します。
+モーフの色を変えるには、好きな\ct{Color}オブジェクトを引数にして\mthind{Morph}{color:}メッセージを送ります。例えば、\ct{joe color: Color orange}のようにします。
+透明度を設定するには、\ct{joe color: (Color orange alpha: 0.5)}を試してください。
 
-\dothis{To make bill follow joe, you can repeatedly execute this code:}
+\dothis{billにjoeの後を追いかけさせるには、以下のコードを繰り返して実行します。}
 \begin{code}{}
 bill position: (joe position + (100@0))
 \end{code}
 \noindent
-If you move joe using the mouse and then execute this code, bill will move so that it is 100 pixels to the right of joe.
+マウスでjoeを移動した後にこのコードを実行すれば、billはjoeの100ピクセル右側に移動するでしょう。
 \ab{It would seem that this would be a good place to introduce the \ct{step} method}.
 
 %=================================================================
-\section{Composing morphs}
+\section{モーフの組み込み★（Composing morphs）}
 
-One way of creating new graphical representations is by placing one morph inside another.
-This is called \emph{composition}; morphs can be composed to any depth.
+新しいグラフィカルな表現★(graphical representations)を作る一つの方法は、モーフの内側に別のモーフを置くことです。
+これをモーフの\emph{組み込み★(composition)}と言います。モーフはどんな深さにも組み込めます。
+
 %
 %To create new morphs, there are two main techniques that you can combine:
 %\begin{enumerate}
@@ -152,9 +153,9 @@ This is called \emph{composition}; morphs can be composed to any depth.
 %\end{enumerate}
 %}
 \index{Morph!composing}
-You can place a morph inside another by sending the message \mthind{Morph}{addMorph:} to the container morph.
+モーフを別のモーフに組み込むには、\mthind{Morph}{addMorph:}というメッセージを入れ物となるモーフに送ります。
 
-\dothis{Try adding a morph to another one:}
+\dothis{あるモーフを別のモーフに加えましょう。}
 \begin{code}{}
 star := StarMorph new color: Color yellow.
 joe addMorph: star.
@@ -162,35 +163,36 @@ star position: joe position.
 \end{code}
 
 \noindent
-The last line positions the star at the same coordinates as joe.
-Notice that the coordinates of the contained morph are still relative to the screen, not to the containing morph.
-There are many  methods available to position a morph; browse the \protind{geometry} protocol of class \ct{Morph} to see for yourself.
-For example, 
-to center the star inside joe, execute \ct{star} \mthind{Morph}{center:} \ct{joe center}.
+最後の行では、星をjoeと同じ座標に置いています。
+組み込まれたモーフの座標は、入れ物となるモーフを基準とせず画面を基準とすることに気をつけてください。
+モーフの位置を設定するためには多くのメソッドがあります。
+\ct{Morph}クラスの\protind{geometry}をブラウズすれば自分自身で確認できます。
+例えば、joeの中心に星を置くには、\ct{star} \mthind{Morph}{center:} \ct{joe center}を実行します。
 
 \begin{figure}[ht]
 	\centerline{\includegraphics{joeStar}}
-	\caption{The star is contained inside joe, the translucent blue morph.
+	\caption{青色の半透明なモーフであるjoeに星が組み込まれている。
 		\figlabel{joeStar}}
 \end{figure}
 
-If you now try to grab the star with the mouse, you will find that you actually grab joe, and the two morphs move together: the star is \emph{embedded} inside joe.
-It is possible to embed more morphs inside joe.  
-In addition to doing this programmatically, you can also embed morphs by direct manipulation.
+マウスで星を掴もうとすると実際にはjoeを掴み、２つのモーフが一緒に動きます。星はjoeの内側に\emph{埋め込まれて★（embedded）}います。
+joeの内側にもっと多くのモーフを埋め込むことができます。
+プログラムによる埋め込みに加え、直接的な操作によっても埋め込むことができます。
 
 %=================================================================
-\section{Creating and drawing your own morphs}
+\section{自由にモーフを作り、描く}
 
-While it is possible to make many interesting and useful graphical representations by composing morphs, sometimes you will need to create something completely different.
+モーフの組み込みによりたくさんの便利で面白いグラフィカルな表現を作れますが、いずれ今までと全く違う何かを作りたいと思うでしょう。
 \index{Morph!subclassing}
-To do this you define a subclass of \ct{Morph} and override the \mthind{Morph}{drawOn:} method to change its appearance.
+そのためには、\ct{Morph}のサブクラスを作り\mthind{Morph}{drawOn:}メソッドをオーバーライドすれば、見た目を変更できます。
 
-The morphic framework sends the message \ct{drawOn:} to a morph when it needs to redisplay the morph on the screen.  The parameter to \ct{drawOn:}  is a kind of \clsind{Canvas}; the expected behaviour is that the morph will draw itself on that canvas, inside its bounds.
-Let's use this knowledge to create a cross-shaped morph.
+Morphicのフレームワークは、モーフの再描画が必要となった際に、モーフに対して\ct{drawOn:}メッセージを送ります。
+\ct{drawOn:}メッセージの引数は、\clsind{Canvas}クラス（またはそのサブクラス）のインスタンスで、期待される振る舞いは、モーフが自分自身をキャンバスのbounds内に描くことです。
+この知識を使って十字モーフを作ってみましょう。
 \index{Morph!subclassing}
 
-\dothis{Using the browser, define a new class \clsind{CrossMorph} inheriting from \ct{Morph}:}
-\begin{classdef}{Defining \ct{CrossMorph}}
+\dothis{ブラウザを開き、\ct{Morph}を継承した\clsind{CrossMorph}クラスを新しく定義します。}
+\begin{classdef}{\ct{CrossMorph}を定義する}
 Morph subclass: #CrossMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -198,8 +200,8 @@ Morph subclass: #CrossMorph
 	category: 'PBE-Morphic'
 \end{classdef}
 
-We can define the \ct{drawOn:} method like this:
-\begin{method}[firstDrawOn]{Drawing a \ct{CrossMorph}.}
+以下のように\ct{drawOn:}メソッドを定義できます。
+\begin{method}[firstDrawOn]{\ct{CrossMorph}を描く}
 drawOn: aCanvas 
 	| crossHeight crossWidth horizontalBar verticalBar |
 	crossHeight := self height / 3.0 .
@@ -215,25 +217,27 @@ drawOn: aCanvas
 	\ifluluelse
 		{\centerline{\includegraphics[width=0.3\textwidth]{NewCross}}}
 		{\centerline{\includegraphics{NewCross}}}
-	\caption{A \ct{CrossMorph} with its halo; you can resize it as you wish.
+	\caption{Haloを伴った\ct{CrossMorph}。自由に大きさを変更できる。
 		\figlabel{cross}}
 \end{figure}
 
 
-Sending the \mthind{Morph}{bounds} message to a morph answers its bounding box, which is an instance of \clsind{Rectangle}.  Rectangles understand many messages that create other rectangles of related geometry; here we use the \ct{insetBy:} message with a point as its argument to create first a rectangle with reduced height, and then another rectangle with reduced width.
+モーフに\mthind{Morph}{bounds}メッセージを送ると、\clsind{Rectangle}クラスのインスタンスであるバウンディングボックスが返されます。\clsind{Rectangle}クラスのインスタンスは、関連するジオメトリの他の四角形を作る★(訳ダメダメother rectangles of related geometry)数多くのメッセージを理解します。
+上の例では、点を引数に指定した\ct{insetBy:}メッセージを使って高さを低くした四角形を作り、さらに幅を縮めた四角形を作っています。
 
-\dothis{To test your new morph, execute \ct{CrossMorph new} \mthind{Morph}{openInWorld}.}
-The result should look something like \figref{cross}.
-However, you will notice that the sensitive zone\,---\,where you can click to grab the morph\,---\,is still the whole bounding box.  Let's fix this.
+\dothis{新しいモーフをテストするために、\ct{CrossMorph new} \mthind{Morph}{openInWorld}を実行します。}
+実行すると\figref{cross}のようになります。
+しかし、敏感な場所★(sensitive zone)（つまりモーフを掴むのにクリックするところ）がバウンディングボックス全体になっていることに気づくと思います。
+これを解決しましょう。
 
-When the Morphic framework needs to find out which Morphs lie under the cursor, it sends the message \ct{containsPoint:} to all the morphs whose bounding boxes lie under the mouse pointer.
-So, to limit the sensitive zone of the morph to the cross shape, we need to override the \ct{containsPoint:} method.
+Morphicフレームワークは、モーフがカーソルの下にあるかどうか知る必要があるとき、マウスポインタの下にバウンディングボックスがある全てのモーフに対して、\ct{containsPoint:}メッセージを送ります。
+つまり、モーフの十字部分にだけ敏感な場所を制限するには、\ct{containsPoint:}メソッドをオーバーライドします。
 
 
-\dothis{Define the following method in class \ct{CrossMorph}:}
+\dothis{\ct{CrossMorph}クラスに以下のメソッドを定義します。}
 
 \needlines{4}
-\begin{method}[firstContains]{Shaping the sensitive zone of the \ct{CrossMorph}.}
+\begin{method}[firstContains]{\ct{CrossMorph}の敏感な場所を設定する。}
 containsPoint: aPoint
 	| crossHeight crossWidth horizontalBar verticalBar |
 	crossHeight := self height / 3.0.
@@ -244,13 +248,15 @@ containsPoint: aPoint
 		or: [verticalBar containsPoint: aPoint]
 \end{method}
 
-This method uses the same logic as \ct{drawOn:}, so we can be confident that the points for which \ct{containsPoint:} answers \ct{true} are the same ones that will be colored in by \ct{drawOn}. 
-Notice how we leverage the \mthind{Rectangle}{containsPoint:} method in class \ct{Rectangle} to do the hard work.
+このメソッドは\ct{drawOn:}と同じ方法を使います。
+要は、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると言えるからです。
+\ct{Rectangle}クラスの\mthind{Rectangle}{containsPoint:}を活用すれば、この面倒な仕事をやりとげることができます。
 
-There are two problems with the code in \mthsref{firstDrawOn} and \ref{mth:firstContains}.
-The most obvious is that we have duplicated code.
-This is a cardinal error: if we find that we need to change the way that \ct{horizonatalBar} or \ct{verticalBar} are calculated, we are quite likely to forget to change one of the two occurrences.
-The solution is to factor out these calculations into two new methods, which we put in the \ct{private} protocol:
+メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには２つの問題点があります。
+あきらかな点は、コードが重複していることです。
+これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、２カ所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
+解決方法は、これらの計算を新たな２つのメソッドに分けることです。
+どちらも\ct{private}プロトコルに格納します。
 
 \needlines{4}
 \begin{method}{\ct{horizontalBar}.}
@@ -269,32 +275,32 @@ verticalBar
 \end{method}
 
 \noindent
-We can then define both \ct{drawOn:} and \ct{containsPoint:} using these methods:
+これらのメソッドを使って\ct{drawOn:}と\ct{containsPoint:}の両方を書き直します。
 
 \needlines{4}
-\begin{method}{Refactored \ct{CrossMorph>>>drawOn:}.}
+\begin{method}{リファクタリング後の\ct{CrossMorph>>>drawOn:}.}
 drawOn: aCanvas 
 	aCanvas fillRectangle: self horizontalBar color: self color.
 	aCanvas fillRectangle: self verticalBar color: self color
 \end{method}
 
 \needlines{4}
-\begin{method}{Refactored \ct{CrossMorph>>>containsPoint:}.}
+\begin{method}{リファクタリング後の\ct{CrossMorph>>>containsPoint:}.}
 containsPoint: aPoint 
 	^ (self horizontalBar containsPoint: aPoint)
 		or: [self verticalBar containsPoint: aPoint]
 \end{method}
 
-This code is much simpler to understand, largely because we have given meaningful names to the private methods.
-In fact, it is so simple that you may have noticed the second problem: the area in the center of the cross, which is under both the horizontal and the vertical bars, is drawn twice.  
-This doesn't matter when we fill the cross with an opaque colour, but the bug becomes apparent immediately if we draw a semi-transparent cross, as shown in \figref{overdrawBug}.
+意味のある名前をプライベートメソッドにしたことで、このコードはより簡単に理解できるようになりました。
+実際、すぐに２番目の問題が明らかになります。それは、十字の中央の部分がhorizontalBarとverticalBarの両者の下になっており、２度描かれてしまうという問題です。
+不透明な色を塗る場合には問題になりませんが、\figref{overdrawBug}に示すような半透明な色で描くとすぐにこのバグが露見します。
 
 \begin{figure}[t]
 \begin{minipage}{0.48\textwidth}
 	\ifluluelse
 		{\centerline{\includegraphics[scale=0.6]{overdrawBug}}}
 		{\centerline{\includegraphics{overdrawBug}}}
-	\caption{The center of the cross is filled twice with the colour.
+	\caption{十字の中央が２度描かれる。
 		\figlabel{overdrawBug}}
 \end{minipage}
 \hfill
@@ -302,13 +308,13 @@ This doesn't matter when we fill the cross with an opaque colour, but the bug be
 	\ifluluelse
 		{\centerline{\includegraphics[scale=0.6]{hairlineBug}}}
 		{\centerline{\includegraphics{bug}}}
-	\caption{The cross-shaped morph, showing a row of unfilled pixels.
+	\caption{塗られていない部分のある十字モーフ。
 		\figlabel{bug}}
 \end{minipage}
 \end{figure}
 
 \needlines{4}
-\dothis{Execute the following code in  a workspace, line by line:}
+\dothis{ワークスペースで、以下のコードを１行ずつ実行します。}
 
 \begin{code}{}
 m := CrossMorph new bounds: (0@0 corner: 300@300).
@@ -317,11 +323,12 @@ m color: (Color blue alpha: 0.3).
 \end{code}
 
 \noindent
-The fix is to divide the vertical bar into three pieces, and to fill only the top and bottom.  
-Once again we find a method in class \ct{Rectangle} that does the hard work for us: \ct{r1 areasOutside: r2} answers an array of rectangles comprising the parts of \ct{r1} outside \ct{r2}.
-Here is the revised code:
+この解決法は、verticalBarを３つの部分に分け、上側と下側の部分だけ描くということです。
+再度、\ct{Rectangle}クラスでこの面倒な仕事をするメソッドを見つけます。
+\ct{r1 areasOutside: r2}は、\ct{r2}の外側に出ている\ct{r1}の部分を含んだ、四角形の配列を返します。
+以下が改良されたコードになります。
 
-\begin{method}{The revised \ct{drawOn:} method, which fills the center of the cross once.}
+\begin{method}{\ct{drawOn:}メソッドの改良版。十字の中心を一度だけ描く。}
 drawOn: aCanvas 
 	| topAndBottom |
 	aCanvas fillRectangle: self horizontalBar color: self color.
@@ -329,13 +336,12 @@ drawOn: aCanvas
 	topAndBottom do: [ :each | aCanvas fillRectangle: each color: self color]
 \end{method}
 
-This code seems to work, but if you try it on some crosses and resize them, you may notice that at some sizes, a one-pixel wide line separates the bottom of the cross from the remainder, as shown in \figref{bug}.
-This is due to rounding: when the size of the rectangle to be filled is not an integer, \ct{fillRectangle: color:}
-seems to round inconsistently, leaving one row of pixels unfilled.
-We can work around this by rounding explicitly when we calculate the sizes of the bars.
+このコードは正しく動作するように見えますが、何回か十字の大きさを変更しようとすると、\figref{bug}のように、ある大きさの時に１ピクセル分の幅の線が十字の下側と残りの部分を分けてしまうことに気づきます。
+これは丸め誤差のせいです。塗りつぶそうとする四角形の大きさが整数でない時に、\ct{fillRectangle: color:}が不適切に数値を丸めてしまい、１ピクセル分だけ塗りつぶされなくなるからです。
+このバグは、四角形の大きさを計算する際に明示的に四捨五入することで解決できます。
 
 \needlines{5}
-\begin{method}{\ct{CrossMorph>>>horizontalBar} with explicit rounding.}
+\begin{method}{明示的に四捨五入した\ct{CrossMorph>>>horizontalBar}}
 horizontalBar
 	| crossHeight |
 	crossHeight := (self height / 3.0) rounded.
@@ -343,7 +349,7 @@ horizontalBar
 \end{method}
 
 \needlines{5}
-\begin{method}{\ct{CrossMorph>>>verticalBar} with explicit rounding.}
+\begin{method}{明示的に四捨五入した\ct{CrossMorph>>>verticalBar}}
 verticalBar
 	| crossWidth |
 	crossWidth := (self width / 3.0) rounded.
@@ -392,32 +398,33 @@ verticalBar
 
 
 %=================================================================
-\section{Interaction and animation}
+\section{対話★(interaction)とアニメーション}
 
-To build live user-interfaces using morphs, we need to be able to interact with them using the mouse and the keyboard.
-Moreover, the morphs need to be able respond to user input by changing their appearance and position\,---\,that is, by animating themselves.
+モーフを使って、生きたユーザー・インタフェースを実現するには、マウスやキーボードでモーフと対話できなければなりません。
+さらに、モーフは自分の見た目や位置を変えることで（つまり自分自身のアニメーションによって）、ユーザーからの入力に反応する必要があります。
 
 
-\subsection{Mouse events}
+\subsection{マウスイベント}
 
-When a mouse button is pressed, Morphic sends each morph under the mouse pointer the message \ct{handlesMouseDown:}. If a morph answers \ct{true}, then Morphic immediately sends it the \mthind{Morph}{mouseDown:} message; it also sends the \mthind{Morph}{mouseUp:} message when the user releases the mouse button.
-If all morphs answer \ct{false}, then Morphic initiates a drag-and-drop operation.
-As we will discuss below, the \ct{mouseDown:} and \ct{mouseUp:} messages are sent with an argument\,---\,a \clsind{MouseEvent} object\,---\,that encodes the details of the mouse action.
+マウスボタンが押されたとき、Morphicはマウスポインタの下にある各モーフに対して\ct{handlesMouseDown:}メッセージを送ります。
+もし、モーフが\ct{true}を返すと、Morphicは直ちにそのモーフに対して\mthind{Morph}{mouseDown:}メッセージを送ります。ユーザーがマウスボタンを離した際にも\mthind{Morph}{mouseUp:}メッセージを送ります。
+全てのモーフが\ct{false}を返すと、Morphicはドラッグ＆ドロップの操作を開始します。
+後述するように、\ct{mouseDown:}と\ct{mouseUp:}メッセージは、\clsind{MouseEvent}オブジェクトの引数を伴って送られます。この引数は、マウスの動作の詳細を表しています。
 
-Let's extend \ct{CrossMorph} to handle mouse events.  
-We start by ensuring that all crossMorphs answer \ct{true} to the \mthind{Morph}{handlesMouseDown:} message. 
+\ct{CrossMorph}クラスを拡張して、マウスイベントを扱うようにしましょう。
+まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに\ct{true}を返すようにします。
 
-\dothis{Add this method to \ct{CrossMorph}:}
-\begin{method}{Declaring that \ct{CrossMorph} will react to mouse clicks.}
+\dothis{\ct{CrossMorph}に以下のメソッドを追加します。}
+\begin{method}{\ct{CrossMorph}がマウスクリックに反応するように宣言する。}
 CrossMorph>>>handlesMouseDown: anEvent
 	^true
 \end{method}
 
-Suppose that when we click on the cross, we want to change the color of the cross to red, and when we \actclick on it, we want to change the color to yellow.
-This can be accomplished by \mthref{mouseDown}.
+十字モーフのクリックで赤色に変わり、\actclick で黄色に変わるようにしましょう。
+これは\mthref{mouseDown}によって実現できます。
 
 \needlines{7}
-\begin{method}[mouseDown]{Reacting to mouse clicks by changing the morph's color.}
+\begin{method}[mouseDown]{マウスクリックに反応してモーフの色を変えるようにする。}
 CrossMorph>>>mouseDown: anEvent
 	anEvent redButtonPressed "click"
 		ifTrue: [self color: Color red].
@@ -427,49 +434,53 @@ CrossMorph>>>mouseDown: anEvent
 \end{method}
 
 \ab{I added this note:}
-Notice that in addition to changing the color of the morph, this method also sends \ct{self changed}.
-This makes sure that morphic sends \ct{drawOn:} in a timely fashion.
+このメソッドでは、モーフの色を変えた後で\ct{self changed}を送っていることに注意してください。
+これによって、Morphicは直ちに\ct{drawOn:}を送るようになります。
 \ab{However, the \ct{self changed} message seems to be entirely unnecessary; the colour changes instantly without it.}
-Note also that once the morph handles \ind{mouse events}, you can no longer grab it with the mouse and move it.
-Instead you have to use the halo: \metaclick on the morph to make the halo appear and grab either the brown move handle \moveHandle{} or the black pickup handle \grabHandle{} at the top of the morph.
+なお、いったんモーフが\ind{マウスイベント}を処理すると、もはやモーフをマウスで掴んで動かすことができなくなることに気をつけてください。
+その代わりにHaloを使う必要があります。
+モーフ上の\metaclick でHaloを出し、モーフの上部にある茶色の\moveHandle{}か、赤の\grabHandle{}のいずれかでモーフを掴みます。
 
-The \ct{anEvent} argument of \ct{mouseDown:} is an instance of \mbox{\clsind{MouseEvent},} which is a subclass of \lct{Mor\-phic\-Event}. \ct{MouseEvent} defines the \mthind{MouseEvent}{redButtonPressed} and \mthind{MouseEvent}{yellowButtonPressed} methods. Browse this class to see what other methods it provides to interrogate the mouse event.
+\ct{mouseDown:}の引数の\ct{anEvent}は、\mbox{\clsind{MouseEvent}クラス}のインスタンスです。これは\lct{Mor\-phic\-Event}クラスのサブクラスです。
+\ct{MouseEvent}では、\mthind{MouseEvent}{redButtonPressed}と\mthind{MouseEvent}{yellowButtonPressed}メソッドを定義しています。
+マウスイベントを扱うメソッドにどんなものがあるか調べるには、このクラスをブラウズします。
 
-\subsection{Keyboard events}
+\subsection{キーボードイベント}
 
-To catch \ind{keyboard events}, we need to take three steps.
+\ind{キーボードイベント}を得るには、次の３ステップを必要とします。
 \begin{enumerate}
-	\item Give the ``keyboard focus'' to a specific morph: for instance we can give focus to our morph when the mouse is over it.
-	\item Handle the keyboard event itself with the \mthind{Morph}{handleKeystroke:} method: this message is sent to the morph that has keyboard focus when the user presses a key.
-	\item Release the keyboard focus when the mouse is no longer over our morph.
+	\item 「キーボードフォーカス」を特定のモーフに与えます。例えば、マウスがモーフの上にあるときに、フォーカスを与えることができます。
+	\item 
+\mthind{Morph}{handleKeystroke:}メソッドを使って、モーフがキーボードイベントを処理するようにします。このメッセージは、ユーザーがキーを押した際に、キーボードフォーカスを持っているモーフへ送られます。
+	\item マウスがモーフの上にない時に、キーボードフォーカスを解放します。
 \end{enumerate}
 
-Let's extend \ct{CrossMorph} so that it reacts to keystrokes.
-First, we need to arrange to be notified when the mouse is over the morph.
-This will happen if our morph answers \ct{true} to the \mthind{Morph}{handlesMouseOver:} message
+キー入力に反応するように\ct{CrossMorph}クラスを拡張します。
+まず、マウスがモーフ上にあることを通知するように変更します。
+これは、\mthind{Morph}{handlesMouseOver:}メッセージに\ct{true}を返すことで実現できます。
 
-\dothis{Declare that \ct{CrossMorph} will react when it is under the mouse pointer.}
-\begin{method}{We want to handle ``mouse over'' events.} 
+\dothis{モーフがマウスポインタの下にある時に、\ct{CrossMorph}が対応できるよう宣言します。}
+\begin{method}{「マウスオーバー」イベントを扱えるようにする。} 
 CrossMorph>>>handlesMouseOver: anEvent
 	^true
 \end{method}
 
 \noindent
-This message is the equivalent of \mthind{Morph}{handlesMouseDown:} for the mouse position.
-When the mouse pointer enters or leaves the morph, the \mthind{Morph}{mouseEnter:} and \mthind{Morph}{mouseLeave:} messages are sent to it.
+マウスの位置の取り扱いは\mthind{Morph}{handlesMouseDown:}の場合と同様です。
+マウスポインタがモーフに入る、または離れる際に、\mthind{Morph}{mouseEnter:}と\mthind{Morph}{mouseLeave:}メッセージがモーフに送られます。
 
-\dothis{Define two methods so that \ct{CrossMorph} catches and releases the keyboard focus, and a third method to actually handle the keystrokes.}
-\begin{method}{Getting the keyboard focus when the mouse enters the morph.}
+\dothis{\ct{CrossMorph}クラスがキーボードフォーカスの獲得と解放を行えるように、２つのメソッドを定義します。３つ目のメソッドで実際にキー入力を処理します。}
+\begin{method}{マウスがモーフに入ったときにキーボードフォーカスを獲得する。}
 CrossMorph>>>mouseEnter: anEvent
 	anEvent hand newKeyboardFocus: self
 \end{method}
 
-\begin{method}{Handing back the focus when the pointer goes away.}
+\begin{method}{マウスポインタがモーフから離れた時に、キーボードフォーカスを解放する。}
 CrossMorph>>>mouseLeave: anEvent
 	anEvent hand newKeyboardFocus: nil
 \end{method}
 
-\begin{method}[handleKeystroke]{Receiving and handling keyboard events.}
+\begin{method}[handleKeystroke]{キーボードイベントを受け取って処理する。}
 CrossMorph>>>handleKeystroke: anEvent
 	| keyValue |
 	keyValue := anEvent keyValue.
@@ -483,34 +494,37 @@ CrossMorph>>>handleKeystroke: anEvent
 		ifTrue: [self position: self position - (1 @ 0)]
 \end{method}
 
-We have written this method so that you can move the morph using the arrow keys.
-Note that when the mouse is no longer over the morph, the \mthind{Morph}{handleKeystroke:} message is not sent, so the morph stops responding to keyboard commands.
-To discover the key values, you can open a Transcript window and add \glbind{Transcript} \ct{show: anEvent keyValue} to \mthref{handleKeystroke}.
-The \ct{anEvent} argument of \ct{handleKeystroke:} is an instance of \clsind{KeyboardEvent}, another subclass of \clsind{MorphicEvent}. Browse this class to learn more about keyboard events.
+矢印キーを使ってモーフを動かすことができるようなメソッドを書きました。
+マウスがモーフの上にない時には、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
+キーの値を知りたいときは、Transcriptウィンドウを出し、\glbind{Transcript} \ct{show: anEvent keyValue}を\mthref{handleKeystroke}に加えてください。
+\ct{handleKeystroke:}の引数の\ct{anEvent}は、\clsind{KeyboardEvent}のインスタンスで、\clsind{MorphicEvent}クラスのサブクラスです。
+このクラスをブラウズすれば、キーボードイベントについて更に学習できます。
 
-\subsection{Morphic animations}
+\subsection{Morphicアニメーション}
 
-Morphic provides a simple animation system with two main methods: \mthind{Morphic}{step} is sent to a morph at regular intervals of time, while \mthind{Morphic}{stepTime} specifies the time in milliseconds between \ct{step}s.\footnote{\ct{stepTime} is actually the \emph{minimum} time between \ct{step}s.   If you ask for a \ct{stepTime} of 1\,ms, don't be surprised if \pharo is too busy to step your morph that often.}
-In addition, 
-\mthind{Morphic}{startStepping} turns on the stepping mechanism, while \mthind{Morphic}{stopStepping} turns it off again;  \mthind{Morphic}{isStepping} can be used to find out whether a morph is currently being stepped.
+Morphicは主に２つのメソッドからなる単純なアニメーション機能を提供します。
+\mthind{Morphic}{step}が一定の間隔でモーフに送られ、\mthind{Morphic}{stepTime}は\ct{step}の間隔をミリ秒単位で指定します。\footnote{実際には、\ct{stepTime}は\ct{step}間の\emph{最小}時間を指定します。仮に\ct{stepTime}を1にしても、\pharo の負荷が高くなりすぎて、それほど頻繁にstepをモーフに送れないので注意してください。}
+加えて、\mthind{Morphic}{startStepping}はstepを開始させ、\mthind{Morphic}{stopStepping}はそれを停止させます。
+stepが始まっているかどうかを知るには、\mthind{Morphic}{isStepping}を使います。
+
 \index{Morphic!animation}
 
-\dothis{Make \ct{CrossMorph} blink by defining these methods as follows:}
-\begin{method}{Defining the animation time interval.}
+\dothis{以下のようなメソッドを定義して、\ct{CrossMorph}を点滅させます。}
+\begin{method}{アニメーションの間隔を設定する。}
 CrossMorph>>>stepTime
 	^ 100
 \end{method}
-\begin{method}{Making a step in the animation.}
+\begin{method}{アニメーションのstepを作る。}
 CrossMorph>>>step
 	(self color diff: Color black) < 0.1
 		ifTrue: [self color: Color red]
 		ifFalse: [self color: self color darker]
 \end{method}
 \noindent
-To start things off, you can open an inspector on a \ct{CrossMorph} (using the debug handle \debugHandle{} in the morphic halo), type \ct{self startStepping} in the small workspace pane at the bottom, and  \menu{do it}.
-Alternatively, you can modify the \ct{handleKeystroke:} method so that you can use the $+$ and $-$ keys to start and stop stepping. 
+アニメーションを開始させるには、\ct{CrossMorph}上でインスペクタを開いて（Haloのデバッグハンドル\debugHandle{}を使います）、下部の小さなワークスペースペインに\ct{self startStepping}と入力し、\menu{do it}を実行します。
+代わりに\ct{handleKeystroke:}メソッドを変更して、$+$キーと$-$キーでstepを開始、停止させることもできます。
 
-\dothis{Add the following code to \mthref{handleKeystroke}:}
+\dothis{以下のコードを\mthref{handleKeystroke}に加えます。}
 
 \begin{code}{}
 	keyValue = $+ asciiValue 
@@ -522,10 +536,10 @@ Alternatively, you can modify the \ct{handleKeystroke:} method so that you can u
 % \on{You can also \menu{debug \go inspect morph} and evaluate: \ct{self currentWorld startStepping: self}.}
 
 %=================================================================
-\section{Interactors}
+\section{対話機能★(Interactors)}
 
-To prompt the user for input, the \clsind{UIManager} class provides a large number of ready-to-use dialog boxes.
-For instance, the \mthind{UIManager}{request:initialAnswer:} method returns the string entered by the user (\figref{dialogName}).
+ユーザーに入力を促すために、\clsind{UIManager}クラスはすぐに使えるダイアログボックスを多く提供しています。
+例えば、\mthind{UIManager}{request:initialAnswer:}メソッドは、ユーザーによって入力された文字列を返します。（\figref{dialogName}）
 \begin{code}{}
 UIManager default request: 'What''s your name?' initialAnswer: 'no name'
 \end{code}
@@ -533,7 +547,7 @@ UIManager default request: 'What''s your name?' initialAnswer: 'no name'
 \begin{figure}[htb]
 \begin{minipage}{0.48\textwidth}
 	\centerline{\includegraphics[width=0.8\textwidth]{dialog}}
-	\caption{An input dialog.}\figlabel{dialogName}
+	\caption{入力ダイアログ}\figlabel{dialogName}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
@@ -541,18 +555,18 @@ UIManager default request: 'What''s your name?' initialAnswer: 'no name'
 	\centerline{\includegraphics [width=0.8\textwidth]{popup}}
 	\vfill
 	\vspace{4ex}
-	\caption{Pop-up menu.}\figlabel{popup}
+	\caption{ポップアップメニュー}\figlabel{popup}
 \end{minipage}
 \end{figure}
 
-To display a popup menu, use one of the various \ct{chooseFrom:} methods (\figref{popup}):
+ポップアップメニューを出すには、様々な\ct{chooseFrom:}メソッドを使います。（\figref{popup}）
 \begin{code}{}
 UIManager default
 	chooseFrom: #('circle' 'oval' 'square' 'rectangle' 'triangle')
 	lines: #(2 4) message: 'Choose a shape'
 \end{code}
 
-\dothis{Browse the \clsind{UIManager} class and try out some of the interaction methods offered.}
+\dothis{\clsind{UIManager}クラスをブラウズして、提供されている対話メソッドを試してみましょう。}
 
 %\begin{figure}[ht]
 %	\centerline{\includegraphics[width=5cm]{dialog}}
@@ -571,13 +585,15 @@ UIManager default
 %\end{figure}
 
 %=================================================================
-\section{Drag-and-drop}
+\section{ドラッグ＆ドロップ}
 
-Morphic also supports drag-and-drop. Let's examine a simple example with two morphs, a receiver morph and a dropped morph. 
-The receiver will accept a morph only if the dropped morph matches a given condition: in our example,  the morph should be blue. If it is rejected, the dropped morph decides what to do.
+Morphicはドラッグ＆ドロップもサポートします。
+受け入れ側のモーフとドロップされる★モーフの２つのモーフからなる簡単な例について考えてみましょう。
+受け入れ側のモーフは、ドロップされるモーフが条件を満たしたときにだけドロップを受け入れます。
+この例ではモーフが青色であることを条件とします。受け入れが拒否された場合、ドロップされるモーフが何をするか決めます。
 
-\dothis{Let's first define the receiver morph:}
-\begin{classdef}{Defining a morph on which we can drop other morphs}
+\dothis{まず受け入れ側のモーフを定義しましょう。}
+\begin{classdef}{他のモーフを受け入れるモーフを定義する。}
 Morph subclass: #ReceiverMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -585,47 +601,53 @@ Morph subclass: #ReceiverMorph
 	category: 'PBE-Morphic'
 \end{classdef}
 
-\dothis{Now define the initialization method in the usual way:}
-\begin{method}{Initializing \ct{ReceiverMorph}.}
+\dothis{いつものやり方で初期化メソッドを定義します。}
+\begin{method}{\ct{ReceiverMorph}を初期化する。}
 ReceiverMorph>>>initialize
 	super initialize.
 	color := Color red.
 	bounds := 0 @ 0 extent: 200 @ 200
 \end{method}
 
-How do we decide if the receiver morph will accept or repel the dropped morph?
-In general, both of the morphs will have to agree to the interaction.
-The receiver does this by responding to \mthind{Morph}{wantsDroppedMorph:event:}; the first argument is the dropped morph, and the second the mouse event, so that the receiver can, for example, see if any modifier keys were held down at the time of the drop. 
-The dropped morph is also given the opportunity to check and see if it likes the morph onto which it is being dropped; it is sent the message \ct{wantsToBeDroppedInto:}.  The default implementation of  this method (in class \ct{Morph}) answers \ct{true}.
+受け入れ側のモーフがドロップを受け入れるか否かは、どのように判断されるのでしょか？
+一般的に、モーフの両者がドロップに同意する必要があります。
+受け入れ側は\mthind{Morph}{wantsDroppedMorph:event:}メッセージに反応することで決定します。
+最初の引数はドロップされるモーフ、２番目の引数はマウスイベントです。
+例えば、受け入れ側はドロップ時に何らかの修飾キーが押されたかどうかを調べられます。
+ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られた時に、ドロップされる先のモーフが気に入るか調べるチャンスがあります。
+このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
 
-\begin{method}{Accept dropped morphs based on their color.}
+\begin{method}{色を基準にしてドロップを受け入れる。}
 ReceiverMorph>>>wantsDroppedMorph: aMorph event: anEvent
 	^ aMorph color = Color blue
 \end{method}
 
-What happens to the dropped morph if the receiving morph doesn't want it?  The default behaviour is for it to do nothing, that is, to sit on top of the receiving morph, but without interacting with it.  A more intuitive behavior is for the dropped morph to go back to its original position.  This can be achieved by the receiver answering \ct{true} to the message \mthind{Morph}{repelsMorph:event:} when it doesn't want the dropped morph:
+受け入れ側のモーフがドロップを望まない場合には、ドロップされるモーフに何が起こるのでしょうか。
+デフォルトの動作は、何もしないことです。つまり、ドロップされずに受け入れ側のモーフの上に置かれるだけです。
+より直感的な動作としては、ドロップされるモーフが元の位置に戻ることでしょう。
+これは、ドロップされるモーフを拒否する際に、受け入れ側のモーフが\mthind{Morph}{repelsMorph:event:}メッセージに対して\ct{true}を返すことで実現できます。
 
 \needlines{4}
-\begin{method}{Changing the behaviour of the dropped morph when it is rejected.}
+\begin{method}{ドロップ拒否時のモーフの振る舞いを変える。}
 ReceiverMorph>>>repelsMorph: aMorph event: ev
 	^ (self wantsDroppedMorph: aMorph event: ev) not
 \end{method}
 
-That's all we need as far as the receiver is concerned.
+以上が、受け入れ側のモーフで必要なこと全てです。
 
-\dothis{Create instances of \clsind{ReceiverMorph} and \clsind{EllipseMorph} in a workspace:}
+\dothis{ワークスペースで\clsind{ReceiverMorph}と\clsind{EllipseMorph}のインスタンスを作ります。}
 \begin{code}{}
 ReceiverMorph new openInWorld.
 EllipseMorph new openInWorld.
 \end{code}
 \noindent
-Try to drag-and-drop the yellow \ct{EllipseMorph} onto the receiver. It will be rejected and sent back to its initial position.
+黄色い\ct{EllipseMorph}を受け入れ側のモーフにドラッグ＆ドロップしましょう。モーフはドロップを拒否され、元の位置に戻るはずです。
 
-\dothis{To change this behaviour, change the color of the ellipse morph to \ct{Color blue} using an inspector.  Blue morphs should be accepted by the \ct{ReceiverMorph}.}
+\dothis{この動作を変えるには、インスペクタを使って楕円のモーフの色を\ct{Color blue}に変えます。青いモーフは\ct{ReceiverMorph}に受け入れられるはずです。}
 
-Let's create a specific subclass of \ct{Morph}, named \ct{DroppedMorph}, so we can experiment a bit more:
+では、\ct{DroppedMorph}と名付けた\ct{Morph}クラスの特別なサブクラスを作って、もう少し経験を積みましょう。
 
-\begin{classdef}{Defining a morph we can drag-and-drop onto \ct{ReceiverMorph}}
+\begin{classdef}{\ct{ReceiverMorph}にドラッグ＆ドロップ可能なモーフを定義する。}
 Morph subclass: #DroppedMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -634,15 +656,16 @@ Morph subclass: #DroppedMorph
 \end{classdef}
 
 \needlines{5}
-\begin{method}{Initializing \ct{DroppedMorph}.}
+\begin{method}{\ct{DroppedMorph}を初期化する。}
 DroppedMorph>>>initialize
 	super initialize.
 	color := Color blue.
 	self position: 250@100
 \end{method}
 
-Now we can specify what the dropped morph should do when it is rejected by the receiver; here it will stay attached to the mouse pointer:
-\begin{method}{Reacting when the morph was dropped but rejected.}
+ドロップされるモーフが受け入れ側に拒否された時にすべきことを設定できます。
+ここでは、モーフをマウスポインタに付いたままにします。
+\begin{method}{ドロップを拒否されたモーフの反応を定義すす。}
 DroppedMorph>>>rejectDropMorphEvent: anEvent
 	| h |
 	h := anEvent hand.
@@ -651,33 +674,34 @@ DroppedMorph>>>rejectDropMorphEvent: anEvent
 	anEvent wasHandled: true
 \end{method}
 
-Sending the \mthind{MorphicEvent}{hand} message to an event answers the \emph{hand}, an instance of \ct{HandMorph} that represents the mouse pointer and whatever it holds.
-Here we tell the \ct{World} that the hand should grab \ct{self}, the rejected morph.
+イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}★（hand）が返されます。このオブジェクトは、マウスポインタやマウスポインタに関係する様々なものを管理しています。
+ここでは、ドロップを拒否されたモーフである\ct{self}をハンドが掴むように\ct{World}に指示しています。
 
-\dothis{Create two instances of \ct{DroppedMorph}, and then drag-and-drop them onto the receiver.}
+\dothis{\ct{DroppedMorph}の２つのインスタンスを作成し、受け入れ側のモーフにドラッグ＆ドロップします。}
 \begin{code}{}
 ReceiverMorph new openInWorld.
 (DroppedMorph new color: Color blue) openInWorld.
 (DroppedMorph new color: Color green) openInWorld.
 \end{code}
 \noindent
-The green morph is rejected and therefore stays attached to the mouse pointer.
+緑色のモーフはドロップを拒否されるため、マウスポインタに付いたままになります。
 
 %=================================================================
-\section{A complete example}
+\section{完全な例}
 
-Let's design a morph to roll a die\footnote{NB: One die, two dice.}. Clicking on it will display the values of all sides of the die in a quick loop, and another click will stop the animation.
+サイコロを転がすモーフを作りましょう。\footnote{}
+モーフをクリックすると全ての面が高速に表示され、再度クリックするとアニメーションが止まります。
 
 \begin{figure}[ht]
 	\centerline{\includegraphics[scale=0.65]{die}}
-	\caption{The die in Morphic.
+	\caption{Morphicで作られたサイコロ
 		\figlabel{dialogDie}}
 \end{figure}
 
-\dothis{Define the die as a subclass of \clsind{BorderedMorph} instead of \ct{Morph}, because we will make use of the border.}
+\dothis{外枠を描くため、\ct{Morph}クラスの代わりに\clsind{BorderedMorph}のサブクラスとしてサイコロを定義します。}
 
 \needlines{6}
-\begin{classdef}{Defining the die morph}
+\begin{classdef}{サイコロモーフを定義する。}
 BorderedMorph subclass: #DieMorph
 	instanceVariableNames: 'faces dieValue isStopped'
 	classVariableNames: ''
@@ -685,15 +709,18 @@ BorderedMorph subclass: #DieMorph
 	category: 'PBE-Morphic'
 \end{classdef}
 
-The instance variable \ct{faces} records the number of faces on the die; we allow dice with up to 9 faces! \ct{dieValue} records the value of the face that is currently displayed, and \ct{isStopped} is true if the die animation has stopped running.
-To create a die instance, we define the \ct{faces: n} method on the \emph{class} side of \clsind{DieMorph} to create a new die with \ct{n} faces.
-\begin{method}{Creating a new die with the number of faces we like.}
+インスタンス変数の\ct{faces}は、サイコロの面の個数を記録します。
+ここで実装するサイコロモーフは、９までの面を許すことにします！
+\ct{dieValue}は現在表示されている面の値を表し、\ct{isStopped}はサイコロのアニメーションが停止している時に\ct{true}となります。
+サイコロのインスタンスを作るために、\clsind{DieMorph}の\emph{クラス}側に\ct{faces: n}メソッドを定義し、\ct{n}個の面を持つ新しいサイコロを生成するようにします。
+\begin{method}{好きな個数の面を持つ新しいサイコロを生成する。}
 DieMorph class>>>faces: aNumber
 	^ self new faces: aNumber
 \end{method}
 
-The \ct{initialize} method is defined on the instance side in the usual way; remember that \ct{new} sends \ct{initialize} to the newly-created instance.
-\begin{method}{Initializing instances of \ct{DieMorph}.}
+\ct{initialize}メソッドは今までと同じやりかたでインスタンス側に定義します。
+なお、\ct{new}は新しく生成されたインスタンスに\ct{initialize}メッセージを送ることを覚えておいてください。
+\begin{method}{\ct{DieMorph}のインスタンスを初期化する。}
 DieMorph>>>initialize
 	super initialize.
 	self extent: 50 @ 50.
@@ -706,9 +733,10 @@ DieMorph>>>initialize
 	isStopped := false
 \end{method}
 
-We use a few methods of \ct{BorderedMorph} to give a nice appearance to the die: a thick border with a raised effect, rounded corners, and a color gradient on the visible face.
-We define the instance method \ct{faces:} to check for a valid parameter as follows:
-\begin{method}{Setting the number of faces of the die.}
+サイコロの見た目をカッコ良くするために、\ct{BorderedMorph}クラスのメソッドをいくつか使います。
+浮き出る効果を得るための太い枠線や、丸まった角、表示面のグラデーションなどです。
+インスタンス側の\ct{faces:}メソッドでは、正しい引数が与えられているかをチェックするように定義します。
+\begin{method}{サイコロの面の個数を設定する。}
 DieMorph>>>faces: aNumber
 	"Set the number of faces"
 	(aNumber isInteger
@@ -718,18 +746,18 @@ DieMorph>>>faces: aNumber
 \end{method}
 \on{Why not make this a pre-condition, \ie an assertion?}
 
-It may be good to review the order in which the messages are sent when a die is created. For instance, if we start by
-evaluating \ct{DieMorph faces: 9}:
+サイコロが生成された時にメッセージが送られる順序を知るのは良いことです。★
+例えば、\ct{DieMorph faces: 9}を評価したとします。
 \begin{enumerate}
-	\item The class method \ct{DieMorph class>>>faces:} sends \ct{new} to \ct{DieMorph class}.
-	\item The method for \ct{new} (inherited by \ct{DieMorph class} from \ct{Behavior}) creates the new instance and sends it the \ct{initialize} message.
-	\item The \ct{initialize} method in \ct{DieMorph} sets \ct{faces} to an initial value of 6.
-	\item \ct{DieMorph class>>>new} returns to the class method \ct{DieMorph class>>>faces:}, which then sends the message \ct{faces: 9} to the new instance.
-	\item The instance method \ct{DieMorph>>>faces:} now executes, setting the \ct{faces} instance variable to 9.
+	\item クラスメソッドの\ct{DieMorph class>>>faces:}は、\ct{DieMorph class}クラスに\ct{new}メッセージを送ります。
+	\item （\ct{Behavior}クラスから継承された\ct{DieMorph class}クラスの）\ct{new}メソッドが、新しいインスタンスを生成し、そのインスタンスに\ct{initialize}メッセージを送ります。
+	\item \ct{DieMorph}の\ct{initialize}メソッドが、\ct{faces}インスタンス変数に初期値6を設定します。
+	\item \ct{DieMorph class>>>new}メソッドが、クラスメソッドの\ct{DieMorph class>>>faces:}に返り、そのあと新しいインスタンスに\ct{faces: 9}メッセージを送ります。 
+	\item インスタンスメソッドの\ct{DieMorph>>>faces:}が実行され、\ct{faces}インスタンス変数を9に設定します。
 \end{enumerate}
 
-Before defining \ct{drawOn:}, we need a few methods to place the dots on the displayed face:
-\begin{methods}{Nine methods for placing points on the faces of the die.}
+\ct{drawOn:}を定義する前に、表示面に描く目の位置を求めるメソッドをいくつか定義します。
+\begin{methods}{サイコロの面の目の位置を求める９つのメソッドを定義する。}
 DieMorph>>>face1
 	^{0.5@0.5}
 DieMorph>>>face2
@@ -751,20 +779,24 @@ DieMorph >>>face9
 \end{methods}
 \on{kind of ugly boilerplate code -- should be a nice way to map these more elegantly to coordinates.}
 
-These methods define collections of the coordinates of dots for each face. The coordinates are in a square of size $1\times1$; we will simply need to scale them to place the actual dots.
+上記のメソッドは、サイコロの各面の目の座標をコレクションの形で定義しています。
+それぞれの座標は$1\times1$の範囲に収めているので、拡大して実際の目の場所を求めます。
 
-The \ct{drawOn:} method does two things: it draws the die background with the \ct{super}-send, and then draws the dots.
-\begin{method}{Drawing the die morph.}
+\ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}-send★と、目を描くという２つの仕事を行います。
+\begin{method}{サイコロモーフを描く。}
 DieMorph>>>drawOn: aCanvas
 	super drawOn: aCanvas.
 	(self perform: ('face' , dieValue asString) asSymbol)
 		do: [:aPoint | self drawDotOn: aCanvas at: aPoint]
 \end{method}
 
-The second part of this method uses the reflective capacities of \st.
-Drawing the dots of a face is a simple matter of iterating over the collection given by the \ct{faceX} method for that face, sending the \ct{drawDotOn:at:} message for each coordinate. To call the correct \ct{faceX} method, we use the \mthind{Object}{perform:} method which sends a message built from a string, here \lct{('face', dieValue asString) asSymbol}. You will encounter this use of \ct{perform:} quite regularly.
+このメソッドの後半は、\st のリフレクション機能★を使っています。
+サイコロの面に対応する\ct{faceX}メソッドから得た座標のコレクションに対して、順に\ct{drawDotOn:at:}メッセージを送ることでサイコロの目を描いています。
+適切な\ct{faceX}メソッドを呼び出すために、\mthind{Object}{perform:}メソッドを使います。
+このメソッドが、\lct{('face', dieValue asString) asSymbol}により作られた文字列をメッセージとして送ります。
+このような\ct{perform:}の使い方は至るところで見られます。
 \index{reflection}
-\begin{method}{Drawing a single dot on a face.}
+\begin{method}{サイコロの目を描く。}
 DieMorph>>>drawDotOn: aCanvas at: aPoint
 	aCanvas
 		fillOval: (Rectangle
@@ -774,15 +806,15 @@ DieMorph>>>drawDotOn: aCanvas at: aPoint
 \end{method}
 \ew{I would not use reflection to call faceX on p.234. A statically filled Dictionary would be more appropriate. Get the point set with "MyDict at: X".}
 
-Since the coordinates are normalized to the $[0{:}1]$ interval, we scale them to the dimensions of our die: \ct{self extent * aPoint}.
+座標が$[0{:}1]$の範囲で正規化されているため、サイコロの大きさにあわせるために、\ct{self extent * aPoint}で拡大します。
 
-\dothis{We can already create a die instance from a workspace:}
+\dothis{ワークスペースでサイコロのインスタンスを作ることができます。}
 \begin{code}{}
 (DieMorph faces: 6) openInWorld.
 \end{code}
 
-To change the displayed face, we create an accessor that we can use as \ct{myDie dieValue: 4}:
-\begin{method}{Setting the current value of the die.}
+表示面を変えるために、\ct{myDie dieValue: 4}のように使えるアクセッサを作ります。
+\begin{method}{サイコロの表示面を設定する。}
 DieMorph>>>dieValue: aNumber
 	(aNumber isInteger
 			and: [aNumber > 0]
@@ -792,22 +824,22 @@ DieMorph>>>dieValue: aNumber
 			self changed]
 \end{method}
 
-Now we will use the animation system to show quickly all the faces:
+サイコロの面を高速に表示するためにアニメーション機能を使います。
 \needlines{3}
 \index{Morphic!animation}
-\begin{methods}{Animating the die.}
+\begin{methods}{サイコロのアニメーションを作る。}
 DieMorph>>>stepTime
 	^ 100
 
 DieMorph>>>step
 	isStopped ifFalse: [self dieValue: (1 to: faces) atRandom]
 \end{methods}
-Now the die is rolling!
+サイコロが回ってますね！
 
-To start or stop the animation by clicking, we will use what we learned previously about mouse events.
-First, activate the reception of mouse events:
+サイコロの回転をクリックで始めたり止めたりするには、前述したマウスイベントのやり方を使います。
+まず、マウスイベントを受け入れるようにします。
 
-\begin{methods}{Handling mouse clicks to start and stop the animation.}
+\begin{methods}{アニメーションの開始と停止のためにマウスクリックを処理する。}
 DieMorph>>>handlesMouseDown: anEvent
 	^ true
 
@@ -815,30 +847,30 @@ DieMorph>>>mouseDown: anEvent
 	anEvent redButtonPressed
 		ifTrue: [isStopped := isStopped not]
 \end{methods}
-Now the die will roll or stop rolling when we click on it.
+以上により、クリックでサイコロを振ったり止めたりできます。
 
 % That's all for the essentials of Morphic!
 
 % Most of the work on \ct{DieMorph} was done with an instance of it living in the environment; this is quite nice when to tweak programs.
 
 %=================================================================
-\section{More about the canvas}
+\section{キャンバスの追加情報★(More about the canvas)}
 
-The \ct{drawOn:} method has an instance of \clsindmain{Canvas} as its sole argument;
-the canvas is the area on which the morph draws itself.
-By using the graphics methods of the canvas you are free to give the appearance you want to a morph.
-If you browse the inheritance hierarchy of the \ct{Canvas} class, you will see that it has several variants.
-The default variant of \ct{Canvas} is \clsind{FormCanvas}; you will find the key graphics methods in \ct{Canvas} and \ct{FormCanvas}.
-These methods can draw points, lines, polygons, rectangles, ellipses, text, and images with rotation and scaling.
+\ct{drawOn:}メソッドは、\clsindmain{Canvas}クラスのインスタンスを引数として１つだけ取ります。
+このキャンバスとは、モーフ自身を描く領域のことです。
+キャンバスの描画メソッドを使うことで、モーフに自由な外観を与えられます。
+\ct{Canvas}クラスの階層構造をブラウズすれば、いくつもの変形を見ることができます。
+通常用いられる\ct{Canvas}クラスの変形は\clsind{FormCanvas}クラスなので、\ct{Canvas}クラスと\ct{FormCanvas}クラスの中から主要な描画メソッドを見つけられます。
+これらのメソッドには、点や線、多角形や四角形、楕円やテキスト、画像などの描画や、回転や拡大・縮小などの機能があります。
 
-It is also possible to use other kinds of canvas, to obtain transparent morphs, more graphics methods, antialiasing, and so on.
-To use these features you will need an \clsind{AlphaBlendingCanvas} or a \clsind{BalloonCanvas}.
-But how can you obtain such a canvas in a \ct{drawOn:} method, when \ct{drawOn:} receives an instance of \ct{FormCanvas} as its argument?
-Fortunately, you can transform one kind of canvas into another.
+透明なモーフやその他の描画メソッド、アンチエイリアスなどを実現するために、他の種類のキャンバスも利用できます。
+これらの特徴を使うためには、\clsind{AlphaBlendingCanvas}クラスや\clsind{BalloonCanvas}クラスが必要となるでしょう。
+しかし、\ct{drawOn:}が引数として\ct{FormCanvas}のインスタンスを受け取るとしたら、\ct{drawOn:}の中でどうやって他のキャンバスを得れば良いのでしょうか？
+幸いにも、あるキャンバスを別の種類に変換することが可能です。
 
-\dothis{To use a canvas with a 0.5 alpha-transparency in \ct{DieMorph}, redefine \ct{drawOn:} like this:}
+\dothis{\ct{DieMorph}のアルファチャンネル透過率を0.5にするキャンバスを使うように、\ct{drawOn:}を再定義します。}
 \needlines{7}
-\begin{method}{Drawing a translucent die.}
+\begin{method}{透明なサイコロを描く。}
 DieMorph>>>drawOn: aCanvas
 	| theCanvas |
 	theCanvas := aCanvas asAlphaBlendingCanvas: 0.5.
@@ -847,11 +879,11 @@ DieMorph>>>drawOn: aCanvas
 		do: [:aPoint | self drawDotOn: theCanvas at: aPoint]
 \end{method}
 \noindent
-That's all you need to do!
+以上で終わりです。
 
 \begin{figure}[ht]
 	\centerline{\includegraphics[scale=0.7]{multiMorphs}}
-	\caption{The die displayed with alpha-transparency.
+	\caption{アルファチャンネル透過率を設定したサイコロ。
 		\figlabel{multiMorphs}}
 \end{figure}
 
@@ -882,16 +914,16 @@ That's all you need to do!
 %=================================================================
 \section{Chapter summary}
 
-Morphic is a graphical framework in which graphical interface elements can be dynamically composed.
+Morphicは、グラフィカルなフレームワークで、動的にGUI要素を組み合わせることができます。
 
 \begin{itemize}
-  \item You can convert an object into a morph and display that morph on the screen by sending it the messages \ct{asMorph openInWorld}.
-  \item You can manipulate a morph by \metaclick{ing} on it and using the handles that appear. (Handles have help balloons that explain what they do.)
-  \item You can compose morphs by embedding one onto another, either by drag and drop or by sending the message \ct{addMorph:}.
-  \item You can subclass an existing morph class and redefine key methods, like \ct{initialize} and \ct{drawOn:}.
-  \item You can control how a morph reacts to mouse and keyboard events by redefining the methods \ct{handlesMouseDown:}, \ct{handlesMouseOver:}, \etc
-  \item You can animate a morph by defining the methods \ct{step} (what to do) and \ct{stepTime} (the number of milliseconds between steps).
-  \item Various pre-defined morphs, like \ct{PopUpMenu} and \ct{FillInTheBlank}, are available for interacting with users.
+  \item \ct{asMorph openInWorld}メッセージをオブジェクトに送ると、モーフに変換して画面に表示できます。
+  \item モーフを\metaclick すると、ハンドルが表示されモーフを操れるようになります。（ハンドルの機能は個々のバルーンヘルプの説明を見ましょう)
+  \item ドラッグ＆ドロップによるか\ct{addMorph:}メッセージを送ることで、モーフを別のモーフに組み込めます。
+  \item 既にあるクラスのサブクラスを作り、\ct{initialize}や\ct{drawOn:}といった主要なメソッドを再定義できます。
+  \item \ct{handlesMouseDown:}メソッドや\ct{handlesMouseOver:}メソッド\etc を再定義すれば、マウスやキーボードに反応するようにモーフを制御できます。
+  \item \ct{step}メソッド(何をするか)と\ct{stepTime}メソッド(ミリ秒単位のstep間隔)を定義すれば、モーフのアニメーションを作れます。
+  \item \ct{PopUpMenu}や\ct{FillInTheBlank}といった多くの定義済みのモーフを使って、ユーザーと対話できます。
 \end{itemize}
 
 %=================================================================
