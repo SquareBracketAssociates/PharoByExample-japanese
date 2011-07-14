@@ -48,14 +48,14 @@
 \ind{C++}のように、\ct{+}のような演算子を自分で作ったクラスに定義することもできますが、すべての演算子は同じ優先順位となることに気をつけてください。
 また、あるメソッドが受け取る引数の個数も変えられません。例えば、``\ct{-}''は常に2項演算子で、単項の``\ct{-}''をオーバーロードして作ることはできません。
 
-\st では、メッセージ構文の優先順位、すなわち記述されたメッセージがどのような順番で送信されるかはメッセージ構文の種類によって決定されます。そのメッセージ構文の種類は3種類だけです。それらは\emphsubind{message}{unary(単項)}、\emphsubind{message}{binary(2項)}および\emphsubind{message}{keyword(キーワード)}メッセージです。単項メッセージは最高の優先順位であり、その次が2項、そして最後がキーワードメッセージです。ほかの多くの言語と同様に、\ind{parentheses}を使って評価順を変えることができます。これらの規則によって、\st のコードは可能な限り読みやすく、かつ規則のことに頭を悩ませなくてもよいようになっています。
+\st では、メッセージ構文の優先順位、すなわち記述されたメッセージがどのような順番で送信されるかはメッセージ構文の種類によって決定されます。そのメッセージ構文の種類は3種類だけです。それらは\emphsubind{message}{unary(単項)}、\emphsubind{message}{binary(2項)}および\emphsubind{message}{keyword(キーワード)}メッセージです。単項メッセージは最高の優先順位であり、その次が2項、そして最後がキーワードメッセージです。ほかの多くの言語と同様に、\ind{かっこ}を使って評価順を変えることができます。これらの規則によって、\st のコードは可能な限り読みやすく、かつ規則のことに頭を悩ませなくてもよいようになっています。
 
 基本的に\st でのすべての計算はメッセージ送信によって行われるので、メッセージを正しく読み取ることが非常に重要です。以下にまとめた用語と概念を理解することが役に立つでしょう。
 
 \begin{itemize}
   \item メッセージは\emphsubind{message}{セレクター}および必要な場合に指定されるメッセージ引数からなりたっています。
   \item メッセージは\emphsubind{message}{レシーバー}に送信されます。
-  \item レシーバーとメッセージの組み合わせが、図\figref{firstScriptMessage}にあるように\emph{メッセージ} \emphsubind{message}{送信}と呼ばれています。
+  \item レシーバーとメッセージの組み合わせが、\figref{firstScriptMessage}にあるように\emph{メッセージ} \emphsubind{message}{送信}と呼ばれています。
 %  \item We call expression a message send, a variable, an assignment, a literal or a block. 
 \end{itemize}
 
@@ -110,7 +110,7 @@
 			& 単項
 			& 色を表すオブジェクト。
 		\\
-		\lct{aPen  go: 100.}
+		\lct{aPen  go: 100}
 			& キーワード
 			& レシーバーであるペン・オブジェクト100ピクセル移動。
 		\\
@@ -135,8 +135,8 @@
 	\caption{メッセージ送信と種類の例}\tablabel{messageExamples}
 \end{table}
 
-表\tabref{messageExamples}にいくつかのメッセージ式の例を挙げました。
-必ずしもすべてのメッセージ式に引数がある訳ではないということに注意してください。\ct{open}のような単項メッセージには引数はありません。\ct{go: 100}と\ct{+ 20}のような単独のキーワードと2項メッセージは引数を一つとります。
+\tabref{messageExamples}にいくつかのメッセージ式の例を挙げました。
+必ずしもすべてのメッセージ式に引数があるわけではないということに注意してください。\ct{open}のような単項メッセージには引数はありません。\ct{go: 100}と\ct{+ 20}のような単独のキーワードと2項メッセージは引数を一つとります。
 単純なメッセージと複合的なものとがあります。\ct{Color yellow}や\ct{100 + 20}は単純です。一つのメッセージが一つのオブジェクトに送られるだけです。一方、\ct{aPen go: 100 + 20}は２つのメッセージ送信が複合したものです。\ct{+ 20}が\ct{100}に送られ、その結果を引数として\ct{go:}が\ct{aPen}に送られます。
 値を返す式(代入、メッセージ送信およびリテラル)がレシーバーとなりえます。\ct{Pen new go: 100}では、メッセージ\ct{go: 100}が\ct{Pen new}の結果として返されるオブジェクトに送られます。
 
@@ -249,7 +249,7 @@ nums --> #(6 2 3 4 5)
 1 + (2 * 3) --> 7
 \end{code}
 
-以下のさらに複雑な(!)例は、さらに混みいった\stの式も自然に読めるということ良い例になっています。
+以下のさらに複雑な(!)例は、さらに混みいった\stの式も自然に読めるということの良い例になっています。
 \begin{code}{@TEST}
 [:aClass | aClass methodDict keys select: [:aMethod | (aClass>>aMethod) isAbstract ]] value: Boolean --> an IdentitySet(#or: #| #and: #& #ifTrue: #ifTrue:ifFalse: #ifFalse: #not #ifFalse:ifTrue:)
 \end{code}
@@ -272,7 +272,7 @@ nums --> #(6 2 3 4 5)
 %with a structure approaching that of natural language.
 % This was one of the initial objectives so that the children can program.
 
-\paragraph{例:} 式\ct{aPen color: Color yellow}の中には、\ct{Color}に送られる\emph{単項}メッセージ\ct{yellow}と、\ct{aPen}に送られる\emph{keyword}メッセージ\ct{color:}があります。単項メッセージがまず送られるので、例\egref{decColor}にあるように\ct{Color yellow}がまず送られ(1)、その結果として返されたColorオブジェクトがメッセージ\ct{aPen color: aColor}の引数となります(2)。
+\paragraph{例:} 式\ct{aPen color: Color yellow}の中には、\ct{Color}に送られる\emph{単項}メッセージ\ct{yellow}と、\ct{aPen}に送られる\emph{keyword}メッセージ\ct{color:}があります。単項メッセージがまず送られるので、\egref{decColor}にあるように\ct{Color yellow}がまず送られ(1)、その結果として返されたColorオブジェクトがメッセージ\ct{aPen color: aColor}の引数となります(2)。
 
 \needlines{5}
 \begin{example}[decColor]{\ct{aPen color: Color yellow}の評価順を分解}{}
@@ -283,7 +283,7 @@ nums --> #(6 2 3 4 5)
 \end{example}
 
 \paragraph{例:} 式\ct{aPen go: 100 + 20}の中には、\emph{2項}メッセージ\ct{+ 20}と\emph{キーワード}メッセージ\ct{go:}があります。2項メッセージはキーワードメッセージの先に送られるので\ct{100 + 20}がまず送信されます(1)。\ct{+ 20}が数値オブジェクト\ct{100}に送信され、数値\ct{120}が返ります。次に、メッセージ\ct{aPen go: 120}が\ct{120}を引数として送信されます(2)。
-例\Egref{decGo}にこのメッセージを図示しました。
+\Egref{decGo}にこのメッセージを図示しました。
 
 \begin{example}[decGo]{\ct{aPen go: 100 + 20}の評価順を分解}{}
       aPen go: 100 + 20   
@@ -332,7 +332,7 @@ nums --> #(6 2 3 4 5)
 %(3)   aPen penSize: anotherNumber           "keyword"      
 %\end{scriptfigwithsize}
 
-\paragraph{例:} 練習として、式\ct{Pen new go: 100 + 20}の評価順を分解してみてください。この式には単項メッセージがひとつ、キーワードメッセージがひとつ、2項メッセージがひとつあります。(図\figref{unKeyBin}を参照。).
+\paragraph{例:} 練習として、式\ct{Pen new go: 100 + 20}の評価順を分解してみてください。この式には単項メッセージがひとつ、キーワードメッセージがひとつ、2項メッセージがひとつあります。(\figref{unKeyBin}を参照。).
 % The unary message \ct{Pen new} is first sent. It returns a new bot, then the binary message \ct{100 + 20} is sent and returns \ct{120}. Finally the message \ct{go:} is sent to the newly created robot with \ct{120}.
 
 %\begin{figure}[ht]
@@ -388,7 +388,7 @@ nums --> #(6 2 3 4 5)
 \end{example}
 
 \subsection{左から右への評価}
-ここまでで、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。その答えは、左から右に送られるというものです。このことは、実は例\egref{decExtent}の中で、２つのPointオブジェクト生成メッセージ(\ct{@})が送られているときにすでに登場していました。
+ここまでで、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。その答えは、左から右に送られるというものです。このことは、実は\egref{decExtent}の中で、２つのPointオブジェクト生成メッセージ(\ct{@})が送られているときにすでに登場していました。
 
 \important{{\textbf{規則3:} 同じ種類のメッセージがある場合は、評価は左から右の順で行われる。}}
 
@@ -397,7 +397,7 @@ nums --> #(6 2 3 4 5)
 %\caption{The message \ct{Pen new east} is composed of two unary messages. Therefore the leftmost one, \ct{new},  is sent and it returns a new robot to which the second message \ct{east} is sent. \figlabel{compoUn}}
 %\end{figure}
 
-\paragraph{例:} 式\ct{Pen new down}では単項メッセージのみが使われているので、左端の\ct{Pen new}がまず送信されます。その結果は新しいペン・オブジェクトで、それに次のメッセージ\ct{down}が送られます。図\figref{unaryMessages}を参照してください。
+\paragraph{例:} 式\ct{Pen new down}では単項メッセージのみが使われているので、左端の\ct{Pen new}がまず送信されます。その結果は新しいペン・オブジェクトで、それに次のメッセージ\ct{down}が送られます。\figref{unaryMessages}を参照してください。
 
 \begin{figure}
 	\centering
@@ -420,7 +420,7 @@ nums --> #(6 2 3 4 5)
 \end{code}
 
 \paragraph{例:}
-式\ct{20 + 2 * 5}では\ct{+}と\ct{*}という2項メッセージだけが使われています。しかしながら、\stでは\ct{+}と\ct{*}の間には特に優先順位の違いがありません。どちらも2項メッセージであるだけなので、\ct{*}は\ct{+}よりも優先順位が高い訳ではありません。例\egref{binaryMessages1}のように、ここでは左端の\ct{+}がまず送信され(1)、その結果に\ct{*}が送信されます。
+式\ct{20 + 2 * 5}では\ct{+}と\ct{*}という2項メッセージだけが使われています。しかしながら、\stでは\ct{+}と\ct{*}の間には特に優先順位の違いがありません。どちらも2項メッセージであるだけなので、\ct{*}は\ct{+}よりも優先順位が高い訳ではありません。\egref{binaryMessages1}のように、ここでは左端の\ct{+}がまず送信され(1)、その結果に\ct{*}が送信されます。
 
 \begin{example}[binaryMessages1]{Decomposing \ct{20 + 2 * 5}}{}
 "2項メッセージ同士には優先順位の違いがないので、算数の約束としては*がまず先に実行されるべきですが、ここでは左端の+がまず評価されます。"
@@ -434,7 +434,7 @@ nums --> #(6 2 3 4 5)
 \begin{center}\includegraphics[width=8cm]{ucompoNoBracketPar}\end{center}
 \end{figure}
 \noindent
-例\egref{binaryMessages1}の結果は、\ct{30}ではなく\ct{110}となります。これはもしかすると書かれた意図とは反しているかもしれませんが、メッセージ送信の規則をそのまま適用した結果であり、\stの簡素なモデルに付随する問題ではあります。正しい結果を得るためには、かっこを使う必要があります。かっこで囲まれたメッセージが先に評価されるため、メッセージ式\ct{20 + (2 * 5)}は例\egref{mathcorrect}に示されたように評価され、正しい結果を返します。
+\egref{binaryMessages1}の結果は、\ct{30}ではなく\ct{110}となります。これはもしかすると書かれた意図とは反しているかもしれませんが、メッセージ送信の規則をそのまま適用した結果であり、\stの簡素なモデルに付随する問題ではあります。正しい結果を得るためには、かっこを使う必要があります。かっこで囲まれたメッセージが先に評価されるため、メッセージ式\ct{20 + (2 * 5)}は\egref{mathcorrect}に示されたように評価され、正しい結果を返します。
 
 \needlines{4}
 \begin{example}[mathcorrect]{\ct{20 + (2 * 5)}の評価順の分解}{}
@@ -464,7 +464,7 @@ nums --> #(6 2 3 4 5)
 	{\includegraphics[width=\textwidth]{uunKeyBinPar}}
 	{\includegraphics[width=10cm]{uunKeyBinPar}}
 \end{center}
-\caption{かっこの有無に関わらない等価なメッセージ式の例\figlabel{uKeyUnBinPar}}
+\caption{かっこの有無に関わらない等価なメッセージ式の\figlabel{uKeyUnBinPar}}
 \end{figure}
 
 最初の規則は単項メッセージは2項メッセージやキーワードメッセージに優先するということであったので、単項メッセージのまわりにはかっこを書く必要はないということに注目してください。表\tabref{expression}に普通に書いた式と、仮に優先順位規則が存在しなかったとしたらどのようにかっこをつけて等価な式とするかという対応を挙げました。この表では右も左も同じ実行順序となり、同じ結果を返します。
