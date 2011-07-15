@@ -756,7 +756,7 @@ res := ''.
 res --> 'bob.joe.toto'
 \end{code}
 \noindent
-このコードは一時文字列を作っているという点でとてもできが良いとは言いがたく、結果をためておくのにはライトストリームを用いたほうがいいということに注意しましょう (see \charef{streams} 参照):
+このコードは一時文字列を作っているという点でとてもできが良いとは言いがたく、結果をためておくのには書き込みストリームを用いたほうがいいということに注意しましょう (see \charef{streams} 参照):
 \begin{code}{@TEST}
 String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delimiter: '.' ] --> 'bob.joe.toto'
 \end{code}
@@ -803,7 +803,7 @@ double --> an OrderedCollection(2 4 6 8 10 12)
 #(1 2 3 4 5 6) collect: [:e | 2 * e] --> #(2 4 6 8 10 12)
 \end{code}
 
-\mthind{Collection}{do:} に比べ \ct{collect:} が優れていることは、次の例のほうがoはっきりしているでしょう。整数のコレクションを取り、その絶対値からなるコレクションを生成するものです：
+\mthind{Collection}{do:} に比べて \ct{collect:} が優れていることは、次の例のほうがわかりやすいでしょう。整数のコレクションを取り、その絶対値からなるコレクションを生成するものです：
 
 \begin{code}{@TEST |aCol result|}
 aCol :=  #( 2 -3 4 -35 4 -11).
@@ -839,79 +839,78 @@ result --> #(2 3 4 35 4 11)
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Selecting and rejecting elements}
+\subsection{コレクションの選別}
 % (\ct{select:}, \ct{reject:}, \ct{detect:})}
 
-\mthind{Collection}{select:} returns the elements of the receiver that satisfy a particular condition:
+\mthind{Collection}{select:} はレシーバーの要素の中で与えられた条件を満たすものを返します：
 
 \begin{code}{@TEST}
 (2 to: 20) select: [:each | each isPrime] --> #(2 3 5 7 11 13 17 19)
 \end{code}
 
-\mthind{Collection}{reject:} does the opposite:
+\mthind{Collection}{reject:} はその反対です：
 \begin{code}{@TEST}
 (2 to: 20) reject: [:each | each isPrime] --> #(4 6 8 9 10 12 14 15 16 18 20)
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Identifying an element with \lct{detect:}}
-The method \mthind{OrderedCollection}{detect:} returns the first element of the receiver that matches block argument. 
+\subsection{\lct{detect:} による要素の特定}
+The method \mthind{OrderedCollection}{detect:} はレシーバーの要素のなかで、与えられた引数付きブロックを満たす最初のものを返します。
 
 \begin{code}{@TEST}
 'through' detect: [:each | each isVowel] --> $o
 \end{code}
 
-The method \mthind{Collection}{detect:ifNone:} is a variant of the method \ct{detect:}. Its second block is evaluated
-when there is no element matching the block.
+メソッド \mthind{Collection}{detect:ifNone:} は \ct{detect:} から派生したものです。二つ目のブロックは一つ目のブロックを満たす要素が存在しないときに呼ばれます。
 
 \begin{code}{@TEST}
 Smalltalk allClasses detect: [:each | '*cobol*' match: each asString] ifNone: [ nil ] --> nil
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Accumulating results with \lct{inject:into:}}
-Functional programming languages often provide a higher-order function called \emph{fold} or \emph{reduce} to accumulate a result by applying some binary operator iteratively over all elements of a collection.
-In \pharo this is done by \cmind{Collection}{inject:into:}.
+\subsection{\lct{inject:into:} による結果の累算}
+関数型言語はしばしば \emph{fold} や \emph{reduce} といった、コレクションのすべての要素に二項演算子を繰り返し適用するような高階関数を用意しています。
+\pharo でこのようなことをするには \cmind{Collection}{inject:into:} が使えます。
 
-The first argument is an initial value, and the second argument is a two-argument block which is applied to the result this far, and each element in turn.
+最初の引数は初期値であり、二つ目の引数は前の結果と、要素を一つ受け取る、二つの引数付きブロックです。
 
-A trivial application of \ct{inject:into:} is to produce the sum of a collection of numbers.
-Following Gauss, in \pharo we could write this expression to sum the first 100 integers:
+\ct{inject:into:} のつまらない例として数のコレクションの総和を求めてみましょう。
+ガウス少年のように、\pharo では1から100までの自然数を以下のように書けるのです：
 \begin{code}{@TEST}
 (1 to: 100) inject: 0 into: [:sum :each | sum + each ] --> 5050
 \end{code}
 
-Another example is the following one-argument block which computes factorials:
+別の例として階乗を計算する一引数のブロックはこちらです：
 \begin{code}{@TEST |factorial|}
 factorial := [:n | (1 to: n) inject: 1 into: [:product :each | product * each ] ].
 factorial value: 10 --> 3628800
 \end{code}
 
 %---------------------------------------------------------
-\subsection{Other messages}
+\subsection{その他のメッセージ}
 
-\paragraph{\mthind{Collection}{count:}} The message \ct{count:} returns the number of elements satisfying a condition.  The condition is represented as a boolean block.
+\paragraph{\mthind{Collection}{count:}} メッセージ \ct{count:} は与えられた条件を満たす要素の数を返します。条件は真偽ブロックで表現されます。
 
 \begin{code}{@TEST}
 Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3
 \end{code}
 
-\paragraph{\mthind{Collection}{includes:}} The message \ct{includes:} checks whether the argument is contained in the collection. 
+\paragraph{\mthind{Collection}{includes:}} メッセージ \ct{includes:} は引数がコレクションの中に含まれているかをチェックします。
 
 \begin{code}{@TEST | colors |}
 colors := {Color white . Color yellow. Color red . Color blue . Color orange}.
 colors includes: Color blue. --> true
 \end{code}
 
-\paragraph{\mthind{OrderedCollection}{anySatisfy:}} The message \ct{anySatisfy:} answers true if at least one element of the collection satisfies the condition represented by the argument.
+\paragraph{\mthind{OrderedCollection}{anySatisfy:}} メッセージ \ct{anySatisfy:} は引数で渡された条件を満足する要素がコレクション中に一つでもあれば true を返します。
 
 \begin{code}{@TEST | colors | colors := {Color white . Color yellow. Color red . Color blue . Color orange}.}
 colors anySatisfy: [:c | c red > 0.5] --> true
 \end{code}
 %=========================================================
-\section{Some hints for using collections}
+\section{コレクションを用いるときのいくつかのヒント}
 
-\paragraph{A common mistake with \mthind{OrderedCollection}{add:}} The following error is one of the most frequent \st mistakes.
+\paragraph{\mthind{OrderedCollection}{add:} を使うときのよくある間違い} 次のエラーは \st で最も頻繁に見られる失敗です。
 \index{Collection!common errors}
 
 \begin{code}{@TEST | collection | }
@@ -919,23 +918,23 @@ collection := OrderedCollection new add: 1; add: 2.
 collection --> 2
 \end{code}
 \noindent
-Here the variable \ct{collection} does not hold the newly created collection but rather the last number added. 
-This is because the method \ct{add:} returns the element added and not the receiver.
+変数 \ct{collection} は新たに作られたコレクションではなく、最後に追加された値を保持しています。
+これはメソッド \ct{add:} は追加された引数を返し、レシーバーを返すわけではないからです。
 
-The following code yields the expected result:
+次のコードで期待した結果を得ることができます。
 \begin{code}{@TEST | collection |}
 collection := OrderedCollection new.
 collection add: 1; add: 2.
 collection --> an OrderedCollection(1 2)
 \end{code}
 
-You can also use the message \mthind{Object}{yourself} to return the receiver of a \ind{cascade} of messages:
+また\ind{カスケード}されたメッセージのレシーバーを返すメッセージ \mthind{Object}{yourself} を用いることもできます。
 
 \begin{code}{@TEST | collection |}
 collection := OrderedCollection new add: 1; add: 2; yourself --> an OrderedCollection(1 2)
 \end{code}
 
-\paragraph{Removing an element of the collection you are iterating on.} Another mistake you may make is to remove an element from a collection you are currently iterating over.
+\paragraph{イテレート処理中のコレクションからの要素削除} もう一つよくある間違いとしては、今イテレートしているそのコレクションから、要素を削除しようとすることがあります。
 \mthind{Collection}{remove:}
 \begin{code}{@TEST |range|}
 range := (2 to: 20) asOrderedCollection.
@@ -943,22 +942,21 @@ range do: [:aNumber | aNumber isPrime ifFalse: [ range remove: aNumber ] ].
 range --> an OrderedCollection(2 3 5 7 9 11 13 15 17 19)
 \end{code}
 \noindent
-This result is clearly incorrect since 9 and 15 should have been filtered out!
+9 と 15 が除外されなければいけないので、この結果は明らかに間違っています！
 
-The solution is to copy the collection before going over it.
+解決策は処理の前にコレクションをコピーしておくことです。
 \begin{code}{@TEST |range|}
 range := (2 to: 20) asOrderedCollection.
 range copy do: [:aNumber | aNumber isPrime ifFalse: [ range remove: aNumber ] ].
 range --> an OrderedCollection(2 3 5 7 11 13 17 19)
 \end{code}
 
-\paragraph{Redefining both \ct{=} and \ct{hash}.}
-A difficult error to spot is when you redefine \ct{=} but not \ct{hash}. The symptoms are that you will lose elements that you put in sets or other strange behaviour. One solution proposed by Kent Beck is to use \ct{xor:} to redefine \ct{hash}.
-Suppose that we want two books to be considered equal if their titles and authors are the same.
-Then we would redefine not only \ct{=} but also \ct{hash} as follows:
+\paragraph{\ct{=} と \ct{hash} 両方の再定義}
+発見が難しいエラーとしては \ct{=} を再定義しているけれども、\ct{hash} を再定義していないときに起きるものがあります。集合に入れた要素がいつの間にかなくなっていたりとか、そういうおかしな挙動が兆候として現れます。Kent Beck によって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
+例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、\ct{=} をそのように再定義したくなりますが、\ct{hash} も次のように再定義すべきなのです：
 \index{Dictionary!overriding \ct{=} and \ct{hash}}
 
-\begin{method}{Redefining \lct{=} and \lct{hash}.}
+\begin{method}{\lct{=} と \lct{hash} の再定義}
 Book>>>= aBook
    self class = aBook class ifFalse: [^ false].
    ^ title = aBook title and: [ authors = aBook authors]
@@ -967,25 +965,25 @@ Book>>>hash
    ^ title hash xor: authors hash
 \end{method}
 
-Another nasty problem arises if you use a mutable object, \ie an object that can change its hash value over time, as an element of a \ct{Set} or as a key to a \ct{Dictionary}.
-Don't do this unless you love debugging!
+可変なオブジェクトを扱っているときにはもう一ついやらしい問題があります。\ie \ct{Set}、あるいは \ct{Dictionary} のキーとしてそういったオブジェクトを用いると、ハッシュ値がいつの間にか変わってしまうということです。
+デバッグがお好きでなければ、そういうことは止めておきましょう！
 
 %=========================================================
-\section{Chapter summary}
+\section{章のまとめ}
 
-The \st collection hierarchy provides a common vocabulary for uniformly manipulating a variety of different kinds of collections.
+\st のコレクション階層は統一された操作を異なった種類のコレクションに適用できる共通の語彙を持っています。
 
 \begin{itemize}
-  \item A key distinction is between \ct{SequenceableCollection}s, which maintain their elements in a given order, \ct{Dictionary} and its subclasses, which maintain key-to-value associations, and \ct{Set}s and \ct{Bag}s, which are unordered.
-  \item You can convert most collections to another kind of collection by sending them the messages \ct{asArray}, \ct{asOrderedCollection} \etc.
-  \item To sort a collection, send it the message \ct{asSortedCollection}.
-  \item Literal \ct{Array}s are created with the special syntax \ct{#( ... )}.  Dynamic \ct{Array}s are created with the syntax \ct|{ ... }|.
-  \item A \ct{Dictionary} compares keys by equality. It is most useful when keys are instances of \ct{String}. An \ct{IdentityDictionary} instead uses object identity to compare keys.  It is more suitable when \ct{Symbol}s are used as keys, or when mapping object references to values.
-  \item \ct{String}s also understand the usual collection messages.  In addition, a \ct{String} supports a simple form of pattern-matching. For more advanced application, look instead at the RegEx package.
-  \item The basic iteration message is \ct{do:}. It is useful for imperative code, such as modifying each element of a collection, or sending each element a message.
-  \item Instead of using \ct{do:}, it is more common to use \ct{collect:}, \ct{select:}, \ct{reject:}, \ct{includes:}, \ct{inject:into:} and other higher-level messages to process collections in a uniform way.
-  \item Never remove an element from a collection you are iterating over. If you must modify it, iterate over a copy instead.
-  \item If you override \ct{=}, remember to override \ct{hash} as well!
+  \item キーとなる違いは、要素を与えられた順序で保持する \ct{SequenceableCollection} 群、キー-値の関連付けを保持する \ct{Dictionary} とそのサブクラス、順序を持たない \ct{Set} と \ct{Bag} の間に存在します。
+  \item ほとんどのコレクションは、メッセージ \ct{asArray}、\ct{asOrderedCollection} \etc を送ることで、他のコレクションに変換できます。
+  \item コレクションをソートするには、メッセージ \ct{asSortedCollection} を送ります。
+  \item リテラルの \ct{Array} は特殊文法 \ct{#( ... )} で作ることができます。動的な \ct{Array} は文法 \ct|{ ... }| で作ることができます。
+  \item \ct{Dictionary} はキーを同値性で比較します。この性質はキーとして \ct{String} のインスタンスを用いるときに最も便利です。一方、\ct{IdentifyDictionary} はオブジェクトの同一性でキーを判別します。この性質はキーとして \ct{Symbol} を用いるときか、オブジェクトの参照を値にマップするときなどに適しています。
+  \item \ct{String} は一般的なコレクションメッセージを受け取れます。加えて、\ct{String} は簡単な形式のパターンマッチングもサポートしています。より高度な応用には、RegEx パッケージを参照してください。
+  \item 基本となるイテレーションメッセージは \ct{do:} です。すべての要素に同じ処理を行うようなコード、例えばコレクションのすべての要素を変更するとか、同じメッセージを送るといったことをするときに有用です。
+  \item \ct{do:} を用いる代わりに、より一般的には \ct{collect:}、\ct{select:}、\ct{reject:}、\ct{includes:}、\ct{inject:into:} またその他の、コレクションを統一的な方法で処理することができる高水準なメッセージを用います。
+  \item イテレート中にそのコレクションの要素を削除しないでください。コレクションをイテレーション中に変更したいなら、コピーに対してイテレートします。
+  \item \ct{=} の定義を上書きしたなら、\ct{hash} の再定義もお忘れなく！
 \end{itemize}
 
 %=========================================================
