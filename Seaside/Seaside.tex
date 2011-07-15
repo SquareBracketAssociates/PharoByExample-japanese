@@ -824,14 +824,13 @@ WAStore>>>renderContentOn: html
 	html div id: 'body'; with: task
 \end{code}
 
-\clsind{WAStoreTask} captures this workflow sequence. At a couple of points it is critical that the user not be able to go back and change the submitted information.
+\clsind{WAStoreTask}がワークフローの順番を定義しています。ユーザが戻って一度サブミットした情報を変更できないようにすることが重要です。
 
-\dothis{\,``Purchase'' some sushi and then use the ``back'' button to try to put more sushi into your cart.
-You will get the message ``That page has expired.''}
+\dothis{\,いくつか寿司を購入した後で、Webブラウザの「戻る」ボタンを押し、カートの中にさらに寿司を追加してみましょう。``That page has expired.''と出て追加できません。}
 
-Seaside lets the programmer say that a certain part of a workflow act like a transaction: once the transaction is complete, the user cannot go back and undo it.
-You say this by sending \mthind{WAComponent}{isolate:} to a task with the transactional block as its argument.
-We can see this in the sushi store workflow as follows:
+Seasideでは、プログラマがワークフローのある部分をトランザクションとして定義できるようになっています。トランザクションが一度終了すると、ユーザはそこに戻って操作をやり直すことはできません。
+トランザクションを定義するには、\mthind{WAComponent}{isolate:}メッセージをタスクに送ります。引数で
+トランザクションにする部分ブロックで指定します。寿司屋デモでは以下のようにしています。
 
 \begin{code}{}
 WAStoreTask>>>go
@@ -853,17 +852,15 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-Here we see quite clearly that there are two transactions.
-The first fills the cart and closes the shopping phase.
-(The helper methods \ct{fillCart} \etc take care of instantiating and calling the right subcomponents.)
-Once you have confirmed the contents of the cart you cannot go back without starting a new session.
-The second transaction completes the shipping and payment data.
-You can navigate back and forth within the second transaction until you confirm payment.
-However, once both transactions are complete, any attempt to navigate back will fail.
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています。)
 
-Transactions may also be nested.
-A simple demonstration of this is found in the class \clsind{WANestedTransaction}.
-The first \ct{isolate:} takes as argument a block that contains another, nested \ct{isolate:}
+%セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
+一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
+トランザクションを終えた後では、戻ろうとしても常に警告が出て失敗します。
+
+トランザクションをネストすることもできます。 \clsind{WANestedTransaction}で簡単なデモを見ることができます。
+% 3.0には同梱されていない
+最初の \ct{isolate:}のブロック内に、さらに別の \ct{isolate:}ブロックが含まれています。
 
 \begin{code}{}
 WANestedTransaction>>>go
