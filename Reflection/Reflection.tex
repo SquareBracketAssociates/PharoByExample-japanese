@@ -28,6 +28,21 @@
 		ignoreheadfoot
 	]{geometry}
 	\input{../common.tex}
+
+	\usepackage{amsmath}
+	\usepackage{txfonts}
+	\usepackage[no-math]{luajalayout}
+
+	\setrftovf[scale=.95]{IPAMincho}{rmfamily}
+	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Termes}{rmfamily}
+
+	\setrftovf[scale=.95]{IPAGothic}{sffamily}
+	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Heros}{sffamily}
+
+	\defaultfontfeatures{Ligatures=TeX}
+	\setmainfont[BoldFont=vf:sffamily]{vf:rmfamily}
+	\setsansfont{vf:sffamily}
+
 	\pagestyle{headings}
 	\setboolean{lulu}{true}
 % --------------------------------------------
@@ -983,7 +998,7 @@ myDA x --> nil
 \seclabel{wrapper}
 
 %@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
-すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そして\ct{コンパイル済みメソッドオブジェクト}にも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
+すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
 %@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
 少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
