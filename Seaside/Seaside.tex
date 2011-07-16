@@ -872,32 +872,31 @@ WANestedTransaction>>>go
 	self inform: 'Outside parent txn'
 \end{code}
 
-\dothis{Go to \url{http://localhost:8080/seaside/tests/alltests}, select \menu{WATransactionTest} and click on \button{Restart}.
-Try to navigate back and forth within the parent and child transaction by clicking the \button{back} button and then clicking \button{ok}.
-Note that as soon as a transaction is complete, you can no longer go back inside the transaction without generating an error upon clicking \button{ok}.}
+\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び \button{Restart}ボタンを押してみましょう。親と子のトランザクションの中で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクションが終了した後は、戻って\button{OK}ボタンを押したとしても、常にエラーが出て終了後のページにリダイレクトされます。}
 
 %=================================================================
-\section{A complete tutorial example}
+\section{サンプルアプリ作成によるチュートリアル}
 
 % ON: Should take about two hours
 
-Let's see how we can build a complete Seaside application from scratch.\footnote{The exercise should take at most a couple of hours. If you prefer to just look at the completed source code, you can grab it from the SqueakSource project \url{http://www.squeaksource.com/PharoByExample}.
-The package to load is \scat{PBE-SeasideRPN}. The tutorial that follows uses slightly different class names so that you can compare your implementation with ours.}
-We will build a RPN (Reverse Polish Notation) calculator as a Seaside application that uses a simple stack machine as its underlying model.
-Furthermore, the Seaside interface will let us toggle between two displays\,---\,one which just shows us the current value on top of the stack, and the other which shows us the complete state of the stack.
-The calculator with the two display options is shown in \figref{stackMachine}.
+ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}からダウンロードできます。 \scat{PBE-SeasideRPN}を選択してロードします。クラス名を少し変えてあるので、ロードしたとしても、本書に従ってアプリケーションを作っていくことができます。}
+RPN (逆ポーランド記法) の計算機をSeasideのアプリケーションとして作ることにしましょう。モデルとして単純なスタックマシンを実装して使うことにします。
+
+計算機アプリでは二種類の表示方法を用意します。一つ目はスタックの先頭の値を単に表示するタイプで、二つ目はスタックの内容をすべて表示することにタイプです。
+
+二つの表示方法を切り替える様子を示すと \figref{stackMachine}のようになります。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{stackMachine}
-\caption{RPN calculator and its stack machine}
+\caption{RPN計算機とスタックマシン}
 \figlabel{stackMachine}
 \end{center}
 \end{figure}
 
-We begin by implementing the stack machine and its tests.
+スタックマシンとテストを書くところから始めていきましょう。
 
-\dothis{Define a new class called \ct{MyStackMachine} with an instance variable \ct{contents} initialized to a new \ct{OrderedCollection}.}
+\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義しましょう。\ct{OrderedCollection}で初期化することにします。}
 
 \begin{code}{}
 MyStackMachine>>>initialize
@@ -905,7 +904,7 @@ MyStackMachine>>>initialize
 	contents := OrderedCollection new.
 \end{code}
 
-The stack machine should provide operations to \ct{push:} and \ct{pop} values, view the \ct{top} of the stack, and perform various arithmetic operations to add, subtract, multiply and divide the top values on the stack.
+スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
 
 \dothis{Write some tests for the stack operations and then implement these operations.
 Here is a sample test:}
