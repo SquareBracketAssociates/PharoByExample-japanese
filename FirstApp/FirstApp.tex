@@ -44,10 +44,10 @@
 \chalabel{firstApp}
 
 この章において、簡単なゲーム：\ind{Lights Out}\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}を作成することにします。\pharoプログラマーがプログラムを作成したりデバッグをするために使用する多くのツールを通じ、どのように他の開発者とプログラムを受け渡しするのかを実際に体験します。
-ここでは、ブラウザー、オブジェクトインスペクター、デバッガー、\ind{Monticello} \ind{package}ブラウザーのツールの使い方を見ることになります。Smalltalkを使いプログラムをするのはとても効率的です。なぜそう言えるのかは、コードを書くためにいかに多くの時間を費やすことができ、開発プロセスに割く時間をどれほど省くことができるかということ、をこの章を読むことでわかるでしょう。Smallltalkを使ったプログラミングが効率的なのは、Smallltalkがプログラミング言語として簡潔であること、そしてプログラムを開発するための環境がプログラミング言語ととてもうまく統合されていること、によるためです。
+ここでは、\ind{browser}、オブジェクトinspector、debugger、\ind{Monticello} \ind{package} browserのツールの使い方を見ることになります。\stを使いプログラムをするのはとても効率的です。なぜそう言えるのかは、コードを書くためにいかに多くの時間を費やすことができ、開発プロセスに割く時間をどれほど省くことができるかということ、をこの章を読むことでわかるでしょう。\stを使ったプログラミングが効率的なのは、\stがプログラミング言語として簡潔であること、そしてプログラムを開発するための環境がプログラミング言語ととてもうまく統合されていること、によるためです。
 
 %=================================================================
-\section{The Lights Out game}
+\section{Lights Outゲーム}
 
 % DON'T USE WRAPFIGURE CLOSE TOO A PAGE BREAK!!! (ON)
 %\begin{wrapfigure}[13]{r}{0.35\linewidth}%
@@ -64,17 +64,17 @@
 	\figlabel{gameBoard}}
 \end{figure}
 
-\pharoのプログラミングツールの使い方を見せるため\emph{Lights Out}と呼ばれる簡単なゲームを作ります。ゲームボードは図2.1の通り、淡黄色の\emph{cells}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度\Clickすると、それらの色の変わったcellは、淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
+\pharoのプログラミングツールの使い方を見せるため\emph{Lights Out}と呼ばれる簡単なゲームを作ります。ゲームボードは\figref{gameBoard}の通り、淡黄色の\emph{cell}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度\Clickすると、それらの色の変わったcellは、淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
 \figref{gameBoard}に示されているゲームはゲームボード本体と100個からなるcellの2種類のオブジェクトで構成されています。このゲームを実装するための\pharoのコードは2つのクラスから成ります。1つはゲームクラス、もう1つはcellクラスです。\pharoのプログラミングツールを使い、どのようにこれらのクラスを定義していくか見ていきましょう。
 
 %=================================================================
-\section{Creating a new Package}
+\section{パッケージを作成する}
 
-\charef{quick}の\ind{browser}の使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
+\charef{quick}のbrowserの使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
 \index{category!creating}
 \index{package!creating}
 
-\dothis{ブラウザーを開きパッケージペインで\actclick。その後\menu{create package}を選択。\footnote{パッケージブラウザーが標準ブラウザーとしてインストールされているものとします。もし\figref{addPackage}で示されているようなブラウザーを使っていない場合はデフォルトのブラウザー変更する必要があります。もし\figref{addPackage}で示されているようなブラウザーを使っていない場合はデフォルトのブラウザー変更する必要があります。\faqref{packagebrowser}参照。}}
+\dothis{browserを開きパッケージペインで\actclick。その後\menu{create package}を選択。\footnote{パッケージbrowserが標準browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowser変更する必要があります。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowser変更する必要があります。\faqref{packagebrowser}参照。}}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -97,21 +97,21 @@
 ダイアログボックスに新たなパッケージ名を入力してください(ここではパッケージ名を\scat{PBE-LightsOut}とします)。その後\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に表示されます。
 
 %=================================================================
-\section{Defining the class LOCell}
+\section{LOCellクラスを定義する}
 
 あたり前のことですが、新しいパッケージにはまだ何のクラスも定義されていません。しかし、メインの編集ペインには新たなクラスを作りやすいように、自動的にクラスのテンプレートが用意されます(\figref{classTemplate}参照)。
 
 このテンプレートでは、\ct{Object}と呼ばれるクラスに\st式のメッセージ送る\ct{NameOfSubClass}と呼ばれるサブクラスを作成する作成するように求められます。新しいクラスには変数はありません。またこのクラスは\scat{PBE-LightsOut}カテゴリに属していなければなりません。
 
-\subsection{On Categories and Packages}
+\subsection{カテゴリーとパッケージについて}
 \seclabel{categoriesPackages}
 
-歴史的には、\stは\emph{categories}は知っていますが、パッケージは知りません(意味不明、後に再チェック)。この2つ用語の違いとは何か、疑問に思うことと思います。カテゴリとは\stのイメージファイル内に、関係するクラスを単に集めたものです。\emph{package}とは関係するクラスと\emph{拡張メソッド}を集めたもので、バージョン管理ツールであるモンティチェロを用いて管理されるものを集めたものです。慣習的にパッケージ名とカテゴリ名は同じものを使います。通常、この用語の違いを気にする必要はありません。しかしこの本においては、この用語の違いが重要な意味を持つため、各所にて正しい用語を注意深く使用することとします。実際にモンティチェロを使うときに、これらの違いについてより深く知ることにしましょう。
+歴史的には、\stは\emph{カテゴリー}は知っていますが、パッケージは知りません(意味不明、後に再チェック)。この2つ用語の違いとは何か、疑問に思うことと思います。カテゴリとは\stのイメージファイル内に、関係するクラスを単に集めたものです。\emph{パッケージ}とは関係するクラス\emph{と拡張メソッド}を集めたもので、バージョン管理ツールである\ind{Monticello}を用いて管理されるものを集めたものです。慣習的にパッケージ名とカテゴリ名は同じものを使います。通常、この用語の違いを気にする必要はありません。しかしこの本においては、この用語の違いが重要な意味を持つため、各所にて正しい用語を注意深く使用することとします。実際に\ind{Monticello}を使うときに、これらの違いについてより深く知ることにしましょう。
 
 \index{package}
 \index{category}
 
-\subsection{Creating a new class}
+\subsection{新しいクラスを作成する}
 
 クラスのテンプレートを修正し、目的に合ったクラスを作ってみましょう。
 
@@ -119,12 +119,12 @@
 \begin{itemize}
   \item \clsind{Object}を\clsind{SimpleSwitchMorph}と書き換えます。
   \item \ct{NameOfSubClass}を\clsind{LOCell}と書き換えます。
-  \item instance variablesのリストに\ct{mouseAction}を追加します。
+  \item インスタンスう変数のリストに\ct{mouseAction}を追加します。
 \end{itemize}
 結果は\clsref{firstClassDef}の通りです。
 
 \needlines{5}
-\begin{classdef}[firstClassDef]{Defining the class \ct| LOCell|}
+\begin{classdef}[firstClassDef]{\ct| LOCell|クラスを定義する}
 SimpleSwitchMorph subclass: #LOCell
    instanceVariableNames: 'mouseAction'
    classVariableNames: ''
@@ -135,7 +135,7 @@ SimpleSwitchMorph subclass: #LOCell
 \index{class!creation}
 \index{Morphic}
 
-この新しく定義した\st式は、 \ct{SimpleSwitchMorph}という名の既存のクラスに対し、\ct{LOCell}という名のサブクラスを作るかどうかをメッセージを送り尋ねます。(実際には\ct{LOCell}サブクラスはまだ作られていないため、これから作作るサブクラスの名前、つまり\emphind{symbol} \ct{#LOCell}を引数として渡します。)
+この新しく定義した\st式は、 \ct{SimpleSwitchMorph}という名の既存のクラスに対し、\ct{LOCell}という名のサブクラスを作るかどうかをメッセージを送り尋ねます。(実際には\ct{LOCell}サブクラスはまだ作られていないため、これから作るサブクラスの名前、つまり\emphind{symbol} \ct{#LOCell}を引数として渡します。)
 また、マウスでクリックしたときにcellがどのような動作をするか、ということもこの後定義する\ct{mouseAction}インスタンス変数に対し伝えなければなりません。
 \emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだプログラムを\emph{unsaved changes}を意味します。実際にセーブするために\menu{accept}する必要があります。
 
@@ -143,18 +143,16 @@ SimpleSwitchMorph subclass: #LOCell
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{AcceptClassDef}}}
 	{\centerline {\includegraphics[scale=0.7]{AcceptClassDef}}}
-\caption{The class-creation Template.
+\caption{クラス作成テンプレート。
 \figlabel{acceptClassDef}}
 \end{figure}
 
 \dothis{新しいクラス定義をacceptします}
-action-clickをしてacceptを選択、もしくはショートカットのCMD-s(セーブのため)を実行して下さい。SimpleSwitchMorphにメッセージが送られ、新しいクラスがコンパイルされます。
-1度クラス定義がacceptされると、クラスが作られ、ブラウザのクラスペインにそのクラスが表示されます(図2.5)。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これはclass commentと呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。Smalltalkプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
+action-clickをして\menu{accept}を選択、もしくはショートカットの\short{s} (セーブのため)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
+1度クラス定義がacceptされると、クラスが作られ、browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\stプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
 \index{keyboard shortcut!accept}
 
-1度クラス定義がacceptされると、クラスが作られ、ブラウザのクラスペインにそのクラスが表示されます(図2.5)。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これはclass commentと呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。Smalltalkプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
-\index{refactoring}
-クラスのコメントに、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
+\subind{クラス}{コメント}に、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
 
 \dothis{LOCellクラスのコメントを入力し、acceptして下さい。これで後にそれを改良することができます。}
 
@@ -162,22 +160,24 @@ action-clickをしてacceptを選択、もしくはショートカットのCMD-s
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{LOCell}}}
 	{\centerline {\includegraphics[scale=0.7]{LOCell}}}
-\caption{The newly-created class \ct{LOCell}\figlabel{LOCell}}
+\caption{新しく作成された\ct{LOCell}クラス \figlabel{LOCell}}
 \end{figure}
 
 %=================================================================
-\section{Adding methods to a class}
+\section{クラスにメソッドを追加する}
 
 クラスにメソッドを追加します
 
 今度はこのクラスにいくつかのメソッドを追加してみましょう。
-プロトコルペインにある--all--プロトコルを選択します。それを選択し、メソッド2.2に示されている内容と置き換えてください。
+\dothis{プロトコルペインにある\prot{-{}-all-{}-}プロトコルを選択します。}
+編集ペインにメソッドを作成するためのテンプレートができています。
+それを選択し、\mthref{scbecellinitialize}に示されている内容と置き換えてください。
 \protindex{all}
 \index{method!creation}
 \index{browser!defining a method}
 
 \needlines{10}
-\begin{numMethod}[scbecellinitialize]{Initializing instances of \ct{LOCell}}
+\begin{numMethod}[scbecellinitialize]{\ct{LOCell}のインスタンスを初期化する}
 initialize
    super initialize.
    self label: ''.
@@ -191,41 +191,48 @@ initialize
 \index{initialization}
 
 \noindent
-3行目''の文字は、間に何の文字も挟んでいない2つの単一引用符です。二重引用符ではないことに注意してください。''空の文字列を表しています。
+3行目\ct{''}の文字は、間に何の文字も挟んでいない2つの単一引用符です。二重引用符ではないことに注意してください。\ct{''}は空の文字列を表しています。
 
-\dothis{このメソッドの定義をAccept}
+\dothis{このメソッドの定義をaccept}
 
 上記のコードは何をするのでしょう？ここではその詳細全てには触れません(本の残りの部分はそのためにあるのです！)。しかし簡単に内容を見てみましょう。1行ずつ進んでいきましょう。
 
-initializeと呼ばれるメソッドに注目してください。この名前は非常に重要です。慣習的にinitializeと名付けられたメッソドは、そのメソッドが属するクラスのオブジェクト作られた直後に呼び出されれます。つまり、LOCell new が評価されたとき、initialize メッセージが自動的に新しく作られたオブジェクトに送られます。initializeメソッドはオブジェクトの状態、主にそのインスタンス変数、を設定するために使われます。
+\mthind{LOCell}{initialize}と呼ばれるメソッドに注目してください。この名前は非常に重要です。慣習的にinitializeと名付けられたメッソドは、そのメソッドが属するクラスのオブジェクト作られた直後に呼び出されれます。つまり、\ct{LOCell new}が評価されたとき、\ct{initialize}メッセージが自動的に新しく作られたオブジェクトに送られます。\ct{initialize}メソッドはオブジェクトの状態、主にそのインスタンス変数、を設定するために使われます。
 \seeindex{Object!initialization}{initialization}
 \index{initialization}
 
-このメソッドが最初にすること(2行目)は、そのスーパークラスであるSimpleSwitchMorphのinitializeメソッドです。スーパークラスのinitializeメソッドにより、全ての継承された状態が適切に初期化された、とここでは考えてください。何かをする前に、スーパークラスのinitializeメソッドにより、継承された状態が初期化されるという考えることは常に正しい事です。つまり、SimpleSwitchMorphのinitializeメソッドが何をするかは知らなくとも気にしなくとも構いません。しかし、妥当なデフォルト値を維持するため、いくつかのインスタンス変数を設定するのはまっとうな方法であり、その値を呼び出すことはよいことです。さもなくば、何かをするときに初期化されていない状態から始める危険性をともないます(訳良くない、修正の必要あり)。
+このメソッドが最初にすること(2行目)は、そのスーパークラスである\ct{SimpleSwitchMorphの\ct{initialize}メソッドです。スーパークラスの\ct{initialize}メソッドにより、全ての継承された状態が適切に初期化された、とここでは考えてください。何かをする前に、スーパークラスの\ct{initialize}メソッドにより、継承された状態が初期化されるという考えることは常に正しい事です。つまり、\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが何をするかは知らなくとも気にしなくとも構いません。しかし、妥当なデフォルト値を維持するため、いくつかのインスタンス変数を設定するのはまっとうな方法であり、その値を呼び出すことはよいことです。さもなくば、何かをするときに初期化されていない状態から始める危険性をともないます
+%(訳良くない、修正の必要あり)。
 
-このメソッドの残りの部分はこのオブジェクトの状態を設定します。例えば、self label:'' をオブジェクトに送ることで、このオブジェクトのラベルに空の文字列を設定します。
+このメソッドの残りの部分はこのオブジェクトの状態を設定します。
+例えば、\ct{self label: ''}をオブジェクトに送ることで、このオブジェクトのラベルに空の文字列を設定します。
+\pvindex{self}
 
-0@0 corner: 16@16 で表される式については、恐らくいくつかの説明が必要でしょう。0@0は、両方共0に設定されたx,y座標のPointオブジェクトを意味します。実際に 0@0 で表される式は 数値 0 に、引数が 0 の @ メッセージを送ります。その結果、数値 0 はPointクラスに、座標(0,0)で新たなインスタンスを作るよう指示します。新しく作られた(座標の)点に、corner:16@16 メッセージを送ってみましょう。その結果、角が 0@0 と 16@16の長方形が作られます。この新しく作られた長方形には、スーパークラスから継承された bounds 変数が割り当てられます。Pharo の画面の原点は左上であり、下に向かってy座標の値が増えることに注意してください。
+\ct{0@0 corner: 16@16}で表される式については、恐らくいくつかの説明が必要でしょう。\lct{0@0}は、両方共0に設定された$x$,$y$座標の\clsind{Point}オブジェクトを意味します。実際に\ct{0@0}で表される式は 数値\ct{0}に、引数が\ct{0}の \ct{@}メッセージを送ります。その結果、数値 0 はPointクラスに、座標(0,0)で新たなインスタンスを作るよう指示します。新しく作られた(座標の)点に、\ct{corner: 16@16}メッセージを送ってみましょう。その結果、角が 0@0 と 16@16の\clsind{Rectangle}が作られます。この新しく作られたRectangleには、スーパークラスから継承された\ct{bounds}変数が割り当てられます。\pharo の画面の原点は\emph{左上}であり、\emph{下に向かって} $y$座標の値が増えることに注意してください。
 (以下の行 全部 意味不明、後でやり直し)
-メソッドの残りの部分は自己説明的であるべきです。良いSmalltalkのコードを書く方法の1つは、Smalltalkのコードが英語の混成語のように読めるような良いメソッド名をつけることです。オブジェクトがそれ自体と話したり、”自分で広場の角を使う”、”自分で電源をオフにする”というイメージを持つことができるでしょう。
+メソッドの残りの部分は自己説明的であるべきです。良い\stのコードを書く方法の1つは、\stのコードが英語の混成語のように読めるような良いメソッド名をつけることです。オブジェクトがそれ自体と話したり、``\ct{Self use square corners!}'', ``\ct{Self turn off!}''というイメージを持つことができるでしょう。
+%``\ct{自分で広場の角を使う}'', ``\ct{自分で電源をオフにする}''
+
 %=================================================================
-\section{オブジェクトを調査}
+\section{オブジェクトをインスペクトする}
 
-新たなLOCellを作り、それを調査することによって書いたコードの効果をテストできます。
+新たな\ct{LOCellを作り、それをインスペクトすることによって書いたコードの効果をテストできます。
 
-\dothis{workspaceを開き、そこでLOCell newと打ち込み inspect it して下さい。}
+\dothis{workspaceを開き、そこで\ct{LOCell new}と打ち込み\menu{inspect it}して下さい。}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{LOCellInspector} 
-   \caption{LOCellオブジェクトを調べるために使用したインスペクタ。}
+   \caption{LOCellオブジェクトを調べるために使用したinspector。}
 \end{figure}
 
-インスペクタの左側のペインには、調査したインスタンス変数のリストが表示されます。その中の1つ例えば bounds）を選んで見てください、右側のペインにそのインスタンス変数の値が表示されます。インスペクターの下側にあるペインはmini-workspaceです。擬似変数selfが選択されたオブジェクトに束縛されているため、このworkspaceは便利です(意味不明 後でやり直し)。
+\ind{inspector}の左側のペインには、調査したインスタンス変数のリストが表示されます。その中の1つ(例えば
+%\mbox{\ct{bounds}
+\ct{bounds}）を選んで見てください、右側のペインにその\ind{インスタンス変数}の値が表示されます。inspectorの下側にあるペインはmini-workspaceです。擬似変数\selfが選択されたオブジェクトに束縛されているため、このworkspaceは便利です(意味不明 後でやり直し)。
 
 \dothis{
-インスペクタウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、self bounds:(200@200 coner: 250@250)と打ち込み do it して下さい。インスペクター上で束縛された値が変化します。次にmini-workspaceに self openinWorldと打ち込み do it して下さい。}
-画面の左上の端にcellが表示されます。実際、boundsメッセージで表示するよう指示した場所に正確に表示されます。cell上でmeta-clickをするとmorphic haroが現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、インスペクターを使って確認して下さい。(新たな bounds の値を見るために refresh action-click が必要かもしれません。)
+inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み do it して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
+画面の左上の端にcellが表示されます。実際、\ct{bounds}メッセージで表示するよう指示した場所に正確に表示されます。cell上で\metaclickをすると\subind{Morphic}{halo}が現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、inspectorを使って確認して下さい。(新たな bounds の値を見るために \menu{refresh} \actclick{} が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
@@ -235,15 +242,15 @@ initializeと呼ばれるメソッドに注目してください。この名前�
 \caption{cellのリサイズ。\figlabel{cellresize}}
 \end{figure}
 
-\dothis{ピンク色のハンドルをクリックすることでcellは消せます。}
+\dothis{ピンク色のハンドル\ct{x}をクリックすることでcellは消せます。}
 
 %=================================================================
-\section{クラスLOGameの定義}
+\section{LOGameクラスを定義する}
 
-これから、LOGameと呼ばれるゲームを作るのに必要な他のクラスを作りましょう。
+これから、\clsind{LOGame}と呼ばれるゲームを作るのに必要な他のクラスを作りましょう。
 
-\dothis{ブラウザーのメインウインドウで、クラス定義テンプレートを作ってください。}
-これはパッケージ名をクリックすればできます。以下の通りにコードを書いてください。
+\dothis{browserのメインウインドウで、クラス定義テンプレートを作ってください。}
+これはパッケージ名をクリックすればできます。以下の通りにコードを書き、\menu{accept}して下さい。
 
 \needlines{6}
 \begin{classdef}[sbegame]{LOGameクラスを定義します。}
@@ -254,16 +261,13 @@ BorderedMorph subclass: #LOGame
    category: 'PBE-LightsOut'
 \end{classdef}
 
-ここではBorderedMorphをサブクラス化しています。MorphはPharoのグラフィック図形すべてのスーパークラスです。そして(驚くことに)、BorderedMorphは境界線を持ったMorphです(意味不明 再度翻訳する)。2行目にある引用符の間にインスタンス変数の名前を入れることができますが、今はここは空のままにしておきましょう。
+ここでは\clsind{BorderedMorph}をサブクラス化しています。\clsind{Morph}は\pharoのグラフィック図形すべてのスーパークラスです。そして(驚くことに)、\ct{BorderedMorph}は境界線を持った\ct{Morph}です(意味不明 再度翻訳する)。2行目にある引用符の間にインスタンス変数の名前を入れることができますが、今はここは空のままにしておきましょう。
 
+\ct{LOGame}の\mthind{LOGame}{initialize}メソッドを定義しましょう。
 
+\dothis{\ct{LOGame}のメソッドとして以下の内容をbrowserに打ち込んでください。その後\menu{accept}して下さい。}
 
-
-LOGameのinitializeメソッドを定義しましょう。
-
-\dothis{LOGameのメソッドとして以下の内容をブラウザーに打ち込んでください。その後acceptして下さい。}
-
-\begin{numMethod}[sbegameinitialize]{ゲームの初期化}
+\begin{numMethod}[sbegameinitialize]{ゲームを初期化する}
 initialize
    | sampleCell width height n |
    super initialize.
@@ -278,7 +282,7 @@ initialize
 %\sd{it would be nicer if we would not have to create an instance of LOCell for nothing}
 %\on{yes}
 
-いくつかの用語の認識できない、とPharoは警告してくるでしょう。cellsPerSideメッセージとは何かをPharoは認識していないことを示し、スペルミスの場合はいくつかの修正案を提示してきます。
+いくつかの用語の認識できない、と\pharoは警告してくるでしょう。\ct{cellsPerSide}メッセージとは何かを\pharoは認識していないことを示し、スペルミスの場合はいくつかの修正案を提示してきます。
 
 
 \begin{figure}[htb]
@@ -287,7 +291,7 @@ initialize
 	\ifluluelse
 		{\includegraphics[width=\textwidth]{UnknownSelector}}
 		{\includegraphics[scale=0.7]{UnknownSelector}}
-	\caption{Pharoが未知のセレクタを検出。\figlabel{unknownSelector}}
+	\caption{\pharoが未知のセレクターを検出。\figlabel{unknownSelector}}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
@@ -299,37 +303,40 @@ initialize
 \end{minipage}
 \end{figure}
 
-しかし、\ct{cellsPerSide}はスペルミスではありません。Pharoが警告してくるのは、私達がまだこのメソッドを定義されていないからです。これから1,2分でこの定義を行いましょう。
+しかし、\ct{cellsPerSide}はスペルミスではありません。\pharoが警告してくるのは、私達がまだこのメソッドを定義されていないからです。これから1,2分でこの定義を行いましょう。
 
 \dothis{それではメニューから最初のアイテムを選択し、\ct{cellsPerSide}がスペルミスなどではないことを確認しましょう。}
 
 次に、\ct{cells}の意味が認識できないと\pharoは警告します。\pharoはこれを修正するために、いくつかの方法を提示してきます。
 
-\dothis{\menu{declare instance}を選択しましょう。なぜなら\ct{cells}をインスタンス変数としたいからです。}
+\dothis{\menu{declare instance}を選択しましょう。なぜなら\ct{cell}をインスタンス変数としたいからです。}
 最後に、最終行に送られる\ct{newCellAt:at:}メッセージについて\pharoは警告します。もちろんこれは間違いなどではなく、今までと同様に確認して下さい。
 \index{on the fly variable definition}
 \index{instance variable definition} 
 
-さて、もう一度このクラスの定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。ブラウザー上からインスタンス変数\ct{cells}が修正されていることがわかります。
+さて、もう一度このクラスの定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。browser上からインスタンス変数\ct{cells}が修正されていることがわかります。
 
 この\ct{initialize}メソッドを見てみましょう。
-\ct{| sampleCell width height n |}が記されている行において、4つの一時変数が宣言されています。これらの変数の影響範囲と生存期限がこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うとコードがより読みやすくなります。Smalltalkでは定数と変数を区別するための特別な記述方法はありません。実際これらの4つの"変数"は全て定数です(意味不明 再翻訳必要)。4-7行目でこれらの中身を定義しています。
+\ct{| sampleCell width height n |}が記されている行において、4つの一時変数が宣言されています。これらの変数の影響範囲と生存期限がこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うとコードがより読みやすくなります。\stでは定数と変数を区別するための特別な記述方法はありません。実際これらの4つの"変数"は全て定数です
+%(意味不明 再翻訳必要)
+。4--7行目でこれらの中身を定義しています。
 
 ゲームボードをどれくらいの大きさにするとよいでしょうか? 必要な数のcellとそれらの境界を表示するために十分な大きさが必要です。cellの数はどれぐらい必要でしょうか? 5? 10? 100? 今はまだどのくらい必要なのかわかりません。今の時点で数を決めてしまうと、後に考えを変えてしまうことになるかもしれません。そこで、その数を知るための責務を、これから1,2分で書き\ct{cellsPerSide}と呼ぶ別のメソッド委譲します。メソッドを定義する前に\ct{cellsPerSide}メッセージを送ることにより、\ct{initialize}のためのメソッド本体をacceptするとき、\pharoから``confirm, correct, or cancel''と警告されます。まだ定義していない他のメソッドを書くという点からは実際に良い練習となるのですが、これを避けてはいけません。そればなぜでしょう? 
-\ct{initialize}メソッドを書き始めるまでは、それが必要だと認識していませんでした。またその時点において、流れを邪魔するものなしに、それに意味のある名前を与えることや移動すること、ができます。(上3行意味不明 後に再翻訳)
+\ct{initialize}メソッドを書き始めるまでは、それが必要だと認識していませんでした。またその時点において、流れを邪魔するものなしに、それに意味のある名前を与えることや移動すること、ができます。
+%(上3行意味不明 後に再翻訳)
 
  
-4行目においてこのメソッドが使われています。Smalltalk式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージをを\pvind{self}つまりまさにそのObjectに送ります。ゲームボードの一辺に必要なcellの数を決める責務は\ct{n}にあてがわれました。
+4行目においてこのメソッドが使われています。\st式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージをを\pvind{self}つまりまさにそのObjectに送ります。ゲームボードの一辺に必要なcellの数を決める責務は\ct{n}にあてがわれました。
 
 次の3行で、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。 
 
 %The eighth line sends the message \ct{bounds:} to \self.
 %\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.  
 %The single colon (\ct{:}) at the end of the name says that \ct{bounds:} expects a single parameter, which should be a rectangle object.
-8行目では新しいオブジェクトのct{bounds}を設定します。詳細については今はまだそれほど気にはせず、括弧内の式で原点、つまり左上隅(5,5)と右下隅からなる、適切な数のcellを置くことのに十分な数の長方形がつくられることを理解して下さい。次の行では、 \ct{LOGame}オブジェクトのインスタンス変数の\ct{cells}を、適切な数の行と列をもった、新たに作った\clsind{Matrix}に設定しています。上記のことを\mthind{Matrix class}{new:tabulate:}メッセージを Matrix クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることにより実現しています。new:tabulate:は2つのコロン(\ct{:})を持つので2つの引数を取ります。引数はコロンの後に書きます。もし今まで引数を全て一緒の括弧内に置く言語を使っている場合、最初のうちはこの書き方が異様に感じるかもしれません。慌てることはありません、単に記法の問題なのですから。この書き方は、メソッド名が引数の役割を説明してくれるので、とてもわかりやすい記法です。例えば次の式、\ct{Matrix rows: 5 columns: 2}により、Matrixは2行5列ではなく、5行2列であることは明白です。
+8行目では新しいオブジェクトの\ct{bounds}を設定します。詳細については今はまだそれほど気にはせず、括弧内の式で原点(\ie左上隅)、(5,5)と右下隅からなる、適切な数のcellを置くことのに十分な数の長方形がつくられることを理解して下さい。次の行では、 \ct{LOGame}オブジェクトのインスタンス変数の\ct{cells}を、適切な数の行と列をもった、新たに作った\clsind{Matrix}に設定しています。上記のことを\ct{new:tabulate:}メッセージを \ct{Matrix}クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることにより実現しています。\mthind{Matrix class}{new:tabulate:}は2つのコロン(\ct{:})を持つので2つの引数を取ります。引数はコロンの後に書きます。もし今まで引数を全て一緒の括弧内に置く言語を使っている場合、最初のうちはこの書き方が異様に感じるかもしれません。慌てることはありません、単に記法の問題なのですから。この書き方は、メソッド名が引数の役割を説明してくれるので、とてもわかりやすい記法です。例えば次の式、\ct{Matrix rows: 5 columns: 2}により、Matrixは2行5列ではなく、5行2列であることは明白です。
 \cmindex{Matrix class}{rows:columns:}
 
-\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}式によりnxnの行列とその要素を初期化しています。 
+\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}式により\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。 各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は、\ct{self newCellAt: i at: j}式を評価した結果として初期化されます。
 
 %:===> Pretty-print is broken! (how to pretty-print?)
 
@@ -345,45 +352,47 @@ initialize
 %=================================================================
 \section{メソッドをプロトコルにまとめる}
 
-メソッドを定義する前に、ブラウザーの上部にある3つめのペインを少し見てみましょう。ブレウザの最初のペイント同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドを分類することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は"プロトコル"とよばれています。
-1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、ブラウザーが仮想的なプロトコル--all--を提供する理由であり、驚く必要はなく、クラスの全てのメソッドに含まれます(日本語おかしい 再翻訳)。
-クラスで唯一のいくつかのメソッドがある場合は、プロトコルによって提供される階層の余分なレベルは本当に必要はありません。これは、ブラウザにも私達提供しています理由です - すべて - あなたが学習しても驚かないでしょう仮想プロトコルは、クラス内のすべてのメソッドが含まれています。\protindex{all}
+メソッドを定義する前に、browserの上部にある3つめのペインを少し見てみましょう。browserの最初のペインと同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドをカテゴリー化することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は``プロトコル''とよばれています。
+\index{protocol}
+
+1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、browserが仮想プロトコル\prot{-{}-all-{}-}を提供する理由であり、またクラスの全てのメソッドを含んでいることに驚くことはありません。
+\protindex{all}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{Categorize} 
-   \caption{すべての未分類のメソッドを自動的に分類します。}
+   \caption{すべての未カテゴリー化メソッドを自動的にカテゴリー化します。\figlabel{categorize}}
 \end{figure}
 
-この例に沿って作業をしている場合は、3つ目のペインまだ分類されていないプロトコルが含まれているかもしれません。
+この例に沿って作業をしている場合は、3つ目のペインには\protind{まだ分類されていない}プロトコルが含まれているかもしれません。
 
-\dothis{プロトコルペインをAction-clickして下さい。その後varius⇒categorize automaticallyを選択決定し、その後initializationと呼ばれる新しいプロトコルであるinitializeメソッドに作業を移してください。}
-Pharoはどのようにして、このプロトコルが妥当であるかを知るのでしょうか。一般的に、Pharoは知りません。しかしこのケースにおいてはスーパークラスはinitializeメソッドを持っています。そしてPharoは今回のinitializeメソッドがオーバーライドすべきメソッドに分類されると判断します。
+\dothis{プロトコルペインを\actclickして下さい。その後\menu{various \go categorize automatically}を選択決定し、その後\ct{initialize}と呼ばれる新しいプロトコルである\protind{initialization}メソッドに作業を移してください。}
+\pharoはどのようにして、このプロトコルが妥当であるかを知るのでしょうか。一般的に、\pharoは知りません。しかしこのケースにおいてはスーパークラスは\ct{initialize}メソッドを持っています。そして\pharoは今回の\ct{initialize}メソッドがオーバーライドすべきメソッドに分類されると判断します。
 \index{method!categorize}
 
 %You may find that \pharo has already put your \ct{initialize} method into the \protind{initialization} protocol.
 %If so, it's probably because you have loaded a package called \ct{AutomaticMethodCategorizer} into your image.
 
 \paragraph{表記規則。} Smalltalkersは、メソッドが属するクラスを識別するため、よく``\verb|>>|''の表記法使用します。例えば\ct{LOGame}クラスのcellsPerSideメソッドでは \ct{LOGame>>cellsPerSide}となります。
+\st式では\emph{ない}ことを示すため、特殊なシンボル\ct{>>>}を代わりに使います。そのためこの本においては、このメソッドは\ct{LOGame>>>cellsPerSide}と表します。
+\cmindex{Behavior}{>>}
 
-以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にプラウザー上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
-さあ、これから\ct{LOGame>>>initialize}メソッドで使う他の2つのメソッドを定義しましょう。
-
+以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にbrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
+さあ、これから\ct{LOGame>>>initialize}メソッドで使う他の2つのメソッドを定義しましょう。両方とも\prot{initialization} プロトコルの中に入ります。
 \begin{method}[sbegamecellsperside]{定数メソッド。}
 LOGame>>>cellsPerSide
-   "The number of cells along each side of the game"
+   "ゲームの側面にあるcellの数"
    ^ 10
 \end{method}
 \cmindex{LOGame}{cellsPerSide}
 \index{constant methods}
 
-このメソッドは非常にシンプルで、単に定数10を返すだけです。メソッドで定数を表記する利点の1つは、～時、この値を計算するためにこのメソッドで変更することができるからです。他の要因に依存しているこの定数によってこのプログラムが進化するならば、この値を計算することでメソッドを変更することができます。
+このメソッドは非常にシンプルで、単に定数10を返すだけです。メソッドで定数を表記する利点の1つは、他の要因に依存しているこの定数によってこのプログラムが進化する時、値を計算することでメソッドを変更することができるからです
 
 \needlines{10}
 \begin{method}[newCellAt:at:]{初期化補助メソッド}
 LOGame>>>newCellAt: i at: j
-   "Create a cell for position (i,j) and add it to my on-screen
-   representation at the appropriate screen position.  Answer the new cell"
+   "位置(i,j)にあるcellを作成し、適切な画面の位置に追加。新しいcellを返す"
    | c origin |
    c := LOCell new.
    origin := self innerBounds origin.
@@ -398,10 +407,10 @@ LOGame>>>newCellAt: i at: j
 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
 \Mthref{newCellAt:at:} 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
-メソッド2.6において新しいLOCellは、cell\clsind{Matrix}の(i,j)の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}
+メソッド2.6において新しいLOCellは、cell\clsind{行列}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}
 \mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによりマウスをクリックしたときに呼び出される振る舞いを定義しています。それに対応する定義もする必要があります。
 
-\begin{method}[toggleNeighboursOfCellAt:at:]{The callback method}
+\begin{method}[toggleNeighboursOfCellAt:at:]{呼び出されるメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
    (i > 1) ifTrue: [ (cells at: i - 1 at: j ) toggleState].
    (i < self cellsPerSide) ifTrue: [ (cells at: i + 1 at: j) toggleState].
@@ -412,7 +421,7 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
 
 \Mthref{toggleNeighboursOfCellAt:at:} はcell(\ct{i}, \ct{j})の東西南北の位置にある4つのセルの状態を切り替えます。唯一の難点はボードが有限であることです。そのため隣接するcellが存在することを、状態を切り替える前に確認しなければなりません。
 
-\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\Actclickして下さい)}
+\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\actclickして下さい)}
 メソッドを移動するためには、たんにその名前をクリックし、新たに作ったプロトコルまで持って行ってください。 (\figref{dragMethod}).
 
 \begin{figure}[htbp]
@@ -423,20 +432,20 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
    \caption{メソッドをプロトコルへ持って行く。\figlabel{dragMethod}}
 \end{figure}
 
-Lights Out gameを完成するために、\ct{LOCell}クラスでマウスのイベントを操作する、もう2つのメソッドを定義する必要があります。
+Lights Outゲームを完成するために、\ct{LOCell}クラスでマウスのイベントを操作する、もう2つのメソッドを定義する必要があります。
 \begin{method}[mouseAction:]{典型的なセッターメソッド}
 LOCell>>>mouseAction: aBlock
    ^ mouseAction := aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-\Mthref{mouseAction:} では、cellのmouxeAction変数に引数を設定し、その新たな値を返す以上のことはしていません。このような方法でインスタンス変数の値を変更するメソッドはセッターメソッドと呼ばれています。また、インスタンス変数の現在の値を返すメソッドはゲッターメソッドと呼ばれています。
+\Mthref{mouseAction:} では、cellの\ct{mouseAction}変数に引数を設定し、その新たな値を返す以上のことはしていません。このような方法でインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
 
-もし他のプログラミング言語においてゲッターとセッターを使うことに慣れていた場合、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし慣習的にSmalltalkでは違います。ゲッター名は常に、そのメソッドが得る値と同じ名前にします。セッター名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''が付きます。
+もし他のプログラミング言語においてゲッターとセッターを使うことに慣れていた場合、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし慣習的に\stでは違います。ゲッター名は常に、そのメソッドが得る値と同じ名前にします。セッター名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''が付きます。
 
-セッターとゲッターは合わせてアクセサメソッドと呼ばれています。また慣習として、これらは\protind{accessing}プロトコルに置かれるべきです。Smalltalkにおいて全てのインスタンス変数はそれらを持つオブジェクトに対しプライベートです。そのため他のオブジェクトがSmalltalk言語でそれらの変数を読み書きする唯一の方法は、このようにアクセサメソッドを使うことです。\footnote{実際にインスタンス変数はサブクラスにもアクセスできます。
+セッターとゲッターは合わせて\emphind{アクセサ}メソッドと呼ばれています。また慣習として、これらは\protind{accessing}プロトコルに置かれるべきです。\stにおいて全てのインスタンス変数はそれらを持つオブジェクトに対しプライベートです。そのため他のオブジェクトが\st言語でそれらの変数を読み書きする唯一の方法は、このようにアクセサメソッドを使うことです。\footnote{実際にインスタンス変数はサブクラスにもアクセスできます。
 }.
 
 \dothis{\ct{LOCell}クラスを表示し、\ct{LOCell>>>mouseAction:}を定義し、\prot{accessing}プロトコルに置いてください。}
@@ -452,16 +461,17 @@ LOCell>>>mouseUp: anEvent
 \dothis{\ct{LOCell>>>mouseUp:}を追加し、\menu{categorize automatically}メソッドを実行してください。}
 \index{method!categorize}
 
-このメソッドはメッセージの値を、\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。 \ct{LOGame>>>newCellAt: i at: j}を再度呼び出すことにより、以下のコードの断片を\ct{mouseAction}:にあてがっています。
+このメソッドはメッセージの\ct{値}を、\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。 \ct{LOGame>>>newCellAt: i at: j}を再度呼び出すことにより、以下のコードの断片を\ct{mouseAction}:にあてがっています。
 
 \ct{[self toggleNeighboursOfCellAt: i at: j ]}
 
-値のメッセージを送ることにより、このコードの断片は評価されます。その結果としてcellの状態が切り替わります。
+\noindent
+\ct{値}のメッセージを送ることにより、このコードの断片は評価されます。その結果としてcellの状態が切り替わります。
 
 %=================================================================
 \section{コードを実行してみましょう}
 
-以上でLights Out ゲームは完成しました！
+以上でLights Outゲームは完成しました！
 全ての手順に従ってきたのならば、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことはできるはずです。
 
 \dothis{workspace上で、\ct{LOGame new openInWorld} と打ち込み、\menu{do it}して下さい。}
@@ -469,7 +479,7 @@ LOCell>>>mouseUp: anEvent
 ゲームが開き、cellをクリックでき、またそれがどのように動作するかを見ることができるでしょう。
 
 理論上は動くはずです\ldots{}
-理論上は動くはずです…。cell上でクリックするとき、エラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる通知ウインドウが表示されます。 \figref{lightsOutError}に描かれているように、このウインドウは、\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
+理論上は動くはずです…。cell上でクリックするとき、エラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる\emphind{通知}ウインドウが表示されます。 \figref{lightsOutError}に描かれているように、このウインドウは、\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
 
 \begin{figure}[ht]
 \ifluluelse
@@ -480,30 +490,32 @@ LOCell>>>mouseUp: anEvent
 \end{figure}
 
 \noindent
-何が起こったのでしょう? それを見つけるために、Smalltalkで使うとても役に立つツール、\ind{debugger}を使いましょう。
+何が起こったのでしょう? それを見つけるために、\stで使うとても役に立つツール、\ind{debugger}を使いましょう。
 
 \dothis{通知ウインドウにある\menu{debug}ボタンをクリックしてください。}
-デバッガーが表示されます。デバッガーウインドウの上側には実行処理のスタックが表示されます。そこでは全ての有効なメソッドが表示されます。そのなかの1つを選んぶと真ん中のペイン上でSmalltalkコードがそのメソッドの中で実行され、エラーを引き起こした部分がハイライトされます。
+debuggerが表示されます。
+debuggerウインドウの上側には実行処理のスタックが表示されます。そこでは全ての有効なメソッドが表示されます。そのなかの1つを選んぶと真ん中のペイン上で\stコードがそのメソッドの中で実行され、エラーを引き起こした部分がハイライトされます。
 
 \dothis{(上部付近の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
-エラーの発生した、このメソッドにある実行コンテキストをデバッガーで見ることができます(\figref{debugToggle}).
+エラーの発生した、このメソッドにある実行コンテキストをdebuggerで見ることができます(\figref{debugToggle}).
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{Debugger}}}
 	{\centerline {\includegraphics[scale=0.7]{Debugger}}}
-\caption{The debugger, with the method \ct{toggleNeighboursOfCell:at:}  selected.
+\caption{debugger上で\ct{toggleNeighboursOfCell:at:}メソッドを選択する。
 \figlabel{debugToggle}}
 \end{figure}
 
-デバッガーの下側には2つの小さなインスペクタウインドウがあります。左側のウインドウでは、選んだコードを実行するメッセージを受けたオブジェクトの中の値を見ることができます。つまりこのインスタンス変数の値をここで見ることができます。右側のウインドウでは、 現在実行したメソッドそれ自体が表すオブジェクトの中の値を見ることができます。つまりメソッドのパラメーター値や一時変数の値などを見ることができます。
+debuggerウインドウの下側には2つの小さなinspectorウインドウがあります。左側のウインドウでは、選んだコードを実行するメッセージを受けたオブジェクトの中の値を見ることができます。つまりこのインスタンス変数の値をここで見ることができます。右側のウインドウでは、 現在実行したメソッドそれ自体が表すオブジェクトの中の値を見ることができます。つまりメソッドのパラメーター値や一時変数の値などを見ることができます。
 
-デバッガーを使うことによって、workspace上で式を評価するのと同様に、オブジェクトの中のパラメータや局所変数の値を見ながら、コードを1行ずつ実行することができます。デバッガーを使って一番驚くべきことは、デバッグ中にコードを書き換えることができることです。Smalltalkerの内の何人かはむしろブラウザー上よりも、ほとんどの時間デバッガー上でプログラムをしています。デバッガー上でプログラムをする利点は、今書いているメソッドが意図した通りに動くかどうかを、実際の実行コンテキスト中のパラメーターと共に見ることができることです。
+debuggerを使うことによって、workspace上で式を評価するのと同様に、オブジェクトの中のパラメータや局所変数の値を見ながら、コードを1行ずつ実行することができます。debuggerを使って一番驚くべきことは、デバッグ中にコードを書き換えることができることです。Smalltalkerの内の何人かはむしろbrowser上よりも、ほとんどの時間debugger上でプログラムをしています。debugger上でプログラムをする利点は、今書いているメソッドが意図した通りに動くかどうかを、実際の実行コンテキスト中のパラメーターと共に見ることができることです。
 
-この場合、パネル上部にある最初の行に\ct{toggleState}メッセージが、明らかに\lct{LOCell}のインスタンスとなっているはずの、LOGameインスタンスに送られるのが見えるでしょう。問題はcell行列の初期化にあるように思われます。\cmind{LOGame}{initialize}のコードをブラウザーで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が入力されていることがわかります。しかしそのメソッドを見ると、そこには何も返っていないことがわかります。デフォルトではメソッドは \ct{self}を戻り値として返します。  \ct{newCellAt:at:}の場合は実際に\ct{LOGame}のインスタンスがそれに該当します。
+この場合、パネル上部にある最初の行に\ct{toggleState}メッセージが、明らかに\lct{LOCell}のインスタンスとなっているはずの、\ct{LOGame}インスタンスに送られるのが見えるでしょう。問題は\ct{cells}行列の初期化にあるように思われます。
+\cmind{LOGame}{initialize}のコードをbrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が入力されていることがわかります。しかしそのメソッドを見ると、そこには何も返っていないことがわかります。デフォルトではメソッドは \ct{self}を戻り値として返します。  \ct{newCellAt:at:}の場合は実際に\ct{LOGame}のインスタンスがそれに該当します。
 \index{method!returning self}
 
-\dothis{デバッガーウインドウを閉じで下さい。
+\dothis{debuggerウインドウを閉じで下さい。
 その後\ct{c}を返すために、``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して下さい。
 % It should now look as shown in \mthref{newCellAt:at:nobug}.}
 (\mthref{newCellAt:at:nobug}参照。)}
@@ -511,8 +523,7 @@ LOCell>>>mouseUp: anEvent
 % \needlines{6}
 \begin{method}[newCellAt:at:nobug]{Fixing the bug.}
 LOGame>>>newCellAt: i at: j
-   "Create a cell for position (i,j) and add it to my on-screen
-   representation at the appropriate screen position.  Answer the new cell"
+   "位置(i,j)にあるcellを作成し、適切な画面の位置に追加。新しいcellを返す"
    | c origin |
    c := LOCell new.
    origin := self innerBounds origin.
@@ -524,11 +535,11 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 
 \noindent
-\charef{quick}に戻り、Smalltalkでは\subind{method}{value}を\ind{return}する時には\ct{^}を使うこと、そのためには\verb|^|と打ち込むことを思い出してください。
+\charef{quick}に戻り、\stでは\subind{method}{value}を\ind{return}する時には\ct{^}を使うこと、そのためには\verb|^|と打ち込むことを思い出してください。
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|see{return}}
 
-デバッガーウインドウ上で直接コードを修正したのち、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合はバグが間違ったメソッドではなく、オブジェクトの初期化処理にあるため、最も簡単な処理方法はデバッガーウインドウを閉じることです。デバッガーウインドウを閉じることにより、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成することができます。
+debuggerウインドウ上で直接コードを修正したのち、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合はバグが間違ったメソッドではなく、オブジェクトの初期化処理にあるため、最も簡単な処理方法はdebuggerウインドウを閉じることです。debuggerウインドウを閉じることにより、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成することができます。
 
 %Indeed, even in this case it would be possible to \menu{do} \ct{self initialize} and then \menu{Proceed} the \ct{toggleNeighboursOfCellAt:at:} method.
 %\ab{St\'eph, did you try this?  It seems to me that it ought to work, but when I tried it, it messed up my image.}
@@ -549,22 +560,22 @@ LOGame>>>mouseMove: anEvent
 %\on{I think that is too much for this chapter. It will come soon enough.}
 
 %=================================================================
-\section{Smalltalkのコードの保存と共有}
+\section{\stのコードの保存と共有}
 \seclabel{Monticello}
 
-現在、動作するLights Out ゲームが有ります。このゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharoのイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしその友人は自分のコードが入ったイメージファイルを持っていて、あなたのイメージファイルを欲しがらないかもしれません。この場合必要なのは他のプログラマーが自分のイメージファイルに取り込めるよう、\pharoのイメージファイルからソースコードを取り出すことです。
+現在、動作するLights Outゲームが有ります。このゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharoのイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしその友人は自分のコードが入ったイメージファイルを持っていて、あなたのイメージファイルを欲しがらないかもしれません。この場合必要なのは他のプログラマーが自分のイメージファイルに取り込めるよう、\pharoのイメージファイルからソースコードを取り出すことです。
 
-そのための最も簡単な方法はコードを\emph{filing out}することです。パッケージペインのメニューを\actclickするとオプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go{} file out}できます。取り出されたファイルは多かれ少なかれ人の読める形式ですが、本来はコンピュターが読むための形式であり、人のためのものではありません。このファイルを友人にメールで送ることが出来ます。そしてその友人たちはファ入りをファイルリストブラウザーを使うことで自分の\pharoイメージファイルに組み込むことができます。
+そのための最も簡単な方法はコードを\emph{file out}することです。パッケージペインのメニューを\actclickするとオプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go{} file out}できます。取り出されたファイルは多かれ少なかれ人の読める形式ですが、本来はコンピュターが読むための形式であり、人のためのものではありません。このファイルを友人にメールで送ることが出来ます。そしてその友人たちはファイルをfile list browserを使うことで自分の\pharoイメージファイルに組み込むことができます。
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
 \seeindex{class!filing out}{file, filing out}
 \seeindex{method!filing out}{file, filing out}
 \index{file!filing out}
 
-\dothis{\scat{PBE-LightsOut}パッケージを\Actclickし、内容を\menu{various \go{} file out}して下さい。}
+\dothis{\scat{PBE-LightsOut}パッケージを\actclickし、内容を\menu{various \go{} file out}して下さい。}
 ``PBE-LightsOut.st''という名のファイルがイメージファイルがある同一フォルダ内にあるのを見つけることができます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharoのイメージファイルを開き、ファイルブラウザーツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{file in}して下さい。そしてまっさらなイメージファイル上のゲームが動作することを確認して下さい。}
+\dothis{まっさらな\pharoのイメージファイルを開き、file browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{file in}して下さい。そしてまっさらなイメージファイル上のゲームが動作することを確認して下さい。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -572,55 +583,56 @@ LOGame>>>mouseMove: anEvent
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=\textwidth]{FileIn}}
-\caption{Filing in \pharo source code.
+\caption{\pharoにソースコードをfile inする。
 \figlabel{filein}}
 \end{figure}
 
-\subsection{モンティチェロパッケージ}
-fileoutは書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
-大部分のオープンソースプロジェクトでは、リポジトリの中のそれらのコードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}を使っています。\pharoプログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージはファイル名の最後に \ct{.mcz}が付いています。これらのファイルの正体は\ind{package}のコード全てをまとめてZIPで圧縮したものです。
+\subsection{Monticelloパッケージ}
+ファイル出力は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
+大部分のオープンソースプロジェクトでは、リポジトリの中のそれらのコードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}を使っています。\pharoプログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージはファイル名の最後に \ct{.mcz}が付いています。これらのファイルの正体は\ind{パッケージ}のコード全てをまとめてZIPで圧縮したものです。
 
-モンティチェロパッケージブラウザーを使うことにより、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。モンティチェロにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際にモンティチェロはリビジョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はリビジョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticello package browserを使うことにより、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際に\ind{Monticello}はリビジョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はリビジョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
 もちろん\ct{.mcz}ファイルをEメールで送ることも出来ます。
-受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをモンティチェロを使い閲覧したりロードしたりすることができます。
+受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをMonticelloを使い閲覧したりロードしたりすることができます。
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
-\dothis{\menu{World}メニューからモンティチェロブラザーを開いてください。}
-ブラウザーの右側のペイン(\figref{monticello1}参照)にはモンティチェロのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
+\dothis{\menu{World}メニューからMonticello browserを開いてください。}
+browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
+ 
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
 \begin{figure}[hbt]
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{MonticelloBrowser}}}
 	{\centerline {\includegraphics[scale=0.7]{MonticelloBrowser}}}
-\caption{The Monticello browser.
+\caption{Monticello browser。
 \figlabel{monticello1}}
 \end{figure}
 
-モンティチェロブラウザーのリスト上部には\emphind{package cache}と呼ばれるローカルディレクトリがあります。それはネットワーク越しにロードしたり、公開したパッケージのコピーをキャッシュしています。
+Monticello browserのリスト上部には\emphind{package cache}と呼ばれるローカルディレクトリがあります。それはネットワーク越しにロードしたり、公開したパッケージのコピーをキャッシュしています。
 ローカルキャッシュは自分のローカル履歴が保存できるため非常に便利です。つまりインターネットに接続できない場所や、回線が遅いために何度も保存したいとは思わないぐらい遠くのリポジトリでも作業することができることを意味します。
 
 
-\subsection{モンティチェロを使ったコードの保存と読み込み}
-モンティチェロブラウザーの左側にはイメージ内に読み込まれたバージョンのパッケージリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは、選択したパッケージのコピーを含むそれらのリポジトリに制限されます。(意味不明 後に再翻訳)
+\subsection{Monticelloを使ったコードの保存と読み込み}
+Monticello browserの左側にはイメージ内に読み込まれたバージョンのパッケージリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは、選択したパッケージのコピーを含むそれらのリポジトリに制限されます。(意味不明 後に再翻訳)
 \seeindex{*}{package, dirty}
 \seeindex{dirty package}{package, dirty}
 
 %What is a package?  For now, you can think of a package as a group of  class and method categories that share the same prefix.  Since we put all of the code for the Lights Out game into the category called \scat{PBE-LightsOut}, we can refer to it as the \ct{PBE-LightsOut} package.
 
-\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをモンティチェロブラウザーに追加します。}
+\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをMonticello browserに追加します。}
 
 \subsection{\ind{\sqsrc}: \pharoのための\ind{SourceForge}} 
-コードを保存し、また共有する一番良い方法は\sqsrcサーバー上のでアカウントを取りプロジェクトを作ることだと考えます。\sqsrcはSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。それはHTTPのモンティチェロサーバーのwebフロントエンドでプロジェクトを管理するることができます。
-\url{http://www.squeaksource.com}に公開されている\sqsrcサーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは webブラウザーから見ることができますが、モンティチェロブラウザーを使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharoから行えます。
+コードを保存し、また共有する一番良い方法は\sqsrcサーバー上のでアカウントを取りプロジェクトを作ることだと考えます。\sqsrcはSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。それはHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
+\url{http://www.squeaksource.com}に公開されている\sqsrcサーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは web browserから見ることができますが、Monticello browser を使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharoから行えます。
 
-\dothis{webブラウザーで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Out ゲームのためのプロジェクトを作ってください(つまり登録してください)。}
-モンティチェロブラウザーを使いリポジトリに追加するとき、\sqsrcで使うべき情報を見ることでしょう。
+\dothis{web browserで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲームのためのプロジェクトを作ってください(つまり登録してください)。}
+Monticello browserを使いリポジトリに追加するとき、\sqsrcで使うべき情報を見ることでしょう。
 
 一度\sqsrcにプロジェクトが作られると、\pharoシステムにそれを使うよう伝える必要があります。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、モンティチェロブラウザーの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrcリポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrcプロジェクトを識別するため、提示されたテンプレートをコピーし、モンティチェロに貼り付け、自分のイニシャルとパスワードを提供する必要があります。 
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrcリポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrcプロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。 
 
 \needlines{5}
 \begin{code}{}
@@ -642,41 +654,41 @@ MCHttpRepository
 \end{code}   
 
 %You can then load the code in your image by selecting the version you want. You can browse the code without loading it, using the \button{Browse} button.
-一度このテンプレートを受諾すると新たなリポジトリーがモンティチェロブラウザーの右側のリストに表示されます。
+一度このテンプレートを受諾すると新たなリポジトリーがMonticello browserの右側のリストに表示されます。
 
 \begin{figure}[hbt]
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{BrowseRepository}}}
 	{\centerline {\includegraphics[scale=0.7]{BrowseRepository}}}
-\caption{モンティチェロリポジトリの閲覧
+\caption{\ind{Monticello}リポジトリの閲覧
 \figlabel{monticello3}}
 \end{figure}
 
 \dothis{\button{Save}ボタンを押し最初のバージョンのLight Outゲームを\sqsrcに保存してください。}
 
-パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。リポジトリブラウザーを使うことでこれはできます。そのために\button{Open}ボタンを使うかメニューを\actclickしてリポジトリブラウザーを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
+パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。repository browserを使うことでこれはできます。そのために\button{Open}ボタンを使うかメニューを\actclickしてrepository browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
 
 \dothis{\ct{PBE-LightsOut}リポジトリを開き、単に保存してください。}
 
-\charef{env}で詳細に述べますがモンティチェロは色々なことができます。
-またモンティチェロについては\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むことができます。
+\charef{env}で詳細に述べますがMonticelloは色々なことができます。
+またMonticelloについては\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むことができます。
 
 %=================================================================
 \section{章のまとめ}
 この章ではカテゴリ、クラス、そしてメソッドの作り方について学びました。
-ブラウザー、インスペクター、デバッガー、そしてモンティチェロブラウザーの使い方について学びました。
+browser、inspector、debugger、そしてMonticello browserの使い方について学びました。
 
 \begin{itemize}
   \item 関連するクラスのグループの分類
   \item スーパークラスへメッセージを送ることによる新たなクラスの作成
   \item プロトコルが、関連するメソッドをグループ化すること
-  \item ブラウザー上で定義し変更を\emph{accepting}することにより、新たなメソッドが作られたり修正されること
-  \item インスペクターは簡単に、任意のオブジェクトの中の値を見たり割り込んだりするための多目的GUIであること。
-  \item ブラウザーは宣言されていないメソッドや変数の使い方を検出し、利用可能なコレクションを提供すること。
+  \item browser上で定義し変更を\emph{acceptする}ことにより、新たなメソッドが作られたり修正されること
+  \item inspectorは簡単に、任意のオブジェクトの中の値を見たり割り込んだりするための多目的GUIであること。
+  \item browserは宣言されていないメソッドや変数の使い方を検出し、利用可能なコレクションを提供すること。
   \item \pharoにおいて\ct{initialize}メソッドはオブジェクトが作られた後自動的に実行される。どんな初期化コードもそこに書くことができる。
-  \item デバッガーは動作しているプログラムの状態を見たり修正するための高度なGUIを提供する。
-  \item カテゴリーを\emph{filing out}することでソースコードを共有できる。
-  \item コードを共有するより良い方法としては、外部のリポジトリ例えば\sqsrcのプロジェクトとして定義し、モンティチェロを使いを管理する。
+  \item debuggerは動作しているプログラムの状態を見たり修正するための高度なGUIを提供する。
+  \item カテゴリーを\emph{file out}することでソースコードを共有できる。
+  \item コードを共有するより良い方法としては、外部のリポジトリ例えば\sqsrcのプロジェクトとして定義し、Monticelloを使いを管理する。
 \end{itemize}
 
 %=================================================================
