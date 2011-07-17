@@ -813,83 +813,91 @@ BorderedMorph>>>fullPrintOn: aStream
 \ct{Delegator}オブジェクトは実装していない全てのメッセージを単純に別のオブジェクトに移譲して、そのメッセージを処理させたりそのオブジェクトにエラーを発生させることができます。
 
 %=========================================================
-% \section{Shared variables}
-\section{Shared variables}
+\section{共有変数}
 
-Now we will look at an aspect of \st that is not so easily covered by our five rules: \subind{variable}{shared} variables.
+\stの側面のなかで、5つの規則ではあまり簡単にカバーされていないものを見ていきましょう。\subind{変数}{共有}変数のことです。
 
-\st provides three kinds of shared variables: (1) \emph{globally} shared variables; (2) variables shared between instances and classes (\emph{class variables}), and (3) variables shared amongst a group of  classes (\emph{pool variables}).  The names of all of these shared variables start with a capital letter, to warn us that they are indeed shared between multiple objects.
-\index{variable!global}
-\index{class!variable}
-\index{variable!pool}
+\stには3種類の共有変数があります：(1) \empty{グローバル}な共有変数 (2) インスタンスとクラスの間で共有される変数(\emph{クラス変数}) (3) クラスのグループの間で共有される変数(\emph{プール変数}) です。
+これらの共有変数の名前は大文字で始まります。これは、その変数が複数のオブジェクトの間で共有されている警告です。
+\index{変数!グローバル}
+\index{クラス!変数}
+\index{変数!プール}
 
 %---------------------------------------------------------
-\subsection{Global variables}
-In \pharo, all global variables are stored in a namespace called \glbind{Smalltalk}, which is implemented as an instance of the class \clsind{SystemDictionary}.
-Global variables are accessible everywhere. 
-Every class is named by a global variable; in addition, a few globals are used to name special or commonly useful objects.
+\subsection{グローバル変数}
+\pharoでは、全てのグローバル変数は\glbind{Smalltalk}という名前空間に格納されます。\glbind{Smalltalk}は\clsind{SystemDictionary}クラスのインスタンスとして実装されています。
+グローバル変数はどこからでもアクセス可能です。
+各クラスはグローバル変数で名付けられています。加えて、特別なオブジェクトや共通して有用なオブジェクトもグローバル変数で名前付けられています。
 
-The variable \glbind{Transcript} names an instance of \clsind{TranscriptStream}, a stream that writes to a scrolling window.
-The following code displays some information and then goes to the next line in the \ct{Transcript}.
+変数\glbind{Transcript}(トランスクリプト)は\clsind{TranscriptStream}のインスタンスを指します。\clsind{TranscriptStream}はスクロール付きウィンドウに書き込むストリームです。
+以下のコードは、\ct{Transcript}に情報を表示して改行します。
 
 \begin{code}{}
-Transcript show: 'Pharo is fun and powerful' ; cr
+Transcript show: 'Pharoは楽しくてパワフル！' ; cr
 \end{code}
 
 \noindent
-Before you \menu{do it}, open a transcript by selecting \menu{World \go Tools \ldots \go Transcript}.
+\menu{do it}する前に、\menu{World \go Tools \ldots \go Transcript}でトランスクリプトを開いてください。
 
-\hint{Writing to the Transcript is slow, especially when the transcript window is open. 
-So, if you experience some sluggishness and are writing to the Transcript, think about collapsing it.}
+\hint{トランスクリプトへの書き込みは遅いです。特に、トランスクリプトウィンドウが開いている時は。
+なので、速度が低下した時は、トランスクリプトに書き込んでいるのなら窓を畳んでみることも1つの手です。}
 
-\subsubsection{Other useful global variables}
+\subsubsection{他の便利なグローバル変数}
 
 \begin{itemize}
 \item
-\ct{Smalltalk} is the instance of \ct{SystemDictionary} that defines all of the globals\,---\,including \ct{Smalltalk} itself.   
-The keys to this dictionary are the symbols that name the global objects in \st code.
-So, for example,
+\ct{Smalltalk}は\ct{SystemDictionary}のインスタンスで、\ct{Smalltalk}自身を含む全てのグローバル変数を定義します。
+この辞書のキーは\stコードでグローバル変数名として使われているシンボルです。
+従って、例えば、
 \begin{code}{@TEST}
 Smalltalk at: #Boolean --> Boolean
 \end{code}
-Since \ct{Smalltalk} is itself a global variable,
+\ct{Smalltalk}はそれ自身がグローバル変数なので、
 \begin{code}{}
 Smalltalk at: #Smalltalk-->a SystemDictionary(lots of globals)}
 \end{code} 
-and
+さらに、
 \begin{code}{@TEST}
 (Smalltalk at: #Smalltalk) == Smalltalk --> true
 \end{code}
 
-\item \clsind{Sensor} is an instance of \clsind{EventSensor}, and represents input to \pharo.
-For example, \lct{Sensor keyboard} answers the next character input on the keyboard, and \ct{Sensor leftShiftDown} answers \ct{true} if the left shift key is being held down, while \ct{Sensor mousePoint} answers a \ct{Point} indicating the current mouse location.
+\item \clsind{Sensor}は\clsind{EventSensor}のインスタンスで、\pharoへの入力を代表します。
+例えば、\lct{Sensor keyboard}はキーボードからの次の入力を答えます。
+ and \ct{Sensor leftShiftDown} answers \ct{true} if the left shift key is being held down,
+そして、\ct{Sensor leftShiftDown}は、左シフトキーが押されている時に\ct{true}と答えて、
+さらに、\ct{Sensor mousePoint}は現在のマウスの位置を示す\ct{Point}を答えます。
 
 \item \glbind{World} is an instance of \clsind{PasteUpMorph} that represents the screen.
-\ct{World bounds} answers a rectangle that defines the whole screen space; all Morphs on the screen are submorphs of \ct{World}.
+\item \glbind{World}は\clsind{PasteUpMorph}のインスタンスで、スクリーンを代表します。
+\ct{World bounds}はスクリーン全体の範囲を示す矩形を答えます。全てのモーフは\ct{World}のサブモーフです。
 \index{Morphic}
 
 \item 
-\glbind{ActiveHand} is the current instance of \clsind{HandMorph}, the graphical representation of the cursor.  \ct{ActiveHand}'s submorphs hold anything being dragged by the mouse.
+\glbind{ActiveHand}は\clsind{HandMorph}の現在のインスタンスで、カーソルのグラフィックを代表します。
+\ct{ActiveHand}のサブモーフはマウスでドラッグしているものを持ちます。
 \ab{I have never used this, and had to browse the image to see what it is!  What do you use it for?}
 
 \item
-\glbind{Undeclared} is another dictionary\,---\,it contains all the undeclared variables.
-If you write a method that references an undeclared variable, the browser will normally
-prompt you to declare it, for example, as a global or as an instance variable of the class.
-However, if you later delete the declaration, the code will then reference an undeclared variable.
-Inspecting \ct{Undeclared} can sometimes help explain strange behaviour!
+\glbind{Undeclared}も辞書です。全ての未宣言の変数を持っています。
+未宣言の変数を参照するメソッドを書くと、通常はブラウザがそれを宣言するよう促します。例えば、グローバル変数やそのクラスのインスタンス変数として。
+しかし、後で変数宣言を削除した場合には、コードは未宣言の変数を参照することになります。
+\ct{Undeclared}をインスペクトすることで、奇妙な振舞いの原因がわかることもあるでしょう。
 
 \item
-\glbind{SystemOrganization} is an instance of \clsind{SystemOrganizer}: it records the organization of classes into packages.  More precisely, it categorizes the \emph{names} of classes, so
+\glbind{SystemOrganization}は\clsind{SystemOrganizer}のインスタンスです。クラスの構成をパッケージに記録します。より正確に言えば、\emph{クラス名}をカテゴリーに分類します。
 \end{itemize}
 
 \begin{code}{@TEST}
 SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 \end{code}
 
-Current practice is to strictly limit the use of global variables; it is usually better to use class instance variables or class variables, and to provide class methods to access them.  Indeed, if \pharo were to be implemented from scratch today, most of the global variables that are not classes would be replaced by singletons.
+現在のプラクティスでは、グローバル変数の使用を厳格に制限します。通常はクラスインスタンス変数やクラス変数を使ってクラスメソッドでアクセスすることが望ましいです。
+もし仮に\pharoを1から再実装するようなことがあれば、グローバル変数はクラスを除いてほとんどがシングルトンに置き換えられるでしょう。
 
-The usual way to define a global is just to \menu{do it} on an assignment to a capitalized but undeclared identifier.  The parser will then offer to declare the global for you.  If you want to define a global programmatically, just execute \ct{Smalltalk at: #AGlobalName put: nil}.  To remove it, execute \ct{Smalltalk removeKey: #AGlobalName}.
+通常、グローバル変数を定義するには、大文字で始まる未宣言の識別子への代入を\menu{do it}するだけでいいです。
+すると、パーサがグローバル変数を定義するよう提案します。
+プログラムでグローバル変数を定義するには、\ct{Smalltalk at: #AGlobalName put: nil}を実行するだけでいいです。
+削除するには、\ct{Smalltalk removeKey: #AGlobalName}です。
 \glbindex{Smalltalk}
 
 %---------------------------------------------------------
