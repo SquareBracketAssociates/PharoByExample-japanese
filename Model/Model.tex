@@ -893,43 +893,40 @@ The usual way to define a global is just to \menu{do it} on an assignment to a c
 \glbindex{Smalltalk}
 
 %---------------------------------------------------------
-\subsection{Class variables}
+\subsection{クラス変数}
 \seclabel{classVars}
 
-Sometimes we need to share some data amongst all the instances of a 
-class and the class itself.
-This is possible using \emph{class variables}. 
-The term class \subind{class}{variable} indicates that the lifetime of the variable is the same as that of the class. However, what the
-term does not convey is that these variables are shared amongst all the instances of a class as well as the class itself,
-as shown in \figref{privateSharedVar}.
-Indeed, a better name would have been \emph{shared variables} since this expresses more clearly their role, and also warns of the danger of using them, particularly if they are modified.
+あるクラスとそのクラスの全てのインスタンスでデータを共有する必要があることがあります。
+\emph{クラス変数}を使えば可能です。
+クラス\subind{クラス}{変数}という用語は、変数のライフタイムがクラスと同じだということを示しています。
+しかし、その用語の字面からはわかりませんが、クラス変数はクラスの間だけでなく、インスタンスとも共有されます。\figref{privateSharedVar}を参照ください。
+実際のところ、\emph{共有変数}という名称のほうがより適切だったでしょう。そのほうが役割がより明らかで、使用上の危険の警告にもなっています。特に変更する時には危険です。
 
 \begin{figure}[htb]
 \begin{center}
 \ifluluelse
 	{\includegraphics[width=\textwidth]{privateSharedVarColor}}
 	{\includegraphics[width=0.7\textwidth]{privateSharedVarColor}}
-\caption{Instance and class methods accessing different 
-variables.\figlabel{privateSharedVar}}
+\caption{インスタンスメソッドとクラスメソッドが別々の変数にアクセスしている。\figlabel{privateSharedVar}}
 \end{center}
 \end{figure}
 
-In \figref{privateSharedVar} we see that \ct{rgb} and \ct{cachedDepth} are instance variables of \ct{Color}, hence only accessible to instances of \clsind{Color}.
-We also see that \lct{superclass}, \lct{subclass}, \lct{methodDict} and so on are class instance variables, \ie instance variables only accessible to the \lct{Color} class.
+\figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、したがって、\clsind{Color}のインスタンスからアクセス可能です。
+また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数であり、\lct{Color}クラスからしかアクセスできません。
 
-But we can also see something new: \ct{ColorNames} and \ct{CachedColormaps} are \emph{class variables} defined for \ct{Color}.
-The capitalization of these variables gives us a hint that they are shared.
-In fact, not only may all instances of \ct{Color} access these shared variables, but also the \ct{Color} class itself, \emph{and any of its subclasses}.
-Both instance methods and class methods can access these shared variables.
+しかし、何か新しいものもあります。\ct{ColorNames}と\ct{CachedColormaps}は\emph{クラス変数}で、\ct{Color}に定義されています。
+これらの変数が大文字であることが、共有されているというヒントを与えてくれます。
+実際、\ct{Color}の全インスタンスがこれらの共有変数にアクセスできるだけでなく、\ct{Color}クラス自身と\emph{その全てのサブクラスからアクセス可能です}。
+これらの共有変数には、インスタンスメソッドとクラスメソッドの両方がアクセス可能です。
 
 %\begin{figure}
 %\begin{center}\includegraphics[width=6cm]{dateToday}\caption{A date is an object that  represents only anumber of days; all the information about month names, day names, etc.\ is shared among all the instances \figlabel{dateToday}}\end{center}.
 %\end{figure}
 
-A class \subind{class}{variable} is declared in the class definition template.
-For example, the class \ct{Color} defines a large number of class variables to speed up color creation; its definition is shown below (\clsref{Color}).
+クラス\subind{クラス}{変数}はクラス定義テンプレートの中で宣言されます。
+例えば、\ct{Color}クラスは大量のクラス変数を定義して色オブジェクトの生成を高速化しています。その定義を下図(\clsref{Color})に示します。
 \needlines{5}
-\begin{classdef}[Color]{Color and its class variables}
+\begin{classdef}[Color]{Colorとクラス変数}
 Object subclass: #Color 	
         instanceVariableNames: 'rgb cachedDepth cachedBitPattern'
         classVariableNames: 'Black Blue BlueShift Brown CachedColormaps ColorChart ColorNames ComponentMask ComponentMax Cyan DarkGray Gray GrayToIndexMap Green GreenShift HalfComponentMask HighLightBitmaps IndexedColors LightBlue LightBrown LightCyan LightGray LightGreen LightMagenta LightOrange LightRed LightYellow Magenta MaskingMap Orange PaleBlue PaleBuff PaleGreen PaleMagenta PaleOrange PalePeach PaleRed PaleTan PaleYellow PureBlue PureCyan PureGreen PureMagenta PureRed PureYellow RandomStream Red RedShift TranslucentPatterns Transparent VeryDarkGray VeryLightGray VeryPaleRed VeryVeryDarkGray VeryVeryLightGray White Yellow'
@@ -937,18 +934,21 @@ Object subclass: #Color
         category: 'Graphics-Primitives'
 \end{classdef}
 
-The class variable \cvind{ColorNames} is an array containing the name of frequently-used colors. This array is shared by all the instances of \ct{Color} and its subclass \clsind{TranslucentColor}. It is accessible from all the instance and class methods. % (see \figref{ClassVarAccess2}).
+クラス変数\cvind{ColorNames}は、よく使われる色の名前を持つ配列です。
+この配列は\ct{Color}とそのサブクラス\clsind{TranslucentColor}の全てのインスタンスに共有されていて、インスタンスメソッドやクラスメソッドからアクセス可能です。% (see \figref{ClassVarAccess2}).
 
-\ct{ColorNames} is initialized once in \cmind{Color class}{initializeNames}, but it is accessed from instances of \ct{Color}.
-The method \cmind{Color}{name} uses the variable to find the name of a color.
-Since most colors do not have names, it was thought inappropriate to add an instance variable \ct{name} to every color.
+\ct{ColorNames}は\cmind{Color class}{initializeNames}で一度だけ初期化されますが、\ct{Color}のインスタンスからアクセスされます。
+\cmind{Color}{name}メソッドは、ある色の名前を探すためにこの変数を使います。
+ほとんどの色は名前を持たないので、インスタンス変数\ct{name}を全ての色が持つことは適切ではないと考えられたからです。
 
-\subsubsection{Class initialization}
+\subsubsection{クラスの初期化}
 
-The presence of class variables raises the question: how do we initialize them?  
-One solution is lazy \subind{class}{initialization}.
-This can be done by introducing an accessor method which, when executed, initializes the variable if it has not yet been initialized. This implies that we must use the accessor all the time and never use the class variable directly.  This furthermore imposes the cost of the accessor send and the initialization test.
-It also arguably defeats the point of using a class variable, since in fact it is no longer shared.
+クラス変数があることで、どうやってそれを初期化するかが問題になります。
+解の1つは、\subind{クラス}{初期化}を遅延させることです。
+これは、クラス変数へのアクセサメソッドを実装して、その中でもしその変数がまだ初期化されていなければ初期化することで実現できます。
+その場合には、常にアクセサメソッドを使って、クラス変数には絶対に直接アクセスしてはいけないことになります。
+これは、アクセサの送信の上に初期化する必要があるかどうかチェックするコストが上乗せされます。
+さらに言えば、そうするとこの変数は事実上もはや共有されていないので、クラス変数を使う意義がなくなります。
 
 \begin{method}[colorclasscolornames]{Color class>>colorNames}
 Color class>>>colorNames	
@@ -957,7 +957,7 @@ Color class>>>colorNames
 \end{method}	
 \cmindex{Color class}{colorNames}
 
-Another solution is to override the class method \ct{initialize}.
+もう1つの解は、クラスメソッド\ct{initialize}をオーバーライドすることです。
 
 \needlines{3}
 \begin{method}[colorclassinit]{Color class>>initialize}
@@ -968,22 +968,22 @@ Color class>>>initialize
 \cmindex{Color class}{initialize}
 
 \noindent
-If you adopt this solution, you need to remember to invoke the \ct{initialize} method after you define it, \eg by evaluating \ct{Color initialize}.
-Although \subind{browser}{class side} \ct{initialize} methods are executed automatically when code is loaded into memory, they are \emph{not} executed automatically when they are first typed into the browser and compiled, or when they are edited and re-compiled.
+この方法を採る場合には、\ct{initialize}メソッドを定義したら、これを\ct{Color initialize}で実行するのを忘れてはいけません。
+\subind{ブラウザ}{クラス側} \ct{initialize}メソッドはコードをメモリーにロードした時には自動的に実行されますが、ブラウザで入力してコンパイルした時や編集して再コンパイルした時には自動的には実行\emph{されない}のです。
 
 %---------------------------------------------------------
-\subsection{Pool variables}
-Pool variables are variables that are shared between several classes that may not be related by inheritance.
-Pool variables were originally stored in pool dictionaries; now they should be defined as class variables of dedicated classes (subclasses of SharedPool). Our advice is to avoid them; you will need them only in rare and specific circumstances.
-Our goal here is therefore to explain \subind{variable}{pool} variables just enough so that you can understand them when you are reading code. 
+\subsection{プール変数}
+プール変数は、直接継承関係にないようなクラスの間でも共有される変数です。
+プール変数は元々はプール辞書に格納されていましたが、今ではそれ専用のクラス(SharedPoolのサブクラス)のクラス変数として定義しなければなりません。
+アドバイスを1つ。使うのを避けてください。プール変数が必要になるのは、稀にしかない特定の状況しかありません。
+ここでは、\subind{変数}{プール}変数を使ったコードを読むのに必要十分な説明をします。
 
-A class that accesses a pool variable must mention the pool in its class definition. 
-For example, the class \clsind{Text} 
-indicates that it is using the pool dictionary \ct{TextConstants}, which contains all the text constants such as \glbind{CR} and \glbind{LF}. 
-This dictionary has a key \ct{#CR} that is bound to the value \ct{Character cr}, \ie the carriage return character.
+プール変数にアクセスするにはクラス定義でそのプールを示さなければなりません。
+例えば、\clsind{Text}クラスはプール辞書\ct{TextConstants}を使うことを示しています。プール辞書\ct{TextConstants}には\glbind{CR}や\glbind{LF}といった、テキストに関する全ての定数が定義されています。
+\ct{#CR}がキーで、値として\ct{Character cr}つまり改行文字が結び付けられています。
 \cmindex{Character class}{cr}
 
-\begin{classdef}[textpooldict]{Pool dictionaries in the \ct{Text} class}
+\begin{classdef}[textpooldict]{\ct{Text}クラスのプール辞書}
 ArrayedCollection subclass: #Text
         instanceVariableNames: 'string runs' 	
         classVariableNames: '' 	
@@ -991,52 +991,52 @@ ArrayedCollection subclass: #Text
         category: 'Collections-Text'
 \end{classdef}
    
-This allows methods of the class \ct{Text} to access the keys of the dictionary in the method body \emph{directly}, \ie by using variable syntax rather than an explicit dictionary lookup.
-For example, we can write the following method. 
+こうすることで、\ct{Text}クラスのメソッドはメソッド本文で\emph{直接}プール辞書のキーにアクセスすることができます。
+つまり、明示的に辞書を参照せずに変数参照の構文でアクセスできます。
+例えば、以下のようなメソッドを書くことができます。
   
 \begin{method}[texttestcr]{Text>>testCR}
 Text>>>testCR 	
       ^ CR == Character cr
 \end{method}
 
-Once again,  we recommend that you avoid the use of pool variables and pool dictionaries. 
+もう一度繰り返します。プール変数やプール辞書を使わないことをお奨めします。
 
 %=========================================================
-\section{Chapter summary}
+\section{章のまとめ}
 
-The object model of \pharo is both simple and uniform.
-Everything is an object, and pretty much everything happens by sending messages.
+\pharoのオブジェクトモデルは単純かつ一貫しています。
+全てのものはオブジェクトで、およそ全てのことはメッセージ送信によって起こります。
 
 \begin{itemize}
-  \item Everything is an object.
-  Primitive entities like integers are objects, but also classes are first-class objects.
+  \item 全てのものはオブジェクトである。
+  整数のようなプリミティブもオブジェクトであり、さらに、クラスもファーストクラスオブジェクトです。
 
-  \item Every object is an instance of a class.
-  Classes define the structure of their instances via \emph{private} instance variables and the behaviour of their instances via \emph{public} methods. Each class is the unique instance of its metaclass.  Class variables are private variables shared by the class and all the instances of the class.
-  Classes cannot directly access instance variables of their instances, and instances cannot access instance variables of their class.
-  Accessors must be defined if this is needed.
+  \item 全てのオブジェクトはクラスのインスタンスである。
+  クラスは、\emph{プライベートな}インスタンス変数によってオブジェクトの構造を定義します。そして、\emph{パブリックな}メソッドによって振る舞いを定義します。各クラスはそれぞれのメタクラスの単一のインスタンスです。クラス変数はクラスとその全てのインスタンスに共有されるプライベートな変数です。
+  クラスはそのインスタンスのインスタンス変数に直接アクセスすることはできません。そしてインスタンスも同じクラスの他のインスタンスのインスタンス変数にアクセスできません。
+  そういったアクセスが必要ならば、アクセサを定義しなければなりません。
 
-  \item Every class has a superclass.
-  The root of the single inheritance hierarchy is \lct{ProtoObject}.
-  Classes you define, however, should normally inherit from \ct{Object} or its subclasses.
-  There is no syntax for defining abstract classes.
-  An abstract class is simply a class with an abstract method\,---\,one 
-  whose implementation consists of the expression \ct{self subclassResponsibility}.
-  Although \pharo supports only single inheritance, it is easy to share implementations of methods by packaging them as \emph{traits}.
+  \item 全てのクラスはスーパークラスを持っている。
+  単一継承の階層のルートは\lct{ProtoObject}です。
+  しかし、クラスを定義する時には、通常は\ct{Object}クラスかそのサブクラスから継承します。
+  抽象クラスを定義する特別な構文はありません。
+  抽象クラスは単に抽象メソッドを持つクラスです。抽象メソッドは\ct{self subclassResponsibility}のみからなるメソッドです。
+  \pharoは単一継承のみサポートしていますが、共有したいメソッドを\emph{トレイト}にパッケージングすることで簡単に共有できます。
 
-  \item Everything happens by sending messages.
-	We do not ``call methods'', we ``send messages''.
-	The receiver then chooses its own method for responding to the message.
+  \item 全てのことはメッセージ送信で起こる。
+	「メソッドを呼び出す」のではなく、「メッセージを送信」します。
+	するとレシーバがそのメッセージに対応するメソッドを選択します。
 
-  \item Method lookup follows the inheritance chain;
-  \self sends are dynamic and start the method lookup again in the class of the receiver, whereas
-  \super sends are static, and start in the superclass of class in which the \super send is written.
+  \item メソッド探索は継承の連鎖を辿る。
+  \self送信は動的で、レシーバのクラスからメソッド探索を始めます。一方、
+  \super送信は静的で、\super送信を記述しているクラスのスーパークラスから探索を始めます。
   
-  \item There are three kinds of shared variables.
-  		Global variables are accessible everywhere in the system.
-		Class variables are shared between a class, its subclasses and its instances.
-		Pool variables are shared between a selected set of classes.
-		You should avoid shared variables as much as possible.
+  \item 3種類の共有変数がある。
+  		グローバル変数は、システムのどこからもアクセス可能です。
+		クラス変数はクラスとそのサブクラスとインスタンスの間で共有されます。
+		プール変数は特定のクラスの間で共有されます。
+		共有変数は、できるかぎり使わないべきです。
 
 \end{itemize}
 
