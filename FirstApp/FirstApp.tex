@@ -60,12 +60,12 @@
 \begin{figure}[ht]
 	\vskip -\baselineskip
 	\centerline{\includegraphics[width=.3\linewidth]{GameBoard}}
-	\caption{Lights Outゲームボード。ユーザーは単にボード上のセルをマウスでクリックするだけです。
+	\caption{Lights Outゲームボード。ユーザーは単にボード上のcellをマウスでクリックするだけです。
 	\figlabel{gameBoard}}
 \end{figure}
 
-\pharoのプログラミングツールの使い方を見せるため\emph{Lights Out}と呼ばれる簡単なゲームを作ります。ゲームボードは\figref{gameBoard}の通り、淡黄色の\emph{cell}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度\Clickすると、それらの色の変わったcellは、淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
-\figref{gameBoard}に示されているゲームはゲームボード本体と100個からなるcellの2種類のオブジェクトで構成されています。このゲームを実装するための\pharoのコードは2つのクラスから成ります。1つはゲームクラス、もう1つはcellクラスです。\pharoのプログラミングツールを使い、どのようにこれらのクラスを定義していくか見ていきましょう。
+\pharoのプログラミングツールの使い方を見せるため\emph{Lights Out}と呼ばれる簡単なゲームを作ります。ゲームボードは\figref{gameBoard}の通り、淡黄色の\emph{cell}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度クリックすると、それらの色の変わったcellは、淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
+\figref{gameBoard}に示されているゲームはゲームボード本体と100個からなるcellの2種類のオブジェクトで構成されています。このゲームを実装するための\pharoのコードは2つのクラスから成ります。1つはgameクラス、もう1つはcellクラスです。\pharoのプログラミングツールを使い、どのようにこれらのクラスを定義していくか見ていきましょう。
 
 %=================================================================
 \section{パッケージを作成する}
@@ -74,7 +74,7 @@
 \index{category!creating}
 \index{package!creating}
 
-\dothis{browserを開きパッケージペインで\actclick。その後\menu{create package}を選択。\footnote{パッケージbrowserが標準browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowser変更する必要があります。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowser変更する必要があります。\faqref{packagebrowser}参照。}}
+\dothis{browserを開きパッケージペインで\actclick。その後\menu{create package}を選択。\footnote{パッケージbrowserが標準browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowserを変更する必要があります。\faqref{packagebrowser}参照。}}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -106,7 +106,7 @@
 \subsection{カテゴリーとパッケージについて}
 \seclabel{categoriesPackages}
 
-歴史的には、\stは\emph{カテゴリー}は知っていますが、パッケージは知りません(意味不明、後に再チェック)。この2つ用語の違いとは何か、疑問に思うことと思います。カテゴリとは\stのイメージファイル内に、関係するクラスを単に集めたものです。\emph{パッケージ}とは関係するクラス\emph{と拡張メソッド}を集めたもので、バージョン管理ツールである\ind{Monticello}を用いて管理されるものを集めたものです。慣習的にパッケージ名とカテゴリ名は同じものを使います。通常、この用語の違いを気にする必要はありません。しかしこの本においては、この用語の違いが重要な意味を持つため、各所にて正しい用語を注意深く使用することとします。実際に\ind{Monticello}を使うときに、これらの違いについてより深く知ることにしましょう。
+従来の\stの世界では\emph{カテゴリー}は知られていますが、パッケージは知られていません。この2つ用語の違いとは何か、疑問に思うことと思います。カテゴリとは\stのイメージファイル内に、関係するクラスを単に集めたものです。\emph{パッケージ}とは関係するクラス\emph{と拡張メソッド}を集めたもので、バージョン管理ツールである\ind{Monticello}を用いて管理されるものを集めたものです。慣習的にパッケージ名とカテゴリ名は同じものを使います。通常、この用語の違いを気にする必要はありません。しかしこの本においては、この用語の違いが重要な意味を持つため、各所にて正しい用語を注意深く使用することとします。実際に\ind{Monticello}を使うときに、これらの違いについてより深く知ることにしましょう。
 
 \index{package}
 \index{category}
@@ -119,7 +119,7 @@
 \begin{itemize}
   \item \clsind{Object}を\clsind{SimpleSwitchMorph}と書き換えます。
   \item \ct{NameOfSubClass}を\clsind{LOCell}と書き換えます。
-  \item インスタンスう変数のリストに\ct{mouseAction}を追加します。
+  \item インスタンス変数のリストに\ct{mouseAction}を追加します。
 \end{itemize}
 結果は\clsref{firstClassDef}の通りです。
 
@@ -135,9 +135,9 @@ SimpleSwitchMorph subclass: #LOCell
 \index{class!creation}
 \index{Morphic}
 
-この新しく定義した\st式は、 \ct{SimpleSwitchMorph}という名の既存のクラスに対し、\ct{LOCell}という名のサブクラスを作るかどうかをメッセージを送り尋ねます。(実際には\ct{LOCell}サブクラスはまだ作られていないため、これから作るサブクラスの名前、つまり\emphind{symbol} \ct{#LOCell}を引数として渡します。)
+この新しく定義した\st式は、 \ct{SimpleSwitchMorph}という名の既存のクラスに対し、\ct{LOCell}という名のサブクラスを作るようメッセージを送ります。(実際には\ct{LOCell}サブクラスはまだ作られていないため、これから作るサブクラスの名前、つまり\emphind{シンボル} \ct{#LOCell}を引数として渡します。)
 また、マウスでクリックしたときにcellがどのような動作をするか、ということもこの後定義する\ct{mouseAction}インスタンス変数に対し伝えなければなりません。
-\emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだプログラムを\emph{unsaved changes}を意味します。実際にセーブするために\menu{accept}する必要があります。
+\emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだプログラムを\emph{変更が保存されていないこと}を意味します。実際に保存するために\menu{accept}する必要があります。
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -148,13 +148,13 @@ SimpleSwitchMorph subclass: #LOCell
 \end{figure}
 
 \dothis{新しいクラス定義をacceptします}
-action-clickをして\menu{accept}を選択、もしくはショートカットの\short{s} (セーブのため)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
-1度クラス定義がacceptされると、クラスが作られ、browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペイン(1章と整合性をとる)にはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を説明を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\stプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
+action-clickをして\menu{accept}を選択、もしくはショートカットの\short{s} (保存のため)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
+1度クラス定義がacceptされると、クラスが作られ、browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペインにはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\stプログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
 \index{keyboard shortcut!accept}
 
 \subind{クラス}{コメント}に、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
 
-\dothis{LOCellクラスのコメントを入力し、acceptして下さい。これで後にそれを改良することができます。}
+\dothis{LOCellクラスのコメントを入力し、acceptして下さい。これは後に変更することができます。}
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -195,28 +195,36 @@ initialize
 
 \dothis{このメソッドの定義をaccept}
 
-上記のコードは何をするのでしょう？ここではその詳細全てには触れません(本の残りの部分はそのためにあるのです！)。しかし簡単に内容を見てみましょう。1行ずつ進んでいきましょう。
+上記のコードは何をするのでしょう？ここではその詳細全てには触れません(本の残りの部分はそのためにあるのです！)。しかし簡単に内容を見てみます。1行ずつ進んでいきましょう。
 
 \mthind{LOCell}{initialize}と呼ばれるメソッドに注目してください。この名前は非常に重要です。慣習的にinitializeと名付けられたメッソドは、そのメソッドが属するクラスのオブジェクト作られた直後に呼び出されれます。つまり、\ct{LOCell new}が評価されたとき、\ct{initialize}メッセージが自動的に新しく作られたオブジェクトに送られます。\ct{initialize}メソッドはオブジェクトの状態、主にそのインスタンス変数、を設定するために使われます。
 \seeindex{Object!initialization}{initialization}
 \index{initialization}
 
-このメソッドが最初にすること(2行目)は、そのスーパークラスである\ct{SimpleSwitchMorphの\ct{initialize}メソッドです。スーパークラスの\ct{initialize}メソッドにより、全ての継承された状態が適切に初期化された、とここでは考えてください。何かをする前に、スーパークラスの\ct{initialize}メソッドにより、継承された状態が初期化されるという考えることは常に正しい事です。つまり、\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが何をするかは知らなくとも気にしなくとも構いません。しかし、妥当なデフォルト値を維持するため、いくつかのインスタンス変数を設定するのはまっとうな方法であり、その値を呼び出すことはよいことです。さもなくば、何かをするときに初期化されていない状態から始める危険性をともないます
-%(訳良くない、修正の必要あり)。
+このメソッドが最初にすること(2行目)は、そのスーパークラスである\ct{SimpleSwitchMorph}の\ct{initialize}メソッドです。\ct{スーパークラスのinitialize}メソッドにより、全ての継承された状態が適切に初期化された、とここでは考えてください。何かをする前に、スーパークラスの\ct{initialize}メソッドにより、継承された状態が初期化するという考えは良いです。つまり、\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが何をするかは知らなくとも構いません。しかし、いくつかのインスタンスに対し妥当なデフォルト値を与えるのには最良の方法です。そのため、それを呼び出すべきです。さもなくば、何かをするときに初期化されていない状態から始める危険性をともないます
 
 このメソッドの残りの部分はこのオブジェクトの状態を設定します。
 例えば、\ct{self label: ''}をオブジェクトに送ることで、このオブジェクトのラベルに空の文字列を設定します。
 \pvindex{self}
 
-\ct{0@0 corner: 16@16}で表される式については、恐らくいくつかの説明が必要でしょう。\lct{0@0}は、両方共0に設定された$x$,$y$座標の\clsind{Point}オブジェクトを意味します。実際に\ct{0@0}で表される式は 数値\ct{0}に、引数が\ct{0}の \ct{@}メッセージを送ります。その結果、数値 0 はPointクラスに、座標(0,0)で新たなインスタンスを作るよう指示します。新しく作られた(座標の)点に、\ct{corner: 16@16}メッセージを送ってみましょう。その結果、角が 0@0 と 16@16の\clsind{Rectangle}が作られます。この新しく作られたRectangleには、スーパークラスから継承された\ct{bounds}変数が割り当てられます。\pharo の画面の原点は\emph{左上}であり、\emph{下に向かって} $y$座標の値が増えることに注意してください。
-(以下の行 全部 意味不明、後でやり直し)
-メソッドの残りの部分は自己説明的であるべきです。良い\stのコードを書く方法の1つは、\stのコードが英語の混成語のように読めるような良いメソッド名をつけることです。オブジェクトがそれ自体と話したり、``\ct{Self use square corners!}'', ``\ct{Self turn off!}''というイメージを持つことができるでしょう。
-%``\ct{自分で広場の角を使う}'', ``\ct{自分で電源をオフにする}''
+\ct{0@0 corner: 16@16}で表される式については、恐らくいくつかの説明が必要でしょう。\lct{0@0}は、両方共0に設定された$x$,$y$座標の\clsind{Point}オブジェクトを意味します。実際に\ct{0@0}で表される式は 数値\ct{0}に、引数が\ct{0}の \ct{@}メッセージを送ります。
+% Yuck... the following should be \mthind{Number}{@} 
+%%% THIS IS BROKEN -- don't do it! (on)
+%\def\atsign{\textsf{@}}%
+%{\makeatletter
+%	\protected@write\@indexfile{}%
+%    {\string\indexentry{\string\atsign|see{Number, \string\atsign}}{\thepage}}%
+%	\protected@write\@indexfile{}%
+%    {\string\indexentry{Number!\string\atsign|hyperpage}{\thepage}}%
+%	\makeatother}
+その結果、数値 0 はPointクラスに、座標(0,0)で新たなインスタンスを作るよう指示します。新しく作られた(座標の)点に、\ct{corner: 16@16}メッセージを送ってみましょう。その結果、角が 0@0 と 16@16の\clsind{長方形}が作られます。この新しく作られた長方形には、スーパークラスから継承された\ct{bounds}変数が割り当てられます。\pharo の画面の原点は\emph{左上}であり、\emph{下に向かって} $y$座標の値が増えることに注意してください。
+
+メソッドの残りの部分は自己説明的であるべきです。良い\stのコードを書く方法の1つは、\stのコードが英語の混成語のように読めるような良いメソッド名をつけることです。オブジェクトがそれ自体と話したり、``\ct{自分自身が直角の角を使う!}'', ``\ct{自分自身で電源を切る!}''というイメージを持つことができるでしょう。
 
 %=================================================================
 \section{オブジェクトをインスペクトする}
 
-新たな\ct{LOCellを作り、それをインスペクトすることによって書いたコードの効果をテストできます。
+新たな\ct{LOCell}を作り、それをインスペクトすることによって書いたコードの効果をテストできます。
 
 \dothis{workspaceを開き、そこで\ct{LOCell new}と打ち込み\menu{inspect it}して下さい。}
 
@@ -226,13 +234,19 @@ initialize
    \caption{LOCellオブジェクトを調べるために使用したinspector。}
 \end{figure}
 
-\ind{inspector}の左側のペインには、調査したインスタンス変数のリストが表示されます。その中の1つ(例えば
-%\mbox{\ct{bounds}
-\ct{bounds}）を選んで見てください、右側のペインにその\ind{インスタンス変数}の値が表示されます。inspectorの下側にあるペインはmini-workspaceです。擬似変数\selfが選択されたオブジェクトに束縛されているため、このworkspaceは便利です(意味不明 後でやり直し)。
+\ind{inspector}の左側のペインには、インスペクトしたインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds})を選んで見てください}、右側のペインにその\ind{インスタンス変数}の値が表示されます。
+
+%  You can also use the inspector to change the value of an instance variable.
+%\dothis{Change the value of \ct{bounds} to \ct{0@0 corner: 50@50} and \menu{accept} it.}
+%\on{This does not work any more. I get:}
+%\ct{OTNamedVariableNode(Object)>>doesNotUnderstand: #selectedClass}
+%\on{should use the mini workspace instead to send bounds: ?}
+
+inspectorの下側にあるペインは便利なmini-workspaceです。なぜなら擬似変数\selfが選択されたオブジェクトに束縛されているためです。
 
 \dothis{
 inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み do it して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
-画面の左上の端にcellが表示されます。実際、\ct{bounds}メッセージで表示するよう指示した場所に正確に表示されます。cell上で\metaclickをすると\subind{Morphic}{halo}が現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、inspectorを使って確認して下さい。(新たな bounds の値を見るために \menu{refresh} \actclick{} が必要かもしれません。)
+画面の左上の端にcellが表示されます。実際、\ct{bounds}メッセージで表示するよう指示した場所に正確に表示されます。cell上で\metaclickをすると\subind{Morphic}{halo}が現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、inspectorを使って確認して下さい。(新たな bounds の値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
