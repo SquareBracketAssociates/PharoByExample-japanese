@@ -37,7 +37,6 @@
 	\sloppy
 \fi
 %=================================================================
-%\chapter{Streams}\chalabel{streams}
 \chapter{ストリーム}\chalabel{ストリーム}
 
 %\ew{Streams are presented as a way to navigate collection. From my point of view, stream are important not to navigate collection, but to produce/consume data:
@@ -295,8 +294,6 @@ result := OrderedCollection new.
     "両方のストリームのもっとも小さな要素が取り除かれてresultに加えられる."
     ifTrue: [result add: stream1 next]
     ifFalse: [result add: stream2 next]].
-
-%"One of the two streams might not be at its end. Copy whatever remains."
 "二つのストリームのどちらかは終端にきていないだろう.残っている全てをコピーする."
 result
   addAll: stream1 upToEnd;
@@ -351,8 +348,6 @@ string. -->   '#(1 2 3) size = 3'
 それから引数として与えられたブロックを実行します。
 ブロックが終了すると\ct{streamContents:}メソッドはコレクションの中身を返します。
 
-
-%The following \ct{WriteStream} methods are especially useful in this context:
 次のような状況に合わせた\ct{WriteStream}メソッドがあります。
 
 \begin{description}
@@ -429,7 +424,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page2Stef}}
-%\caption{The user clicks on a link to page 2.}
 \caption{ユーザはページ2へのリンクをクリックします。}
 \figlabel{page2}
 \vspace{.2in}
@@ -614,10 +608,6 @@ stream close.
 \mthind{StandardFileStream}{fullName}メソッドでファイルのフルパスを得ることができます。
 
 
-%You will soon notice that manually closing the file stream is
-%painful and error-prone. That's why \ct{FileStream} offers a message called \mthind{FileStream class}{forceNewFileNamed:do:} to
-%automatically close a new stream after evaluating a block that
-%sets its contents.
 そのうち，ファイルストリームを手動で閉じることは面倒な上にエラーの元になることに気付くでしょう。
 内容についてのブロックを評価したあと自動的にストリームを
 閉じる\mthind{FileStream class}{forceNewFileNamed:do:}:メソッドを\ct{FileStream}クラスが提供しているのはそのためです。
@@ -650,10 +640,6 @@ string --> 'This text is written in a file named ''test.txt'''
 もしバイナリでストリームを作りたい場合，\mthind{FileStream}{binary}メッセージを送る必要があります。
 
 
-%When your stream is in binary mode, you can only write numbers from 0
-%to 255 (1 Byte). If you want to use \ct{nextPutAll:} to write more
-%than one number at a time, you have to pass a \clsind{ByteArray} as
-%argument.
 もし，ストリームがバイナリモードの場合，0から255(1バイト)の数を書き込むことしかできません。
 1つ以上の文字を同時に書き込むのに使いたい場合\ct{nextPutAll:}メソッドを使い，\clsind{ByteArray}を引数として渡す必要があります。
 
