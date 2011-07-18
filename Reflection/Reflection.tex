@@ -28,6 +28,21 @@
 		ignoreheadfoot
 	]{geometry}
 	\input{../common.tex}
+
+	\usepackage{amsmath}
+	\usepackage{txfonts}
+	\usepackage[no-math]{luajalayout}
+
+	\setrftovf[scale=.95]{IPAMincho}{rmfamily}
+	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Termes}{rmfamily}
+
+	\setrftovf[scale=.95]{IPAGothic}{sffamily}
+	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Heros}{sffamily}
+
+	\defaultfontfeatures{Ligatures=TeX}
+	\setmainfont[BoldFont=vf:sffamily]{vf:rmfamily}
+	\setsansfont{vf:sffamily}
+
 	\pagestyle{headings}
 	\setboolean{lulu}{true}
 % --------------------------------------------
@@ -114,7 +129,7 @@ w inspect
 %@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
-	\caption{\ct!ワークスペース!をインスペクトしている様子。\figlabel{workspaceInspector}}
+	\caption{\ct!Workspace!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
 %@\dothis{Now type \ct!'hello'! in place of that empty string, then \emph{accept} it.}
@@ -184,7 +199,7 @@ Object>>>instVarAt: index
 %@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
-	\caption{\ct!ワークスペース!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
+	\caption{\ct!Workspace!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
 %@\figref{allInstanceVariables} shows how to display the values of the instance variables of an arbitrary instance (\ct!w!) of class \ct!Workspace!.
@@ -824,7 +839,7 @@ Object methodDict size --> 408
 \end{code}
 
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{数}です。
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{count(en)}です。
 %@We initialize the two instance variables and we provide an accessor for the message count.
 これらふたつのインスタンス変数を初期化し、インターセプトしたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
 %@Initially the \ct{subject} variable points to the proxy object itself.
@@ -983,7 +998,7 @@ myDA x --> nil
 \seclabel{wrapper}
 
 %@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
-すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そして\ct{コンパイル済みメソッドオブジェクト}にも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
+すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
 %@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
 少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
