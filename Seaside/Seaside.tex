@@ -906,8 +906,7 @@ MyStackMachine>>>initialize
 
 スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
 
-\dothis{Write some tests for the stack operations and then implement these operations.
-Here is a sample test:}
+\dothis{スタック操作のテストを書いてから実装をしてみましょう。以下はテストのサンプルです。}
 
 \needlines{4}
 \begin{code}{}
@@ -920,26 +919,23 @@ MyStackMachineTest>>>testDiv
 	self assert: stack top = (4/3).
 \end{code}
 
-You might consider using some helper methods for the arithmetic operations to check that there are two numbers on the stack before doing anything, and raising an error if this precondition is not fulfilled.\footnote{It's a good idea to use \ct{Object>>>assert:} to specify the preconditions for an operation.
-This method will raise an \ct{AssertionFailure} if the user tries to use the stack machine in an invalid state.}
-If you do this, most  of your methods will just be one or two lines long.
+加減乗除を行う際には、その前にスタックに二つの値が積まれているかをチェックするヘルパーメソッドが必要でしょう。事前条件が整っていない場合はエラーを起こすようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
+これができてしまえば、各メソッドの実装はほぼ一行か二行ですむでしょう。
 
-You might also consider implementing \ct{MyStackMachine>>>printOn:} to make it easier to debug your stack machine implementation with the help of an object inspector.
-(Hint: just delegate printing to the \ct{contents} variable.)
+デバッグを簡単にするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにするのです。
+(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう。)
 \index{Object!printOn:@\ct{printOn:}}
 
-\dothis{Complete the \ct{MyStackMachine} by writing operations \ct{dup} (push a duplicate of the top value onto the stack), \ct{exch} (exchange the top two values), and \ct{rotUp} (rotate the entire stack contents up\,---\,the top value will move to the bottom).}
+\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後に行く)、を\ct{MyStackMachine} に実装して完成させましょう。}
 
-Now we have a simple stack machine implementation.
-We can start to implement the Seaside RPN Calculator.
+スタックマシンの実装がすんだら、次はいよいよSeaside上に RPN計算機を作っていきます。
 
-We will make use of 5 classes:
+クラスを5つ定義することにします:
 \begin{itemize}
-  \item \ct{MyRPNWidget}\,---\,this should be an abstract class that defines the common CSS style sheet for the application, and other common behavior for the components of the RPN calculator.
-  It is a subclass of \ct{WAComponent} and the direct superclass of the following four classes. 
+  \item \ct{MyRPNWidget}\,---\,RPN計算機アプリケーションのコンポーネントで共通に使う振る舞いやCSSを定義するための抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
   
-    \item \ct{MyCalculator}\,---\,this is the root component.
-  It should register the application (on the class side), it should instantiate and render its subcomponents, and it should register any state for backtracking.
+  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッド内でアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用の状態の登録も行います。
+  
   \item \ct{MyKeypad}\,---\,this displays the keys that we use to interact with the calculator.
   \item \ct{MyDisplay}\,---\,this component displays the top of the stack and provides a button to call another component to display the detailed view.
   \item \ct{MyDisplayStack}\,---\,this component shows the detailed view of the stack and provides a button to answer back.
