@@ -37,7 +37,6 @@
 	\sloppy
 \fi
 %=================================================================
-%\chapter{Streams}\chalabel{streams}
 \chapter{ストリーム}\chalabel{ストリーム}
 
 %\ew{Streams are presented as a way to navigate collection. From my point of view, stream are important not to navigate collection, but to produce/consume data:
@@ -45,108 +44,73 @@
 %(b)	blocking IO. A stream is a nice abstraction to deal with, and the stream manages internally data availability, buffering, etc. to simplify the consumption/production of data
 %Only few streams have random access capability.}
 
-%\clsindexmain{Stream}
 \clsindexmain{ストリーム}
 
-%Streams are used to iterate over sequences of elements such as sequenced
-%collections, files, and network streams.
-%Streams may be either readable, or writeable, or both.
-%Reading or writing is always relative to the current position in the stream.
-%Streams can easily be converted to collections, and vice versa.
 ストリームはコレクション，ファイル，ネットワークストリームのような
 連続する要素に対する反復処理に用いられます。
 ストリームは読み取り可能か，書き込み可能か，もしくはその両方です。
-読み込みまたは書き込みは常にストリームの現在位置に対して相対的です。
+読み取りまたは書き込みは常にストリームの現在位置に対して相対的です。
 ストリームはコレクションに簡単に変換可能ですし，その逆も同様です。
 
 %\lr{"Streams can easily be converted into collections." I wouldn't say it like this, because it is not true for all streams (infinite streams). According to Kent Beck we should only talk about conversion when the same protocol is supported. Collections and Streams do not support the same protocol. (p. 249)}
 
 
 %=============================================================
-%\section{Two sequences of elements}
 \section{二続きの要素}
 
-%A good metaphor to understand a stream is the following: A stream
-%can be represented as two sequences of elements: a past element sequence
-%and a future element sequence. The stream is positioned between the two
-%sequences. Understanding this model is important since all stream
-%operations in Smalltalk rely on it.
-%For this reason, most of the \clsind{Stream} classes are subclasses of \clsind{PositionableStream}.
-%\figref{_abcde} presents a stream which contains five characters. This stream is in its original position, \ie there is no element in the past. You can go back to this position using the message \mthind{PositionableStream}{reset}.
 ストリーミングを理解する良いたとえは以下のようなものです。
 ストリームは二続きの要素として表されます。
 過去の要素と未来の要素です。
 ストリームはこの二つの連続の間に位置します。
 Smalltalkのストリームに対する全ての操作はこれによるので，このモデルを理解しておくのは大切です。
 このような理由で，ほとんどの\clsind{Stream}クラスは\clsind{PositionableStream}のサブクラスになっています。
-図\figref{_abcde}は5個の文字を含むストリームを表しています。このストリームはその原位置にあります。\ie 過去には一つの要素もありません。\mthind{PositionableStream}{reset}メッセージによりこの位置に戻すことができます。
+図\figref{_abcde}は5個の文字を含むストリームを表しています。このストリームはその初期位置にあります。\ie 過去には一つの要素もありません。\mthind{PositionableStream}{reset}メッセージによりこの位置に戻すことができます。
 
 
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{_abcdeStef}}
-%\caption{A stream positioned at its beginning.}
 \caption{最初のストリームの位置.}
 \figlabel{_abcde}
 \vspace{.2in}
 \end{figure}
 
-%Reading an element conceptually means removing the first element of the future element sequence  and putting it after the last element in the past
-%element sequence. After having read one element using the message \ct{next}, the state of your stream is that shown in \figref{a_bcde}.
-要素を読んでいくことは概念的に，未来要素列の先頭要素を取り除き，それを過去要素列の最後に付け加えることを意味します。
+要素の読み取りは概念的に，未来の要素列の先頭を取り除き，それを過去の要素列の最後に付け加えることを意味します。
 \ct{next}メッセージを使って一つの要素を読むと，ストリームの状態は図\figref{a_bcde}に示されているようになります。
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{a_bcdeStef}}
-%\caption{The same stream after the execution of the method \ct{next}: the character \ct{a} is ``in the past'' whereas \ct{b}, \ct{c}, \ct{d} and \ct{e} are ``in the future''.}
 \caption{\ct{next}メソッドを実行したあとの同じストリーム： 文字 \ct{a} は 「過去」 で \ct{b}, \ct{c}, \ct{d} \ct{e} は 「未来」です.}
 \figlabel{a_bcde}
 \vspace{.2in}
 \end{figure}
 
-%Writing an element means replacing the first element of the future sequence by the new one and moving it to the past. \figref{ax_cde} shows the state of the same stream after having written an \ct{x} using the message \mthind{Stream}{nextPut:} \ct{anElement}.
-要素を書き込むことは未来要素の先頭要素を新しいものに置き換えて過去に移動させることを意味します。図\figref{ax_cde}は\mthind{Stream}{nextPut:} \ct{anElement}メッセージを使って同じ要素を\ct{x}で書き換えた状態を示しています
+要素の書き込みは未来の先頭要素を新しいものに置き換えて過去に移動させることを意味します。図\figref{ax_cde}は\mthind{Stream}{nextPut:} \ct{anElement}メッセージを使って同じ要素を\ct{x}で書き換えた状態を示しています。
 
 
-\begin{figure}[h!t]
+\begin{figure}[ht]
 \centerline{\includegraphics[scale=0.5]{ax_cdeStef}}
-%\caption{The same stream after having written an \ct{x}.}
 \caption{\ct{x}を書き込んだ同じストリーム.}
 \figlabel{ax_cde}
 \vspace{.2in}
 \end{figure}
 
 %=============================================================
-%\section{Streams vs. collections}
 \section{ストリーム対コレクション}
 
-%The collection protocol supports the storage, removal and enumeration
-%of the elements of a collection, but does not allow these operations
-%to be intermingled.  For example, if the elements of an
-%\clsind{OrderedCollection} are processed by a \mthind{OrderedCollection}{do:} method, it is not
-%possible to add or remove elements from inside the \ct{do:} block.
-%Nor does the collection protocol offer ways to iterate over two
-%collections at the same time, choosing which collection goes forward
-%and which does not. Procedures like these require that a traversal index or
-%position reference is maintained outside of the collection itself:
-%this is exactly the role of \clsind{ReadStream}, \clsind{WriteStream} and
-%\clsind{ReadWriteStream}.
-コレクションは要素の格納，除去と列挙の手段を提供しますが，合成は許されていません。
+コレクションのプロトコルは要素の格納，除去と列挙の手段を提供しますが，それらの合成は許されていません。
 例を挙げると，\clsind{OrderedCollection}の要素を\ct{do:}メソッドによって処理する場合，
 \ct{do:}のブロック内で要素の追加と削除はできません。
-あるいは，コレクションは二つのコレクションの片方は前進させ，
-もう片方をそうしないようといった反復処理を同時に行う方法を提供していません。
+あるいは，コレクションのプロトコルには二つのコレクションを同時に反復処理し,片方は前進させて
+もう片方をそうしないように選ぶような方法を提供していません。
 このような処理にはトラバースインデックスまたはコレクション自身の外部に保存された
 位置のリファレンスが必要になります。
-これこそ\clsind{ReadStream},  \clsind{WriteStream} そして \clsind{ReadWriteStream}です。
+これこそ\clsind{ReadStream},  \clsind{WriteStream} そして \clsind{ReadWriteStream}の役割です。
 
 
 
-%These three classes are defined to \emph{stream over} some collection.
-%For example, the following snippet creates a stream on an interval,
-%then it reads two elements.
 これら三つのクラスはコレクションではなく， \emph{ストリームに}定義されています。
-例を挙げると，次のコードは間隔1のストリームを作り，それから二つの要素を読みます。
+例を挙げると，次のコードはインターバルのストリームを作り，それから二つの要素を読み取ります。
 
 
 \needlines{5}
@@ -157,7 +121,6 @@ r next.   --> 2
 r atEnd.--> false
 \end{code}
 
-%\ct{WriteStream}s can write data to the collection:
 \ct{WriteStream}はコレクションにデータを書き込むことができます。
 
 
@@ -168,16 +131,9 @@ w nextPut: $b.
 w contents. -->  'ab'
 \end{code}
 
-%It is also possible to create \ct{ReadWriteStream}s that support both
-%the reading and writing protocols.
-読み込みと書き込みの両方を提供する\ct{ReadWriteStream}を作ることもできます。
+読み取りと書き込みの両方のプロトコルを提供する\ct{ReadWriteStream}を作ることもできます。
 
-%The main problem with \ct{WriteStream} and \ct{ReadWriteStream} is
-%that they only support arrays and strings in \pharo. This is currently
-%being changed by the development of a new library named Nile, 
-%but for now if you try to stream over another kind of
-%collection, you will get an error:
-\ct{WriteStream}と\ct{ReadWriteStream}の主な問題は配列と文字列しか\pharoでは
+\ct{WriteStream}と\ct{ReadWriteStream}の主な問題は，\pharoでは配列と文字列しか
 サポートしていないことです。
 これは，Nileと名付けられた新しいライブラリの開発で変わりつつありますが，
 今のところそれ以外のコレクションに対する操作はエラーになります。
@@ -185,12 +141,9 @@ w contents. -->  'ab'
 \needlines{3}
 \begin{code}{}
 w := WriteStream on: (OrderedCollection new: 20).
-%w nextPut: 12. -->  raises an error
 w nextPut: 12. -->  エラー
 \end{code}
 
-%Streams are not only meant for collections, they can be used for files or sockets
-%too. The following example creates a file named \ct{test.txt}, writes two strings to it, separated by a carriage return, and closes the file.
 ストリームはコレクションに対してのみ有効ではなく，ファイルやソケットにも使えます。
 次の例は\ct{test.txt}というファイルを作成し，改行で分離された2つの文字列を書き込み，ファイルを閉じます。
 
@@ -205,35 +158,24 @@ StandardFileStream
 \end{code}
 \cmindex{FileStream class}{fileNamed:do:}
 
-%The following sections present the protocols in more depth.
 次の章ではプロトコルについてさらに解説します。
 
 %=============================================================
-%\section{Streaming over collections}
 \section{ストリームによるコレクションの操作}
 
-%Streams are really useful when dealing with collections of
-%elements. They can be used for reading and writing elements in
-%collections. We will now explore the stream features for the
-%collections.
-ストリームはコレクションの要素を扱うのにとても便利です。
-コレクションの要素の読み込みと書き込みに使われます。
+ストリームはコレクションの要素を扱うのにとても便利で，コレクションの要素の読み取りと書き込みに使われます。
 これからコレクションに対するストリームの特徴を探っていきます。
 
 
 %-----------------------------------------------------------------
-%\subsection{Reading collections}
-\subsection{コレクションを読み込む}
+\subsection{コレクションを読み取る}
 
-%This section presents features used for reading collections. Using a
-%stream to read a collection essentially provides you a pointer into the collection. That pointer will move forward on reading and you can place it wherever you want. The class \clsindmain{ReadStream} should be used to read elements from collections.
-このセクションではコレクションの読み込みについて見ていきます。
-コレクションの読み込みにストリームを使うことは，本質的にはコレクションへのポインタを提供することになります。
-ポインタは読み込みで前進し，希望する場所に移動させることができます。
+このセクションではコレクションの読み取りの特徴について見ていきます。
+コレクションの読み取りにストリームを使うことは，本質的にはコレクションへのポインタを提供することになります。
+ポインタは読み取りによって前進し，また希望する場所へ自由に移動させることができます。
 コレクションの要素を読み込むのには\clsindmain{ReadStream}クラスを使います。
-%Methods \mthind{ReadStream}{next} and \mthind{ReadStream}{next:} are used to
-%retrieve one or more elements from the collection.
-コレクションから一つ以上の要素を読み出すには\mthind{ReadStream}{next}と\mthind{ReadStream}{next:}メソッドを使います。
+
+コレクションから一つ以上の要素を読み取るには\mthind{ReadStream}{next}と\mthind{ReadStream}{next:}メソッドを使います。
 
 \begin{code}{@TEST |stream|}
 stream := ReadStream on: #(1 (a b c) false).
@@ -251,30 +193,22 @@ stream next: 3. -->   'bcd'
 stream next: 2. -->   'ef'
 \end{code}
 
-%The message \mthind{PositionableStream}{peek} is used when you want to know what is the next element in
-%the stream without going forward.
-\mthind{PositionableStream}{peek}メッセージはポインタを進めることなくストリームの次の要素が
-何であるかを知りたいときに使われます。
+\mthind{PositionableStream}{peek}メッセージはストリームの次の要素が
+何であるかを，ポインタを進ませないで知りたいときに使われます。
 
 \begin{code}{@TEST |stream negative number|}
 stream := ReadStream on: '-143'.
-%negative := (stream peek = $-).    "look at the first element without reading it"
-negative := (stream peek = $-).    "読み込むことなく最初の要素を調べる"
+negative := (stream peek = $-).    "読み取ることなく最初の要素を調べる"
 negative. --> true
-%negative ifTrue: [stream next].       "ignores the minus character"
 negative ifTrue: [stream next].       "マイナスの文字を無視する"
 number := stream upToEnd.
 number. --> '143'
 \end{code}
 \noindent
-%This code sets the boolean variable \ct{negative} according to the sign of the
-%number in the stream and \ct{number} to its absolute value. The method
-%\mthind{ReadStream}{upToEnd} returns everything from the current position to the end
-%of the stream and sets the stream to its end. This code can be
-%simplified using \mthind{PositionableStream}{peekFor:}, which moves forward if the following element equals the parameter and doesn't move otherwise.
-このコードは，ブーリアン変数\ct{negative}をストリームの数で設定し，\ct{number}に数の絶対値を設定します。
-\mthind{ReadStream}{upToEnd}メソッドは現在の位置からストリームの最後までの全てを返し，
-ストリームを最後に設定します。このコードは，パラメータと同じ時は先に進み，
+
+このコードは，ストリーム中の数の符合をブール変数\ct{negative}に設定し，絶対値を\ct{number}に設定します。
+\mthind{ReadStream}{upToEnd}メソッドは現在の位置から最後までのストリームの全てを返し，
+ストリームのポインタを最後に設定します。このコードは，引数と同じ時は先に進み，
 異なるときは進まない\mthind{PositionableStream}{peekFor:}メソッドを使うことで単純化できます。
 
 
@@ -284,35 +218,21 @@ stream := '-143' readStream.
 stream upToEnd         --> '143'
 \end{code}
 \noindent
-%\ct{peekFor:} also returns a boolean
-%indicating if the parameter equals the element.
-\ct{peekFor:}メソッドはまた，パラメータと要素が等しいかを示す真偽値を返します。
 
+\ct{peekFor:}メソッドはまた，引数と要素が等しいかを示す真偽値を返します。
 
+上のコードの例からストリームを作る新しい方法に気付いたと思います。
+一連のコレクションに対して単に\mthind{SequenceableCollection}{readStream}メッセージを送ることで，
+そのコレクションからストリームを読み取ることができます。
 
-%You might have noticed a new way of constructing a stream in
-%the above example: one can simply send \mthind{SequenceableCollection}{readStream} to a sequenceable collection to get a reading stream on that particular
-%collection.
-上のコードからストリームを作る新しい方法に気付いたと思います。
-一続きのコレクションに対して単に\mthind{SequenceableCollection}{readStream}メッセージを送ることで，
-そのコレクションからストリームを読み込むことができます。
-
-%\paragraph{Positioning.} There are methods to position the stream
-%pointer. If you have the index, you can go directly to it using
-%\mthind{PositionableStream}{position:}. You can request the current position using
-%\mthind{PositionableStream}{position}. Please remember that a stream is not positioned on an
-%element, but between two elements. The index corresponding to the
-%beginning of the stream is 0.
 \paragraph{位置決め} 
 ストリームのポインタを位置決めするメソッドがあります。
 もしインデックスがあるなら\mthind{PositionableStream}{position:}メソッドで直接そこへ移動できます。
-\mthind{PositionableStream}{position}メソッドで現在位置を要求することができます。
+\mthind{PositionableStream}{position}メソッドで現在位置を求めることができます。
 ストリームは要素と要素の間を示しているのであって，要素そのものを指しているわけではないことを覚えておいて下さい。
-ストリームの先頭のインデックスは0になります。
+インデックスはストリームの先頭を0として対応します。
 
 
-%You can obtain the state of the stream depicted in
-%\figref{ab_cde} with the following code:
 図\figref{ab_cde}に描かれたストリームの状態を次のコードで得ることができます。
 
 
@@ -324,60 +244,42 @@ stream peek --> $c
 
 \begin{figure}[h!t]
 \centerline{\includegraphics[scale=0.5]{ab_cdeStef}}
-%\caption{A stream at position 2}
 \caption{2番目の位置にあるストリーム}
 \figlabel{ab_cde}
 \vspace{.2in}
 \end{figure}
 
-%To position the stream at the beginning or the end,
-%% If you want to go to the beginning or at the end is what you want, 
-%you can use
-%\mthind{PositionableStream}{reset} or \mthind{PositionableStream}{setToEnd}. \mthind{PositionableStream}{skip:} and \mthind{PositionableStream}{skipTo:} are used to
-%go forward to a location relative to the current position: \ct{skip:}
-%accepts a number as argument and skips that number of elements whereas
-%\ct{skipTo:} skips all elements in the stream until it finds an
-%element equal to its parameter. Note that it positions the stream
-%after the matched element.
-ストリームの先頭かおしまいに移動する場合はそれぞれ\mthind{PositionableStream}{reset}メソッド，
+
+ストリームの先頭か最後に移動する場合はそれぞれ\mthind{PositionableStream}{reset}メソッド，
 \mthind{PositionableStream}{setToEnd}メソッドを使います。
 \mthind{PositionableStream}{skip:}と\mthind{PositionableStream}{skipTo:}メソッドは現在位置を基準として前に進む場合に使います。
 \ct{skip:}メソッドは引数に数を取ることができ，その数の要素を飛ばします。
-\ct{skipTo:}メソッドは与えられた変数と同じ要素が見つかるまでストリームの要素を飛ばしていきます。
+一方，\ct{skipTo:}メソッドは与えられた引数と同じ要素が見つかるまでストリームの要素を飛ばしていきます。
 そのときの位置は，見つかった要素の後ろになることに注意して下さい。
 
 \begin{code}{@TEST |stream|}
 stream := 'abcdef' readStream.
-%stream next.        --> $a    "stream is now positioned just after the a"
 stream next.        --> $a    "ストリームはaの真後ろに位置している"
-%stream skip: 3.                           "stream is now after the d"
 stream skip: 3.                           "dの後ろに位置している"
 stream position.  -->   4
-%stream skip: -2.                          "stream is after the b"
 stream skip: -2.                          "bの後ろに位置している"
 stream position.  --> 2
 stream reset.
 stream position.  --> 0
-%stream skipTo: $e.                      "stream is just after the e now"
 stream skipTo: $e.                      "ストリームはeの後ろに移った"
 stream next.        --> $f
 stream contents. --> 'abcdef'
 \end{code}
 
-%As you can see, the letter \ct{e} has been skipped.
 ご覧のように\ct{e}の文字は飛ばされています。
 
-%The method \mthind{PositionableStream}{contents} always returns a copy of the entire stream.
-\mthind{PositionableStream}{contents}メソッドはストリーム全体のコピーを常に返します。
+\mthind{PositionableStream}{contents}メソッドは常にストリーム全体のコピーを返します。
 
-%\paragraph{Testing.} Some methods allow you to test the state of the current stream:
-%\mthind{PositionableStream}{atEnd} returns true if and only if no more elements can be read whereas \mthind{PositionableStream}{isEmpty} returns true if and only if there is no element at all in the collection.
 \paragraph{テスト}現在のストリームの状態をテストするためのメソッドがあります。
 \mthind{PositionableStream}{atEnd}メソッドはこれ以上読める要素がない場合のみtrueを返します。
 \mthind{PositionableStream}{isEmpty}メソッドはコレクションに全く要素がない場合のみtrueを返します。
 
-%Here is a possible implementation of an algorithm using \ct{atEnd} that takes two sorted collections as parameters and merges those collections into another sorted collection:
-二つのソートされたコレクションを変数としてこれらのコレクションを別のソートされたコレクションと結合するアルゴリズムを
+二つのソートされたコレクションを引数としてこれらのコレクションを別のソートされたコレクションと結合するアルゴリズムを
 \ct{atEnd}メソッドを使って実装する例を示します。
 
 \needlines{4}
@@ -385,18 +287,14 @@ stream contents. --> 'abcdef'
 stream1 := #(1 4 9 11 12 13) readStream.
 stream2 := #(1 2 3 4 5 10 13 14 15) readStream.
 
-%"The variable result will contain the sorted collection."
-"変数にはソートされたコレクションが含まれる."
+"変数resultにはソートされたコレクションが入る."
 result := OrderedCollection new.
 [stream1 atEnd not & stream2 atEnd not]
   whileTrue: [stream1 peek < stream2 peek
-%    "Remove the smallest element from either stream and add it to the result."
     "両方のストリームのもっとも小さな要素が取り除かれてresultに加えられる."
     ifTrue: [result add: stream1 next]
     ifFalse: [result add: stream2 next]].
-
-%"One of the two streams might not be at its end. Copy whatever remains."
-"どちらかのストリームが終わりにない場合，残っている全てをコピーする."
+"二つのストリームのどちらかは終端にきていないだろう.残っている全てをコピーする."
 result
   addAll: stream1 upToEnd;
   addAll: stream2 upToEnd.
@@ -405,18 +303,14 @@ result. -->   an OrderedCollection(1 1 2 3 4 4 5 9 10 11 12 13 13 14 15)
 \end{code}
 
 %-----------------------------------------------------------------
-%\subsection{Writing to collections}
 \subsection{コレクションへの書き込み}
 
-%We have already seen how to read a collection by iterating over its
-%elements using a \ct{ReadStream}. We'll now learn how to create
-%collections using \clsindmain{WriteStream}{}s.
-\ct{ReadStream}を使ってコレクションの要素をどのように読み込むかについては既にみてきました。
+\ct{ReadStream}を使ってコレクションの要素をどのように読み取るかについては既にみてきました。
 次に，\clsindmain{WriteStream}{}を使ってコレクションを作成する方法について学びましょう。
 
-%\ct{WriteStream}s are useful for appending a lot of data to a collection at various locations. They are often used to construct strings that are based on static and dynamic parts as in this example:
+
 コレクションの様々な場所にたくさんのデータを加えるとき，\ct{WriteStream}は便利です。
-次の例のように，静的あるいは動的に文字列を生成するときにもしばしば用いられます。
+次の例のように，静的部分と動的部分からなる文字列を生成するときにもしばしば用いられます。
 
 
 \begin{code}{NB: can't be tested due to the changing number of classes}
@@ -432,11 +326,7 @@ stream contents. --> 'This Smalltalk image contains: 2322 classes.
 This is really a lot.'
 \end{code}
 
-%This technique is used in the different implementations of the method
-%\ct{printOn:} for example. There is a simpler and more efficient way
-%of creating streams if you are only interested in the content of the
-%stream:
-この方法はたとえば\ct{printOn:}メソッドの異なる実装にも使えます。
+この方法は，例えば\ct{printOn:}メソッドの異なる実装にも使えます。
 ストリームの内容だけにしか興味がない場合，これはもっと単純で効果的なストリームの作成法です。
 
 \begin{code}{@TEST |string|}
@@ -453,49 +343,27 @@ string := String streamContents:
 string. -->   '#(1 2 3) size = 3'
 \end{code}
 
-%The method \mthind{SequenceableCollection class}{streamContents:} \seclabel{streamContents} creates a collection and a stream on
-%that collection for you. It then executes the block you gave passing
-%the stream as a parameter. When the block ends, \ct{streamContents:}
-%returns the content of the collection.
-%\mthind{SequenceableCollection class}{streamContents:} \seclabel{streamContents}メソッドは
+\mthind{SequenceableCollection class}{streamContents:} \seclabel{streamContents}メソッドは
 コレクションと，そのコレクションを流すためのストリームを作ります。
-それから変数として与えられたブロックを実行します。
-ブロックが終了までくると\ct{streamContents:}メソッドはコレクションの中身を返します。
+それから引数として与えられたブロックを実行します。
+ブロックが終了すると\ct{streamContents:}メソッドはコレクションの中身を返します。
 
-
-%The following \ct{WriteStream} methods are especially useful in this context:
-\ct{WriteStream}メソッドが有効なのは次のような状況です。
+次のような状況に合わせた\ct{WriteStream}メソッドがあります。
 
 \begin{description}
-%\item[\lct{nextPut:}] adds the parameter to the stream;
-%\item[\lct{nextPutAll:}] adds each element of the collection, passed as a
-%  parameter, to the stream;
-%\item[\lct{print:}] adds the textual representation of the parameter to the
-%  stream.
-%	\cmindex{Stream}{print:}
-
-\item[\lct{nextPut:}] 変数をストリームに加えるとき。
-\item[\lct{nextPutAll:}] 変数として与えられたコレクションの要素をそれぞれストリームに加えるとき。
-\item[\lct{print:}] ストリームにテキストによる表示を加える。
+\item[\lct{nextPut:}] 引数をストリームに加えるとき。
+\item[\lct{nextPutAll:}] 引数として与えたコレクションの要素をそれぞれストリームに追加するとき。
+\item[\lct{print:}] ストリームにテキストによる表示手段を追加する。
 	\cmindex{Stream}{print:}
 \end{description}
 
-%There are also methods useful for printing different kinds of characters to
-%the stream like \mthind{WriteStream}{space}, \mthind{WriteStream}{tab} and
-%\mthind{WriteStream}{cr} (carriage return). Another useful
-%method is \mthind{WriteStream}{ensureASpace} which ensures that the last character
-%in the stream is a space; if the last character isn't a space it adds one.
-\mthind{WriteStream}{スペース}，\mthind{WriteStream}{タブ}，\mthind{WriteStream}{改行} 
+\mthind{WriteStream}{space}，\mthind{WriteStream}{tab}，\mthind{WriteStream}{cr} 
 などの異なる種類の文字を表示するのに便利なメソッドもあります。
-\mthind{WriteStream}{ensureASpace}は，ストリームの最後の文字がスペースでない場合には追加することで，
+\mthind{WriteStream}{ensureASpace}は，ストリームの最後の文字がスペースでない場合には追加し，
 最後がスペースをあることを保証します。
 
-%\paragraph{About Concatenation.}
 \paragraph{連結について}
 
-%Using \mthind{WriteStream}{nextPut:} and \mthind{WriteStream}{nextPutAll:} on a \ct{WriteStream} is often the best way to
-%concatenate characters. Using the comma concatenation operator (\ct{,}) is far
-%less efficient:
 \ct{WriteStream}の\mthind{WriteStream}{nextPut:}メソッド，\mthind{WriteStream}{nextPutAll:}メソッドは多くの場合，
 文字を連結する一番良い方法になります。
 カンマ演算子(\ct{,})による結合はあまり効率的ではありません。
@@ -515,22 +383,13 @@ string. -->   '#(1 2 3) size = 3'
   temp contents] timeToRun --> 1262 "(milliseconds)"
 \end{code}
 
-%The reason that using a stream can be much more efficient is that 
-%comma creates a new string containing
-%the concatenation of the receiver and the argument, so it must copy both of them.
-%When you repeatedly concatenate onto the same receiver, it gets longer and longer each time,
-%so that the number of characters that must be copied goes up exponentially.
-%This also creates a lot of garbage, which must be collected. Using
-%a stream instead of string concatenation is a well-known optimization.
-%\lr{About Concatenation. This is not true for real world examples (the example benchmark is unrealistic). Most of the time concatenation is simpler, cleaner and much faster, for example when being used on a small number of longer strings. (p. 257)}
-%In fact, you can use \mthind{SequenceableCollection class}{streamContents:} (mentioned on page \pageref{sec:streamContents}) to help you do this:
-カンマ演算子による連結は，受けレシーバと変数の文字列を新たに作成するのでどちらも
-コピーしなければなりません。これがカンマ演算子よりストリームの方が効果的であることの理由です。
+カンマ演算子は，レシーバと引数の文字列を新たに作成するのでどちらも
+コピーしなければなりません。これがストリームの方がカンマ演算子より効果的であることの理由です。
 もし，同じレシーバに対してカンマ演算子で繰り返し連結をしてみると，
 指数関数的にコピーしなければならない文字数が増えてくるために，
 どんどん時間がかかるようになってきます。
 またこの方法はメモリ上に回収しなければならないゴミをたくさん残します。
-文字列結合の代わりにストリームを使うのはよく知られている最適化方法です。
+カンマ演算子の代わりにストリームを使うのはよく知られている最適化方法です。
 実際は\mthind{SequenceableCollection class}{streamContents:}メソッド（\pageref{sec:streamContents}参照）
 がこれを手伝ってくれます。
 
@@ -542,23 +401,15 @@ String streamContents: [ :tempStream |
 \end{code}
 
 %-----------------------------------------------------------------
-%\subsection{Reading and writing at the same time}
-\subsection{同時に読み込みと書き込みをする}
+\subsection{読み取りと書き込みを同時に行う}
 
-%It's possible to use a stream to access a collection for reading and
-%writing at the same time.
-%Imagine you want to create an \ct{History} class which will manage
-%backward and forward buttons in a web browser.
-%A history would react as in figures from \ref{fig:emptyStream} to
-%\ref{fig:page4}.
-ストリームを使うことでコレクションに対して同時に読み込みと書き込みを行うことができます。ウェブブラウザの
+ストリームを使うことでコレクションに対して同時に読み取りと書き込みを行うことができます。ウェブブラウザの
 前進・後退ボタンの動作を管理する\ct{History}クラスを作りたいという状況を考えてみましょう。
-履歴は図\ref{fig:emptyStream}から\ref{fig:emptyStream}のような動作をします。
+履歴は図\ref{fig:emptyStream}から\ref{fig:page4Stef}のような動作をします。
 
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{emptyStef}}
-%\caption{A new history is empty. Nothing is displayed in the web browser.}
 \caption{履歴は空です。ブラウザには何も表示されていません。}
 \figlabel{emptyStream}
 \vspace{.2in}
@@ -566,7 +417,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page1Stef}}
-%\caption{The user opens to page 1.}
 \caption{ユーザはページ1を開きます。}
 \figlabel{page1}
 \vspace{.2in}
@@ -574,7 +424,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page2Stef}}
-%\caption{The user clicks on a link to page 2.}
 \caption{ユーザはページ2へのリンクをクリックします。}
 \figlabel{page2}
 \vspace{.2in}
@@ -582,7 +431,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page3Stef}}
-%\caption{The user clicks on a link to page 3.}
 \caption{ユーザはページ3へのリンクをクリックします。}
 \figlabel{page3}
 \vspace{.2in}
@@ -590,7 +438,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page2_Stef}}
-%\caption{The user clicks on the back button. He is now viewing page 2 again.}
 \caption{ユーザは戻るボタンをクリックします。今，再びページ2を見ています。}
 \figlabel{page2_}
 \vspace{.2in}
@@ -598,7 +445,6 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page1_Stef}}
-%\caption{The user clicks again the back button. Page 1 is now displayed.}
 \caption{ユーザは更に戻るボタンをクリックします。ページ1が表示されています。}
 \figlabel{page1_}
 \vspace{.2in}
@@ -606,13 +452,11 @@ String streamContents: [ :tempStream |
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[scale=0.5]{page4Stef}}
-%\caption{From page 1, the user clicks on a link to page 4. The history forgets pages 2 and 3.}
-\caption{ユーザは4ページへのリンクをクリックしました。ページ2，ページ3の履歴はなくなります。}
+\caption{1ページからユーザは4ページへのリンクをクリックしました。ページ2，ページ3の履歴はなくなります。}
 \figlabel{page4}
 \vspace{.2in}
 \end{figure}
 
-%This behaviour can be implemented using a \clsind{ReadWriteStream}.
 この振る舞いは\clsind{ReadWriteStream}を使うことで実装できます。
 
 \needlines{6}
@@ -628,12 +472,9 @@ History>>initialize
     stream := ReadWriteStream on: Array new.
 \end{code}
 
-%Nothing really difficult here, we define a new class which contains a
-%stream. The stream is created during the \ct{initialize} method.
-ストリームを持つクラスを定義しました。このストリームはinitializeメソッドで作られます。
+ストリームを持つクラスを定義しました。このストリームは\ct{initialize}メソッドで作られます。
 ここまで特にも難しいことはありません。
 
-%We need methods to go backward and forward:
 次に，前進と後進のメソッドが必要になります。
 
 \begin{code}{}
@@ -647,9 +488,6 @@ History>>goForward
   ^ stream next
 \end{code}
 
-%Until then, the code was pretty straightforward. Now, we have to deal
-%with the \ct{goTo:} method which should be activated when the user
-%clicks on a link. A possible solution is:
 ここまでのコードはとても単純明快です。
 次に，ユーザがリンクをクリックしたときに動作する\ct{goTo:}メソッドに取りかかりましょう。
 たとえば次のようなコードが思いつくかも知れません。
@@ -659,10 +497,6 @@ History>>goTo: aPage
     stream nextPut: aPage.
 \end{code}
 
-%This version is incomplete however. This is because when the user
-%clicks on the link, there should be no more future pages to go to,
-%\ie the forward button must be deactivated. To do this, the simplest
-%solution is to write \ct{nil} just after to indicate the history end:
 しかし，これでは不十分です。ユーザがリンクをクリックしたとき，履歴上では進めるページがないはずだからです。
 つまり，前進ボタンは無効になってなければいけません。
 これを実現するもっともシンプルな方法は，履歴の指している要素の後ろに\ct{nil}を書き込むことです。
@@ -675,17 +509,11 @@ History>>goTo: anObject
   stream back.
 \end{code}
 
-%Now, only methods \ct{canGoBackward} and \ct{canGoForward} have to be
-%implemented.
 これで，あとは\ct{canGoBackward}メソッドと\ct{canGoForward}メソッドを実装するだけです。
 
-%A stream is always positioned between two elements. To go backward,
-%there must be two pages before the current position: one page is the
-%current page, and the other one is the page we want to go to.
 ストリームは常に二つの要素の間に位置しています。
 戻るには今の位置から2ページ分（1ページ目が現在のページ，2ページ目が戻ったときに表示したいページ）
 戻る必要があります。
-
 
 \begin{code}{}
 History>>canGoBackward
@@ -695,7 +523,6 @@ History>>canGoForward
   ^ stream atEnd not and: [stream peek notNil]
 \end{code}
 
-%Let us add a method to peek at the contents of the stream:
 ストリームの中身を確認できるメソッドを追加します。
 
 \begin{code}{}
@@ -703,7 +530,6 @@ History>>contents
   ^ stream contents
 \end{code}
 
-%And the history works as advertised:
 これで履歴が狙い通りに動きます。
 
 \begin{code}{}
@@ -718,68 +544,28 @@ History new
 \end{code}
 
 %=============================================================
-%\section{Using streams for file access}
 \section{ファイルアクセスにストリームを使う}
 
-%You have already seen how to stream over collections of elements. It's
-%also possible to stream over files on your hard disk.
-%Once created, a stream on a file is really like a stream on a
-%collection: you will be able to use the same protocol to read, write
-%or position the stream.
-%The main difference appears in the creation of the stream.
-%There are several different ways to create file streams, as we shall now see.
 コレクションの要素に対してどのようにストリームを使うかをこれまで見てきました。
 ハードディスクのファイルに対しても同じようにストリームを使うことができます。
-一度作成すると，ストリームはファイルに対してのストリームはコレクションに対してのストリームとほとんど変わりません。
-同じプロトコルで読み込み，書き込み，位置の移動ができます。
+一度作成すれば，ストリームはファイルに対してのストリームはコレクションに対してのストリームとほとんど変わりません。
+同じプロトコルで読み取り，書き込み，位置の移動ができます。
 大きな違いはストリームの作成にあります。
 これからいくつか異なるファイルストリームの作成方法を見ていきましょう。
 
 
 %-----------------------------------------------------------------
-%\subsection{Creating file streams}
 \subsection{ファイルストリームを作成する}
 
 \seclabel{creat-file-stre}
 
-%To create file streams, you will have to use one of the following
-%instance creation methods offered by the class \clsindmain{FileStream}:
 ファイルストリームを作るには\clsindmain{FileStream}クラスが提供する
 次のインスタンス作成メソッドのどれかを使います。
 
 \begin{description}
 
-%\item[\lct{fileNamed:}] Open a file with the given name for reading and
-%  writing. If the file already exists, its prior contents may be
-%  modified or replaced, but the file will not be truncated on
-%  close. If the name has no directory part, then the file will be
-%  created in the default directory.
-%  \cmindex{FileStream class}{fileNamed:}
-%  
-%\item[\lct{newFileNamed:}] Create a new file with the given name,
-%  and answer a stream opened for writing on that file. If the file
-%  already exists, ask the user what to do.
-%  \cmindex{FileStream class}{newFileNamed:}
-%  
-%\item[\lct{forceNewFileNamed:}] Create a new file with the given
-%  name, and answer a stream opened for writing on that file. If the
-%  file already exists, delete it without asking before creating the
-%  new file.
-%  \cmindex{FileStream class}{forceNewFileNamed:}
-%
-%\item[\lct{oldFileNamed:}] Open an existing file with the given
-%  name for reading and writing. If the file already exists, its prior
-%  contents may be modified or replaced, but the file will not be
-%  truncated on close. If the name has no directory part, then the file
-%  will be created in the default directory.
-%  \cmindex{FileStream class}{oldFileNamed:}
-%
-%\item[\lct{readOnlyFileNamed:}] Open an existing file with the
-%  given name for reading.
-%  \cmindex{FileStream class}{readOnlyFileNamed:}
-%
-\item[\lct{fileNamed:}] 与えられた名前のファイルを読み込み，書き込みのために開きます。
-  もしファイルが既に存在していたら，その内容は変更したり置き換えられたりしますが，ファイルを閉じるときに捨てられません。
+\item[\lct{fileNamed:}] 与えられた名前のファイルを読み取り，書き込みのために開きます。
+  もしファイルが既に存在していたら，その内容は変更したり置き換えられたりしますが，ファイルを閉じるときに切り捨てられません。
   もし，ファイル名にディレクトリ部分が明示されていない場合，デフォルトディレクトリにファイルは作成されます。
   \cmindex{FileStream class}{fileNamed:}
   
@@ -792,18 +578,15 @@ History new
   \cmindex{FileStream class}{forceNewFileNamed:}
 
 \item[\lct{oldFileNamed:}] 読み込みと書き込みのために与えられた名前の既にあるファイルを開きます。
-  もしファイルが既に存在していたら，その内容は変更したり置き換えられたりしますが，ファイルを閉じるときに捨てられません。
+  もしファイルが既に存在していたら，その内容は変更したり置き換えられたりしますが，ファイルを閉じるときに切り捨てられません。
   もし，ファイル名にディレクトリ部分が明示されていない場合，デフォルトディレクトリにファイルは作成されます。
   \cmindex{FileStream class}{oldFileNamed:}
 
 \item[\lct{readOnlyFileNamed:}] ファイルを読み込みのために開きます。
   \cmindex{FileStream class}{readOnlyFileNamed:}
 
-
 \end{description}
 
-%You have to remember that each time you open a stream on a file, you
-%have to close it too. This is done through the \mthind{FileStream}{close} method.
 ファイルをストリームで開くたびに，必ず閉じなければならないことを覚えておいて下さい。
 これには\mthind{FileStream}{close}メソッドを使います。
 
@@ -820,27 +603,14 @@ stream contents. --> 'This text is written in a file named ''test.txt'''
 stream close.
 \end{code}
 
-%% \on{need way to clean up test files afterwards}
-%
-%%[:fileName | (FileDirectory forFileName: fileName)
-%%	deleteFileNamed: fileName
-%%	ifAbsent: [ 'Could not delete ', fileName ] ]
-%%	value: 'test.txt'
 
-%The method \mthind{FileStream}{localName} answers the last component of the name of the file. You can
-%also access the full path name using the method
-%\mthind{StandardFileStream}{fullName}.
 \mthind{FileStream}{localName}メソッドはファイルの一番最後の内容を返します。
 \mthind{StandardFileStream}{fullName}メソッドでファイルのフルパスを得ることができます。
 
 
-%You will soon notice that manually closing the file stream is
-%painful and error-prone. That's why \ct{FileStream} offers a message called \mthind{FileStream class}{forceNewFileNamed:do:} to
-%automatically close a new stream after evaluating a block that
-%sets its contents.
-そのうち，ファイルストリームを手動で閉じることは面倒でエラーの元になることに気付くでしょう。
-\ct{FileStream}クラスがブロックの内容を評価すると自動的にストリームを
-閉じる\mthind{FileStream class}{forceNewFileNamed:do:}:メソッドを提供しているのはそのためです。
+そのうち，ファイルストリームを手動で閉じることは面倒な上にエラーの元になることに気付くでしょう。
+内容についてのブロックを評価したあと自動的にストリームを
+閉じる\mthind{FileStream class}{forceNewFileNamed:do:}:メソッドを\ct{FileStream}クラスが提供しているのはそのためです。
 
 
 \begin{code}{@TEST |string|}
@@ -856,36 +626,22 @@ string := FileStream
 string --> 'This text is written in a file named ''test.txt'''
 \end{code}
 
-%The stream-creation methods that take a block as an argument first
-%create a stream on a file, then execute the block with the stream
-%as an argument, and finally close the stream. These methods return what
-%is returned by the block, which is to say, the value of the last
-%expression in the block. This is used in the previous example to get
-%the content of the file and put it in the variable \ct{string}.
-ブロックを引数にとるストリーム作成のメソッドは，まずファイルのストリームを作成し，
+ブロックを引数にとるストリーム作成のメソッドは，まずファイルに対してのストリームを作成し，
 次に引数のブロックを実行し，最後にストリームを閉じます。
 これらのメソッドはブロックの返すもの，つまり最後のブロック表現の値を返します。
-これは前の例ではファイルの中身を得てそれを可変文字列に入れるところで使われています。
+前の例でこれは，ファイルの中身を得てそれを変数\ct{string}に入れるところで使われています。
 
 %-----------------------------------------------------------------
-%\subsection{Binary streams}
 \subsection{バイナリストリーム}
 
 \seclabel{binary-streams}
 
-%By default, created streams are text-based which means you will read
-%and write characters. If your stream must be binary, you have to send
-%the message \mthind{FileStream}{binary} to your stream.
-初期設定でストリームは文字の読み込みと書き込みができるテキストで作成されます。
+デフォルトでストリームは文字の読み取りと書き込み可能なテキストベースで作成されます。
 もしバイナリでストリームを作りたい場合，\mthind{FileStream}{binary}メッセージを送る必要があります。
 
 
-%When your stream is in binary mode, you can only write numbers from 0
-%to 255 (1 Byte). If you want to use \ct{nextPutAll:} to write more
-%than one number at a time, you have to pass a \clsind{ByteArray} as
-%argument.
-もし，ストリームがバイナリモードであったら0から255(1バイト)の数字を書き込むことしかできません。
-\ct{nextPutAll:}メソッドを1つ以上の文字を同時に書き込むのに使いたい場合，\clsind{ByteArray}を引数として渡す必要があります。
+もし，ストリームがバイナリモードの場合，0から255(1バイト)の数を書き込むことしかできません。
+1つ以上の文字を同時に書き込むのに使いたい場合\ct{nextPutAll:}メソッドを使い，\clsind{ByteArray}を引数として渡す必要があります。
 
 \begin{code}{@TEST}
 FileStream
@@ -905,14 +661,12 @@ FileStream
       ].
 \end{code}
 
-%Here is another example which creates a picture in a file named
-%``test.pgm'' (portable graymap file format). You can open this file with your favorite drawing program.
 次の例は「test.pgm」（portable graymap file format）を作成する例です。
 作成したファイルはお気に入りのドロープログラムで開くことができます。
 
 
-%% The following does not assert anything, but @TEST is used to ensure
-%% that no error is thrown.
+% The following does not assert anything, but @TEST is used to ensure
+% that no error is thrown.
 \begin{code}{@TEST}
 FileStream
   forceNewFileNamed: 'test.pgm' 
@@ -929,33 +683,24 @@ FileStream
 	]
 \end{code}
 
-%This creates a 4x4 checkerboard as shown in \figref{checkerboard4x4}.
 これは図\figref{checkerboard4x4}のような4x4のチェッカーボード（市松模様）を作ります。
 
 \begin{figure}[!ht]
 \centerline{\includegraphics[width=0.25\textwidth]{checkerboard4x4}}
-%\caption{A 4x4 checkerboard you can draw using binary streams.}
 \caption{バイナリストリームで描くことができる4x4のチェッカーボード（市松模様）}
 \figlabel{checkerboard4x4}
 \vspace{.2in}
 \end{figure}
 
 %=============================================================
-%\section{Chapter summary}
 \section{章のまとめ}
 
-%Streams offer a better way than collections to incrementally read and write a sequence of elements. There are easy ways to convert back and forth between streams and collections.
-ストリームは一続きの要素を連続的に読みこむ，あるいは書き込むための，
+ストリームは一連の要素を連続的に読み取る，あるいは書き込むための，
 コレクションよりも良い方法を提供します。
 また，ストリームとコレクションを相互に変換する簡単な方法があります。
 \begin{itemize}
-%  \item Streams may be either readable, writeable or both readable and writeable.
-%  \item To convert a collection to a stream, define a stream ``on'' a collection, \eg \ct{ReadStream on: (1 to: 1000)}, or send the messages \ct{readStream}, \etc to the collection.
-%  \item To convert a stream to a collection, send the message \ct{contents}.
-%  \item To concatenate large collections, instead of using the comma operator, it is more efficient to create a stream, append the collections to the stream with \ct{nextPutAll:}, and extract the result by sending \ct{contents}.
-%  \item File streams are by default character-based. Send \ct{binary} to explicitly make them binary.
-  \item ストリームは読み込み可能，または書き込み可能，あるいは読み込み・書き込みが同時に可能です。
-  \item コレクションをストリームに変換する場合，コレクション「で」ストリームを定義します。\egコレクションに対して，\ct{ReadStream on: (1 to: 1000)}または，\ct{readStream}メッセージを送る，など。
+  \item ストリームは読み取り可能，または書き込み可能，あるいは読み取り・書き込みが同時に可能です。
+  \item コレクションをストリームに変換する場合，コレクション「で」ストリームを定義します。\eg　\ct{ReadStream on: (1 to: 1000)}または，コレクションに対して\ct{readStream}メッセージを送る，など。
   \item ストリームをコレクションに変換する場合，\ct{contents}メッセージを送ります。
   \item 大きなコレクションを連結する場合はカンマ演算子を使うよりも，ストリームを作成してから\ct{nextPutAll:}メソッドでコレクションをストリームに結合し，\ct{contents}メソッドを送って結果を取り出す方法が有効です。
   \item ファイルストリームは初期設定では文字型です。\ct{binary}メッセージを送ることで明示的にバイナリにすることができます。
