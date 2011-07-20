@@ -561,7 +561,7 @@ Webページ内に配置されるコンポーネントのスタイルシート�
 きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
 
 しかしデプロイ時には、外部ファイルとしてスタイルシートを用意するのが一般的です。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
-( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です。)
+( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です)。
 
 CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
@@ -644,7 +644,7 @@ call:とanuswer:は単純なダイアログ形式のUIを実現するために�
  \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
  \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
  
-(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています。)
+(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています)。
 
 \begin{code}{}
 SeasideEditCallDemo>>>renderContentOn: html 
@@ -676,7 +676,7 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 
 わずかこれだけでページの遷移が実現できます。
 
-Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
+Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります)。
 
 %-----------------------------------------------------------------
 \subsection{便利なメソッド群}
@@ -757,7 +757,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです。)
+次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese
@@ -852,7 +852,7 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています。)
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
 
 %セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
 一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
@@ -923,7 +923,7 @@ MyStackMachineTest>>>testDiv
 これができてしまえば、各メソッドの実装はほぼ一行か二行ですむでしょう。
 
 デバッグを簡単にするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにするのです。
-(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう。)
+(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう)。
 \index{Object!printOn:@\ct{printOn:}}
 
 \dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後に行く)、を\ct{MyStackMachine} に実装して完成させましょう。}
@@ -936,17 +936,16 @@ MyStackMachineTest>>>testDiv
   
   \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッド内でアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用の状態の登録も行います。
   
-  \item \ct{MyKeypad}\,---\,this displays the keys that we use to interact with the calculator.
-  \item \ct{MyDisplay}\,---\,this component displays the top of the stack and provides a button to call another component to display the detailed view.
-  \item \ct{MyDisplayStack}\,---\,this component shows the detailed view of the stack and provides a button to answer back.
-  It is a subclass of \lct{MyDisplay}.
+  
+  \item \ct{MyKeypad}\,---\,計算機のキーを表示します。
+  \item \ct{MyDisplay}\,---\,スタックの先頭の値と、詳細なビューに切り替えるためのボタンを表示します。
+  \item \ct{MyDisplayStack}\,---\,スタックの詳細なビューと、元のビューに戻るためのボタンを表示します。\lct{MyDisplay}のサブクラスです。
+
 \end{itemize}
 
-\dothis{Define \ct{MyRPNWidget} in the category \ct{MyCalculator}.
-Define the common \ct{style} for the application.}
+\dothis{\ct{MyCalculator}クラスカテゴリに\ct{MyRPNWidget}を定義してみましょう。アプリケーションで共通に使う \ct{style} メソッドを書くようにします。}
 
-Here is a minimal CSS for the application.
-You can make it more fancy if you like.
+アプリケーション用にCSSを定義します。もっと凝ってみても良いでしょう。
 \begin{code}{}
 MyRPNWidget>>>style
 	^ 'table.keypad { float: left; }
@@ -968,17 +967,14 @@ td.stackcell {
 td.small { font-size: 8pt; }'
 \end{code}
 
-\dothis{Define \ct{MyCalculator} to be a root component and register itself as an application (\ie implement \ct{canBeRoot} and \ct{initialize} on the class side).
-Implement \ct{MyCalculator>>>renderContentOn:} to render something trivial (such as its name), and verify that the application runs in a browser.
-}
+\dothis{ルートコンポーネント\ct{MyCalculator}を定義して、アプリケーションとして登録しましょう(クラスメソッド \ct{canBeRoot} と \ct{initialize} を実装します)。
+ \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いてみて、Webブラウザで表示されるかを確認してみましょう。}
 
-\ct{MyCalculator} is responsible for instantiating \ct{MyStackMachine}, \ct{MyKeypad} and \ct{MyDisplay}.
+\ct{MyCalculator} は、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
 
 \dothis{
-Define \ct{MyKeypad} and \ct{MyDisplay} as subclasses of \lct{MyRPNWidget}.
-All three components will need access to a common instance of the stack machine, so define the instance variable \ct{stackMachine} and an initialization method \ct{setMyStackMachine:} in the common parent, \ct{MyRPNWidget}.
-Add instance variables \ct{keypad} and \ct{display} to \ct{MyCalculator} and initialize them in \ct{MyCalculator>>>initialize}.
-(Don't forget to send \lct{super initialize}!)}
+\lct{MyRPNWidget}のサブクラスとして \ct{MyKeypad}と \ct{MyDisplay}を定義しましょう。コンポーネントはどれもスタックマシンのインスタンスを使うので、インスタンス変数 \ct{stackMachine} と初期化用のメソッド \ct{setMyStackMachine:} を \ct{MyRPNWidget}に用意します。 \ct{MyCalculator}には
+ \ct{keypad} と \ct{display} のインスタンス変数を定義し、 \ct{MyCalculator>>>initialize}で初期化することにします。(\lct{super initialize}を送るのを忘れないように!)}
 
 \dothis{
 Pass the shared instance of the stack machine to the keypad and the display in the same initialize method.
