@@ -977,37 +977,30 @@ td.small { font-size: 8pt; }'
  \ct{keypad} と \ct{display} のインスタンス変数を定義し、 \ct{MyCalculator>>>initialize}で初期化することにします。(\lct{super initialize}を送るのを忘れないように!)}
 
 \dothis{
-Pass the shared instance of the stack machine to the keypad and the display in the same initialize method.
-Implement \ct{MyCalculator>>>renderContentOn:} to simply render in turn the keypad and the display.
-To correctly display the subcomponents, you must implement \ct{MyCalculator>>>children} to return an array with the keypad and the display.
-Implement placeholder rendering methods for the keypad and the display and verify that the calculator now displays its two subcomponents.
+initializeメソッドでは、さらにstackMachineをkeypadとdisplayに渡すように書いておきます。
+レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。calculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
 }
 
 %\ab{Too long!}
 
-Now we will change the implementation of the display to show the top value of the stack.
+次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにしていきます。
 
-\dothis{
-Use a table with class ``keypad'' containing a row with a single table data cell with class ``stackcell''.
-Change the rendering method of the keypad to ensure that the number 0 is pushed on the stack in case it is empty.
-(Define and use \ct{MyKeypad>>>ensureMyStackMachineNotEmpty}.)
-Also make it display an empty table with class ``keypad''.
-Now the calculator should display a single cell containing the value 0.
-If you toggle the halos, you should see something like this:
+\dothis{ レンダリングでは、``keypad''というCSSクラス名のテーブルを書き、行には``stackcell''というclassのセルを一つだけ入れることにします。また、スタックが空の場合、先頭に0をpushするようにしておきます。(\ct{MyKeypad>>>ensureMyStackMachineNotEmpty}というメソッドを定義して使うことにします)。さらに``keypad''のクラス名で
+セルのデータとしてスタックの値をレンダリングするように書きます。ハロを表示させてみると\figref{firstStackDisplay}のようになるはずです。
 }
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{firstStackDisplay}
-\caption{Displaying the top of the stack}
+\caption{スタックの先頭を表示}
 \figlabel{firstStackDisplay}
 \end{center}
 \end{figure}
 
-Now let's implement an interface to interact with the stack.
+今度はスタックとやりとりするためのUIを書いていくことにしましょう。
 
 \dothis{
-First define the following helper methods, which will make it easier to script the interface:
+まず以下のヘルパーメソッドを定義することにします。UIを簡単にかけるようにするためです。
 }
 
 \needlines{3}
