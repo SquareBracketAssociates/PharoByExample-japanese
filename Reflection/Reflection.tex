@@ -66,16 +66,16 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st{}は、自分を客観視することができる(リフレクティブな)プログラミング言語です。
+\st{}は、リフレクティブな(内省的な)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
-つまりこれは、プログラムが自分自身の実行過程や構造について「考える(リフレクトする)」ことができるという意味です。
+つまりこれは、プログラムが自分自身の実行過程や構造について「リフレクトする(内省する)」ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
-より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
+これは、より技術的には、実行時システムの、\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
 \st{}のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
-このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、リフレクションをサポートしています。
+このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、イントロスペクションをサポートしています。
 
 %@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \begin{figure}[ht]\centering
@@ -93,7 +93,7 @@
 %@For a programming language to be reflective, it should support both \ind{introspection} and \ind{intercession}.
 プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 %@Introspection is the ability to \emph{examine} the data structures that define the language, such as objects, classes, methods and the execution stack.
-イントロスペクションとは、メタオブジェクトのデータ構造を\emph{調べる}ことができる能力のことです。オブジェクト、クラス、メソッド、そして実行時スタックといったメタオブジェクトのデータ構造は、その言語を定義します。
+イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといった、言語を定義するデータ構造について、これを\emph{調べる}ことができる能力のことです。
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
 インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムのふるまいを、プログラム自身の中から変更できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
@@ -102,7 +102,7 @@
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、主に、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは多くの実際的な例つまり、\st{}がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
+ここでは、多くの実際的な例つまり、\st{}がどのようにイントロスペクションとメタプログラミングをサポートしているかを説明する、実際的な例について探ります。
 
 %======================================
 %@\section{Introspection}
