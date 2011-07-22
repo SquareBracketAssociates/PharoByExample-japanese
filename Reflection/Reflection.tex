@@ -77,9 +77,9 @@
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
 このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、イントロスペクションをサポートしています。
 
-%@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
+%@	\caption{Reification and reflection.\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 	\caption{具現化とリフレクション。\figlabel{reflect}} % \lr{not referenced, not sure if I understand it}
 \end{figure}
 
@@ -126,9 +126,9 @@ w inspect
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
 \ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
-%@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
+%@	\caption{Inspecting a \ct!Workspace!.\figlabel{workspaceInspector}}
 	\caption{\ct!Workspace!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
@@ -196,9 +196,9 @@ Object>>>instVarAt: index
 %@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
 いくらプリミティブメソッドのコードが変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
 
-%@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
+%@	\caption{Displaying all instance variables of a \ct!Workspace!.\figlabel{allInstanceVariables}}
 	\caption{\ct!Workspace!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
@@ -453,9 +453,9 @@ SystemNavigation default allUnimplementedCalls size --> 270
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{code}
 
-%@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{implementors}
+%@	\caption{Browse all implementations of \ct!\#ifTrue:!.\figlabel{implementors}}
 	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
@@ -486,9 +486,9 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
 The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
 
-%@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
+%@	\caption{Explorer class \ct!Point! and the bytecode of its \ct!\#*! method.\figlabel{CompiledMethod}}
 	\caption{\ct!Point!クラスと\ct!Point!クラスの\ct!\#*!メソッドをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞?
 \end{figure}
 
@@ -503,9 +503,9 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
 \figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}というインスタンス変数に、アソシエーションとして格納されていることさえわかります。
 
-%@	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
+%@	\caption{Classes, method dictionaries and compiled methods\figlabel{MethodsAsObjects}}
 	\caption{クラス、メソッド辞書、そしてコンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
@@ -590,9 +590,9 @@ SystemNavigation default
 
 %@In \figref{sendDifferentSuper} we can see that 19 such methods have been found within the \ct{Collection} hierarchy, including \ct{Collection>>>printNameOn:}, which sends \ct{super printOn:}.
 \figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
-%@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
+%@	\caption{Finding methods that send a different super message.\figlabel{sendDifferentSuper}}
 	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
@@ -671,9 +671,9 @@ Integer>>>factorial
 %@\dothis{Now evaluate \ct{3 factorial} in a workspace. You should obtain both a debugger window and an explorer, as shown in \figref{exploringThisContext}.}
 \dothis{さあ、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
 
-%@	\caption{Exploring \lct{thisContext}.\figlabel{exploringThisContext}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
+%@	\caption{Exploring \lct{thisContext}.\figlabel{exploringThisContext}}
 	\caption{\lct{thisContext}をエクスプロアしている様子。\figlabel{exploringThisContext}}
 \end{figure}
 
@@ -970,9 +970,9 @@ myDA x --> nil
 %@Let us step through what happens the first time the message \ct{x} is sent to our object (see \figref{DynamicAccessors}).
 \ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう(\figref{DynamicAccessors}参照)。
 
-%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
+%@	\caption{Dynamically creating accessors.\figlabel{DynamicAccessors}}
 	\caption{アクセサーの動的作成。\figlabel{DynamicAccessors}}
 	% \alex{not sure whether the figure is highly necessary. The code is rather simple and the figure complete to follow in my opinion.}}
 	% \on{trust me, it is useful to see all the steps.}
