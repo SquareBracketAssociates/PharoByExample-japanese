@@ -66,14 +66,14 @@
 %@\indexmain{reflection}
 \indexmain{リフレクション}
 %@\st is a reflective programming language.
-\st は、自分を客観視することができる(リフレクティブな)プログラミング言語です。
+\st{}は、自分を客観視することができる(リフレクティブな)プログラミング言語です。
 %@In a nutshell, this means that programs are able to ``reflect'' on their own execution and structure.
 つまりこれは、プログラムが自分自身の実行過程や構造について「考える(リフレクトする)」ことができるという意味です。
 % \lr{not only on execution, also on the static model}
 %@More technically, this means that the \emphind{metaobjects} of the runtime system can be \emph{reified} as ordinary objects, which can be queried and inspected.
 より技術的には、実行時システムの\emphind{メタオブジェクト}を、通常のオブジェクトのように\emph{具現化}することができ、その結果、それらにクエリを送ったり、それらをインスペクトすることができるという意味です。
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
-\st のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
+\st{}のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
 このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、リフレクションをサポートしています。
 
@@ -84,7 +84,7 @@
 \end{figure}
 
 %@Conversely, it is possible in \st to modify reified metaobjects and \emph{reflect} these changes back to the runtime system (see \figref{reflect}).
-逆に\st では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
+逆に\st{}では、具現化されたメタオブジェクトを変更したり、こうした変更を実行時システムに\emph{反映}することができます(\figref{reflect}参照)。
 %@This is also called \emph{intercession}, and is supported mainly by dynamic programming languages, and only to a very limited degree by static languages.
 このタイプのリフレクションは、\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語がこれをサポートしますが、静的な言語では、サポートの範囲は極めて限られます。
 
@@ -102,7 +102,7 @@
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、主に、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは多くの実際的な例つまり、\st がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
+ここでは多くの実際的な例つまり、\st{}がどのようにイントロスペクションとメタプログラミングをサポートしているかを例証する、実際的な例について探ります。
 
 %======================================
 %@\section{Introspection}
@@ -146,13 +146,13 @@ w inspect
 %@How does the inspector work?
 インスペクターはどのように動作しているのでしょうか?
 %@In \st, all instance variables are protected.
-\st では、すべてのインスタンス変数は保護されています。
+\st{}では、すべてのインスタンス変数は保護されています。
 %@In theory, it is impossible to access them from another object if the class doesn't define any accessor.
 理論上は、そのクラスが何らかのアクセサーを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 %@In practice, the inspector can access instance variables without needing accessors, because it uses the reflective abilities of \st.
-実際には、インスペクターは、アクセサーがなくてもインスタンス変数にアクセスすることができます。それは\st のリフレクティブな能力を用いているからです。
+実際には、インスペクターは、アクセサーがなくてもインスタンス変数にアクセスすることができます。それは\st{}のリフレクティブな能力を用いているからです。
 %@In \st, classes define instance variables either by name or by numeric indices.
-\st では、クラスは、インスタンス変数を、名前か添字で定義します。
+\st{}では、クラスは、インスタンス変数を、名前か添字で定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
 インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッドを、用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、\ct!instVarAt:put:!や\ct!instVarNamed:put:!は、インスタンス変数に新しい値を代入するのに用います。%@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
@@ -299,7 +299,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \subsection{コードメトリクス}
 
 %@Let's see how we can use \st's introspection features to quickly extract some code metrics.
-\st のイントロスペクション機能を使えば、いくつかのコードメトリクスが、手早く抽出できます。どのように使うのか、見てみましょう。
+\st{}のイントロスペクション機能を使えば、いくつかのコードメトリクスが、手早く抽出できます。どのように使うのか、見てみましょう。
 %@Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
 コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、局所的に定義されたメソッドやインスタンス変数の数。
 %@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
@@ -344,7 +344,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \section{コードをブラウズする}
 
 %@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
-\st では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
+\st{}では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
 %@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
 これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、すべてのクラスが(\ct{Class}は、\ct{Behavior}を継承しています)、これらのメッセージを理解することができます。
 
@@ -632,7 +632,7 @@ SystemNavigation default
 \section{実行時コンテクストにアクセスする}
 
 %@We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
-これまで、\st のリフレクティブな機能をどのように用いて、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるか見てきました。しかし、実行時環境についてはどうでしょう?
+これまで、\st{}のリフレクティブな機能をどのように用いて、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるか見てきました。しかし、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
 %@\subsection{Method contexts}
@@ -707,7 +707,7 @@ Object>>>subclassResponsibility
 \end{code}
 
 %@By convention, methods in \st that send \ct{self subclassResponsibility} are considered to be abstract.  But how does \clsmthind{Object}{subclassResponsibility} provide a useful error message indicating which abstract method has been invoked?  Very simply, by asking \ct{thisContext} for the sender.
-慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。 \ct{thisContext}にセンダーを尋ねるのです。
+慣習により、\st{}のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。 \ct{thisContext}にセンダーを尋ねるのです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
@@ -720,7 +720,7 @@ we should have a Reflection applied chapter}
 
 \mthindex{Object}{halt}
 %@The \st way to set a breakpoint is to evaluate \ct{self halt} at an interesting point in a method.  This will cause \ct{thisContext} to be reified, and a \ind{debugger} window will open at the breakpoint.
-ブレークポイントをかけるための\st のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開くことになります。
+ブレークポイントをかけるための\st{}のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開くことになります。
 %@Unfortunately this poses problems for methods that are intensively used in the system.
 不幸なことに、これを、システムの中核的なメソッドに対して行うと、数々の問題を引き起こすことになります。
 
@@ -793,7 +793,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 \seclabel{msgnotunderstood}
 
 %@So far we have used the reflective features of \st mainly to query and explore objects, classes, methods and the run-time stack. Now we will look at how to use our knowledge of the \st system structure to intercept messages and modify behaviour at run-time.
-これまでのところ、\st のリフレクティブな機能は、主に、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振る舞いを実行時に変えることができるか、詳しく見ていきます。
+これまでのところ、\st{}のリフレクティブな機能は、主に、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、今までの\st{}システムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振る舞いを実行時に変えることができるか、詳しく見ていきます。
 
 %@When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
 オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、つまり、このメッセージに応答するメソッドを探します。
@@ -998,7 +998,7 @@ myDA x --> nil
 \seclabel{wrapper}
 
 %@We have already seen that compiled methods are ordinary objects in \st, and they support a number of methods that allow the programmer to query the run-time system.
-すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
+すでに見てきたように、コンパイル済みメソッドも、\st{}においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは実行時システムにクエリを送ることができます。
 %@What is perhaps a bit more surprising, is that \emph{any object} can play the role of a compiled method. All it has to do is respond to the method \ct{run:with:in:} and a few other important messages.
 少し意外なことかもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
@@ -1006,7 +1006,7 @@ myDA x --> nil
 \dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されるかどうかを確認しましょう。}
 
 %@Now we will install a plain \st object in the method dictionary of our \ct{Demo} class.
-さあここで、普通の\st オブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録することにしましょう。
+さあここで、普通の\st{}オブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録することにしましょう。
 
 %@\dothis{Evaluate \lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
@@ -1027,7 +1027,7 @@ run: oldSelector with: arguments in: aReceiver
 \end{code}
 
 %@When our \ct{Demo} instance receives the message \ct{answer42}, method lookup proceeds as usual, however the virtual machine will detect that in place of a compiled method, an ordinary \st object is trying to play this role.
-この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
+この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st{}のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
 %@The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
 VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
 %@Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
@@ -1236,9 +1236,9 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 %@\item \ct{SystemNavigation} is a utility class holding many useful queries for navigation and browsing the class hierarchy. For example, use \ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.} to find and browse all methods with a given source string. (Slow, but thorough!)
 \item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、任意の文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な方法です!) %@? )!
 %@\item Every \st class points to an instance of \ct{MethodDictionary} which maps selectors to instances of \ct{CompiledMethod}. A compiled method knows its class, closing the loop.
-\item どの \st クラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いのことを知っていることになります。
+\item どの \st{}クラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いのことを知っていることになります。
 %@\item \ct{MethodReference} is a leightweight proxy for a compiled method, providing additional convenience methods, and used by many \st tools. 
-\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡便メソッドを提供しするもので、多くの\st ツールが、この\ct{MethodReference}を使っています。
+\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡便メソッドを提供しするもので、多くの\st{}ツールが、この\ct{MethodReference}を使っています。
 %@\item \ct{BrowserEnvironment}, part of the Refactoring Browser infrastructure, offers a more refined interface than \ct{SystemNavigation} for querying the system, since the result of a query can be used as a the scope of a new query. Both GUI and programmatic interfaces are available.
 \item \ct{BrowserEnvironment}、これはリファクタリングブラウザのインフラの一部ですが、\ct{BrowserEnvironment}によって、\ct{SystemNavigation}より洗練されたインターフェースを通して、システムにクエリを送ることができます。これは、クエリの結果が、次の新しいクエリのスコープとして使えるからです。\ct{BrowserEnvironment}では、GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。%@?scope: カタカナのままにした。
 %@\item \ct{thisContext} is a pseudo-variable that reifies the run-time stack of the virtual machine. It is mainly used by the debugger to dynamically construct an interactive view of the stack. It is also especially useful for dynamically determining the sender of a message.
