@@ -1025,12 +1025,11 @@ MyKeypad>>>renderStackButton: text callback: aBlock on: html
 		on: html
 \end{code}
 
-We will use these two methods to define the buttons on the keypad with appropriate callbacks.
-Certain buttons may span multiple columns, but the default is to occupy just one column.
+これらのメソッドをキーパッドのボタンを表示し、コールバックを定義するために使います。いくつかのボタンは複数のカラムを使いますが、基本は非筒のカラムを使うことにします。
 
 \dothis{
-Use the two helper methods to script the keypad as follows:
-(Hint: start by getting the digit and ``Enter'' keys working, then the arithmetic operators.)
+以下のように二つのヘルパーメソッドを使いキーパッドのレンダリングを書いてみましょう。
+(ヒント: 数値キーと ``Enter'' キーから初めて、計算用のキーは後からつけると楽です)。
 }
 
 \needlines{4}
@@ -1052,7 +1051,7 @@ MyKeypad>>>renderContentOn: html
           self renderStackButton: '3' callback: [self type: '3'] on: html.
           self renderStackButton: 'Drop' callback: [self stackOp: #pop]
           	colSpan: 2 on: html ].
-" and so on ... "
+"などなど"
         html tableRow: [
           self renderStackButton: '0' callback: [self type: '0'] colSpan: 2 on: html.
           self renderStackButton: 'C' callback: [self stackClearTop] on: html.
@@ -1061,20 +1060,19 @@ MyKeypad>>>renderContentOn: html
 			colSpan: 2 on: html ]]
 \end{code}
 
-Check that the keypad displays properly.
-If you try to click on the keys, however, you will find that the calculator does not work yet\ldots{}
+キーパッドがブラウザでちぇんと表示されるか確認しましょう。まだクリックしてみても計算機としては動作しません。
 
 \dothis{
-Implement \ct{MyKeypad>>>type:} to update the top of the stack by appending the typed digit.
-You will need to convert the top value to a string, update it, and convert it back to an integer, something like this:
+ \ct{MyKeypad>>>type:} を実装して、タイプした数字がスタックの先頭に反映されるようにしましょう。
+入力された値は文字列得られるので、一度スタックの値を文字列にしてつなげて、整数にしてスタックに戻す必要があります。具体的には以下のようなコードになります。
 }
+
 \begin{code}{}
 MyKeypad>>>type: aString
 	stackMachine push: (stackMachine pop asString, aString) asNumber.
 \end{code}
-Now when you click on the digit keys the display should be updated.
-(Be sure that \ct{MyStackMachine>>>pop} returns the value popped, or this will not work!)
-
+これで数値キーを打つと、表示が更新されるようになりました。
+(\ct{MyStackMachine>>>pop} でポップした値を返すようにきちんと実装していないと、動作しません!)
 
 \dothis{Now we must implement \ct{MyKeypad>>>stackOp:}
 Something like this will do the trick:}
