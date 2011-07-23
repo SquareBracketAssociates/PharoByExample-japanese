@@ -301,18 +301,10 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 %@Let's see how we can use \st's introspection features to quickly extract some code metrics.
 \st{}のイントロスペクション機能を使えば、いくつかのコードメトリクスが、手早く抽出できます。どのように使うのか、見てみましょう。
 %@Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
-コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、局所的に定義されたメソッドやインスタンス変数の数。
+コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、そのクラスで新規に定義されたメソッドやインスタンス変数の数。
 %@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
 以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo{}においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
-%@Morph allSuperclasses size.  -->       2 "inheritance depth"
-%@Morph allSelectors size.        --> 1378 "number of methods"
-%@Morph allInstVarNames size. -->      6 "number of instance variables"
-%@Morph selectors size.             -->  998 "number of new methods"
-%@Morph instVarNames size.     -->      6 "number of new variables"
-%@Morph subclasses size.          -->    45 "direct subclasses"
-%@Morph allSubclasses size.      -->  326 "total subclasses"
-%@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
 \mthindex{Behavior}{allInstVarNames}
@@ -321,6 +313,14 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 \mthindex{Behavior}{subclasses}
 \mthindex{Behavior}{allSubclasses}
 \mthindex{ClassDescription}{linesOfCode}
+%@Morph allSuperclasses size.  -->       2 "inheritance depth"
+%@Morph allSelectors size.        --> 1378 "number of methods"
+%@Morph allInstVarNames size. -->      6 "number of instance variables"
+%@Morph selectors size.             -->  998 "number of new methods"
+%@Morph instVarNames size.     -->      6 "number of new variables"
+%@Morph subclasses size.          -->    45 "direct subclasses"
+%@Morph allSubclasses size.      -->  326 "total subclasses"
+%@Morph linesOfCode.               --> 5968 "total lines of codeBANG"
 \begin{code}{}
 Morph allSuperclasses size.  -->       2 "インヘリタンスの深さ"
 Morph allSelectors size.        --> 1378 "メソッドの数"
@@ -333,7 +333,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
 %@One of the most interesting metrics in the domain of object-oriented languages is the number of methods that extend methods inherited from the superclass.
-オブジェクト指向言語のドメインにおいて、最も興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
+オブジェクト指向言語のドメインにおいて、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということは、最も興味深いメトリクスのひとつになります。
 %@This informs us about the relation between the class and its superclasses.
 このことにより、クラスとそのスーパークラスの関係を知ることができます。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
@@ -344,7 +344,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 \section{コードをブラウズする}
 
 %@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
-\st{}では、すべてがオブジェクトです。とくにクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
+\st{}では、すべてがオブジェクトです。特にクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?navigating through their instances: クラスのインスタンスの世界をナビゲートするための?
 %@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
 これから詳しく見るメッセージの多くは、\ct{Behavior}で実装されているので、すべてのクラスが(\ct{Class}は、\ct{Behavior}を継承しています)、これらのメッセージを理解することができます。
 
@@ -369,10 +369,10 @@ String allSubInstances size -->  101675
 \end{code}
 
 %@These features can be very useful when debugging an application, because you can ask a class to enumerate those of its methods exhibiting specific properties.
-以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッドを列挙するよう依頼することができるからです。%@?exhibitingは何にかかる?
+以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッド --- を列挙するよう依頼することができるからです。
 \begin{itemize}
 %@\item \mthind{Behavior}{whichSelectorsAccess:} returns the list of all selectors of methods that read or write the instance variable named by the argument
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数(変数名)が示すインスタンス変数を読むか書くかするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
 %@\item \mthind{Behavior}{whichSelectorsStoreInto:} returns the selectors of methods that modify the value of an instance variable
 \item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターを返す
 %@\item \mthind{Behavior}{whichSelectorsReferTo:} returns the selectors of methods that send a given message
@@ -392,7 +392,7 @@ Point crossReference --> an Array(
 \end{code}
 
 %@The following messages take inheritance into account:
-以下のメッセージは、継承に着眼します: %@?take inheritance into account: 継承に着眼?
+以下のメッセージは、継承を考慮に入れます:
 \begin{itemize}
 %@\item \mthind{Behavior}{whichClassIncludesSelector:} returns the superclass that implements the given message
 \item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す
@@ -430,24 +430,24 @@ SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
 %@Note that messages implemented but not sent are not necessarily useless, since they may be sent implicitly (\eg using \ct{perform:}).
-ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも用なし、ということではありません。なぜなら、それらは間接的に送られることもありうるからです(\eg \ct{perform:}を使って)。
+ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも不要、ということではありません。なぜなら、それらは間接的に送られることもありうるからです(\eg \ct{perform:}を使って)。
 %@Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
 送られるのに実装されていないメッセージは、しかしながら、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗することになるからです。
 %@They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
-これらは、未完了の実装、廃止されたAPI、あるいは欠落したライブラリの兆候でしょう。
+これらは、未完了の実装、廃止されたAPI、あるいは欠落したライブラリのきざしでしょう。
 
 \mthindex{SystemNavigation}{allCallsOn:}
 %@\ct!SystemNavigation default allCallsOn: #Point! returns all messages sent explicitly to \ct!Point! as a receiver.
 \ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるすべてのメッセージを返します。
 
 %@All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
-これらすべての機能は、\pharo{}のプログラミング環境、とくにコードブラウザー、に統合されています。
+これらすべての機能は、\pharo{}のプログラミング環境、特にコードブラウザー、に統合されています。
 %@As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
 きっとすでにお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための(\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための(\short{n})。
 %@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
 おそらく次のことは、それほどよく知られていないでしょう。このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されています。%@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
 %@For example, you can programmatically browse all implementors of the message \ct{ifTrue:} by evaluating:
-例えば、プログラム的に、\ct{ifTrue:}メッセージを実装しているすべてのクラスをブラウズすることは、以下を評価すれば可能です:
+例えば、以下を評価すれば、プログラム的に、\ct{ifTrue:}メッセージを実装しているすべてのクラスをブラウズすることができます:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
@@ -460,7 +460,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
-とりわけ便利なのは、\ct{browseAllSelect:}メソッドと、\lct{browseMethodsWithSourceString:}メソッドです。以下に述べるのは、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法です(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、もっと良い方法で、偽陽性の結果をいくつか除外することができます): %@?false positives: 偽陽性の結果?
+特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、偽陽性の結果をいくつか除外することができる点でより優れています): %@?false positives: 偽陽性の結果?
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
