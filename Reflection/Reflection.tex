@@ -120,11 +120,11 @@ w inspect
 \end{code}
 
 %@This will open a second workspace and an inspector.
-こうすることによって、もうひとつのワークスペースと、インスペクターが開きます。
+こうすることによって、もうひとつのワークスペースと、1個のインスペクターが開きます。
 %@The inspector shows the internal state of this new workspace, listing its instance variables in the left part (\ct!dependents!, \ct!contents!, \ct!bindings!...) and the value of the selected instance variable in the right part.
-このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ、(\ct!dependents!, \ct!contents!, \ct!bindings!...)そして右側には、選択されたインスタンス変数の値が表示されます。
+このインスペクターは、新しく開いたワークスペースの内部状態を示しており、左側にはインスタンス変数がリストされ(\ct!dependents!, \ct!contents!, \ct!bindings!...)、そして右側には、選択されたインスタンス変数の値が表示されます。
 %@The \ct!contents! instance variable represents whatever the workspace is displaying in its text area, so if you select it, the right part will show an empty string.
-\ct!contents!インスタンス変数はワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
+\ct!contents!インスタンス変数は、ワークスペースがそのテキスト領域に表示しているものを、それが何であれ、表わしているので、\ct!contents!を選択すれば、右側には、空文字列が表示されることになります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
@@ -167,11 +167,11 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
 %@\important{\emph{Caveat:} Although these methods are useful for building development tools, using them to develop conventional applications is a bad idea: these reflective methods break the encapsulation boundary of your objects and can therefore make your code much harder to understand and maintain.}
-\important{\emph{警告:} いくらこれらのメソッドが、開発ツールを構築するのに便利だと言っても、通常のアプリケーションを開発するのにこれらのメソッドを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードは、よりわかりづらく、保守しづらいものになりかねません。}
+\important{\emph{警告:} これらのメソッドは、開発ツールを構築するのに便利ですが、通常のアプリケーションを開発するのにこれらを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードは、よりわかりづらく、保守しづらいものになりかねません。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
-\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。そのことは、\ct!instVarAt:!や\ct!instVarAt:put:!が、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
+\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。そのことは、\ct!instVarAt:!や\ct!instVarAt:put:!が、\pharo{}仮想マシンのプリミティブな操作によって実装されていることを意味します。
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
 これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
@@ -181,7 +181,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \needlines{5}
 \begin{code}{}
 Object>>>instVarAt: index 
-	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。..."
+	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。 ..."
 	!\textbf{<primitive: 73>}!
 	"固定長配列の範囲を超えた変数にアクセスする。"
 	^self basicAt: index - self class instSize		
@@ -190,11 +190,11 @@ Object>>>instVarAt: index
 %@Typically, the code after the primitive invocation is not executed.
 通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
 %@It is executed only if the primitive fails. In this specific case, if we try to access a variable that does not exist, then the code following the primitive will be tried.
-プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試行されます。
+プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試されます。
 %@This also allows the debugger to be started on primitive methods.
-これにより、プリミティブメソッドからデバッガを開始することも可能になります。
+こうすれば、プリミティブメソッドからデバッガを開始することも可能になります。
 %@Although it is possible to modify the code of primitive methods, beware that this can be risky business for the stability of your \pharo system.
-いくらプリミティブメソッドのコードが変更できると言っても、そのような仕事は、\pharo システムの安定性を脅かしかねない危険な仕事であることに注意してください。%@?business: 「仕事」以外のいい訳はないか?
+プリミティブメソッドのコードは変更できますが、そのような変更には、\pharo{}システムの安定性を脅かしかねない危険がつきまとうことに、注意してください。%@?business: 訳さなかった。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
@@ -253,7 +253,7 @@ Object>>>instanceVariableValues
 \subsection{クラスやインターフェースへのクエリ}
 
 %@The development tools in \pharo (code browser, debugger, inspector...) all use the reflective features we have seen so far.
-\pharo の開発ツール (コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブな機能を使っています。
+\pharo{}の開発ツール (コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブな機能を使っています。
 
 %@Here are a few other messages that might be useful to build development tools:
 この他にももう少し、おそらく開発ツールを構築するのに便利なメッセージがあります:
@@ -303,7 +303,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化するこ
 %@Code \ind{metrics} measure such aspects as the depth of the inheritance hierarchy, the number of direct or indirect subclasses, the number of methods or of instance variables in each class, or the number of locally defined methods or instance variables.
 コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、局所的に定義されたメソッドやインスタンス変数の数。
 %@Here are a few metrics for the class \ct!Morph!, which is the superclass of all graphical objects in \pharo, revealing that it is a huge class, and that it is at the root of a huge hierarchy. Maybe it needs some refactoring! 
-以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
+以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo{}においては、すべてのグラフィカルなオブジェクトのスーパークラスです。このメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
 %@Morph allSuperclasses size.  -->       2 "inheritance depth"
 %@Morph allSelectors size.        --> 1378 "number of methods"
@@ -441,7 +441,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 \ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるすべてのメッセージを返します。
 
 %@All these features are integrated in the programming environment of \pharo, in particular in the code browsers.
-これらすべての機能は、\pharo のプログラミング環境、とくにコードブラウザー、に統合されています。
+これらすべての機能は、\pharo{}のプログラミング環境、とくにコードブラウザー、に統合されています。
 %@As you are surely already aware, there are convenient keyboard shortcuts for browsing all i\underline{m}plementors (\short{m}) and se\underline{n}ders (\short{n}) of a given message.
 きっとすでにお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための(\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための(\short{n})。
 %@What is perhaps not so well known is that there are many such pre-packaged queries implemented as methods of the \ct{SystemNavigation} class in the \prot{browsing} protocol.
@@ -510,7 +510,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 \end{figure}
 
 %@We can exploit the relationships between classes and methods to pose queries about the system.
-クラスとメソッドの関係をフルに使って、\pharo のシステムについてのクエリを送ることができます。
+クラスとメソッドの関係をフルに使って、システムについてのクエリを送ることができます。
 %@For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
 例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで見出すことができます:
 \mthindex{Behavior}{methodDict}
@@ -565,7 +565,7 @@ SystemNavigation default
 \section{ブラウジング環境}
 
 %@Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
-\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
+\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo{}には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
 \lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出したかったとしましょう。
