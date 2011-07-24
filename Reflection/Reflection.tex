@@ -460,7 +460,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 \end{figure}
 
 %@Particularly useful are the methods \ct{browseAllSelect:} and \lct{browseMethodsWithSourceString:}.  Here are two different ways to browse all methods in the system that perform super sends (the first way is rather brute force; the second way is better and eliminates some false positives):
-特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、super-送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、偽陽性の結果をいくつか除外することができる点でより優れています): %@?false positives: 偽陽性の結果?
+特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super{}送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、偽陽性の結果をいくつか除外することができる点でより優れています): %@?false positives: 偽陽性の結果?
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -512,7 +512,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@We can exploit the relationships between classes and methods to pose queries about the system.
 クラスとメソッドの関係をフルに使って、システムについてのクエリを送ることができます。
 %@For example, to discover which methods are newly introduced in a given class, \ie do not override superclass methods, we can navigate from the class to the \ind{method dictionary} as follows:
-例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで見出すことができます:
+例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie{}どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすることで見出すことができます:
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -523,7 +523,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@A compiled method does not simply store the bytecode of a method.
 コンパイル済みメソッドは、単に、メソッドのバイトコードを格納しているだけではありません。
 %@It is also an object that provides numerous useful methods for querying the system.
-コンパイル済みメソッド自身がオブジェクトであって、このオブジェクトは、システムにクエリを送るための、多数の便利なメソッドを提供します。
+コンパイル済みメソッド自身が、システムにクエリを送るための多数の便利なメソッドを提供するオブジェクトなのです。
 %@One such method is \ct{isAbstract} (which tells if the method sends \ct{subclassResponsibility}).
 そのようなメソッドのひとつに、\ct{isAbstract}があります(\ct{isAbstract}メソッドは、コンパイル済みメソッドが、\ct{subclassResponsibility}を送るかどうか、教えてくれます)。
 %@We can use it to identify all the abstract methods of an abstract class
@@ -540,7 +540,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 % As a slightly more complex example, we can browse 
 
 %@To browse the super-sends within a given hierarchy, for example within the Collections hierarchy, we can pose a more sophisticated query:
-与えられた階層内のsuper-送信をブラウズするには、例えば、Collectionの階層内のsuper-送信をブラウズするには、より洗練されたクエリを送ることができます:
+与えられた階層内の\super{}送信をブラウズするには、例えば、Collectionの階層内の\super{}送信をブラウズするには、より洗練されたクエリを送ることができます:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -551,7 +551,7 @@ SystemNavigation default
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
 %@Note how we navigate from classes to method dictionaries to compiled methods to identify the methods we are interested in.
-関心のあるメソッド(super-送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。
+関心のあるメソッド(\super{}送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、どのようにナビゲートしているかに注意してください。
 %@A \ct{MethodReference} is a lightweight proxy for a compiled method that is used by many tools.
 \ct{MethodReference}は、コンパイル済みメソッドのための軽量のプロキシーで、たくさんのツールがこのプロキシーを使っています。
 %@There is a convenience method \clsmthind{CompiledMethod}{methodReference} to return the method reference for a compiled method.
@@ -568,9 +568,9 @@ SystemNavigation default
 \clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo{}には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送ることができます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
-\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているか、それを見出したかったとしましょう。
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super{}に送っているか、それを見出したかったとしましょう。
 %@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
-このように、何かをオーバーライドしているわけではないメソッドが、\super-送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super-送信は、通常は、\self-送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self　にメッセージを送れば済みます!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super{}送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super{}送信は、通常は、\self{}送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドしようとするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self　にメッセージを送れば済みます!)
 
 %@The refactoring browser provides us with an elegant way to restrict our query to just the classes and methods we are interested in.
 リファクタリングブラウザーというツールは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
@@ -582,7 +582,7 @@ SystemNavigation default
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
 %@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
-この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、super-送信を行っているすべてのメソッドが列挙されます。
+この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、\super{}送信を行っているすべてのメソッドが列挙されます。
 %@Now \click on any method and select \menu{refactor>code critics}.
 さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
@@ -912,7 +912,7 @@ point class --> LoggingProxy
 }% NB: Notes by Lukas Renggli
 
 %@Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
-このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self-送信は、インターセプトできません:
+このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self{}送信は、インターセプトできません:
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -922,7 +922,7 @@ point invocationCount --> 1
 \end{code}
 
 %@Our proxy has been cheated out of two \self-sends in the \ct{rect:} method:
-\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信を、数え損なっています: %@?has been cheated out of
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self{}送信を、数え損なっています: %@?has been cheated out of
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
@@ -1254,7 +1254,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 %@\item Another typical use for overriding \ct{doesNotUnderstand:} is to lazily load or compile missing methods.
 \item \ct{doesNotUnderstand:}をオーバーライドする、典型的な例としては、欠けているメソッドの遅延ロードまたは遅延コンパイルです。
 %@\item \ct{doesNotUnderstand:} cannot trap \self-sends.
-\item \ct{doesNotUnderstand:}は、\self-送信を捕捉することはできません。
+\item \ct{doesNotUnderstand:}は、\self{}送信を捕捉することはできません。
 %@\item A more rigorous way to intercept messages is to use an object as a method wrapper. Such an object is installed in a method dictionary in place of a compiled method. It should implement \ct{run:with:in:} which is sent by the VM when it detects an ordinary object instead of a compiled method in the method dictionary. This technique is used by the SUnit Test Runner to collect coverage data.
 \item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトすることができます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。ラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、VMが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを収集するのに使われています。%@?意訳しすぎか?
 \end{itemize}
