@@ -501,27 +501,35 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 % \footnote{However the \emph{Null Object} design pattern can obviate the need for even these methods. See, Bobby Woolf, ``Null Object,'' Pattern Languages of Program Design 3, Robert Martin, Dirk Riehle and Frank Buschmann (Eds.), pp. 5-18, Addison Wesley, 1998.}.
 
 %-----------------------------------------------------------------
-\subsection{Initialize release}
+%\subsection{Initialize release}
+\subsection{初期化リリース}
 
-A final key method that occurs not in \ct{Object} but in \ct{ProtoObject} is \mthind{ProtoObject}{initialize}.
+%A final key method that occurs not in \ct{Object} but in \ct{ProtoObject} is \mthind{ProtoObject}{initialize}.
+\ct{Object}ではなく\ct{ProtoObject}で見られる最後のキーメソッドは\mthind{ProtoObject}{initialize}です。
 
 \begin{method}{\lct{initialize} as an empty hook method}
 ProtoObject>>>initialize
-   "Subclasses should redefine this method to perform initializations on instance creation"
+%   "Subclasses should redefine this method to perform initializations on instance creation"
+   "サブクラスはこのメソッドを再定義してインスタンス作成時に初期化を実行しなければいけません"
 \end{method}
 
-The reason this is important is that in \pharo, the default \mthind{Behavior}{new} method defined for every class in the system will send \ct{initialize} to newly created instances.
+%The reason this is important is that in \pharo, the default \mthind{Behavior}{new} method defined for every class in the system will send \ct{initialize} to newly created instances.
+これが重要な理由は、\pharoでは、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
 
 \begin{method}{\lct{new} as a class-side template method}
 Behavior>>>new
-    "Answer a new initialized instance of the receiver (which is a class) with no indexable
-    variables. Fail if the class is indexable."
+%    "Answer a new initialized instance of the receiver (which is a class) with no indexable
+%    variables. Fail if the class is indexable."
+    "indexableではないレシーバー（クラス）の初期化された新しいインスタンスを返します。
+    クラスがindexableだった場合は失敗します"
     ^ self basicNew initialize
 \end{method}
 \cmindex{Behavior}{new}
 
-This means that simply by overriding the \ct{initialize} \ind{hook method}, new instances of your class will automatically be initialized. The \ct{initialize} method should normally perform a \ct{super initialize} to establish the class \subind{class}{invariant} for any inherited instance variables.
-(Note that this is \emph{not} the standard behaviour of other Smalltalks.)
+%This means that simply by overriding the \ct{initialize} \ind{hook method}, new instances of your class will automatically be initialized. The \ct{initialize} method should normally perform a \ct{super initialize} to establish the class \subind{class}{invariant} for any inherited instance variables.
+これは、単にct{initialize} \ind{フックメソッド}を上書きすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。\ct{initialize}メソッドは通常、継承された全てのインスタンス変数についてクラスの\subind{class}{invariant}を確立するために\ct{super initialize}を実行する必要があります。
+%(Note that this is \emph{not} the standard behaviour of other Smalltalks.)
+(これは他のSmalltalkでは標準の振舞い\emph{ではない}ことに注意して下さい。）
 
 %=================================================================
 \section{Numbers}
