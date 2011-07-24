@@ -1074,28 +1074,25 @@ MyKeypad>>>type: aString
 これで数値キーを打つと、表示が更新されるようになりました。
 (\ct{MyStackMachine>>>pop} でポップした値を返すようにきちんと実装していないと、動作しません!)
 
-\dothis{Now we must implement \ct{MyKeypad>>>stackOp:}
-Something like this will do the trick:}
+\dothis{次に\ct{MyKeypad>>>stackOp:}を書くことにしましょう。以下のようにすれば良いでしょう。}
 
 \begin{code}{}
 MyKeypad>>>stackOp: op
 	[ stackMachine perform: op ] on: AssertionFailure do: [ ].
 \end{code}
 
-The point is that we are not sure that all operations will succeed, for example, addition will fail if we do not have two numbers on the stack.
-For the moment we can just ignore such errors.
-If we are feeling more ambitious later on, we can provide some user feedback in the error handler block.
+ここでのポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたいなら、エラーハンドリングのブロックに、ユーザに注意を促すように後で書いていくことができます。
 
-\dothis{The first version of the calculator should be working now.
-Try to enter some numbers by pressing the digit keys, hitting \menu{Enter} to push a copy of the current value, and entering \menu{+} to sum the top two values.}
+\dothis{逆ポーランド記法の計算機はこれで一応動くものになりました。
+数値キーをいくつか打ってみて、\menu{Enter}キーで値をプッシュしてみましょう。  \menu{+}を押して2つの値が足されることを確認してください。}
 
-You will notice that typing digits does not behave the way you might expect.
-Actually the calculator should be aware of whether you are typing a \emph{new} number, or appending to an existing number.
+数値の入力が予想した動きと違うのではないでしょうか。実際のところ、\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないといけません。
 
-\dothis{Adapt \ct{MyKeypad>>>type:} to behave differently depending on the current typing mode.
-Introduce an instance variable \ct{mode} which takes on one of the three values \lct{\#typing} (when you are typing), \lct{\#push} (after you have performed a calculator operation and typing should force the top value to be pushed), or \lct{\#clear} (after you have performed \menu{Enter} and the top value should be cleared before typing).
-The new \ct{type:} method might look like this:
+\dothis{ \ct{MyKeypad>>>type:}を修正してモードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアするようにします。
+ \ct{type:}メソッドの新たな実装は以下のようになります。
 }
+
+%モードを設定するコードを載せていないのですごくわかりにくい
 
 \begin{code}{}
 MyKeypad>>>type: aString
@@ -1108,12 +1105,11 @@ MyKeypad>>>type: aString
 \mb{better with "stackMachine dup" instead of "stackMachine push:
   stackMachine top}"
 
-Typing might work better now, but it is still frustrating not to be able to see what is on the stack.
+前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点が、まだ不満です。
 
 \dothis{
-Define \ct{MyDisplayStack} as a subclass of \ct{MyDisplay}.
-Add a button to the rendering method of \ct{MyDisplay} which will call a new instance of \ct{MyDisplayStack}.
-You will need an html anchor that looks something like this:
+\ct{MyDisplay}のサブクラスとして \ct{MyDisplayStack} を定義しましょう。
+\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使い、以下のようになるでしょう。
 }
 
 \begin{code}{}
@@ -1124,9 +1120,7 @@ html anchor
 \mb{if the user got a stackmachine ivar, I'm sure he will define
   setStackMachine and not setMyStackMachine}
 
-
-The callback will cause the current instance of \ct{MyDisplay} to be temporarily replaced by a new instance of \ct{MyDisplayStack} whose job it is to display the complete stack.
-When this component signals that it is done (\ie by sending \ct{self answer}), then control will return to the original instance of \ct{MyDisplay}.
+コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントの表示へと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了を告げる閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
 
 \dothis{
 Define the rendering method of \ct{MyDisplayStack} to display all of the values on the stack.
