@@ -548,17 +548,21 @@ Behavior>>>new
 %-----------------------------------------------------------------
 \subsection{Magnitude}
 
-\clsindmain{Magnitude} is the parent not only of the \clsind{Number} classes, but also of other classes supporting comparison operations, such as \clsind{Character}, \clsind{Duration} and \clsind{Timespan}.  (\clsind{Complex} numbers are not comparable, and so do not inherit from \clsind{Number}.)
+%\clsindmain{Magnitude} is the parent not only of the \clsind{Number} classes, but also of other classes supporting comparison operations, such as \clsind{Character}, \clsind{Duration} and \clsind{Timespan}.  (\clsind{Complex} numbers are not comparable, and so do not inherit from \clsind{Number}.)
+\clsindmain{Magnitude}は\clsind{Number}クラス群の親であるだけでなく、その他のクラス、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などの比較演算をサポートするクラスでもあります。（\clsind{Complex}数は比較できません。従って\clsind{Number}を継承してもいません）
 
-Methods \mthind{Magnitude}{<} and \mthind{Magnitude}{=} are abstract. The remaining operators are generically defined. For example:
+%Methods \mthind{Magnitude}{<} and \mthind{Magnitude}{=} are abstract. The remaining operators are generically defined. For example:
+\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子は一般的な定義が与えられています。例えば:
 
 \begin{method}{Abstract comparison methods}
 Magnitude>>> < aMagnitude 
-    "Answer whether the receiver is less than the argument."
+%    "Answer whether the receiver is less than the argument."
+    "レシーバーが引数よりも小さいかどうかを返す"
     ^self subclassResponsibility
 
 Magnitude>>> > aMagnitude 
-    "Answer whether the receiver is greater than the argument."
+%    "Answer whether the receiver is greater than the argument."
+    "レシーバーが引数よりも大きいかどうかを返す"
     ^aMagnitude < self
 \end{method}
 \cmindex{Magnitude}{>}
@@ -823,12 +827,14 @@ In the second and third examples, only the first is evaluated, since \mthind{Boo
 Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
 
 %=================================================================
-\section{Chapter summary}
+%\section{Chapter summary}
+\section{本章のまとめ}
 
 \begin{itemize}
 %  \item Send \ct{yourself} to get back the receiver at the end of a cascade.
 
-  \item If you override \ct{=} then you should override \ct{hash} as well.
+%  \item If you override \ct{=} then you should override \ct{hash} as well.
+  \item もし\ct{=}を上書きした場合は、合わせて\ct{hash}も上書き剃る必要があります。
 
   \item Override \ct{postCopy} to correctly implement copying for your objects.
 
