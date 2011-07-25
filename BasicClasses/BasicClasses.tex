@@ -626,9 +626,11 @@ Magnitude>>> > aMagnitude
 %-----------------------------------------------------------------
 \subsection{Float}
 
-\clsindmain{Float} implements the abstract \ct{Number} methods for floating point numbers.
+%\clsindmain{Float} implements the abstract \ct{Number} methods for floating point numbers.
+\clsindmain{Float}は浮動小数点数用の\ct{Number}の抽象メソッドを実装しています。
 
-More interestingly, \ct{Float class} (\ie the class-side of \ct{Float}) provides methods to return the following \emph{constants}: \mthind{Float class}{e}, \mthind{Float class}{infinity}, \mthind{Float class}{nan} and \mthind{Float class}{pi}.
+%More interestingly, \ct{Float class} (\ie the class-side of \ct{Float}) provides methods to return the following \emph{constants}: \mthind{Float class}{e}, \mthind{Float class}{infinity}, \mthind{Float class}{nan} and \mthind{Float class}{pi}.
+より興味深い点として、\ct{Float class}（\ie つまり\ct{Float}のクラス側）は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
 
 \begin{code}{@TEST}
 Float pi                      --> 3.141592653589793
@@ -639,14 +641,16 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Fraction}
 
-\clsind{Fractions} are represented by instance variables for the numerator and denominator, which should be \ct{Integer}s. \ct{Fractions} are normally created by \ct{Integer} division (rather than using the constructor method \cmind{Fraction}{numerator:denominator:}):
+%\clsind{Fractions} are represented by instance variables for the numerator and denominator, which should be \ct{Integer}s. \ct{Fractions} are normally created by \ct{Integer} division (rather than using the constructor method \cmind{Fraction}{numerator:denominator:}):
+\clsind{Fractions}は、\ct{Integer}である分子と分母のためのインスタンス変数によって表されます。\ct{Fractions}は（\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使用するのではなく）通常は\ct{Integer}の割り算によって生成されます。
 
 \begin{code}{@TEST}
 6/8             --> (3/4)
 (6/8) class --> Fraction
 \end{code}
 
-Multiplying a \ct{Fraction} by an \ct{Integer} or another \ct{Fraction} may yield an \ct{Integer}:
+%Multiplying a \ct{Fraction} by an \ct{Integer} or another \ct{Fraction} may yield an \ct{Integer}:
+\ct{Fraction}と\ct{Integer}または他の\ct{Fraction}を掛け合わせると\ct{Integer}になることがあります:
 
 \begin{code}{@TEST}
 6/8 * 4 --> 3
