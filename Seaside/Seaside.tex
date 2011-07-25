@@ -1123,9 +1123,8 @@ html anchor
 コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントの表示へと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了を告げる閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
 
 \dothis{
-Define the rendering method of \ct{MyDisplayStack} to display all of the values on the stack.
-(You will either need to define an accessor for the stack machine's \ct{contents} or you can define \ct{MyStackMachine>>>do:} to iterate over the stack values.)
-The stack display should also have a button labelled ``close'' whose callback will simply perform \ct{self answer}.
+\ct{MyDisplayStack}のレンダリングメソッドを定義して、スタックのすべての内容を表示するようにしましょう。
+(スタックマシンの\ct{contents}の値を返すアクセッサーを用意するか、 \ct{MyStackMachine>>>do:}を定義して、スタックの値をイテレートできるようにすると良いでしょう)。``close''ボタンもつけることにします。コールバックでは単に\ct{self answer}を実行するだけです。
 }
 
 \begin{code}{}
@@ -1134,42 +1133,32 @@ html anchor
 	with: 'close'
 \end{code}
 
-Now you should be able to \emph{open} and \emph{close} the stack while you are using the calculator.
+これで計算機を使いながら \emph{open} と \emph{close}で表示を切り替えられるようになりました。
 
-There is, however, one thing we have forgotten.
-Try to perform some operations on the stack.
-Now use the ``back'' button of your browser and try to perform some more stack operations.
-(For example, \menu{open} the stack, type \menu{1}, \menu{Enter} twice and \menu {+}.
-The stack should display ``2'' and ``1''.
-Now hit the ``back'' button.
-The stack now shows three times ``1'' again.
-Now if you type \menu{+} the stack shows ``3''.
-Backtracking is not yet working.
+とはいえ、まだ考慮していなかったこともあります。いくつか操作をしてみた後で、Webブラウザの「戻る」ボタンで戻り、さらに操作をしてみるとどうなるでしょうか。(例えば\menu{open} でスタックの全体を表示させ、\menu{1}、 \menu{Enter}と2回入力し、\menu {+}を押します。この時点でスタックの表示は``2''と``1''となっているはずです。
+では「戻る」ボタンを押してみましょう。スタックは``1''を3つ表示した状態になり、\menu {+}を押すと、``3''が表示されます。バックトラックが動作していないのです。
 
 \dothis{
-Implement \ct{MyCalculator>>>states} to return 
-an array with the contents of the stack machine.
-Check that backtracking now works correctly!
+\ct{MyCalculator>>>states}メソッドを実装し、スタックマシンの\ct{contents}を返すようにしましょう。今度はきちんとバックトラックされるようになります。
 }
 
-Sit back and enjoy a tall glass of something cool!
+さて、これで動くアプリケーションができあがりました。乾杯といきましょう。
 
 %=================================================================
-\section{A quick look at AJAX}
+\section{AJAXの利用}
 
 % Original text by Lukas Renggli
 
-\ind{AJAX} (Asynchronous \ind{JavaScript} and \ind{XML}) is a technique to make web applications more interactive by exploiting JavaScript functionality on the client side.
+\ind{AJAX} (Asynchronous \ind{JavaScript} and \ind{XML}) はクライアント側でJavaScriptを活用することによって、Webアプリケーションをよりインタラクティブにする技術です。
 
-Two well-known JavaScript libraries are \ind{Prototype} (\url{http://www.prototypejs.org}) and \ind{script.aculo.us} (\url{http://script.aculo.us}).
-Prototype provides a framework to ease writing JavaScript.
-script.aculo.us provides some additional features to support animations and drag-and-drop on top of Prototype.
-Both frameworks are supported in Seaside through the package ``Scriptaculous''.
+よく知られたJavaScriptのライブラリとしては \ind{Prototype} (\url{http://www.prototypejs.org}) と \ind{script.aculo.us} (\url{http://script.aculo.us})があります。
+Prototypeは、JavaScriptを簡潔に書けるようにするためのフレームワークです。
+script.aculo.us は、Prototype上に、アニメーションや、ドラッグ&ドロップなどをサポートする機能を追加したものです。 Seasideでは ``Scriptaculous''というパッケージを通じて、これらのフレームワークを利用することができます。
 
-All ready-made images have the Scriptaculous package extensions already loaded.
-The latest version is available from \url{http://www.squeaksource.com/Seaside}.
-An online demo is available at \url{http://scriptaculous.seasidehosting.st}.
-Alternatively, if you have a enabled image running, simply go to \url{http://localhost:8080/seaside/tests/scriptaculous}.
+Seasideのインストールイメージには、Scriptaculousパッケージが最初から入っています。
+最新のバージョンは \url{http://www.squeaksource.com/Seaside}から入手できます。
+デモは \url{http://scriptaculous.seasidehosting.st}で見ることができます。イメージにScriptaculousが入っているなら、\url{http://localhost:8080/javascript/scriptaculous}でも、デモを試せます。
+
 
 The Scriptaculous extensions follow the same approach as Seaside itself\,---\,simply configure Smalltalk objects to model your application, and the needed Javascript code will be generated for you.
 
