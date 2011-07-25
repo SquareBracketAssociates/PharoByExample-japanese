@@ -570,37 +570,55 @@ Magnitude>>> > aMagnitude
 %-----------------------------------------------------------------
 \subsection{Number}
 
-Similarly, \clsindmain{Number} defines \mthind{Number}{+}, \mthind{Number}{-}, \mthind{Number}{*} and \mthind{Number}{/} to be abstract, but all other arithmetic operators are generically defined.
+%Similarly, \clsindmain{Number} defines \mthind{Number}{+}, \mthind{Number}{-}, \mthind{Number}{*} and \mthind{Number}{/} to be abstract, but all other arithmetic operators are generically defined.
+同様に、\clsindmain{Number}では\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算には一般的な定義が与えられています。
 
-All \ct{Number} objects support various \emph{converting} operators, such as \mthind{Number}{asFloat} and \mthind{Number}{asInteger}. There are also numerous \emphind{shortcut constructor methods}, such as \mthind{Number}{i}, which converts a \ct{Number} to an instance of \clsind{Complex} with a zero real component, and others which generate \clsindplural{Duration}, such as \mthind{Number}{hour}, \mthind{Number}{day} and \mthind{Number}{week}.
+%All \ct{Number} objects support various \emph{converting} operators, such as \mthind{Number}{asFloat} and \mthind{Number}{asInteger}. There are also numerous \emphind{shortcut constructor methods}, such as \mthind{Number}{i}, which converts a \ct{Number} to an instance of \clsind{Complex} with a zero real component, and others which generate \clsindplural{Duration}, such as \mthind{Number}{hour}, \mthind{Number}{day} and \mthind{Number}{week}.
+\ct{Number}オブジェクトは全て、\mthind{Number}{asFloat}や\mthind{Number}{asInteger}のような様々な\emph{変換}オペレーターを備えています。またそれ以外にも、\ct{Number}を実部がゼロの\clsind{Complex}のインスタンスに変換する\mthind{Number}{i}や、\clsindplural{Duration}を生成する\mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week}のようなたくさんの\emphind{ショートカットコンストラクタメソッド}があります。
 
-\ct{Numbers} directly support common \emph{math functions} such as \mthind{Number}{sin}, \mthind{Number}{log}, \mthind{Number}{raiseTo:}, \mthind{Number}{squared}, \mthind{Number}{sqrt} and so on.
+%\ct{Numbers} directly support common \emph{math functions} such as \mthind{Number}{sin}, \mthind{Number}{log}, \mthind{Number}{raiseTo:}, \mthind{Number}{squared}, \mthind{Number}{sqrt} and so on.
+\ct{Numbers}は\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt}などのような標準的な\emph{算術関数}を直接サポートしています。
 
-\cmind{Number}{printOn:} is implemented in terms of the abstract method \ct{Number>>>printOn:base:}. (The default base is 10.)
+%\cmind{Number}{printOn:} is implemented in terms of the abstract method \ct{Number>>>printOn:base:}. (The default base is 10.)
+\cmind{Number}{printOn:}は抽象メソッド\ct{Number>>>printOn:base:}（デフォルトの基数は10）を使って実装されています。
 
-Testing methods include \mthind{Number}{even}, \mthind{Number}{odd}, \mthind{Number}{positive} and \mthind{Number}{negative}. Unsurprisingly \ct{Number} overrides \lct{is\-Num\-ber}. More interesting, \mthind{Number}{isInfinite} is defined to return \ct{false}.
+%Testing methods include \mthind{Number}{even}, \mthind{Number}{odd}, \mthind{Number}{positive} and \mthind{Number}{negative}. Unsurprisingly \ct{Number} overrides \lct{is\-Num\-ber}. More interesting, \mthind{Number}{isInfinite} is defined to return \ct{false}.
+テスティングメソッドとしては\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative}などがあります。当然\ct{Number}は\lct{is\-Num\-ber}を上書きしています。さらに興味深い点として、\mthind{Number}{isInfinite}は\ct{false}を返すように定義されています。
 
-\emph{Truncation} methods include \mthind{Number}{floor}, \mthind{Number}{ceiling}, \mthind{Number}{integerPart}, \mthind{Number}{fractionPart} and so on.
+%\emph{Truncation} methods include \mthind{Number}{floor}, \mthind{Number}{ceiling}, \mthind{Number}{integerPart}, \mthind{Number}{fractionPart} and so on.
+\emph{Truncation}メソッドとしては\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart}などがあります。
 
 \begin{code}{@TEST}
-1 + 2.5     --> 3.5             "Addition of two numbers"
-3.4 * 5      --> 17.0           "Multiplication of two numbers"
-8 / 2         --> 4                 "Division of two numbers"
-10 - 8.3   --> 1.7              "Subtraction of two numbers"
-12 = 11    --> false           "Equality between two numbers"
-12 ~= 11 --> true            "Test if two numbers are different"
-12 > 9      --> true            "Greater than"
-12 >= 10  --> true            "Greater or equal  than"
-12 < 10    --> false           "Smaller than"
-100@10   --> 100@10    "Point creation"
+%1 + 2.5     --> 3.5             "Addition of two numbers"
+%3.4 * 5      --> 17.0           "Multiplication of two numbers"
+%8 / 2         --> 4                 "Division of two numbers"
+%10 - 8.3   --> 1.7              "Subtraction of two numbers"
+%12 = 11    --> false           "Equality between two numbers"
+%12 ~= 11 --> true            "Test if two numbers are different"
+%12 > 9      --> true            "Greater than"
+%12 >= 10  --> true            "Greater or equal  than"
+%12 < 10    --> false           "Smaller than"
+%100@10   --> 100@10    "Point creation"
+1 + 2.5     --> 3.5             "二つの数の和"
+3.4 * 5      --> 17.0           "二つの数の積"
+8 / 2         --> 4                 "二つの数の商"
+10 - 8.3   --> 1.7              "二つの数の差"
+12 = 11    --> false           "二つの数の等価性"
+12 ~= 11 --> true            "二つの数が異なるかどうかを試験"
+12 > 9      --> true            "より大きい"
+12 >= 10  --> true            "以上"
+12 < 10    --> false           "より小さい"
+100@10   --> 100@10    "座標の生成"
 \end{code}
 \on{Should check how tabbing works in the listings package ...}
 
-The following example works surprisingly well in \st:
+%The following example works surprisingly well in \st:
+驚いたことに次の例は正しく動作します \st:
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 \end{code}
-Note that \ct{1000 factorial} is really calculated which in many other languages can be quite difficult to compute. This is an excellent example of automatic coercion and exact handling of a number.
+%Note that \ct{1000 factorial} is really calculated which in many other languages can be quite difficult to compute. This is an excellent example of automatic coercion and exact handling of a number.
+\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できます点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例です。
 \cmindex{Integer}{factorial}
 
 \dothis{Try to display the result of \ct{1000 factorial}. It takes more time to display it than to calculate it!}
