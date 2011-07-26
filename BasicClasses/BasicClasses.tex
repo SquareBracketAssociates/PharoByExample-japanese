@@ -753,14 +753,16 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Strings}
 
-The \clsindmain{String} class is also defined in the category \scatind{Collections-Strings}.  A \ct{String} is an indexed \ct{Collection} that holds only \ct{Characters}.
+%The \clsindmain{String} class is also defined in the category \scatind{Collections-Strings}.  A \ct{String} is an indexed \ct{Collection} that holds only \ct{Characters}.
+\clsindmain{String}クラスも\scatind{Collections-Strings}カテゴリで定義されています。\ct{String}は\ct{Characters}だけを保持できるインデックス付きの\ct{Collection}です。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.4\textwidth]{StringHierarchy}}}
 \caption{The String Hierarchy \figlabel{strings}}
 \end{figure}
 
-In fact, \ct{String} is abstract and \pharo \ct{Strings} are actually instances of the concrete class \clsindmain{ByteString}.
+%In fact, \ct{String} is abstract and \pharo \ct{Strings} are actually instances of the concrete class \clsindmain{ByteString}.
+実のところ、\ct{String}は抽象クラスで、\pharoの\ct{Strings}は実際には具象クラスである\clsindmain{ByteString}のインスタンスです。
 
 \begin{code}{@TEST}
 'hello world' class --> ByteString
