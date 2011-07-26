@@ -661,28 +661,35 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Integer}
 
-\clsindmain{Integer} is the abstract parent of three concrete integer implementations. In addition to providing concrete implementations of many abstract \ct{Number} methods, it also adds a few methods specific to integers, such as \mthind{Integer}{factorial}, \mthind{Integer}{atRandom}, \mthind{Integer}{isPrime}, \mthind{Integer}{gcd:} and many others.
+%\clsindmain{Integer} is the abstract parent of three concrete integer implementations. In addition to providing concrete implementations of many abstract \ct{Number} methods, it also adds a few methods specific to integers, such as \mthind{Integer}{factorial}, \mthind{Integer}{atRandom}, \mthind{Integer}{isPrime}, \mthind{Integer}{gcd:} and many others.
+\clsindmain{Integer}は三つの具象性数クラスの親になる抽象クラスです。多くの抽象的な\ct{Number}のメソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}など、いくつか整数独自のメソッドも追加されています。
 
-\clsindmain{SmallInteger} is special in that its instances are represented compactly --- instead of being stored as a reference, a \ct{SmallInteger} is represented directly using the bits that would otherwise be used to hold a reference.  The first bit of an object reference indicates whether the object is a \ct{SmallInteger} or not.
+%\clsindmain{SmallInteger} is special in that its instances are represented compactly --- instead of being stored as a reference, a \ct{SmallInteger} is represented directly using the bits that would otherwise be used to hold a reference.  The first bit of an object reference indicates whether the object is a \ct{SmallInteger} or not.
+\clsindmain{SmallInteger}は、インスタンスがコンパクトに表現できるという点で特殊です。つまり、参照として保持する代わりに、\ct{SmallInteger}は他の整数が参照を保持するために使用している領域に直接数値を表すために使用します。オブジェクト参照の最初のビットが、そのオブジェクトが\ct{SmallInteger}かどうかを示しています。
 
-The class methods \mthind{SmallInteger}{minVal} and \mthind{SmallInteger}{maxVal} tell us the range of a \ct{SmallInteger}:
+%The class methods \mthind{SmallInteger}{minVal} and \mthind{SmallInteger}{maxVal} tell us the range of a \ct{SmallInteger}:
+クラスメソッドである\mthind{SmallInteger}{minVal}と\mthind{SmallInteger}{maxVal}で、\ct{SmallInteger}の範囲が分かります:
 
 \begin{code}{@TEST}
 SmallInteger maxVal = ((2 raisedTo: 30) - 1)      --> true
 SmallInteger minVal = (2 raisedTo: 30) negated --> true
 \end{code}
 
-When a \ct{SmallInteger} goes out of this range, it is automatically converted to a \clsind{LargePositiveInteger} or a \clsind{LargeNegativeInteger}, as needed:
+%When a \ct{SmallInteger} goes out of this range, it is automatically converted to a \clsind{LargePositiveInteger} or a \clsind{LargeNegativeInteger}, as needed:
+\ct{SmallInteger}がその範囲に収まらなくなると、必要に応じて自動的に\clsind{LargePositiveInteger}または\clsind{LargeNegativeInteger}に変換されます:
 
 \begin{code}{@TEST}
 (SmallInteger maxVal + 1) class --> LargePositiveInteger
 (SmallInteger minVal - 1) class  --> LargeNegativeInteger
 \end{code}
 
-Large integers are similarly converted back to small integers when appropriate.
+%Large integers are similarly converted back to small integers when appropriate.
+大きな整数も同様に、適切なタイミングで小さな整数に変換されます。
 
-As in most programming languages, integers can be useful for specifying iterative behaviour.  There is a dedicated method \mthind{Integer}{timesRepeat:} for evaluating a block repeatedly.
-We have already seen a similar example in \charef{syntax}:
+%As in most programming languages, integers can be useful for specifying iterative behaviour.  There is a dedicated method \mthind{Integer}{timesRepeat:} for evaluating a block repeatedly.
+多くのプログラミング言語と同様に、整数はイテレーティブな振舞いを表すために利用できます。ブロックを繰り返し評価することに特化した\mthind{Integer}{timesRepeat:}というメソッドもあります。
+%We have already seen a similar example in \charef{syntax}:
+\charef{syntax}で既に同様の例を目にしています:
 \begin{code}{@TEST | n |}
 n := 2.
 3 timesRepeat: [ n := n*n ].
@@ -856,7 +863,7 @@ Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
 %  \item Send \ct{yourself} to get back the receiver at the end of a cascade.
 
 %  \item If you override \ct{=} then you should override \ct{hash} as well.
-  \item もし\ct{=}を上書きした場合は、合わせて\ct{hash}も上書き剃る必要があります。
+  \item もし\ct{=}を上書きした場合は、合わせて\ct{hash}も上書きする必要があります。
 
   \item Override \ct{postCopy} to correctly implement copying for your objects.
 
