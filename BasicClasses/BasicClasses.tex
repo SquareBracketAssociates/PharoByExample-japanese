@@ -618,7 +618,7 @@ Magnitude>>> > aMagnitude
 1000 factorial / 999 factorial --> 1000
 \end{code}
 %Note that \ct{1000 factorial} is really calculated which in many other languages can be quite difficult to compute. This is an excellent example of automatic coercion and exact handling of a number.
-\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できます点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例です。
+\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例です。
 \cmindex{Integer}{factorial}
 
 \dothis{Try to display the result of \ct{1000 factorial}. It takes more time to display it than to calculate it!}
@@ -768,7 +768,8 @@ Character characterTable size                               --> 256
 'hello world' class --> ByteString
 \end{code}
 
-The other important subclass of \ct{String} is \clsindmain{Symbol}.  The key difference is that there is only ever a single instance of  \ct{Symbol} with a given value.  (This is sometimes called ``the unique instance property'').  In contrast, two separately constructed \ct{String}s that happen to contain the same sequence of characters will often be different objects.
+%The other important subclass of \ct{String} is \clsindmain{Symbol}.  The key difference is that there is only ever a single instance of  \ct{Symbol} with a given value.  (This is sometimes called ``the unique instance property'').  In contrast, two separately constructed \ct{String}s that happen to contain the same sequence of characters will often be different objects.
+\ct{String}のもう一つの重要なサブクラスは\clsindmain{Symbol}です。主な違いは、\ct{Symbol}には一つの値につきたった一つのインスタンスしか存在しないということです。（これはしばしば``一意インスタンス特性''と呼ばれます。）一方、別々に生成されたまたま同じ文字の並びを持つ\ct{String}は異なるオブジェクトであることがよくあります。
 
 \begin{code}{@TEST}
 'hel','lo' == 'hello' --> false
@@ -779,7 +780,8 @@ The other important subclass of \ct{String} is \clsindmain{Symbol}.  The key dif
 \end{code}
 
 \noindent
-Another important difference is that a \ct{String} is mutable, whereas a \ct{Symbol} is immutable.
+%Another important difference is that a \ct{String} is mutable, whereas a \ct{Symbol} is immutable.
+もう一つの重要な違いは、\ct{String}は変更可能ですが、\ct{Symbol}は変更不能という点です。
 
 \begin{code}{@TEST}
 'hello' at: 2 put: $u; yourself --> 'hullo'
@@ -789,25 +791,30 @@ Another important difference is that a \ct{String} is mutable, whereas a \ct{Sym
 #hello at: 2 put: $u --> error!
 \end{code}\ignoredollar$
 
-It is easy to forget that since strings are collections, they understand the same messages that other collections do:
+%It is easy to forget that since strings are collections, they understand the same messages that other collections do:
+文字列はコレクションなので、他のコレクションと同様なメッセージを理解できるということはよく見逃されます:
 
 \begin{code}{@TEST}
 #hello indexOf: $o --> 5
 \end{code}\ignoredollar$
 
-Although \ct{String} does not inherit from \clsind{Magnitude}, it does support the usual \protind{comparing} methods, \ct{<}, \ct{=} and so on.  In addition, \cmind{String}{match:} is useful for some basic glob-style pattern-matching:
+%Although \ct{String} does not inherit from \clsind{Magnitude}, it does support the usual \protind{comparing} methods, \ct{<}, \ct{=} and so on.  In addition, \cmind{String}{match:} is useful for some basic glob-style pattern-matching:
+\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}, \ct{=}などの通常の\protind{comparing}メソッド群をサポートしています。さらに、\cmind{String}{match:}はいくつかの基本的なglobスタイルのパターンマッチを使用できて便利です。
 
 \begin{code}{@TEST}
 '*or*' match: 'zorro' --> true
 \end{code}
 
-Should you need more advanced support for regular expressions, have a look at the \pkgind{Regex}package by Vassili Bykov.
+%Should you need more advanced support for regular expressions, have a look at the \pkgind{Regex}package by Vassili Bykov.
+正規表現のより進んだサポートが必要なのであれば、Vassili Bykovにより\pkgind{Regex}パッケージを参照してください。
 \index{Bykov, Vassili}
 \index{regular expression package}
 
-Strings support rather a large number of conversion methods. Many of these are \ind{shortcut constructor methods} for other classes, such as \mthind{String}{asDate}, \mthind{String}{asFileName} and so on.  There are also a number of useful methods for converting a string to another string, such as \mthind{String}{capitalized} and \mthind{String}{translateToLowercase}.
+%Strings support rather a large number of conversion methods. Many of these are \ind{shortcut constructor methods} for other classes, such as \mthind{String}{asDate}, \mthind{String}{asFileName} and so on.  There are also a number of useful methods for converting a string to another string, such as \mthind{String}{capitalized} and \mthind{String}{translateToLowercase}.
+文字列は比較的多くの変換メソッドをサポートしています。それらの多くは\mthind{String}{asDate}、\mthind{String}{asFileName}などのような、他のクラスの\ind{shortcut constructor methods}です。また、\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
-For more on strings and collections, see \charef{collections}.
+%For more on strings and collections, see \charef{collections}.
+文字列とコレクションについて更に進んだ話題は、\charef{collections}を参照して下さい。
 
 \on{There is more material we could use here:
 \url{http://www.dmu.com/crb/crb7.html}.}
