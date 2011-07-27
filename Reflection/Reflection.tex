@@ -137,7 +137,7 @@ w inspect
 %@The value of the \ct!contents! variable will change, but the workspace window will not notice it, so it does not redisplay itself.
 \ct!contents!変数の値は変りますが、ワークスペースウィンドウは、それに気付きません。だからワークスペースは自分自身を再描画しません。
 %@To trigger the window refresh, evaluate \ct!self contentsChanged! in the lower part of the inspector.
-このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。%@? インスペクターの右側が灰色になって、Workspaceは何も変わらない。
+このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。%@?インスペクターの右側が灰色になって、Workspaceは何も変わらない。
 
 %-----------------------------------------------------------------
 %@\subsection{Accessing instance variables}
@@ -171,7 +171,7 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 %@Both \ct!instVarAt:! and \ct!instVarAt:put:! are \ind{primitive methods}, meaning that they are implemented as primitive operations of the \pharo virtual machine.
-\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。それは、これらが、\pharo{}仮想マシンのプリミティブな操作によって実装されていることを意味します。
+\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。それは、これらが、\pharo{}仮想マシンのプリミティブな操作によって実装されていることを意味します。%@?virtual machine, VM: マクロ化?
 %@If you consult the code of these methods, you will see the special \ind{pragma} syntax \ct!<primitive: N>! where \ct!N! is an integer.
 これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
@@ -798,14 +798,14 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 %@When an object receives a message, it first looks in the method dictionary of its class for a corresponding method to respond to the message.
 オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、つまり、このメッセージに応答するメソッドを探します。
 %@If no such method exists, it will continue looking up the class hierarchy, until it reaches \ct{Object}. If still no method is found for that message, the object will \emph{send itself} the message \ct{doesNotUnderstand:} with the message selector as its argument.
-もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたどっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見つからなかったら、オブジェクトは\emph{自分自身に} \ct{doesNotUnderstand:}を送ります。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージのメッセージセレクターです。%@?message selector: Messageのインスタンスでは?
+もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたどっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見つからなかったら、オブジェクトは、\ct{doesNotUnderstand:}を、\emph{自分自身に送ります}。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージのメッセージセレクターです。%@?message selector: Messageのインスタンスでは?
 %@The process then starts all over again, until \clsmthind{Object}{doesNotUnderstand:} is found, and the debugger is launched.
 このメソッド検索のプロセスは、振り出しに戻って再開され、\clsmthind{Object}{doesNotUnderstand:}が見つかるまで続けられ、そしてデバッガーが立ち上がります。
 
 %@But what if \ct{doesNotUnderstand:} is overridden by one of the subclasses of \ct{Object} in the lookup path?
 しかし、もし\ct{doesNotUnderstand:}が\ct{Object}のサブクラスでオーバーライドされていて、メソッドの検索パスに入っていたらどうなるでしょう?
 %@As it turns out, this is a convenient way of realizing certain kinds of very dynamic behaviour. An object that does not understand a message can, by overriding \ct{doesNotUnderstand:}, fall back to an alternative strategy for responding to that message.
-結局のところ、これは、ある種の非常に動的な振る舞いを理解するのに便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できなかったメッセージに応答するための、代替えの戦略に頼れるのです。
+結局のところ、これは、ある種の非常に動的な振る舞いを実現するのに便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できなかったメッセージに応答するための、代替えの戦略に頼れるのです。
 
 %@Two very common applications of this technique are (1) to implement \ind{lightweight proxies} for objects, and (2) to dynamically compile or load missing code.
 このテクニックの非常に一般的な応用をふたつ挙げると、(1) オブジェクトの\ind{軽量プロキシー}の実装、そして、(2) 欠けているコードの、動的なコンパイルまたはロード、です。
@@ -815,7 +815,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 \subsection{軽量プロキシー}
 
 %@In the first case, we introduce a ``\ind{minimal object}'' to act as a proxy for an existing object.
-最初の例として、「\ind{最低限のオブジェクト}」を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
+最初の例として、「\ind{ミニマルオブジェクト}」を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
 %@Since the proxy will implement virtually no methods of its own, any message sent to it will be trapped by \ct{doesNotUnderstand:}. By implementing this message, the proxy can then take special action before delegating the message to the real subject it is the proxy for.
 このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}で捕捉されます。この\ct{doesNotUnderstand:}メッセージを実装すれば、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取れます。
 
@@ -839,7 +839,7 @@ Object methodDict size --> 408
 \end{code}
 
 %@Our proxy has two instance variables: the \ct{subject} it is a proxy for, and a \ct{count} of the number of messages it has intercepted.
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの\ct{count(en)}です。
+このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの数です。%@?\ct{count}
 %@We initialize the two instance variables and we provide an accessor for the message count.
 これらふたつのインスタンス変数を初期化し、インターセプトしたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
 %@Initially the \ct{subject} variable points to the proxy object itself.
@@ -865,9 +865,9 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 \end{code}
 
 %@Here comes a bit of magic.
-ほら、ちょっとした魔法がやって来ます。%@?Here comes: 英辞郎
+ここで、ちょっとした魔法がやって来ます。
 %@We create a new \ct{Point} object and a new \ct{LoggingProxy} object, and then we tell the proxy to \mthind{ProtoObject}{become:} the point object:
-\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、\ct{Point}オブジェクトに\mthind{ProtoObject}{become:} と告げます。
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、「\ct{Point}オブジェクトに\mthind{ProtoObject}{become:}せよ」、と告げます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
@@ -908,7 +908,7 @@ point class --> LoggingProxy
 \ct{caseOf: caseOf:otherwise:}
 \ct{ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:}
 %@Attempts to send these messages to non-boolean objects can be intercepted and execution can be resumed with a valid boolean value by overriding \ct{mustBeBoolean} in the receiver or by catching the \ct{NonBooleanReceiver} exception.
-これらのメッセージを、非論理値オブジェクトに送ろうとしたとき、レシーバーのクラスで、\ct{mustBeBoolean}が定義されていれば、そのメッセージ送信をインターセプトし、妥当な論理値でもって実行を再開できます。さもなくば、\ct{NonBooleanReceiver}例外をキャッチできます。
+これらのメッセージを、非論理値オブジェクトに送ろうとしたとき、レシーバーのクラスで、\ct{mustBeBoolean}が定義されていれば、それらのメッセージ送信をインターセプトし、妥当な論理値でもって実行を再開できます。さもなくば、\ct{NonBooleanReceiver}例外をキャッチできます。
 }% NB: Notes by Lukas Renggli
 
 %@Even if we can ignore such special message sends, there is another fundamental problem which cannot be overcome by this approach: \self-sends cannot be intercepted:
@@ -936,7 +936,7 @@ Point>>>rect: aPoint
 \subsection{欠けているメソッドの生成}
 
 %@The other most common application of intercepting not understood messages is to dynamically load or generate the missing methods.
-理解されなかったメッセージのインターセプトすることの応用例として最も一般的なのは、欠けているメソッドの動的なロードと、欠けているメソッドの動的な生成です。
+理解されなかったメッセージのインターセプトすることの応用例として最も一般的なのは、欠けているメソッドの動的なロードと、動的な生成です。
 %@Consider a very large library of classes with many methods.  Instead of loading the entire library, we could load a stub for each class in the library. The stubs know where to find the source code of all their methods.  The stubs simply trap all messages not understood, and dynamically load the missing methods on-demand.  At some point, this behaviour can be deactivated, and the loaded code can be saved as the minimal necessary subset for the client application.
 多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドで動的にロードします。ある時点で、この振る舞いは解除でき、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存できます。
 
@@ -957,7 +957,7 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 	^ super doesNotUnderstand: aMessage
 \end{code}
 %@Any message not understood is trapped here. If an instance variable with the same name as the message sent exists, then we ask our class to compile an accessor for that instance variables and we re-send the message.
-理解されなかったメッセージは、どれも、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
+理解されなかったメッセージはすべて、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
 
 %@Suppose the class \ct{DynamicAccessors} has an (uninitialized) instance variable \ct{x} but no pre-defined accessor. Then the following will generate the accessor dynamically and retrieve the value:
 \ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義された\ct{x}へのアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
@@ -1003,7 +1003,7 @@ myDA x --> nil
 少し意外かもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。%@?respond to the method
 
 %@\dothis{Define an empty class \ct{Demo}. Evaluate \ct{Demo new answer42} and notice how the usual ``Message Not Understood'' error is raised.}
-\dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されるかどうかを確認しましょう。}
+\dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されることを確認しましょう。}
 
 %@Now we will install a plain \st object in the method dictionary of our \ct{Demo} class.
 さあここで、普通の\st{}のオブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録しましょう。
@@ -1029,7 +1029,7 @@ run: oldSelector with: arguments in: aReceiver
 %@When our \ct{Demo} instance receives the message \ct{answer42}, method lookup proceeds as usual, however the virtual machine will detect that in place of a compiled method, an ordinary \st object is trying to play this role.
 この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st{}のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。%@?意訳しすぎか?
 %@The VM will then send this object a new message \ct{run:with:in:} with the original method selector, arguments and receiver as arguments.
-VMは、このオブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。VM: マクロ化しないのか?
+仮想マシンは、\ct{ObjectsAsMethodsExample}オブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。%@?will: 無視した。
 %@Since \ct{ObjectsAsMethodsExample} implements this method, it intercepts the message and delegates it to itself.
 \ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身にメッセージを移譲します。
 
@@ -1067,7 +1067,7 @@ Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できま
 \begin{code}{}
 TestRunner>>>runCoverage
 	| packages methods |
-	... "カバレッジを測定するメソッドを識別する" %@? ???
+	... "カバレッジを測定するメソッドを識別する"
 	self collectCoverageFor: methods
 \end{code}
 
@@ -1126,7 +1126,7 @@ TestCoverage>>>uninstall
 \end{code}
 \noindent
 %@and the \ct{run:with:in:} method simply updates the \ct{hasRun} variable, uninstalls the wrapper (since coverage has been verified), and resends the message to the original method
-そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパー(それ自身)をアンインストールし(カバレッジが検証されたから)、もともとのメソッドにメッセージを再送します。%@?resends the message to the original method?
+そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパーをアンインストールし(カバレッジが検証されたから)、もともとのレシーバーにメッセージを再送します。%@?original method?
 \begin{code}{}
 run: aSelector with: anArray in: aReceiver
 	self mark; uninstall.
@@ -1136,13 +1136,13 @@ mark
 	hasRun := true
 \end{code}
 %@(Have a look at \clsmthind{ProtoObject}{withArgs:executeMethod:} to see how a method displaced from its method dictionary can be invoked.)
-\clsmthind{ProtoObject}{withArgs:executeMethod:}を見てみましょう。そして、メソッド辞書から取り除かれたメソッドが、どのように呼び出されるか、見てみましょう)。
+(\clsmthind{ProtoObject}{withArgs:executeMethod:}を見てみましょう。そして、メソッド辞書から取り除かれていたメソッドが、どのように呼び出されるか、見てみましょう。)
 
 %@That's all there is to it!
 ただそれだけです。
 
 %@Method wrappers can be used to perform any kind of suitable behaviour before or after the normal operation of a method.  Typical applications are instrumentation (collecting statistics about the calling patterns of methods), checking optional pre- and post-conditions, and memoization (optionally cacheing computed values of methods).
-メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
+メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インスツルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
 %@\section{Pragmas}
@@ -1250,13 +1250,13 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 %@\item Send \ct{become:} to swap the references of two objects, such as a proxy and its target.
 \item ふたつのオブジェクト参照を交換するには、\ct{become:}を使いましょう。\ct{become:}は、プロキシーとそのターゲットを交換するのに使えます。
 %@\item Beware, some messages, like \ct{class} and \ct{yourself} are never really sent, but are interpreted by the VM.  Others, like \ct{+}, \ct{-} and \ct{ifTrue:} may be directly interpreted or inlined by the VM depending on the receiver.
-\item 注意してください。いくつかのメッセージ、例えば\ct{class}や\ct{yourself}は、決して実際には送られず、代わりに、VMによって解釈されます。他の、例えば、\ct{+}, \ct{-} and \ct{ifTrue:} も、直接VMによって解釈されるか、インライン展開されます。このようなことが起こるかどうかは、レシーバーによって異なります。%@?VMがインライン展開する?
+\item 注意してください。いくつかのメッセージ、例えば\ct{class}や\ct{yourself}は、決して実際には送られず、代わりに、仮想マシンによって解釈されます。他の、例えば、\ct{+}, \ct{-} and \ct{ifTrue:} も、直接VMによって解釈されるか、インライン展開されます。このようなことが起こるかどうかは、レシーバーによって異なります。%@?VMがインライン展開する?
 %@\item Another typical use for overriding \ct{doesNotUnderstand:} is to lazily load or compile missing methods.
 \item \ct{doesNotUnderstand:}をオーバーライドする、典型的な例としては、欠けているメソッドの遅延ロードまたは遅延コンパイルです。
 %@\item \ct{doesNotUnderstand:} cannot trap \self-sends.
 \item \ct{doesNotUnderstand:}は、\self{}送信は捕捉できません。
 %@\item A more rigorous way to intercept messages is to use an object as a method wrapper. Such an object is installed in a method dictionary in place of a compiled method. It should implement \ct{run:with:in:} which is sent by the VM when it detects an ordinary object instead of a compiled method in the method dictionary. This technique is used by the SUnit Test Runner to collect coverage data.
-\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。ラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、VMが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを収集するのに使われています。%@?意訳しすぎか?
+\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。ラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、仮想マシンが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを収集するのに使われています。%@?意訳しすぎか?
 \end{itemize}
 
 %=========================================================
