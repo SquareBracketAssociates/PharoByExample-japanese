@@ -822,21 +822,25 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Booleans}
 
-The class \clsindmain{Boolean} offers a fascinating insight into how much of the Smalltalk language has been pushed into the class library. \ct{Boolean} is the \subind{class}{abstract} superclass of the \patind{Singleton} classes \clsindmain{True} and \clsindmain{False}.
+%The class \clsindmain{Boolean} offers a fascinating insight into how much of the Smalltalk language has been pushed into the class library. \ct{Boolean} is the \subind{class}{abstract} superclass of the \patind{Singleton} classes \clsindmain{True} and \clsindmain{False}.
+\clsindmain{Boolean}クラスはSmalltalkという言語がどれほど多くのものをクラスライブラリに詰め込んでいるかということについて非常に興味深い洞察を与えてくれます。\ct{Boolean}は\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{class}{abstract}な親クラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}
 \caption{The Boolean Hierarchy \figlabel{booleans}}
 \end{figure}
 
-Most of the behaviour of \ct{Boolean}s can be understood by considering the method \mthind{Boolean}{ifTrue:ifFalse:}, which takes two \ct{Blocks} as arguments.
+%Most of the behaviour of \ct{Boolean}s can be understood by considering the method \mthind{Boolean}{ifTrue:ifFalse:}, which takes two \ct{Blocks} as arguments.
+\ct{Boolean}のほとんどの振舞いは引数として二つの\ct{Blocks}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
 
 \begin{code}{@TEST}
 (4 factorial > 20) ifTrue: [ 'bigger' ] ifFalse: [ 'smaller' ] --> 'bigger'
 \end{code}
 
-The method is abstract in \ct{Boolean}.
-The implementations in its concrete subclasses are both trivial:
+%The method is abstract in \ct{Boolean}.
+このメソッドは\ct{Boolean}の中では抽象メソッドです。
+%The implementations in its concrete subclasses are both trivial:
+具象サブクラスでの実装はいずれも簡単なものです:
 
 \begin{method}{Implementations of \lct{ifTrue:ifFalse:}}
 True>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock 
@@ -848,25 +852,32 @@ False>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
 \cmindex{True}{ifTrue:}
 \cmindex{False}{ifTrue:}
 
-In fact, this is the essence of OOP: when a message is sent to an object, the object itself determines which method will be used to respond. In this case an instance of \ct{True} simply evaluates the \emph{true} alternative, while an instance of \ct{False} evaluates the \emph{false} alternative.  All the abstract \ct{Boolean} methods are implemented in this way for \ct{True} and \ct{False}. For example:
+%In fact, this is the essence of OOP: when a message is sent to an object, the object itself determines which method will be used to respond. In this case an instance of \ct{True} simply evaluates the \emph{true} alternative, while an instance of \ct{False} evaluates the \emph{false} alternative.  All the abstract \ct{Boolean} methods are implemented in this way for \ct{True} and \ct{False}. For example:
+実際、これがOOPの本質です: メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドで反応するかを決めるのです。今回の場合では、\ct{True}インスタンスは\emph{true}の選択肢を実行し、反対に\ct{False}インスタンスは\emph{false}の選択肢を実行します。\ct{Boolean}の全ての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装されています。例えば:
 
-\begin{method}{Implementing negation}
+\begin{method}{否定の実装}
 True>>>not
     "Negation--answer false since the receiver is true."
     ^false
 \end{method}
 \cmindex{True}{not}
 
-\ct{Booleans} offer several useful convenience methods, such as \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:}, \mthind{Boolean}{ifFalse:ifTrue}. You also have the choice between eager and lazy conjunctions and disjunctions.
+%\ct{Booleans} offer several useful convenience methods, such as \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:}, \mthind{Boolean}{ifFalse:ifTrue}. You also have the choice between eager and lazy conjunctions and disjunctions.
+\ct{Booleans}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利なメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から選んで使用できます。
 
 \begin{code}{@TEST}
-(1>2) & (3<4)              --> false    "must evaluate both sides"
-(1>2) and: [ 3<4 ]        --> false    "only evaluate receiver"
-(1>2) and: [ (1/0) > 0 ] --> false    "argument block is never evaluated, so no exception"
+%(1>2) & (3<4)              --> false    "must evaluate both sides"
+%(1>2) and: [ 3<4 ]        --> false    "only evaluate receiver"
+%(1>2) and: [ (1/0) > 0 ] --> false    "argument block is never evaluated, so no exception"
+(1>2) & (3<4)              --> false    "両者を必ず評価する"
+(1>2) and: [ 3<4 ]        --> false    "レシーバーだけが評価される"
+(1>2) and: [ (1/0) > 0 ] --> false    "引数ブロックは評価されないので、例外も発生しない"
 \end{code}
 
-In the first example, both \ct{Boolean} subexpressions are evaluated, since \mthind{Boolean}{&} takes a \ct{Boolean} argument.
-In the second and third examples, only the first is evaluated, since \mthind{Boolean}{and:} expects a \ct{Block} as its argument.  The \ct{Block} is evaluated only if the first argument is \pvind{true}.
+%In the first example, both \ct{Boolean} subexpressions are evaluated, since \mthind{Boolean}{&} takes a \ct{Boolean} argument.
+最初の例では、\mthind{Boolean}{&}が\ct{Boolean}引数を受け取るので、\ct{Boolean}である部分式は両方とも評価されます。
+%In the second and third examples, only the first is evaluated, since \mthind{Boolean}{and:} expects a \ct{Block} as its argument.  The \ct{Block} is evaluated only if the first argument is \pvind{true}.
+二つ目と３つ目の例では、\mthind{Boolean}{and:}が引数として\ct{Block}を取るので、最初の式しか評価されません。\ct{Block}は最初の引数が\pvind{true}のときにだけ評価されるのです。
 
 \dothis{Try to imagine how \ct{and:} and \ct{or:} are implemented.
 Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
@@ -881,9 +892,11 @@ Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
 %  \item If you override \ct{=} then you should override \ct{hash} as well.
   \item もし\ct{=}を上書きした場合は、合わせて\ct{hash}も上書きする必要があります。
 
-  \item Override \ct{postCopy} to correctly implement copying for your objects.
+%  \item Override \ct{postCopy} to correctly implement copying for your objects.
+  \item 自作オブジェクトのコピーを正しく実装するには\ct{postCopy}を上書きして下さい。
 
-  \item Send \ct{self halt} to set a breakpoint.
+%  \item Send \ct{self halt} to set a breakpoint.
+  \item ブレークポイントを設定するには\ct{self halt}を送ります。
 
   \item Return \ct{self subclassResponsibility} to make a method abstract.
 
