@@ -1193,26 +1193,24 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 				with: [ html html: text ] ]
 \end{code}
 
-\mthind{WATagBrush}{onClick:} specifies a \ind{JavaScript} event handler.
-\ct{html updater} returns an instance of \ct{SUUpdater}, a Smalltalk object representing the JavaScript Ajax.Updater object (\url{http://www.prototypejs.org/api/ajax/updater}).
-This object performs an AJAX request and updates a container's contents based on the response text.
-\ct{id:} tells the updater what XHTML DOM element to update, in this case the contents of the div element with the id 'display'.
-\ct{callback:} specifies a block that is triggered when the user presses the button.
-The block argument is a new renderer \ct{r}, which we can use to render the display component.
-(Note: Even though html is still accessible, it is not valid anymore at the time this callback block is evaluated).
-Before rendering the display component we evaluate \ct{aBlock} to perform the desired action.
+\mthind{WATagBrush}{onClick:}で \ind{JavaScript}のイベントハンドラを指定しています。
+\ct{html updater} によって \ct{SUUpdater}のインスタンスが返ってきます。これはJavaScriptのAjax.Updaterオブジェクト(\url{http://www.prototypejs.org/api/ajax/updater})に該当するSmalltalkのオブジェクトです。.
+このオブジェクトはAJAXリクエストの送信を行い、返ってきたテキストで特定部分の更新を行います。
+\ct{id:} によってupdaterに、どのXHTMLのDOM要素を更新すべきかを指定しています。この例の場合は'display'のidが振られたdiv要素になります。
+\ct{callback:} で、ユーザがボタンを押した時のコールバックをブロックの形で指定します。ブロックの引数である\ct{r}は、新たに生成されるレンダラで、これを使ってdisplayのコンポーネントの表示を行います。
+(コード上はメソッドの引数となっているhtmlレンダラにもアクセスできますが、コールバックのブロックが評価されるときには無効になっているので注意してください)。displayのコンポーネントをレンダリングする前に、 \ct{aBlock} を評価するようにしています。ここで適切な処理を外から渡して行えるようにしています。
 
-\ct{return: false} tells the JavaScript engine to not trigger the original link callback, which would cause a full refresh.
-We could instead remove the original anchor \ct{callback:}, but like this the calculator will still work even if JavaScript is disabled.
+\ct{return: false} では、JavaScript側にリンクに設定されている元々のコールバックを呼ばないように指定しています。このコールバックが呼ばれると、ページ全体がリフレッシュされてしまいます。、リンクにあった \ct{callback:}部分を削除してコールバックを設定しないようにすることもできますが、JavaScriptが無効になっていても動作するように、あえてこのようにしています。
 
-\dothis{Try the calculator again, and notice how a full page refresh is triggered every time you press a digit key. (The URL of the web page is updated at each keystroke.)}
+\dothis{計算機の数値キーを押してみて、ページ全体のリフレッシュが行われていることを確認してみてください。(WebページのURLがボタンを押すたびに変わります)。}
 
-Although we have implemented the client-side behavior, we have not yet activated it.
-Now we will enable the Javascript event handling.
+クライアントサイドのJavaScriptの振る舞いを実装したのですが、まだ無効なままです。JavaScriptのイベント処理を有効にしましょう。
 
 \dothis{
-Click on the \link{Configure} link in the toolbar of the calculator.
-Select ``Add Library:'' \ct{SULibrary}, click the \button{Add} button and \button{Close}.}
+計算機の下のツールバーに表示されている \link{Configure} リンクをクリックしてみましょう。
+``Add Library:''の部分で \ct{SULibrary}を選び、 \button{Add}ボタンを押して\button{Close}で閉じます。}
+
+%要動作確認
 
 Instead of manually adding the library, you may also do it programmatically when you register the application:
 \begin{code}{}
