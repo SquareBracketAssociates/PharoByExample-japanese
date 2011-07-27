@@ -764,64 +764,59 @@ WAConvenienceTest>>>confirmCheese
 	^self confirm: 'Is ', cheese,  ' your favorite cheese?'
 \end{code}
 
-Finally a \clsind{WAFormDialog} is called (via the convenience method \mthind{WAComponent}{inform:}).
+最後に便利メソッド \mthind{WAComponent}{inform:})によって、\clsind{WAFormDialog} が呼び出されます。
 
 \begin{code}{}
 WAConvenienceTest>>>informCheese
 	self inform: 'Your favorite cheese is ', cheese, '.'
 \end{code}
 
-The generated dialogues are shown in \figref{chooseCheese}.
+生成されるダイアログを図 \figref{chooseCheese}に示します。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{chooseCheese}
-\caption{A simple task}
+\caption{単純なタスクの例}
 \figlabel{chooseCheese}
 \end{center}
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{Transactions}
+\subsection{トランザクション}
+% 3.0で未サポートとなった機能。訳す?
 
-We saw in \secref{backtracking} that Seaside can keep track of the correspondence between the state of components and individual web pages by having components register their state for backtracking:
-all that a component need do is implement the method \ct{states} to answer an array of all the objects whose state must be tracked.
+ \secref{backtracking} で Seasideはバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態を、Webページごとに記録できるという話をしました。コンポーネント側でしなければならないことは、単に \ct{states} メソッドを定義して、バックトラック対象のオブジェクトを配列の形で返すだけでした。
 
-Sometimes, however, we do not want to backtrack state: instead we want to \emph{prevent} the user from accidentally undoing effects that should be permanent.
-This is often referred to as ``the shopping cart problem''.
-Once you have checked-out your shopping cart and paid for the items you have purchased, it should not be possible to go ``back'' with the browser and add more items to the shopping cart!
+しかし時にはバックトラックしたくないときもあります。ユーザが一度行った操作を、間違って取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
 
-Seaside allows you to prevent this by defining a task within which certain actions are grouped together as \emph{transactions}.
-You can backtrack within a transaction, but once a transaction is complete, you can no longer go back to it.
-The corresponding pages are \emph{invalidated}, and any attempt to go back to them will cause Seaside to generate a warning and redirect the user to the most recent valid page.
+Seasideでは\emph{トランザクション}として、いくつかの操作をひとまとめにしてタスク内で定義することによって、この機能を実現できます。
+トランザクションの中ではバックトラックができますが、トランザクション終了後は戻ることができません。トランザクションを越えて戻ろうとすると、そのページは \emph{無効}になります。無効なページに戻ろうとしても、Seasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{sushiStore}
-\caption{The Sushi Store}
+\caption{寿司屋デモ}
 \figlabel{sushiStore}
 \end{center}
 \end{figure}
 
-The Seaside \emphsubind{Seaside}{Sushi Store} is sample application that illustrates many of the features of Seaside, including transactions.
-This application is bundled with your installation of Seaside, so you can try it out by pointing your browser at
-\url{http://localhost:8080/seaside/examples/store}.\footnote{If you cannot find it in your image, there is a version of the sushi store available on SqueakSource from \url{http://www.squeaksource.com/SeasideExamples/}.}
+Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
+このサンプルはSeasideに含まれており、Webブラウザで\url{http://localhost:8080/seaside/examples/store}のURLを指定すると起動します。\footnote{もしも同梱されていない場合はSqueakSourceのページ(\url{http://www.squeaksource.com/SeasideExamples/})からロードできます。 }
 
-The sushi store supports the following workflow:
+寿司屋デモのワークフローは以下のようになっています。
 \begin{enumerate}[itemsep=0pt]
-  \item Visit the store.
-  \item Browse or search for sushi.
-  \item Add sushi to your shopping cart.
-  \item Checkout.
-  \item Verify your order.
-  \item Enter shipping address.
-  \item Verify shipping address.
-  \item Enter payment information.
-  \item Your fish is on its way!
+  \item サイトを訪れる
+  \item 寿司をブラウズ、検索する
+  \item ショッピングカートに寿司を追加する
+  \item 注文処理を開始する
+  \item カートの内容を確認する
+  \item 届け先の住所を入力する
+  \item 住所を確認する
+  \item 支払い情報を入力する
+  \item 寿司を待つ
 \end{enumerate}
 
-If you toggle the \subind{Seaside}{halos}, you will see that the top-level component of the sushi store is an instance of \clsind{WAStore}.
-It does nothing but render the title bar, and then it renders \ct{task}, an instance of \clsind{WAStoreTask}.
+ \subind{Seaside}{ハロ}を表示させてみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
@@ -829,14 +824,13 @@ WAStore>>>renderContentOn: html
 	html div id: 'body'; with: task
 \end{code}
 
-\clsind{WAStoreTask} captures this workflow sequence. At a couple of points it is critical that the user not be able to go back and change the submitted information.
+\clsind{WAStoreTask}がワークフローの順番を定義しています。ユーザが戻って一度サブミットした情報を変更できないようにすることが重要です。
 
-\dothis{\,``Purchase'' some sushi and then use the ``back'' button to try to put more sushi into your cart.
-You will get the message ``That page has expired.''}
+\dothis{\,いくつか寿司を購入した後で、Webブラウザの「戻る」ボタンを押し、カートの中にさらに寿司を追加してみましょう。``That page has expired.''と出て追加できません。}
 
-Seaside lets the programmer say that a certain part of a workflow act like a transaction: once the transaction is complete, the user cannot go back and undo it.
-You say this by sending \mthind{WAComponent}{isolate:} to a task with the transactional block as its argument.
-We can see this in the sushi store workflow as follows:
+Seasideでは、プログラマがワークフローのある部分をトランザクションとして定義できるようになっています。トランザクションが一度終了すると、ユーザはそこに戻って操作をやり直すことはできません。
+トランザクションを定義するには、\mthind{WAComponent}{isolate:}メッセージをタスクに送ります。引数で
+トランザクションにする部分ブロックで指定します。寿司屋デモでは以下のようにしています。
 
 \begin{code}{}
 WAStoreTask>>>go
@@ -858,17 +852,15 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-Here we see quite clearly that there are two transactions.
-The first fills the cart and closes the shopping phase.
-(The helper methods \ct{fillCart} \etc take care of instantiating and calling the right subcomponents.)
-Once you have confirmed the contents of the cart you cannot go back without starting a new session.
-The second transaction completes the shipping and payment data.
-You can navigate back and forth within the second transaction until you confirm payment.
-However, once both transactions are complete, any attempt to navigate back will fail.
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています。)
 
-Transactions may also be nested.
-A simple demonstration of this is found in the class \clsind{WANestedTransaction}.
-The first \ct{isolate:} takes as argument a block that contains another, nested \ct{isolate:}
+%セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
+一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
+トランザクションを終えた後では、戻ろうとしても常に警告が出て失敗します。
+
+トランザクションをネストすることもできます。 \clsind{WANestedTransaction}で簡単なデモを見ることができます。
+% 3.0には同梱されていない
+最初の \ct{isolate:}のブロック内に、さらに別の \ct{isolate:}ブロックが含まれています。
 
 \begin{code}{}
 WANestedTransaction>>>go
@@ -880,32 +872,31 @@ WANestedTransaction>>>go
 	self inform: 'Outside parent txn'
 \end{code}
 
-\dothis{Go to \url{http://localhost:8080/seaside/tests/alltests}, select \menu{WATransactionTest} and click on \button{Restart}.
-Try to navigate back and forth within the parent and child transaction by clicking the \button{back} button and then clicking \button{ok}.
-Note that as soon as a transaction is complete, you can no longer go back inside the transaction without generating an error upon clicking \button{ok}.}
+\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び \button{Restart}ボタンを押してみましょう。親と子のトランザクションの中で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクションが終了した後は、戻って\button{OK}ボタンを押したとしても、常にエラーが出て終了後のページにリダイレクトされます。}
 
 %=================================================================
-\section{A complete tutorial example}
+\section{サンプルアプリ作成によるチュートリアル}
 
 % ON: Should take about two hours
 
-Let's see how we can build a complete Seaside application from scratch.\footnote{The exercise should take at most a couple of hours. If you prefer to just look at the completed source code, you can grab it from the SqueakSource project \url{http://www.squeaksource.com/PharoByExample}.
-The package to load is \scat{PBE-SeasideRPN}. The tutorial that follows uses slightly different class names so that you can compare your implementation with ours.}
-We will build a RPN (Reverse Polish Notation) calculator as a Seaside application that uses a simple stack machine as its underlying model.
-Furthermore, the Seaside interface will let us toggle between two displays\,---\,one which just shows us the current value on top of the stack, and the other which shows us the complete state of the stack.
-The calculator with the two display options is shown in \figref{stackMachine}.
+ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}からダウンロードできます。 \scat{PBE-SeasideRPN}を選択してロードします。クラス名を少し変えてあるので、ロードしたとしても、本書に従ってアプリケーションを作っていくことができます。}
+RPN (逆ポーランド記法) の計算機をSeasideのアプリケーションとして作ることにしましょう。モデルとして単純なスタックマシンを実装して使うことにします。
+
+計算機アプリでは二種類の表示方法を用意します。一つ目はスタックの先頭の値を単に表示するタイプで、二つ目はスタックの内容をすべて表示することにタイプです。
+
+二つの表示方法を切り替える様子を示すと \figref{stackMachine}のようになります。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{stackMachine}
-\caption{RPN calculator and its stack machine}
+\caption{RPN計算機とスタックマシン}
 \figlabel{stackMachine}
 \end{center}
 \end{figure}
 
-We begin by implementing the stack machine and its tests.
+スタックマシンとテストを書くところから始めていきましょう。
 
-\dothis{Define a new class called \ct{MyStackMachine} with an instance variable \ct{contents} initialized to a new \ct{OrderedCollection}.}
+\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義しましょう。\ct{OrderedCollection}で初期化することにします。}
 
 \begin{code}{}
 MyStackMachine>>>initialize
@@ -913,7 +904,7 @@ MyStackMachine>>>initialize
 	contents := OrderedCollection new.
 \end{code}
 
-The stack machine should provide operations to \ct{push:} and \ct{pop} values, view the \ct{top} of the stack, and perform various arithmetic operations to add, subtract, multiply and divide the top values on the stack.
+スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
 
 \dothis{Write some tests for the stack operations and then implement these operations.
 Here is a sample test:}
