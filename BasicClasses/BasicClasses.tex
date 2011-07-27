@@ -898,24 +898,34 @@ Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
 %  \item Send \ct{self halt} to set a breakpoint.
   \item ブレークポイントを設定するには\ct{self halt}を送ります。
 
-  \item Return \ct{self subclassResponsibility} to make a method abstract.
+%  \item Return \ct{self subclassResponsibility} to make a method abstract.
+  \item メソッドを抽象メソッドにするには\ct{self subclassResponsibility}を返します。
 
-  \item To give an object a \ct{String} representation you should override \ct{printOn:}.
+%  \item To give an object a \ct{String} representation you should override \ct{printOn:}.
+  \item オブジェクトの\ct{String}表現を提供するには、\ct{printOn:}を上書きして下さい。
 
-  \item Override the hook method \ct{initialize} to properly initialize instances.
+%  \item Override the hook method \ct{initialize} to properly initialize instances.
+  \item インスタンスを適切に初期化するにはフックメソッドである\ct{initialize}を上書きします。
 
-  \item \ct{Number} methods automatically convert between \ct{Floats}, \ct{Fractions} and \ct{Integers}.
+%  \item \ct{Number} methods automatically convert between \ct{Floats}, \ct{Fractions} and \ct{Integers}.
+  \item \ct{Number}メソッドは自動的に\ct{Floats}、\ct{Fractions}、\ct{Integers}の間で変換されます。
 
-  \item \ct{Fractions} truly represent rational numbers rather than floats.
+%  \item \ct{Fractions} truly represent rational numbers rather than floats.
+  \item \ct{Fractions}は浮動小数点数ではなく本当の有理数を表しています。
 
-  \item \ct{Characters} are unique instances.
+%  \item \ct{Characters} are unique instances.
+  \item \ct{Characters}のインスタンスは一意です。
 
-  \item \ct{Strings} are mutable; \ct{Symbols} are not.
-  Take care not to mutate string literals, however!
+%  \item \ct{Strings} are mutable; \ct{Symbols} are not.
+%  Take care not to mutate string literals, however!
+  \item \ct{Strings}は変更可能ですが、\ct{Symbols}はそうではありません。
+  しかし文字列リテラルは変更できないということに注意しましょう！
 
-  \item \ct{Symbols} are unique; \ct{Strings} are not.
+%  \item \ct{Symbols} are unique; \ct{Strings} are not.
+  \item \ct{Symbols}は一意ですが、\ct{Strings}はそうではありません。
 
-  \item \ct{Strings} and \ct{Symbols} are \ct{Collections} and therefore support the usual \ct{Collection} methods.
+%  \item \ct{Strings} and \ct{Symbols} are \ct{Collections} and therefore support the usual \ct{Collection} methods.
+  \item \ct{Strings}と\ct{Symbols}は\ct{Collections}なので、一般的な\ct{Collection}のメソッドをサポートしています。
 
 \end{itemize}
 
