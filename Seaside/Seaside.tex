@@ -1212,7 +1212,8 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 
 %要動作確認
 
-Instead of manually adding the library, you may also do it programmatically when you register the application:
+ライブラリを手で追加する代わりに、プログラム的に行うこともできます。Seasideにアプリケーションを登録する際に以下のようにして指定します。
+
 \begin{code}{}
 MyCalculator class>>>initialize
 	(self registerAsApplication: 'rpn')
@@ -1222,18 +1223,17 @@ MyCalculator class>>>initialize
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{ajax-processing}
-\caption{Seaside AJAX processing (simplified)}
+\caption{SeasideでのAJAXの処理(簡略化したもの)}
 \figlabel{ajax-processing}
 \end{center}
 \end{figure}
 
-\dothis{Try the revised application.  Note that the feedback is much more natural. In particular, a new URL is not generated with each keystroke.}
+\dothis{計算機を再び試してみましょう。前よりも自然な形で操作できます。特にキーボタンを押すたびにURLが変わらなくなりました。}
 
-You may well ask, \emph{yes, but how does this work?}
-\figref{ajax-processing} shows how the RPN applications would both without and with AJAX.
-Basically AJAX short-circuits the rendering to \emph{only} update the display component.
-Javascript is responsible both for triggering the request and updating the corresponding DOM element.
-Have a look at the generated source-code, especially the JavaScript code:
+動作は確認できましたが、\emph{仕組みがどうなっているのか}気になるかもしれません。図 \figref{ajax-processing}では、AJAXなしの場合と、有効にした場合とで、RPN計算機のメッセージの流れを示しました。
+基本的に AJAX の場合は、レンダリング処理をとばして、displayコンポーネント\emph{のみ}の更新を行います。
+JavaScript側ではリクエストの送信と、対応するDOM要素の更新の両方を受け持っています。
+生成されるJavaScriptのソースを見てみましょう。
 
 \begin{code}{}
 new Ajax.Updater(
@@ -1244,22 +1244,27 @@ new Ajax.Updater(
 return false
 \end{code}
 
-For more advanced examples, have a further look at \url{http://localhost:8080/seaside/tests/scriptaculous}.
+より高度なサンプルについては \url{http://localhost:8080/javascript/scriptaculous}を見ると良いでしょう。
 
-\paragraph{\emph{Hints.}}
-In case of server side problems use the Smalltalk debugger.
-In case of client side problems use FireFox (\url{http://www.mozilla.com}) with the JavaScript debugger FireBug (\url{http://www.getfirebug.com/}) plugin enabled.
+\paragraph{\emph{Tips}}
+サーバ側のデバッグは通常のSmalltalkのデバッガを使うことができます。クライアント側のデバッグはFireFox (\url{http://www.mozilla.com})を入れて、FireBug (\url{http://www.getfirebug.com/}) プラグインを有効にしておくと便利です。
 
 %=================================================================
-\section{Chapter summary}
+\section{この章のまとめ}
+
+%　item 3 3.0では当てはまらず
+%　item 5 3.0では当てはまらず
+
 
 \begin{itemize}
-  \item The easiest way to get started is to download the ``Seaside One-Click Experience'' from \url{http://seaside.st}
-  \item Turn the server on and off by evaluating \ct{WAKom startOn: 8080} and \ct{WAKom stop}.
-  \item Reset the administrator login and password by evaluating \ct{WADispatcherEditor initialize}.
-  \item \menu{Toggle Halos} to directly view application source code, run-time objects, CSS and XHTML.
-  \item Send \ct{WAGlobalConfiguration setDeploymentMode} to hide the toolbar.
-  \item Seaside web applications are composed of components, each of which is an instance of a subclass of \ct{WAComponent}.
+  \item Seasideを始めるには``Seaside One-Click Experience''イメージを \url{http://seaside.st}からダウンロードするのがもっとも簡単です。
+  \item \ct{WAKom startOn: 8080} でサーバを開始、 \ct{WAKom stop}で終了です。
+  \item 管理用のIDとパスワードは\ct{WADispatcherEditor initialize}で初期化できます。
+  \item \menu{Toggle Halos} をクリックするとコンポーネントのソースコードやオブジェクトの状態、CSSやXHTMLを見ることができます。
+  \item \ct{WAGlobalConfiguration setDeploymentMode} で開発用のツールバーを隠せます。
+  \item Seasideのアプリケーションはコンポーネントからできています。コンポーネントとは\ct{WAComponent}を継承したクラスのインスタンスのことです。
+  
+  
   \item Only a root component may be registered as an application. It should implement \ct{canBeRoot} on the class side. Alternatively it may register itself as an application in its class-side \ct{initialize} method by sending \ct{self registerAsApplication:} \emph{application path}.
   If you override \ct{description} it is possible to return a descriptive application name that will be displayed in the configuration editor.
   \mb{the description thing is not mentionned anywhere}
