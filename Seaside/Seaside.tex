@@ -1263,15 +1263,14 @@ return false
   \item \menu{Toggle Halos} をクリックするとコンポーネントのソースコードやオブジェクトの状態、CSSやXHTMLを見ることができます。
   \item \ct{WAGlobalConfiguration setDeploymentMode} で開発用のツールバーを隠せます。
   \item Seasideのアプリケーションはコンポーネントからできています。コンポーネントとは\ct{WAComponent}を継承したクラスのインスタンスのことです。
-  
-  
-  \item Only a root component may be registered as an application. It should implement \ct{canBeRoot} on the class side. Alternatively it may register itself as an application in its class-side \ct{initialize} method by sending \ct{self registerAsApplication:} \emph{application path}.
-  If you override \ct{description} it is possible to return a descriptive application name that will be displayed in the configuration editor.
-  \mb{the description thing is not mentionned anywhere}
-  \item To backtrack state, a component must implement the \ct{states} method to answer an array of objects whose state will be restored if the user clicks the browser's ``back'' button.
-  \item A component renders itself by implementing \ct{renderContentOn:}.
-  The argument to this method is an XHTML rendering \emph{canvas} (usually called \ct{html}).
-  \item A component can render a subcomponent by sending \ct{self render:} \emph{subcomponent}.
+  \item SeasideのWeb管理ツールからアプリケーションとして登録できるコンポーネントは、ルートコンポーネントになります。クラスメソッドの \ct{canBeRoot} を実装してtrueを返すようにします。initializeのクラスメソッドで、 \ct{self registerAsApplication:} を自身に送ることで、登録することもできます。引数は \emph{アプリケーションのパス}になります。 \ct{description} をオーバーライドするとWeb上のコンフィギュレーションエディタにアプリケーションの説明を表示させることも可能です。
+  \item 状態をバックトラックできるようにするには、コンポーネントで \ct{states} メソッドを定義して、復元したいオブジェクトの配列を返すように実装する必要があります。ユーザが「戻る」ボタンを押しても状態が正常に保たれます。
+  \item コンポーネントは\ct{renderContentOn:}を実装することで、自身をWebページ内に表示させることができます。引数としてXHTMLレンダリング用の\emph{キャンバス}が渡ってきます(通常は\ct{html}という名前になっています)。
+  \item コンポーネントは、自身が含んでいるサブコンポーネントを \ct{self render:} \emph{subcomponent}で表示させることができます。
+  \item XHTMLは \emph{brushes}にメッセージを送ることで生成されます。キャンバスに対して、 \ct{paragraph} や \ct{div}などのメッセージを送ると、XHTML要素に対応したブラシが返ってきます。
+  \item ブラシに\ct{with:}を含むメッセージを連続して送るときは、必ず \ct{with:}が最後になるようにします。\ct{with:}によってXHTMLの内容が定まり、その結果がレンダリングされるからです。
+  \item 状態を操作するアクションはコールバックの中で書くようにします。レンダリングメソッド内でコンポーネントの状態を変えてはいけません。
+
   \item XHTML is generated programmatically by sending messages to \emph{brushes}. A brush is obtained by sending a message, such as \ct{paragraph} or \ct{div}, to the html canvas.
   \item If you send a cascade of messages to a brush that includes the message \ct{with:}, then \ct{with:} should be the last message sent.
   The \ct{with:} message sets the contents \emph{and} renders the result.
