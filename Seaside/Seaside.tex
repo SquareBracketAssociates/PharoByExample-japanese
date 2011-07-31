@@ -1254,7 +1254,7 @@ return false
 
 %　item 3 3.0では当てはまらず
 %　item 5 3.0では当てはまらず
-
+%　item 19 3.0では当てはまらず
 
 \begin{itemize}
   \item Seasideを始めるには``Seaside One-Click Experience''イメージを \url{http://seaside.st}からダウンロードするのがもっとも簡単です。
@@ -1270,20 +1270,12 @@ return false
   \item XHTMLは \emph{brushes}にメッセージを送ることで生成されます。キャンバスに対して、 \ct{paragraph} や \ct{div}などのメッセージを送ると、XHTML要素に対応したブラシが返ってきます。
   \item ブラシに\ct{with:}を含むメッセージを連続して送るときは、必ず \ct{with:}が最後になるようにします。\ct{with:}によってXHTMLの内容が定まり、その結果がレンダリングされるからです。
   \item 状態を操作するアクションはコールバックの中で書くようにします。レンダリングメソッド内でコンポーネントの状態を変えてはいけません。
-
-  \item XHTML is generated programmatically by sending messages to \emph{brushes}. A brush is obtained by sending a message, such as \ct{paragraph} or \ct{div}, to the html canvas.
-  \item If you send a cascade of messages to a brush that includes the message \ct{with:}, then \ct{with:} should be the last message sent.
-  The \ct{with:} message sets the contents \emph{and} renders the result.
-  \item Actions should appear only in callbacks.
-You should not change the state of the application while you are rendering it.
-  \item You can bind various form widgets and anchors to instance variables with accessors by sending the message \ct{on:} \emph{instance variable} \ct{of:} \emph{object} to the brush.
-  \item You can define the CSS for a component hierarchy by defining the method \ct{style}, which should return a string containing the style sheet.
-  (For deployed applications, it is more usual to refer to a style sheet located at a static URL.)
-  \item Control flows can be programmed by sending \ct{x call: y}, in which case component \ct{x} will be replaced by \ct{y} until \ct{y} answers by sending \ct{answer:} with a result in a callback.
-  The receiver of \ct{call:} is usually \ct{self}, but may in general be any visible component.
-  \item A control flow can also be specified as a \emph{task}\,---\,a instance of a subclass of \ct{WATask}. It should implement the method \ct{go}, which should \ct{call:} a series of components in a workflow.
-  \item Use \ct{WAComponents}'s convenience methods \ct{request:}, \ct{inform:}, \ct{confirm:} and \ct{chooseFrom:caption:} for basic interactions.
-  \item To prevent the user from using the browser's ``back'' button to access a previous execution state of the web application, you can declare portions of the workflow to be a \emph{transaction} by enclosing them in an \ct{isolate:} block.
+  \item ブラシに\ct{on:} \emph{instance variable} \ct{of:} \emph{object}を送ることで、フォームの要素やリンクと、オブジェクトのインスタンス変数とを簡単に結びつけることができます。
+  \item スタイルシートの文字列を返す、\ct{style}メソッドを実装すると、コンポーネントが使うCSSを、クラス階層中に定義できます。(通常デプロイ時には、外部のCSSを固定のURLで参照させるようにします)。
+  \item 制御フローは、\ct{x call: y}のように書くことで表せます。この場合、\ct{x}のコンポーネントは \ct{y}のコンポーネントへと置き換えられます。 \ct{y} は \ct{answer:} で制御をxに戻すことができます。\ct{call:}のレシーバはたいていは \ct{self}ですが、それ以外のコンポーネントであってもかまいません。
+  \item 制御フローは \emph{タスク}として表すこともできます。タスクは\ct{WATask}のサブクラスとして定義します。 \ct{go}メソッドの中に、ワークフローを、連続した\ct{call:}のメッセージ送信として書いていきます。
+  \item ユーザと簡単なやりとりのために、\ct{WAComponents}の便利メソッドとして\ct{request:}、 \ct{inform:}、 \ct{confirm:}、\ct{chooseFrom:caption:} が用意されています。
+  \item ユーザが「戻る」ボタンを押して以前の状態にアプリケーションを戻してしまうのを防ぐには、\ct{isolate:}を使います。ブロックでワークフローを分割することで、ブロックを越えて過去の状態に戻ることができなくなります。
 \end{itemize}
 %-----------------------------------------------------------------
 
