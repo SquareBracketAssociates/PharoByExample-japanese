@@ -75,7 +75,7 @@
 %@The metaobjects in \st are classes, metaclasses, method dictionaries, compiled methods, the run-time stack, and so on.
 \st{}のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 %@This form of reflection is also called \emphind{introspection}, and is supported by many modern programming languages.
-このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの今風のプログラミング言語は、イントロスペクションをサポートしています。
+このタイプのリフレクションは、\emphind{イントロスペクション}とも呼ばれます。多くの現代風のプログラミング言語は、イントロスペクションをサポートしています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{reflect}
@@ -97,12 +97,12 @@
 %@Intercession is the ability to \emph{modify} these structures, in other words to change the language semantics and the behavior of a program from within the program itself.
 インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムの振る舞いを、プログラム自身の中から変更できる能力のことです。
 %@\emph{Structural reflection} is about examining and modifying the structures of the run-time system, and \emphind{behavioural reflection} is about modifying the interpretation of these structures.
-\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を検査し・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言うのです。
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を検査し・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言います。
 
 %@In this chapter we will focus mainly on \ind{structural reflection}.
 この章では、主に、\ind{構造的リフレクション}に焦点をあてます。
 %@We will explore many practical examples illustrating how \st supports introspection and metaprogramming.
-ここでは、多くの実際的な例つまり、\st{}がイントロスペクションとメタプログラミングをサポートしている様子を説明する、実際的な例について探ります。
+ここでは、\st{}がイントロスペクションとメタプログラミングをサポートしている様子を、実例を挙げて探ります。
 
 %======================================
 %@\section{Introspection}
@@ -154,7 +154,7 @@ w inspect
 %@In \st, classes define instance variables either by name or by numeric indices.
 \st{}では、クラスは、インスタンス変数を、名前か添字で定義します。
 %@The inspector uses methods defined by the \ct!Object! class to access them: \lct{instVarAt: \emph{index}} and \lct{instVarNamed: \emph{aString}} can be used to get the value of the instance variable at position \lct{\emph{index}} or identified by \lct{\emph{aString}}, respectively; to assign new values to these instance variables, it uses \ct!instVarAt:put:! and \ct!instVarNamed:put:!.
-インスペクターは、\ct!Object!クラスで定義されている、インスタンス変数にアクセスするためのメソッドを、用います。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用います。%@?respectivelyは訳さなかった。
+インスペクターは、インスタンス変数にアクセスするための汎用のメソッドを用いるのですが、これらのメソッドは、\ct!Object!クラスで定義されています。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用います。%@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
@@ -208,7 +208,7 @@ Object>>>instVarAt: index
 この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 %@In the same spirit, it is possible to gather instances that have specific properties.
-同様の精神に基づき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神に基づき?
+同様の考え方に基づき、特定の属性を持ったインスタンスを集めることが可能です。%@?In the same spirit: 同様の精神に基づき?
 %@For instance, to get all instances of class \ct!SketchMorph! whose instance variable \ct!owner! is set to the world morph (\ie images currently displayed), try this expression:
 例えば、\ct!SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されているすべてのインスタンス(\ie{}現在表示されているすべてのイメージ)を得るために、次の式を試してみましょう:
 \begin{code}{}
@@ -246,7 +246,7 @@ Object>>>instanceVariableValues
 %@This method iterates over the indices of instance variables that the class defines, starting just after the last index used by the superclasses.
 このメソッドは、そのクラスが定義する一連のインスタンス変数の添字について、繰り返し処理します。このときの添字は、スーパークラスで用いられていた最後の添字の直後の値から始まります。
 %@(The method \ct!instSize! returns the number of all named instance variables that a class defines.)
-(この\ct!instSize!メソッドは、そのクラスが定義しているすべての名前付きのインスタンス変数の数を返します)。
+(\ct!instSize!メソッドは、クラスが定義しているすべての名前付きのインスタンス変数の数を返します)。
 
 %-----------------------------------------------------------------
 %@\subsection{Querying classes and interfaces}
@@ -287,7 +287,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できる
 %@\important{\emph{Caveat:} Although these features are especially useful for defining development tools, they are normally not appropriate for typical applications.
 \important{\emph{警告:}これらの機能は、とりわけ開発ツールを定義するのに便利ですが、典型的なアプリケーションには、通常、適していません。
 %@Asking an object for its class, or querying it to discover which messages it understands, are typical signs of design problems, since they violate the principle of encapsulation.
-オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示すものです。なぜならそれは、カプセル化の原則を破る行為だからです。
+オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示すものです。なぜならそれは、カプセル化の原則を破ることだからです。
 %@Development tools, however, are not normal applications, since their domain is that of software itself. As such these tools have a right to dig deep into the internal details of code.}
 開発ツールは、しかし、通常のアプリケーションではありません。なぜなら、開発ツールのドメインは、ソフトウェア自身のドメインだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
 
@@ -337,19 +337,19 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 %@This informs us about the relation between the class and its superclasses.
 これにより、クラスとそのスーパークラスの関係がわかります。
 %@In the next sections we will see how to exploit our knowledge of the runtime structure to answer such questions.
-次の節以降で、その種のメトリクスに関する疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を有効に使ってどう答えるか、見ていきます。
+次の節以降で、その種の疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を有効に使ってどう答えるか、見ていきます。
 
 %======================================
 %@\section{Browsing code}
 \section{コードをブラウズする}
 
 %@In \st, everything is an object. In particular, classes are objects that provide useful features for navigating through their instances.
-\st{}では、すべてがオブジェクトです。特にクラスは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供するオブジェクトです。%@?their instances: クラスのインスタンスの世界?
+\st{}では、すべてがオブジェクトです。特にクラスオブジェクトは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供します。
 %@Most of the messages we will look at now are implemented in \ct{Behavior}, so they are understood by all classes.
 これから見るメッセージの多くは、\ct{Behavior}で実装されているので、すべてのクラスが(\ct{Class}は、\ct{Behavior}を継承しています)、これらのメッセージを理解できます。
 
 %@As we saw previously, you can obtain an instance of a given class by sending it the message \ct!#someInstance!.
-以前見たように、与えられたクラスのインスタンスは、そのクラスに\ct!#someInstance!メッセージを送れば、得られます。%@?As we saw previouslyだと!?
+与えられたクラスのインスタンスは、そのクラスに\ct!#someInstance!メッセージを送れば、得られます。%@?As we saw previously: 嘘。
 \mthindex{Behavior}{someInstance}
 \begin{code}{@TEST} % Possibly fragile!
 Point someInstance --> 0@0
@@ -369,7 +369,7 @@ String allSubInstances size -->  101675
 \end{code}
 
 %@These features can be very useful when debugging an application, because you can ask a class to enumerate those of its methods exhibiting specific properties.
-以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、そのメソッド --- 具体的な属性を示すメソッド --- を列挙するよう依頼できるからです。
+以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、特定の属性を示すメソッドを列挙するよう依頼できるからです。%@?those: 何???
 \begin{itemize}
 %@\item \mthind{Behavior}{whichSelectorsAccess:} returns the list of all selectors of methods that read or write the instance variable named by the argument
 \item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
@@ -395,7 +395,7 @@ Point crossReference --> an Array(
 以下のメッセージは、継承を考慮に入れます:
 \begin{itemize}
 %@\item \mthind{Behavior}{whichClassIncludesSelector:} returns the superclass that implements the given message
-\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す
+\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す%@?クラスも含むはず。
 %@\item \mthind{Behavior}{unreferencedInstanceVariables} returns the list of instance variables that are neither used in the receiver class nor any of its subclasses
 \item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
@@ -434,7 +434,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 %@Messages sent but not implemented, however, are more problematic, because the methods sending these messages will fail at runtime.
 送られるのに実装されていないメッセージは、しかし、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗するからです。
 %@They may be a sign of unfinished implementation, obsolete APIs, or missing libraries.
-これらは、未完了の実装、廃止されたAPI、あるいは欠落したライブラリがあることを示すものです。
+これらは、完了していない実装、廃止されたAPI、あるいは欠落したライブラリがあることを示すものです。
 
 \mthindex{SystemNavigation}{allCallsOn:}
 %@\ct!SystemNavigation default allCallsOn: #Point! returns all messages sent explicitly to \ct!Point! as a receiver.
@@ -484,7 +484,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %@You can see that the class stores its methods in a dictionary, indexing them by their selector.
 ここでは、クラスがそのメソッドを辞書に格納しているのが確認できます。そしてセレクターが、辞書の見出しになっています。
 %@The selector \ct{#*} points to the decompiled \ind{bytecode} of \ct!Point>>>*!.
-The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
+\ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
@@ -501,7 +501,7 @@ The selector \ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>
 %@Each compiled method knows the class in which it is installed.
 コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
 %@In \figref{CompiledMethod} we can even see that this is stored in an association in \ct{literal5}.
-\figref{CompiledMethod}を見れば、このPointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
+\figref{CompiledMethod}を見れば、Pointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
@@ -565,10 +565,10 @@ SystemNavigation default
 \section{ブラウザー環境}
 
 %@Although \clsind{SystemNavigation} offers some useful ways to programmatically query and browse system code, there is a better way.  The \ind{Refactoring Browser}, which is integrated into \pharo, provides both interactive and programmatic ways to pose complex queries.
-\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo{}には\ind{Refactoring Browser}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
+\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo{}には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
 
 %@Suppose we are interested to discover which methods in the \lct{Collection} hierarchy send a message to \super which is different from the method's selector.
-\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super{}に送っているか、それを見出したかったとしましょう。
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super{}に送っているかに関心があったとしましょう。
 %@This is normally considered to be a bad \ind{code smell}, since such a \super-send should normally be replaced by a \self-send. (Think about it --- you only \emph{need} \super to extend a method you are overriding; all other inherited methods can be accessed by sending to \self!)
 このように、何かをオーバーライドしているわけではないメソッドが、\super{}送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super{}送信は、通常は、\self{}送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super{}は、メソッドをオーバーライドするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self{}にメッセージを送れば済みます!)
 
@@ -578,13 +578,13 @@ SystemNavigation default
 %@\dothis{Open a browser on the class \ct{Collection}.
 \dothis{ブラウザーを開けて、\ct{Collection}を見てみましょう。
 %@\actclick on the class name and select \menu{refactoring scope>subclasses with}.
-クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
+クラス名を\actclick{}して、\menu{refactoring scope>subclasses with}を選択しましょう。
 %@This will open a new Browser Environment on just the \ct{Collection} hierarchy.
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
 %@Within this restricted scope select \menu{refactoring scope>super-sends} to open a new environment with all methods that perform super-sends within the \ct{Collection} hierarchy.
 この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、\super{}送信を行っているすべてのメソッドが列挙されます。
 %@Now \click on any method and select \menu{refactor>code critics}.
-さあ、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
+さて、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 %@Navigate to \menu{Lint checks>Possible bugs>Sends different super message} and \actclick to select \menu{browse}.}
 \menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick{}してみましょう。}
 
@@ -599,7 +599,7 @@ SystemNavigation default
 %@Browser environments can also be created programmatically.
 ブラウザー環境はまた、プログラム的に作れます。
 %@Here, for example, we create a new \clsind{BrowserEnvironment} for \clsind{Collection} and its subclasses, select the super-sending methods, and open the resulting environment.
-例えば、以下のように、\clsind{Collection}とそのサブクラスに対する、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、このインスタンスに対して\ct!selectMethods:!を用いて、\super{}送信をしているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示できます。
+例えば、以下のように、新しい\clsind{BrowserEnvironment}のインスタンスを生成し、\clsind{Collection}とそのサブクラスについて\ct{forClasses:}することにより、\clsind{ClassEnvironment}のインスタンスを得て、このインスタンスに対して\ct!selectMethods:!を用いて、\super{}送信をしているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示できます。%@?ClassEnvironmentについての記述が欠けている。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -609,10 +609,10 @@ SystemNavigation default
 \end{code}{}
 
 %@Note how this is considerably more compact than the earlier, equivalent example using \ct{SystemNavigation}.
-この例は、先程の、\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。%@?how?
+この例は、先程の、\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
 
 %@Finally, we can find just those methods that send a different super message programmatically as follows:
-最終的に、以下のようにして、自身と異なった\super{}メッセージを送っているメソッドを、プログラム的に見つけ出せます:
+最終的に、以下のようにして、自身と異なった\super{}メッセージを送っているメソッドだけを、プログラム的に見つけ出せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -623,7 +623,7 @@ SystemNavigation default
 	open
 \end{code}
 %@Here we ask each compiled method for its (Refactoring Browser) parse tree, in order to find out whether the super messages differ from the method's selector.
-ここでは、各コンパイル済みメソッドに、その解析木について尋ね(\ct!CompiledMethod>>parseTree!は\ct!RBParser class>>parseMethod:onError:!を送ります)、\super{}メッセージが、メソッドセレクターと異なっているかを探り出しています。%@?(Refactoring Browser): ???
+ここでは、各コンパイル済みメソッドに、リファクタリングブラウザによる解析木について尋ね(\ct!CompiledMethod>>parseTree!は\ct!RBParser class>>parseMethod:onError:!を送ります)、\super{}メッセージが、メソッドセレクターと異なっているかを探り出しています。
 %@Have a look at the \prot{querying} protocol of the class \ct{RBProgramNode} to see some the things we can ask of parse trees.
 \ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が尋ねられるかがわかります。%@?see some the things: ???
 
@@ -632,14 +632,14 @@ SystemNavigation default
 \section{実行時コンテクストにアクセスする}
 
 %@We have seen how \st's reflective capabilities let us query and explore objects, classes and methods.  But what about the run-time environment?
-これまで、\st{}のリフレクティブな機能をどのように用いて、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるか見てきました。しかし、実行時環境についてはどうでしょう?
+これまで、\st{}のリフレクティブな機能をどのように用いれば、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるのかを見てきました。しかし、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
 %@\subsection{Method contexts}
 \subsection{メソッドコンテクスト}
 
 %@In fact, the run-time context of an executing method is in the virtual machine --- it is not in the image at all!
-実際、実行中のメソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、仮想イメージの中ではない、ということです!
+実際、メソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、仮想イメージの中にはありません!%@?executing:　くどくなるので訳さなかった。
 %@On the other hand, the \ind{debugger} obviously has access to this information, and we can happily explore the run-time context, just like any other object.
 その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスできます。そして幸いにも、この実行時コンテクストをエクスプロアできます。それはちょうど、他の任意のオブジェクトをエクスプロアできるのと同様です。
 %@How is this possible?
@@ -648,7 +648,7 @@ SystemNavigation default
 %@Actually, there is nothing magical about the debugger.
 実は、デバッガーには何の魔法もありません。
 %@The secret is the pseudo-variable \pvind{thisContext}, which we have encountered only in passing before.
-秘密は、\pvind{thisContext}という疑似変数にあって、%@?which~: 翻訳不能???
+秘密は、\pvind{thisContext}という疑似変数にあります。これには、3.2章で少しだけ触れました。%@?which we have encountered only in passing before???
 %@Whenever \ct{thisContext} is referred to in a running method, the entire run-time context of that method is reified and made available to the image as a series of chained \clsind{MethodContext} objects.
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
@@ -656,7 +656,7 @@ SystemNavigation default
 このメカニズムについて、簡単に、自分で実験できます。
 
 %@\dothis{Change the definition of \ct{Integer>>>factorial} by inserting the underlined expression as shown below:}
-\dothis{\ct{Integer>>>factorial}の定義を、以下のように変えてみましょう:}
+\dothis{\ct{Integer>>>factorial}の定義を、下線部の式を挿入して、以下のように変えてみましょう:}
 
 %@	"Answer the factorial of the receiver."
 \mthindex{Object}{halt}
@@ -669,7 +669,7 @@ Integer>>>factorial
 \end{code}
 
 %@\dothis{Now evaluate \ct{3 factorial} in a workspace. You should obtain both a debugger window and an explorer, as shown in \figref{exploringThisContext}.}
-\dothis{さあ、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
+\dothis{さて、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
@@ -680,7 +680,7 @@ Integer>>>factorial
 %@Welcome to the poor-man's debugger!
 貧者のデバッガーへようこそ!
 %@If you now browse the class of the explored object (\ie by evaluating \ct{self browse} in the bottom pane of the explorer) you will discover that it is an instance of the class \lct{MethodContext}, as is each \ct{sender} in the chain.
-ここで今、エクスプロアされたオブジェクトのクラスをブラウズすると(\ie エクスプローラーの下部のペインで\ct{self browse}を評価すれば)、\ct{thisContext}が、\lct{MethodContext}のインスタンスであることがわかるでしょう。これは、\ct{sender}の連鎖においても同様です。
+ここで今、エクスプロアされたオブジェクトのクラスをブラウズすると(\ie{}エクスプローラーの下部のペインで\ct{self browse}を評価すると)、\ct{thisContext}が、\lct{MethodContext}のインスタンスであることがわかるでしょう。これは、\ct{sender}の連鎖においても同様です。
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
 %@\ct{thisContext} is not intended to be used for day-to-day programming, but it is essential for implementing tools like debuggers, and for accessing information about the call stack.
@@ -695,19 +695,19 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 %@As it turns out, one of the most common applications is to discover the sender of a message.
 結局のところ、\ct{thisContext}の最も一般的な応用例のひとつは、メッセージのセンダーを見出すことです。
 %@Here is a typical application:
-以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
+以下は典型的なアプリケーションです:%@?application: アプリケーションでいいか?
 %@	"This message sets up a framework for the behavior of the class' subclasses.
-%@	Announce that the subclass should have implemented this message."
+%@	Announce that the subclass should have implemented this message."%@?以下の{code}では、コメントを1行ずつ書かないと、なぜか化ける。
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。
-	このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
+	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
 %@By convention, methods in \st that send \ct{self subclassResponsibility} are considered to be abstract.  But how does \clsmthind{Object}{subclassResponsibility} provide a useful error message indicating which abstract method has been invoked?  Very simply, by asking \ct{thisContext} for the sender.
-慣習により、\st{}のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。 \ct{thisContext}にセンダーを尋ねるのです。
+慣習により、\st{}のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。\ct{thisContext}にセンダーを尋ねるのです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
@@ -722,10 +722,10 @@ we should have a Reflection applied chapter}
 %@The \st way to set a breakpoint is to evaluate \ct{self halt} at an interesting point in a method.  This will cause \ct{thisContext} to be reified, and a \ind{debugger} window will open at the breakpoint.
 ブレークポイントをかけるための\st{}のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開きます。
 %@Unfortunately this poses problems for methods that are intensively used in the system.
-不幸なことに、これを、システムの中核的なメソッドに対して行うと、数々の問題を引き起こしす。
+残念なことに、これを、システムで集中的に使われるメソッドに対して行うと、数々の問題を引き起こしす。
 
 %@Suppose, for instance, that we want to explore the execution of \ct{OrderedCollection>>>add:}.
-例えば、こうしましょう。\ct{OrderedCollection>>>add:}の実行をエクスプロアしたかったとしましょう。
+例えば、\ct{OrderedCollection>>>add:}の実行をエクスプロアしたかったとしましょう。
 %@Setting a breakpoint in this method is problematic.
 このメソッドにブレークポイントをかけると、やっかいなことになります。
 
@@ -743,12 +743,12 @@ OrderedCollection>>>add: newObject
 %@The problem is clear once we understand that (i) \ct{OrderedCollection>>>add:} is used by many parts of the system, so the breakpoint is triggered very soon after we accept the change, but (ii) \emph{the debugger itself} sends \ct{add:} to an instance of \ct{OrderedCollection}, preventing the debugger from opening!
 いったん次を理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われています。そして、ブレークポイントは、変更をacceptしたまさにその直後から有効になります。しかし、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
 %@What we need is a way to \emph{conditionally halt} only if we are in a context of interest.
-必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する方法です。
+必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する手段です。
 %@This is exactly what \clsmthind{Object}{haltIf:} offers.
-\clsmthind{Object}{haltIf:}が提供するのがまさに、この方法です。
+\clsmthind{Object}{haltIf:}が提供するのがまさに、この手段です。
 
 %@Suppose now that we only want to halt if \ct{add:} is sent from, say, the context of \ct{OrderedCollectionTest>>>testAdd}.
-さて、\ct{add:}を、何らかのコンテクスト、例えば、\ct{OrderedCollectionTest>>>testAdd}のコンテクストから呼ばれたときにだけ、haltさせたいとしましょう。
+ここで、\ct{add:}を、何らかのコンテクスト、例えば、\ct{OrderedCollectionTest>>>testAdd}のコンテクストから呼ばれたときにだけ、haltさせたいとしましょう。
 
 %@\dothis{Fire up a fresh image again, and set the following breakpoint:}
 \dothis{再びフレッシュな仮想イメージを立ち上げ、以下のブレークポイントを設定してみましょう:}
@@ -764,7 +764,7 @@ OrderedCollection>>>add: newObject
 \ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリに見つかるでしょう。
 
 %@How does this work?  Let's have a look at \clsmthind{Object}{haltIf:}:
-これは、どのようにして動くのでしょうか?\clsmthind{Object}{haltIf:}を見てみましょう:
+これは、どのようにして動くのでしょうか?　\clsmthind{Object}{haltIf:}を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
@@ -1006,7 +1006,7 @@ myDA x --> nil
 \dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されることを確認しましょう。}
 
 %@Now we will install a plain \st object in the method dictionary of our \ct{Demo} class.
-さあここで、普通の\st{}のオブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録しましょう。
+さてここで、普通の\st{}のオブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録しましょう。
 
 %@\dothis{Evaluate \lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
