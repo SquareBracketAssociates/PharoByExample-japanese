@@ -561,7 +561,7 @@ Webページ内に配置されるコンポーネントのスタイルシート�
 きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
 
 しかしデプロイ時には、外部ファイルとしてスタイルシートを用意するのが一般的です。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
-( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です。)
+( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です)。
 
 CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
 
@@ -644,7 +644,7 @@ call:とanuswer:は単純なダイアログ形式のUIを実現するために�
  \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
  \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
  
-(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています。)
+(以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています)。
 
 \begin{code}{}
 SeasideEditCallDemo>>>renderContentOn: html 
@@ -676,7 +676,7 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 
 わずかこれだけでページの遷移が実現できます。
 
-Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります。)
+Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります)。
 
 %-----------------------------------------------------------------
 \subsection{便利なメソッド群}
@@ -757,7 +757,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです。)
+次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese
@@ -852,7 +852,7 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています。)
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
 
 %セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
 一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
@@ -906,8 +906,7 @@ MyStackMachine>>>initialize
 
 スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
 
-\dothis{Write some tests for the stack operations and then implement these operations.
-Here is a sample test:}
+\dothis{スタック操作のテストを書いてから実装をしてみましょう。以下はテストのサンプルです。}
 
 \needlines{4}
 \begin{code}{}
@@ -920,37 +919,33 @@ MyStackMachineTest>>>testDiv
 	self assert: stack top = (4/3).
 \end{code}
 
-You might consider using some helper methods for the arithmetic operations to check that there are two numbers on the stack before doing anything, and raising an error if this precondition is not fulfilled.\footnote{It's a good idea to use \ct{Object>>>assert:} to specify the preconditions for an operation.
-This method will raise an \ct{AssertionFailure} if the user tries to use the stack machine in an invalid state.}
-If you do this, most  of your methods will just be one or two lines long.
+加減乗除を行う際には、その前にスタックに二つの値が積まれているかをチェックするヘルパーメソッドが必要でしょう。事前条件が整っていない場合はエラーを起こすようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
+これができてしまえば、各メソッドの実装はほぼ一行か二行ですむでしょう。
 
-You might also consider implementing \ct{MyStackMachine>>>printOn:} to make it easier to debug your stack machine implementation with the help of an object inspector.
-(Hint: just delegate printing to the \ct{contents} variable.)
+デバッグを簡単にするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにするのです。
+(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう)。
 \index{Object!printOn:@\ct{printOn:}}
 
-\dothis{Complete the \ct{MyStackMachine} by writing operations \ct{dup} (push a duplicate of the top value onto the stack), \ct{exch} (exchange the top two values), and \ct{rotUp} (rotate the entire stack contents up\,---\,the top value will move to the bottom).}
+\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後に行く)、を\ct{MyStackMachine} に実装して完成させましょう。}
 
-Now we have a simple stack machine implementation.
-We can start to implement the Seaside RPN Calculator.
+スタックマシンの実装がすんだら、次はいよいよSeaside上に RPN計算機を作っていきます。
 
-We will make use of 5 classes:
+クラスを5つ定義することにします:
 \begin{itemize}
-  \item \ct{MyRPNWidget}\,---\,this should be an abstract class that defines the common CSS style sheet for the application, and other common behavior for the components of the RPN calculator.
-  It is a subclass of \ct{WAComponent} and the direct superclass of the following four classes. 
+  \item \ct{MyRPNWidget}\,---\,RPN計算機アプリケーションのコンポーネントで共通に使う振る舞いやCSSを定義するための抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
   
-    \item \ct{MyCalculator}\,---\,this is the root component.
-  It should register the application (on the class side), it should instantiate and render its subcomponents, and it should register any state for backtracking.
-  \item \ct{MyKeypad}\,---\,this displays the keys that we use to interact with the calculator.
-  \item \ct{MyDisplay}\,---\,this component displays the top of the stack and provides a button to call another component to display the detailed view.
-  \item \ct{MyDisplayStack}\,---\,this component shows the detailed view of the stack and provides a button to answer back.
-  It is a subclass of \lct{MyDisplay}.
+  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッド内でアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用の状態の登録も行います。
+  
+  
+  \item \ct{MyKeypad}\,---\,計算機のキーを表示します。
+  \item \ct{MyDisplay}\,---\,スタックの先頭の値と、詳細なビューに切り替えるためのボタンを表示します。
+  \item \ct{MyDisplayStack}\,---\,スタックの詳細なビューと、元のビューに戻るためのボタンを表示します。\lct{MyDisplay}のサブクラスです。
+
 \end{itemize}
 
-\dothis{Define \ct{MyRPNWidget} in the category \ct{MyCalculator}.
-Define the common \ct{style} for the application.}
+\dothis{\ct{MyCalculator}クラスカテゴリに\ct{MyRPNWidget}を定義してみましょう。アプリケーションで共通に使う \ct{style} メソッドを書くようにします。}
 
-Here is a minimal CSS for the application.
-You can make it more fancy if you like.
+アプリケーション用にCSSを定義します。もっと凝ってみても良いでしょう。
 \begin{code}{}
 MyRPNWidget>>>style
 	^ 'table.keypad { float: left; }
@@ -972,50 +967,40 @@ td.stackcell {
 td.small { font-size: 8pt; }'
 \end{code}
 
-\dothis{Define \ct{MyCalculator} to be a root component and register itself as an application (\ie implement \ct{canBeRoot} and \ct{initialize} on the class side).
-Implement \ct{MyCalculator>>>renderContentOn:} to render something trivial (such as its name), and verify that the application runs in a browser.
-}
+\dothis{ルートコンポーネント\ct{MyCalculator}を定義して、アプリケーションとして登録しましょう(クラスメソッド \ct{canBeRoot} と \ct{initialize} を実装します)。
+ \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いてみて、Webブラウザで表示されるかを確認してみましょう。}
 
-\ct{MyCalculator} is responsible for instantiating \ct{MyStackMachine}, \ct{MyKeypad} and \ct{MyDisplay}.
-
-\dothis{
-Define \ct{MyKeypad} and \ct{MyDisplay} as subclasses of \lct{MyRPNWidget}.
-All three components will need access to a common instance of the stack machine, so define the instance variable \ct{stackMachine} and an initialization method \ct{setMyStackMachine:} in the common parent, \ct{MyRPNWidget}.
-Add instance variables \ct{keypad} and \ct{display} to \ct{MyCalculator} and initialize them in \ct{MyCalculator>>>initialize}.
-(Don't forget to send \lct{super initialize}!)}
+\ct{MyCalculator} は、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
 
 \dothis{
-Pass the shared instance of the stack machine to the keypad and the display in the same initialize method.
-Implement \ct{MyCalculator>>>renderContentOn:} to simply render in turn the keypad and the display.
-To correctly display the subcomponents, you must implement \ct{MyCalculator>>>children} to return an array with the keypad and the display.
-Implement placeholder rendering methods for the keypad and the display and verify that the calculator now displays its two subcomponents.
+\lct{MyRPNWidget}のサブクラスとして \ct{MyKeypad}と \ct{MyDisplay}を定義しましょう。コンポーネントはどれもスタックマシンのインスタンスを使うので、インスタンス変数 \ct{stackMachine} と初期化用のメソッド \ct{setMyStackMachine:} を \ct{MyRPNWidget}に用意します。 \ct{MyCalculator}には
+ \ct{keypad} と \ct{display} のインスタンス変数を定義し、 \ct{MyCalculator>>>initialize}で初期化することにします。(\lct{super initialize}を送るのを忘れないように!)}
+
+\dothis{
+initializeメソッドでは、さらにstackMachineをkeypadとdisplayに渡すように書いておきます。
+レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。calculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
 }
 
 %\ab{Too long!}
 
-Now we will change the implementation of the display to show the top value of the stack.
+次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにしていきます。
 
-\dothis{
-Use a table with class ``keypad'' containing a row with a single table data cell with class ``stackcell''.
-Change the rendering method of the keypad to ensure that the number 0 is pushed on the stack in case it is empty.
-(Define and use \ct{MyKeypad>>>ensureMyStackMachineNotEmpty}.)
-Also make it display an empty table with class ``keypad''.
-Now the calculator should display a single cell containing the value 0.
-If you toggle the halos, you should see something like this:
+\dothis{ レンダリングでは、``keypad''というCSSクラス名のテーブルを書き、行には``stackcell''というclassのセルを一つだけ入れることにします。また、スタックが空の場合、先頭に0をpushするようにしておきます。(\ct{MyKeypad>>>ensureMyStackMachineNotEmpty}というメソッドを定義して使うことにします)。さらに``keypad''のクラス名で
+セルのデータとしてスタックの値をレンダリングするように書きます。ハロを表示させてみると\figref{firstStackDisplay}のようになるはずです。
 }
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.8\textwidth]{firstStackDisplay}
-\caption{Displaying the top of the stack}
+\caption{スタックの先頭を表示}
 \figlabel{firstStackDisplay}
 \end{center}
 \end{figure}
 
-Now let's implement an interface to interact with the stack.
+今度はスタックとやりとりするためのUIを書いていくことにしましょう。
 
 \dothis{
-First define the following helper methods, which will make it easier to script the interface:
+まず以下のヘルパーメソッドを定義することにします。UIを簡単にかけるようにするためです。
 }
 
 \needlines{3}
@@ -1040,12 +1025,11 @@ MyKeypad>>>renderStackButton: text callback: aBlock on: html
 		on: html
 \end{code}
 
-We will use these two methods to define the buttons on the keypad with appropriate callbacks.
-Certain buttons may span multiple columns, but the default is to occupy just one column.
+これらのメソッドをキーパッドのボタンを表示し、コールバックを定義するために使います。いくつかのボタンは複数のカラムを使いますが、基本は非筒のカラムを使うことにします。
 
 \dothis{
-Use the two helper methods to script the keypad as follows:
-(Hint: start by getting the digit and ``Enter'' keys working, then the arithmetic operators.)
+以下のように二つのヘルパーメソッドを使いキーパッドのレンダリングを書いてみましょう。
+(ヒント: 数値キーと ``Enter'' キーから初めて、計算用のキーは後からつけると楽です)。
 }
 
 \needlines{4}
@@ -1067,7 +1051,7 @@ MyKeypad>>>renderContentOn: html
           self renderStackButton: '3' callback: [self type: '3'] on: html.
           self renderStackButton: 'Drop' callback: [self stackOp: #pop]
           	colSpan: 2 on: html ].
-" and so on ... "
+"などなど"
         html tableRow: [
           self renderStackButton: '0' callback: [self type: '0'] colSpan: 2 on: html.
           self renderStackButton: 'C' callback: [self stackClearTop] on: html.
@@ -1076,43 +1060,39 @@ MyKeypad>>>renderContentOn: html
 			colSpan: 2 on: html ]]
 \end{code}
 
-Check that the keypad displays properly.
-If you try to click on the keys, however, you will find that the calculator does not work yet\ldots{}
+キーパッドがブラウザでちぇんと表示されるか確認しましょう。まだクリックしてみても計算機としては動作しません。
 
 \dothis{
-Implement \ct{MyKeypad>>>type:} to update the top of the stack by appending the typed digit.
-You will need to convert the top value to a string, update it, and convert it back to an integer, something like this:
+ \ct{MyKeypad>>>type:} を実装して、タイプした数字がスタックの先頭に反映されるようにしましょう。
+入力された値は文字列得られるので、一度スタックの値を文字列にしてつなげて、整数にしてスタックに戻す必要があります。具体的には以下のようなコードになります。
 }
+
 \begin{code}{}
 MyKeypad>>>type: aString
 	stackMachine push: (stackMachine pop asString, aString) asNumber.
 \end{code}
-Now when you click on the digit keys the display should be updated.
-(Be sure that \ct{MyStackMachine>>>pop} returns the value popped, or this will not work!)
+これで数値キーを打つと、表示が更新されるようになりました。
+(\ct{MyStackMachine>>>pop} でポップした値を返すようにきちんと実装していないと、動作しません!)
 
-
-\dothis{Now we must implement \ct{MyKeypad>>>stackOp:}
-Something like this will do the trick:}
+\dothis{次に\ct{MyKeypad>>>stackOp:}を書くことにしましょう。以下のようにすれば良いでしょう。}
 
 \begin{code}{}
 MyKeypad>>>stackOp: op
 	[ stackMachine perform: op ] on: AssertionFailure do: [ ].
 \end{code}
 
-The point is that we are not sure that all operations will succeed, for example, addition will fail if we do not have two numbers on the stack.
-For the moment we can just ignore such errors.
-If we are feeling more ambitious later on, we can provide some user feedback in the error handler block.
+ここでのポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたいなら、エラーハンドリングのブロックに、ユーザに注意を促すように後で書いていくことができます。
 
-\dothis{The first version of the calculator should be working now.
-Try to enter some numbers by pressing the digit keys, hitting \menu{Enter} to push a copy of the current value, and entering \menu{+} to sum the top two values.}
+\dothis{逆ポーランド記法の計算機はこれで一応動くものになりました。
+数値キーをいくつか打ってみて、\menu{Enter}キーで値をプッシュしてみましょう。  \menu{+}を押して2つの値が足されることを確認してください。}
 
-You will notice that typing digits does not behave the way you might expect.
-Actually the calculator should be aware of whether you are typing a \emph{new} number, or appending to an existing number.
+数値の入力が予想した動きと違うのではないでしょうか。実際のところ、\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないといけません。
 
-\dothis{Adapt \ct{MyKeypad>>>type:} to behave differently depending on the current typing mode.
-Introduce an instance variable \ct{mode} which takes on one of the three values \lct{\#typing} (when you are typing), \lct{\#push} (after you have performed a calculator operation and typing should force the top value to be pushed), or \lct{\#clear} (after you have performed \menu{Enter} and the top value should be cleared before typing).
-The new \ct{type:} method might look like this:
+\dothis{ \ct{MyKeypad>>>type:}を修正してモードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアするようにします。
+ \ct{type:}メソッドの新たな実装は以下のようになります。
 }
+
+%モードを設定するコードを載せていないのですごくわかりにくい
 
 \begin{code}{}
 MyKeypad>>>type: aString
@@ -1125,12 +1105,11 @@ MyKeypad>>>type: aString
 \mb{better with "stackMachine dup" instead of "stackMachine push:
   stackMachine top}"
 
-Typing might work better now, but it is still frustrating not to be able to see what is on the stack.
+前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点が、まだ不満です。
 
 \dothis{
-Define \ct{MyDisplayStack} as a subclass of \ct{MyDisplay}.
-Add a button to the rendering method of \ct{MyDisplay} which will call a new instance of \ct{MyDisplayStack}.
-You will need an html anchor that looks something like this:
+\ct{MyDisplay}のサブクラスとして \ct{MyDisplayStack} を定義しましょう。
+\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使い、以下のようになるでしょう。
 }
 
 \begin{code}{}
@@ -1141,9 +1120,7 @@ html anchor
 \mb{if the user got a stackmachine ivar, I'm sure he will define
   setStackMachine and not setMyStackMachine}
 
-
-The callback will cause the current instance of \ct{MyDisplay} to be temporarily replaced by a new instance of \ct{MyDisplayStack} whose job it is to display the complete stack.
-When this component signals that it is done (\ie by sending \ct{self answer}), then control will return to the original instance of \ct{MyDisplay}.
+コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントの表示へと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了を告げる閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
 
 \dothis{
 Define the rendering method of \ct{MyDisplayStack} to display all of the values on the stack.
