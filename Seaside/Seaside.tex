@@ -47,15 +47,15 @@
 \ind{Seaside} はSmalltalkでWebアプリケーションを作成するためのフレームワークです。2002年にAvi Bryant \index{Bryant, Avi} によって開発が始まりました。一度マスターすれば、デスクトップアプリケーションと同じようにWebアプリケーションを容易に作ることができるようになります。
 
 Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} と \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}があります。
-徹底してオブジェクト指向というのがSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵ですよね。
+徹底したオブジェクト指向がSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵です。
 
 \section{なぜSeaside?}
 
-現在のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに質問し、ユーザはフォームを記入したりボタンを押してこれに応えます。
+最近のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに問いかけ、ユーザはフォームを記入したり、ボタンを押したりしてこれに応えます。
 ところがWebの仕組みは実際には逆なのです。Webブラウザがサーバにリクエストをすると、新しいページがサーバから返ってきます。
-そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのはこの逆になっている制御フローです。
+そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのは、この逆になっている制御フローです。
 そこで、多くのWebアプリケーションはブラウザの「戻る」ボタンを押すことを禁じています。押されてしまうとセッションの状態を保つのが困難になるからです。
-複数のWebページ間の簡単な制御の流れを表現するだけでも、やっかいなものになります。さらに制御の流れが複数になったりすると、表現するのがきわめて難しくなるか、不可能になってしまいます。
+Webページ間の単純な制御の流れを表現するだけでも、やっかいなものになります。さらに制御が分岐したりすると、表現するのがきわめて難しくなるか、場合によっては不可能になってしまいます。
 
 % Seaside is a component-based framework that uses ``\ind{continuations}''\footnote{A \emph{continuation} represents ``the rest of the computation'' at any point in a computation. In Smalltalk, a continuation is just an object that captures the current state of the computation, and which can be resumed at any point.} to keep track of multiple points in the control flow of web applications. Continuations are managed automatically by Seaside, so web developers do not even have to be aware of the underlying machinery. It just works.
 
@@ -63,26 +63,26 @@ Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://Sq
 \index{Seaside!transactions}
 \index{Seaside!components}
 SeasideではWebアプリケーション開発を容易にするため、コンポーネントベースのフレームワークを採用しています。
-まず、制御の流れはメッセージ送信により自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態をページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
+まず、制御の流れはメッセージ送信によって自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態を表示したページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
 また、状態はSeasideが自動的に管理します。
-バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が元に戻るようになります。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
+バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が復元します。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
 URLに状態を埋め込んだりする必要もありません。URL生成もSeasideが行ってくれます。
 
 Webページはコンポーネント群によって構成されます。それぞれが独立した制御フローを持つことができます。
 XHTMLのテンプレートはありません。正しいXHMLはシンプルなSmalltalkのメッセージ送信によってプログラム的に生成されます。
-SeasideはCSS\ind{CSS}をサポートしています。そのためページの内容とレイアウトは明確に分離されます。
+SeasideはCSS\ind{CSS}をサポートしています。そのためページ内容とレイアウトは明確に分離されます。
 \seeindex{Cascading Style Sheets}{CSS}
 
-最後に、Seasideは、Webブラウザ上での便利な開発ツールも提供しています。これによってインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
+最後に、Seasideは、Webブラウザ上での便利な開発ツールを提供しています。これによりインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
 %=================================================================
 \section{はじめに}
 
-\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードするとすぐにSeasideを始めることができます。
+\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードすると、すぐにSeasideを始めることができます。
 ファイルには\ind{Windows} \ind{Mac OSX}, \ind{Linux} 用のSeaside 2.8の環境一式が同梱されています。。
 Seasideのサイトには他にもドキュメントやチュートリアルなど、たくさんのリンクがあります。Seasideは長年に渡って進化を続けているものなので、すべてが最新のSeasideについてのものであるとは限らないので注意してください。
 
-% If you are feeling more adventurous, an alternative to the ``one-click'' image is to start with the latest \ind{\pharo web image}\footnote{\url{http://pharo-project.org/download}}, and install Seaside yourself by following the manual \subind{Seaside}{installation} instructions on the Seaside web site.
+% 3.0だが...
 
 SeasideはWebサーバを含んでいます。8080ポートで動かすには \clsind{WAKom} \ct{startOn: 8080} を実行します。
 サーバを終了するときは、\ct{WAKom stop} です。
@@ -119,9 +119,10 @@ SeasideはWebサーバを含んでいます。8080ポートで動かすには \c
 これはSeasideアプリケーションのサンプルです。\link{++}や \link{--\,--}のリンクをクリックするとカウンターの値を変えることができます。
 
 \noindent
-\dothis{リンクをクリックして値を変えてみましょう。Webブラウザの「戻る」ボタンで前の状態に戻ってから\link{++}のリンクをまたクリックしてみてください。
-カウンターは、ちゃんと表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
+\dothis{リンクをクリックして値を変えてみましょう。Webブラウザの「戻る」ボタンで前の状態に戻ってから\link{++}のリンクを再びクリックしてみてください。
+カウンターは、表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
 
+% --ここまで--
 
 今度は図\figref{seasideStartup}の\subind{Seaside}{toolbar}の初期画面の下のほうにあるツールバーに注目してみてください。
 Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
@@ -1153,7 +1154,7 @@ html anchor
 
 よく知られたJavaScriptのライブラリとしては \ind{Prototype} (\url{http://www.prototypejs.org}) と \ind{script.aculo.us} (\url{http://script.aculo.us})があります。
 Prototypeは、JavaScriptを簡潔に書けるようにするためのフレームワークです。
-script.aculo.us は、Prototype上に、アニメーションや、ドラッグ&ドロップなどをサポートする機能を追加したものです。 Seasideでは ``Scriptaculous''というパッケージを通じて、これらのフレームワークを利用することができます。
+script.aculo.us は、Prototype上に、アニメーションや、ドラッグ\&ドロップなどをサポートする機能を追加したものです。 Seasideでは ``Scriptaculous''というパッケージを通じて、これらのフレームワークを利用することができます。
 
 Seasideのインストールイメージには、Scriptaculousパッケージが最初から入っています。
 最新のバージョンは \url{http://www.squeaksource.com/Seaside}から入手できます。
