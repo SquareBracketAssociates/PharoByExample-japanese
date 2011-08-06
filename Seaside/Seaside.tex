@@ -308,27 +308,25 @@ Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過�
 \index{Seaside!backtracking state}
 \index{WAPresenter!states@\ct{states}}
 
-%　ここまで
-
 \section{XHTMLのレンダリング}
 
-Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{コンポーネント}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
-レンダリングの仕組みを知るため、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
+Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{components}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
+仕組みを知るために、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
 
 \subsection{カウンターのレンダリング}
 
 カウンターのレンダリングは比較的単純です。 \figref{WACounter}のコードを見てください。
-カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装されていて、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
+カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装され、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
 
 レンダリングで送るメッセージ群についてはすぐ後で詳しく解説しますが、その前に\subind{Seaside}{マルチカウンター}のほうもどうなっているか見てみましょう。
 
 \subsection{CounterからMultiCounterへ}
 
-まず \figref{WAMultiCounter} で示すように\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
+まず \figref{WAMultiCounter} で示すように、\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
 
-マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返すようにしています。
+マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返しています。
 
-レンダリングでは、サブコンポーネントの表示を、水平線で区切りながら行うように書いています。
+レンダリングでは、サブコンポーネント群を、水平線で区切りを入れて表示するように書いています。
 そのほか初期化を行うためのインスタンスメソッド、クラスメソッドがありますが、基本的にはこれだけで良いのです!
 
 \begin{figure}[bht]
@@ -340,11 +338,11 @@ Webアプリケーションでは、Webページを動的に生成して表示(�
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{レンダリング詳細}
+\subsection{レンダリングの詳細}
 
-今までの例で見てきたように、SeasideではWebページ生成でテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
-Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはフレームワークの側からコンポーネントのレンダリングのときに呼び出されます。
-\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似ています。デバイス固有となる描画の詳細を隠す役割を持っています。
+今までの例で見てきたように、SeasideではWebページの生成にテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
+Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはコンポーネントのレンダリングのときにフレームワークの側から呼び出されます。
+\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似たものです。デバイス固有となる描画処理の詳細を、隠す役割を持っています。
 
 基本的なレンダリングメッセージをいくつか挙げてみます。
 \begin{code}{}
@@ -353,13 +351,13 @@ html html: '&ndash;'.     "XHTMLの直接指定"
 html render: 1.              "オブジェクトのレンダリング"
 \end{code}
 
-\ct{任意のオブジェクト}を表示するのに \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
-マルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
+\ct{任意のオブジェクト}を表示するには \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
+これはマルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
 
 \subsection{ブラシの利用}
 \seclabel{brushes}
 
-キャンバスでは描画を行うため、たくさんの \emphind{ブラシ} を使うことができます。
+キャンバス上で描画を行うために、たくさんの \emphind{ブラシ} を使うことができます。
 XHTMLの各要素(段落、テーブル、リストなど)に対応したブラシがあります。
 ブラシやそれに関連する便利メソッドを知るには、\clsind{WACanvas} とそのサブクラスをブラウズすると良いでしょう。
  \ct{renderContentOn:} の引数は、\clsind{WACanvas}を継承した \clsind{WARenderCanvas}のインスタンスになっています。
@@ -378,7 +376,7 @@ html horizontalRule.
 \end{center}
 \end{figure}
 
-図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろ使ってみた例です。 \footnote{
+図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろと使ってみた例です。 \footnote{
  \mthref{renderdemo}のソースコードは  \url{http://www.squeaksource.com/PharoByExample}プロジェクトの\ct{PBE-SeasideDemo}パッケージ内にあります。} \ct{SeasideDemo} のルートコンポーネントは単にサブコンポーネントの表示を行うだけです。サブコンポーネントは \mthref{renderdemo}を読むとわかりますが、\ct{SeasideHtmlDemo}、 \ct{SeasideFormDemo}、\ct{SeasideEditCallDemo} 、\ct{SeasideDialogDemo}となっています。
  
 \needspace{7ex}
@@ -395,21 +393,21 @@ SeasideDemo>>>renderContentOn: html
 \end{method}
 
 \noindent
-コンポーネントはサブコンポーネントを返すようにするというのを覚えているでしょうか。Seasideはレンダリングのたびにサブコンポーネントを再利用します。
+コンポーネントはサブコンポーネントを返すというのを覚えているでしょうか。Seasideではレンダリングのたびにサブコンポーネントを再利用します。
 \begin{code}{}
 SeasideDemo>>>children
 	^ { htmlDemo . formDemo . editDemo . dialogDemo }
 \end{code}
 
-上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストを直接メッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
+上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストをメッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
 
-\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るのであれば、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
+\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るなら、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
 \ct{with:} によってブラシのレンダリングが始まるからです。}
 
-\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトのレベル1になります。次の見出しではレベルを2に明示的に設定しています。
+\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトでレベルになります。次の見出しはレベル2を明示的に指定しています。
  サブコンポーネントはXHTMLで\emph{div}の中に囲まれる形になります。divには ``subcomponent''という\ind{CSS}のクラスを付与しています(CSSの使い方については\secref{css}で解説します)。  \ct{with:} メッセージの引数は、文字列とは限りません。この例ではコンポーネントを渡しています。次の例でも出てきますが、レンダリングの操作を記述したブロックでも良いのです。
 
-\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用法がわかるでしょう。
+\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用の仕方がわかるでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderContentOn: html 
@@ -421,13 +419,13 @@ SeasideHtmlDemo>>>renderContentOn: html
 
 上のように、レンダリングのメソッドが長くなった場合には細かいメソッド群に分割することがよく行われます。
 
-\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送りるようにしてください。}
+\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送るようにしてください。}
 
-さらにコードを見ていきましょう。
+さらにコードを見ていきます。
 
-最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の仕方の例になっています。
+最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の例になっています。
 
-Seasideでは単純な要素であれば単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
+Seasideでは、単純な要素なら単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderParagraphsOn: html 
@@ -445,7 +443,7 @@ SeasideHtmlDemo>>>renderParagraphsOn: html
 			width: '50']
 \end{code}
 
-次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使って、列と列の中のセルを表示させるようにします。
+次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使い、列と列内のセルを表示します。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderListsAndTablesOn: html 
@@ -473,7 +471,7 @@ SeasideHtmlDemo>>>renderDivsAndSpansOn: html
 				with: 'A span with class ''highlight''.']
 \end{code}
 
-最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わるのですが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行で変化するからです。
+最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わりますが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行により変化するからです。
 
 \needlines{3}
 \begin{code}{}
@@ -490,8 +488,8 @@ SeasideHtmlDemo>>>renderLinkWithCallbackOn: html
 			with: toggleValue ]
 \end{code}
 
-\important{アプリケーションの状態を変えるような処理は、コールバックの中でのみ書くようにします。
-レンダリングのコードの中に、直接そのようなコードを書くべきではありません。}
+\important{アプリケーションの状態を変えるような処理は、コールバック内に書くようにします。
+レンダリング中に、直接そのようなコードを書くべきではありません。}
 
 %-----------------------------------------------------------------
 \subsection{フォーム}
@@ -524,7 +522,7 @@ SeasideFormDemo>>>renderContentOn: html
 			text: 'done' ]
 \end{code}{}
 
-フォーム要素は複雑なので、ブロックを使ってレンダリングしています。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
+フォーム要素は複雑なので、ブロックを使ってレンダリングします。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
 
  \mthind{WAAnchorTag}{on:of:}については説明が必要でしょう。
 上の例ではテキストフィールドに、自身のインスタンス変数\ct{heading}を対応させるために使われています。
@@ -533,18 +531,18 @@ SeasideFormDemo>>>renderContentOn: html
 最初の引数はインスタンス変数の名前です。2番目の引数は変数を保持するオブジェクトを指定します。
 通常の名前付けルールで、インスタンス変数のアクセッサー (\ct{heading}) とミューテイター (\ct{heading:})がクラスに定義されていることが前提となっています。
 
-このテキストフィールドの例では、デフォルト値を設定したり、新たな値の設定に関するコールバックを設定したりするコードを省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
+上記のテキストフィールドの例では、デフォルト値の設定や、値を更新するためのコールバックを書く手間を省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
 
-すぐ後にコンボボックスの選択で\ct{color} 変数を指定した別の例があります。その後にはチェックボックスの例があり、 \ct{checked} 変数の値が更新されるようになっています。
+すぐ後にコンボボックスで\ct{color} 変数を指定した別の例があります。その次のチェックボックスの例では、 \ct{checked} 変数の値が更新されるようになっています。
 
-Seasideの機能テストのコードを見ると、さらにさまざまなフォーム例が見つかります。
+Seasideの機能テストのコードを見ると、さらにさまざまなフォームの例が見つかります。
 %2.8ベース。修正の必要あり(ume)　
 % URL -> http://localhost:8080/tests/functional/WAInputPostFunctionalTest
 % menu -> WAInputGetFunctionalTest, (WAInputPostFunctionalTest)
  \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。また、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}のURLを指定し、
 \menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
 
-ぜひ\button{Toggle Halos}ボタンを押すと、Webブラウザから対応するソースコードにすぐアクセスできるようになるというSeasideの機能を活用してください。
+Webブラウザの\button{Toggle Halos}ボタンを押せば、対応するソースコードにすぐにアクセスできるというSeasideの機能を、ここで活用してください。
 
 %-----------------------------------------------------------------
 \section{CSS: カスケーディング・スタイル・シート}
@@ -553,9 +551,11 @@ Seasideの機能テストのコードを見ると、さらにさまざまなフ�
 %\ab{I think that it just needs a few paragraphs telling the reader the key ideas behind CSS, and the new terminology that the CSS folks introduce, before going in to the details of how you define their "thingies".  Now I have forgotten what they call their "thingies" --- I know that there are effectively paragraph styles (divs) and character styles (spans), but I've forgotten what they call them.  So, I think that the text needs to tell the reader, for each thingie, (1) the CSS concept behind the thingie, (2) what it looks like in a CSS style sheet , (3) what it looks like in html, and (4) how to do it in Seaside.   Maybe (3) can be omitted, because it's not needed to use Seaside.}
 % \on{I think we do most of that already.}
 
-\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する方法として標準的なものになってきました。SeasideはCSSの技術を使い、レンダリングのコードが見栄えを意識して煩雑になるのを防いでいます。
+\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する標準的な方法になっています。SeasideはCSSの技術を使い、レンダリングのコードが見栄えを意識して煩雑になるのを防いでいます。
 
-コンポーネントは \ct{style}というメソッドを定義することで、使用するスタイルシートを決めることができます。メソッドの中身は単なるCSSの文字列で、コンポーネントが使うスタイルを定めたものにします。
+コンポーネントは \ct{style}というメソッドを定義することで、使用するスタイルシートを決めることができます。メソッドの中身は単なるCSSの文字列で、コンポーネントが使うスタイルを定めます。
+
+% ここまで
 
 Webページ内に配置されるコンポーネントのスタイルシートは結合されて一つになりますが、各コンポーネントは自身のスタイルを定義で
 きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
