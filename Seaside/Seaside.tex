@@ -725,8 +725,6 @@ SeasideDialogDemo>>>renderContentOn: html
 
 \clsind{WAComponent}の\prot{convenience}プロトコルには、 \mthind{WAComponent}{chooseFrom:caption:}ような役に立つメソッドがさらに定義してあります。
 
-% ここまで
-
 %-----------------------------------------------------------------
 \subsection{タスク}
 
@@ -743,7 +741,7 @@ WAConvenienceTest>>>go
 	self informCheese
 \end{code}
 
-このタスクでは3つのコンポーネントの呼び出しを順番に行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開き、ユーザは好きなチーズを選択します。
+このタスクでは3つのコンポーネントの呼び出しを順次行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開きます。ここでユーザーは好きなチーズを選択します。
 
 \begin{code}{}
 WAConvenienceTest>>>chooseCheese
@@ -755,7 +753,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
+次に \clsind{WAYesOrNoDialog} でユーザーの選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese
@@ -783,12 +781,11 @@ WAConvenienceTest>>>informCheese
 \subsection{トランザクション}
 % 3.0で未サポートとなった機能。訳す?
 
- \secref{backtracking} で Seasideはバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態を、Webページごとに記録できるという話をしました。コンポーネント側でしなければならないことは、単に \ct{states} メソッドを定義して、バックトラック対象のオブジェクトを配列の形で返すだけでした。
+ \secref{backtracking} の節で、 Seasideではバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態をWebページごとに記録できるという話をしました。コンポーネント側で必要なのは、 \ct{states} メソッドを定義し、バックトラック対象のオブジェクトを配列の形で返すことだけでした。
 
-しかし時にはバックトラックしたくないときもあります。ユーザが一度行った操作を、間違って取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
+しかし時にはバックトラックをしたくないときもあります。ユーザーが行った操作を、意図せず取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザーがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
 
-Seasideでは\emph{トランザクション}として、いくつかの操作をひとまとめにしてタスク内で定義することによって、この機能を実現できます。
-トランザクションの中ではバックトラックができますが、トランザクション終了後は戻ることができません。トランザクションを越えて戻ろうとすると、そのページは \emph{無効}になります。無効なページに戻ろうとしても、Seasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
+Seasideでは、一連の操作をひとまとめにしてタスク内で\emph{トランザクション}として定義することにより、この問題を解決します。トランザクション内ではバックトラックができますが、トランザクションが終了すると戻ることはできません。トランザクションを越えて戻ろうとしても、前のページは \emph{無効}になります。無効なページの表示時にSeasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
 
 \begin{figure}[ht]
 \begin{center}
@@ -798,15 +795,15 @@ Seasideでは\emph{トランザクション}として、いくつかの操作を
 \end{center}
 \end{figure}
 
-Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
+\emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
 このサンプルはSeasideに含まれており、Webブラウザで\url{http://localhost:8080/seaside/examples/store}のURLを指定すると起動します。\footnote{もしも同梱されていない場合はSqueakSourceのページ(\url{http://www.squeaksource.com/SeasideExamples/})からロードできます。 }
 
 寿司屋デモのワークフローは以下のようになっています。
 \begin{enumerate}[itemsep=0pt]
   \item サイトを訪れる
-  \item 寿司をブラウズ、検索する
+  \item 寿司をブラウズ、または検索する
   \item ショッピングカートに寿司を追加する
-  \item 注文処理を開始する
+  \item 注文を開始する
   \item カートの内容を確認する
   \item 届け先の住所を入力する
   \item 住所を確認する
@@ -814,7 +811,7 @@ Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴
   \item 寿司を待つ
 \end{enumerate}
 
- \subind{Seaside}{ハロ}を表示させてみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
+ \subind{Seaside}{ハロー}を表示してみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
@@ -822,13 +819,13 @@ WAStore>>>renderContentOn: html
 	html div id: 'body'; with: task
 \end{code}
 
-\clsind{WAStoreTask}がワークフローの順番を定義しています。ユーザが戻って一度サブミットした情報を変更できないようにすることが重要です。
+ワークフローの順番を定義しているのが\clsind{WAStoreTask}です。一度サブミットした情報を、ユーザーが戻って変更できないようにしていることが重要です。
 
-\dothis{\,いくつか寿司を購入した後で、Webブラウザの「戻る」ボタンを押し、カートの中にさらに寿司を追加してみましょう。``That page has expired.''と出て追加できません。}
+\dothis{\,いくつか寿司を購入した後で、カートの中にさらに寿司を追加するため、Webブラウザの「戻る」ボタンを押してみましょう。``That page has expired.''と出て追加できません。}
 
-Seasideでは、プログラマがワークフローのある部分をトランザクションとして定義できるようになっています。トランザクションが一度終了すると、ユーザはそこに戻って操作をやり直すことはできません。
+Seasideでは、プログラマがワークフローの特定部分をトランザクションとして定義できるようになっています。トランザクションが終了すると、ユーザはそこに戻って操作をやり直すことはできません。
 トランザクションを定義するには、\mthind{WAComponent}{isolate:}メッセージをタスクに送ります。引数で
-トランザクションにする部分ブロックで指定します。寿司屋デモでは以下のようにしています。
+トランザクション部分ブロックで指定します。寿司屋デモでは以下のようにしています。
 
 \begin{code}{}
 WAStoreTask>>>go
@@ -850,11 +847,11 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認する部分です。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
 
-%セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
-一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
-トランザクションを終えた後では、戻ろうとしても常に警告が出て失敗します。
+%原文ではセッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
+一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションは、住所と支払い方法を入れる部分です。支払い方法を確定するまでは、このトランザクション内で戻ることもできます。
+トランザクションを終えると、戻ろうとしても常に警告が出て失敗します。
 
 トランザクションをネストすることもできます。 \clsind{WANestedTransaction}で簡単なデモを見ることができます。
 % 3.0には同梱されていない
@@ -870,7 +867,9 @@ WANestedTransaction>>>go
 	self inform: 'Outside parent txn'
 \end{code}
 
-\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び \button{Restart}ボタンを押してみましょう。親と子のトランザクションの中で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクションが終了した後は、戻って\button{OK}ボタンを押したとしても、常にエラーが出て終了後のページにリダイレクトされます。}
+\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び 、\button{Restart}ボタンを押してみましょう。親側と子側のトランザクション内で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクション終了後は、戻って\button{OK}ボタンを押しても、エラーが出て終了後のページに必ずリダイレクトされます。}
+
+% ここまで
 
 %=================================================================
 \section{サンプルアプリ作成によるチュートリアル}
