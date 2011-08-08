@@ -17,11 +17,11 @@
 \usepackage{palatino}
 \usepackage[scaled=0.85]{helvet}
 \usepackage[protrusion,expansion=false]{microtype}
-\usepackage{graphicx}
+\usepackage[dvipdfmx]{graphicx}
 \usepackage{theorem}
 \usepackage[english]{babel}
-%%% ON: pdfsync breaks the use of p{width} for tabular columns!
-%%\ifdefined\usepdfsync\usepackage{pdfsync}\fi % Requires texlive 2007
+% ON: pdfsync breaks the use of p{width} for tabular columns!
+\ifdefined\usepdfsync\usepackage{pdfsync}\fi % Requires texlive 2007
 %=============================================================
 %:More packages
 %Stef should check which ones are used!
@@ -72,7 +72,7 @@
 ]{hyperref}   % should come last
 %=============================================================
 %:PDF version
-%%\pdfminorversion=3 % Set PDF to 1.3 for Lulu
+%\pdfminorversion=3 % Set PDF to 1.3 for Lulu
 %=============================================================
 %:URL style
 \makeatletter
@@ -305,8 +305,9 @@
 %\fi
 % and terminate by
 % \ifx\wholebook\relax\else\end{document}\fi
-
 \DeclareGraphicsExtensions{.pdf, .jpg, .png}
+\DeclareGraphicsRule{.pdf}{eps}{.xbb}{}
+\DeclareGraphicsRule{.png}{eps}{.xbb}{}
 %=============================================================
 %:PDF setup
 \hypersetup{
@@ -415,7 +416,8 @@ Damien Pollet},
 % In-line code (latex enabled)
 % Use this only in special situations where \ct does not work
 % (within section headings ...):
-\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
+%\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
+\newcommand{\lct}[1]{{\gtfamily{\textup{#1}}}}
 % Use these for system categories and protocols:
 \newcommand{\scat}[1]{\emph{\textsf{#1}}\xspace}
 \newcommand{\pkg}[1]{\emph{\textsf{#1}}\xspace}
@@ -525,6 +527,7 @@ Damien Pollet},
 \newcommand{\pkgind}[1]{\index{#1@\textsf{#1} (package)}\pkg{#1}} % package
 \newcommand{\protind}[1]{\index{#1@\textsf{#1} (protocol)}\prot{#1}} % protocol
 \newcommand{\clsind}[1]{\index{#1@\textsf{#1} (class)}\ct{#1}\xspace}
+\newcommand{\lclsind}[1]{\index{#1@\gtfamily{#1} (class)}\lct{#1}\xspace}
 % \newcommand{\clsind}[1]{\index{#1!\#@(class)}\ct{#1}\xspace} % class
 \newcommand{\clsindplural}[1]{\index{#1!\#@(class)}\ct{#1}s\xspace} % class
 \newcommand{\cvind}[1]{\index{#1@\textsf{#1} (class variable)}\ct{#1}\xspace} % class var
