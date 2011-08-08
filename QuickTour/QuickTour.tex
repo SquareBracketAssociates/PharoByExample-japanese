@@ -69,12 +69,6 @@
   \item \emphind{sources}ファイル(\figref{download} の \emph{SqueakV39.sources})は、\pharo の全てのソースコードを含んでいます。
 このファイルはほぼ変更することはありません。\footnote{\pharo は\squeak 3.9 をベースに作らています。現在のVMは、\squeak と同じものを使っています。}
 
-<<<<<<< HEAD
-%eng-ja   \item The current \emph{system \ind{image}} is a snapshot of a running \pharo system, frozen in time.  It consists of two files: an \emph{.}\emphind{image} file, which contains the state of all of the objects in the system (including classes and methods, since they are objects too), and a \emph{.}\emphind{changes} file, which contains a log of all of the changes to the source code of the system.
-In \figref{download}, these files are called \emph{pharo.image} and \emph{pharo.changes}.
-=======
-\end{enumerate}
->>>>>>> 2b8e25244902c3fe929731bcb3bc65259cf60bd4
   \item 現在の \emph{system \ind{image}} は \emph{.}\emphind{image} ファイル(クラスやメソッド、オブジェクトなどをすべて含みます)と \emph{.}\emphind{changes} ファイル(システムイメージに行った変更のログをすべて含みます)の２つで構成された、\pharo システムのスナップショットになります(\figref{download} の \emph{pharo.image} と \emph{pharo.changes})。
 \end{enumerate}
 
@@ -320,7 +314,7 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 コードを実行するときは、\actclick ではなく \ind{キーボードショートカット}を使うことも出来ます。キーボードショートカットを使えば、操作が簡単になります。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、\short{\emph{key}} のように control / alt / command / meta 等の修飾キーを同時に使用することになるでしょう。
 
 
-\dothis{キーボードショートカットを使って、式を評価してみましょう(例：\short{d})。
+\dothis{キーボードショートカットを使って、式を評価してみましょう(例：\short{d})。}
 \index{キーボードショートカット!do it}
 
 \menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} も使えますが、それらについては後述します。
@@ -481,7 +475,7 @@ Note that if you type the complete (and correctly capitalized) name of a class i
 \seeindex{browser!メソッドの検索}{メソッド, 検索}
 \index{メソッド!検索}
 
-\dothis{\menu{World \go Tools ... \go Method finder} を選択し、左上のペインに ``now'' を入力し、\textsc{return} キーを押してみましょう。
+\dothis{\menu{World \go Tools ... \go Method finder} を選択し、左上のペインに ``now'' を入力し、\textsc{return} キーを押してみましょう。}
 
 method finder は、``now'' を名称に含むリストを表示します。リスト表示のペインで ``\ct{n}'' をキーボードから入力すると、インクリメンタルサーチのような動作を行います。ここで、``now'' を選択すると、右側のペインにはメソッドを定義しているクラス名のリストが表示されます(\figref{MethodFinder} )。クラス名を選択すると、そのクラスをポイントした状態でブラウザが立ち上がります。
 
@@ -541,7 +535,7 @@ testShout
 \figlabel{newMethodTemplate}}
 \end{figure}
 
-\dothis{browser で \ct{StringTest} クラスを選択してください。適切なプロトコルとして、\menu{tests - converting} を選択しましょう(\figref{newMethodTemplate})。
+\dothis{browser で \ct{StringTest} クラスを選択してください。適切なプロトコルとして、\menu{tests - converting} を選択しましょう(\figref{newMethodTemplate})}。
 browser の下のペインで表示されているのはテンプレートコードです。全て消した後に、\mthref{testShout} を入力してください。
 browser にプログラムコードを入力したときに、ペインの一部が赤くなっているはずです。これは、入力したプログラムコードがまだ保存されていないというマーカーです。
 \actclick のメニューから \menu{accept (s)} を選択するか、\short{s} でメソッドのプログラムコードを保存してください。
@@ -663,7 +657,7 @@ $\uparrow$ は \pharo では返される答えになります。$\uparrow$ 以�
 \begin{itemize}
   \item \pharo は、\emph{virtual machine}、\emph{sources} ファイル、\emph{image} と \emph{changes} ファイルで構成されており、\emph{image} と \emph{changes} ファイルはスナップショットとして変化していきます。
   \item \pharo は、あなたが前回終了したときと全く同じ状態で再起動します。
-  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。勿論、マウスがなくても、キーボードの修飾キーを使うことで、\click、 \actclick と \metaclickis が使えます。
+  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。勿論、マウスがなくても、キーボードの修飾キーを使うことで、\click、 \actclick と \metaclick が使えます。
   \item \pharo の背景部分をクリックすることで、\emph{World menu} が表示できます。
   \item \emph{workspace} では、プログラムコードを試すことも出来ますし、単なるメモ帳としても使えます。
   \item プログラムコードを評価するのに、\menu{do it} (\short{d})、 \menu{print it} (\short{p})、 \menu{inspect it} (\short{i})、 \menu{explore it} (\short{I}) と \menu{browse it} (\short{b}) が使えます。
