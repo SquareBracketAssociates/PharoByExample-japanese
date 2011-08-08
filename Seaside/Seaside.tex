@@ -47,15 +47,15 @@
 \ind{Seaside} はSmalltalkでWebアプリケーションを作成するためのフレームワークです。2002年にAvi Bryant \index{Bryant, Avi} によって開発が始まりました。一度マスターすれば、デスクトップアプリケーションと同じようにWebアプリケーションを容易に作ることができるようになります。
 
 Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://SqueakSource.com}} と \ind{Dabble DB}\footnote{\url{http://DabbleDB.com}}があります。
-徹底してオブジェクト指向というのがSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵ですよね。
+徹底したオブジェクト指向がSeasideの特徴です。XHTML生成のためのテンプレート、Webページ間の複雑な遷移の定義、状態を埋め込んだURLといったものはSeasideでは不要です。オブジェクトにメッセージを送るだけなのです。素敵です。
 
 \section{なぜSeaside?}
 
-現在のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに質問し、ユーザはフォームを記入したりボタンを押してこれに応えます。
+最近のWebアプリケーションは、ユーザとのやりとりをデスクトップアプリケーションと同じように行おうとします。アプリケーションはユーザに問いかけ、ユーザはフォームを記入したり、ボタンを押したりしてこれに応えます。
 ところがWebの仕組みは実際には逆なのです。Webブラウザがサーバにリクエストをすると、新しいページがサーバから返ってきます。
-そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのはこの逆になっている制御フローです。
+そのため \ind{Webアプリケーション開発}フレームワークは多くの問題に直面することになります。とりわけ問題なのは、この逆になっている制御フローです。
 そこで、多くのWebアプリケーションはブラウザの「戻る」ボタンを押すことを禁じています。押されてしまうとセッションの状態を保つのが困難になるからです。
-複数のWebページ間の簡単な制御の流れを表現するだけでも、やっかいなものになります。さらに制御の流れが複数になったりすると、表現するのがきわめて難しくなるか、不可能になってしまいます。
+Webページ間の単純な制御の流れを表現するだけでも、やっかいなものになります。さらに制御が分岐したりすると、表現するのがきわめて難しくなるか、場合によっては不可能になってしまいます。
 
 % Seaside is a component-based framework that uses ``\ind{continuations}''\footnote{A \emph{continuation} represents ``the rest of the computation'' at any point in a computation. In Smalltalk, a continuation is just an object that captures the current state of the computation, and which can be resumed at any point.} to keep track of multiple points in the control flow of web applications. Continuations are managed automatically by Seaside, so web developers do not even have to be aware of the underlying machinery. It just works.
 
@@ -63,26 +63,26 @@ Seasideの有名な事例としては \ind{SqueakSource}\footnote{\url{http://Sq
 \index{Seaside!transactions}
 \index{Seaside!components}
 SeasideではWebアプリケーション開発を容易にするため、コンポーネントベースのフレームワークを採用しています。
-まず、制御の流れはメッセージ送信により自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態をページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
+まず、制御の流れはメッセージ送信によって自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態を表示したページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
 また、状態はSeasideが自動的に管理します。
-バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が元に戻るようになります。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
+バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が復元します。トランザクション機能を使って、一度変更した状態は戻るボタンを押してもアンドゥできないようにすることも可能です。
 URLに状態を埋め込んだりする必要もありません。URL生成もSeasideが行ってくれます。
 
 Webページはコンポーネント群によって構成されます。それぞれが独立した制御フローを持つことができます。
 XHTMLのテンプレートはありません。正しいXHMLはシンプルなSmalltalkのメッセージ送信によってプログラム的に生成されます。
-SeasideはCSS\ind{CSS}をサポートしています。そのためページの内容とレイアウトは明確に分離されます。
+SeasideはCSS\ind{CSS}をサポートしています。そのためページ内容とレイアウトは明確に分離されます。
 \seeindex{Cascading Style Sheets}{CSS}
 
-最後に、Seasideは、Webブラウザ上での便利な開発ツールも提供しています。これによってインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
+最後に、Seasideは、Webブラウザ上での便利な開発ツールを提供しています。これによりインタラクティブな形で簡単にWebアプリケーションを開発、デバッグできます。サーバを動作させながら、リコンパイルしてアプリケーションを拡張することだってできるのです。
 %=================================================================
 \section{はじめに}
 
-\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードするとすぐにSeasideを始めることができます。
+\subind{Seaside}{のWebサイト}\footnote{\url{http://seaside.st}}から``Seaside \subind{Seaside}{One-Click Experience}''をダウンロードすると、すぐにSeasideを始めることができます。
 ファイルには\ind{Windows} \ind{Mac OSX}, \ind{Linux} 用のSeaside 2.8の環境一式が同梱されています。。
 Seasideのサイトには他にもドキュメントやチュートリアルなど、たくさんのリンクがあります。Seasideは長年に渡って進化を続けているものなので、すべてが最新のSeasideについてのものであるとは限らないので注意してください。
 
-% If you are feeling more adventurous, an alternative to the ``one-click'' image is to start with the latest \ind{\pharo web image}\footnote{\url{http://pharo-project.org/download}}, and install Seaside yourself by following the manual \subind{Seaside}{installation} instructions on the Seaside web site.
+% 3.0だが...
 
 SeasideはWebサーバを含んでいます。8080ポートで動かすには \clsind{WAKom} \ct{startOn: 8080} を実行します。
 サーバを終了するときは、\ct{WAKom stop} です。
@@ -119,9 +119,8 @@ SeasideはWebサーバを含んでいます。8080ポートで動かすには \c
 これはSeasideアプリケーションのサンプルです。\link{++}や \link{--\,--}のリンクをクリックするとカウンターの値を変えることができます。
 
 \noindent
-\dothis{リンクをクリックして値を変えてみましょう。Webブラウザの「戻る」ボタンで前の状態に戻ってから\link{++}のリンクをまたクリックしてみてください。
-カウンターは、ちゃんと表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
-
+\dothis{リンクをクリックして値を変えてみましょう。Webブラウザの「戻る」ボタンで前の状態に戻ってから\link{++}のリンクを再びクリックしてみてください。
+カウンターは、表示されていた値から増えています。決して「戻る」ボタンを押し始めたときの値からではないのです。}
 
 今度は図\figref{seasideStartup}の\subind{Seaside}{toolbar}の初期画面の下のほうにあるツールバーに注目してみてください。
 Seasideは「セッション」の概念をサポートしており、各アプリケーションはユーザごとに状態を管理できるようになっています。
@@ -129,13 +128,13 @@ Seasideは「セッション」の概念をサポートしており、各アプ�
 \button{Configure} ではアプリケーションの各種設定をWebブラウザ経由で行うことができます。
 
 (\button{Configure}の画面を閉じるには、右上の \link{x} リンクをクリックします)。
-\button{Toggle Halos} を押すと、Seasideで動作しているアプリケーションの状態を調べていくことができます。
+\button{Toggle Halos} を押すと、Seasideで動作しているアプリケーションの状態が調べられます。
 \button{Profiler} と \button{Memory} ボタンはアプリケーション実行時のパフォーマンスに関する詳細な情報を見るためのものです。
 
-\button{XHTML} は生成されたWebページのXHTMLをバリデートするときに使います。該当ページが外部からアクセス可能になっていないとこの機能は動作しません。W3Cのバリデータを使っているからです。
+\button{XHTML} は生成されたWebページのXHTMLをバリデートするときに使います。対象とするページが外部からアクセス可能になっていないとこの機能は動作しません。W3Cのバリデータを使っているからです。
 \index{Seaside!halos}
 
-Seasideのアプリケーションは付け外し可能な「コンポーネント」からできています。Seasideのフレームワークが提供する\ct{WAComponent}クラスを継承したクラスのインスタンスであるということを除けば、実のところコンポーネントは通常のSmalltalkのオブジェクトです。\pharo のイメージからコンポーネントやクラスを探索できますし、Webブラウザからハローを通じて直接たどっていくこともできます。
+Seasideのアプリケーションは付け外し可能な「コンポーネント」からできています。フレームワークが提供する\ct{WAComponent}を継承したクラスのインスタンスであるということを除けば、コンポーネントは通常のSmalltalkのオブジェクトです。\pharo のイメージからコンポーネントやクラスを探索できますし、Webブラウザからハローを通じて直接たどっていくこともできます。
 
 \begin{figure}[ht]
 \begin{center}
@@ -154,20 +153,20 @@ Seasideのアプリケーションは付け外し可能な「コンポーネン�
 こうしたリンクをすべて試してみましょう。
 ソースビューの表示のときにも、\link{++} や \link{{-}{-}}は有効になっています。フォーマットもされているため、Webブラウザでソース表示をしたときよりも見やすいかもしれません。}
 
-Seasideのクラスブラウザやオブジェクト・インスペクタは、サーバが別のマシンで動作していて、画面がなかったり、遠く離れていたりするときには非常に便利です。
-とはいえ、最初にSeasideのアプリケーションを開発するときには、ローカルでサーバを動かすと思います。その場合は\pharoのイメージが提供する通常の開発ツールのほうが使いやすいでしょう。
+Seasideのクラスブラウザやオブジェクト・インスペクタは、サーバが別のマシンで動作していて、画面がなかったり、リモートの環境だったりするときには非常に便利です。
+とはいえ、最初にSeasideのアプリケーションを開発するときには、ローカルでサーバを動かすと思います。その場合は\pharoのイメージが提供する普段の開発ツールのほうが使いやすいでしょう。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{haltingCounter}
-\caption{カウンターアプリをhaltさせる}
+\caption{カウンターアプリケーションをhaltさせる}
 \figlabel{haltingCounter}
 \end{center}
 \end{figure}
 
 %\dothis{Using the object inspector link in the web browser, open an inspector on the underlying Smalltalk counter object and evaluate \ct{self halt}}.
 \dothis{Webブラウザのオブジェクト・インスペクタのリンクを使い、カウンターのインスペクタを開けてみて、 \ct{self halt}を実行してみましょう。
-Webページはロード途中の状態になります。Seasideのイメージのほうに移ってみてください。ノーティファイアが上がっていて (\figref{haltingCounter})、  \ct{WACounter} のオブジェクトが \ct{halt} の実行で止まっていることが確認できます。
+Webページはロード中の状態になります。Seasideのイメージのほうに移ってみてください。ノーティファイアが上がっていて (\figref{haltingCounter})、  \ct{WACounter} のオブジェクトが \ct{halt} の実行で止まっていることが確認できます。
 さらにデバッガを開いて \button{Proceed} を押してみましょう。Webブラウザに戻るとカウンターは再び動作しています。}
 
 Seasideのコンポーネントは、異なるコンテキストで何度も初期化できます。
@@ -182,20 +181,20 @@ Seasideのコンポーネントは、異なるコンテキストで何度も初�
 
 %\dothis{Point your web browser to \url{http://localhost:8080/seaside/examples/multicounter}}.
 \dothis{WebブラウザのURLを\url{http://localhost:8080/seaside/examples/multicounter}に指定してみてください。
-いくつもの独立したカウンターコンポーネントからなるアプリケーションが立ち上がります。
+いくつもの独立したカウンターからなるアプリケーションが立ち上がります。
 カウンターをいくつか選んで値を変えてみましょう。「戻る」ボタンを押しても問題なく動作します。
-ハローを表示してみると、入れ子になったコンポーネントからアプリケーションができていることがわかります。クラスブラウザを使って、 \ct{WAMultiCounter}の実装がどうなっているか見てみましょう。
+ハローを表示してみると、入れ子になったコンポーネント群からアプリケーションができていることがわかります。クラスブラウザを使って、 \ct{WAMultiCounter}の実装がどうなっているか見てみましょう。
 クラスメソッドが3つ(\ct{canBeRoot}、 \ct{description}、 \ct{initialize})、インスタンスメソッドも3つ(\ct{children}、 \ct{initialize}、 \ct{renderContentOn:})定義されていることがわかります。
-アプリケーションでは、クラスメソッドの\ct{canBeRoot}で \ct{true}を返すことで、コンポーネント階層のルートになり得るという宣言を行っています。}
+マルチカウンターのアプリケーションも、単なるコンポーネントです。クラスメソッドの\ct{canBeRoot}で \ct{true}を返し、コンポーネント階層のルートになるための宣言を行っているのです。}
 \index{Seaside!multi-counter}
 
-SeasideのWebインターフェースを使うと、アプリケーション(\ie ルートになっているコンポーネント)を設定したり、コピーしたり、登録解除したりできます。設定を少しいじってみましょう。
+SeasideのWebインターフェースを使うと、アプリケーション(\ie ルートになるコンポーネント)を設定したり、コピーしたり、登録解除したりできます。設定を少しいじってみましょう。
 
 \dothis{Webブラウザで\url{http://localhost:8080/seaside/config}を開きます。ユーザIDとパスワードを入れて、ログインしてください。(デフォルトでは\ct{admin} / \ct{seaside} となっています)。
 ``examples''の隣にある \link{Configure}　をクリックします。 ``Add entry point''のところで、 ``counter2''と名前を入れ、タイプは \emph{Application} のまま \button{Add}ボタンをクリックします( \figref{counter2}を参照)。
-次の画面で、 \emph{Root Component} を \clsind{WACounter}にして、 \button{Save} を押して、 \button{Close}で閉じます。
+次の画面で、 \emph{Root Component} を \clsind{WACounter}にして、 \button{Save} を押し、 \button{Close}で閉じます。
 これでカウンターの新しいアプリケーションが \url{http://localhost:8080/seaside/examples/counter2}で起動するようになりました。
-同様に、この設定ツール画面を通じてアプリケーションの登録解除を行うこともできます。
+同様に、この設定ツール画面を通じて、登録したアプリケーションの解除を行うこともできます。
 }
 \index{Seaside!configuration}
 
@@ -212,14 +211,13 @@ Seasideは2つのモードで動作します。一つは今まで見てきた \e
 \index{Seaside!deployment mode}
 \index{Seaside!development mode}
 
-デプロイモードにするには、全体の設定ツールのページからアプリケーションを選んで、 \link{Configure} をクリックするか、ツールバーに表示されている \link{Configure} をクリックします。
+デプロイモードにするには、全体設定を行うツールのページからアプリケーションを選び、 \link{Configure} をクリックするか、ツールバーに表示されている \link{Configure} をクリックします。
 % \ab{How?  I couldn't find this}
 どちら場合も、デプロイモードのプルダウンボックスが表示されるので、\emph{true}に設定します。
 この設定は新たなセッションを開始したタイミングで有効になります。
 Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} \lct{setDeploymentMode}や、\ct{WAGlobalConfiguration setDevelopmentMode}を実行します。
 \index{Seaside!deployment mode}
 \index{Seaside!development mode}
-
 
 設定ツール自体もSeasideのアプリケーションです。そのため同じようにWebブラウザから各種の設定ができます。もしも誤って``config'' のアプリケーションを削除してしまった場合は、
 \clsind{WADispatcherEditor} \ct{initialize}　とすると元に戻ります。
@@ -258,10 +256,10 @@ WAHelloWorld class>>>canBeRoot
 \end{code}
 
 \noindent
-ほとんどこれでできあがりです。
+これでほとんどできあがりです。
 
 \dothis{Webブラウザで \url{http://localhost:8080/seaside/config}を開き、 ``hello''のエントリポイントを追加し、ルートのコンポーネントを \ct{WAHelloWorld}に設定します。
-そしてURLを\url{http://localhost:8080/seaside/hello} に変えると、 \figref{WAHelloWorld}}のように表示されています!
+そしてURLを\url{http://localhost:8080/seaside/hello} に変えると、 \figref{WAHelloWorld}}のように表示されます!
 
 \begin{figure}[htb]
 \begin{center}
@@ -287,7 +285,7 @@ WAHelloWorld class>>>canBeRoot
 \end{figure}
 
  \clsind{WACounter} はスタンドアロンのアプリケーションなので \ct{WACounter class} では  \mthind{WAComponent class}{canBeRoot} を実装して、\ct{true} を返す必要があります。
- アプリケーションとしての登録は、図 \figref{WACounter}にあるように、クラスメソッド \ct{initialize}の中で行われています。 
+ アプリケーションとしての登録は、図 \figref{WACounter}にあるように、クラスメソッド \ct{initialize}の中で行っています。
 
 \ct{WACounter} には \ct{increase} と \ct{decrease}メソッドがあります。それぞれWebページで \link{++} 、 \link{--\,--} のリンクをクリックしたときに呼び出されます。カウンターの値を保持するため、インスタンス変数としては \ct{count}が定義してあります。
 「戻る」ボタンを押してもカウンターの値がブラウザの値とずれないようにするには、\ct{WACounter} の状態をバックトラックするようにしなければなりません。
@@ -301,9 +299,9 @@ Seasideは、バックトラックのためのメカニズムを最初から持�
 バックトラック対象のオブジェクトの宣言ではちょっとした注意点があります。
 Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過去の状態を保持します。
 
-実際の処理は \clsind{WASnapshot} によって行われます。 \ct{WASnapshot}は \clsind{IdentityDictionary} のサブクラスで、バックトラック対象のオブジェクト群をキーに、シャローコピーされたオブジェクト群を値として持っています。
+実際の処理は \clsind{WASnapshot} によって行われます。 \ct{WASnapshot}は \clsind{IdentityDictionary} のサブクラスで、キーとしてバックトラック対象のオブジェクト群、値としてシャローコピーされたオブジェクト群を持っています。
 特定のスナップショットに状態を戻す必要があるときには、シャローコピーされた情報を使って、オブジェクトの変数の値を上書きします。
-先ほどの\ct{WACounter}の場合、バックトラックの対象は、インスタンス変数\ct{count} の数字だけで良いのではと思うかもしれません。しかし、  \ct{states} メソッドでr\ct{Array with: count} のように書いてもうまく動作しないのです。
+先ほどの\ct{WACounter}の場合、バックトラックの対象は、インスタンス変数\ct{count} の数字だけで良いのではと思うかもしれません。しかし、  \ct{states} メソッドでr\ct{Array with: count} のように書いてもうまく動作しません。
 これは\ct{count}の中身が整数で、整数は不変のオブジェクトだからです。
  \ct{increase} や \ct{decrease} メソッドでは、オブジェクトのそのものが \ct{0}から \ct{1} になったり、 \ct{3}から \ct{2}になっているわけではありません。
  \ct{count} 変数の中身が代入されて別の整数になっているのです。整数が増えたり減ったりするたびに、 \ct{count} が指すオブジェクトは 別のものに\emph{成り代わって}います。このため、 \ct{WACounter>>>states}では\ct{Array with: self}と書く必要があるのです。 \mbox{\ct{WACounter}} が以前の状態に戻るときには、各インスタンス変数の値がコピーされた\mbox{\ct{WACounter}}から復元されます。これで \ct{count} の値は正しく戻ることになります。
@@ -312,23 +310,23 @@ Seasideは配列内のオブジェクトの\emph{copy}を取ることで、過�
 
 \section{XHTMLのレンダリング}
 
-Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{コンポーネント}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
-レンダリングの仕組みを知るため、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
+Webアプリケーションでは、Webページを動的に生成して表示(レンダリング)を行います。 \secref{components}の節で述べたように、Seasideのコンポーネントは、それぞれが自身をレンダリングするようになっています。
+仕組みを知るために、カウンターのコンポーネントがどのようにレンダリングを行っているか、見ていきましょう。
 
 \subsection{カウンターのレンダリング}
 
 カウンターのレンダリングは比較的単純です。 \figref{WACounter}のコードを見てください。
-カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装されていて、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
+カウンターの現在の値がXHMLTの見出しとして表示されます。値の増減の操作はアンカー(リンク)として実装され、コールバックがブロックの形で仕掛けられています。アンカーをクリックすると \ct{increase} や \ct{decrease}がカウンターオブジェクトに対して送られるようになっています。
 
 レンダリングで送るメッセージ群についてはすぐ後で詳しく解説しますが、その前に\subind{Seaside}{マルチカウンター}のほうもどうなっているか見てみましょう。
 
 \subsection{CounterからMultiCounterへ}
 
-まず \figref{WAMultiCounter} で示すように\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
+まず \figref{WAMultiCounter} で示すように、\ct{WAMultiCounter}もスタンドアロンのアプリケーションなので、 \mthind{WAComponent class}{canBeRoot}を実装して \ct{true}を返すようにしています。
 
-マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返すようにしています。
+マルチカウンターのコンポーネントは、サブコンポーネントを含んだ \emph{コンポジット} となっています。そのため \ct{children} メソッドを実装して、中に含まれるコンポーネント群を配列の形で返しています。
 
-レンダリングでは、サブコンポーネントの表示を、水平線で区切りながら行うように書いています。
+レンダリングでは、サブコンポーネント群を、水平線で区切りを入れて表示するように書いています。
 そのほか初期化を行うためのインスタンスメソッド、クラスメソッドがありますが、基本的にはこれだけで良いのです!
 
 \begin{figure}[bht]
@@ -340,11 +338,11 @@ Webアプリケーションでは、Webページを動的に生成して表示(�
 \end{figure}
 
 %-----------------------------------------------------------------
-\subsection{レンダリング詳細}
+\subsection{レンダリングの詳細}
 
-今までの例で見てきたように、SeasideではWebページ生成でテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
-Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはフレームワークの側からコンポーネントのレンダリングのときに呼び出されます。
-\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似ています。デバイス固有となる描画の詳細を隠す役割を持っています。
+今までの例で見てきたように、SeasideではWebページの生成にテンプレートを使いません。Smalltalkのメッセージ送信で生成するのです。
+Seasideのコンポーネントは  \mthind{WAPresenter}{renderContentOn:}をオーバーライドする決まりになっています。このメソッドはコンポーネントのレンダリングのときにフレームワークの側から呼び出されます。
+\ct{renderContentOn:} は、引数を一つ取りますが、 \seeindex{canvas}{htmlキャンバス} \emphind{htmlキャンバス}オブジェクトが渡ってくるようになっています。これを使ってコンポーネントはレンダリングを行います。慣習によりキャンバスは \ct{html}　という名前になっています。htmlキャンバスはMorphicや別のGUIフレームワークでのキャンバスに似たものです。デバイス固有となる描画処理の詳細を、隠す役割を持っています。
 
 基本的なレンダリングメッセージをいくつか挙げてみます。
 \begin{code}{}
@@ -353,13 +351,13 @@ html html: '&ndash;'.     "XHTMLの直接指定"
 html render: 1.              "オブジェクトのレンダリング"
 \end{code}
 
-\ct{任意のオブジェクト}を表示するのに \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
-マルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
+\ct{任意のオブジェクト}を表示するには \ct{render: anObject} を使うことができます。通常はサブコンポーネントの表示で使われます。引数となった \lct{anObject}には \ct{renderContentOn:}のメッセージが内部的に送られます。
+これはマルチカウンターの例で使いました ( \figref{WAMultiCounter}を参照)。
 
 \subsection{ブラシの利用}
 \seclabel{brushes}
 
-キャンバスでは描画を行うため、たくさんの \emphind{ブラシ} を使うことができます。
+キャンバス上で描画を行うために、たくさんの \emphind{ブラシ} を使うことができます。
 XHTMLの各要素(段落、テーブル、リストなど)に対応したブラシがあります。
 ブラシやそれに関連する便利メソッドを知るには、\clsind{WACanvas} とそのサブクラスをブラウズすると良いでしょう。
  \ct{renderContentOn:} の引数は、\clsind{WACanvas}を継承した \clsind{WARenderCanvas}のインスタンスになっています。
@@ -378,7 +376,7 @@ html horizontalRule.
 \end{center}
 \end{figure}
 
-図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろ使ってみた例です。 \footnote{
+図 \figref{RenderingDemo}は、Seasideが提供する基本的なブラシをいろいろと使ってみた例です。 \footnote{
  \mthref{renderdemo}のソースコードは  \url{http://www.squeaksource.com/PharoByExample}プロジェクトの\ct{PBE-SeasideDemo}パッケージ内にあります。} \ct{SeasideDemo} のルートコンポーネントは単にサブコンポーネントの表示を行うだけです。サブコンポーネントは \mthref{renderdemo}を読むとわかりますが、\ct{SeasideHtmlDemo}、 \ct{SeasideFormDemo}、\ct{SeasideEditCallDemo} 、\ct{SeasideDialogDemo}となっています。
  
 \needspace{7ex}
@@ -395,21 +393,21 @@ SeasideDemo>>>renderContentOn: html
 \end{method}
 
 \noindent
-コンポーネントはサブコンポーネントを返すようにするというのを覚えているでしょうか。Seasideはレンダリングのたびにサブコンポーネントを再利用します。
+コンポーネントはサブコンポーネントを返すというのを覚えているでしょうか。Seasideではレンダリングのたびにサブコンポーネントを再利用します。
 \begin{code}{}
 SeasideDemo>>>children
 	^ { htmlDemo . formDemo . editDemo . dialogDemo }
 \end{code}
 
-上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストを直接メッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
+上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、生成とともに、テキストをメッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送りブラシを生成してから、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
 
-\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るのであれば、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
+\important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るなら、 \ct{with:} は必ず\emph{最後に}書く必要があります  message.
 \ct{with:} によってブラシのレンダリングが始まるからです。}
 
-\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトのレベル1になります。次の見出しではレベルを2に明示的に設定しています。
+\mthref{renderdemo}のメソッドでは、最初の見出しはデフォルトでレベルになります。次の見出しはレベル2を明示的に指定しています。
  サブコンポーネントはXHTMLで\emph{div}の中に囲まれる形になります。divには ``subcomponent''という\ind{CSS}のクラスを付与しています(CSSの使い方については\secref{css}で解説します)。  \ct{with:} メッセージの引数は、文字列とは限りません。この例ではコンポーネントを渡しています。次の例でも出てきますが、レンダリングの操作を記述したブロックでも良いのです。
 
-\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用法がわかるでしょう。
+\ct{SeasideHtmlDemo}コンポーネントは 基本的なブラシをいろいろと使ったデモになっています。コードを見ればだいたい利用の仕方がわかるでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderContentOn: html 
@@ -421,13 +419,13 @@ SeasideHtmlDemo>>>renderContentOn: html
 
 上のように、レンダリングのメソッドが長くなった場合には細かいメソッド群に分割することがよく行われます。
 
-\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送りるようにしてください。}
+\important{一つのメソッド内に長々とレンダリング処理を書くやり方はお勧めできません。\ct{render*On:}という形でヘルパーメソッドとして分割しましょう。そうしたメソッド群は\prot{rendering} メソッドカテゴリーに置いておくようにします。また、 コンポーネントに\ct{renderContentOn:}を直接送ってはいけません。代わりに\ct{render:}を送るようにしてください。}
 
-さらにコードを見ていきましょう。
+さらにコードを見ていきます。
 
-最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の仕方の例になっています。
+最初の\ct{SeasideHtmlDemo>>>renderParagraphsOn:}ヘルパーメソッドは、XHTMLの段落、通常のテキスト、強調表示されたテキスト、画像の表示の例になっています。
 
-Seasideでは単純な要素であれば単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
+Seasideでは、単純な要素なら単に文字列を指定するだけでレンダリングできますし、複雑なものであればブロックを使います。レンダリングのコードを書くときの指針として覚えておくと良いでしょう。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderParagraphsOn: html 
@@ -445,7 +443,7 @@ SeasideHtmlDemo>>>renderParagraphsOn: html
 			width: '50']
 \end{code}
 
-次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使って、列と列の中のセルを表示させるようにします。
+次のヘルパーメソッド\ct{SeasideHtmlDemo>>>renderListsAndTablesOn:}は、リストとテーブルの表示例になっています。 テーブルではネストしたブロックを使い、列と列内のセルを表示します。
 
 \begin{code}{}
 SeasideHtmlDemo>>>renderListsAndTablesOn: html 
@@ -473,7 +471,7 @@ SeasideHtmlDemo>>>renderDivsAndSpansOn: html
 				with: 'A span with class ''highlight''.']
 \end{code}
 
-最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わるのですが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行で変化するからです。
+最後に、リンクの簡単な例を見てみましょう。アンカー(リンク) にコールバックを設定しています。リンクをクリックするたびに、文字列が``true''と``false''に切り替わりますが、これはインスタンス変数の\ct{toggleValue}の値がコールバックの実行により変化するからです。
 
 \needlines{3}
 \begin{code}{}
@@ -490,8 +488,8 @@ SeasideHtmlDemo>>>renderLinkWithCallbackOn: html
 			with: toggleValue ]
 \end{code}
 
-\important{アプリケーションの状態を変えるような処理は、コールバックの中でのみ書くようにします。
-レンダリングのコードの中に、直接そのようなコードを書くべきではありません。}
+\important{アプリケーションの状態を変えるような処理は、コールバック内に書くようにします。
+レンダリング中に、直接そのようなコードを書くべきではありません。}
 
 %-----------------------------------------------------------------
 \subsection{フォーム}
@@ -524,7 +522,7 @@ SeasideFormDemo>>>renderContentOn: html
 			text: 'done' ]
 \end{code}{}
 
-フォーム要素は複雑なので、ブロックを使ってレンダリングしています。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
+フォーム要素は複雑なので、ブロックを使ってレンダリングします。状態の変更に関わるコードはすべてコールバック内で書かれており、レンダリング部分には書かれないことに注意してください。
 
  \mthind{WAAnchorTag}{on:of:}については説明が必要でしょう。
 上の例ではテキストフィールドに、自身のインスタンス変数\ct{heading}を対応させるために使われています。
@@ -533,18 +531,18 @@ SeasideFormDemo>>>renderContentOn: html
 最初の引数はインスタンス変数の名前です。2番目の引数は変数を保持するオブジェクトを指定します。
 通常の名前付けルールで、インスタンス変数のアクセッサー (\ct{heading}) とミューテイター (\ct{heading:})がクラスに定義されていることが前提となっています。
 
-このテキストフィールドの例では、デフォルト値を設定したり、新たな値の設定に関するコールバックを設定したりするコードを省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
+上記のテキストフィールドの例では、デフォルト値の設定や、値を更新するためのコールバックを書く手間を省くのに役立っています。 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
 
-すぐ後にコンボボックスの選択で\ct{color} 変数を指定した別の例があります。その後にはチェックボックスの例があり、 \ct{checked} 変数の値が更新されるようになっています。
+すぐ後にコンボボックスで\ct{color} 変数を指定した別の例があります。その次のチェックボックスの例では、 \ct{checked} 変数の値が更新されるようになっています。
 
-Seasideの機能テストのコードを見ると、さらにさまざまなフォーム例が見つかります。
+Seasideの機能テストのコードを見ると、さらにさまざまなフォームの例が見つかります。
 %2.8ベース。修正の必要あり(ume)　
 % URL -> http://localhost:8080/tests/functional/WAInputPostFunctionalTest
 % menu -> WAInputGetFunctionalTest, (WAInputPostFunctionalTest)
  \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。また、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}のURLを指定し、
 \menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
 
-ぜひ\button{Toggle Halos}ボタンを押すと、Webブラウザから対応するソースコードにすぐアクセスできるようになるというSeasideの機能を活用してください。
+Webブラウザの\button{Toggle Halos}ボタンを押せば、対応するソースコードにすぐにアクセスできるというSeasideの機能を、ここで活用してください。
 
 %-----------------------------------------------------------------
 \section{CSS: カスケーディング・スタイル・シート}
@@ -553,23 +551,22 @@ Seasideの機能テストのコードを見ると、さらにさまざまなフ�
 %\ab{I think that it just needs a few paragraphs telling the reader the key ideas behind CSS, and the new terminology that the CSS folks introduce, before going in to the details of how you define their "thingies".  Now I have forgotten what they call their "thingies" --- I know that there are effectively paragraph styles (divs) and character styles (spans), but I've forgotten what they call them.  So, I think that the text needs to tell the reader, for each thingie, (1) the CSS concept behind the thingie, (2) what it looks like in a CSS style sheet , (3) what it looks like in html, and (4) how to do it in Seaside.   Maybe (3) can be omitted, because it's not needed to use Seaside.}
 % \on{I think we do most of that already.}
 
-\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する方法として標準的なものになってきました。SeasideはCSSの技術を使い、レンダリングのコードが見栄えを意識して煩雑になるのを防いでいます。
+\ind{CSS}(カスケーディング・スタイル・シート) \footnote{\url{http://www.w3.org/Style/CSS/}}は、Webアプリケーションで、内容と見栄えを分離する標準的な方法になっています。Seasideでは、レンダリングのコードが見栄えを意識して煩雑になるのを、CSSの技術を使って防いでいます。
 
-コンポーネントは \ct{style}というメソッドを定義することで、使用するスタイルシートを決めることができます。メソッドの中身は単なるCSSの文字列で、コンポーネントが使うスタイルを定めたものにします。
+ \ct{style}というメソッドをコンポーネントに定義することで、使用するスタイルシートを決めることができます。メソッドの中身は、コンポーネントが使うスタイルについて定めた単なるCSSの文字列です。
 
-Webページ内に配置されるコンポーネントのスタイルシートは結合されて一つになりますが、各コンポーネントは自身のスタイルを定義で
-きます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
+Webページに配置されるコンポーネントのスタイルシートは結合されて一つになりますが、コンポーネントは自身のスタイルを自ら定義できます。抽象クラスを定義して、アプリケーションで使う共通のスタイルをメソッドとして定義しておくのも良いでしょう。
 
-しかしデプロイ時には、外部ファイルとしてスタイルシートを用意するのが一般的です。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
+とはいえデプロイ時には、外部ファイルとしてスタイルシートを用意することも広く行われます。こうするとコンポーネントの機能的な部分と、見栄えの分離がさらに進み、完全に分離されることになります。
 ( \clsind{WAFileLibrary}クラスを使うと、別途サーバを用意せずに、外部のファイルを利用可能です)。
 
-CSSをよく知っているのでしたら、これで説明は終わりです。念のため、簡単なCSSの紹介を書いておきます。
+CSSをよく知っているのでしたら、これで説明は終わりです。念のため、以後は簡単なCSSの紹介を書いておきます。
 
-CSSを使うと、段落やテキストの表示属性を直接Webページに埋め込む代わりに、表示情報を分類分けして、スタイルシートに別途定義できます。段落に該当する要素が \emph{div}で、インラインのテキスト要素は \emph{span} と呼ばれます。
-例えば自分で``highlight''といった形で、要素に名前をつけて、ハイライトされるテキストとして定義することもできます(例を参照のこと)。スタイルシートの中では、ハイライトがどのように表示されるべきかを記述します。
+CSSを使うと、段落やテキストの表示属性を直接Webページに埋め込む代わりに、表示情報を分類分けして、別途スタイルシートに定義できます。段落に該当する要素が \emph{div}で、インラインのテキスト要素は \emph{span} と呼ばれます。
+例えば自分で``highlight''といった形で、要素に名前をつけ、ハイライトされるテキストを定義することができます(例を参照のこと)。スタイルシートの中では、ハイライトがどのように表示されるべきかを記述します。
 
-基本的に CSS は、XHTMLの要素をどのようなフォーマットで表示するかについて一覧のルールを記述したものです。ルールは二つの部分から成り立っています。
- \emph{セレクター}と呼ばれる部分ではその XHTML 要素にルールを適用するかを指定します。 \emph{宣言} の箇所では、要素に適用される属性の値を定義します。
+基本的に CSS は、XHTMLの要素をどのようなフォーマットで表示するかについてのルールを記述したものです。ルールは二つの部分から成り立っています。
+ \emph{セレクター}と呼ばれる部分では、どの XHTML 要素にルールを適用するかを指定します。 \emph{宣言} の箇所では、要素に適用される属性の値を定めます。
 
 \begin{figure}[tb]
 \begin{code}{}
@@ -610,9 +607,8 @@ td {
 \figref{democss} は、\figref{RenderingDemo}で使われているスタイルシートのメソッドを示したものです。
 最初のルールは \ct{body}要素で使われるフォントを指定しています。さらに、見出しレベル2 (\ct{h2})、テーブル (\ct{table})、セル (\ct{td})についての定義が続きます。
 
-
 残りのルールは、特定の``class'' や ``id''を持つ XHTML要素についてです。クラス属性のCSSのセレクターは``\ct{.}''でid 属性のセレクターは``\ct{#}''で始まります。
-classと id の違いは、ページ内でid属性の要素は一つしか存在できませんが(\emph{IDのため})、クラス属性の要素は複数あっても良いということです。 \ct{highlight}はクラス属性なので、ページ内に何度も出てきてかまいません。id属性はページ内で \emph{唯一}の要素、例えばメニュー、更新日、作者の名前などで使われます。また、XHTMLの各要素には、複数のクラス属性が指定できます。その場合は指定された順番に沿って、表示の属性が適用されていきます。
+classと id の違いは、ページ内でid属性の要素は一つしか存在できませんが(\emph{IDのため})、クラス属性の要素は複数あっても良いということです。 \ct{highlight}はクラス属性なので、ページ内に何度出てきてもかまいません。id属性はページ内で \emph{唯一}の要素、例えばメニュー、更新日、作者の名前などで使われます。また、XHTMLの各要素には、複数のクラス属性が指定できます。その場合は指定された順番に沿って、表示の属性が適用されていきます。
 
 % This style sheet expects at most one element to specify the \emph{author} of the web page.
 
@@ -620,18 +616,18 @@ classと id の違いは、ページ内でid属性の要素は一つしか存在
 
 あまり必要になることはありませんが、ネストした要素を指定することも可能です。例えば ``\ct{p span}''は、段落内(p)のspanを選択します。div内のspanにマッチすることはありません。
 
-CSSについては多くの本やWebページがあります。CSSでどれだけのことができるかを知るには、CSS Zen　Garden\footnote{\url{http://www.csszengarden.com/}}のサイトを見てみると良いでしょう。CSSのスタイルシートを変えるだけで、同じ内容の文書をまったく異なったものに見さられるということがわかります。
+CSSについては多くの本やWebページがあります。CSSでどれだけのことができるかを知るには、CSS Zen　Garden\footnote{\url{http://www.csszengarden.com/}}のサイトを見てみると良いでしょう。CSSのスタイルシートを変えるだけで、同じ内容の文書をまったく異なる見栄えにできるということがわかります。
 
 %-----------------------------------------------------------------
 \section{制御フローの管理}
 
-Seaside では、複雑なフローを持つWebアプリケーションを開発するのが、特に簡単にできるようになっています。基本的に二つの仕組みが提供されています。
+Seaside では、複雑なフローを持つWebアプリケーションを、非常に簡単に開発できるようになっています。二つの基本的な仕組みが提供されています。
 
 \begin{enumerate}
-  \item コンポーネントは別のコンポーネントを \ct{caller call: callee}のように書いて、\emph{呼び出す}ことができます。呼び出し側は一時的に表示されなくなり、呼ばれた側に制御が移ります。\ct{answer:}によって、制御を元に返すことができます。呼び出し側は定型的には \ct{self}ですが、現在表示されているコンポーネントであればどれでもかまいません。
+  \item コンポーネントは、\ct{caller call: callee}のように書くことで、他のコンポーネントを\emph{呼び出す}ことができます。呼び出し側は一時的に表示されなくなり、呼ばれた側に制御が移ります。\ct{answer:}によって、制御を元に返すことができます。呼び出し側は通常 \ct{self}ですが、現在表示されているコンポーネントであればどれでもかまいません。
 
   \item 全体のワークフローは \emphsubind{Seaside}{タスク}の仕組みで定義できます。\clsind{WAComponent}でなく、\clsind{WATask}を継承することで、特別なコンポーネントになります。 \seclabel{task} タスクは内部にコンポーネントを持ちません。
-   \ct{renderContentOn:}を実装する代わりに、 \ct{go} メソッドを定義し、全体の流れを、コンポーネントを順番に \ct{call:}形で書いていきます。
+   \ct{renderContentOn:}を実装する代わりに、 \ct{go} メソッドを定義し、コンポーネントを順番に \ct{call:}する形で全体の流れを書いていきます。
   
 \end{enumerate}
 \index{Seaside!control flow}
@@ -642,7 +638,7 @@ Seaside では、複雑なフローを持つWebアプリケーションを開発
 call:とanuswer:は単純なダイアログ形式のUIを実現するために使われます。
 
  \ct{call:} と \ct{answer:} を使った簡単な例は、図\figref{RenderingDemo}のレンダリングのデモに含まれています。
- \ct{SeasideEditCallDemo} のコンポーネントはテキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で、呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値をテキストフィールドに反映させるようになっています。
+ \ct{SeasideEditCallDemo} のコンポーネントは、テキストフィールドと \emph{edit}リンクを表示しています。editのリンクにはコールバックが仕掛けられていて、\ct{SeasideEditAnswerDemo}のインスタンスを、テキストフィールドの値で初期化した上で呼び出すようになっています。コールバックではさらに、呼び出したコンポーネントから受け取った値を、テキストフィールドに反映させるようになっています。
  
 (以下のコード例では目立たせるために \ct{call:} と \ct{answer:} のメッセージにアンダーラインを引いています)。
 
@@ -657,11 +653,11 @@ SeasideEditCallDemo>>>renderContentOn: html
 		with: 'edit'
 \end{code}{}
 
-次に表示されるべきWebページ全体を意識する部分がまったくない、というところがエレガントです。実行すると \ct{SeasideEditCallDemo} コンポーネントの部分が \ct{SeasideEditAnswerDemo} コンポーネントに成り代わり、ページ全体の表示が行われます。外側のコンポーネントや隣接するコンポーネントはそのままです。
+次に表示すべきWebページ全体を意識する部分がまったくない、というところがエレガントです。実行すると \ct{SeasideEditCallDemo} コンポーネントが表示している部分が \ct{SeasideEditAnswerDemo} コンポーネントに置き換わり、ページ全体の表示が行われます。外側のコンポーネントや隣接するコンポーネントはそのままです。
 
 \important{\mthind{WAComponent}{call:} や \mthind{WAComponent}{answer:} はレンダリングの中に直接記述してはいけません。\subind{Seaside}{コールバック}や、タスクの\mthind{WATask}{go}メソッドの中で書くようにします。}
 
-\ct{SeasideEditAnswerDemo} コンポーネントも非常にシンプルです。テキストフィールドの初期値を表示し、送信ボタンのコールバックで、最終的なテキストフィールドの値を返すように書いてあるだけです。
+\ct{SeasideEditAnswerDemo} コンポーネントも非常にシンプルです。テキストフィールドの初期値を表示し、送信ボタンのコールバックで、更新されたテキストフィールドの値を返すように書いてあるだけです。
 
 \begin{code}{}
 SeasideEditAnswerDemo>>>renderContentOn: html
@@ -676,12 +672,12 @@ SeasideEditAnswerDemo>>>renderContentOn: html
 
 わずかこれだけでページの遷移が実現できます。
 
-Seaside は適切なコンポーネントに制御を移してレンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります)。
+Seaside は適切なコンポーネントに制御を移し、レンダリングを自動的に行ってくれます。Webブラウザの「戻る」ボタンも問題なく動作します。 (ただし副作用をロールバックできるようにするにはもう少しコードが必要になります)。
 
 %-----------------------------------------------------------------
 \subsection{便利なメソッド群}
 
-call/answerを使ったダイアログには非常に良く出てくるパターンがあります。そのためSeasideは、\ct{SeasideEditAnswerDemo}のような些細なコンポーネントをわざわ書かずにすむように、便利なメソッドを提供しています。便利メソッドによって生成されるダイアログを図で示しました(\figref{dialogs})。これらの便利メソッドの使用例は \ct{SeasideDialogDemo>>>renderContentOn:}で確認できます。
+call/answerを使ったやりとりには非常に良く出てくるパターンがあります。そのためSeasideは、\ct{SeasideEditAnswerDemo}のような些細なコンポーネントをわざわざ書かずにすむように、便利なメソッドを提供しています。便利メソッドによって生成されるダイアログを図で示しました(\figref{dialogs})。これらの便利メソッドの動作は \ct{SeasideDialogDemo>>>renderContentOn:}で確認できます。
 
 \begin{figure}[b]
 \begin{center}
@@ -691,7 +687,7 @@ call/answerを使ったダイアログには非常に良く出てくるパター
 \end{center}
 \end{figure}
 
-\mthind{WAComponent}{request:}では、編集できるテキストフィールド付きのコンポーネントが開きます。ユーザが入力したテキストが呼び出し側に返るようになっています。ラベルやデフォルト値も指定できます。
+\mthind{WAComponent}{request:}では、編集可能なテキストフィールドつきのコンポーネントが開きます。ユーザが入力したテキストが呼び出し側に返るようになっています。ラベルやデフォルト値も指定できます。
 
 \needlines{3}
 \begin{code}{}
@@ -702,7 +698,7 @@ SeasideDialogDemo>>>renderContentOn: html
 ...
 \end{code}
 
-\mthind{WAComponent}{inform:} では、単にユーザが指定した文字列を表示するコンポーネントが開きます。``ok''ボタンを押すとコンポーネントが閉じて制御が呼び出し側に戻ります。コンポーネントは単に\ct{self}を返すだけです。
+\mthind{WAComponent}{inform:} では、指定した文字列を表示するコンポーネントが開きます。``ok''ボタンを押すとコンポーネントが閉じ、制御が呼び出し側に戻ります。このコンポーネントは\ct{self}を返すだけです。
 
 \begin{code}{}
 ...
@@ -727,7 +723,7 @@ SeasideDialogDemo>>>renderContentOn: html
 		with: 'self confirm:'.
 \end{code}
 
-\clsind{WAComponent}の\prot{convenience}プロトコルには、 \mthind{WAComponent}{chooseFrom:caption:}ような役に立つメソッドがさらに定義されています。
+\clsind{WAComponent}の\prot{convenience}プロトコルには、 \mthind{WAComponent}{chooseFrom:caption:}ような役に立つメソッドがさらに定義してあります。
 
 %-----------------------------------------------------------------
 \subsection{タスク}
@@ -745,7 +741,7 @@ WAConvenienceTest>>>go
 	self informCheese
 \end{code}
 
-このタスクでは3つのコンポーネントの呼び出しを順番に行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開き、ユーザは好きなチーズを選択します。
+このタスクでは3つのコンポーネントの呼び出しを順次行っています。まず\mthind{WAComponent}{chooseFrom: caption:}の便利メソッドで、\clsind{WAChoiceDialog}のダイアログが開きます。ここでユーザーは好きなチーズを選択します。
 
 \begin{code}{}
 WAConvenienceTest>>>chooseCheese
@@ -757,7 +753,7 @@ WAConvenienceTest>>>chooseCheese
 
 % \alex{Is there a situation where cheese may be nil? Maybe if a browser authorizes an empty selection...}
 
-次に \clsind{WAYesOrNoDialog} で選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
+次に \clsind{WAYesOrNoDialog} でユーザーの選択を確認します(ダイアログは\mthind{WAComponent}{confirm:}で生成されたものです)。
 
 \begin{code}{}
 WAConvenienceTest>>>confirmCheese
@@ -785,12 +781,11 @@ WAConvenienceTest>>>informCheese
 \subsection{トランザクション}
 % 3.0で未サポートとなった機能。訳す?
 
- \secref{backtracking} で Seasideはバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態を、Webページごとに記録できるという話をしました。コンポーネント側でしなければならないことは、単に \ct{states} メソッドを定義して、バックトラック対象のオブジェクトを配列の形で返すだけでした。
+ \secref{backtracking} の節で、 Seasideではバックトラック対象となるオブジェクトを登録することで、コンポーネントの状態をWebページごとに記録できるという話をしました。コンポーネント側で必要なのは、 \ct{states} メソッドを定義し、バックトラック対象のオブジェクトを配列の形で返すことだけでした。
 
-しかし時にはバックトラックしたくないときもあります。ユーザが一度行った操作を、間違って取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
+しかし時にはバックトラックをしたくないときもあります。ユーザーが行った操作を、意図せず取り消してしまうことを\emph{防ぎたい}ときがあるのです。これは「ショッピングカート問題」などと呼ばれます。ユーザーがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
 
-Seasideでは\emph{トランザクション}として、いくつかの操作をひとまとめにしてタスク内で定義することによって、この機能を実現できます。
-トランザクションの中ではバックトラックができますが、トランザクション終了後は戻ることができません。トランザクションを越えて戻ろうとすると、そのページは \emph{無効}になります。無効なページに戻ろうとしても、Seasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
+Seasideでは、一連の操作をひとまとめにしてタスク内で\emph{トランザクション}として定義することにより、この問題を解決します。トランザクション内ではバックトラックができますが、トランザクションが終了すると戻ることはできません。トランザクションを越えて戻ろうとしても、前のページは \emph{無効}になります。無効なページの表示時にSeasideが警告を出し、直近の有効なページへと自動的にリダイレクトします。
 
 \begin{figure}[ht]
 \begin{center}
@@ -800,15 +795,15 @@ Seasideでは\emph{トランザクション}として、いくつかの操作を
 \end{center}
 \end{figure}
 
-Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
+\emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴を示すサンプルアプリケーションです。もちろんトランザクションも使われています。
 このサンプルはSeasideに含まれており、Webブラウザで\url{http://localhost:8080/seaside/examples/store}のURLを指定すると起動します。\footnote{もしも同梱されていない場合はSqueakSourceのページ(\url{http://www.squeaksource.com/SeasideExamples/})からロードできます。 }
 
 寿司屋デモのワークフローは以下のようになっています。
 \begin{enumerate}[itemsep=0pt]
   \item サイトを訪れる
-  \item 寿司をブラウズ、検索する
+  \item 寿司をブラウズ、または検索する
   \item ショッピングカートに寿司を追加する
-  \item 注文処理を開始する
+  \item 注文を開始する
   \item カートの内容を確認する
   \item 届け先の住所を入力する
   \item 住所を確認する
@@ -816,7 +811,7 @@ Seasideの \emphsubind{Seaside}{寿司屋デモ} は、Seasideの多くの特徴
   \item 寿司を待つ
 \end{enumerate}
 
- \subind{Seaside}{ハロ}を表示させてみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
+ \subind{Seaside}{ハロー}を表示してみると、トップレベルのコンポーネントは \clsind{WAStore}となっていることがわかります。自身はタイトルバーの表示を行っているだけで、\clsind{WAStoreTask}のインスタンスである \ct{task}にレンダリングを委譲しています。
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
@@ -824,13 +819,13 @@ WAStore>>>renderContentOn: html
 	html div id: 'body'; with: task
 \end{code}
 
-\clsind{WAStoreTask}がワークフローの順番を定義しています。ユーザが戻って一度サブミットした情報を変更できないようにすることが重要です。
+ワークフローの順番を定義しているのが\clsind{WAStoreTask}です。一度サブミットした情報を、ユーザーが戻って変更できないようにしていることが重要です。
 
-\dothis{\,いくつか寿司を購入した後で、Webブラウザの「戻る」ボタンを押し、カートの中にさらに寿司を追加してみましょう。``That page has expired.''と出て追加できません。}
+\dothis{\,いくつか寿司を購入した後で、カートの中にさらに寿司を追加するため、Webブラウザの「戻る」ボタンを押してみましょう。``That page has expired.''と出て追加できません。}
 
-Seasideでは、プログラマがワークフローのある部分をトランザクションとして定義できるようになっています。トランザクションが一度終了すると、ユーザはそこに戻って操作をやり直すことはできません。
+Seasideでは、プログラマがワークフローの特定部分をトランザクションとして定義できるようになっています。トランザクションが終了すると、ユーザはそこに戻って操作をやり直すことはできません。
 トランザクションを定義するには、\mthind{WAComponent}{isolate:}メッセージをタスクに送ります。引数で
-トランザクションにする部分ブロックで指定します。寿司屋デモでは以下のようにしています。
+トランザクション部分ブロックで指定します。寿司屋デモでは以下のようにしています。
 
 \begin{code}{}
 WAStoreTask>>>go
@@ -852,11 +847,11 @@ WAStoreTask>>>go
 	self displayConfirmation.
 \end{code}
 
-2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認するまでです。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
+2つのトランザクションが定義されています。最初のトランザクションは、カートに寿司を入れて内容を確認する部分です。( \ct{fillCart} 等のヘルパーメソッドは、内部でサブコンポーネントを生成したり呼び出したりしています)。
 
-%セッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
-一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションでは、住所と支払い方法を入れます。支払い方法を確定するまでは、このトランザクション内で戻ったりすることもできます。
-トランザクションを終えた後では、戻ろうとしても常に警告が出て失敗します。
+%原文ではセッションを開始しない限り、とあるが、どちらにせよ「戻る」ことはできない
+一度カートの確認を終えてしまうと、戻ることはできません。2番目のトランザクションは、住所と支払い方法を入れる部分です。支払い方法を確定するまでは、このトランザクション内で戻ることもできます。
+トランザクションを終えると、戻ろうとしても常に警告が出て失敗します。
 
 トランザクションをネストすることもできます。 \clsind{WANestedTransaction}で簡単なデモを見ることができます。
 % 3.0には同梱されていない
@@ -872,31 +867,31 @@ WANestedTransaction>>>go
 	self inform: 'Outside parent txn'
 \end{code}
 
-\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び \button{Restart}ボタンを押してみましょう。親と子のトランザクションの中で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクションが終了した後は、戻って\button{OK}ボタンを押したとしても、常にエラーが出て終了後のページにリダイレクトされます。}
+\dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び 、\button{Restart}ボタンを押してみましょう。親側と子側のトランザクション内で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクション終了後は、戻って\button{OK}ボタンを押しても、エラーが出て終了後のページに必ずリダイレクトされます。}
 
 %=================================================================
 \section{サンプルアプリ作成によるチュートリアル}
 
 % ON: Should take about two hours
 
-ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}からダウンロードできます。 \scat{PBE-SeasideRPN}を選択してロードします。クラス名を少し変えてあるので、ロードしたとしても、本書に従ってアプリケーションを作っていくことができます。}
-RPN (逆ポーランド記法) の計算機をSeasideのアプリケーションとして作ることにしましょう。モデルとして単純なスタックマシンを実装して使うことにします。
+ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}から入手できます。 \scat{PBE-SeasideRPN}のパッケージを選んでロードします。クラス名を少し変えてあるので、すべて読み込んでも、本書に従ってアプリケーションを作っていくことができます。}
+RPN (逆ポーランド記法) 計算機をSeasideのアプリケーションとして作ることにしましょう。単純なスタックマシンを実装して、モデル部分で使うことにします。
 
-計算機アプリでは二種類の表示方法を用意します。一つ目はスタックの先頭の値を単に表示するタイプで、二つ目はスタックの内容をすべて表示することにタイプです。
+この計算機アプリでは二種類の表示方法を提供します。一つ目はスタックの先頭の値のみを表示するタイプで、もう一つはスタックの内容をすべて表示するタイプです。
 
-二つの表示方法を切り替える様子を示すと \figref{stackMachine}のようになります。
+図\figref{stackMachine}は、二つの表示方法を切り替える様子ですす。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{stackMachine}
-\caption{RPN計算機とスタックマシン}
+\caption{スタックマシンを使ったRPN計算機}
 \figlabel{stackMachine}
 \end{center}
 \end{figure}
 
-スタックマシンとテストを書くところから始めていきましょう。
+スタックマシンの実装を、テストを書きながら始めていきましょう。
 
-\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義しましょう。\ct{OrderedCollection}で初期化することにします。}
+\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義してください。\ct{OrderedCollection}で初期化します。}
 
 \begin{code}{}
 MyStackMachine>>>initialize
@@ -904,9 +899,9 @@ MyStackMachine>>>initialize
 	contents := OrderedCollection new.
 \end{code}
 
-スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
+スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積んだ値に対して加減乗除ができる機能も必要でしょう。
 
-\dothis{スタック操作のテストを書いてから実装をしてみましょう。以下はテストのサンプルです。}
+\dothis{スタック操作のテストを書いてから実装してみましょう。以下はテストのサンプルです。}
 
 \needlines{4}
 \begin{code}{}
@@ -919,25 +914,25 @@ MyStackMachineTest>>>testDiv
 	self assert: stack top = (4/3).
 \end{code}
 
-加減乗除を行う際には、その前にスタックに二つの値が積まれているかをチェックするヘルパーメソッドが必要でしょう。事前条件が整っていない場合はエラーを起こすようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
-これができてしまえば、各メソッドの実装はほぼ一行か二行ですむでしょう。
+加減乗除では、事前にスタックに値が二つ積まれているかをチェックするヘルパーメソッドが必要でしょう。条件が整っていない場合はエラーとなるようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
+これができてしまえば、各メソッドの実装はほぼ一行か二行ですみます。
 
-デバッグを簡単にするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにするのです。
-(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう)。
+デバッグしやすくするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにします。
+(ヒント:  \ct{contents}に表示を委譲してしまうのが楽です)。
 \index{Object!printOn:@\ct{printOn:}}
 
-\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後に行く)、を\ct{MyStackMachine} に実装して完成させましょう。}
+\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後になる)、を\ct{MyStackMachine} に実装し、スタックマシンを完成させましょう。}
 
 スタックマシンの実装がすんだら、次はいよいよSeaside上に RPN計算機を作っていきます。
 
 クラスを5つ定義することにします:
 \begin{itemize}
-  \item \ct{MyRPNWidget}\,---\,RPN計算機アプリケーションのコンポーネントで共通に使う振る舞いやCSSを定義するための抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
+  \item \ct{MyRPNWidget}\,---\,RPN計算機のコンポーネントで共通に使う振る舞いやCSSを定義するための、抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
   
-  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッド内でアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用の状態の登録も行います。
+  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッドでアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用に状態の登録も行います。
   
   
-  \item \ct{MyKeypad}\,---\,計算機のキーを表示します。
+  \item \ct{MyKeypad}\,---\,計算機のキーパッドを表示します。
   \item \ct{MyDisplay}\,---\,スタックの先頭の値と、詳細なビューに切り替えるためのボタンを表示します。
   \item \ct{MyDisplayStack}\,---\,スタックの詳細なビューと、元のビューに戻るためのボタンを表示します。\lct{MyDisplay}のサブクラスです。
 
@@ -945,7 +940,7 @@ MyStackMachineTest>>>testDiv
 
 \dothis{\ct{MyCalculator}クラスカテゴリに\ct{MyRPNWidget}を定義してみましょう。アプリケーションで共通に使う \ct{style} メソッドを書くようにします。}
 
-アプリケーション用にCSSを定義します。もっと凝ってみても良いでしょう。
+アプリケーション用にCSSを定義します。もっと凝ってみてもかまいません。
 \begin{code}{}
 MyRPNWidget>>>style
 	^ 'table.keypad { float: left; }
@@ -968,22 +963,22 @@ td.small { font-size: 8pt; }'
 \end{code}
 
 \dothis{ルートコンポーネント\ct{MyCalculator}を定義して、アプリケーションとして登録しましょう(クラスメソッド \ct{canBeRoot} と \ct{initialize} を実装します)。
- \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いてみて、Webブラウザで表示されるかを確認してみましょう。}
+ \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いて、Webブラウザで表示されるかを確認してみましょう。}
 
-\ct{MyCalculator} は、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
+\ct{MyCalculator} では、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
 
 \dothis{
 \lct{MyRPNWidget}のサブクラスとして \ct{MyKeypad}と \ct{MyDisplay}を定義しましょう。コンポーネントはどれもスタックマシンのインスタンスを使うので、インスタンス変数 \ct{stackMachine} と初期化用のメソッド \ct{setMyStackMachine:} を \ct{MyRPNWidget}に用意します。 \ct{MyCalculator}には
  \ct{keypad} と \ct{display} のインスタンス変数を定義し、 \ct{MyCalculator>>>initialize}で初期化することにします。(\lct{super initialize}を送るのを忘れないように!)}
 
 \dothis{
-initializeメソッドでは、さらにstackMachineをkeypadとdisplayに渡すように書いておきます。
-レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。calculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
+さらにinitializeメソッドでは、stackMachineをkeypadとdisplayに渡すように書いておきます。
+レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。まずはcalculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
 }
 
 %\ab{Too long!}
 
-次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにしていきます。
+次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにします。
 
 \dothis{ レンダリングでは、``keypad''というCSSクラス名のテーブルを書き、行には``stackcell''というclassのセルを一つだけ入れることにします。また、スタックが空の場合、先頭に0をpushするようにしておきます。(\ct{MyKeypad>>>ensureMyStackMachineNotEmpty}というメソッドを定義して使うことにします)。さらに``keypad''のクラス名で
 セルのデータとしてスタックの値をレンダリングするように書きます。ハロを表示させてみると\figref{firstStackDisplay}のようになるはずです。
@@ -1025,10 +1020,10 @@ MyKeypad>>>renderStackButton: text callback: aBlock on: html
 		on: html
 \end{code}
 
-これらのメソッドをキーパッドのボタンを表示し、コールバックを定義するために使います。いくつかのボタンは複数のカラムを使いますが、基本は非筒のカラムを使うことにします。
+これらのメソッドは、キーパッドのボタンを表示しコールバックを定義するために使います。ボタンの中には複数のカラムを占めるものもありますが、基本はカラムを一つ使うことにします。
 
 \dothis{
-以下のように二つのヘルパーメソッドを使いキーパッドのレンダリングを書いてみましょう。
+以下のように二つのヘルパーメソッドを使ってキーパッドのレンダリングを書いてみましょう。
 (ヒント: 数値キーと ``Enter'' キーから初めて、計算用のキーは後からつけると楽です)。
 }
 
@@ -1060,18 +1055,18 @@ MyKeypad>>>renderContentOn: html
 			colSpan: 2 on: html ]]
 \end{code}
 
-キーパッドがブラウザでちぇんと表示されるか確認しましょう。まだクリックしてみても計算機としては動作しません。
+キーパッドがブラウザできちんと表示されるか確認しましょう。当然ですが、クリックしてみてもまだ計算機としては動作しません。
 
 \dothis{
  \ct{MyKeypad>>>type:} を実装して、タイプした数字がスタックの先頭に反映されるようにしましょう。
-入力された値は文字列得られるので、一度スタックの値を文字列にしてつなげて、整数にしてスタックに戻す必要があります。具体的には以下のようなコードになります。
+入力された値は文字列で得られるので、スタックの値を文字列にして連結し、整数にしてからスタックに戻す必要があります。具体的には以下のようなコードになります。
 }
 
 \begin{code}{}
 MyKeypad>>>type: aString
 	stackMachine push: (stackMachine pop asString, aString) asNumber.
 \end{code}
-これで数値キーを打つと、表示が更新されるようになりました。
+数値キーを打つと、表示が更新されるようになりました。
 (\ct{MyStackMachine>>>pop} でポップした値を返すようにきちんと実装していないと、動作しません!)
 
 \dothis{次に\ct{MyKeypad>>>stackOp:}を書くことにしましょう。以下のようにすれば良いでしょう。}
@@ -1081,18 +1076,18 @@ MyKeypad>>>stackOp: op
 	[ stackMachine perform: op ] on: AssertionFailure do: [ ].
 \end{code}
 
-ここでのポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたいなら、エラーハンドリングのブロックに、ユーザに注意を促すように後で書いていくことができます。
+ポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたい場合は、エラーハンドリングのブロックに、ユーザに注意を促すように書いていくことができます。
 
 \dothis{逆ポーランド記法の計算機はこれで一応動くものになりました。
 数値キーをいくつか打ってみて、\menu{Enter}キーで値をプッシュしてみましょう。  \menu{+}を押して2つの値が足されることを確認してください。}
 
-数値の入力が予想した動きと違うのではないでしょうか。実際のところ、\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないといけません。
+数値の入力が予想した動きと若干違うのではないでしょうか。\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないとまずいようです。
 
-\dothis{ \ct{MyKeypad>>>type:}を修正してモードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアするようにします。
- \ct{type:}メソッドの新たな実装は以下のようになります。
+\dothis{ \ct{MyKeypad>>>type:}を修正し、モードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアします。
+ \ct{type:}メソッドを書き直したのが以下のコードです。
 }
 
-%モードを設定するコードを載せていないのですごくわかりにくい
+%モードを設定する部分のコードを載せていないのですごくわかりにくい
 
 \begin{code}{}
 MyKeypad>>>type: aString
@@ -1105,11 +1100,11 @@ MyKeypad>>>type: aString
 \mb{better with "stackMachine dup" instead of "stackMachine push:
   stackMachine top}"
 
-前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点が、まだ不満です。
+前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点がまだ不満です。
 
 \dothis{
 \ct{MyDisplay}のサブクラスとして \ct{MyDisplayStack} を定義しましょう。
-\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使い、以下のようになるでしょう。
+\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使って、以下のように書けるでしょう。
 }
 
 \begin{code}{}
@@ -1120,12 +1115,10 @@ html anchor
 \mb{if the user got a stackmachine ivar, I'm sure he will define
   setStackMachine and not setMyStackMachine}
 
-コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントの表示へと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了を告げる閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
+コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントへと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了して閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
 
 \dothis{
-Define the rendering method of \ct{MyDisplayStack} to display all of the values on the stack.
-(You will either need to define an accessor for the stack machine's \ct{contents} or you can define \ct{MyStackMachine>>>do:} to iterate over the stack values.)
-The stack display should also have a button labelled ``close'' whose callback will simply perform \ct{self answer}.
+\ct{MyDisplayStack}のレンダリングメソッドを定義して、スタックのすべての内容を表示するようにしましょう。(スタックマシンの\ct{contents}の値を返すアクセッサーを用意するか、 \ct{MyStackMachine>>>do:}を定義して、スタックの値をイテレートできるようにすると良いでしょう)。``close''ボタンもつけることにします。コールバックでは単に\ct{self answer}を実行するだけです。
 }
 
 \begin{code}{}
@@ -1134,51 +1127,37 @@ html anchor
 	with: 'close'
 \end{code}
 
-Now you should be able to \emph{open} and \emph{close} the stack while you are using the calculator.
+これで\emph{open} と \emph{close}で表示を切り替えられるようになりました。
 
-There is, however, one thing we have forgotten.
-Try to perform some operations on the stack.
-Now use the ``back'' button of your browser and try to perform some more stack operations.
-(For example, \menu{open} the stack, type \menu{1}, \menu{Enter} twice and \menu {+}.
-The stack should display ``2'' and ``1''.
-Now hit the ``back'' button.
-The stack now shows three times ``1'' again.
-Now if you type \menu{+} the stack shows ``3''.
-Backtracking is not yet working.
+とはいえ、まだ考慮していなかったこともあります。いくつか操作をしてみた後で、Webブラウザの「戻る」ボタンで戻って、操作をしてみるとどうなるでしょうか。(例えば\menu{open} でスタックの全体を表示させ、\menu{1}、 \menu{Enter}と2回入力し、\menu {+}を押します。この時点でスタックの表示は``2''と``1''となっているはずです。ここで「戻る」ボタンを押してみましょう。スタックは``1''を3つ表示した状態になり、\menu {+}を押すと、``3''が表示されます。つまりバックトラックが動作していないのです。
 
 \dothis{
-Implement \ct{MyCalculator>>>states} to return 
-an array with the contents of the stack machine.
-Check that backtracking now works correctly!
+\ct{MyCalculator>>>states}メソッドを実装し、スタックマシンの\ct{contents}を返すようにしましょう。今度はちゃんとバックトラックが効いています。
 }
 
-Sit back and enjoy a tall glass of something cool!
+さて、これで動くアプリケーションができあがりました。乾杯!
 
 %=================================================================
-\section{A quick look at AJAX}
+\section{AJAXの利用}
 
 % Original text by Lukas Renggli
 
-\ind{AJAX} (Asynchronous \ind{JavaScript} and \ind{XML}) is a technique to make web applications more interactive by exploiting JavaScript functionality on the client side.
+\ind{AJAX} (Asynchronous \ind{JavaScript} and \ind{XML}) はクライアント側でJavaScriptを活用することによって、Webアプリケーションをよりインタラクティブにする技術です。
 
-Two well-known JavaScript libraries are \ind{Prototype} (\url{http://www.prototypejs.org}) and \ind{script.aculo.us} (\url{http://script.aculo.us}).
-Prototype provides a framework to ease writing JavaScript.
-script.aculo.us provides some additional features to support animations and drag-and-drop on top of Prototype.
-Both frameworks are supported in Seaside through the package ``Scriptaculous''.
+よく知られたJavaScriptのライブラリとしては \ind{Prototype} (\url{http://www.prototypejs.org}) と \ind{script.aculo.us} (\url{http://script.aculo.us})があります。
+Prototypeは、JavaScriptを簡潔に書けるようにするためのフレームワークです。
+script.aculo.us は、Prototype上に、アニメーションや、ドラッグ\&ドロップなどをサポートする機能を追加したものです。 Seasideでは ``Scriptaculous''というパッケージを通じて、これらのフレームワークを利用することができます。
 
-All ready-made images have the Scriptaculous package extensions already loaded.
-The latest version is available from \url{http://www.squeaksource.com/Seaside}.
-An online demo is available at \url{http://scriptaculous.seasidehosting.st}.
-Alternatively, if you have a enabled image running, simply go to \url{http://localhost:8080/seaside/tests/scriptaculous}.
+Seasideのインストールイメージには、Scriptaculousパッケージが最初から入っています。
+最新のバージョンは \url{http://www.squeaksource.com/Seaside}から入手できます。
+デモは \url{http://scriptaculous.seasidehosting.st}で見ることができます。イメージにScriptaculousが入っているなら、\url{http://localhost:8080/javascript/scriptaculous}でも、デモを試せます。
 
-The Scriptaculous extensions follow the same approach as Seaside itself\,---\,simply configure Smalltalk objects to model your application, and the needed Javascript code will be generated for you.
+ScriptaculousパッケージではSeasideと同様のアプローチが取られています。単にSmalltalkのオブジェクトを使ってアプリケーションをモデリングすれば、JavaScriptのコードが自動生成されるのです。
 
-Let us look at a simple example of how client-side Javascript support can make our RPN calculator behave more naturally.
-Currently every keystroke to enter a digit generates a request to refresh the page.
-We would like instead to handle editing of the display on the client-side by updating the display in the existing page.
+単純な例として、クライアント側でJavaScriptをサポートすることで、RPN計算機をより自然なUIに変えていきましょう。
+今までは、キーを打つたびにページ全体がリフレッシュされていました。クライアント側の操作に対し、ページはそのままで、必要部分のみ更新されるようにしたいと思います。
 
-\dothis{To address the display from JavaScript code we must first give it a unique id.
-Update the calculator's rendering method as follows:\footnote{If you have not implemented the tutorial example yourself, you can simply load the complete example (PBE-SeasideRPN) from \url{http://www.squeaksource.com/PharoByExample} and apply the suggested changes to the classes \ct{RPN*} instead of \ct{My*}.}}
+\dothis{JavaScriptから表示部分を特定するには、idを振る必要があります。計算機のレンダリングメソッドを以下のように変えましょう。\footnote{チュートリアルの例を自分で実装していない場合は、\url{http://www.squeaksource.com/PharoByExample}から、PBE-SeasideRPNパッケージをロードして、コードを修正していけば良いでしょう。クラスの接頭辞は本書と違い、\ct{My*}ではなく\ct{RPN*}になっています。}}
 
 \begin{code}{}
 MyCalculator>>>renderContentOn: html
@@ -1187,9 +1166,7 @@ MyCalculator>>>renderContentOn: html
 \end{code}
 
 \mb{'keyboard' below should be renamed 'keypad'}
-\dothis{To be able to re-render the display when a keyboard button is pressed, the keyboard needs to know the display component.
-Add a \ct{display} instance variable to \ct{MyKeypad}, an initialize method \ct{MyKeypad>>>setDisplay:}, and call this from \ct{MyCalculator>>initialize}.
-Now we are able to assign some JavaScript code to the buttons by updating \ct{MyKeypad>>>renderStackButton:callback:colSpan:on:} as follows:}
+\dothis{キーパッドを押した時に再描画されるようにするには、キーパッド側で表示コンポーネントをする必要があります。インスタンス変数 \ct{display}を \ct{MyKeypad}に追加します。初期化用のメソッドとして\ct{MyKeypad>>>setDisplay:}を用意し、 \ct{MyCalculator>>initialize}で初期化しましょう。これでボタンにJavaScriptのコードを割り当てることができるようになります。\ct{MyKeypad>>>renderStackButton:callback:colSpan:on:} を以下のようにすれば良いのです。}
 
 \begin{code}{}
 MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html 
@@ -1209,28 +1186,27 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 				with: [ html html: text ] ]
 \end{code}
 
-\mthind{WATagBrush}{onClick:} specifies a \ind{JavaScript} event handler.
-\ct{html updater} returns an instance of \ct{SUUpdater}, a Smalltalk object representing the JavaScript Ajax.Updater object (\url{http://www.prototypejs.org/api/ajax/updater}).
-This object performs an AJAX request and updates a container's contents based on the response text.
-\ct{id:} tells the updater what XHTML DOM element to update, in this case the contents of the div element with the id 'display'.
-\ct{callback:} specifies a block that is triggered when the user presses the button.
-The block argument is a new renderer \ct{r}, which we can use to render the display component.
-(Note: Even though html is still accessible, it is not valid anymore at the time this callback block is evaluated).
-Before rendering the display component we evaluate \ct{aBlock} to perform the desired action.
+\mthind{WATagBrush}{onClick:}で \ind{JavaScript}のイベントハンドラを指定しています。
+\ct{html updater} によって \ct{SUUpdater}のインスタンスが返ってきます。これはJavaScriptのAjax.Updaterオブジェクト(\url{http://www.prototypejs.org/api/ajax/updater})に該当するSmalltalkのオブジェクトです。.
+このオブジェクトはAJAXリクエストの送信を行い、返ってきたテキストで特定部分の更新を行います。
+\ct{id:} によってupdaterに、どのXHTMLのDOM要素を更新すべきかを指定しています。この例の場合は'display'のidが振られたdiv要素になります。
+\ct{callback:} で、ユーザがボタンを押した時のコールバックをブロックの形で指定します。ブロックの引数である\ct{r}は、新たに生成されるレンダラで、これを使ってdisplayのコンポーネントの表示を行います。
+(コード上はメソッドの引数となっているhtmlレンダラにもアクセスできますが、コールバックのブロックが評価されるときには無効になっているので注意してください)。displayのコンポーネントをレンダリングする前に、 \ct{aBlock} を評価するようにしています。ここで適切な処理を外から渡して行えるようにしています。
 
-\ct{return: false} tells the JavaScript engine to not trigger the original link callback, which would cause a full refresh.
-We could instead remove the original anchor \ct{callback:}, but like this the calculator will still work even if JavaScript is disabled.
+\ct{return: false} では、JavaScript側にリンクに設定されている元々のコールバックを呼ばないように指定しています。このコールバックが呼ばれると、ページ全体がリフレッシュされてしまいます。、リンクにあった \ct{callback:}部分を削除してコールバックを設定しないようにすることもできますが、JavaScriptが無効になっていても動作するように、あえてこのようにしています。
 
-\dothis{Try the calculator again, and notice how a full page refresh is triggered every time you press a digit key. (The URL of the web page is updated at each keystroke.)}
+\dothis{計算機の数値キーを押してみて、ページ全体のリフレッシュが行われていることを確認してみてください。(WebページのURLがボタンを押すたびに変わります)。}
 
-Although we have implemented the client-side behavior, we have not yet activated it.
-Now we will enable the Javascript event handling.
+クライアントサイドのJavaScriptの振る舞いを実装したのですが、まだ無効なままです。JavaScriptのイベント処理を有効にしましょう。
 
 \dothis{
-Click on the \link{Configure} link in the toolbar of the calculator.
-Select ``Add Library:'' \ct{SULibrary}, click the \button{Add} button and \button{Close}.}
+計算機の下のツールバーに表示されている \link{Configure} リンクをクリックしてみましょう。
+``Add Library:''の部分で \ct{SULibrary}を選び、 \button{Add}ボタンを押して\button{Close}で閉じます。}
 
-Instead of manually adding the library, you may also do it programmatically when you register the application:
+%要動作確認
+
+ライブラリを手で追加する代わりに、プログラム的に行うこともできます。Seasideにアプリケーションを登録する際に以下のようにして指定します。
+
 \begin{code}{}
 MyCalculator class>>>initialize
 	(self registerAsApplication: 'rpn')
@@ -1240,18 +1216,17 @@ MyCalculator class>>>initialize
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{ajax-processing}
-\caption{Seaside AJAX processing (simplified)}
+\caption{SeasideでのAJAXの処理(簡略化したもの)}
 \figlabel{ajax-processing}
 \end{center}
 \end{figure}
 
-\dothis{Try the revised application.  Note that the feedback is much more natural. In particular, a new URL is not generated with each keystroke.}
+\dothis{計算機を再び試してみましょう。前よりも自然な形で操作できます。特にキーボタンを押すたびにURLが変わらなくなりました。}
 
-You may well ask, \emph{yes, but how does this work?}
-\figref{ajax-processing} shows how the RPN applications would both without and with AJAX.
-Basically AJAX short-circuits the rendering to \emph{only} update the display component.
-Javascript is responsible both for triggering the request and updating the corresponding DOM element.
-Have a look at the generated source-code, especially the JavaScript code:
+動作は確認できましたが、\emph{仕組みがどうなっているのか}気になるかもしれません。図 \figref{ajax-processing}では、AJAXなしの場合と、有効にした場合とで、RPN計算機のメッセージの流れを示しました。
+基本的に AJAX の場合は、レンダリング処理をとばして、displayコンポーネント\emph{のみ}の更新を行います。
+JavaScript側ではリクエストの送信と、対応するDOM要素の更新の両方を受け持っています。
+生成されるJavaScriptのソースを見てみましょう。
 
 \begin{code}{}
 new Ajax.Updater(
@@ -1262,42 +1237,38 @@ new Ajax.Updater(
 return false
 \end{code}
 
-For more advanced examples, have a further look at \url{http://localhost:8080/seaside/tests/scriptaculous}.
+より高度なサンプルについては \url{http://localhost:8080/javascript/scriptaculous}を見ると良いでしょう。
 
-\paragraph{\emph{Hints.}}
-In case of server side problems use the Smalltalk debugger.
-In case of client side problems use FireFox (\url{http://www.mozilla.com}) with the JavaScript debugger FireBug (\url{http://www.getfirebug.com/}) plugin enabled.
+\paragraph{\emph{Tips}}
+サーバ側のデバッグは通常のSmalltalkのデバッガを使うことができます。クライアント側のデバッグはFireFox (\url{http://www.mozilla.com})を入れて、FireBug (\url{http://www.getfirebug.com/}) プラグインを有効にしておくと便利です。
 
 %=================================================================
-\section{Chapter summary}
+\section{この章のまとめ}
+
+%　item 3 3.0では当てはまらず
+%　item 5 3.0では当てはまらず
+%　item 19 3.0では当てはまらず
 
 \begin{itemize}
-  \item The easiest way to get started is to download the ``Seaside One-Click Experience'' from \url{http://seaside.st}
-  \item Turn the server on and off by evaluating \ct{WAKom startOn: 8080} and \ct{WAKom stop}.
-  \item Reset the administrator login and password by evaluating \ct{WADispatcherEditor initialize}.
-  \item \menu{Toggle Halos} to directly view application source code, run-time objects, CSS and XHTML.
-  \item Send \ct{WAGlobalConfiguration setDeploymentMode} to hide the toolbar.
-  \item Seaside web applications are composed of components, each of which is an instance of a subclass of \ct{WAComponent}.
-  \item Only a root component may be registered as an application. It should implement \ct{canBeRoot} on the class side. Alternatively it may register itself as an application in its class-side \ct{initialize} method by sending \ct{self registerAsApplication:} \emph{application path}.
-  If you override \ct{description} it is possible to return a descriptive application name that will be displayed in the configuration editor.
-  \mb{the description thing is not mentionned anywhere}
-  \item To backtrack state, a component must implement the \ct{states} method to answer an array of objects whose state will be restored if the user clicks the browser's ``back'' button.
-  \item A component renders itself by implementing \ct{renderContentOn:}.
-  The argument to this method is an XHTML rendering \emph{canvas} (usually called \ct{html}).
-  \item A component can render a subcomponent by sending \ct{self render:} \emph{subcomponent}.
-  \item XHTML is generated programmatically by sending messages to \emph{brushes}. A brush is obtained by sending a message, such as \ct{paragraph} or \ct{div}, to the html canvas.
-  \item If you send a cascade of messages to a brush that includes the message \ct{with:}, then \ct{with:} should be the last message sent.
-  The \ct{with:} message sets the contents \emph{and} renders the result.
-  \item Actions should appear only in callbacks.
-You should not change the state of the application while you are rendering it.
-  \item You can bind various form widgets and anchors to instance variables with accessors by sending the message \ct{on:} \emph{instance variable} \ct{of:} \emph{object} to the brush.
-  \item You can define the CSS for a component hierarchy by defining the method \ct{style}, which should return a string containing the style sheet.
-  (For deployed applications, it is more usual to refer to a style sheet located at a static URL.)
-  \item Control flows can be programmed by sending \ct{x call: y}, in which case component \ct{x} will be replaced by \ct{y} until \ct{y} answers by sending \ct{answer:} with a result in a callback.
-  The receiver of \ct{call:} is usually \ct{self}, but may in general be any visible component.
-  \item A control flow can also be specified as a \emph{task}\,---\,a instance of a subclass of \ct{WATask}. It should implement the method \ct{go}, which should \ct{call:} a series of components in a workflow.
-  \item Use \ct{WAComponents}'s convenience methods \ct{request:}, \ct{inform:}, \ct{confirm:} and \ct{chooseFrom:caption:} for basic interactions.
-  \item To prevent the user from using the browser's ``back'' button to access a previous execution state of the web application, you can declare portions of the workflow to be a \emph{transaction} by enclosing them in an \ct{isolate:} block.
+  \item Seasideを始めるには``Seaside One-Click Experience''イメージを \url{http://seaside.st}からダウンロードするのがもっとも簡単です。
+  \item \ct{WAKom startOn: 8080} でサーバを開始、 \ct{WAKom stop}で終了です。
+  \item 管理用のIDとパスワードは\ct{WADispatcherEditor initialize}で初期化できます。
+  \item \menu{Toggle Halos} をクリックするとコンポーネントのソースコードやオブジェクトの状態、CSSやXHTMLを見ることができます。
+  \item \ct{WAGlobalConfiguration setDeploymentMode} で開発用のツールバーを隠せます。
+  \item Seasideのアプリケーションはコンポーネントからできています。コンポーネントとは\ct{WAComponent}を継承したクラスのインスタンスのことです。
+  \item SeasideのWeb管理ツールからアプリケーションとして登録できるコンポーネントは、ルートコンポーネントになります。クラスメソッドの \ct{canBeRoot} を実装してtrueを返すようにします。initializeのクラスメソッドで、 \ct{self registerAsApplication:} を自身に送ることで、登録することもできます。引数は \emph{アプリケーションのパス}になります。 \ct{description} をオーバーライドするとWeb上のコンフィギュレーションエディタにアプリケーションの説明を表示させることも可能です。
+  \item 状態をバックトラックできるようにするには、コンポーネントで \ct{states} メソッドを定義して、復元したいオブジェクトの配列を返すように実装する必要があります。ユーザが「戻る」ボタンを押しても状態が正常に保たれます。
+  \item コンポーネントは\ct{renderContentOn:}を実装することで、自身をWebページ内に表示させることができます。引数としてXHTMLレンダリング用の\emph{キャンバス}が渡ってきます(通常は\ct{html}という名前になっています)。
+  \item コンポーネントは、自身が含んでいるサブコンポーネントを \ct{self render:} \emph{subcomponent}で表示させることができます。
+  \item XHTMLは \emph{brushes}にメッセージを送ることで生成されます。キャンバスに対して、 \ct{paragraph} や \ct{div}などのメッセージを送ると、XHTML要素に対応したブラシが返ってきます。
+  \item ブラシに\ct{with:}を含むメッセージを連続して送るときは、必ず \ct{with:}が最後になるようにします。\ct{with:}によってXHTMLの内容が定まり、その結果がレンダリングされるからです。
+  \item 状態を操作するアクションはコールバックの中で書くようにします。レンダリングメソッド内でコンポーネントの状態を変えてはいけません。
+  \item ブラシに\ct{on:} \emph{instance variable} \ct{of:} \emph{object}を送ることで、フォームの要素やリンクと、オブジェクトのインスタンス変数とを簡単に結びつけることができます。
+  \item スタイルシートの文字列を返す、\ct{style}メソッドを実装すると、コンポーネントが使うCSSを、クラス階層中に定義できます。(通常デプロイ時には、外部のCSSを固定のURLで参照させるようにします)。
+  \item 制御フローは、\ct{x call: y}のように書くことで表せます。この場合、\ct{x}のコンポーネントは \ct{y}のコンポーネントへと置き換えられます。 \ct{y} は \ct{answer:} で制御をxに戻すことができます。\ct{call:}のレシーバはたいていは \ct{self}ですが、それ以外のコンポーネントであってもかまいません。
+  \item 制御フローは \emph{タスク}として表すこともできます。タスクは\ct{WATask}のサブクラスとして定義します。 \ct{go}メソッドの中に、ワークフローを、連続した\ct{call:}のメッセージ送信として書いていきます。
+  \item ユーザと簡単なやりとりのために、\ct{WAComponents}の便利メソッドとして\ct{request:}、 \ct{inform:}、 \ct{confirm:}、\ct{chooseFrom:caption:} が用意されています。
+  \item ユーザが「戻る」ボタンを押して以前の状態にアプリケーションを戻してしまうのを防ぐには、\ct{isolate:}を使います。ブロックでワークフローを分割することで、ブロックを越えて過去の状態に戻ることができなくなります。
 \end{itemize}
 %-----------------------------------------------------------------
 

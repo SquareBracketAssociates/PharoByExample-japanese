@@ -119,8 +119,8 @@ Color red printString --> 'Color red'
 
 % \paragraph{A word about representation and self-evaluating representation.}
 \paragraph{表現と自己評価型表現という言葉について}
-In functional programming, expressions return values when executed. In Smalltalk, messages (expressions) return objects (values). Some objects have the nice properties that their value is themselves. For example, the value of the object \ct{true} is itself \ie the object \ct{true}. We call such objects \emphind{self-evaluating objects}. You can see a \emph{printed} version of an object value when you print the object in a workspace. Here are some examples of such self-evaluating expressions. 
-関数型プログラミングでは、式を実行すると値を返します。一方Smalltalkでは、メッセージ（式）はオブジェクト（値）を返します。オブジェクトの中には自分自身を表す値を持つ便利なプロパティを持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ieつまり\ct{true}オブジェクトです。このようなオブジェクトは\emphind{自己評価型オブジェクト}と呼ばれます。
+%In functional programming, expressions return values when executed. In Smalltalk, messages (expressions) return objects (values). Some objects have the nice properties that their value is themselves. For example, the value of the object \ct{true} is itself \ie the object \ct{true}. We call such objects \emphind{self-evaluating objects}. You can see a \emph{printed} version of an object value when you print the object in a workspace. Here are some examples of such self-evaluating expressions. 
+関数型プログラミングでは、式を実行すると値を返します。一方Smalltalkでは、メッセージ（式）はオブジェクト（値）を返します。オブジェクトの中には自分自身を表す値を持つ便利なプロパティを持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ieつまり\ct{true}オブジェクトです。このようなオブジェクトは\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprintすると、オブジェクトの値の\emph{printed}バージョンを見ることができます。
 
 \begin{code}{@TEST}
 true         --> true
@@ -148,15 +148,18 @@ Color red --> Color red
 %Lots of \ct{printOn:} method specializations implement self-evaluating behavior. The implementations of \cmind{Point}{printOn:} and \cmind{Interval}{printOn:} are self-evaluating.
 \ct{printOn:}メソッドの特殊化の多くが、自己評価型の振舞いを実装しています。\cmind{Point}{printOn:}や\cmind{Interval}{printOn:}の実装は自己評価型です。
 
-\begin{method}[Self-evaluating points]{Self-evaluation of \ct{Point}}
+%\begin{method}[Self-evaluating points]{Self-evaluation of \ct{Point}}
+%    "The receiver prints on aStream in terms of infix notation."
+\begin{method}[Self-evaluating points]{\ct{Point}の自己評価型}
 Point>>>printOn: aStream 
-    "The receiver prints on aStream in terms of infix notation."
+    "レシーバーは中置記法でaStream上に書き込まれます"
     x printOn: aStream.
     aStream nextPut: $@.
     y printOn: aStream
 \end{method}\ignoredollar$
 
-\begin{method}[Self-evaluating intervals]{Self-evaluation of \ct{Interval}}
+%\begin{method}[Self-evaluating intervals]{Self-evaluation of \ct{Interval}}
+\begin{method}[Self-evaluating intervals]{\ct{Interval}の自己評価型}
 Interval>>>printOn: aStream
     aStream nextPut: $(;
         print: start;
@@ -166,8 +169,9 @@ Interval>>>printOn: aStream
     aStream nextPut: $)
 \end{method}
 
+%1 to: 10 --> (1 to: 10)    "intervals are self-evaluating"
 \begin{code}{@TEST}
-1 to: 10 --> (1 to: 10)    "intervals are self-evaluating"
+1 to: 10 --> (1 to: 10)    "インターバルは自己評価可能です"
 \end{code}
 
 %-----------------------------------------------------------------
@@ -183,10 +187,10 @@ Smalltalkでは、\ct{=}メッセージは\emphsubindmain{Object}{同値性}を�
 
 %The default implementation of object equality is to test for object identity:
 オブジェクトequalityのデフォルトの実装はオブジェクトの同一性をテストします:
-\begin{method}{Object equality}
-Object>>>= anObject
 %    "Answer whether the receiver and the argument represent the same object.
 %    If = is redefined in any subclass, consider also redefining the message hash."
+\begin{method}{Object equality}
+Object>>>= anObject
     "レシーバーと引数が同じオブジェクトを表すかどうかを返します。
     もし = をサブクラスによって再定義するなら、hashメッセージも合わせて再定義してください。"
     ^ self == anObject
@@ -196,9 +200,9 @@ Object>>>= anObject
 %This is a method that you will frequently want to override. Consider the case of \ct{Complex} numbers:
 これは頻繁に上書きされがちなメソッドです。\ct{Complex}数の場合を見てみましょう:
 
-\begin{code}{@TEST}
 %(1 + 2 i) = (1 + 2 i)   --> true     "same value"
 %(1 + 2 i) == (1 + 2 i) --> false    "but different objects"
+\begin{code}{@TEST}
 (1 + 2 i) = (1 + 2 i)   --> true     "同じ値"
 (1 + 2 i) == (1 + 2 i) --> false    "だけど、違うオブジェクト"
 \end{code}
@@ -207,7 +211,8 @@ Object>>>= anObject
 これが動作するのは\ct{Complex}が\ct{=}を次のように上書きしているからです:
 \cmindex{Complex}{=}
 \needlines{5}
-\begin{method}{Equality for complex numbers}
+%\begin{method}{Equality for complex numbers}
+\begin{method}{複素数の同値性}
 Complex>>>= anObject
     anObject isComplex
         ifTrue: [^ (real = anObject real) & (imaginary = anObject imaginary)]
@@ -226,9 +231,10 @@ Complex>>>= anObject
 %If you override \ct{=}, you should consider overriding \mthind{Object}{hash}. If instances of your class are ever used as keys in a \clsind{Dictionary}, then you should make sure that instances that are considered to be equal have the same hash value:
 もし\ct{=}を上書きした場合は、\mthind{Object}{hash}を上書きすることを検討して下さい。クラスのインスタンスが\clsind{Dictionary}のキーとして使用された場合に、同値であると見なされるインスタンスはハッシュ値が同じになるようにしておかなければいけません:
 \cmindex{Complex}{hash}
-\begin{method}{Hash must be reimplemented for complex numbers}
-Complex>>>hash
+%\begin{method}{Hash must be reimplemented for complex numbers}
 %    "Hash is reimplemented because = is implemented."
+\begin{method}{複素数のHashは必ず再実装が必要です}
+Complex>>>hash
     "= が実装されたのでHashが再実装される"
     ^ real hash bitXor: imaginary hash.
 \end{method}
@@ -260,8 +266,8 @@ Complex>>>hash
 %Conversely, you can ask if an object is an instance of a specific class:
 反対に、オブジェクトがあるクラスのインスタンスであるかどうかを尋ねることもできます:
 \cmindex{Object}{isMemberOf:}
-\begin{code}{@TEST}
 %1 isMemberOf: SmallInteger --> true    "must be precisely this class"
+\begin{code}{@TEST}
 1 isMemberOf: SmallInteger --> true    "このクラスそのものでなければいけない"
 1 isMemberOf: Integer          --> false
 1 isMemberOf: Number        --> false
@@ -314,6 +320,7 @@ Smalltalkはそれ自身で記述されているので、スーパークラス�
 \seeindex{浅いコピー}{Object, \ct{shallowCopy}}
 \seeindex{深いコピー}{Object, \ct{deepCopy}}
 
+%a2 --> #(#('sally'))    "the subarray is shared!"
 \begin{code}{@TEST | a1 a2 |}
 a1 := { { 'harry' } }.
 a1 --> #(#('harry'))
@@ -321,8 +328,7 @@ a2 := a1 shallowCopy.
 a2 --> #(#('harry'))
 (a1 at: 1) at: 1 put: 'sally'.
 a1 --> #(#('sally'))
-%a2 --> #(#('sally'))    "the subarray is shared!"
-a2 --> #(#('sally'))    "サブ配列が共有されている！"
+a2 --> #(#('sally'))    "内側の配列が共有されている！"
 \end{code}
 
 %\cmind{Object}{shallowCopy} is a primitive method that creates a shallow copy of an object. Since \ct{a2} is only a shallow copy of \ct{a1}, the two arrays share a reference to the nested \ct{Array} that they contain.
@@ -334,12 +340,13 @@ a2 --> #(#('sally'))    "サブ配列が共有されている！"
 %\cmind{Object}{copyTwoLevel} does the obvious thing when a simple shallow copy does not suffice:
 \cmind{Object}{copyTwoLevel}は、単純な浅いコピーではうまくいかないときに、見たままのことを実行してくれます:
 
+%a2 --> #(#('harry'))    "fully independent state"
 \begin{code}{@TEST | a1 a2 |}
 a1 := { { 'harry' } } .
 a2 := a1 copyTwoLevel.
 (a1 at: 1) at: 1 put: 'sally'.
 a1 --> #(#('sally'))
-a2 --> #(#('harry'))    "fully independent state"
+a2 --> #(#('harry'))    "完全に独立した状態を持ちます"
 \end{code}
 
 %\cmind{Object}{deepCopy} makes an arbitrarily deep copy of an object.
@@ -356,11 +363,11 @@ a2 --> #(#(#('harry')))
 %The problem with \ct{deepCopy} is that it will not terminate when applied to a mutually recursive structure:
 \ct{deepCopy}の問題は、相互に再帰しているような構造を持つ場合に、終了しなくなることです:
 
+%a1 deepCopy --> !\emph{... does not terminate!}!
 \begin{code}{NB: CANNOT TEST}
 a1 := { 'harry' }.
 a2 := { a1 }.
 a1 at: 1 put: a2.
-%a1 deepCopy --> !\emph{... does not terminate!}!
 a1 deepCopy --> !\emph{... 終了しない！}!
 \end{code}
 % NB: Not a test!
@@ -380,24 +387,27 @@ a1 deepCopy --> !\emph{... 終了しない！}!
 Object>>>copy
     "ちょうどレシーバーのようにもう一つのインスタンスを答えます。
     一般的にサブクラスはpostCopyを上書きし、
-    shallowCopyは上書きしません。
+    shallowCopyは上書きしません。"
     ^self shallowCopy postCopy
 \end{method}
 
 %You should override \mthind{Object}{postCopy} to copy any instance variables that should not be shared. \ct{postCopy} should always do a \ct{super postCopy}.
 共有されるべきではないインスタンス変数をコピーするには\mthind{Object}{postCopy}を上書きすべきです。\ct{postCopy}では常に\ct{super postCopy}を実行すべきです。
 
-\on{I looked, but did not finda good example in the system.}
+%\on{I looked, but did not finda good example in the system.}
+\on{見てみたけど、システムの中にはいい例が見つかりませんでした。}
 
 %-----------------------------------------------------------------
-\subsection{Debugging}
+%\subsection{Debugging}
+\subsection{デバッグ}
 
 %The most important method here is \mthind{Object}{halt}. In order to set a breakpoint in a method, simply insert the message send \ct{self halt} at some point in the body of the method.  When this message is sent, execution will be interrupted and a \ind{debugger} will open to this point in your program.
 もっとも重要なメソッドがこの\mthind{Object}{halt}です。メソッドにブレークポイントを設定するためには、単にメソッド本文の好きな場所で\ct{self halt}というメッセージ送信を挿入するだけです。このメッセージが送られると、プログラムのその位置で実行が中断され\ind{debugger}が起動します。
 %(See \charef{env} for more details about the debugger.)
 （デバッガのさらに詳細な部分については\charef{env}を参照してください）
 
-\sd{in another chapter haltIf:, haltOnce, inspectOnce, flagging: isThisEverCalled, }
+%\sd{in another chapter haltIf:, haltOnce, inspectOnce, flagging: isThisEverCalled, }
+\sd{他の章にはhaltIf:、haltOnce、inspectOnce、flagging: isThisEverCalledなどがあります}
 
 %The next most important message is \mthind{Object}{assert:}, which takes a \ind{block} as its argument. If the block returns \ct{true}, execution continues. Otherwise an \ct{AssertionFailure} exception will be raised. If this exception is not otherwise caught, the debugger will open to this point in the execution. \ct{assert:} is especially useful to support \emphind{design by contract}. The most typical usage is to check non-trivial pre-conditions to public methods of objects. \cmind{Stack}{pop} could easily have been implemented as follows:
 次に最も重要なメッセージは\mthind{Object}{assert:}です。これは引数として\ind{ブロック}を取ります。ブロックが\ct{true}を返すと、実行は継続されます。そうでなければ\ct{AssertionFailure}例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:}は\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な事前条件をチェックするというのが最もよくある利用方法です。\cmind{Stack}{pop}は次のように簡単に実装されています:
@@ -441,13 +451,15 @@ Stack>>>pop
 %\ct{doesNotUnderstand:} is sent whenever message lookup fails. The default implementation, \ie \cmind{Object}{doesNotUnderstand:} will trigger the debugger at this point. It may be useful to override \lct{does\-Not\-Un\-der\-stand:} to provide some other behaviour.
 メッセージの検索に失敗すると\ct{doesNotUnderstand:}が送信されます。デフォルトの実装では、\ie \cmind{Object}{doesNotUnderstand:} その位置でデバッガが起動されます。\lct{does\-Not\-Un\-der\-stand:}を上書きして他の動作をさせると便利かもしれません。
 
-\on{Add a chapter ref when we write the chapter on exceptions.}
+%\on{Add a chapter ref when we write the chapter on exceptions.}
+\on{例外についての章を書いたらその章への参照を追加すること。}
 
 %\cmind{Object}{error} and \cmind{Object}{error:} are generic methods that can be used to raise exceptions.
 \cmind{Object}{error}と\cmind{Object}{error:}は例外を発生させるのに利用できる一般的なメソッドです。
 %(Generally it is better to raise your own custom exceptions, so you can distinguish errors arising from your code from those coming from kernel classes.)
 （一般的には独自に定義した例外を発生させる方が、自分のコードとカーネルクラスのどちらで発生したエラーなのかを区別できるので、望ましいでしょう。）
-\lr{Maybe mention that it is preferred to create your own custom exception class. (p. 208)}
+%\lr{Maybe mention that it is preferred to create your own custom exception class. (p. 208)}
+\lr{たぶん独自の例外を自分で作成した方がいいということに触れています。(p. 208)}
 
 %Abstract methods in Smalltalk are implemented by convention with the body \lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}. Should an abstract class be instantiated by accident, then calls to abstract methods will result in \cmind{Object}{subclassResponsibility} being evaluated.
 Smalltalkでは規約により抽象メソッドはメソッドの本文に\lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}と書くことで実装されます。抽象クラスが間違ってインスタンス化され、抽象メソッドが呼び出されたとしても、\cmind{Object}{subclassResponsibility}が評価されるだけです。
@@ -461,7 +473,7 @@ Smalltalkでは規約により抽象メソッドはメソッドの本文に\lct{
 \begin{method}{メソッドが抽象であることを示す}
 Object>>>subclassResponsibility
     "このメソッドは、このクラスのサブクラスの振る舞いの枠組みの為に用意されています。
-    サブクラスはこのメソッドを実装すべきであることに注意してください。
+    サブクラスはこのメソッドを実装すべきであることに注意してください。"
     self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{method}
 
@@ -481,8 +493,10 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 典型的な例は、\clsind{Dictionary}が継承したけれど未実装であるとフラグを立てている\cmind{Collection}{remove:}です。（\ct{Dictionary}には代わりに\mthind{Dictionary}{removeKey:}が用意されています。）
 
 %-----------------------------------------------------------------
-\sd{ subsection{Deprecation} }
-\sd{to be done}
+%\sd{ subsection{Deprecation} }
+\sd{ subsection{廃止予定} }
+%\sd{to be done}
+\sd{あとで書く}
 
 \on{There already is some text above!  See second paragraph on Error handling.}
 
@@ -507,19 +521,20 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 %A final key method that occurs not in \ct{Object} but in \ct{ProtoObject} is \mthind{ProtoObject}{initialize}.
 \ct{Object}ではなく\ct{ProtoObject}で見られる最後のキーメソッドは\mthind{ProtoObject}{initialize}です。
 
+%   "Subclasses should redefine this method to perform initializations on instance creation"
 \begin{method}{\lct{initialize} as an empty hook method}
 ProtoObject>>>initialize
-%   "Subclasses should redefine this method to perform initializations on instance creation"
    "サブクラスはこのメソッドを再定義してインスタンス作成時に初期化を実行しなければいけません"
 \end{method}
 
 %The reason this is important is that in \pharo, the default \mthind{Behavior}{new} method defined for every class in the system will send \ct{initialize} to newly created instances.
 これが重要な理由は、\pharoでは、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
 
-\begin{method}{\lct{new} as a class-side template method}
-Behavior>>>new
+%\begin{method}{\lct{new} as a class-side template method}
 %    "Answer a new initialized instance of the receiver (which is a class) with no indexable
 %    variables. Fail if the class is indexable."
+\begin{method}{クラス側のテンプレートメソッドとしての\lct{new}}
+Behavior>>>new
     "indexableではないレシーバー（クラス）の初期化された新しいインスタンスを返します。
     クラスがindexableだった場合は失敗します"
     ^ self basicNew initialize
@@ -554,14 +569,15 @@ Behavior>>>new
 %Methods \mthind{Magnitude}{<} and \mthind{Magnitude}{=} are abstract. The remaining operators are generically defined. For example:
 \mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子は一般的な定義が与えられています。例えば:
 
-\begin{method}{Abstract comparison methods}
-Magnitude>>> < aMagnitude 
+%\begin{method}{Abstract comparison methods}
 %    "Answer whether the receiver is less than the argument."
+%    "Answer whether the receiver is greater than the argument."
+\begin{method}{比較用の抽象メソッド}
+Magnitude>>> < aMagnitude 
     "レシーバーが引数よりも小さいかどうかを返す"
     ^self subclassResponsibility
 
 Magnitude>>> > aMagnitude 
-%    "Answer whether the receiver is greater than the argument."
     "レシーバーが引数よりも大きいかどうかを返す"
     ^aMagnitude < self
 \end{method}
@@ -588,7 +604,6 @@ Magnitude>>> > aMagnitude
 %\emph{Truncation} methods include \mthind{Number}{floor}, \mthind{Number}{ceiling}, \mthind{Number}{integerPart}, \mthind{Number}{fractionPart} and so on.
 \emph{Truncation}メソッドとしては\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart}などがあります。
 
-\begin{code}{@TEST}
 %1 + 2.5     --> 3.5             "Addition of two numbers"
 %3.4 * 5      --> 17.0           "Multiplication of two numbers"
 %8 / 2         --> 4                 "Division of two numbers"
@@ -599,6 +614,7 @@ Magnitude>>> > aMagnitude
 %12 >= 10  --> true            "Greater or equal  than"
 %12 < 10    --> false           "Smaller than"
 %100@10   --> 100@10    "Point creation"
+\begin{code}{@TEST}
 1 + 2.5     --> 3.5             "二つの数の和"
 3.4 * 5      --> 17.0           "二つの数の積"
 8 / 2         --> 4                 "二つの数の商"
@@ -610,7 +626,8 @@ Magnitude>>> > aMagnitude
 12 < 10    --> false           "より小さい"
 100@10   --> 100@10    "座標の生成"
 \end{code}
-\on{Should check how tabbing works in the listings package ...}
+%\on{Should check how tabbing works in the listings package ...}
+\on{listingパッケージ内でタブがどう動作するかをチェックすること...}
 
 %The following example works surprisingly well in \st:
 驚いたことに次の例は正しく動作します \st:
@@ -621,7 +638,8 @@ Magnitude>>> > aMagnitude
 \ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例です。
 \cmindex{Integer}{factorial}
 
-\dothis{Try to display the result of \ct{1000 factorial}. It takes more time to display it than to calculate it!}
+%\dothis{Try to display the result of \ct{1000 factorial}. It takes more time to display it than to calculate it!}
+\dothis{\ct{1000 factorial}の結果を表示してみましょう。表示するには単に計算するよりも長い時間がかかります！}
 
 %-----------------------------------------------------------------
 \subsection{Float}
@@ -632,9 +650,10 @@ Magnitude>>> > aMagnitude
 %More interestingly, \ct{Float class} (\ie the class-side of \ct{Float}) provides methods to return the following \emph{constants}: \mthind{Float class}{e}, \mthind{Float class}{infinity}, \mthind{Float class}{nan} and \mthind{Float class}{pi}.
 より興味深い点として、\ct{Float class}（\ie つまり\ct{Float}のクラス側）は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
 
+%Float infinity               --> Infinity
 \begin{code}{@TEST}
 Float pi                      --> 3.141592653589793
-Float infinity               --> Infinity
+Float infinity               --> 無限大
 Float infinity isInfinite --> true
 \end{code}
 
@@ -656,6 +675,7 @@ Float infinity isInfinite --> true
 6/8 * 4 --> 3
 \end{code}
 
+%\lr{Maybe mention to avoid fractions in results that one of the operands has to be a float, e.g. 6.0 / 8 or 6 asFloat / 8. (p. 213)}
 \lr{Maybe mention to avoid fractions in results that one of the operands has to be a float, e.g. 6.0 / 8 or 6 asFloat / 8. (p. 213)}
 
 %-----------------------------------------------------------------
@@ -865,10 +885,10 @@ True>>>not
 %\ct{Booleans} offer several useful convenience methods, such as \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:}, \mthind{Boolean}{ifFalse:ifTrue}. You also have the choice between eager and lazy conjunctions and disjunctions.
 \ct{Booleans}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利なメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から選んで使用できます。
 
-\begin{code}{@TEST}
 %(1>2) & (3<4)              --> false    "must evaluate both sides"
 %(1>2) and: [ 3<4 ]        --> false    "only evaluate receiver"
 %(1>2) and: [ (1/0) > 0 ] --> false    "argument block is never evaluated, so no exception"
+\begin{code}{@TEST}
 (1>2) & (3<4)              --> false    "両者を必ず評価する"
 (1>2) and: [ 3<4 ]        --> false    "レシーバーだけが評価される"
 (1>2) and: [ (1/0) > 0 ] --> false    "引数ブロックは評価されないので、例外も発生しない"
