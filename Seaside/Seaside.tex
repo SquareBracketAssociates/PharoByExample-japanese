@@ -869,31 +869,29 @@ WANestedTransaction>>>go
 
 \dothis{\url{http://localhost:8080/seaside/tests/alltests}を開いて \menu{WATransactionTest} のメニューを選び 、\button{Restart}ボタンを押してみましょう。親側と子側のトランザクション内で\button{OK}ボタンやブラウザの\button{戻る}ボタンを使い、行ったり来たりしてみましょう。トランザクション終了後は、戻って\button{OK}ボタンを押しても、エラーが出て終了後のページに必ずリダイレクトされます。}
 
-% ここまで
-
 %=================================================================
 \section{サンプルアプリ作成によるチュートリアル}
 
 % ON: Should take about two hours
 
-ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}からダウンロードできます。 \scat{PBE-SeasideRPN}を選択してロードします。クラス名を少し変えてあるので、ロードしたとしても、本書に従ってアプリケーションを作っていくことができます。}
-RPN (逆ポーランド記法) の計算機をSeasideのアプリケーションとして作ることにしましょう。モデルとして単純なスタックマシンを実装して使うことにします。
+ここではSeasideのアプリケーションを一から作成してみることにします。 \footnote{二、三時間はかかります。すべてのソースコードを見たい場合はSqueakSourceのプロジェクト \url{http://www.squeaksource.com/PharoByExample}から入手できます。 \scat{PBE-SeasideRPN}のパッケージを選んでロードします。クラス名を少し変えてあるので、すべて読み込んでも、本書に従ってアプリケーションを作っていくことができます。}
+RPN (逆ポーランド記法) 計算機をSeasideのアプリケーションとして作ることにしましょう。単純なスタックマシンを実装して、モデル部分で使うことにします。
 
-計算機アプリでは二種類の表示方法を用意します。一つ目はスタックの先頭の値を単に表示するタイプで、二つ目はスタックの内容をすべて表示することにタイプです。
+この計算機アプリでは二種類の表示方法を提供します。一つ目はスタックの先頭の値のみを表示するタイプで、もう一つはスタックの内容をすべて表示するタイプです。
 
-二つの表示方法を切り替える様子を示すと \figref{stackMachine}のようになります。
+図\figref{stackMachine}は、二つの表示方法を切り替える様子ですす。
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=\textwidth]{stackMachine}
-\caption{RPN計算機とスタックマシン}
+\caption{スタックマシンを使ったRPN計算機}
 \figlabel{stackMachine}
 \end{center}
 \end{figure}
 
-スタックマシンとテストを書くところから始めていきましょう。
+スタックマシンの実装を、テストを書きながら始めていきましょう。
 
-\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義しましょう。\ct{OrderedCollection}で初期化することにします。}
+\dothis{\ct{contents}というインスタンス変数を持つ\ct{MyStackMachine}というクラスを定義してください。\ct{OrderedCollection}で初期化します。}
 
 \begin{code}{}
 MyStackMachine>>>initialize
@@ -901,9 +899,9 @@ MyStackMachine>>>initialize
 	contents := OrderedCollection new.
 \end{code}
 
-スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積まれた値に対して加減乗除ができる機能も必要でしょう。
+スタックマシンは\ct{push:}や\ct{pop}をサポートしなければなりません。またスタックの\ct{先頭}を見る機能や、積んだ値に対して加減乗除ができる機能も必要でしょう。
 
-\dothis{スタック操作のテストを書いてから実装をしてみましょう。以下はテストのサンプルです。}
+\dothis{スタック操作のテストを書いてから実装してみましょう。以下はテストのサンプルです。}
 
 \needlines{4}
 \begin{code}{}
@@ -916,25 +914,25 @@ MyStackMachineTest>>>testDiv
 	self assert: stack top = (4/3).
 \end{code}
 
-加減乗除を行う際には、その前にスタックに二つの値が積まれているかをチェックするヘルパーメソッドが必要でしょう。事前条件が整っていない場合はエラーを起こすようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
-これができてしまえば、各メソッドの実装はほぼ一行か二行ですむでしょう。
+加減乗除では、事前にスタックに値が二つ積まれているかをチェックするヘルパーメソッドが必要でしょう。条件が整っていない場合はエラーとなるようにします。\footnote{事前条件を指定するには \ct{Object>>>assert:} を使うと良いでしょう。不正な状態でスタックマシンを使おうとしているときには\ct{AssertionFailure}が起こるというわけです。}
+これができてしまえば、各メソッドの実装はほぼ一行か二行ですみます。
 
-デバッグを簡単にするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにするのです。
-(ヒント:  \ct{contents}に単に表示を委譲してしまえば楽でしょう)。
+デバッグしやすくするため、 \ct{MyStackMachine>>>printOn:}も実装しておくと良いでしょう。インスペクタを使って、スタックマシンの状態を観察できるようにします。
+(ヒント:  \ct{contents}に表示を委譲してしまうのが楽です)。
 \index{Object!printOn:@\ct{printOn:}}
 
-\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後に行く)、を\ct{MyStackMachine} に実装して完成させましょう。}
+\dothis{ \ct{dup} (先頭の値をコピーしてプッシュする)、 \ct{exch} (スタックの上位二つの値を入れ替える)、 \ct{rotUp} (スタックの内容を上下逆にする\,---\,先頭の要素が最後になる)、を\ct{MyStackMachine} に実装し、スタックマシンを完成させましょう。}
 
 スタックマシンの実装がすんだら、次はいよいよSeaside上に RPN計算機を作っていきます。
 
 クラスを5つ定義することにします:
 \begin{itemize}
-  \item \ct{MyRPNWidget}\,---\,RPN計算機アプリケーションのコンポーネントで共通に使う振る舞いやCSSを定義するための抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
+  \item \ct{MyRPNWidget}\,---\,RPN計算機のコンポーネントで共通に使う振る舞いやCSSを定義するための、抽象クラスです。  \ct{WAComponent}のサブクラスで、以下の4つのクラスのスーパークラスになります。
   
-  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッド内でアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用の状態の登録も行います。
+  \item \ct{MyCalculator}\,---\,ルートコンポーネントです。クラスメソッドでアプリケーションの登録を行います。サブコンポーネントを生成し、レンダリングを行わせます。またバックトラック用に状態の登録も行います。
   
   
-  \item \ct{MyKeypad}\,---\,計算機のキーを表示します。
+  \item \ct{MyKeypad}\,---\,計算機のキーパッドを表示します。
   \item \ct{MyDisplay}\,---\,スタックの先頭の値と、詳細なビューに切り替えるためのボタンを表示します。
   \item \ct{MyDisplayStack}\,---\,スタックの詳細なビューと、元のビューに戻るためのボタンを表示します。\lct{MyDisplay}のサブクラスです。
 
@@ -942,7 +940,7 @@ MyStackMachineTest>>>testDiv
 
 \dothis{\ct{MyCalculator}クラスカテゴリに\ct{MyRPNWidget}を定義してみましょう。アプリケーションで共通に使う \ct{style} メソッドを書くようにします。}
 
-アプリケーション用にCSSを定義します。もっと凝ってみても良いでしょう。
+アプリケーション用にCSSを定義します。もっと凝ってみてもかまいません。
 \begin{code}{}
 MyRPNWidget>>>style
 	^ 'table.keypad { float: left; }
@@ -965,22 +963,22 @@ td.small { font-size: 8pt; }'
 \end{code}
 
 \dothis{ルートコンポーネント\ct{MyCalculator}を定義して、アプリケーションとして登録しましょう(クラスメソッド \ct{canBeRoot} と \ct{initialize} を実装します)。
- \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いてみて、Webブラウザで表示されるかを確認してみましょう。}
+ \ct{MyCalculator>>>renderContentOn:} では、クラス名の表示などの簡単なレンダリングを書いて、Webブラウザで表示されるかを確認してみましょう。}
 
-\ct{MyCalculator} は、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
+\ct{MyCalculator} では、 \ct{MyStackMachine}、\ct{MyKeypad} 、\ct{MyDisplay}のインスタンスを保持することにします。
 
 \dothis{
 \lct{MyRPNWidget}のサブクラスとして \ct{MyKeypad}と \ct{MyDisplay}を定義しましょう。コンポーネントはどれもスタックマシンのインスタンスを使うので、インスタンス変数 \ct{stackMachine} と初期化用のメソッド \ct{setMyStackMachine:} を \ct{MyRPNWidget}に用意します。 \ct{MyCalculator}には
  \ct{keypad} と \ct{display} のインスタンス変数を定義し、 \ct{MyCalculator>>>initialize}で初期化することにします。(\lct{super initialize}を送るのを忘れないように!)}
 
 \dothis{
-initializeメソッドでは、さらにstackMachineをkeypadとdisplayに渡すように書いておきます。
-レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。calculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
+さらにinitializeメソッドでは、stackMachineをkeypadとdisplayに渡すように書いておきます。
+レンダリングメソッド \ct{MyCalculator>>>renderContentOn:} の実装は、単にkeypadとdisplayに委譲するだけです。サブコンポーネントを正しく表示するには、\ct{MyCalculator>>>children} を実装して、keypadとdisplayによる配列を返すようにしなければなりません。keypadとdisplayにもレンダリングメソッドを作りますが、中身は空にしておきます。まずはcalculatorがちゃんとサブコンポーネントを表示しているかを確認してみましょう。
 }
 
 %\ab{Too long!}
 
-次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにしていきます。
+次はdisplayのレンダリングメソッドの中身を書き、スタックの先頭を表示できるようにします。
 
 \dothis{ レンダリングでは、``keypad''というCSSクラス名のテーブルを書き、行には``stackcell''というclassのセルを一つだけ入れることにします。また、スタックが空の場合、先頭に0をpushするようにしておきます。(\ct{MyKeypad>>>ensureMyStackMachineNotEmpty}というメソッドを定義して使うことにします)。さらに``keypad''のクラス名で
 セルのデータとしてスタックの値をレンダリングするように書きます。ハロを表示させてみると\figref{firstStackDisplay}のようになるはずです。
@@ -1022,10 +1020,10 @@ MyKeypad>>>renderStackButton: text callback: aBlock on: html
 		on: html
 \end{code}
 
-これらのメソッドをキーパッドのボタンを表示し、コールバックを定義するために使います。いくつかのボタンは複数のカラムを使いますが、基本は非筒のカラムを使うことにします。
+これらのメソッドは、キーパッドのボタンを表示しコールバックを定義するために使います。ボタンの中には複数のカラムを占めるものもありますが、基本はカラムを一つ使うことにします。
 
 \dothis{
-以下のように二つのヘルパーメソッドを使いキーパッドのレンダリングを書いてみましょう。
+以下のように二つのヘルパーメソッドを使ってキーパッドのレンダリングを書いてみましょう。
 (ヒント: 数値キーと ``Enter'' キーから初めて、計算用のキーは後からつけると楽です)。
 }
 
@@ -1057,18 +1055,18 @@ MyKeypad>>>renderContentOn: html
 			colSpan: 2 on: html ]]
 \end{code}
 
-キーパッドがブラウザでちぇんと表示されるか確認しましょう。まだクリックしてみても計算機としては動作しません。
+キーパッドがブラウザできちんと表示されるか確認しましょう。当然ですが、クリックしてみてもまだ計算機としては動作しません。
 
 \dothis{
  \ct{MyKeypad>>>type:} を実装して、タイプした数字がスタックの先頭に反映されるようにしましょう。
-入力された値は文字列得られるので、一度スタックの値を文字列にしてつなげて、整数にしてスタックに戻す必要があります。具体的には以下のようなコードになります。
+入力された値は文字列で得られるので、スタックの値を文字列にして連結し、整数にしてからスタックに戻す必要があります。具体的には以下のようなコードになります。
 }
 
 \begin{code}{}
 MyKeypad>>>type: aString
 	stackMachine push: (stackMachine pop asString, aString) asNumber.
 \end{code}
-これで数値キーを打つと、表示が更新されるようになりました。
+数値キーを打つと、表示が更新されるようになりました。
 (\ct{MyStackMachine>>>pop} でポップした値を返すようにきちんと実装していないと、動作しません!)
 
 \dothis{次に\ct{MyKeypad>>>stackOp:}を書くことにしましょう。以下のようにすれば良いでしょう。}
@@ -1078,18 +1076,18 @@ MyKeypad>>>stackOp: op
 	[ stackMachine perform: op ] on: AssertionFailure do: [ ].
 \end{code}
 
-ここでのポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたいなら、エラーハンドリングのブロックに、ユーザに注意を促すように後で書いていくことができます。
+ポイントはすべての操作が成功するわけではないと言うことです。例えば二つの数値がスタックに積まれていないと、加算できません。当面は単にエラーを無視するように書いておきます。もっと機能を充実させたい場合は、エラーハンドリングのブロックに、ユーザに注意を促すように書いていくことができます。
 
 \dothis{逆ポーランド記法の計算機はこれで一応動くものになりました。
 数値キーをいくつか打ってみて、\menu{Enter}キーで値をプッシュしてみましょう。  \menu{+}を押して2つの値が足されることを確認してください。}
 
-数値の入力が予想した動きと違うのではないでしょうか。実際のところ、\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないといけません。
+数値の入力が予想した動きと若干違うのではないでしょうか。\emph{新たな}数値を入力しているのか、既存の数値を更新しているのかをモードによって区別できないとまずいようです。
 
-\dothis{ \ct{MyKeypad>>>type:}を修正してモードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアするようにします。
- \ct{type:}メソッドの新たな実装は以下のようになります。
+\dothis{ \ct{MyKeypad>>>type:}を修正し、モードに応じて動作を変えるようにしてみましょう。 \ct{mode}というインスタンス変数を定義して、3つの値を取るようにします。数値を入力しているときは\lct{\#typing}です。計算ボタンを押した後は、\lct{\#push}モードとなり、入力していた値を強制的にプッシュするようにします。\menu{Enter}を押した後は、\lct{\#clear}となり、次の入力の前にスタックの先頭をクリアします。
+ \ct{type:}メソッドを書き直したのが以下のコードです。
 }
 
-%モードを設定するコードを載せていないのですごくわかりにくい
+%モードを設定する部分のコードを載せていないのですごくわかりにくい
 
 \begin{code}{}
 MyKeypad>>>type: aString
@@ -1102,11 +1100,11 @@ MyKeypad>>>type: aString
 \mb{better with "stackMachine dup" instead of "stackMachine push:
   stackMachine top}"
 
-前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点が、まだ不満です。
+前よりは入力が便利になりましたが、スタックの先頭の値を見ることができない点がまだ不満です。
 
 \dothis{
 \ct{MyDisplay}のサブクラスとして \ct{MyDisplayStack} を定義しましょう。
-\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使い、以下のようになるでしょう。
+\ct{MyDisplay}のレンダリングメソッドにボタンの描画を追加して、コールバックで \ct{MyDisplayStack}のインスタンスをcall:するようにします。HTMLのアンカーを使って、以下のように書けるでしょう。
 }
 
 \begin{code}{}
@@ -1117,11 +1115,10 @@ html anchor
 \mb{if the user got a stackmachine ivar, I'm sure he will define
   setStackMachine and not setMyStackMachine}
 
-コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントの表示へと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了を告げる閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
+コールバックが呼ばれると、\ct{MyDisplay} コンポーネントの表示は、一時的に \ct{MyDisplayStack}コンポーネントへと切り替わり、スタックのすべての情報を表示するようになります。\ct{self answer}によって、このコンポーネントが終了して閉じると、制御はもとの\ct{MyDisplay}へと戻ります。
 
 \dothis{
-\ct{MyDisplayStack}のレンダリングメソッドを定義して、スタックのすべての内容を表示するようにしましょう。
-(スタックマシンの\ct{contents}の値を返すアクセッサーを用意するか、 \ct{MyStackMachine>>>do:}を定義して、スタックの値をイテレートできるようにすると良いでしょう)。``close''ボタンもつけることにします。コールバックでは単に\ct{self answer}を実行するだけです。
+\ct{MyDisplayStack}のレンダリングメソッドを定義して、スタックのすべての内容を表示するようにしましょう。(スタックマシンの\ct{contents}の値を返すアクセッサーを用意するか、 \ct{MyStackMachine>>>do:}を定義して、スタックの値をイテレートできるようにすると良いでしょう)。``close''ボタンもつけることにします。コールバックでは単に\ct{self answer}を実行するだけです。
 }
 
 \begin{code}{}
@@ -1130,16 +1127,15 @@ html anchor
 	with: 'close'
 \end{code}
 
-これで計算機を使いながら \emph{open} と \emph{close}で表示を切り替えられるようになりました。
+これで\emph{open} と \emph{close}で表示を切り替えられるようになりました。
 
-とはいえ、まだ考慮していなかったこともあります。いくつか操作をしてみた後で、Webブラウザの「戻る」ボタンで戻り、さらに操作をしてみるとどうなるでしょうか。(例えば\menu{open} でスタックの全体を表示させ、\menu{1}、 \menu{Enter}と2回入力し、\menu {+}を押します。この時点でスタックの表示は``2''と``1''となっているはずです。
-では「戻る」ボタンを押してみましょう。スタックは``1''を3つ表示した状態になり、\menu {+}を押すと、``3''が表示されます。バックトラックが動作していないのです。
+とはいえ、まだ考慮していなかったこともあります。いくつか操作をしてみた後で、Webブラウザの「戻る」ボタンで戻って、操作をしてみるとどうなるでしょうか。(例えば\menu{open} でスタックの全体を表示させ、\menu{1}、 \menu{Enter}と2回入力し、\menu {+}を押します。この時点でスタックの表示は``2''と``1''となっているはずです。ここで「戻る」ボタンを押してみましょう。スタックは``1''を3つ表示した状態になり、\menu {+}を押すと、``3''が表示されます。つまりバックトラックが動作していないのです。
 
 \dothis{
-\ct{MyCalculator>>>states}メソッドを実装し、スタックマシンの\ct{contents}を返すようにしましょう。今度はきちんとバックトラックされるようになります。
+\ct{MyCalculator>>>states}メソッドを実装し、スタックマシンの\ct{contents}を返すようにしましょう。今度はちゃんとバックトラックが効いています。
 }
 
-さて、これで動くアプリケーションができあがりました。乾杯といきましょう。
+さて、これで動くアプリケーションができあがりました。乾杯!
 
 %=================================================================
 \section{AJAXの利用}
