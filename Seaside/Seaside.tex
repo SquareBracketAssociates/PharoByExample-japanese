@@ -1152,10 +1152,10 @@ Seasideのインストールイメージには、Scriptaculousパッケージが
 最新のバージョンは \url{http://www.squeaksource.com/Seaside}から入手可能です。
 \url{http://scriptaculous.seasidehosting.st}でデモを見ることができます。イメージにScriptaculousが入っていれば、\url{http://localhost:8080/javascript/scriptaculous}でも、デモを試せます。
 
-ScriptaculousパッケージではSeasideと同様のアプローチが取られています。単にSmalltalkのオブジェクトを使ってアプリケーションをモデリングすれば、JavaScriptのコードが自動生成されるのです。
+ScriptaculousパッケージではSeasideではおなじみのアプローチが取られています。Smalltalkのオブジェクトを使ってアプリケーションをモデリングすれば、JavaScriptのコードが自動生成されます。
 
-単純な例として、クライアント側でJavaScriptをサポートすることで、RPN計算機をより自然なUIに変えていきましょう。
-今までは、キーを打つたびにページ全体がリフレッシュされていました。クライアント側の操作に対し、ページはそのままで、必要部分のみ更新されるようにしたいと思います。
+簡単な例として、クライアント側でJavaScriptを使うことで、RPN計算機をより自然なUIに変えていきましょう。
+今までは、キーを打つたびにページ全体がリフレッシュされていました。ページはそのままで、クライアントが操作した部分のみが更新されるようにしたいと思います。
 
 \dothis{JavaScriptから表示部分を特定するには、idを振る必要があります。計算機のレンダリングメソッドを以下のように変えましょう。\footnote{チュートリアルの例を自分で実装していない場合は、\url{http://www.squeaksource.com/PharoByExample}から、PBE-SeasideRPNパッケージをロードして、コードを修正していけば良いでしょう。クラスの接頭辞は本書と違い、\ct{My*}ではなく\ct{RPN*}になっています。}}
 
@@ -1166,7 +1166,7 @@ MyCalculator>>>renderContentOn: html
 \end{code}
 
 \mb{'keyboard' below should be renamed 'keypad'}
-\dothis{キーパッドを押した時に再描画されるようにするには、キーパッド側で表示コンポーネントをする必要があります。インスタンス変数 \ct{display}を \ct{MyKeypad}に追加します。初期化用のメソッドとして\ct{MyKeypad>>>setDisplay:}を用意し、 \ct{MyCalculator>>initialize}で初期化しましょう。これでボタンにJavaScriptのコードを割り当てることができるようになります。\ct{MyKeypad>>>renderStackButton:callback:colSpan:on:} を以下のようにすれば良いのです。}
+\dothis{キーパッドを押した時に再描画されるようにするには、キーパッド側で表示コンポーネントを知る必要があります。インスタンス変数 \ct{display}を \ct{MyKeypad}に追加します。初期化用のメソッドとして\ct{MyKeypad>>>setDisplay:}を用意し、 \ct{MyCalculator>>initialize}で初期化しましょう。これでボタンにJavaScriptのコードを割り当てることができるようになります。\ct{MyKeypad>>>renderStackButton:callback:colSpan:on:} を以下のように変えましょう。}
 
 \begin{code}{}
 MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html 
@@ -1187,23 +1187,23 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 \end{code}
 
 \mthind{WATagBrush}{onClick:}で \ind{JavaScript}のイベントハンドラを指定しています。
-\ct{html updater} によって \ct{SUUpdater}のインスタンスが返ってきます。これはJavaScriptのAjax.Updaterオブジェクト(\url{http://www.prototypejs.org/api/ajax/updater})に該当するSmalltalkのオブジェクトです。.
-このオブジェクトはAJAXリクエストの送信を行い、返ってきたテキストで特定部分の更新を行います。
-\ct{id:} によってupdaterに、どのXHTMLのDOM要素を更新すべきかを指定しています。この例の場合は'display'のidが振られたdiv要素になります。
-\ct{callback:} で、ユーザがボタンを押した時のコールバックをブロックの形で指定します。ブロックの引数である\ct{r}は、新たに生成されるレンダラで、これを使ってdisplayのコンポーネントの表示を行います。
-(コード上はメソッドの引数となっているhtmlレンダラにもアクセスできますが、コールバックのブロックが評価されるときには無効になっているので注意してください)。displayのコンポーネントをレンダリングする前に、 \ct{aBlock} を評価するようにしています。ここで適切な処理を外から渡して行えるようにしています。
+\ct{html updater} によって \ct{SUUpdater}のインスタンスが返ってきます。これはJavaScriptのAjax.Updaterオブジェクト(\url{http://www.prototypejs.org/api/ajax/updater})に該当するSmalltalkのオブジェクトです。
+このオブジェクトはAJAXリクエストの送信を行い、返ってきたテキストを使い特定部分の更新を行います。
+\ct{id:} によって、updaterにXHTMLのどのDOM要素を更新すべきかを指定しています。この例の場合は'display'のidが振られたdiv要素になります。
+\ct{callback:} で、ユーザがボタンを押した時のコールバックをブロックの形で指定します。ブロックの引数\ct{r}は、新たに生成されるレンダラで、これを使ってdisplayのコンポーネントの表示を行います。
+(コード上はメソッドの引数となっているhtmlレンダラにもアクセスできますが、コールバックのブロックが評価されるときには無効になっているので注意してください)。コールバック内ではdisplayのコンポーネントをレンダリングする前に、 \ct{aBlock} を評価しています。適切な処理を外から渡して行わせるためです。
 
-\ct{return: false} では、JavaScript側にリンクに設定されている元々のコールバックを呼ばないように指定しています。このコールバックが呼ばれると、ページ全体がリフレッシュされてしまいます。、リンクにあった \ct{callback:}部分を削除してコールバックを設定しないようにすることもできますが、JavaScriptが無効になっていても動作するように、あえてこのようにしています。
+\ct{return: false} では、リンクに設定されていた元々のコールバックを呼ばないようにJavaScript側に指定しています。元のコールバックが呼ばれると、ページ全体がリフレッシュされてしまうからです。リンクの \ct{callback:}部分を削除して、コールバックを設定しないようにもできますが、JavaScriptが無効になっていても動作するように、あえてこのようにしています。
 
-\dothis{計算機の数値キーを押してみて、ページ全体のリフレッシュが行われていることを確認してみてください。(WebページのURLがボタンを押すたびに変わります)。}
+\dothis{計算機の数値キーを押してみて、まだページ全体のリフレッシュが行われてしまうことを確認してみてください。(WebページのURLがボタンを押すたびに変わります)。}
 
-クライアントサイドのJavaScriptの振る舞いを実装したのですが、まだ無効なままです。JavaScriptのイベント処理を有効にしましょう。
+クライアント側のJavaScriptの振る舞いを実装したのですが、まだ無効なままです。JavaScriptのイベント処理を有効にしましょう。
 
 \dothis{
-計算機の下のツールバーに表示されている \link{Configure} リンクをクリックしてみましょう。
-``Add Library:''の部分で \ct{SULibrary}を選び、 \button{Add}ボタンを押して\button{Close}で閉じます。}
+計算機の下のツールバーに表示されている \link{Configure} リンクをクリックしてください。
+``Add Library:''の部分で \ct{SULibrary}を選び、 \button{Add}ボタンを押して\button{Close}で閉じれば完了です。}
 
-%要動作確認
+% 要動作確認!
 
 ライブラリを手で追加する代わりに、プログラム的に行うこともできます。Seasideにアプリケーションを登録する際に以下のようにして指定します。
 
@@ -1221,11 +1221,11 @@ MyCalculator class>>>initialize
 \end{center}
 \end{figure}
 
-\dothis{計算機を再び試してみましょう。前よりも自然な形で操作できます。特にキーボタンを押すたびにURLが変わらなくなりました。}
+\dothis{もう一度RPN計算機を試してみましょう。前よりも自然な形で操作できます。キーボタンを押すたびにURLが変わらなくなりました。}
 
-動作は確認できましたが、\emph{仕組みがどうなっているのか}気になるかもしれません。図 \figref{ajax-processing}では、AJAXなしの場合と、有効にした場合とで、RPN計算機のメッセージの流れを示しました。
-基本的に AJAX の場合は、レンダリング処理をとばして、displayコンポーネント\emph{のみ}の更新を行います。
-JavaScript側ではリクエストの送信と、対応するDOM要素の更新の両方を受け持っています。
+動作は確認できましたが、\emph{仕組みがどうなっているのか}気になるかもしれません。図 \figref{ajax-processing}で、AJAXなしの場合と、有効にした場合とで、RPN計算機のメッセージの流れを示しました。
+AJAX の場合は、基本的にレンダリング処理をとばして、displayコンポーネント\emph{のみ}の更新を行います。
+JavaScriptはリクエストの送信と、対応するDOM要素の更新の両方を受け持っています。
 生成されるJavaScriptのソースを見てみましょう。
 
 \begin{code}{}
