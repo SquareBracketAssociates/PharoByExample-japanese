@@ -38,11 +38,10 @@
 \chapter{基本的なクラス群}
 \chalabel{basic}
 
-% Most of the magic of Smalltalk is not in the language but in the class libraries. To program effectively with Smalltalk, you need to learn how the class libraries support the language and environment. The class libraries are entirely written in Smalltalk and can easily be extended since a package may add new functionality to a class even if it does not define this class. 
-Smalltalkの魔法の大部分は言語そのものではなくクラスライブラリにあります。Smalltalkで効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリは全てがSmalltalkで記述されており、簡単に拡張することができます。since a package may add new functionality to a class even if it does not define this class. 
+Smalltalkの魔法の大部分は言語そのものではなくクラスライブラリにあります。Smalltalkで効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリは全てがSmalltalkで記述されていて、このクラスを定義していないときでも、パッケージは新しい機能をクラスに追加できるため、簡単に拡張することができます。
 
-% Our goal here is not to present in tedious detail the whole of the \pharo class library, but rather to point out the key classes and methods that you will need to use or override to program effectively. In this chapter we cover the basic classes that you will need for nearly every application: \ct{Object}, \ct{Number} and its subclasses, \ct{Character}, \ct{String}, \ct{Symbol} and \ct{Boolean}.
-私たちの目的は\pharoのクラスライブラリ全体の細かい部分を周りくどく説明することではなく、プログラムを効率的に利用する、または書き換えるのに必要なキーとなるクラスやメソッドに注目することです。本章ではほぼ全てのアプリケーションで必要になると思われる基本的なクラスを取り上げます: \ct{Object}, \ct{Number} and its subclasses, \ct{Character}, \ct{String}, \ct{Symbol} and \ct{Boolean}
+
+私たちの目的は\pharoのクラスライブラリ全体の細かい部分を周りくどく説明することではなく、プログラムを効率的に利用する、または書き換えるのに必要なキーとなるクラスやメソッドに注目することです。本章ではほぼ全てのアプリケーションで必要になると思われる次の基本的なクラスを取り上げます: \ct{Object}・\ct{Number}とそのサブクラス・\ct{Character}・\ct{String}・\ct{Symbol}・\ct{Boolean}
 
 \md{Here are some comments:\\
 - copying: Good question... the copying in \pharo is much too complicated... there is for one the "old" smalltalk way of
@@ -55,12 +54,10 @@ Smalltalkの魔法の大部分は言語そのものではなくクラスライ�
 
 %=================================================================
 \section{Object}
-% For all intents and purposes, \clsindmain{Object} is the root of the inheritance hierarchy. Actually, in \pharo the true root of the hierarchy is \clsind{ProtoObject}, which is used to define minimal entities that masquerade as objects, but we can ignore this point for the time being.
-% % (more on this later in the chapter on reflection).
-あらゆる意味で、\clsindmain{Object}クラスは継承階層のルートになります。実際には\pharoでは、オブジェクトとして振舞う最小の実体を定義するために使用される、\clsind{ProtoObject}クラスが階層の真のルートですが、とりあえずそれについては無視していいでしょう。
+あらゆる意味で、\clsindmain{Object}クラスは継承階層のルートです。本当のところは\pharoでは、オブジェクトとして振舞うことができる最小の実体を定義するために使用される、\clsind{ProtoObject}クラスが階層の真のルートですが、とりあえずそれについては無視していいでしょう。
+% （後ほどリフレクションの章で詳しく説明します。）
 
-% \ct{Object} can be found in the \scatind{Kernel-Objects} category. Astonishingly, there are some 400 methods to be found here (including extensions).  In other words, every class that you define will automatically provide these 400 methods, whether you know what they do or not. Note that some of the methods should be removed and new versions of \pharo may remove some of the superfluous methods. 
-\ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。（拡張も含めると）400ものメソッドがあるということにおそらく驚くでしょう。つまり、新しいクラスを定義すると全て自動的に400個のメソッドが提供されます, whether you know what they do or not.。いくつかのメソッドは削除が必要で、\pharoの新しいバージョンではおそらくその不要なメソッドのいくつかが削除されるということに注意してください。
+\ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。（拡張も含めると）400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、全てに自動的に400個のメソッドが提供されるということです。削除されるべき不要なメソッドもいくつかあり、\pharoの新しいバージョンではおそらくそれら不要なメソッドのいくつかは削除されることになることを覚えておきましょう。
 
 \sd{I do not like to quote something that can change and that people can find simply in the image but let us keep it for now.}
 % The class comment for the \ct{Object} states:
