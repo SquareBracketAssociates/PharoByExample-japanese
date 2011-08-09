@@ -59,45 +59,34 @@ Smalltalkの魔法の大部分は言語そのものではなくクラスライ�
 
 \ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。（拡張も含めると）400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、全てに自動的に400個のメソッドが提供されるということです。削除されるべき不要なメソッドもいくつかあり、\pharoの新しいバージョンではおそらくそれら不要なメソッドのいくつかは削除されることになることを覚えておきましょう。
 
-\sd{I do not like to quote something that can change and that people can find simply in the image but let us keep it for now.}
-% The class comment for the \ct{Object} states:
+\sd{変更される可能性のあるものを引用することは好みませんし、簡単に一覧を見つけられるので、今のところはそのままにしておきます。}
 \ct{Object}クラスのクラスコメントには次のように書かれています:
 
 \needlines{4}
 \begin{quote}
-%\textit{\ct{Object} is the root class for almost all of the other classes in the class hierarchy. The exceptions are \ct{ProtoObject} (the superclass of \ct{Object}) and its subclasses.
-%Class \ct{Object} provides default behaviour common to all normal objects, such as access, copying, comparison, error handling, message sending, and \ind{reflection}. Also utility messages that all objects should respond to are defined here.
-%\ct{Object} has no instance variables, nor should any be added. This is due to several classes of objects that inherit from \ct{Object} that have special implementations (\ct{SmallInteger} and \ct{UndefinedObject} for example) or the VM knows about and depends on the structure and layout of certain standard classes.}
-\textit{\ct{Object}クラスはクラス階層内のほぼ全てのクラスのルートクラスです。例外は\ct{ProtoObject}クラス（\ct{Object}の親クラス）とその直接の子クラスです。
-\ct{Object}クラスでは通常のオブジェクトの、アクセス、コピー、比較、エラー処理、メッセージ送信、\ind{リフレクション}などのデフォルトの振舞いが提供されます。また、全てのオブジェクトが応答する必要があるユーティリティメッセージもここで定義されています。
-\ct{Object}はインスタンス変数を持っておらず、追加すべきでもありません。これはいくつかの特別な実装を持つ\ct{Object}を継承するオブジェクトのクラス（例えば\ct{SmallInteger}や\ct{UndefinedObject}）や、VMがクラスの構造とレイアウトを知りそれに依存している標準クラスがあるためです。
+\textit{\ct{Object}クラスはクラス階層内のほぼ全てのクラスのルートクラスです。例外は\ct{ProtoObject}クラス（\ct{Object}の親クラス）とその直接のサブクラスです。
+\ct{Object}クラスでは通常のオブジェクトの、アクセス・コピー・比較・エラー処理・メッセージ送信・\ind{リフレクション}などのデフォルトの振舞いが提供されます。また、全てのオブジェクトが応答する必要があるユーティリティメッセージもここで定義されています。
+\ct{Object}はインスタンス変数を持っておらず、追加すべきでもありません。これは（例えば\ct{SmallInteger}や\ct{UndefinedObject}などの）特別な実装を持つ\ct{Object}から継承されたオブジェクトのクラスがいくつかあることや、VMがある標準的なクラス群の構造とレイアウトを知っていてそれに依存しているためです。
 }
 \end{quote}
 
-%If we begin to browse the method categories on the instance side of \ct{Object} we start to see some of the key behaviour it provides.
-\ct{Object}のインスタンス側のメソッドカテゴリをブラウズすると、提供されるキーとなる振舞いのいくつかを理解できるようになるでしょう。
+\ct{Object}のインスタンス側のメソッドカテゴリをブラウズすると、提供されているいくつかの主だった振舞いを理解できるようになるでしょう。
 
 %-----------------------------------------------------------------
 \subsection{Printing}
-%Every object in Smalltalk can return a printed form of itself. You can select any expression in a workspace and select the \menu{print it} menu: this executes the expression and asks the returned object to print itself. In fact this sends the message \ct{printString} to the returned object. The method \mthind{Object}{printString}, which is a \ind{template method}, at its core sends the message \mthind{Object}{printOn:} to its receiver. The message \ct{printOn:} is a hook that can be specialized. 
-Smalltalkのすべてのオブジェクトは自分自身の表示用の形式を返すことができます。ワークスペースの好きな式を選び、\menu{print it}メニューを選択してください: 式が実行され、その結果を表示するためのオブジェクトが要求されます。実際には、\ct{printString}メッセージが、結果のオブジェクトに送られています。\mthind{Object}{printString}は\ind{テンプレートメソッド}で、核となる部分はレシーバーに送られる\mthind{Object}{printOn:}メッセージです。\ct{printOn:}メッセージは、上書き可能なフックになっています。
+Smalltalkのすべてのオブジェクトは自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it}メニューを選択してください: 式が実行され、その結果を表示するためのオブジェクトが要求されます。実際には、\ct{printString}メッセージが、戻されたオブジェクトに送られています。\mthind{Object}{printString}は\ind{テンプレートメソッド}で、その核となる部分はレシーバーに送られる\mthind{Object}{printOn:}メッセージにあります。\ct{printOn:}メッセージはいわゆるフックメソッドで上書き可能です。
 
-%\ct{Object>>>printOn:} is very likely one of the methods that you will most frequently override. This method takes as its argument a \clsind{Stream} on which a \clsind{String} representation of the object will be written. The default implementation simply writes the class name preceded by ``\ct{a}'' or ``\ct{an}''. \ct{Object>>>printString} returns the \ct{String} that is written.
-おそらく\ct{Object>>>printOn:}は最も頻繁に上書きされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream}を受け取り、そこにオブジェクトの\clsind{String}表現を書き込みます。デフォルトの実装は単純に``\ct{a}''または``\ct{an}''の後にクラス名を書きこむだけです。\ct{Object>>>printString}はそれが書きこまれた\ct{String}を返します。
+おそらく\ct{Object>>>printOn:}は最も頻繁に上書きされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream}を受け取り、そこにオブジェクトの\clsind{String}表現を書き込みます。デフォルトの実装は単純に``\ct{a}''または``\ct{an}''の後にクラス名を書きこむだけです。\ct{Object>>>printString}はそれが実際に書きこまれた\ct{String}を返します。
 
-%For example, the class \clsind{Browser} does not redefine the method \ct{printOn:} and sending the message printString to an instance executes the methods defined in \ct{Object}. 
 例えば\clsind{Browser}クラスは\ct{printOn:}メソッドを再定義していないので、printStringメソッドをインスタンスに送ると\ct{Object}で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
 Browser new printString --> 'a Browser'
 \end{code}
 
-%The class \ct{Color} shows an example of \mthind{Color}{printOn:}
-%specialization. It prints the name of the class followed the name of the class method used to generate that color.
 \ct{Color}では\mthind{Color}{printOn:}を特殊化した例が見られます。実行するとクラスの名前に続いて色を生成するために使用したクラスメソッドの名前が表示されます。
 
 \needlines{7}
-%\begin{method}[zork]{printOn: redefinition.}
-\begin{method}[zork]{printOn: 再定義。}
+\begin{method}[zork]{printOn:の再定義。}
 Color>>>printOn: aStream
   | name |
   (name := self name) ifNotNil: 
