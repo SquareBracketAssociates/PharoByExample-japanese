@@ -1247,27 +1247,28 @@ return false
 
 %　item 3 3.0では当てはまらず
 %　item 5 3.0では当てはまらず
+%　item 7 3.0ではObsolete
 %　item 19 3.0では当てはまらず
 
 \begin{itemize}
   \item Seasideを始めるには``Seaside One-Click Experience''イメージを \url{http://seaside.st}からダウンロードするのがもっとも簡単です。
   \item \ct{WAKom startOn: 8080} でサーバを開始、 \ct{WAKom stop}で終了です。
   \item 管理用のIDとパスワードは\ct{WADispatcherEditor initialize}で初期化できます。
-  \item \menu{Toggle Halos} をクリックするとコンポーネントのソースコードやオブジェクトの状態、CSSやXHTMLを見ることができます。
+  \item \menu{Toggle Halos} をクリックすると、コンポーネントのソースコードやオブジェクトの状態、CSSやXHTMLを見ることができます。
   \item \ct{WAGlobalConfiguration setDeploymentMode} で開発用のツールバーを隠せます。
   \item Seasideのアプリケーションはコンポーネントからできています。コンポーネントとは\ct{WAComponent}を継承したクラスのインスタンスのことです。
-  \item SeasideのWeb管理ツールからアプリケーションとして登録できるコンポーネントは、ルートコンポーネントになります。クラスメソッドの \ct{canBeRoot} を実装してtrueを返すようにします。initializeのクラスメソッドで、 \ct{self registerAsApplication:} を自身に送ることで、登録することもできます。引数は \emph{アプリケーションのパス}になります。 \ct{description} をオーバーライドするとWeb上のコンフィギュレーションエディタにアプリケーションの説明を表示させることも可能です。
+  \item SeasideのWeb管理ツールからアプリケーションとして登録できるコンポーネントを、ルートコンポーネントと呼びます。クラスメソッドの \ct{canBeRoot} を実装してtrueを返すようにします。initializeのクラスメソッドで、 \ct{self registerAsApplication:} を自身に送ることで、登録することもできます。引数は \emph{アプリケーションのパス}になります。 \ct{description} をオーバーライドするとWeb上のコンフィギュレーションエディタにアプリケーションの説明を表示させることも可能です。
   \item 状態をバックトラックできるようにするには、コンポーネントで \ct{states} メソッドを定義して、復元したいオブジェクトの配列を返すように実装する必要があります。ユーザが「戻る」ボタンを押しても状態が正常に保たれます。
   \item コンポーネントは\ct{renderContentOn:}を実装することで、自身をWebページ内に表示させることができます。引数としてXHTMLレンダリング用の\emph{キャンバス}が渡ってきます(通常は\ct{html}という名前になっています)。
-  \item コンポーネントは、自身が含んでいるサブコンポーネントを \ct{self render:} \emph{subcomponent}で表示させることができます。
+  \item コンポーネントは、自身が含むサブコンポーネントを \ct{self render:} \emph{subcomponent}で表示させることができます。
   \item XHTMLは \emph{brushes}にメッセージを送ることで生成されます。キャンバスに対して、 \ct{paragraph} や \ct{div}などのメッセージを送ると、XHTML要素に対応したブラシが返ってきます。
-  \item ブラシに\ct{with:}を含むメッセージを連続して送るときは、必ず \ct{with:}が最後になるようにします。\ct{with:}によってXHTMLの内容が定まり、その結果がレンダリングされるからです。
+  \item ブラシに\ct{with:}を含んだメッセージを連続して送るときは、必ず \ct{with:}が最後になるようにします。\ct{with:}によってXHTML生成が終わり、その結果がレンダリングされるからです。
   \item 状態を操作するアクションはコールバックの中で書くようにします。レンダリングメソッド内でコンポーネントの状態を変えてはいけません。
-  \item ブラシに\ct{on:} \emph{instance variable} \ct{of:} \emph{object}を送ることで、フォームの要素やリンクと、オブジェクトのインスタンス変数とを簡単に結びつけることができます。
+  \item ブラシに\ct{on:} \emph{instance variable} \ct{of:} \emph{object}を送ることで、フォームの要素やリンクに対し、インスタンス変数の値を簡単に結びつけることができます。
   \item スタイルシートの文字列を返す、\ct{style}メソッドを実装すると、コンポーネントが使うCSSを、クラス階層中に定義できます。(通常デプロイ時には、外部のCSSを固定のURLで参照させるようにします)。
   \item 制御フローは、\ct{x call: y}のように書くことで表せます。この場合、\ct{x}のコンポーネントは \ct{y}のコンポーネントへと置き換えられます。 \ct{y} は \ct{answer:} で制御をxに戻すことができます。\ct{call:}のレシーバはたいていは \ct{self}ですが、それ以外のコンポーネントであってもかまいません。
   \item 制御フローは \emph{タスク}として表すこともできます。タスクは\ct{WATask}のサブクラスとして定義します。 \ct{go}メソッドの中に、ワークフローを、連続した\ct{call:}のメッセージ送信として書いていきます。
-  \item ユーザと簡単なやりとりのために、\ct{WAComponents}の便利メソッドとして\ct{request:}、 \ct{inform:}、 \ct{confirm:}、\ct{chooseFrom:caption:} が用意されています。
+  \item ユーザと簡単なやりとりを行うため、\ct{WAComponents}の便利メソッドとして、\ct{request:}、 \ct{inform:}、 \ct{confirm:}、\ct{chooseFrom:caption:} が用意されています。
   \item ユーザが「戻る」ボタンを押して以前の状態にアプリケーションを戻してしまうのを防ぐには、\ct{isolate:}を使います。ブロックでワークフローを分割することで、ブロックを越えて過去の状態に戻ることができなくなります。
 \end{itemize}
 %-----------------------------------------------------------------
