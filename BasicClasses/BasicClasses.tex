@@ -395,154 +395,112 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 %-----------------------------------------------------------------
 \subsection{テスト}
 
-%The \protind{testing} methods have nothing to do with SUnit testing! A testing method is one that lets you ask a question about the state of the receiver and returns a \clsind{Boolean}.
-\protind{testing}メソッド群はSUnitのテストとはなんの関係もありません！testingメソッドはレシーバーの状態を尋ねて\clsind{Boolean}を返すことができるただのメソッドです。
+\protind{testing}メソッド群はSUnitのテストとはなんの関係もありません！testingメソッドはレシーバーの状態を尋ねて\clsind{Boolean}が返されるただのメソッドです。
 
-%Numerous testing methods are provided by \ct{Object}. We have already seen \mthind{Object}{isComplex}. Others include \mthind{Object}{isArray}, \mthind{Object}{isBoolean}, \mthind{Object}{isBlock}, \mthind{Object}{isCollection} and so on. Generally such methods are to be avoided since querying an object for its class is a form of violation of encapsulation. Instead of testing an object for its class, one should simply send a request and let the object decide how to handle it.
-数値のテスティングメソッドは\ct{Object}によって提供されます。\mthind{Object}{isComplex}を既にみたでしょう。Objectクラスにはその他にも\mthind{Object}{isArray}、\mthind{Object}{isBoolean}、\mthind{Object}{isBlock}、\mthind{Object}{isCollection}などがあります。オブジェクトに自身のクラスを尋ねるというのはカプセル化を破ることにつながるため一般的にはこのようなメソッドは避けるべきです。オブジェクトに自身のクラスを尋ねるのではなく、単純に要求を送り、オブジェクト自身がそれをどのように扱うかを決められるようにすべきでしょう。
+たくさんのテスティングメソッドが\ct{Object}によって提供されています。\mthind{Object}{isComplex}は既にみました。Objectクラスにはその他にも\mthind{Object}{isArray}、\mthind{Object}{isBoolean}、\mthind{Object}{isBlock}、\mthind{Object}{isCollection}などがあります。オブジェクトに自身のクラスを尋ねるというのはカプセル化を破ることにつながるため一般的にはこれらのメソッドの使用は避けるべきです。オブジェクトに自身のクラスを尋ねるのではなく、単純に要求を送り、オブジェクト自身がそれをどのように扱うかを決められるようにすべきでしょう。
 
-%Nevertheless some of these testing methods are undeniably useful. The most useful are probably \cmind{ProtoObject}{isNil} and \cmind{Object}{notNil} (though the \patind{Null Object}\cite{Wool98a} design pattern can obviate the need for even these methods).
-にもかかわらず、これらのテスティングメソッドのいくつかは間違いなく有用です。もっとも有用なのはおそらく\cmind{ProtoObject}{isNil}と\cmind{Object}{notNil}でしょう（\patind{Null Object}\cite{Wool98a}デザインパターンでこれらのメソッドの必要性を除くこともできますが）。
+とはいえ、これらのテスティングメソッドのいくつかは間違いなく有用です。もっとも有用なのはおそらく\cmind{ProtoObject}{isNil}と\cmind{Object}{notNil}でしょう（\patind{Null Object}\cite{Wool98a}デザインパターンを使ってこれらのメソッドを必要ではなくすることもできますが）。
 
 % \footnote{However the \emph{Null Object} design pattern can obviate the need for even these methods. See, Bobby Woolf, ``Null Object,'' Pattern Languages of Program Design 3, Robert Martin, Dirk Riehle and Frank Buschmann (Eds.), pp. 5-18, Addison Wesley, 1998.}.
 
 %-----------------------------------------------------------------
-%\subsection{Initialize release}
 \subsection{初期化リリース}
 
-%A final key method that occurs not in \ct{Object} but in \ct{ProtoObject} is \mthind{ProtoObject}{initialize}.
-\ct{Object}ではなく\ct{ProtoObject}で見られる最後のキーメソッドは\mthind{ProtoObject}{initialize}です。
+\ct{Object}ではなく\ct{ProtoObject}にある最後のキーメソッドは\mthind{ProtoObject}{initialize}です。
 
-%   "Subclasses should redefine this method to perform initializations on instance creation"
 \begin{method}{\lct{initialize} as an empty hook method}
 ProtoObject>>>initialize
    "サブクラスはこのメソッドを再定義してインスタンス作成時に初期化を実行しなければいけません"
 \end{method}
 
-%The reason this is important is that in \pharo, the default \mthind{Behavior}{new} method defined for every class in the system will send \ct{initialize} to newly created instances.
 これが重要な理由は、\pharoでは、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
 
-%\begin{method}{\lct{new} as a class-side template method}
-%    "Answer a new initialized instance of the receiver (which is a class) with no indexable
-%    variables. Fail if the class is indexable."
 \begin{method}{クラス側のテンプレートメソッドとしての\lct{new}}
 Behavior>>>new
-    "indexableではないレシーバー（クラス）の初期化された新しいインスタンスを返します。
-    クラスがindexableだった場合は失敗します"
+    "indexableではないレシーバー（クラス）の初期化された新しいインスタンス
+    を返します。クラスがindexableだった場合は失敗します"
     ^ self basicNew initialize
 \end{method}
 \cmindex{Behavior}{new}
 
-%This means that simply by overriding the \ct{initialize} \ind{hook method}, new instances of your class will automatically be initialized. The \ct{initialize} method should normally perform a \ct{super initialize} to establish the class \subind{class}{invariant} for any inherited instance variables.
-これは、単にct{initialize} \ind{フックメソッド}を上書きすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。\ct{initialize}メソッドは通常、継承された全てのインスタンス変数についてクラスの\subind{class}{invariant}を確立するために\ct{super initialize}を実行する必要があります。
-%(Note that this is \emph{not} the standard behaviour of other Smalltalks.)
+これは、単にct{initialize} \ind{フックメソッド}を上書きすれば、あなたが作成したクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常、\ct{initialize}メソッドでは継承された全てのインスタンス変数についてクラスの\subind{class}{invariant}を確立するために\ct{super initialize}を実行する必要があります。
 (これは他のSmalltalkでは標準の振舞い\emph{ではない}ことに注意して下さい。）
 
 %=================================================================
-\section{Numbers}
+\section{数値}
 \seclabel{Number}
-%Remarkably, numbers in Smalltalk are not primitive data values but true objects. Of course numbers are implemented efficiently in the virtual machine, but the \clsindmain{Number} hierarchy is as perfectly accessible and extensible as any other portion of the Smalltalk class hierarchy.
 驚いたことに、Smalltalkでは数値はプリミティブなデータの値ではなく本当のオブジェクトです。もちろん、数値は仮想マシンで効率的に実装されていますが、\clsindmain{Number}階層はSmalltalkクラス階層の他の部分と同じく、完全にアクセス可能で拡張可能です。
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=8cm]{NumberHierarchy}}
-\caption{The Number Hierarchy \figlabel{numbers}}
+\caption{数値のクラス階層 \figlabel{numbers}}
 \end{figure}
 
-%Numbers are found in the \scatind{Kernel-Numbers} category. The abstract root of this hierarchy is \clsind{Magnitude}, which represents all kinds of classes supporting comparision operators. \ct{Number} adds various arithmetic and other operators as mostly abstract methods. \clsind{Float} and \clsind{Fraction} represent, respectively, floating point numbers and fractional values.  \clsind{Integer} is also abstract, thus distinguishing between subclasses \clsind{SmallInteger}, \clsind{LargePositiveInteger} and \clsind{LargeNegativeInteger}. For the most part users do not need to be aware of the difference between the three \ct{Integer} classes, as values are automatically converted as needed.
-数値は\scatind{Kernel-Numbers}カテゴリの中にあります。この階層の抽象最上位クラスは\clsind{Magnitude}です。このクラスは比較演算子をサポートするクラスの全種類を表します。\ct{Number}は様々な算術演算やその他の演算を、ほとんどが抽象メソッドですが、追加します。\clsind{Float}と\clsind{Fraction}はそれぞれ浮動小数点数と分数を表します。\clsind{Integer}も抽象クラスで、サブクラス\clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger}に区分されます。必要に応じて自動的に値が変換されるので、ほとんどのユーザーは3つの\ct{Integer}クラスの違いについて気にする必要はありません。
+数値は\scatind{Kernel-Numbers}カテゴリの中にあります。この階層の抽象最上位クラスは\clsind{Magnitude}です。このクラスは全ての種類の比較演算子をサポートするクラスを表します。\ct{Number}はさらに様々な算術演算やその他の演算を、ほとんどが抽象メソッドですが、追加します。\clsind{Float}と\clsind{Fraction}はそれぞれ浮動小数点数と分数を表します。\clsind{Integer}も抽象クラスで、サブクラス\clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger}に区分されます。必要に応じて自動的に値が変換されるので、ほとんどのユーザーは3つの\ct{Integer}クラスの違いについて気にする必要はありません。
 
 %-----------------------------------------------------------------
-\subsection{Magnitude}
+\subsection{強度}
 
-%\clsindmain{Magnitude} is the parent not only of the \clsind{Number} classes, but also of other classes supporting comparison operations, such as \clsind{Character}, \clsind{Duration} and \clsind{Timespan}.  (\clsind{Complex} numbers are not comparable, and so do not inherit from \clsind{Number}.)
-\clsindmain{Magnitude}は\clsind{Number}クラス群の親であるだけでなく、その他のクラス、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などの比較演算をサポートするクラスでもあります。（\clsind{Complex}数は比較できません。従って\clsind{Number}を継承してもいません）
+\clsindmain{Magnitude}は\clsind{Number}クラス群の親であるだけでなく、その他のクラス、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などの比較演算をサポートするクラスでもあります。（\clsind{Complex}数は比較できません。従って複素数は\clsind{Number}を継承していません）
 
-%Methods \mthind{Magnitude}{<} and \mthind{Magnitude}{=} are abstract. The remaining operators are generically defined. For example:
-\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子は一般的な定義が与えられています。例えば:
+\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子は標準的な定義が与えられています。例えば:
 
-%\begin{method}{Abstract comparison methods}
-%    "Answer whether the receiver is less than the argument."
-%    "Answer whether the receiver is greater than the argument."
 \begin{method}{比較用の抽象メソッド}
 Magnitude>>> < aMagnitude 
-    "レシーバーが引数よりも小さいかどうかを返す"
+    "レシーバーが引数よりも小さいかどうかを返します"
     ^self subclassResponsibility
 
 Magnitude>>> > aMagnitude 
-    "レシーバーが引数よりも大きいかどうかを返す"
+    "レシーバーが引数よりも大きいかどうかを返します"
     ^aMagnitude < self
 \end{method}
 \cmindex{Magnitude}{>}
 
 %-----------------------------------------------------------------
-\subsection{Number}
+\subsection{数値}
 
-%Similarly, \clsindmain{Number} defines \mthind{Number}{+}, \mthind{Number}{-}, \mthind{Number}{*} and \mthind{Number}{/} to be abstract, but all other arithmetic operators are generically defined.
-同様に、\clsindmain{Number}では\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算には一般的な定義が与えられています。
+同様に、\clsindmain{Number}では\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算には標準的な定義が与えられています。
 
-%All \ct{Number} objects support various \emph{converting} operators, such as \mthind{Number}{asFloat} and \mthind{Number}{asInteger}. There are also numerous \emphind{shortcut constructor methods}, such as \mthind{Number}{i}, which converts a \ct{Number} to an instance of \clsind{Complex} with a zero real component, and others which generate \clsindplural{Duration}, such as \mthind{Number}{hour}, \mthind{Number}{day} and \mthind{Number}{week}.
 \ct{Number}オブジェクトは全て、\mthind{Number}{asFloat}や\mthind{Number}{asInteger}のような様々な\emph{変換}オペレーターを備えています。またそれ以外にも、\ct{Number}を実部がゼロの\clsind{Complex}のインスタンスに変換する\mthind{Number}{i}や、\clsindplural{Duration}を生成する\mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week}のようなたくさんの\emphind{ショートカットコンストラクタメソッド}があります。
 
-%\ct{Numbers} directly support common \emph{math functions} such as \mthind{Number}{sin}, \mthind{Number}{log}, \mthind{Number}{raiseTo:}, \mthind{Number}{squared}, \mthind{Number}{sqrt} and so on.
 \ct{Numbers}は\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt}などのような標準的な\emph{算術関数}を直接サポートしています。
 
-%\cmind{Number}{printOn:} is implemented in terms of the abstract method \ct{Number>>>printOn:base:}. (The default base is 10.)
 \cmind{Number}{printOn:}は抽象メソッド\ct{Number>>>printOn:base:}（デフォルトの基数は10）を使って実装されています。
 
-%Testing methods include \mthind{Number}{even}, \mthind{Number}{odd}, \mthind{Number}{positive} and \mthind{Number}{negative}. Unsurprisingly \ct{Number} overrides \lct{is\-Num\-ber}. More interesting, \mthind{Number}{isInfinite} is defined to return \ct{false}.
 テスティングメソッドとしては\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative}などがあります。当然\ct{Number}は\lct{is\-Num\-ber}を上書きしています。さらに興味深い点として、\mthind{Number}{isInfinite}は\ct{false}を返すように定義されています。
 
-%\emph{Truncation} methods include \mthind{Number}{floor}, \mthind{Number}{ceiling}, \mthind{Number}{integerPart}, \mthind{Number}{fractionPart} and so on.
 \emph{Truncation}メソッドとしては\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart}などがあります。
 
-%1 + 2.5     --> 3.5             "Addition of two numbers"
-%3.4 * 5      --> 17.0           "Multiplication of two numbers"
-%8 / 2         --> 4                 "Division of two numbers"
-%10 - 8.3   --> 1.7              "Subtraction of two numbers"
-%12 = 11    --> false           "Equality between two numbers"
-%12 ~= 11 --> true            "Test if two numbers are different"
-%12 > 9      --> true            "Greater than"
-%12 >= 10  --> true            "Greater or equal  than"
-%12 < 10    --> false           "Smaller than"
-%100@10   --> 100@10    "Point creation"
 \begin{code}{@TEST}
 1 + 2.5     --> 3.5             "二つの数の和"
 3.4 * 5      --> 17.0           "二つの数の積"
 8 / 2         --> 4                 "二つの数の商"
 10 - 8.3   --> 1.7              "二つの数の差"
 12 = 11    --> false           "二つの数の等価性"
-12 ~= 11 --> true            "二つの数が異なるかどうかを試験"
+12 ~= 11 --> true            "二つの数が異なるかどうかをテスト"
 12 > 9      --> true            "より大きい"
 12 >= 10  --> true            "以上"
 12 < 10    --> false           "より小さい"
 100@10   --> 100@10    "座標の生成"
 \end{code}
-%\on{Should check how tabbing works in the listings package ...}
 \on{listingパッケージ内でタブがどう動作するかをチェックすること...}
 
-%The following example works surprisingly well in \st:
 驚いたことに次の例は正しく動作します \st:
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 \end{code}
-%Note that \ct{1000 factorial} is really calculated which in many other languages can be quite difficult to compute. This is an excellent example of automatic coercion and exact handling of a number.
-\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例です。
+\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注意して下さい。これは自動変換と、数値の厳密な扱いの非常に良い例になっています。
 \cmindex{Integer}{factorial}
 
-%\dothis{Try to display the result of \ct{1000 factorial}. It takes more time to display it than to calculate it!}
 \dothis{\ct{1000 factorial}の結果を表示してみましょう。表示するには単に計算するよりも長い時間がかかります！}
 
 %-----------------------------------------------------------------
-\subsection{Float}
+\subsection{浮動小数点数}
 
-%\clsindmain{Float} implements the abstract \ct{Number} methods for floating point numbers.
-\clsindmain{Float}は浮動小数点数用の\ct{Number}の抽象メソッドを実装しています。
+\clsindmain{Float}は\ct{Number}の抽象メソッドに浮動小数点数用の実装を与えます。
 
-%More interestingly, \ct{Float class} (\ie the class-side of \ct{Float}) provides methods to return the following \emph{constants}: \mthind{Float class}{e}, \mthind{Float class}{infinity}, \mthind{Float class}{nan} and \mthind{Float class}{pi}.
-より興味深い点として、\ct{Float class}（\ie つまり\ct{Float}のクラス側）は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
+加えて興味深いことに、\ct{Float class}（\ie つまり\ct{Float}のクラス側）は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
 
-%Float infinity               --> Infinity
 \begin{code}{@TEST}
 Float pi                      --> 3.141592653589793
 Float infinity               --> 無限大
@@ -550,36 +508,30 @@ Float infinity isInfinite --> true
 \end{code}
 
 %-----------------------------------------------------------------
-\subsection{Fraction}
+\subsection{分数}
 
-%\clsind{Fractions} are represented by instance variables for the numerator and denominator, which should be \ct{Integer}s. \ct{Fractions} are normally created by \ct{Integer} division (rather than using the constructor method \cmind{Fraction}{numerator:denominator:}):
-\clsind{Fractions}は、\ct{Integer}である分子と分母のためのインスタンス変数によって表されます。\ct{Fractions}は（\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使用するのではなく）通常は\ct{Integer}の割り算によって生成されます。
+\clsind{Fractions}は、\ct{Integer}である分子と分母を表すインスタンス変数によって表されます。\ct{Fractions}は（\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使用するのではなく）通常は\ct{Integer}の割り算によって生成されます。
 
 \begin{code}{@TEST}
 6/8             --> (3/4)
 (6/8) class --> Fraction
 \end{code}
 
-%Multiplying a \ct{Fraction} by an \ct{Integer} or another \ct{Fraction} may yield an \ct{Integer}:
 \ct{Fraction}と\ct{Integer}または他の\ct{Fraction}を掛け合わせると\ct{Integer}になることがあります:
 
 \begin{code}{@TEST}
 6/8 * 4 --> 3
 \end{code}
 
-%\lr{Maybe mention to avoid fractions in results that one of the operands has to be a float, e.g. 6.0 / 8 or 6 asFloat / 8. (p. 213)}
-\lr{Maybe mention to avoid fractions in results that one of the operands has to be a float, e.g. 6.0 / 8 or 6 asFloat / 8. (p. 213)}
+\lr{分数の使用を避けるには演算数のいずれかを浮動小数点数にしなければいけないということについて触れるかもしれません。例、6.0 / 8 or 6 asFloat / 8. (p. 213)}
 
 %-----------------------------------------------------------------
-\subsection{Integer}
+\subsection{整数}
 
-%\clsindmain{Integer} is the abstract parent of three concrete integer implementations. In addition to providing concrete implementations of many abstract \ct{Number} methods, it also adds a few methods specific to integers, such as \mthind{Integer}{factorial}, \mthind{Integer}{atRandom}, \mthind{Integer}{isPrime}, \mthind{Integer}{gcd:} and many others.
-\clsindmain{Integer}は三つの具象性数クラスの親になる抽象クラスです。多くの抽象的な\ct{Number}のメソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}など、いくつか整数独自のメソッドも追加されています。
+\clsindmain{Integer}は三つの具象性数クラスの親に当たる抽象クラスです。多くの抽象的な\ct{Number}のメソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}など、整数独自のメソッドも数多く追加されています。
 
-%\clsindmain{SmallInteger} is special in that its instances are represented compactly --- instead of being stored as a reference, a \ct{SmallInteger} is represented directly using the bits that would otherwise be used to hold a reference.  The first bit of an object reference indicates whether the object is a \ct{SmallInteger} or not.
-\clsindmain{SmallInteger}は、インスタンスがコンパクトに表現できるという点で特殊です。つまり、参照として保持する代わりに、\ct{SmallInteger}は他の整数が参照を保持するために使用している領域に直接数値を表すために使用します。オブジェクト参照の最初のビットが、そのオブジェクトが\ct{SmallInteger}かどうかを示しています。
+\clsindmain{SmallInteger}は、インスタンスがコンパクトに表現できるという点で特殊です。つまり、参照として保持する代わりに、\ct{SmallInteger}は他の整数が参照を保持するために使用している領域を直接数値を表すために使用します。オブジェクト参照の最初のビットが、そのオブジェクトが\ct{SmallInteger}かどうかを示しています。
 
-%The class methods \mthind{SmallInteger}{minVal} and \mthind{SmallInteger}{maxVal} tell us the range of a \ct{SmallInteger}:
 クラスメソッドである\mthind{SmallInteger}{minVal}と\mthind{SmallInteger}{maxVal}で、\ct{SmallInteger}の範囲が分かります:
 
 \begin{code}{@TEST}
@@ -587,7 +539,6 @@ SmallInteger maxVal = ((2 raisedTo: 30) - 1)      --> true
 SmallInteger minVal = (2 raisedTo: 30) negated --> true
 \end{code}
 
-%When a \ct{SmallInteger} goes out of this range, it is automatically converted to a \clsind{LargePositiveInteger} or a \clsind{LargeNegativeInteger}, as needed:
 \ct{SmallInteger}がその範囲に収まらなくなると、必要に応じて自動的に\clsind{LargePositiveInteger}または\clsind{LargeNegativeInteger}に変換されます:
 
 \begin{code}{@TEST}
@@ -595,12 +546,9 @@ SmallInteger minVal = (2 raisedTo: 30) negated --> true
 (SmallInteger minVal - 1) class  --> LargeNegativeInteger
 \end{code}
 
-%Large integers are similarly converted back to small integers when appropriate.
 大きな整数も同様に、適切なタイミングで小さな整数に変換されます。
 
-%As in most programming languages, integers can be useful for specifying iterative behaviour.  There is a dedicated method \mthind{Integer}{timesRepeat:} for evaluating a block repeatedly.
 多くのプログラミング言語と同様に、整数はイテレーティブな振舞いを表すために利用できます。ブロックを繰り返し評価することに特化した\mthind{Integer}{timesRepeat:}というメソッドもあります。
-%We have already seen a similar example in \charef{syntax}:
 \charef{syntax}で既に同様の例を目にしています:
 \begin{code}{@TEST | n |}
 n := 2.
@@ -609,23 +557,20 @@ n --> 256
 \end{code}
 
 %=================================================================
-\section{Characters}
+\section{文字}
 
-%\clsindmain{Character} is defined in the \scatind{Collections-Strings} category as a subclass of \clsind{Magnitude}. Printable characters are represented in \pharo as \lct{\$$\langle$\emph{char}$\rangle$}.  For example:
 \clsindmain{Character}は\scatind{Collections-Strings}カテゴリで、\clsind{Magnitude}のサブクラスとして定義されています。\pharo内で表示可能な文字は\lct{\$$\langle$\emph{char}$\rangle$}で表されます。例えば:
 
 \begin{code}{@TEST}
 $a < $b --> true
 \end{code}
 
-%Non-printing characters can be generated by various class methods.  \mbox{\cmind{Character class}{value:}} takes the Unicode (or ASCII) integer value as argument and returns the corresponding character. The protocol \protind{accessing untypeable characters} contains a number of convenience constructor methods such as \mthind{Character class}{backspace}, \mthind{Character class}{cr}, \mthind{Character class}{escape}, \mthind{Character class}{euro}, \mthind{Character class}{space}, \mthind{Character class}{tab}, and so on.
 表示できない文字も様々なクラスメソッドを利用して生成できます。\mbox{\cmind{Character class}{value:}}はUnicode（またはASCII）を表す整数値を受け取って、対応する文字を返します。\protind{accessing untypeable characters}プロトコルには、\mthind{Character class}{backspace}、\mthind{Character class}{cr}、\mthind{Character class}{escape}、\mthind{Character class}{euro}、\mthind{Character class}{space}、\mthind{Character class}{tab}などのたくさんの便利なコンストラクタが含まれています。
 
 \begin{code}{@TEST}
 Character space = (Character value: Character space asciiValue) --> true
 \end{code}
 
-%The \mthind{Character}{printOn:} method is clever enough to know which of the three ways to generate characters offers the most appropriate representation:
 \mthind{Character}{printOn:}メソッドは優秀で、文字を生成する三つの方法の内で最も適切な表現がどれかを理解しています:
 
 \begin{code}{@TEST}
@@ -635,11 +580,9 @@ Character value: 32 --> Character space
 Character value: 97 --> $a
 \end{code}\ignoredollar$
 
-%Various convenient \emph{testing} methods are built in: \mthind{Character}{isAlphaNumeric}, \mthind{Character}{isCharacter}, \mthind{Character}{isDigit}, \mthind{Character}{isLowercase}, \mthind{Character}{isVowel}, and so on.
-次のような便利な\emph{testing}メソッドが数多く組み込まれています:\mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel}など。
+次のような便利な\emph{testing}メソッドを数多く組み込みで持ちます: \mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel}など。
 
-%To convert a \ct{Character} to the string containing just that character, send \mthind{Character}{asString}.  In this case \ct{asString} and \mthind{Character}{printString} yield different results:
-\ct{Character}を単にその文字を含む文字列に変換するには、\mthind{Character}{asString}を送ります。この場合、\ct{asString}と\mthind{Character}{printString}は異なる結果を生じます。
+\ct{Character}を単にその文字を含む文字列に変換するには、\mthind{Character}{asString}メッセージを送信します。この場合、\ct{asString}と\mthind{Character}{printString}は異なる結果を生じます。
 
 \begin{code}{@TEST}
 $a asString    --> 'a'
@@ -647,14 +590,12 @@ $a                  --> $a
 $a printString --> '$a'
 \end{code}
 
-%Every ascii \ct{Character} is a unique instance, stored in the class variable \cvind{CharacterTable}:
 それぞれのascii \ct{Character}は一意のインスタンスで、クラス変数である\cvind{CharacterTable}の中に保持されています:
 
 \begin{code}{@TEST}
 (Character value: 97) == $a --> true
 \end{code}\ignoredollar$
 
-%\ct{Characters} outside the range 0 to 255 are not unique, however: 
 しかし、0から255の範囲の外にある\ct{Characters}は一意ではありません:
 
 \begin{code}{@TEST}
@@ -663,24 +604,21 @@ Character characterTable size                               --> 256
 \end{code}
 
 %=================================================================
-\section{Strings}
+\section{文字列}
 
-%The \clsindmain{String} class is also defined in the category \scatind{Collections-Strings}.  A \ct{String} is an indexed \ct{Collection} that holds only \ct{Characters}.
 \clsindmain{String}クラスも\scatind{Collections-Strings}カテゴリで定義されています。\ct{String}は\ct{Characters}だけを保持できるインデックス付きの\ct{Collection}です。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.4\textwidth]{StringHierarchy}}}
-\caption{The String Hierarchy \figlabel{strings}}
+\caption{文字列のクラス階層 \figlabel{strings}}
 \end{figure}
 
-%In fact, \ct{String} is abstract and \pharo \ct{Strings} are actually instances of the concrete class \clsindmain{ByteString}.
 実のところ、\ct{String}は抽象クラスで、\pharoの\ct{Strings}は実際には具象クラスである\clsindmain{ByteString}のインスタンスです。
 
 \begin{code}{@TEST}
 'hello world' class --> ByteString
 \end{code}
 
-%The other important subclass of \ct{String} is \clsindmain{Symbol}.  The key difference is that there is only ever a single instance of  \ct{Symbol} with a given value.  (This is sometimes called ``the unique instance property'').  In contrast, two separately constructed \ct{String}s that happen to contain the same sequence of characters will often be different objects.
 \ct{String}のもう一つの重要なサブクラスは\clsindmain{Symbol}です。主な違いは、\ct{Symbol}には一つの値につきたった一つのインスタンスしか存在しないということです。（これはしばしば``一意インスタンス特性''と呼ばれます。）一方、別々に生成されたまたま同じ文字の並びを持つ\ct{String}は異なるオブジェクトであることがよくあります。
 
 \begin{code}{@TEST}
@@ -692,66 +630,56 @@ Character characterTable size                               --> 256
 \end{code}
 
 \noindent
-%Another important difference is that a \ct{String} is mutable, whereas a \ct{Symbol} is immutable.
-もう一つの重要な違いは、\ct{String}は変更可能ですが、\ct{Symbol}は変更不能という点です。
+もう一つの重要な違いは、\ct{String}は変更可能ですが、\ct{Symbol}は変更不能ということです。
 
 \begin{code}{@TEST}
 'hello' at: 2 put: $u; yourself --> 'hullo'
 \end{code}\ignoredollar$
 
 \begin{code}{NB: CANNOT TEST}
-#hello at: 2 put: $u --> error!
+#hello at: 2 put: $u --> エラー！
 \end{code}\ignoredollar$
 
-%It is easy to forget that since strings are collections, they understand the same messages that other collections do:
-文字列はコレクションなので、他のコレクションと同様なメッセージを理解できるということはよく見逃されます:
+文字列はコレクションなので、他のコレクションと同様のメッセージを理解できるということはよく見逃されます:
 
 \begin{code}{@TEST}
 #hello indexOf: $o --> 5
 \end{code}\ignoredollar$
 
-%Although \ct{String} does not inherit from \clsind{Magnitude}, it does support the usual \protind{comparing} methods, \ct{<}, \ct{=} and so on.  In addition, \cmind{String}{match:} is useful for some basic glob-style pattern-matching:
-\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}, \ct{=}などの通常の\protind{comparing}メソッド群をサポートしています。さらに、\cmind{String}{match:}はいくつかの基本的なglobスタイルのパターンマッチを使用できて便利です。
+\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}, \ct{=}などの通常の\protind{comparing}メソッド群をサポートしています。さらに、\cmind{String}{match:}はいくつかの基本的なglobスタイルのパターンマッチが使用できて便利です。
 
 \begin{code}{@TEST}
 '*or*' match: 'zorro' --> true
 \end{code}
 
-%Should you need more advanced support for regular expressions, have a look at the \pkgind{Regex}package by Vassili Bykov.
-正規表現のより進んだサポートが必要なのであれば、Vassili Bykovにより\pkgind{Regex}パッケージを参照してください。
+正規表現のさらに進んだサポートが必要なのであれば、Vassili Bykovによる\pkgind{Regex}パッケージを参照してください。
 \index{Bykov, Vassili}
 \index{regular expression package}
 
-%Strings support rather a large number of conversion methods. Many of these are \ind{shortcut constructor methods} for other classes, such as \mthind{String}{asDate}, \mthind{String}{asFileName} and so on.  There are also a number of useful methods for converting a string to another string, such as \mthind{String}{capitalized} and \mthind{String}{translateToLowercase}.
-文字列は比較的多くの変換メソッドをサポートしています。それらの多くは\mthind{String}{asDate}、\mthind{String}{asFileName}などのような、他のクラスの\ind{shortcut constructor methods}です。また、\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
+文字列は比較的多くの変換メソッドをサポートしています。それらの多くは\mthind{String}{asDate}、\mthind{String}{asFileName}などのような、他のクラスの\ind{ショートカットコンストラクタメソッド}です。また、\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
-%For more on strings and collections, see \charef{collections}.
 文字列とコレクションについて更に進んだ話題は、\charef{collections}を参照して下さい。
 
-\on{There is more material we could use here:
+\on{さらに利用できる資料がこちらにあります:
 \url{http://www.dmu.com/crb/crb7.html}.}
 
 %=================================================================
-\section{Booleans}
+\section{真偽値}
 
-%The class \clsindmain{Boolean} offers a fascinating insight into how much of the Smalltalk language has been pushed into the class library. \ct{Boolean} is the \subind{class}{abstract} superclass of the \patind{Singleton} classes \clsindmain{True} and \clsindmain{False}.
 \clsindmain{Boolean}クラスはSmalltalkという言語がどれほど多くのものをクラスライブラリに詰め込んでいるかということについて非常に興味深い洞察を与えてくれます。\ct{Boolean}は\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{class}{abstract}な親クラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}
-\caption{The Boolean Hierarchy \figlabel{booleans}}
+\caption{真偽値のクラス階層 \figlabel{booleans}}
 \end{figure}
 
-%Most of the behaviour of \ct{Boolean}s can be understood by considering the method \mthind{Boolean}{ifTrue:ifFalse:}, which takes two \ct{Blocks} as arguments.
-\ct{Boolean}のほとんどの振舞いは引数として二つの\ct{Blocks}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
+\ct{Boolean}の振舞いのほとんどは引数として二つの\ct{Blocks}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
 
 \begin{code}{@TEST}
 (4 factorial > 20) ifTrue: [ 'bigger' ] ifFalse: [ 'smaller' ] --> 'bigger'
 \end{code}
 
-%The method is abstract in \ct{Boolean}.
 このメソッドは\ct{Boolean}の中では抽象メソッドです。
-%The implementations in its concrete subclasses are both trivial:
 具象サブクラスでの実装はいずれも簡単なものです:
 
 \begin{method}{Implementations of \lct{ifTrue:ifFalse:}}
@@ -764,8 +692,7 @@ False>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
 \cmindex{True}{ifTrue:}
 \cmindex{False}{ifTrue:}
 
-%In fact, this is the essence of OOP: when a message is sent to an object, the object itself determines which method will be used to respond. In this case an instance of \ct{True} simply evaluates the \emph{true} alternative, while an instance of \ct{False} evaluates the \emph{false} alternative.  All the abstract \ct{Boolean} methods are implemented in this way for \ct{True} and \ct{False}. For example:
-実際、これがOOPの本質です: メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドで反応するかを決めるのです。今回の場合では、\ct{True}インスタンスは\emph{true}の選択肢を実行し、反対に\ct{False}インスタンスは\emph{false}の選択肢を実行します。\ct{Boolean}の全ての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装されています。例えば:
+実際、これこそがOOPの本質です。メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドで反応するかを決めるのです。今回の場合では、\ct{True}インスタンスは\emph{true}の選択肢を実行し、反対に\ct{False}インスタンスは\emph{false}の選択肢を実行します。\ct{Boolean}の全ての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装されています。例えば:
 
 \begin{method}{否定の実装}
 True>>>not
@@ -774,69 +701,49 @@ True>>>not
 \end{method}
 \cmindex{True}{not}
 
-%\ct{Booleans} offer several useful convenience methods, such as \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:}, \mthind{Boolean}{ifFalse:ifTrue}. You also have the choice between eager and lazy conjunctions and disjunctions.
-\ct{Booleans}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利なメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から選んで使用できます。
+\ct{Booleans}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利なメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から好きなものを選ぶことができます。
 
-%(1>2) & (3<4)              --> false    "must evaluate both sides"
-%(1>2) and: [ 3<4 ]        --> false    "only evaluate receiver"
-%(1>2) and: [ (1/0) > 0 ] --> false    "argument block is never evaluated, so no exception"
 \begin{code}{@TEST}
-(1>2) & (3<4)              --> false    "両者を必ず評価する"
-(1>2) and: [ 3<4 ]        --> false    "レシーバーだけが評価される"
-(1>2) and: [ (1/0) > 0 ] --> false    "引数ブロックは評価されないので、例外も発生しない"
+(1>2) & (3<4)              --> false    "両者を必ず評価します"
+(1>2) and: [ 3<4 ]        --> false    "レシーバーだけが評価されます"
+(1>2) and: [ (1/0) > 0 ] --> false    "引数ブロックは評価されないので、例外も発生しません"
 \end{code}
 
-%In the first example, both \ct{Boolean} subexpressions are evaluated, since \mthind{Boolean}{&} takes a \ct{Boolean} argument.
 最初の例では、\mthind{Boolean}{&}が\ct{Boolean}引数を受け取るので、\ct{Boolean}である部分式は両方とも評価されます。
-%In the second and third examples, only the first is evaluated, since \mthind{Boolean}{and:} expects a \ct{Block} as its argument.  The \ct{Block} is evaluated only if the first argument is \pvind{true}.
-二つ目と３つ目の例では、\mthind{Boolean}{and:}が引数として\ct{Block}を取るので、最初の式しか評価されません。\ct{Block}は最初の引数が\pvind{true}のときにだけ評価されるのです。
+二つ目と三つ目の例では、\mthind{Boolean}{and:}が引数として\ct{Block}を取るので、最初の式しか評価されません。\ct{Block}は最初の引数が\pvind{true}のときにだけ評価されるのです。
 
-\dothis{Try to imagine how \ct{and:} and \ct{or:} are implemented.
-Check the implementations in \ct{Boolean}, \ct{True} and \ct{False}.}
+\dothis{\ct{and:}と\ct{or:}がどのように実装されているか想像してみてください。
+そして\ct{Boolean}と\ct{True}と\ct{False}での実装を確認してみましょう。}
 
 %=================================================================
-%\section{Chapter summary}
 \section{本章のまとめ}
 
 \begin{itemize}
 %  \item Send \ct{yourself} to get back the receiver at the end of a cascade.
 
-%  \item If you override \ct{=} then you should override \ct{hash} as well.
-  \item もし\ct{=}を上書きした場合は、合わせて\ct{hash}も上書きする必要があります。
+  \item もし\ct{=}を上書きしたら、合わせて\ct{hash}も上書きする必要があります。
 
-%  \item Override \ct{postCopy} to correctly implement copying for your objects.
   \item 自作オブジェクトのコピーを正しく実装するには\ct{postCopy}を上書きして下さい。
 
-%  \item Send \ct{self halt} to set a breakpoint.
   \item ブレークポイントを設定するには\ct{self halt}を送ります。
 
-%  \item Return \ct{self subclassResponsibility} to make a method abstract.
   \item メソッドを抽象メソッドにするには\ct{self subclassResponsibility}を返します。
 
-%  \item To give an object a \ct{String} representation you should override \ct{printOn:}.
   \item オブジェクトの\ct{String}表現を提供するには、\ct{printOn:}を上書きして下さい。
 
-%  \item Override the hook method \ct{initialize} to properly initialize instances.
   \item インスタンスを適切に初期化するにはフックメソッドである\ct{initialize}を上書きします。
 
-%  \item \ct{Number} methods automatically convert between \ct{Floats}, \ct{Fractions} and \ct{Integers}.
   \item \ct{Number}メソッドは自動的に\ct{Floats}、\ct{Fractions}、\ct{Integers}の間で変換されます。
 
-%  \item \ct{Fractions} truly represent rational numbers rather than floats.
   \item \ct{Fractions}は浮動小数点数ではなく本当の有理数を表しています。
 
-%  \item \ct{Characters} are unique instances.
   \item \ct{Characters}のインスタンスは一意です。
 
-%  \item \ct{Strings} are mutable; \ct{Symbols} are not.
-%  Take care not to mutate string literals, however!
   \item \ct{Strings}は変更可能ですが、\ct{Symbols}はそうではありません。
   しかし文字列リテラルは変更できないということに注意しましょう！
 
-%  \item \ct{Symbols} are unique; \ct{Strings} are not.
   \item \ct{Symbols}は一意ですが、\ct{Strings}はそうではありません。
 
-%  \item \ct{Strings} and \ct{Symbols} are \ct{Collections} and therefore support the usual \ct{Collection} methods.
   \item \ct{Strings}と\ct{Symbols}は\ct{Collections}なので、一般的な\ct{Collection}のメソッドをサポートしています。
 
 \end{itemize}
