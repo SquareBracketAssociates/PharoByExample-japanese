@@ -163,7 +163,7 @@
 		\lct{3+4}					&	二項メッセージ \\
 		\lct{2 raisedTo: 6 modulo: 10}		&	キーワードメッセージ \\
 		\midrule
-		\lct{$\uparrow$ true} 			&	値 true を返す　\\
+		\lct{$\uparrow$ true} 			&	値 true を返す \\
 		\lct{Transcript show: 'hello'. Transcript cr }		&	式セパレーター (\lct{.})	\\
 		\lct{Transcript show: 'hello'; cr}					&	メッセージカスケード (\lct{;}) \\
 		\bottomrule
@@ -185,7 +185,7 @@
 		つまり，プライベートなスコープを持つ変数の先頭を小文字にするのです.
 
 % \item[Shared variables]	Identifiers that start with upper case letters are \subind{variable}{global} variables, class \subind{class}{variable}{}s,  \subind{variable}{pool} dictionaries or class names.
-\item[共有変数] の先頭は大文字にします．\ind{グローバル変数} ， \ind{クラス変数} ， \ind{プール・ディクショナリ}　， もしくはクラス名を表します．
+\item[共有変数] の先頭は大文字にします．\ind{グローバル変数} ， \ind{クラス変数} ， \ind{プール・ディクショナリ} ， もしくはクラス名を表します．
 %		\ct{Transcript} is a global variable, an instance of the class \ct{TranscriptStream}.
 		\ct{Transcript} はグローバル変数であり，クラス \ct{TranscriptStream} のインスタンスです．
 		\seeindex{global variable}{variable, global}
@@ -200,7 +200,7 @@ selfには代入することができないので「擬似変数」といいま�
 
 % \item[Integers.] In addition to ordinary decimal integers like \ct{42}, \pharo also provides a \ind{radix notation}.
 % 	\ct{2r101} is \ct{101} in radix 2 (\ie binary), which is equal to decimal 5.
-\item[整数]． \ct{42}のような通常の十進整数表記法に加えて，\pharoでは基数表記法も使えます．
+\item[整数]． \ct{42}のような通常の十進整数表記法に加えて，\pharo では基数表記法も使えます．
 \ct{2r101}は基数2(\ie 2進数)で101であり，10進数の5と同じです．
 % 	\index{literal}
 	\index{リテラル}
@@ -252,7 +252,7 @@ selfには代入することができないので「擬似変数」といいま�
 %		\ct{"hello"} is a \ind{comment}, not a string, and is ignored by the \pharo compiler.
 %		Comments may span multiple lines.
 \item[コメント]はダブルクォートで囲います．
-		\ct{"hello"} は文字列ではな\ind{くコメント}なので，\pharoコンパイラは無視します．
+		\ct{"hello"} は文字列ではな\ind{くコメント}なので，\pharo コンパイラは無視します．
 		コメントは複数行にまたがってもよいです．
 		
 % \item[Local variable definitions.]	Vertical bars \ct{| |} enclose the \subind{variable}{declaration} of one or more local variables in a method (and also in a block).
@@ -371,7 +371,7 @@ item[単項メッセージ] は，レシーバー(例えば\ct{3})へ送られ�
 \section{Message sends}
 
 % There are three kinds of messages in \pharo.
-\pharoには3種類のメッセージがあります．
+\pharo には3種類のメッセージがあります．
 
 \begin{enumerate}
 %  \item \emph{Unary} messages take no argument.
@@ -462,9 +462,9 @@ Transcript cr;
 \section{Method syntax}
 
 % Whereas expressions may be evaluated anywhere in \pharo (for example, in a workspace, in a debugger, or in a browser), methods are normally defined in a browser window, or in the debugger.
-% (Methods can also be filed in from an external medium, but this is not the usual way to program in \pharo.)
-\pharoのあらゆる場所(例えば，デバッガ，ワークスペース，ブラウザ)で式を評価することができます．けれども，メソッドは通常，ブラウザウィンドウやデバッガで定義します．
-(外部媒体で記述したメソッドを読み込むこともできます．しかし，\pharoでプログラムする普通の方法ではありません．)
+% (Methods can also be filed in from an external medium, but this is not the usual way to program in \pharo .)
+\pharo のあらゆる場所(例えば，デバッガ，ワークスペース，ブラウザ)で式を評価することができます．けれども，メソッドは通常，ブラウザウィンドウやデバッガで定義します．
+(外部媒体で記述したメソッドを読み込むこともできます．しかし，\pharo でプログラムする普通の方法ではありません．)
 
 % Programs are developed one method at a time, in the context of a given class.
 プログラムは，クラスのコンテキストの中で，１メソッドずつ開発していきます．
@@ -602,7 +602,7 @@ x := 1.
 
 % \st offers no special syntax for control constructs.
 % Instead, these are typically expressed by sending messages to booleans, numbers and collections, with blocks as arguments.
-\stは，制御のために特別のシンタックスを使うことはしません．
+\st は，制御のために特別のシンタックスを使うことはしません．
 代わりに，論理値，数およびコレクションに引数としてのブロックと共にメッセージを送ることにより表現します．
 
 % Conditionals are expressed by sending one of the messages \mthind{Boolean}{ifTrue:}, \mthind{Boolean}{ifFalse:} or \mthind{Boolean}{ifTrue:ifFalse:} to the result of a boolean expression. See \charef{basic} for more about booleans.
@@ -750,7 +750,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % In \st everything is an object, and everything happens by sending messages.
 % Nevertheless, at certain points we hit rock bottom.
 % Certain objects can only get work done by invoking \ind{virtual machine} \ind{primitive}{}s.
-\stにおいては，すべてはオブジェクトです．そして，あらゆることがメッセージを送ることにより発生します．
+\st においては，すべてはオブジェクトです．そして，あらゆることがメッセージを送ることにより発生します．
 しかし，ある地点で底に当たります．
 いくつかのオブジェクトは\ind{バーチャルマシン}・\ind{プリミティブ}を呼び出すことが必要になります．
 
@@ -767,7 +767,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % Primitives are invoked with the syntax \ct{<primitive: aNumber>}.
 % A method that invokes such a primitive may also include \st code, which will be evaluated \emph{only} if the primitive fails.
 プリミティブはシンタックス\ct{<primitive: aNumber>} で呼び出します．
-プリミティブを呼び出すメソッドはさらに\stコードを含んでいることがあります，そのようなコードはプリミティブが失敗した場合のみ評価されます．
+プリミティブを呼び出すメソッドはさらに\st コードを含んでいることがあります，そのようなコードはプリミティブが失敗した場合のみ評価されます．
 
 % Here we see the code for \cmind{SmallInteger}{+}.
 % If the primitive fails, the expression \ct{super + aNumber} will be evaluated and returned.
@@ -800,7 +800,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 
 
 % In \pharo, the angle bracket syntax is also used for method annotations called pragmas.
-\pharoでは，角括弧シンタックスもプラグマと呼ばれるメソッド・アノテーションに使われます．
+\pharo では，角括弧シンタックスもプラグマと呼ばれるメソッド・アノテーションに使われます．
 
 \sd{we should give an example}\ab{Please do!  Is don't know about these.}\damien{it's the third time we talk about pragmas without saying what they are and how to use them.}
 
@@ -808,7 +808,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \section{Chapter summary}
 
 \begin{itemize}
-\item \pharoには擬似変数と呼ばれる6つ(だけ)の予約識別子があります．
+\item \pharo には擬似変数と呼ばれる6つ(だけ)の予約識別子があります．
 \ct{true},\ct{false},\ct{nil},\ct{self},\ct{super},および\ct{thisContext}．
 
 % \item	There are five kinds of literal objects: numbers (\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111}), characters (\ct{a}), strings (\ct{'hello'}), symbols (\ct{#hello}), and arrays (\ct{#('hello' #hi)})

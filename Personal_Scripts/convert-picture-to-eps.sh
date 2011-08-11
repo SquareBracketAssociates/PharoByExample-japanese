@@ -25,6 +25,6 @@ FILES=`find \
  
 for FILE in $FILES; do
 #	echo $FILE
-	convert -verbose $FILE ${FILE%.*}.eps 2> error.log
+	convert -verbose $FILE eps3:${FILE%.*}.eps 2> error.log
 	mv $FILE $FILE.baka
 done;

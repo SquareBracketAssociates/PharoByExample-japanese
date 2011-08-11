@@ -1,7 +1,6 @@
 #!/bin/bash
  
 FILES=`find \
- ./figures
  ./BasicClasses \
  ./Collections \
  ./Environment \
