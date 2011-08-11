@@ -38,10 +38,11 @@
 \chapter{基本的なクラス群}
 \chalabel{basic}
 
-Smalltalkの魔法の大部分は言語そのものではなくクラスライブラリにあります。Smalltalkで効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリは全てがSmalltalkで記述されていて、このクラスを定義していないときでも、パッケージは新しい機能をクラスに追加できるため、簡単に拡張することができます。
+% Most of the magic of Smalltalk is not in the language but in the class libraries. To program effectively with Smalltalk, you need to learn how the class libraries support the language and environment. The class libraries are entirely written in Smalltalk and can easily be extended since a package may add new functionality to a class even if it does not define this class. 
+Smalltalkの魔法の大部分は言語そのものではなくクラスライブラリにあります。Smalltalkで効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリは全てがSmalltalkで記述されており、簡単に拡張することができます。since a package may add new functionality to a class even if it does not define this class. 
 
-
-私たちの目的は\pharoのクラスライブラリ全体の細かい部分を周りくどく説明することではなく、プログラムを効率的に利用する、または書き換えるのに必要なキーとなるクラスやメソッドに注目することです。本章ではほぼ全てのアプリケーションで必要になると思われる次の基本的なクラスを取り上げます: \ct{Object}・\ct{Number}とそのサブクラス・\ct{Character}・\ct{String}・\ct{Symbol}・\ct{Boolean}
+% Our goal here is not to present in tedious detail the whole of the \pharo class library, but rather to point out the key classes and methods that you will need to use or override to program effectively. In this chapter we cover the basic classes that you will need for nearly every application: \ct{Object}, \ct{Number} and its subclasses, \ct{Character}, \ct{String}, \ct{Symbol} and \ct{Boolean}.
+私たちの目的は\pharo のクラスライブラリ全体の細かい部分を周りくどく説明することではなく、プログラムを効率的に利用する、または書き換えるのに必要なキーとなるクラスやメソッドに注目することです。本章ではほぼ全てのアプリケーションで必要になると思われる基本的なクラスを取り上げます: \ct{Object}, \ct{Number} and its subclasses, \ct{Character}, \ct{String}, \ct{Symbol} and \ct{Boolean}
 
 \md{Here are some comments:\\
 - copying: Good question... the copying in \pharo is much too complicated... there is for one the "old" smalltalk way of
@@ -54,39 +55,52 @@ Smalltalkの魔法の大部分は言語そのものではなくクラスライ�
 
 %=================================================================
 \section{Object}
-あらゆる意味で、\clsindmain{Object}クラスは継承階層のルートです。本当のところは\pharoでは、オブジェクトとして振舞うことができる最小の実体を定義するために使用される、\clsind{ProtoObject}クラスが階層の真のルートですが、とりあえずそれについては無視していいでしょう。
-% （後ほどリフレクションの章で詳しく説明します。）
+% For all intents and purposes, \clsindmain{Object} is the root of the inheritance hierarchy. Actually, in \pharo the true root of the hierarchy is \clsind{ProtoObject}, which is used to define minimal entities that masquerade as objects, but we can ignore this point for the time being.
+% % (more on this later in the chapter on reflection).
+あらゆる意味で、\clsindmain{Object}クラスは継承階層のルートになります。実際には\pharo では、オブジェクトとして振舞う最小の実体を定義するために使用される、\clsind{ProtoObject}クラスが階層の真のルートですが、とりあえずそれについては無視していいでしょう。
 
-\ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。（拡張も含めると）400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、全てに自動的に400個のメソッドが提供されるということです。削除されるべき不要なメソッドもいくつかあり、\pharoの新しいバージョンではおそらくそれら不要なメソッドのいくつかは削除されることになることを覚えておきましょう。
+% \ct{Object} can be found in the \scatind{Kernel-Objects} category. Astonishingly, there are some 400 methods to be found here (including extensions).  In other words, every class that you define will automatically provide these 400 methods, whether you know what they do or not. Note that some of the methods should be removed and new versions of \pharo may remove some of the superfluous methods. 
+\ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。（拡張も含めると）400ものメソッドがあるということにおそらく驚くでしょう。つまり、新しいクラスを定義すると全て自動的に400個のメソッドが提供されます, whether you know what they do or not.。いくつかのメソッドは削除が必要で、\pharo の新しいバージョンではおそらくその不要なメソッドのいくつかが削除されるということに注意してください。
 
-\sd{変更される可能性のあるものを引用することは好みませんし、簡単に一覧を見つけられるので、今のところはそのままにしておきます。}
+\sd{I do not like to quote something that can change and that people can find simply in the image but let us keep it for now.}
+% The class comment for the \ct{Object} states:
 \ct{Object}クラスのクラスコメントには次のように書かれています:
 
 \needlines{4}
 \begin{quote}
-\textit{\ct{Object}クラスはクラス階層内のほぼ全てのクラスのルートクラスです。例外は\ct{ProtoObject}クラス（\ct{Object}の親クラス）とその直接のサブクラスです。
-\ct{Object}クラスでは通常のオブジェクトの、アクセス・コピー・比較・エラー処理・メッセージ送信・\ind{リフレクション}などのデフォルトの振舞いが提供されます。また、全てのオブジェクトが応答する必要があるユーティリティメッセージもここで定義されています。
-\ct{Object}はインスタンス変数を持っておらず、追加すべきでもありません。これは（例えば\ct{SmallInteger}や\ct{UndefinedObject}などの）特別な実装を持つ\ct{Object}から継承されたオブジェクトのクラスがいくつかあることや、VMがある標準的なクラス群の構造とレイアウトを知っていてそれに依存しているためです。
+%\textit{\ct{Object} is the root class for almost all of the other classes in the class hierarchy. The exceptions are \ct{ProtoObject} (the superclass of \ct{Object}) and its subclasses.
+%Class \ct{Object} provides default behaviour common to all normal objects, such as access, copying, comparison, error handling, message sending, and \ind{reflection}. Also utility messages that all objects should respond to are defined here.
+%\ct{Object} has no instance variables, nor should any be added. This is due to several classes of objects that inherit from \ct{Object} that have special implementations (\ct{SmallInteger} and \ct{UndefinedObject} for example) or the VM knows about and depends on the structure and layout of certain standard classes.}
+\textit{\ct{Object}クラスはクラス階層内のほぼ全てのクラスのルートクラスです。例外は\ct{ProtoObject}クラス（\ct{Object}の親クラス）とその直接の子クラスです。
+\ct{Object}クラスでは通常のオブジェクトの、アクセス、コピー、比較、エラー処理、メッセージ送信、\ind{リフレクション}などのデフォルトの振舞いが提供されます。また、全てのオブジェクトが応答する必要があるユーティリティメッセージもここで定義されています。
+\ct{Object}はインスタンス変数を持っておらず、追加すべきでもありません。これはいくつかの特別な実装を持つ\ct{Object}を継承するオブジェクトのクラス（例えば\ct{SmallInteger}や\ct{UndefinedObject}）や、VMがクラスの構造とレイアウトを知りそれに依存している標準クラスがあるためです。
 }
 \end{quote}
 
-\ct{Object}のインスタンス側のメソッドカテゴリをブラウズすると、提供されているいくつかの主だった振舞いを理解できるようになるでしょう。
+%If we begin to browse the method categories on the instance side of \ct{Object} we start to see some of the key behaviour it provides.
+\ct{Object}のインスタンス側のメソッドカテゴリをブラウズすると、提供されるキーとなる振舞いのいくつかを理解できるようになるでしょう。
 
 %-----------------------------------------------------------------
 \subsection{Printing}
-Smalltalkのすべてのオブジェクトは自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it}メニューを選択してください: 式が実行され、その結果を表示するためのオブジェクトが要求されます。実際には、\ct{printString}メッセージが、戻されたオブジェクトに送られています。\mthind{Object}{printString}は\ind{テンプレートメソッド}で、その核となる部分はレシーバーに送られる\mthind{Object}{printOn:}メッセージにあります。\ct{printOn:}メッセージはいわゆるフックメソッドで上書き可能です。
+%Every object in Smalltalk can return a printed form of itself. You can select any expression in a workspace and select the \menu{print it} menu: this executes the expression and asks the returned object to print itself. In fact this sends the message \ct{printString} to the returned object. The method \mthind{Object}{printString}, which is a \ind{template method}, at its core sends the message \mthind{Object}{printOn:} to its receiver. The message \ct{printOn:} is a hook that can be specialized. 
+Smalltalkのすべてのオブジェクトは自分自身の表示用の形式を返すことができます。ワークスペースの好きな式を選び、\menu{print it}メニューを選択してください: 式が実行され、その結果を表示するためのオブジェクトが要求されます。実際には、\ct{printString}メッセージが、結果のオブジェクトに送られています。\mthind{Object}{printString}は\ind{テンプレートメソッド}で、核となる部分はレシーバーに送られる\mthind{Object}{printOn:}メッセージです。\ct{printOn:}メッセージは、上書き可能なフックになっています。
 
-おそらく\ct{Object>>>printOn:}は最も頻繁に上書きされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream}を受け取り、そこにオブジェクトの\clsind{String}表現を書き込みます。デフォルトの実装は単純に``\ct{a}''または``\ct{an}''の後にクラス名を書きこむだけです。\ct{Object>>>printString}はそれが実際に書きこまれた\ct{String}を返します。
+%\ct{Object>>>printOn:} is very likely one of the methods that you will most frequently override. This method takes as its argument a \clsind{Stream} on which a \clsind{String} representation of the object will be written. The default implementation simply writes the class name preceded by ``\ct{a}'' or ``\ct{an}''. \ct{Object>>>printString} returns the \ct{String} that is written.
+おそらく\ct{Object>>>printOn:}は最も頻繁に上書きされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream}を受け取り、そこにオブジェクトの\clsind{String}表現を書き込みます。デフォルトの実装は単純に``\ct{a}''または``\ct{an}''の後にクラス名を書きこむだけです。\ct{Object>>>printString}はそれが書きこまれた\ct{String}を返します。
 
+%For example, the class \clsind{Browser} does not redefine the method \ct{printOn:} and sending the message printString to an instance executes the methods defined in \ct{Object}. 
 例えば\clsind{Browser}クラスは\ct{printOn:}メソッドを再定義していないので、printStringメソッドをインスタンスに送ると\ct{Object}で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
 Browser new printString --> 'a Browser'
 \end{code}
 
+%The class \ct{Color} shows an example of \mthind{Color}{printOn:}
+%specialization. It prints the name of the class followed the name of the class method used to generate that color.
 \ct{Color}では\mthind{Color}{printOn:}を特殊化した例が見られます。実行するとクラスの名前に続いて色を生成するために使用したクラスメソッドの名前が表示されます。
 
 \needlines{7}
-\begin{method}[zork]{printOn:の再定義。}
+%\begin{method}[zork]{printOn: redefinition.}
+\begin{method}[zork]{printOn: 再定義。}
 Color>>>printOn: aStream
   | name |
   (name := self name) ifNotNil: 
@@ -106,7 +120,7 @@ Color red printString --> 'Color red'
 % \paragraph{A word about representation and self-evaluating representation.}
 \paragraph{表現と自己評価型表現という言葉について}
 %In functional programming, expressions return values when executed. In Smalltalk, messages (expressions) return objects (values). Some objects have the nice properties that their value is themselves. For example, the value of the object \ct{true} is itself \ie the object \ct{true}. We call such objects \emphind{self-evaluating objects}. You can see a \emph{printed} version of an object value when you print the object in a workspace. Here are some examples of such self-evaluating expressions. 
-関数型プログラミングでは、式を実行すると値を返します。一方Smalltalkでは、メッセージ（式）はオブジェクト（値）を返します。オブジェクトの中には自分自身を表す値を持つ便利なプロパティを持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ieつまり\ct{true}オブジェクトです。このようなオブジェクトは\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprintすると、オブジェクトの値の\emph{printed}バージョンを見ることができます。
+関数型プログラミングでは、式を実行すると値を返します。一方Smalltalkでは、メッセージ（式）はオブジェクト（値）を返します。オブジェクトの中には自分自身を表す値を持つ便利なプロパティを持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ie つまり\ct{true}オブジェクトです。このようなオブジェクトは\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprintすると、オブジェクトの値の\emph{printed}バージョンを見ることができます。
 
 \begin{code}{@TEST}
 true         --> true
@@ -165,7 +179,7 @@ Interval>>>printOn: aStream
 \subsection{同一性と同値性}
 
 i%In Smalltalk, the message \ct{=} tests object \emphsubindmain{Object}{equality} (\ie whether two objects represent the same value) whereas \ct{==} tests object \emphsubindmain{Object}{identity} (\ie whether two expressions represent the same object).
-Smalltalkでは、\ct{=}メッセージは\emphsubindmain{Object}{同値性}を確かめます（\ieつまり、二つのオブジェクトが同じ値を持つかどうか）。一方\ct{==}は\emphsubindmain{Object}{同一性}を確かめます（\ieつまり二つの表現が同じオブジェクトを示すかどうか）。
+Smalltalkでは、\ct{=}メッセージは\emphsubindmain{Object}{同値性}を確かめます（\ie つまり、二つのオブジェクトが同じ値を持つかどうか）。一方\ct{==}は\emphsubindmain{Object}{同一性}を確かめます（\ie つまり二つの表現が同じオブジェクトを示すかどうか）。
 \seeindex{\ct{=}}{Object, 同値性}
 \seeindex{\ct{==}}{Object, 同一性}
 \seeindex{equality}{Object, 同値性}
@@ -229,7 +243,7 @@ Complex>>>hash
 \ct{=}と\ct{hash}は同時に上書きするべきですが、\ct{==}は\emph{決して}上書きしてはいけません。（オブジェクトが同一であることの意味は全てのクラスで同じでなければいけません。）\ct{==}は\clsind{ProtoObject}のプリミティブメソッドです。
 
 %Note that \pharo has some strange behaviour compared to other Smalltalks: for example a symbol and a string can be equal. (We consider this to be a bug, not a feature.)
-\pharoは他のSmalltalkと比べていくつか奇妙な振舞いをすることに注意が必要です: 例えばシンボルと文字列は同値と見なされることがあります。（これは仕様ではなくバグではないかと思います。）
+\pharo は他のSmalltalkと比べていくつか奇妙な振舞いをすることに注意が必要です: 例えばシンボルと文字列は同値と見なされることがあります。（これは仕様ではなくバグではないかと思います。）
 
 \begin{code}{@TEST}
 #'lulu' = 'lulu' --> true
@@ -514,7 +528,7 @@ ProtoObject>>>initialize
 \end{method}
 
 %The reason this is important is that in \pharo, the default \mthind{Behavior}{new} method defined for every class in the system will send \ct{initialize} to newly created instances.
-これが重要な理由は、\pharoでは、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
+これが重要な理由は、\pharo では、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
 
 %\begin{method}{\lct{new} as a class-side template method}
 %    "Answer a new initialized instance of the receiver (which is a class) with no indexable
@@ -706,7 +720,7 @@ n --> 256
 \section{Characters}
 
 %\clsindmain{Character} is defined in the \scatind{Collections-Strings} category as a subclass of \clsind{Magnitude}. Printable characters are represented in \pharo as \lct{\$$\langle$\emph{char}$\rangle$}.  For example:
-\clsindmain{Character}は\scatind{Collections-Strings}カテゴリで、\clsind{Magnitude}のサブクラスとして定義されています。\pharo内で表示可能な文字は\lct{\$$\langle$\emph{char}$\rangle$}で表されます。例えば:
+\clsindmain{Character}は\scatind{Collections-Strings}カテゴリで、\clsind{Magnitude}のサブクラスとして定義されています。\pharo 内で表示可能な文字は\lct{\$$\langle$\emph{char}$\rangle$}で表されます。例えば:
 
 \begin{code}{@TEST}
 $a < $b --> true
@@ -768,7 +782,7 @@ Character characterTable size                               --> 256
 \end{figure}
 
 %In fact, \ct{String} is abstract and \pharo \ct{Strings} are actually instances of the concrete class \clsindmain{ByteString}.
-実のところ、\ct{String}は抽象クラスで、\pharoの\ct{Strings}は実際には具象クラスである\clsindmain{ByteString}のインスタンスです。
+実のところ、\ct{String}は抽象クラスで、\pharo の\ct{Strings}は実際には具象クラスである\clsindmain{ByteString}のインスタンスです。
 
 \begin{code}{@TEST}
 'hello world' class --> ByteString

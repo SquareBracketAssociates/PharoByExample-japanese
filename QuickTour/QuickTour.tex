@@ -43,7 +43,7 @@
 	\raisebox{-0.8ex}[0pt][0pt]{%
 		\includegraphics[width=1em]{cloverleafKey}}}
 %=================================================================
-\chapter{\pharoの使い方}
+\chapter{\pharo の使い方}
 \chalabel{quick}
 
 この章では、\pharo の快適な使い方について解説します。
@@ -104,9 +104,9 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 このウィンドウの中では更に複数の workspace ウィンドウを開くことが出来ます。
 メニューバーも有りますが、\pharo では主にコンテキスト(文脈)に依存したポップアップメニューを使うことになります。
 
-\dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\clickすると、workspace ウィンドウを閉じることができます。}
+\dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\click すると、workspace ウィンドウを閉じることができます。}
 
-ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタンを\clickしてください。
+ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタンを\click してください。
 
 %-----------------------------------------------------------------
 \paragraph{\pharo を使い始めましょう。}
@@ -128,7 +128,7 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 \seeindex{morphic halo}{Morphic}
 
 \st は、元々の設計時点から3ボタンマウスを想定しています。
-使っているマウスのボタンが足りないときは、キーボードの\emph{control}キーや\emph{ALT}キー、\emph{meta}キーなどが修飾キーとして使われます(キーを押しながらマウスボタンを\clickしてください)。
+使っているマウスのボタンが足りないときは、キーボードの\emph{control}キーや\emph{ALT}キー、\emph{meta}キーなどが修飾キーとして使われます(キーを押しながらマウスボタンを\click してください)。
 それでも、一番良い方法は3つボタンマウスを用意することです。
 これだけで、\pharo をビックリするほど快適に使うことができます。
 
@@ -141,13 +141,13 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 
 \begin{description}
 \item [\click:] 
-修飾キー等を使うことがない、一番使われる(\clickされる)マウスボタンです。背景部分を\click{} して ``World'' メニュー(\figref{threeButtons:click})を表示してみましょう。
+修飾キー等を使うことがない、一番使われる(\click される)マウスボタンです。背景部分を\click して ``World'' メニュー(\figref{threeButtons:click})を表示してみましょう。
 \item [\actclick:] 
 次によく使われるボタンはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスポインタが指している場所により違うメニュー表示を行うことがあります(\figref{threeButtons:actclick})。マルチボタンのマウスを使わない場合、\emph{control} 等の修飾キーを使った \actclick を行い、表示することになります。
 \item [\metaclick:] 
   ``morphic \subind{Morphic}{halo}''を動かすには、どんな物の上でも \metaclick を実行することが出来ます。物を回転させたりリサイズを行ったり、\figref{threeButtons:metaclick} にあるような様々なことが可能です。\footnote{\pharo ではいくつかの機能は意図的に操作を制限しています。以降の Preferences Browser の使い方では、その制限を外す設定も書かれています。}
 バルーンヘルプ機能もありますので、マウスの使い方に困ることはありません。
-\pharoは、あなたの \metaclick の方法を、使っているオペレーティングシステムに依存しています。{\sc shift} \emph{ctrl} または {\sc shift} \emph{option} を押しながらクリックする事になります。
+\pharo は、あなたの \metaclick の方法を、使っているオペレーティングシステムに依存しています。{\sc shift} \emph{ctrl} または {\sc shift} \emph{option} を押しながらクリックする事になります。
 
 % \ab{This makes it sound like either {\sc shift} \emph{ctrl} or {\sc shift} \emph{alt} will work.  On my (Mac OS) system, only the latter works.  Perhaps we want to say: In \pharo, how you meta-click depends on your operating system. On Linux \ldots}
 % Typically you will use a third modifier key, such as \emph{command} or \emph{meta} to \metaclick.
@@ -657,7 +657,7 @@ $\uparrow$ は \pharo では返される答えになります。$\uparrow$ 以�
 \begin{itemize}
   \item \pharo は、\emph{virtual machine}、\emph{sources} ファイル、\emph{image} と \emph{changes} ファイルで構成されており、\emph{image} と \emph{changes} ファイルはスナップショットとして変化していきます。
   \item \pharo は、あなたが前回終了したときと全く同じ状態で再起動します。
-  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。勿論、マウスがなくても、キーボードの修飾キーを使うことで、\click、 \actclick と \metaclick が使えます。
+  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。勿論、マウスがなくても、キーボードの修飾キーを使うことで、\click 、 \actclick と \metaclick が使えます。
   \item \pharo の背景部分をクリックすることで、\emph{World menu} が表示できます。
   \item \emph{workspace} では、プログラムコードを試すことも出来ますし、単なるメモ帳としても使えます。
   \item プログラムコードを評価するのに、\menu{do it} (\short{d})、 \menu{print it} (\short{p})、 \menu{inspect it} (\short{i})、 \menu{explore it} (\short{I}) と \menu{browse it} (\short{b}) が使えます。
