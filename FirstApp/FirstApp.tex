@@ -44,7 +44,7 @@
 \chalabel{firstApp}
 
 この章において、簡単なゲーム：\ind{Lights Out}\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}を作成することにします。\pharo プログラマーがプログラムを作成したりデバッグをするために使用する多くのツールを通じ、どのように他の開発者とプログラムを受け渡しするのかを実際に体験します。
-ここでは、\ind{browser}、オブジェクトinspector、debugger、\ind{Monticello} \ind{package} browserのツールの使い方を見ることになります。\st を使いプログラムをするのはとても効率的です。なぜそう言えるのかは、コードを書くためにいかに多くの時間を費やすことができ、開発プロセスに割く時間をどれほど省くことができるかということ、をこの章を読むことでわかるでしょう。\st を使ったプログラミングが効率的なのは、\st がプログラミング言語として簡潔であること、そしてプログラムを開発するための環境がプログラミング言語ととてもうまく統合されていること、によるためです。
+ここでは、\ind{Browser}、オブジェクトinspector、debugger、\ind{Monticello} \ind{package} Browserのツールの使い方を見ることになります。\st を使いプログラムをするのはとても効率的です。なぜそう言えるのかは、コードを書くためにいかに多くの時間を費やすことができ、開発プロセスに割く時間をどれほど省くことができるかということ、をこの章を読むことでわかるでしょう。\st を使ったプログラミングが効率的なのは、\st がプログラミング言語として簡潔であること、そしてプログラムを開発するための環境がプログラミング言語ととてもうまく統合されていること、によるためです。
 
 %=================================================================
 \section{Lights Outゲーム}
@@ -70,11 +70,11 @@
 %=================================================================
 \section{パッケージを作成する}
 
-\charef{quick}のbrowserの使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
+\charef{quick}のBrowserの使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
 \index{category!creating}
 \index{package!creating}
 
-\dothis{browserを開きパッケージペインで\actclick 。その後\menu{create package}を選択。\footnote{パッケージbrowserが標準browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなbrowserを使っていない場合はデフォルトのbrowserを変更する必要があります。\faqref{packagebrowser}参照。}}
+\dothis{Browserを開きパッケージペインで\actclick 。その後\menu{create package}を選択。\footnote{パッケージBrowserが標準Browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなBrowserを使っていない場合はデフォルトのBrowserを変更する必要があります。\faqref{packagebrowser}参照。}}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -149,7 +149,7 @@ SimpleSwitchMorph subclass: #LOCell
 
 \dothis{新しいクラス定義をacceptします}
 action-clickをして\menu{accept}を選択、もしくはショートカットの\short{s} (保存のため)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
-1度クラス定義がacceptされると、クラスが作られ、browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペインにはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\st プログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
+1度クラス定義がacceptされると、クラスが作られ、Browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペインにはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\st プログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
 \index{keyboard shortcut!accept}
 
 \subind{クラス}{コメント}に、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
@@ -263,7 +263,7 @@ inspectorウィンドウのルートにあるLOCellを選択してください�
 
 これから、\clsind{LOGame}と呼ばれるゲームを作るのに必要な他のクラスを作りましょう。
 
-\dothis{browserのメインウインドウで、クラス定義テンプレートを作ってください。}
+\dothis{Browserのメインウインドウで、クラス定義テンプレートを作ってください。}
 これはパッケージ名をクリックすればできます。以下の通りにコードを書き、\menu{accept}して下さい。
 
 \needlines{6}
@@ -279,7 +279,7 @@ BorderedMorph subclass: #LOGame
 
 \ct{LOGame}の\mthind{LOGame}{initialize}メソッドを定義しましょう。
 
-\dothis{\ct{LOGame}のメソッドとして以下の内容をbrowserに打ち込んでください。その後\menu{accept}して下さい。}
+\dothis{\ct{LOGame}のメソッドとして以下の内容をBrowserに打ち込んでください。その後\menu{accept}して下さい。}
 
 \begin{numMethod}[sbegameinitialize]{ゲームを初期化する}
 initialize
@@ -328,7 +328,7 @@ initialize
 \index{on the fly variable definition}
 \index{instance variable definition} 
 
-さて、もう一度このクラスの定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。browser上からインスタンス変数\ct{cells}が修正されていることがわかります。
+さて、もう一度このクラスの定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。Browser上からインスタンス変数\ct{cells}が修正されていることがわかります。
 
 この\ct{initialize}メソッドを見てみましょう。
 \ct{| sampleCell width height n |}が記されている行において、4つの一時変数が宣言されています。これらの変数の影響範囲と生存期限がこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うとコードがより読みやすくなります。\st では定数と変数を区別するための特別な記述方法はありません。実際これらの4つの"変数"は全て定数です
@@ -366,10 +366,10 @@ initialize
 %=================================================================
 \section{メソッドをプロトコルにまとめる}
 
-メソッドを定義する前に、browserの上部にある3つめのペインを少し見てみましょう。browserの最初のペインと同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドをカテゴリー化することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は``プロトコル''とよばれています。
+メソッドを定義する前に、Browserの上部にある3つめのペインを少し見てみましょう。Browserの最初のペインと同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドをカテゴリー化することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は``プロトコル''とよばれています。
 \index{protocol}
 
-1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、browserが仮想プロトコル\prot{-{}-all-{}-}を提供する理由であり、またクラスの全てのメソッドを含んでいることに驚くことはありません。
+1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、Browserが仮想プロトコル\prot{-{}-all-{}-}を提供する理由であり、またクラスの全てのメソッドを含んでいることに驚くことはありません。
 \protindex{all}
 
 \begin{figure}[htbp]
@@ -391,7 +391,7 @@ initialize
 \st 式では\emph{ない}ことを示すため、特殊なシンボル\ct{>>>}を代わりに使います。そのためこの本においては、このメソッドは\ct{LOGame>>>cellsPerSide}と表します。
 \cmindex{Behavior}{>>}
 
-以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にbrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
+以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
 さあ、これから\ct{LOGame>>>initialize}メソッドで使う他の2つのメソッドを定義しましょう。両方とも\prot{initialization} プロトコルの中に入ります。
 \begin{method}[sbegamecellsperside]{定数メソッド。}
 LOGame>>>cellsPerSide
@@ -523,10 +523,10 @@ debuggerウインドウの上側には実行処理のスタックが表示され
 
 debuggerウインドウの下側には2つの小さなinspectorウインドウがあります。左側のウインドウでは、選んだコードを実行するメッセージを受けたオブジェクトの中の値を見ることができます。つまりこのインスタンス変数の値をここで見ることができます。右側のウインドウでは、 現在実行したメソッドそれ自体が表すオブジェクトの中の値を見ることができます。つまりメソッドのパラメーター値や一時変数の値などを見ることができます。
 
-debuggerを使うことによって、workspace上で式を評価するのと同様に、オブジェクトの中のパラメータや局所変数の値を見ながら、コードを1行ずつ実行することができます。debuggerを使って一番驚くべきことは、デバッグ中にコードを書き換えることができることです。Smalltalkerの内の何人かはむしろbrowser上よりも、ほとんどの時間debugger上でプログラムをしています。debugger上でプログラムをする利点は、今書いているメソッドが意図した通りに動くかどうかを、実際の実行コンテキスト中のパラメーターと共に見ることができることです。
+debuggerを使うことによって、workspace上で式を評価するのと同様に、オブジェクトの中のパラメータや局所変数の値を見ながら、コードを1行ずつ実行することができます。debuggerを使って一番驚くべきことは、デバッグ中にコードを書き換えることができることです。Smalltalkerの内の何人かはむしろBrowser上よりも、ほとんどの時間debugger上でプログラムをしています。debugger上でプログラムをする利点は、今書いているメソッドが意図した通りに動くかどうかを、実際の実行コンテキスト中のパラメーターと共に見ることができることです。
 
 この場合、パネル上部にある最初の行に\ct{toggleState}メッセージが、明らかに\lct{LOCell}のインスタンスとなっているはずの、\ct{LOGame}インスタンスに送られるのが見えるでしょう。問題は\ct{cells}行列の初期化にあるように思われます。
-\cmind{LOGame}{initialize}のコードをbrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が入力されていることがわかります。しかしそのメソッドを見ると、そこには何も返っていないことがわかります。デフォルトではメソッドは \ct{self}を戻り値として返します。  \ct{newCellAt:at:}の場合は実際に\ct{LOGame}のインスタンスがそれに該当します。
+\cmind{LOGame}{initialize}のコードをBrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が入力されていることがわかります。しかしそのメソッドを見ると、そこには何も返っていないことがわかります。デフォルトではメソッドは \ct{self}を戻り値として返します。  \ct{newCellAt:at:}の場合は実際に\ct{LOGame}のインスタンスがそれに該当します。
 \index{method!returning self}
 
 \dothis{debuggerウインドウを閉じで下さい。
@@ -579,17 +579,17 @@ LOGame>>>mouseMove: anEvent
 
 現在、動作するLights Outゲームが有ります。このゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharo のイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしその友人は自分のコードが入ったイメージファイルを持っていて、あなたのイメージファイルを欲しがらないかもしれません。この場合必要なのは他のプログラマーが自分のイメージファイルに取り込めるよう、\pharo のイメージファイルからソースコードを取り出すことです。
 
-そのための最も簡単な方法はコードを\emph{file out}することです。パッケージペインのメニューを\actclick するとオプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go{} file out}できます。取り出されたファイルは多かれ少なかれ人の読める形式ですが、本来はコンピュターが読むための形式であり、人のためのものではありません。このファイルを友人にメールで送ることが出来ます。そしてその友人たちはファイルをfile list browserを使うことで自分の\pharo イメージファイルに組み込むことができます。
+そのための最も簡単な方法はコードを\emph{File out}することです。パッケージペインのメニューを\actclick するとオプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go  File out}できます。取り出されたファイルは多かれ少なかれ人の読める形式ですが、本来はコンピュターが読むための形式であり、人のためのものではありません。このファイルを友人にメールで送ることが出来ます。そしてその友人たちはファイルをfile list Browserを使うことで自分の\pharo イメージファイルに組み込むことができます。
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
 \seeindex{class!filing out}{file, filing out}
 \seeindex{method!filing out}{file, filing out}
 \index{file!filing out}
 
-\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go{} file out}して下さい。}
+\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go  File out}して下さい。}
 ``PBE-LightsOut.st''という名のファイルがイメージファイルがある同一フォルダ内にあるのを見つけることができます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharo のイメージファイルを開き、file browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{file in}して下さい。そしてまっさらなイメージファイル上のゲームが動作することを確認して下さい。}
+\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}して下さい。そしてまっさらなイメージファイル上のゲームが動作することを確認して下さい。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -597,7 +597,7 @@ LOGame>>>mouseMove: anEvent
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=\textwidth]{FileIn}}
-\caption{\pharo にソースコードをfile inする。
+\caption{\pharo にソースコードをFile inする。
 \figlabel{filein}}
 \end{figure}
 
@@ -605,14 +605,14 @@ LOGame>>>mouseMove: anEvent
 ファイル出力は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
 大部分のオープンソースプロジェクトでは、リポジトリの中のそれらのコードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}を使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージはファイル名の最後に \ct{.mcz}が付いています。これらのファイルの正体は\ind{パッケージ}のコード全てをまとめてZIPで圧縮したものです。
 
-Monticello package browserを使うことにより、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際に\ind{Monticello}はリビジョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はリビジョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticello package Browserを使うことにより、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際に\ind{Monticello}はリビジョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はリビジョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
 もちろん\ct{.mcz}ファイルをEメールで送ることも出来ます。
 受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをMonticelloを使い閲覧したりロードしたりすることができます。
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
-\dothis{\menu{World}メニューからMonticello browserを開いてください。}
-browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
+\dothis{\menu{World}メニューからMonticello Browserを開いてください。}
+Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
  
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
@@ -620,33 +620,33 @@ browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリ�
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{MonticelloBrowser}}}
 	{\centerline {\includegraphics[scale=0.7]{MonticelloBrowser}}}
-\caption{Monticello browser。
+\caption{Monticello Browser。
 \figlabel{monticello1}}
 \end{figure}
 
-Monticello browserのリスト上部には \emphind{package cache}と呼ばれるローカルディレクトリがあります。それはネットワーク越しにロードしたり、公開したパッケージのコピーをキャッシュしています。
+Monticello Browserのリスト上部には \emphind{package cache}と呼ばれるローカルディレクトリがあります。それはネットワーク越しにロードしたり、公開したパッケージのコピーをキャッシュしています。
 ローカルキャッシュは自分のローカル履歴が保存できるため非常に便利です。つまりインターネットに接続できない場所や、回線が遅いために何度も保存したいとは思わないぐらい遠くのリポジトリでも作業することができることを意味します。
 
 
 \subsection{Monticelloを使ったコードの保存と読み込み}
-Monticello browserの左側にはイメージ内に読み込まれたバージョンのパッケージリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは、選択したパッケージのコピーを含むそれらのリポジトリに制限されます。(意味不明 後に再翻訳)
+Monticello Browserの左側にはイメージ内に読み込まれたバージョンのパッケージリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは、選択したパッケージのコピーを含むそれらのリポジトリに制限されます。(意味不明 後に再翻訳)
 \seeindex{*}{package, dirty}
 \seeindex{dirty package}{package, dirty}
 
 %What is a package?  For now, you can think of a package as a group of  class and method categories that share the same prefix.  Since we put all of the code for the Lights Out game into the category called \scat{PBE-LightsOut}, we can refer to it as the \ct{PBE-LightsOut} package.
 
-\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをMonticello browserに追加します。}
+\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをMonticello Browserに追加します。}
 
 \subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}} 
 コードを保存し、また共有する一番良い方法は\sqsrc サーバー上のでアカウントを取りプロジェクトを作ることだと考えます。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。それはHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
-\url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは web browserから見ることができますが、Monticello browser を使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
+\url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは web browserから見ることができますが、Monticello Browser を使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
 
 \dothis{web browserで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲームのためのプロジェクトを作ってください(つまり登録してください)。}
-Monticello browserを使いリポジトリに追加するとき、\sqsrc で使うべき情報を見ることでしょう。
+Monticello Browserを使いリポジトリに追加するとき、\sqsrc で使うべき情報を見ることでしょう。
 
 一度\sqsrc にプロジェクトが作られると、\pharo システムにそれを使うよう伝える必要があります。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。 
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。 
 
 \needlines{5}
 \begin{code}{}
@@ -668,7 +668,7 @@ MCHttpRepository
 \end{code}   
 
 %You can then load the code in your image by selecting the version you want. You can browse the code without loading it, using the \button{Browse} button.
-一度このテンプレートを受諾すると新たなリポジトリーがMonticello browserの右側のリストに表示されます。
+一度このテンプレートを受諾すると新たなリポジトリーがMonticello Browserの右側のリストに表示されます。
 
 \begin{figure}[hbt]
 \ifluluelse
@@ -680,7 +680,7 @@ MCHttpRepository
 
 \dothis{\button{Save}ボタンを押し最初のバージョンのLight Outゲームを\sqsrc に保存してください。}
 
-パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。repository browserを使うことでこれはできます。そのために\button{Open}ボタンを使うかメニューを\actclick してrepository browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
+パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。Repository Browserを使うことでこれはできます。そのために\button{Open}ボタンを使うかメニューを\actclick してRepository Browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
 
 \dothis{\ct{PBE-LightsOut}リポジトリを開き、単に保存してください。}
 
@@ -690,18 +690,18 @@ MCHttpRepository
 %=================================================================
 \section{章のまとめ}
 この章ではカテゴリ、クラス、そしてメソッドの作り方について学びました。
-browser、inspector、debugger、そしてMonticello browserの使い方について学びました。
+Browser、inspector、debugger、そしてMonticello Browserの使い方について学びました。
 
 \begin{itemize}
   \item 関連するクラスのグループの分類
   \item スーパークラスへメッセージを送ることによる新たなクラスの作成
   \item プロトコルが、関連するメソッドをグループ化すること
-  \item browser上で定義し変更を\emph{acceptする}ことにより、新たなメソッドが作られたり修正されること
+  \item Browser上で定義し変更を\emph{acceptする}ことにより、新たなメソッドが作られたり修正されること
   \item inspectorは簡単に、任意のオブジェクトの中の値を見たり割り込んだりするための多目的GUIであること。
-  \item browserは宣言されていないメソッドや変数の使い方を検出し、利用可能なコレクションを提供すること。
+  \item Browserは宣言されていないメソッドや変数の使い方を検出し、利用可能なコレクションを提供すること。
   \item \pharo において\ct{initialize}メソッドはオブジェクトが作られた後自動的に実行される。どんな初期化コードもそこに書くことができる。
   \item debuggerは動作しているプログラムの状態を見たり修正するための高度なGUIを提供する。
-  \item カテゴリーを\emph{file out}することでソースコードを共有できる。
+  \item カテゴリーを\emph{File out}することでソースコードを共有できる。
   \item コードを共有するより良い方法としては、外部のリポジトリ例えば\sqsrc のプロジェクトとして定義し、Monticelloを使いを管理する。
 \end{itemize}
 
