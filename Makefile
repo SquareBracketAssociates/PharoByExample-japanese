@@ -19,6 +19,9 @@ EG1 = Preface QuickTour FirstApp Syntax Messages \
 EG2 = Seaside
 
 PDFLATEX = pdflatex -file-line-error
+LUALATEX = lualatex -file-line-error
+PLATEX   = platex   -file-line-error -kanji=utf8
+DVIPDFMX = dvipdfmx -f ipa.map
 
 # TO-DO: add rules for BOOK1?
 
@@ -66,6 +69,42 @@ BOOK2 : clean examples2
 		warnings.txt
 
 # --------------------------------------------------------------------------------
+# platex用の事前処理
+
+xbb :
+	ln -s Personal_Scripts/create-xbb-files.sh .
+	sh create-xbb-files.sh
+	rm -f create-xbb-files.sh
+
+
+# platex + dvipdfmx の場合
+platex :
+	cp -f common-platex.tex common.tex
+	${PLATEX} ${BOOK1}
+	${PLATEX} ${BOOK1} | tee warnings.txt
+	${DVIPDFMX} ${BOOK1}
+	 Filter out blank lines and bogus warnings
+	perl -pi \
+		-e '$$/ = "";' \
+		-e 's/[\n\r]+/\n/g;' \
+		-e 's/LaTeX Warning: Label `\w*:defaultlabel'\'' multiply defined.[\n\r]*//g;' \
+		-e 's/Package wrapfig Warning: wrapfigure used inside a conflicting environment[\n\r]*//g;' \
+		warnings.txt
+
+
+# lualatex の場合
+lualatex :
+	cp -f common-lualatex.tex common.tex
+	${LUALATEX} ${BOOK1}
+	${LUALATEX} ${BOOK1} | tee warnings.txt
+	# Filter out blank lines and bogus warnings
+	perl -pi \
+		-e '$$/ = "";' \
+		-e 's/[\n\r]+/\n/g;' \
+		-e 's/LaTeX Warning: Label `\w*:defaultlabel'\'' multiply defined.[\n\r]*//g;' \
+		-e 's/Package wrapfig Warning: wrapfigure used inside a conflicting environment[\n\r]*//g;' \
+		warnings.txt
+
 
 # We need a makefile rule to generate the index as well ...
 index1 :
@@ -174,6 +213,7 @@ clean :
 	-rm -f .DS_Store */.DS_Store
 	-rm -f common*.url common*.pdf SBE.url
 	-rm -f test.*
+	-rm -f *.dvi
 
 bare : clean
 	mv figures/squeak-logo.pdf figures/squeak-logo.pdfSAVE
