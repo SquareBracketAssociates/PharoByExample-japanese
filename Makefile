@@ -83,7 +83,7 @@ platex :
 	${PLATEX} ${BOOK1}
 	${PLATEX} ${BOOK1} | tee warnings.txt
 	${DVIPDFMX} ${BOOK1}
-	 Filter out blank lines and bogus warnings
+	# Filter out blank lines and bogus warnings
 	perl -pi \
 		-e '$$/ = "";' \
 		-e 's/[\n\r]+/\n/g;' \
