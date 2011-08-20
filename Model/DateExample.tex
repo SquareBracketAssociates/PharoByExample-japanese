@@ -33,9 +33,9 @@
 %=================================================================
 
 
-\chapter{ケーススタディ}
+\chapter{ケーススタディー}
 
-\subsubsection{ケーススタディ: \ct{Date}クラス}
+\subsubsection{ケーススタディー: \ct{Date}クラス}
 Dateは日付を表わすオブジェクトです。
 \ct{Date today}は本日を表わすオブジェクトを返します。
 このオブジェクトに対して、表示するよう依頼すると、例えば'27 November 2002'が得られます。%%%/// update this?
@@ -60,7 +60,7 @@ Magnitude subclass: \#Date
 
 \begin{method}{}\mthlabel{monthName}
 Date>>>monthName
-   "Answer the name of the month in which the receiver falls."
+   "レシーバーの月の名前を答える。"
 
    ^MonthNames at: self monthIndex
 \end{method}
@@ -70,7 +70,7 @@ Date>>>monthName
 
 \begin{method}{}\mthlabel{nameOfDay}
 Date class>>>nameOfDay: dayIndex 
-   "Answer a symbol representing the name of the day indexed by dayIndex, 1-7."
+   "1から7のdayIndexで指される曜日を表わすシンボルを答える。"
 
    ^WeekDayNames at: dayIndex
 \end{method}
