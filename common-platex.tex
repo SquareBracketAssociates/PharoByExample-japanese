@@ -65,6 +65,11 @@
 	titleformat={commasep,italic}
 ]{jurabib} % citations as footnotes
 \usepackage{atbegshi}
+\ifnum 42146=\euc"A4A2
+  \AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}
+\else
+  \AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+\fi
 \AtBeginShipoutFirst{%
 \special{pdf:tounicode 90ms-RKSJ-UCS2}}
 \usepackage[dvipdfm,
