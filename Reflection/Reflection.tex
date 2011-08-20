@@ -82,7 +82,7 @@
 プログラミング言語がリフレクティブであるためには、その言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートしているべきです。
 イントロスペクションとは、オブジェクト、クラス、メソッド、そして実行時スタックといった、言語を定義するデータ構造について、これを\emph{検査}できる能力のことです。
 インターセッションとは、こうしたデータ構造が\emph{変更}できる、言い換えれば、言語のセマンティクスやプログラムの振る舞いを、プログラム自身の中から変更できる能力のことです。
-\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を検査し・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言います。
+\emph{構造的リフレクション}と言ったとき、それは、実行時システムの構造を検査・変更することについて言うのであり、\emphind{振る舞い的リフレクション}と言ったとき、それは、これら実行時システムの構造を解釈するしかたを変更するについて言います。
 
 この章では、主に、\ind{構造的リフレクション}に焦点をあてます。
 ここでは、\st がイントロスペクションとメタプログラミングをサポートしている様子を、実例を挙げて探ります。
@@ -90,7 +90,7 @@
 %======================================
 \section{イントロスペクション}
 
-インスペクターを使えば、オブジェクトを詳しく見たり、インスタンス変数の値を変更できますし、そのオブジェクトにメッセージを送ることさえできます。
+インスペクターを使えば、オブジェクトを検査したり、インスタンス変数の値を変更できますし、そのオブジェクトにメッセージを送ることさえできます。
 
 \dothis{以下のコードをワークスペースで評価してみましょう:}
 \begin{code}{| w |}
@@ -105,7 +105,7 @@ w inspect
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
-	\caption{\ct!Workspace!をインスペクトしている様子。\figlabel{workspaceInspector}}
+	\caption{\lct!ワークスペース!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
 \dothis{それでは、この空文字列のところに\ct!'hello'!と入力してから、それを\emph{accept}してみましょう。}
@@ -115,12 +115,12 @@ w inspect
 %-----------------------------------------------------------------
 \subsection{インスタンス変数へのアクセス}
 
-インスペクターはどのように動作しているのでしょうか?
+インスペクターはどのように動いているのでしょうか?
 \st では、すべてのインスタンス変数は保護されています。
 理論上は、そのクラスが何らかのアクセサーを定義していないかぎり、他のオブジェクトがこれらのインスタンス変数にアクセスすることは不可能です。
 実際には、インスペクターは、アクセサーがなくてもインスタンス変数にアクセスできます。それは\st のリフレクティブな能力を用いているからです。
-\st では、クラスは、インスタンス変数を、名前か添字で定義します。
-インスペクターは、インスタンス変数にアクセスするための汎用のメソッドを用いるのですが、これらのメソッドは、\ct!Object!クラスで定義されています。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに用いることができます。インスタンス変数は、\lct{\emph{index}}によって位置を特定され、\lct{\emph{aString}}で識別されます。また、インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用います。 %@?respectivelyは訳さなかった。
+\st では、クラスは、インスタンス変数を、名前か、数値の添字で定義します。
+インスペクターは、インスタンス変数にアクセスするための汎用のメソッドを用いるのですが、これらのメソッドは、\ct!Object!クラスで定義されています。これら: \lct{instVarAt: \emph{index}}そして\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに使えます。インスタンス変数は、\lct{\emph{index}}によって位置を特定されるか、\lct{\emph{aString}}で識別されます。インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用います。 %@?respectivelyは訳さなかった。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
@@ -149,7 +149,7 @@ Object>>>instVarAt: index
 
 通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
 プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試されます。
-こうすれば、プリミティブメソッドからデバッガーを開始できます。
+こうすれば、プリミティブメソッドからデバッガーを開始することもできます。
 プリミティブメソッドのコードは変更できますが、そのようなことをすれば、\pharo システムの安定性を脅かしかねないことに、注意してください。 %@?risky business: 訳さなかった。
 
 \begin{figure}[ht]\centering
@@ -160,7 +160,7 @@ Object>>>instVarAt: index
 \figref{allInstanceVariables}を見れば、\ct!Workspace!クラスの任意のインスタンス(\ct!w!)のインスタンス変数を表示する方法がわかります。
 この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
-同様の考え方に基づき、特定の属性を持ったインスタンスを集めることが可能です。 %@?In the same spirit: 同様の精神に基づき?
+同様の精神で、特定の属性を持ったインスタンスを集めることが可能です。
 例えば、\ct!SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されているすべてのインスタンス(\ie 現在表示されているすべてのイメージ)を得るために、次の式を試してみましょう:
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
@@ -176,7 +176,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 (1@2) instanceVariableValues --> an OrderedCollection(1 2)
 \end{code}
 
-このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@? Pharo-1.1.1には、このメソッドは無い。
+このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@?Pharo-1.1.1には、このメソッドは無い。
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
@@ -220,7 +220,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できる
 \mthindex{Object}{respondsTo:}
 
 \important{\emph{警告:}これらの機能は、とりわけ開発ツールを定義するのに便利ですが、典型的なアプリケーションには、通常、適していません。
-オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示すものです。なぜならそれは、カプセル化の原則を破ることだからです。
+オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示します。なぜならそれは、カプセル化の原則を破ることだからです。
 開発ツールは、しかし、通常のアプリケーションではありません。なぜなら、開発ツールのドメインは、ソフトウェア自身のドメインだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
@@ -230,7 +230,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できる
 \subsection{コードメトリクス}
 
 \st のイントロスペクションの機能を使えば、いくつかのコードメトリクスが、手早く抽出できます。どのように使うのか、見てみましょう。
-コード\ind{メトリクス}は、次のようなコードの側面を測ります --- 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、そのクラスで新規に定義されたメソッドやインスタンス変数の数。
+コード\ind{メトリクス}は、次のようなコードの側面を測ります: 継承の階層の深さ、直接・間接のサブクラスの数、各クラスのメソッドやインスタンス変数の数、そのクラスで新規に定義されたメソッドやインスタンス変数の数。
 以下に、\ct!Morph!クラスのメトリクスを、いくつか挙げます。\ct!Morph!クラスは、\pharo においては、すべてのグラフィカルなオブジェクトのスーパークラスです。これらのメトリクスにより、このクラスが巨大なクラスであり、巨大な階層のルートであることが明かになります。何らかのリファクタリングが必要なのかもしれません! 
 
 \mthindex{Behavior}{allSuperclasses}
@@ -254,7 +254,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 
 オブジェクト指向言語のドメインにおいて、最も興味深いメトリクスのひとつは、どのくらいの数のメソッドが、スーパークラスから継承したメソッドを拡張しているかということです。
 これにより、クラスとそのスーパークラスの関係がわかります。
-次の節以降で、その種の疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を有効に使ってどう答えるか、見ていきます。
+次の節以降で、その種の疑問にどう答えるか、つまり実行時構造に関するこれまでの知識を活用してどう答えるか、見ていきます。
 
 %======================================
 \section{コードをブラウズする}
@@ -268,7 +268,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 Point someInstance --> 0@0
 \end{code}
 
-また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中で生きているインスタンスの数は、\ct!#instanceCount!を用いて得られます。
+また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中で生きているインスタンスの数は、\ct!#instanceCount!を使えばわかります。
 
 \alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
@@ -280,17 +280,17 @@ ByteString instanceCount    --> 104565
 String allSubInstances size -->  101675
 \end{code}
 
-以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、特定の属性を示すメソッドを列挙するよう依頼できるからです。 %@?those: 何???
+以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、特定の属性を示すメソッドを列挙するよう依頼できるからです。 %@?those: ???
 \begin{itemize}
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターのリストを返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
-\item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターを返す
-\item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメッセージセレクターを返す
-\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける %@?Method Finderで探したが、crossReferenceというメソッドは見つからなかった。
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターの配列を返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
+\item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターの配列を返す
+\item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメッセージセレクターの集合を返す
+\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける(crossReferenceというメソッドは見つからなかった。Pharo-1.[12].1)。
 \end{itemize}
 
 \begin{code}{} % TOO FRAGILE TO TEST
-Point whichSelectorsAccess: 'x'    --> an IdentitySet(#'\\' #= #scaleBy: ...)
-Point whichSelectorsStoreInto: 'x' --> an IdentitySet(#setX:setY: ...)
+Point whichSelectorsAccess: 'x'    --> #(#'\\' #= #scaleBy: ...)
+Point whichSelectorsStoreInto: 'x' --> #(#setX:setY: ...)
 Point whichSelectorsReferTo: #+  --> an IdentitySet(#rotateBy:about: ...)
 Point crossReference --> an Array(
 		an Array('*' an IdentitySet(#rotateBy:about: ...))
@@ -300,7 +300,7 @@ Point crossReference --> an Array(
 
 以下のメッセージは、継承を考慮に入れます:
 \begin{itemize}
-\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す %@?クラスも含むはず。
+\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/先祖クラスを返す %@?superclassというだけでは、上下方向に不足。
 \item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
 
@@ -329,9 +329,9 @@ SystemNavigation default allUnsentMessages size      --> 6431
 SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
-ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも不要ではありません。なぜなら、それらは間接的に送られることもありうるからです(\eg \ct{perform:}を使って)。
+ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも不要ではありません。なぜなら、それらは暗黙のうちに送られることもあるからです(\eg \ct{perform:}を使って)。
 送られるのに実装されていないメッセージは、しかし、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗するからです。
-これらは、完了していない実装、廃止されたAPI、あるいは欠落したライブラリがあることを示すものです。
+これらは、完了していない実装、廃止されたAPI、あるいは欠落したライブラリがあることを、示しているのかもしれません。
 
 \mthindex{SystemNavigation}{allCallsOn:}
 \ct!SystemNavigation default allCallsOn: #Point! は、\ct!Point!レシーバーに明示的に送られるすべてのメッセージを返します。 %@?\ct!Point! as a receiver???
@@ -386,7 +386,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 	\caption{クラス、メソッド辞書、そしてコンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
-クラスとメソッドの関係を有効に使って、システムについてのクエリを送れます。
+クラスとメソッドの関係を活用して、システムについてのクエリを送れます。
 例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすれば見出せます:
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
@@ -431,7 +431,7 @@ SystemNavigation default
 
 \clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
 
-\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのセレクターと異なるメッセージを\super に送っているかに関心があったとしましょう。
+\lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのメソッドセレクターと異なるメッセージを\super に送っているかに関心があったとしましょう。
 このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
 
 リファクタリングブラウザーは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
