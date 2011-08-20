@@ -64,11 +64,15 @@
 	authorformat={allreversed,and},
 	titleformat={commasep,italic}
 ]{jurabib} % citations as footnotes
-\usepackage[
+\usepackage[dvipdfm,
 	colorlinks=true,
 	linkcolor=black,
 	urlcolor=black,
-	citecolor=black
+	citecolor=black,
+	bookmarks=true,
+	bookmarksnumbered=false,
+	bookmarkstype=toc,
+	breaklinks
 ]{hyperref}   % should come last
 %=============================================================
 %:PDF version
@@ -373,7 +377,7 @@ Damien Pollet},
 \newcommand{\caret}{\^\,}
 \newcommand{\escape}{{\sf \textbackslash}}
 \definecolor{source}{gray}{0.95}
-\usepackage{listings}
+\usepackage{listings,jlisting}
 \lstdefinelanguage{Smalltalk}{
 %  morekeywords={self,super,true,false,nil,thisContext}, % This is overkill
   morestring=[d]',
