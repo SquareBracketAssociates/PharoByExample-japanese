@@ -190,7 +190,7 @@ Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference 
 \section{World menu}
 \index{world menu}
 
-dothis{\pharo のバックグラウンドで、もう一度 \click をしてみましょう。}
+\dothis{\pharo のバックグラウンドで、もう一度 \click をしてみましょう。}
 \menu{World} menu が表示されましたか？
 \pharo のメニューは殆どがモーダルメニューではありませんので、右上の画鋲アイコンを \click することで、画面上に残しておくことが出来ます。
 % Also, notice that menus appear when you click the mouse, but do not disappear when you release it; they stay visible until you make a selection, or until you click outside of the menu. You can even move the menu around by grabbing its title bar.
@@ -375,10 +375,10 @@ explorer は inspector と似ていますが、ツリー構造により複雑な
 %=================================================================
 \section{Class Browser}
 
-class \ind{browser}(クラスブラウザ)\footnote{
+class \ind{browser}(クラスブラウザー)\footnote{
 紛らわしいことに、``system browser'' や ``code browser'' など呼ばれることがあります。\pharo は \ind{OmniBrowser} (``OB'' や ``Package browser'' と呼ばれてもいます)を実装しています。
-文中ではシンプルに ``browser''(ブラウザ) を用いますが、曖昧さが問題になるケースでは、``class browser''(クラスブラウザ) と表記します。} はプログラミングにおいて、重要なツールです。
-\pharo にはいくつかのブラウザが有りますが、``class browser'' は最も基本的なブラウザです。
+文中ではシンプルに ``browser''(ブラウザー) を用いますが、曖昧さが問題になるケースでは、``class browser''(クラスブラウザー) と表記します。} はプログラミングにおいて、重要なツールです。
+\pharo にはいくつかのブラウザーが有りますが、``class browser'' は最も基本的なブラウザーです。
 
 \seeindex{class browser}{browser}
 
@@ -466,7 +466,7 @@ Boolean クラスをポイントした状態の browser が開きましたか(\f
 \figlabel{findit}}
 \end{figure}
 
-Note that if you type the complete (and correctly capitalized) name of a class in the find dialog, the browser will go directly to that class without showing you the list of options.
+検索のためにクラス名を入力する時(先頭文字は大文字です)、リストに載っていなくてもブラウザー上ではそのクラスに移動してしまうことに注意してください。
 
 %=================================================================
 \section{メソッドの検索}
@@ -478,7 +478,7 @@ Note that if you type the complete (and correctly capitalized) name of a class i
 
 \dothis{\menu{World \go Tools ... \go Method finder} を選択し、左上のペインに ``now'' を入力し、\textsc{return} キーを押してみましょう。
 
-method finder は、``now'' を名称に含むリストを表示します。リスト表示のペインで ``\ct{n}'' をキーボードから入力すると、インクリメンタルサーチのような動作を行います。ここで、``now'' を選択すると、右側のペインにはメソッドを定義しているクラス名のリストが表示されます(\figref{MethodFinder} )。クラス名を選択すると、そのクラスをポイントした状態でブラウザが立ち上がります。
+method finder は、``now'' を名称に含むリストを表示します。リスト表示のペインで ``\ct{n}'' をキーボードから入力すると、インクリメンタルサーチのような動作を行います。ここで、``now'' を選択すると、右側のペインにはメソッドを定義しているクラス名のリストが表示されます(\figref{MethodFinder} )。クラス名を選択すると、そのクラスをポイントした状態でブラウザーが立ち上がります。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=0.7\textwidth]{methodFinder-now}}
@@ -493,7 +493,7 @@ method finder はまだ他の使い方もあります。例えば、\ct{'eureka'
 method finder はあなたの思った通りを動作をしましたか？\footnote{警告のメッセージダイアログが出てもびっくりしないでください。method finder は単にありそうな候補全てを表示するだけなので、推奨されないメソッドも含まれます。慌てず騒がず、\button{Proceed} をクリックしてください。}
 
 右のペインでアスタリスクが付いているクラスは、実際にアルファベット大文字へ変換したときに使われたことを示します。このケースでは、\ct{String asUppercase} が実際に使われたということです。
-アスタリスクが付いていないクラスは、単に同じ名前のメソッドが定義されているというだけでリストアプされています。\ct{'eureka'} は \clsind{Character} のオブジェクトではないので、\cmind{Character}{asUppercase} は使われなかったということです。
+アスタリスクが付いていないクラスは、単に同じ名前のメソッドが定義されているというだけでリストアップされています。\ct{'eureka'} は \clsind{Character} のオブジェクトではないので、\cmind{Character}{asUppercase} は使われなかったということです。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{MethodFinder-example1}}
