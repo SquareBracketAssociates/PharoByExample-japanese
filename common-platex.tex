@@ -64,6 +64,9 @@
 	authorformat={allreversed,and},
 	titleformat={commasep,italic}
 ]{jurabib} % citations as footnotes
+\usepackage{atbegshi}
+\AtBeginShipoutFirst{%
+\special{pdf:tounicode 90ms-RKSJ-UCS2}}
 \usepackage[dvipdfm,
 	colorlinks=true,
 	linkcolor=black,
