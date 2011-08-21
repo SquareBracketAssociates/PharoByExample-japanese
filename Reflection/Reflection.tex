@@ -28,21 +28,6 @@
 		ignoreheadfoot
 	]{geometry}
 	\input{../common.tex}
-
-	\usepackage{amsmath}
-	\usepackage{txfonts}
-	\usepackage[no-math]{luajalayout}
-
-	\setrftovf[scale=.95]{IPAMincho}{rmfamily}
-	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Termes}{rmfamily}
-
-	\setrftovf[scale=.95]{IPAGothic}{sffamily}
-	\setrftovf[overwrite,exclude=\jarange]{TeX Gyre Heros}{sffamily}
-
-	\defaultfontfeatures{Ligatures=TeX}
-	\setmainfont[BoldFont=vf:sffamily]{vf:rmfamily}
-	\setsansfont{vf:sffamily}
-
 	\pagestyle{headings}
 	\setboolean{lulu}{true}
 % --------------------------------------------
@@ -90,7 +75,7 @@
 %======================================
 \section{イントロスペクション}
 
-インスペクターを使えば、オブジェクトを検査したり、インスタンス変数の値を変更できますし、そのオブジェクトにメッセージを送ることさえできます。
+インスペクターを使えば、オブジェクトを見たり、インスタンス変数の値を変更できますし、そのオブジェクトにメッセージを送ることさえできます。 %@?look at: 特別なニュアンスがあるのか?
 
 \dothis{以下のコードをワークスペースで評価してみましょう:}
 \begin{code}{| w |}
@@ -108,7 +93,7 @@ w inspect
 	\caption{\lct!ワークスペース!をインスペクトしている様子。\figlabel{workspaceInspector}}
 \end{figure}
 
-\dothis{それでは、この空文字列のところに\ct!'hello'!と入力してから、それを\emph{accept}してみましょう。}
+\dothis{さて、この空文字列のところに\ct!'hello'!と入力してから、それを\emph{accept}してみましょう。}
 \ct!contents!変数の値は変りますが、ワークスペースウィンドウは、それに気付きません。だからワークスペースは自分自身を再描画しません。
 このウィンドウに自分自身を更新するきっかけを与えるには、インスペクターの下の部分で、\ct!self contentsChanged!を評価します。 %@?インスペクターの右側が灰色になって、Workspaceは何も変わらない。
 
@@ -282,10 +267,10 @@ String allSubInstances size -->  101675
 
 以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、特定の属性を示すメソッドを列挙するよう依頼できるからです。 %@?those: ???
 \begin{itemize}
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターの配列を返す %@?selectors of methods: メソッドセレクター? 他にも、method selector, method's selectorの原語が発見されている。
+\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読むか書くかするすべてのメソッドセレクターの配列を返す
 \item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドセレクターの配列を返す
-\item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメッセージセレクターの集合を返す
-\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける(crossReferenceというメソッドは見つからなかった。Pharo-1.[12].1)。
+\item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメソッドセレクターの集合を返す
+\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける %@?訳注化: crossReferenceというメソッドは見つからなかった(Pharo-1.[12].1)
 \end{itemize}
 
 \begin{code}{} % TOO FRAGILE TO TEST
@@ -310,7 +295,7 @@ Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
 \clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートする、ファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、これをブラウズするのに便利なメソッドのことです。
-\ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるインスタンスを返します。
+\ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるファサードのインスタンスを返します。
 例えば:
 
 \mthindex{SystemNavigation}{allClassesImplementing:}
@@ -338,7 +323,7 @@ SystemNavigation default allUnimplementedCalls size --> 270
 
 これらすべての機能は、\pharo のプログラミング環境、特にコードブラウザー、に統合されています。
 きっとすでにお気付きでしょうが、次のような便利なキーボードショートカットがあります: すべてのインプリメンター(i\underline{m}plementors)をブラウズするための(\short{m})、そして、与えられたメッセージのセンダー(se\underline{n}ders)をブラウズするための(\short{n})。
-おそらく、それほどよく知られていないのは、このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されていることです。 %@?browsingプロトコル? browseではないのか(Pharo-1.1.1)?
+おそらく、それほどよく知られていないのは、このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されていることです。 %@?\prot{browsing}? \prot{query}ではないのか(Pharo-1.[12].1)?
 例えば、以下を評価すれば、プログラム的に、\ct{ifTrue:}メッセージを実装しているすべてのクラスをブラウズできます:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
@@ -350,7 +335,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
-特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super 送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、より優れており、偽陽性の結果をいくつか除外できます): %@?false positives: 偽陽性の結果(英辞郎)
+特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super 送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、より優れており、偽陽性の結果をいくつか除外できます):
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -368,7 +353,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 \figref{CompiledMethod}では、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示しています。
 ここでは、クラスがそのメソッドを辞書に格納しているのが確認できます。そしてセレクターが、辞書の見出しになっています。
-\ct{#*}セレクターは、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
+セレクター\ct{#*}は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
@@ -376,7 +361,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \end{figure}
 
 クラスとメソッドの関係について考えてみましょう。
-\figref{MethodsAsObjects}を見ると、クラスとメタクラスには共通のスーパークラス、\ct{Behavior}、があることがわかります。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。newはクラスの他の主要なメソッドのひとつにすぎません。 %@?最後のnewをマークアップするか? %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
+\figref{MethodsAsObjects}を見ると、クラスとメタクラスには共通のスーパークラス、\ct{Behavior}、があることがわかります。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。\ct{new}はクラスの他の主要なメソッドのひとつにすぎません。 %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
 \figref{CompiledMethod}を見れば、Pointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
@@ -429,24 +414,24 @@ SystemNavigation default
 %======================================
 \section{ブラウザー環境}
 
-\clsind{SystemNavigation}は、システムコードに対して、プログラム的にクエリを送り、プログラム的にこれをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
+\clsind{SystemNavigation}は、システムコードに対して、プログラム的にこれにクエリを送り、これをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
 
 \lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのメソッドセレクターと異なるメッセージを\super に送っているかに関心があったとしましょう。
-このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、オーバーライドするメソッドを拡張するときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
 
 リファクタリングブラウザーは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
 
 \dothis{ブラウザーを開けて、\ct{Collection}を見てみましょう。
 クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
 こうすると、まさに、\ct{Collection}階層についてのブラウザー環境が、新規に開きます。 
-この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウが開き、\ct{Collection}階層の中で、\super 送信を行っているすべてのメソッドが列挙されます。
+この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウ環境が開き、\ct{Collection}階層の中で、\super 送信を行っているすべてのメソッドが列挙されます。
 さて、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
 \menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
 
 \figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{自身のセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のメソッドセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
 ブラウザー環境はまた、プログラム的に作れます。
@@ -461,7 +446,7 @@ SystemNavigation default
 
 この例は、先程の、\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
 
-最終的に、以下のようにして、自身と異なった\super メッセージを送っているメソッドだけを、プログラム的に見つけ出せます:
+最終的に、以下のようにして、自身のメソッドセレクターと異なった\super メッセージを送っているメソッドだけを、プログラム的に見つけ出せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -487,7 +472,7 @@ SystemNavigation default
 これは、どのようにして可能になっているのでしょうか?
 
 実は、デバッガーには何の魔法もありません。
-秘密は、\pvind{thisContext}という疑似変数にあります。これには、3.2章で少しだけ触れました。 %@?which we have encountered only in passing before???
+秘密は、\pvind{thisContext}という疑似変数にあります。これには、3.2章で少しだけ触れました。
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
 このメカニズムについて、簡単に、自分で実験できます。
@@ -525,13 +510,13 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。"
-	"このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。
+	このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
-慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたかを示すのでしょうか? 非常に単純です。\ct{thisContext}にセンダーを尋ねるのです。
+慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたか、その名前を示すのでしょうか? 非常に単純です。\ct{thisContext}に\ct{sender}メッセージを送るのです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
