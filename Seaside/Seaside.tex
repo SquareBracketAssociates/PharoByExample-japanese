@@ -389,7 +389,7 @@ SeasideDemo>>>renderContentOn: html
 	html div
 		class: 'subcomponent';
 		with: htmlDemo.
-	"render the remaining components ..."
+	"残りをレンダリング ..."
 \end{method}
 
 \noindent
@@ -815,7 +815,7 @@ Seasideでは、一連の操作をひとまとめにしてタスク内で\emph{�
 
 \begin{code}{}
 WAStore>>>renderContentOn: html
-	"... render the title bar ..."
+	"... タイトル部分のレンダリング ..."
 	html div id: 'body'; with: task
 \end{code}
 
@@ -1176,7 +1176,7 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 		with: [
 			html anchor
 				callback: aBlock;
-				onClick:				"handle Javascript event"
+				onClick:				"JavaScriptのイベント処理"
 					(html updater
 						id: 'display';
 						callback: [ :r |

@@ -613,19 +613,19 @@ MCHttpRepository
 それは、リポジトリの情報を編集したり(Monticello Browserで\actclick )、別のリポジトリを選択し、package-cache browserから\button{Copy}ボタンを押すことで復帰させることができます。
 
 %=========================================================
-\section{The Inspector and the Explorer}
+\section{[Inspector]と[Explore]}
 \seclabel{inspector} % (fold)
 
-One of the things that makes \st so different from many other programming environments is that it is provides you with a window onto a world of live objects, not a world of static code.
-Any of those objects can be examined by the programmer, and even changed\,---\,although some care is necessary when changing the basic objects that support the system.  
-By all means experiment, but save your image first!
+\st が他の多くの言語と異なる特徴の一つは、静的なコードの世界ではなく、生きたオブジェクトの世界への窓を提供していることです。
+そこではどのようなオブジェクトでもプログラマーによって調べることが可能です。さらには変更することさえできます。\,---\, ただし、システムを構成している基本的なオブジェクトを変更するような時には注意が必要です。
+もちろん言うまでもなく、まず最初にイメージを保存しておいてください！
 
 %---------------------------------------------------------
-\subsection{The Inspector}
+\subsection{[Inspector]}
 
-\dothis{As an illustration of what you can do with an \ind{inspector}, type  \ct{TimeStamp now} in a workspace, and then \actclick and choose \menu{inspect it}.} 
-(It's not necessary to select the text before using the menu; if no text is selected, the menu operations work on the whole of the current line.
-You can also type \short{i} for \menu{\textbf{i}nspect it}.)
+\dothis{\ind{[Inspector]}を使ってどんなことが出来るか、実際に見てみるために[Workspace]で \ct{TimeStamp now} と打ち込んで、\actclick したら \menu{inpect it}  を選択してください。}
+(メニューを使う前にテキストを選択しておく必要はありません。もし、テキストを選択してない場合には、メニュー操作は現在の行全てを対象にするからです。 \menu{\textbf{i}nspect it} を選択する代わりに \short{i} とタイプしても同じです)
+
 \clsindex{TimeStamp}
 \index{keyboard shortcut!inspect it}
 
@@ -633,43 +633,30 @@ You can also type \short{i} for \menu{\textbf{i}nspect it}.)
 	\begin{center}
 		\includegraphics[width=\textwidth]{inspectTimeNow1}
 	\end{center}
-	\caption{Inspecting \ct{TimeStamp now}}
+	\caption{ \ct{TimeStamp now} をインスペクトする}
 	\figlabel{inspectTimeNow1}
 \end{figure}
 
-A window like that shown in \figref{inspectTimeNow1} will appear.   
-This is an inspector, and can be thought of as a window onto the internals of a particular object\,---\,in this case, the particular instance of \mbox{\ct{TimeStamp}} 
-% the \mbox is here because without it, the listings macros puts a space between TimeStamp 
-% and the following word, and that space happens to come out at the start of a line.
-that was created when you evaluated the expression \ct{TimeStamp now}.
-The title bar of the window shows the printable representation of the object that is being inspected.
-If you select \menu{self} at the top of the left pane, the right pane will show the printstring of the object.
-% If you select \menu{all inst vars} in the left pane, the right pane will show a list of the instance variables in the object, and the printstring for each one.  
-% The remaining items in the left pane represent the instance variables; this makes it easy to examine them one at a time, and also to change them.
-The left pane shows a tree view of the object, with \self at the root.
-Instance variables can be explored by expanding the triangles next to their names.
+\figref{inspectTimeNow1} のようなウィンドウが現れます。これが[Inspector]です。そしてこれはある特定のオブジェクトの内部に向かって開かれた窓と考えることができます。特定のオブジェクトとは、 \,---\, この場合には  \ct{TimeStamp now} という式を評価することによって生成された  \mbox{\ct{TimeStamp}} のインスタンスオブジェクトです。
+ウィンドウのタイトルバーには、インスペクトしているオブジェクトの印字形式の表現が表示されています。左側のペインの先頭の \menu{self} を選択すると、右側のペインにそのオブジェクトが文字列で表示されます。
+左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self がツリーの根になっています。インスタンス変数は名前のそばにある三角形を展開することにより探索することができます。
 
-The horizontal pane at the bottom of the inspector is a small workspace window.  It is useful because in this window, the pseudo-variable \ct{self} is bound to the object that you have selected in the left pane.
-So, if you \menu{inspect it} on
+[Inspector]の下部にある横長のペインは小さな[Workspace]のウインドウになってます。このウィンドウでは、偽変数の \ct{self} に左側のペインで選択したオブジェクトに束縛されているので便利です。そこで以下の式
 \begin{code}{}
 self - TimeStamp today
 \end{code}
-in the workspace pane, the result will be a \clsind{Duration} object that represents the time interval between midnight today and the instant at which you evaluated  \ct{TimeStamp now} and created the \ct{TimeStamp} object that you are inspecting.
-You can also try evaluating \ct{TimeStamp now - self}; this will tell you how long you have spent reading this section of this book!
+これをこの[Workspace機能のペイン]で \menu{inspect it} すると結果は \clsind{Duration} オブジェクトになります。
+これは今日の夜中の0時と[Inspector]で見ている TimeStamp オブジェクトを生成した \ct{TimeStamp now} を評価した時点との間の時間を表しています。
+さらに \ct{TimeStamp now - self} を評価するならば、あなたがこのセクションを読むのにどれくらい長い時間費やしたかを教えてくれます！
 
-In addition to \ct{self}, all the instance variables of the object are in scope in the workspace pane, so you can use them in expressions or even assign to them.  For example, if you select the root object in the left pane and evaluate \ct{jdn  := jdn - 1} in the workspace pane, you will see that the value of the \ct{jdn} instance variable will indeed change, and the value of \ct{TimeStamp now - self} will increase by one day.
+\ct{self} だけでなく、オブジェクトの全てのインスタンス変数は[Workspace機能のペイン]のスコープの範囲にあります。そのため式で参照することができるだけでなく代入することもできます。例えば、左のペインのツリーの根のオブジェクトを選択して、[Workspace機能のペイン]で \ct{jdn := jdn - 1} を評価すると、実際にインスタンス変数の \ct{jdn} が変化していることが分かりますし、さらに \ct{TimeStamp now - self} の値は1日分増えていることが分かります。
 
-% ON: Does not work anymore
-%You can change instance variables directly by selecting them, replacing the old value in the right-hand  pane by a \pharo expression, and accepting.  
-%\pharo will evaluate the expression and assign the result to the instance variable.
-
-There are special variants of the inspector for Dictionaries, OrderedCollections, CompiledMethods and a few other classes that make it easier to examine the contents of these special objects.
+辞書オブジェクトや順序集合オブジェクトやコンパイルされたメソッドのオブジェクト、さらにいくつかのクラスに対しては、[Inspector]に特別な拡張がなされていて、これによりこれらのオブジェクトの内容をより簡単に検査することができます。
 
 %---------------------------------------------------------
-\subsection{The Object Explorer}
+\subsection{[Object Explore]}
 
-The \emph{object explorer} is conceptually similar to the inspector, but presents its information in a different way.
-To see the difference, we'll \emph{explore} the same object that we were just inspecting.
+\emph{[Object Explore]}は概念的には[Inspector]とよく似ていますが、情報の表現の仕方が異なっています。この相違点を調べるためにさっきまでインスペクトしていたものと同じオブジェクトを\emph{[Explore]}で探検してみましょう。
 
 \begin{figure}[tbp]
 \begin{minipage}{0.48\textwidth}
@@ -678,7 +665,7 @@ To see the difference, we'll \emph{explore} the same object that we were just in
 		{\includegraphics[width=\textwidth]{exploreTimeStampNow}}
 		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow}}
 	\end{center}
-	\caption{Exploring \ct{TimeStamp now}}
+	\caption{ \ct{TimeStamp now} を探検する}
 	\figlabel{exploreTimeStampNow}
 \end{minipage}
 \hfill
@@ -688,32 +675,32 @@ To see the difference, we'll \emph{explore} the same object that we were just in
 		{\includegraphics[width=\textwidth]{exploreTimeStampNow2}}
 		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow2}}
 	\end{center}
-	\caption{Exploring the instance variables}
+	\caption{インスタンス変数を探検する}
 	\figlabel{exploreTimeStampNow2}
 \end{minipage}
 \end{figure}
 
-\dothis{Select \menu{self} in the inspector's left-hand pane, then \actclick and choose \menu{explore (I)}.}
-The \ind{explorer} window looks like \figref{exploreTimeStampNow}.
-If you click on the small triangle next to \ct{root}, the view will change to \figref{exploreTimeStampNow2}, which shows the instance variables of object that you are exploring.
-Click on the triangle next to \ct{offset}, and you will see \emph{its} instance variables.  
-The explorer is really useful when you need to explore a complex hierarchic structure\,---\,hence the name.
+\dothis{[Inspector]の左側のペインで \menu{self} を選択した状態で、\actclick して \menu{explore (I)} を選んでください}
+\ind{[Explore]}のウインドウは \figref{exploreTimeStampNow} のような姿をしています。
+\lct{ツリーの根} の次の小さな三角形をクリックすると、ビューは \figref{exploreTimeStampNow2} のように変化します。このビューは探検対象となっているオブジェクトのインスタンス変数を表示しています。
+\ct{offset} のそばの三角形をクリックすると \emph{それが持つ}インスタンス変数が見えます。
+\,---\,このように複雑な階層構造を探検しなければならない場合、[Explore]はその名の通りにたいへん便利です。
 \index{keyboard shortcut!explore it}
 
-The workspace pane of the object explorer works slightly differently from that of the inspector.
-\ct{self} is not bound to the root object, but rather to the object that is currently selected; the instance variables of the selected object are also in scope.
+[Explore]の[Workspace機能のペイン]の働きは[Inspector]のものとは若干異なります。
+\ct{self} は必ずしもツリーの根のオブジェクトに束縛されておらず、現在選択しているオブジェクトを束縛するようになっており、選択されたオブジェクトのインスタンス変数も同様のスコープに従います。
 
-To see the value of the explorer, let's use it to explore a deeply-nested structure of objects.
+[Explore]の真価を見るために、深い入れ子構造のオブジェクトを探検してみましょう。
 
-\dothis{Evaluate \ct{Object explore} in a workspace.}
-This is the object that represents the class \ct{Object} in \pharo.
-Note that you can navigate directly to the objects representing the method dictionary and even the compiles methods of this class (see \figref{ExploreObject}).
+\dothis{[Workspace]で \ct{Object explore} を評価してください}
+これは \pharo の \ct{Object} クラスを表現するオブジェクトです。
+メソッド辞書を表現するオブジェクトやこのクラスのコンパイルされたメソッドまでも直接ナビゲートすることが出来ることに注意してください（ \figref{ExploreObject} 参照）。
 
 \begin{figure}[tbp]
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{ExploreObject}
 	\end{center}
-	\caption{Exploring a \ct{Object}}
+	\caption{\ct{Object} クラスを探検する}
 	\figlabel{ExploreObject}
 \end{figure}
 
@@ -731,41 +718,40 @@ Note that you can navigate directly to the objects representing the method dicti
 %\end{figure}
 
 %=========================================================
-\section{The Debugger}
+\section{[Debugger]}
 \seclabel{debugger} % (fold)
 
-The \ind{debugger} is arguably the most powerful tool in the \pharo tool suite.  It is used not just for debugging, but also for writing new code.
-To demonstrate the debugger, let's start by creating a bug!
+\ind{[Debugger]} は間違いなく \pharo のツールの内もっとも強力なツールです。デバッグに利用されるだけでなく、新しいコードを書くのにも利用されます。
+[Debugger]のデモンストレーションをするために、バグを作るところから始めましょう！
 
-\dothis{Using the browser, add the following method to the class \ct{String}:}
+\dothis{ブラウザを使って以下のメソッドをクラス \ct{String} に追加してください}
 
 \needlines{7}
-\begin{method}[buggy]{A buggy method}
+\begin{method}[buggy]{バグがあるメソッド}
 suffix
-	"assumes that I'm a file name, and answers my suffix, the part after the last dot"
+	"ファイル名と仮定して、最後のドットから後の部分をサフィックスとして返す"
 	| dot dotPosition |
 	dot := FileDirectory dot.
 	dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
 	^ self copyFrom: dotPosition to: self size 
 \end{method}
 
-Of course, we are sure that such a trivial method will work, so instead of writing an SUnit test, we just type
-\ct{'readme.txt' suffix} in a workspace and \menu{print it (p)}.
-What a surprise!  Instead of getting the expected answer \ct{'txt'}, a \clsind{PreDebugWindow} pops up, as shown in \figref{PreDebugWindow}.
+こんな簡単なメソッドは動くのが当たり前だろうと確信して、SUnit のテストも書かずに、[Workspace]で \ct{'readme.txt' suffix} と打ち込んで \menu{print it(p)} を実行します。
+すると驚いたことに、期待された答え \ct{'txt'} の代わりに、 \figref{PreDebugWindow} のような \clsind{PreDebugWindow} がポップアップしてきました。
 
 \begin{figure}[btp]
 	\begin{center}
 	\includegraphics[width=0.8\textwidth]{PreDebugWindow}
 	\end{center}
-	\caption{A \ct{PreDebugWindow} notifies us of a bug.}
+	\caption{ \ct{PreDebugWindow} によるバグの報告}
 	\figlabel{PreDebugWindow}
 \end{figure}
 
-The \ct{PreDebugWindow} has a title-bar that tells us what error occurred, and shows us a \emphind{stack trace} of the messages that led up to the error. 
-Starting from the bottom of the trace, \ct{UndefinedObject>>>DoIt} represents the code that was compiled and run when we selected \ct{'readme.txt' suffix} in the workspace and asked \pharo to \menu{print it}.
-This code, of course, sent the message \ct{suffix} to a \clsind{ByteString} object (\ct{'readme.txt'}). 
-This caused the inherited \ct{suffix} method in class \ct{String} to execute; all this information is encoded in the next line of the stack trace, \ct{ByteString(String)>>>suffix}.  
-Working up the stack, we can see that \ct{suffix} sent \ct{detect:}\ldots and eventually \ct{detect:ifNone} sent \ct{errorNotFound}.
+\ct{PreDebugWindow} はタイトルバーでどのようなエラーが起きたのか分かるようになっています。さらにエラーが起きるまでのメッセージの \emphind{スタックトレース} が表示されています。
+トレースの一番下が始まりですが、 \ct{UndefinedObject>>DoIt} という行はコンパイルされて実行されたコードを表してます。それは、[Workspace]で \ct{'readme.txt' suffix} を選択して、\pharo に \menu{print it} を命令した時のものです。
+もちろん、このコードは \clsind{ByteString} クラスのオブジェクト(\ct{'readme.txt'})にメッセージ \ct{suffix} を送信しています。
+これは \ct{String} クラスから継承している \ct{suffix} メソッドが実行されました。このことはスタックトレースの次の行で \ct{ByteString(String)>>suffix} として表されてます。
+スタックをさらに辿ると、\ct{suffix} メソッドはメッセージ \ct{detect:}\ldots を送信し、更に \ct{detect:ifNone:} メソッドで \ct{errorNotFound} を送信していることが分かります。
 \clsindex{UndefinedObject}
 
 \begin{figure}[btp]
@@ -774,53 +760,50 @@ Working up the stack, we can see that \ct{suffix} sent \ct{detect:}\ldots and ev
 		{\includegraphics[width=\textwidth]{debuggerDetectIfNone}}
 		{\includegraphics[width=0.7\textwidth]{debuggerDetectIfNone}}
 	\end{center}
-	\caption{The debugger.}
+	\caption{[Debugger]}
 	\figlabel{debuggerDetectIfNone}
 \end{figure}
 
-To find out \emph{why} the dot was not found, we need the debugger itself, so click on \button{Debug}.
+\emph{なぜ}ドットが見つからなかったのかを調べるために、[Debugger]本体が必要ですので、\button{Debug} ボタンをクリックします。
 
 %\dothis{You can also open the debugger by clicking on any of the lines on the stack trace.  If you do this, the debugger will open already focussed on the corresponding method.}
 
-The debugger is shown in \figref{debuggerDetectIfNone}; it looks intimidating at first, but it is quite easy to use.
-The title-bar and the top pane are very similar to those that we saw in the \lct{PreDebugWindow}.  
-However, the debugger combines the stack trace with a method browser, so when you select a line in the stack trace, the corresponding method is shown in the pane below.
-It's important to realize that the execution that caused the error is still in your image, but in a suspended state.  
-Each line of the stack trace represents a frame on the execution stack that contains all of the information necessary to continue the execution.  This includes all of the objects involved in the computation, with their instance variables, and all of the temporary variables of the executing methods.
+\figref{debuggerDetectIfNone} に[Debugger]を示します。最初は無愛想に見えますが、とても使い易いものです。
+タイトルバーと一番上のペインは \lct{PreDebugWindow} とよく似ています。
+しかし、[Debugger]ではスタックトレースはメソッドブラウザと連動しています。そのためスタックトレースの1行を選択すると該当するメソッドが下のペインに表示されます。
+ここで重要な点は、中断した状態で、エラーが発生した実行結果がイメージの中に存在し続けているということを実感してください。
+スタックトレースの各々の行は、実行を継続するのに必要な全ての情報を持っている実行スタック上のフレームを表してます。これには計算に伴う全てのオブジェクトと各々のインスタンス変数や実行中のメソッドの全ての一時変数も含まれています。
 
-In \figref{debuggerDetectIfNone} we have selected the \ct{detect:ifNone:} method in the top pane.
-The method body is displayed in the center pane; the blue highlight around the message \ct{value} shows that the current method has sent the message \ct{value} and is waiting for an answer.
+\figref{debuggerDetectIfNone} では、一番上のペインから \ct{detect:ifNone:} のメソッドを選択しています。
+メソッドの本体は中央のペインに表示されています。メッセージ \ct{value} が青くハイライトされているのは、このメソッドではメッセージ \ct{value} を送信してその結果を待っている状態であることを示しています。
 
-The four panes at the bottom of the debugger are really two mini-inspectors (without workspace panes).
-The inspector on the left shows the current object, that is, the object named \self in the center pane.
-As you select different stack frames, the identity of \self may change, and so will the contents of the 
-\self{}-inspector.
-If you click on \self in the bottom-left pane, you will see that \self is the interval \ct{(10 to: 1 by -1)}, which is what we expect.
-The workspace panes are not needed in the debugger's mini-inspectors because all of the variables are also in scope in the method pane; you should feel free to type or select expressions in this pane and evaluate them.  
-You can always \menu{cancel (l)} your changes using the menu or \short{\textit{l}}. 
+[Debugger]の一番下の4つのペインは実際には([Workspace機能のペイン]を持たない)2つの小さな[Inspector]です。
+左側の[Inspector]は現在のオブジェクトを表示していますが、これは中央のペインで \self に相当するオブジェクトです。違うスタックフレームを選択することで、\self が指し示すものは変わり、\self{}-[Inspector]の内容も変わります。
+左下のペーンの \self をクリックすると、\self は インターバルオブジェクト \ct{(10 to: 1 by -1)} であることが分かります。これは期待通りです。
+[Debugger]の小さな[Inspector]に[Workspace機能のペイン]が必要無い理由は、全ての変数はメソッド・ペインのスコープに存在していることから、このペインの中で自由に式を打ち込んだり選択して評価するべきだからです。
+そうした変更に対してはメニューや \short{\textit{l}} で \menu{cancel(l)} できます。
 % apb: that lower-case-L is in italics so that it doesn't look like a 1 or a |
 \index{keyboard shortcut!cancel}
 
-The inspector on the right shows the temporary variables of the current context.
-In \figref{debuggerDetectIfNone},
-\ct{value} was sent to the parameter \ct{exceptionBlock}.
+右側の[Inspector]は現在のコンテクストにおける一時変数を表示しています。
+\figref{debuggerDetectIfNone} では、\ct{value} は引数 \ct{exceptionBlock} に送られています。
 
 %\dothis{To see the current value of this parameter, click on \ct{exceptionBlock} in the context inspector.
 %This will tell you that \ct{exceptionBlock} is \ct{[self errorNotFound: ...]}.
 %\on{no longer true!}
 
-As we can see one method lower in the stack trace, the \ct{exceptionBlock} is \ct{[self errorNotFound: ...]}, so, it is not surprising that we see the corresponding error message.
+スタックトレースで一つ下のメソッドを見ると、\ct{exceptionBlock} は \ct{[self errorNotFound: ...]} であることが分かります。当然ですけれど、エラーメッセージはこれによるものです。
 
-Incidentally, if you want to open a full inspector or explorer on one of the variables shown in the mini-inspectors, just double-click on the name of the variable, or select the name of the variable and \actclick to choose \menu{inspect (i)} or \menu{explore (I)}.
-This can be useful if you want to watch how a variable changes while you execute other code. 
+ちなみに、mini-[Inspector]に表示された変数の一つについて完全な[Inspector]や[Explore]を開きたい場合は、変数の名前を単純にダブルクリックするか、変数の名前を選択して \actclick から \menu{inspect(i)} もしくは \menu{explore(I)} を選びます。
+こうしておくと他のコードを実行した時に変数がどのように変化するかを見たい時に便利です。
 \index{keyboard shortcut!inspect it}
 \index{keyboard shortcut!explore it}
 
-Looking back at the method window, we see that we expected the penultimate line of the method to find \ct{dot} in the string \ct{'readme.txt'}, and that execution should never have reached the final line.
-\pharo does not let us run an execution backwards, but it does let us start a method again, which works very well in code such as this that does not mutate objects, but instead creates new ones.  
+メソッドウィンドウに戻って見てみると期待通りに、文字列 \ct{'readme.txt'} から \lct{ドット} を探し出すメソッドの直前の行で、かつ実行は最後の行まで到達していないことが分かります。
+\pharo は逆向きに実行することは出来ません。しかし、メソッドを再実行させることはできます。なお、この機能はオブジェクトを変化させず代わりに新しく生成するようなコードならばうまく動きます。
 
-\dothis{Click \button{Restart}, and you will see that the locus of execution returns to the first statement of the current method.  
-The blue highlight shows that the next message to be sent will be {\ct{do:}} (see \figref{RestartDetectIfNone}).}
+\dothis{\button{Restart} をクリックしてください、すると実行位置が現在のメソッドの最初の文に戻ります。
+次に送信されるメッセージ {\ct{do:}} が青くハイライトして表示されています( \figref{RestartDetectIfNone} 参照)。}
 
 \begin{figure}[btp]
 	\begin{center}
@@ -828,27 +811,27 @@ The blue highlight shows that the next message to be sent will be {\ct{do:}} (se
 		{\includegraphics[width=\textwidth]{RestartDetectIfNone}}
 		{\includegraphics[width=0.7\textwidth]{RestartDetectIfNone}}
 	\end{center}
-	\caption{The debugger after restarting the \ct{detect: ifNone:} method}
+	\caption{\ct{detect: ifNone:} メソッドを再実行した後の[Debugger]}
 	\figlabel{RestartDetectIfNone}
 \end{figure}
 
-The \button{Into} and \button{Over} buttons give us two different ways to step through the execution.  If you click \button{Over}, \pharo executes the current message-send (in this case the \ct{do:}) in one step, unless there is an error.  
-So \button{Over} will take us to the next message-send in the current method, which is \ct{value}\,---\,this is exactly where we started, and not much help. 
-What we need to do is to find out why the \ct{do:} is not finding the character that we are looking for.
+\button{Into} と \button{Over} ボタンは2つの異なった方法でステップ実行します。もし、\button{Over} ボタンを押すと \pharo は現在のメッセージ送信をエラーが起きなければ1ステップで実行します(この場合では \ct{do:})。
+このように \button{Over} ボタンにより現在のメソッドの次のメッセージ送信である \ct{value} に移ります。\,---\, ただし、このメッセージ送信はまさしく出発点であり、デバッグの助けになりません。
+というのも必要なことは、なぜ \ct{do:} メソッドが求めている文字を探し出すことが出来ずにいるのかを解明することだからです。
 
-\dothis{After clicking \button{Over}, click \button{Restart} to get back to the situation shown in \figref{RestartDetectIfNone}.}
+\dothis{\button{Over} ボタンをクリックした後で、\button{Restart} ボタンをクリックして \figref{RestartDetectIfNone} の状態に戻ってください。}
 
-\dothis{Click \button{Into}; \pharo will go into the method corresponding to the highlighted message-send, in this case, \ct{Collection>>>do:}.}
+\dothis{\button{Into} ボタンをクリックしてください。\pharo はハイライトされていたメッセージ送信に該当するメソッドの中に入って行きます。今回の場合、\ct{Collection>>do:} です。}
 
-However, it turns out that this is not much help either: we can be fairly confident that \ct{Collection>>>do:} is not broken.  The bug is much more likely to be in \emph{what} we asked \pharo to do.
-\button{Through} is the appropriate button to use in this case: we want to ignore the details of the \ct{do:} itself and focus on the execution of the argument block. 
+しかしながら、どちらにしてもこれはあまり助けにならないことが分かります。というのも \ct{Collection>>do:} が壊れていないことはかなり確信を持っていいはずです。よりバグがありそうに思われる \emph{箇所} を \pharo に尋ねるべきです。
+この場合に使うべきなのは、\button{Through} ボタンが適しています。なぜなら、 \ct{do:} メソッド自身の詳細は無視して引数ブロックの実行に焦点を絞りたいからです。
 
-\dothis{Select the \ct{detect:ifNone:} method again and \button{Restart} to get back to the state shown in \figref{RestartDetectIfNone}.
-Now click on \button{Through} a few times.  Select \ct{each} in the context window as you do so.
-You should see \ct{each} count down from \ct{10} as the \ct{do:} method executes.}
+\dothis{再び \ct{detect:ifNone:} メソッドを選択して、 \button{Restart} ボタンで \figref{RestartDetectIfNone} の状態に戻します。
+今度は \button{Through} ボタンを何回かクリックします。コンテクスト用ウィンドウの \ct{each} 変数を選択しておきます。
+\ct{do:} メソッドの実行に従って \ct{each} の内容が \ct{10} からカウントダウンしていくのが分かるでしょう。}
 
-When \ct{each} is \ct{7} we expect the \ct{ifTrue:} block to be executed, but it isn't.
-To see what is going wrong, go \button{Into} the execution of \ct{value:} as illustrated in \figref{steppingIntoValue}.
+\ct{each} の値が \ct{7} の時に \ct{ifTrue:} ブロックが実行されることが期待されますが、しかし、そうなりません。
+何が悪いのか見るために、 \figref{steppingIntoValue} に図示したように \ct{value:} の実行に \button{Into} ボタンで潜ります。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -856,18 +839,18 @@ To see what is going wrong, go \button{Into} the execution of \ct{value:} as ill
 		{\includegraphics[width=\textwidth]{steppingIntoValue}}
 		{\includegraphics[width=0.7\textwidth]{steppingIntoValue}}
 	\end{center}
-	\caption{The debugger after stepping \lct{Through} the \ct{do:} method several times.}
+	\caption{\ct{do:} メソッドで数回 \lct{Through} ボタンでステップ実行した後の[Debugger]}
 	\figlabel{steppingIntoValue}
 \end{figure}
 
-After clicking \button{Into}, we find ourselves in the position shown in \figref{dotIsAString}.
-It looks at first that we have gone \emph{back} to the \ct{suffix} method, but this is because we are now executing the block that \ct{suffix} provided as argument to \ct{detect:}.
+\button{Into} ボタンをクリックした後、\figref{dotIsAString} で示される箇所にいることに気付きます。
+一見すると \ct{suffix} メソッドに \emph{戻って} しまったように見えますが、今は \ct{suffix} メソッドが \ct{detect:} メソッドに引数として渡している実行中のブロックの中にいます。
 %\on{does not work any more! the debugger does not know about block variables!}
 %If you select \ct{i} in the context inspector, you can see its current value, which should be \ct{7} if you have been following along.  
 %You can then select the corresponding element of \self from the \self{}-inspector.
-%In  \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is indeed a dot.
-If you select \ct{dot} in the context inspector, you will see that its value is \ct{'.'}.
-And now you see why they are not equal: the seventh character of \ct{'readme.txt'} is of course a \ct{Character}, while \ct{dot} is a \ct{String}.
+%In  \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is \ctindeed a dot.
+コンテクスト用[Inspector]の \ct{dot} を選択するとその値が \ct{'.'} であることが分かります。
+こうして、\ct{'readme.txt'} の7番目の文字が \ct{Character} である一方、 \ct{dot} は \ct{String} であるために equal: とならないことが分かります。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -875,11 +858,11 @@ And now you see why they are not equal: the seventh character of \ct{'readme.txt
 		{\includegraphics[width=\textwidth]{dotIsAString}}
 		{\includegraphics[width=0.7\textwidth]{dotIsAString}}
 	\end{center}
-	\caption{The debugger showing why \ct{'readme.txt' at: 7} is not equal to \ct{dot}}
+	\caption{\ct{'readme.txt' at: 7} が \ct{dot} と等しくならない原因を示している[Debugger]}
 	\figlabel{dotIsAString}
 \end{figure}
 
-Now that we see the bug, the fix is obvious: we have to convert \ct{dot} to a character before starting to search for it.  
+さて、バグが分かりましたので、この修正方法も明白です。つまり、探し始める前に \ct{dot} を文字に変換する必要があるのです。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -887,93 +870,92 @@ Now that we see the bug, the fix is obvious: we have to convert \ct{dot} to a ch
 		{\includegraphics[width=\textwidth]{revertDialog}}
 		{\includegraphics[width=0.7\textwidth]{revertDialog}}
 	\end{center}
-	\caption{Changing the \ct{suffix} method in the debugger: asking for confirmation of the exit from an inner block}
+	\caption{[Debugger]の中で \ct{suffix} メソッドを修正する: 内側のブロックから抜けだすかどうかの確認}
 	\figlabel{revertDialog}
 \end{figure}
 
-\dothis{Change the code right in the debugger so that the assignment reads \ct{dot := FileDirectory dot first} and \menu{accept} the change.}
+\dothis{\ct{dot := FileDirectory dot first} と、[Debugger]の中でコードを正しく修正して、変更を \menu{accept} してください。}
 
-Because we are executing code inside a block that is inside a \lct{detect:}, several stack frames will have to be abandoned in order to make this change.  \pharo asks us if this is what we want (see \figref{revertDialog}), and, assuming that we click \menu{yes}, will save (and compile) the new method.
+\lct{detect:} の中の実行中のコードにいたために、この修正を行うことでいくつかのスタックフレームが失われることになります。それでいいのかどうか \pharo は確認してきます(  \figref{revertDialog} 参照)、当然のごとく \menu{yes} をクリックし、新しいメソッドを保存(およびコンパイル)します。
 
 %\dothis{Click \button{Restart} and then \button{Proceed}; the debugger window will vanish, and the evaluation of the expression \ct{'readme.txt' suffix} will complete, and print the answer \ct{'.txt'}}
 
-The evaluation of the expression \ct{'readme.txt' suffix} will complete, and print the answer \ct{'.txt'}.
+\ct{'readme.txt' suffix} という式の評価は完璧になったはずで、答え \ct{'.txt'} を印字します。
 
-Is the answer correct?  Unfortunately, we can't say for sure.  Should the suffix be \ct{.txt} or \ct{txt}?
-The method comment in \ct{suffix} is not very precise.  
-The way to avoid this sort of problem is to write an \ind{SUnit} test that defines the answer.
+この答えは正しいのでしょうか？不幸なことにはっきりしたことは言えません。サフィックスは \ct{.txt} であるべきか？それとも \ct{txt} であるべきか？ \ct{suffix} メソッドのコメントはあまり明確ではありません。
+こうした問題を回避するために答えの定義を \ind{SUnit} のテストに書くという方法があります。
 
-\begin{method}[testSuffix]{A simple test for the \ct{suffix} method}
+\begin{method}[testSuffix]{\ct{suffix} メソッドのための簡単なテスト}
 testSuffixFound
 	self assert: 'readme.txt' suffix = 'txt'
 \end{method}
 
-The effort required to do that was little more than to run the same test in the workspace, but using \sunit saves the test as executable documentation, and makes it easy for others to run.
-Moreover, if you add \mthref{testSuffix} to the class \ct{StringTest} and run that test suite with \sunit, you can very quickly get back to debugging the error.
-\sunit opens the debugger on the failing assertion, but you need only go back down the stack one frame, \button{Restart} the test and go \button{Into} the \ct{suffix} method, and you can correct the error, as we are doing in \figref{fixOffByOne}.
-It is then only  a second of work to click on the \button{Run Failures} button in the \sunit Test Runner, and confirm that the test now passes.
+同じテストを[Workspace]で実行するよりは、こちらの努力の方が \sunit を用いることで実行可能な文書になること、また、第三者にとって実行方法を簡単するという点でより優れています。
+さらに \ct{StringTest} クラスに \mthref{testSuffix} を追加して \sunit のテストとするならば、エラー発生時によりすばやくデバッグすることができます。
+\sunit は表明違反があると[Debugger]を開きますので、\figref{fixOffByOne} のように、一つフレームを遡り \button{Restart} ボタンでテストを再実行し、\button{Into} ボタンで ct{suffix} メソッドに入りエラーを修正すればいいのです。
+次にやることは \sunit Test Runner の \button{Run Failures} ボタンをクリックして、今度はテストが通過することを確認するだけです。
 
 \begin{figure}[btp]
 	\begin{center}
 		\includegraphics[width=\textwidth]{fixOffByOne}
 	\end{center}
-	\caption{Changing the \ct{suffix} method in the debugger: fixing the off-by-one error after an \sunit assertion failure}
+	\caption{[Debugger]の中で \ct{suffix} メソッドを編集する: \sunit の表明違反の後にOff-by-one エラーを修正する}
 	\figlabel{fixOffByOne}
 \end{figure}
 
-Here is a better test:
+以下はより良いテストコードです。
 
-\begin{method}[testSuffix2]{A better test for the \ct{suffix} method}
+\begin{method}[testSuffix2]{\ct{suffix} メソッドのためのより良いテスト}
 testSuffixFound
 	self assert: 'readme.txt' suffix = 'txt'.
 	self assert: 'read.me.txt' suffix = 'txt'
 \end{method}
 \noindent
-Why is this test better?  Because it tells the reader what the method should do if there is more than one dot in the target String.
+どうしてこのテストがより良いものなのでしょう？その理由は、もし対象となる文字列に一つ以上のドットがある場合に、このメソッドがどうすべきであるかを読む人に教えてくれているからです。
 
-There are a few other ways to get into the debugger in addition to catching errors and assertion failures.
-If you execute code that goes into an infinite loop, you can interrupt it and open a debugger on the computation by typing \short{.} (that's a full stop or a period, depending  on where you learned English).\footnote{It is also useful to know that you can bring up an emergency debugger at any time by typing \short{{\sc shift--}.}}
-You can also just edit the suspect code to insert \ct{self halt}.
-So, for example, we might edit the \ct{suffix} method to read as follows:
+なお、エラーを補足したり表明違反の発生以外に、[Debugger]に入るいくつかの方法があります。
+コードを実行したら無限ループに入ってしまった場合、 \short{.} (英語を知ってれば分かりますが、終止符もしくはピリオド)と打ち込むことで割り込みをかけてその計算状況での[Debugger]を開くことができます。\footnote{同様に、どんな時にでも \short{{\sc shift--}.} とタイプすると緊急[Debugger]が起動することを覚えておくと便利です。}
+また、疑わしいコードの箇所に \ct{self halt} と入れておくだけでもいいです。
+例えば、\ct{suffix} メソッドであるならば、次のような感じです。
 \index{process!interrupting}
 
 \needspace{11ex}
-\begin{method}[suffix]{Inserting a \ct{halt} into the \ct{suffix} method.}
+\begin{method}[suffix]{\ct{suffix} メソッドに \ct{halt} を入れる}
 suffix
-	"assumes that I'm a file name, and answers my suffix, the part after the last dot"
-	| dot dotPosition |
+	"ファイル名と仮定して、最後のドットから後の部分をサフィックスとして返す。"
+        	| dot dotPosition |
 	dot := FileDirectory dot first.
 	dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
 	self halt.
 	^ self copyFrom: dotPosition to: self size 
 \end{method}
 
-When we run this method, the execution of the \ct{self halt} will bring up the \ind{pre-debugger}, from where we can proceed, or go into the debugger and look at variables, step the computation, and edit the code.
+このメソッドを走らせると、 \ct{self halt} の実行により \ind{pre-debugger} が開いてきますので、そこで、実行を続行したり、[Debugger]に入って変数を見たり、ステップ実行したりコードを編集したりすることができます。
 
-That's all there is to the debugger, but it's not all there is to the \ct{suffix} method.  
-The initial bug should have made you realize that if there is no dot in the target string, the \ct{suffix} method will raise an error.  
-This isn't the behaviour that we want, so let's add a second test to specify what should happen in this case.
+[Debugger]については以上で全てですが、 \ct{suffix} メソッドについてはまだです。
+最初のバグで気付いたかもしれませんが、対象となる文字列にドットがない場合、\ct{suffix} メソッドはエラーを発生します。
+これは望ましい振る舞いではありませんので、こうしたケースでは何が起きるのか特定するために第2のテストを追加してみます。
 
 \needlines{3}
-\begin{method}[testNoSuffix]{A second test for the \ct{suffix} method: the target has no suffix}
+\begin{method}[testNoSuffix]{\ct{suffix} メソッドのための第2のテスト: 対象がサフィックスを持たない}
 testSuffixNotFound
 	self assert: 'readme' suffix = ''
 \end{method}
 
 \needlines{2}
-\dothis{Add \mthref{testNoSuffix} to the test suite in class \clsind{StringTest}, and watch the test raise an error.
-Enter the debugger by selecting the erroneous test in \sunit, and edit the code so that the test passes.
-The easiest and clearest way to do this is to replace the \ct{detect:} message by \ct{detect: ifNone:}, where  the second argument is a block that simply returns the string size.}
+\dothis{ \mthref{testNoSuffix} を \clsind{StringTest} クラスのテストスイートに追加してテストがエラーを起こすところを見ます。
+\sunit でエラーが起きたテストを選択して[Debugger]に入り、テストをパスするためにコードを編集します。
+もっとも簡単で明解な方法は \ct{detect:} メッセージの代わりに \ct{detect:ifNone:} を用いて、二番目の引数を単純に文字列の大きさを返すブロックとする方法です。}
 
-We will learn more about SUnit in \charef{SUnit}.
+SUnitについては \charef{SUnit} でもっと詳しく学びます。
 
 % section debugger (end)
 
 %=========================================================
-\section{The Process Browser}
+\section{[Process Browser]}
 
-\st is a multi-threaded system: there are many lightweight processes (also known as threads) running concurrently in your image. 
-In the future the \pharo virtual machine may take advantage of multiprocessors when they are available, but at present concurrency is implemented by time-slicing.
+\st はマルチスレッドなシステムです。イメージ中では、たくさんの軽量プロセス(スレッドとして知られる)が平行して走っています。
+将来的には \pharo の仮想機械は可能ならばマルチプロセッサを利用するようになるかもしれませんが、現時点では、平行性は時分割処理で実装されています。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -981,32 +963,29 @@ In the future the \pharo virtual machine may take advantage of multiprocessors w
 		{\includegraphics[width=\textwidth]{processBrowser}}
 		{\includegraphics[width=0.7\textwidth]{processBrowser}}
 	\end{center}
-	\caption{The Process Browser}
+	\caption{[Process Browser]}
 	\figlabel{processBrowser}
 \end{figure}
 
-The process \subind{process}{browser} is a cousin of the debugger that lets you look at the various processes running inside \pharo.
-\figref{processBrowser} shows a screenshot.
-The top-left pane lists all of the processes in \pharo, in priority order, from the timer interrupt watcher at priority 80 to the idle process at priority 10.
-Of course, on a uniprocessor, the only process that can be running when you look is the UI process; all others will be waiting for some kind of event.
-%:===> Process browser context menu is broken!
-\on{broken -- to be fixed!}
-By default, the display of processes is static; it can be updated by \actclick{ing} and selecting \menu{turn on auto-update (a)}
+プロセス \subind{プロセス}{ブラウザ} は \pharo の中で稼働している様々なプロセスを見せてくれるという点で[Debugger]のいとこに相当します。
+\figref{processBrowser} にスクリーンショットをあげておきます。
+左上のペインは、優先度80の割り込みタイマー監視プロセスから優先度10のアイドルプロセスに至るまで \pharo の中の全てのプロセスの優先度順のリストです。
+もちろん、単一プロセッサ上ですので、見ている時に動いてる唯一のプロセスはUIプロセスです。そのほかの全てのプロセスはなんらかのイベントを待ち続けています。
+デフォルトでは、プロセスの表示は静的ですが、\actclick{ing} から \menu{turn on auto-update(a)} を選ぶことで更新することができます。
 
-If you select a process in the top-left pane, its stack trace is displayed in the top-right pane, just as with the debugger.
-If you select a stack frame, the corresponding method is displayed in the bottom pane.
-The process browser is not equipped with mini-inspectors for \self and \lct{thisContext}, but \actclick{ing} on the stack frames provide equivalent functionality.
+左上のペインでプロセスを選択すると、丁度、[Debugger]のように、スタックトレースが右上のペインに表示されます。
+スタックトレースを選択すると該当するメソッドが下部のペインに表示されます。
+[Process Browser]は \self や \lct{thisContext} のためのmini-[Inspector]を備えてはいませんが、スタックトレースで \actclick{ing} することにより同様の機能を提供しています。
 
 %=========================================================
-\section{Finding methods}
+\section{メソッド検索}
 \seclabel{methodFinder} 
 
-There are two tools in \pharo to help you find messages.
-They differ in both interface and functionality.
+\pharo にはメソッド検索のための2つのツールがあります。
+両者はインタフェースと機能性が異なっています。
 
-The \emph{method finder} was described at some length in \secref{quick:methodFinder}; you can use it to find methods by name or by functionality. 
-However, to look at the body of a method, the method finder opens a new browser.
-This can quickly become overwhelming.
+\emph{[Method Finder]}は \secref{quick:methodFinder} である程度説明しましたが、メソッドを名前や機能性から探すことができます。しかしメソッドの本体を見ようとすると[Method Finder]は新しくブラウザを開いてしまいます。
+これではすぐにウィンドウがいっぱいになってしまいます。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -1014,87 +993,83 @@ This can quickly become overwhelming.
 		{\includegraphics[width=\textwidth]{methodNamesRandom}}
 		{\includegraphics[width=0.7\textwidth]{methodNamesRandom}}
 	\end{center}
-	\caption{The message names browser showing all methods containing the substring \ct{random} in their selectors.}
+	\caption{\ct{random} を部分文字列としてセレクタ名に持つ全てのメソッドを表示している[Message Names Browser]}
 	\figlabel{methodNamesRandom} % should be *message* names!
 \end{figure}
 
 \index{message names browser}
-The \emph{message names} browser has more limited search functionality: you type a fragment of a message selector in the search box, and the browser lists all methods that contain that fragment in their names, as shown in \figref{methodNamesRandom}.
-However, it is a full-fledged browser:
-if you select one of the names in the left pane, all of the methods with that name are listed in the right pane, and can be browsed in the bottom pane.
-As with the browser, the message names browser has a button bar that can be used to open other  browsers on the selected method or its class.
-
+\emph{[Message Names Browser]} はより特別な検索の機能性を有してます。検索用の入力ボックスにメッセージ・セレクタの一部をタイプすると、ちょうど \figref{methodNamesRandom} のように、名前にその一部を含んだすべてのメソッドがブラウザにリストされます。
+さらに、これは一人前のブラウザでもあります。
+左のペインの名前の一つを選択すると、その名前を持つすべてのメソッドが右側のペインにリストされます。そして、下部のペインで内容を見ることができるのです。
+ブラウザが持っているように、[Message Names Browser]はボタン・バーを備えていて、選択したメソッドやそのクラスを他のブラウザで開くことができます。
 
 % section methodFinder (end)
 
 %=========================================================
-\section{Change sets and the Change Sorter}
+\section{チェンジセットと[Change Sorter]}
 \seclabel{env:changeSet} % (fold)
 
-Whenever you are working in \pharo, any changes that you make to methods and classes are recorded in a \ct{change set}.
-This includes creating new classes, re-naming classes, changing categories, adding methods to existing classes\,---\,just about everything of significance.  
-However, arbitrary \emph{doits} are not included, so if, for example, you create a new global variable by assigning to it in a workspace, the variable creation will not make it into a \subind{file}{change set}.
+\pharo で仕事をしている間、メソッドやクラスに対するどんな変更も \lct{チェンジセット} に記録されます。
+これには、新しいクラスの作成や、クラス名の変更や、カテゴリの変更や既存のクラスへのメソッドの追加など\,---\,重要なすべてのことが含まれています。
+しかし、気ままな \emph{doits} は含まれません。ですので、たとえば[Workspace]で新しくグローバル変数を定義したとしても変数の作成手続きは\subind{file}{チェンジセット}に残りません。
 \index{change sorter}
 
-At any time, many change sets exist, but only one of them\,---\,\ct{ChangeSet current}\,---\,is collecting the changes that are being made to the image.  
-You can see which change set is current and can examine all of the change sets using the  change sorter, available by selecting \menu{World \go Tools \ldots \go Change Sorter}.
+どんな時でも、たくさんのチェンジセットが存在している場合でも、その中のたった一つがイメージに対する変更を収集しています。\,---\,それは \lct{カレントチェンジセット} です\,---\, 
+\menu{World \go Tools \ldots \go Change Sorter}を選択して出てくる[Change Sorter]を使えば、どのチェンジセットがカレントであるのか、またすべてのチェンジセットについて調べることができます。
 
 \begin{figure}[btp]
 	\begin{center}
 		\includegraphics[width=\linewidth]{changeSorter}
 	\end{center}
-	\caption{The Change Sorter}
+	\caption{[Change Sorter]}
 	\figlabel{changeSorter}
 \end{figure}
 
-\figref{changeSorter} shows this browser.  The title bar shows which change set is current, and this change set is selected when the change sorter opens. 
+\figref{changeSorter} に閲覧画面を示します。タイトルバーはどのチェンジセットがカレントであるのかを表示します。また、それは[Change Sorter]が開いた時に選択されているチェンジセットでもあります。
 
-Other change sets can be selected in the top-left pane; the \actclick menu allows you to make a different change set current, or to create a new change set.
-The next pane lists all of the classes affected by the selected change set (with their categories).
-Selecting one of the classes displays the names of those of its methods that are also in the change set (\emph{not} all of the methods in the class) in the left central pane, and selecting a method name displays the method definition in the bottom pane.
-Note that the change sorter does \emph{not} show you whether the creation of the class itself is part of the change set, although this information is stored in the object structure that is used to represent the change set.
+左上のペインで他のチェンジセットを選ぶことができます。さらに \actclick メニューで他のチェンジセットをカレントにしたり、新しいチェンジセットを作ることができます。
+次のペインは選択したチェンジセット(とそのカテゴリ)に影響を受けているすべてのクラスをリスト表示しています。
+一つクラスを選択するとそのチェンジセットに存在するメソッド(クラスの全てのメソッド \emph{ではなく})の名前が左の中央のペインに表示され、さらにメソッド名を選択するとメソッドの定義が下のペインに表示されます。
+[Change Sorter]は、チェンジセットの一部としてクラスそれ自体の姿を見せている訳 \emph{ではない} ことに注意してください。その情報はチェンジセットを表現するためのオブジェクト構造に格納されているものであります。
 
-The change sorter also lets you delete classes and methods from the change set using the \actclick menu on the corresponding items.
+[Change Sorter]は該当する項目の \actclick メニューでクラスやメソッドをチェンジセットから削除することもできます。
+
 %  However, for more elaborate editing of change sets, you should use a second tool, the \textit{change sorter}, available by selecting \menu{World\go{}open \ldots \go{}dual change sorter}, which is shown in \figref{changeSorter}.
 % The change sorter is essentially two change set browsers side by side; each side can focus on a different change set, class, or method.
 
-The change sorter allows you to simultaneously view two change sets, one on the left hand side and the other on the right.
-This layout supports the change sorter's main feature, which is the ability to move or copy changes from one change set to another, as shown by the \actclick menu in \figref{changeSorter}.
-It is also possible to copy individual methods from one side to the other.
+[Change Sorter]は同時に二つのチェンジセットを扱えます、一つは左側でもう一つは右側のビューです。
+この配置は、 \figref{changeSorter} の \actclick メニューに示されてるように、一つのチェンジセットから別のチェンジセットへメソッドを移動したりコピーしたりする[Change Sorter]の最も重要な機能を支援します。
+同様に個々のメソッドごとに一方からもう一方へコピーすることもできます。
 
-You may be wondering why you should care about the composition of a change set.
-the answer is that change sets provide a simple mechanism for exporting code from \pharo to the file system, from where it can be imported into another \pharo image, or into another non-\pharo \st.
-Change set export is known as ``filing-out'', and can be accomplished using the \actclick menu on any change set, class or method in either browser.
-Repeated file outs create new versions of the file, but change sets are not a versioning tool like Monticello:
-they do not keep track of dependencies.
+みなさんは、どうしてチェンジセットなるものを扱わなければならないのか疑問に思うかもしれません。
+その答えは、チェンジセットは \pharo からファイルシステムにコードを書き出すシンプルな仕組みを提供しているからです。これでコードを他の \pharo イメージに取り込むことや、\pharo 以外の \st に取り込むことができるからです。
+チェンジセットの書き出しは ``ファイルアウト'' として知られていますが、チェンジセットや、ブラウザのクラスもしくはメソッドで \actclick メニューにより行うことができます。
+ファイルアウトを繰り返すとファイルの新しいバージョンが生成されますが、チェンジセットは Monticello のようなバージョン管理ツールではありませんし、依存関係の追跡もしません。
 \index{file!filing out}
 
-Before the advent of Monticello, change sets were the main means for exchanging code between smalltalkers.
-They have the advantage of simplicity (the file out is just a text file, although we \emph{don't} recommend that you try to edit them with a text editor), and a degree of portability.  
+Monticello の出現以前、チェンジセットは Smalltalker の間でコードを交換する主たる手段でした。
+単純さ(ちなみにファイルアウトしたものは単なるテキストファイルですが、テキストエディターで編集するようなことは \emph{お勧めしません} )と可搬性の高さには優位性があります。
 %It's also quite easy to create a change set that makes changes to many different, unrelated parts of the system\,---\,something that Monticello is not yet equipped to do.
 %\ab{Or is it?}
 %\on{you mean something different than extensions to foreign packages using the *package protocol notation?}
 
-The main drawback of change sets, compared to \ind{Monticello} packages, is that they do not support the notion of dependencies.
-A filed-out change set is a set of \emph{actions} that change any image into which it is loaded. To successfully load a change set requires that the image be in an appropriate state.
-For example, the change set might contain an action to add a method to a class; this can only be accomplished if the class is already defined in the image.
-Similarly, the change set might rename or re-categorize a class, which obviously will only work if the class is present in the image; methods may use instance variables that were declared when they were filed out, but which do not exist in the image into which they are imported.
-The problem is that change sets do not explicitly describe the conditions under which they can be filed in:
-the file in process just hopes for the best, usually resulting in a cryptic error message and a stack trace when things go wrong.
-Even if the file in works, one change set might silently undo a change made by another change set.
+\ind{Monticello} パッケージと比較して、チェンジセットの主な欠点としては、依存関係の概念をサポートしてない点があげられます。
+あるファイルアウトしたチェンジセットは \emph{アクション} の集合であり、それを読み込んだ先のイメージへ変更を加えます。チェンジセットを無事に読み込むためには、イメージはふさわしい状態にあることが求められます。
+たとえば、チェンジセットがあるクラスへメソッドを追加するアクションを含んでいるとする場合、イメージにすでにそのクラスが定義されている時のみに完了することができます。
+同様にチェンジセットはクラス名の変更やカテゴリ変更をしている場合、当然そのクラスがイメージに存在している時のみに有効です。その一方で、ファイルアウトした側では定義されているインスタンス変数をメソッドが参照しているのに、それを取り込もうとしているイメージには変数が存在していないということもあり得ます。
+問題点はチェンジセットがファイルインできる条件について明示的に表現していないことです。ファイルインのプロセスはうまくいくことが望まれますが、うまくいかない場合、たいてい訳がわからないエラーメッセージとスタックトレースで終わることになります。
+複数のファイルインの作業をしていたら、あるチェンジセットが他のチェンジセットによる変更を黙って元に戻してしまうことすらあります。
 
-In contrast, Monticello packages represent code in a declarative fashion: they describe the state of the image should be in after they have been loaded.
-This permits Monticello to warn you about conflicts (when two packages require contradictory final states)
-and to offer to load a series of packages in dependency order.
+これとは対照的に Monticello パッケージではコードを宣言的な流儀で表現します。つまり、読み込みが完了後にイメージがどのような状態であるべきかを記述します。
+これにより(2つのパッケージが最後の段階で矛盾した要求を持つ場合など)コンフリクトについて警告し、依存関係の順序で一連のパッケージをロードすることを提案してくれます。
 
-In spite of these shortcomings, change sets still have their uses; in particular, you may find change sets on the Internet that you want to look at and perhaps use.
-So, having filed out a change set using the change sorter, we will now tell you how to file one in.
-This requires the use of another tool, the file list browser.
-
+しかし、欠点にも関わらず、チェンジセットは未だに使われています。特にみなさんはインターネットで見てみたいと思ったチェンジファイルを探し出して来てことによると使用していたりするでしょう。
+それでは、[Change Sorter]を使ってチェンジセットをファイルアウトするところをみてきました。今度はファイルインの方法を説明しましょう。
+それには別なツールが必要です。それは[File List Browser]です。
 % section changeSet (end)
 
 %=========================================================
-\section{The File List Browser}
+\section{[File List Browser]}
 
 \begin{figure}[btp]
 	\begin{center}
@@ -1102,28 +1077,24 @@ This requires the use of another tool, the file list browser.
 		{\includegraphics[width=\textwidth]{fileList}}
 		{\includegraphics[width=0.7\textwidth]{fileList}}
 	\end{center}
-	\caption{A file list browser}
+	\caption{[File List Browser]}
 	\figlabel{fileList}
 \end{figure}
 
-The \ind{file list browser} is in fact a general-purpose tool for browsing the file system (and also FTP servers) from \pharo. 
-You can open it from the \menu{World\go{}Tools \ldots \go{}File Browser} menu.
-What you see of course depends on the contents of your local file system, but a typical view is shown in \figref{fileList}.
+要するに \ind{[File List Browser]} は \pharo からファイルシステム(およびFTPサーバーも含めて)をブラウズするための汎用的なツールです。
+\menu{World \go{}Tools \dots \go{}File Browser} メニューで開くことができます。見かけはもちろんみなさんのローカルのファイルシステムの内容で変わりますが、典型的なビューを  \figref{fileList} に示します。
 \seeindex{file!browsing}{file list browser}
 
-When you first open a file list browser it will be focussed on the current directory, that is, the one from which you started \pharo. The title bar shows the path to this directory.
-The larger pane on the left-hand side can be used to navigate the file system in the conventional way.
-When a directory is selected, the files that it contains (but not the directories) are displayed on the right.
-This list of files can be filtered by entering a Unix-style pattern in the small box at the top-left of the window.  
-Initially, this pattern is \ct{*}, which matches all file names, but you can type a different string there and accept it, changing the pattern.  (Note that a \ct{*} is implicitly prepended and appended to the pattern that you type.)
-The sort order of the files can be changed using the \button{name}, \button{date} and \button{size} buttons.
-The rest of the buttons depend on the name of the file selected in the browser.
-In \figref{fileList}, the file name has the suffix \ct{.cs}, so the browser assumes that it is a change set, and provides buttons to \button{install} it (which \textit{files it in} to a new change set whose name is derived from the name of the file),  to browse the \button{changes} in the file, to examine the \button{code} in the file, 
-and to \button{filein} the code into the \emph{current} change set.
-You might think that the \button{conflicts} button would tell you about changes in the change set that conflicted with existing code in the image, but it doesn't.
-\ab{Does anyone know what it does do?  I've never found it useful.}
-\on{I tried it and found that it complained about linefeeds.}
-Instead it just checks for potential problems in the file that might indicate that the file cannot properly be loaded (such as the presence of linefeeds).
+最初にファイルリスト・ブラウザを開くと、\pharoを起動したところをカレントディレクトリとして選択された状態になっています。タイトルバーにはこのディレクトリへのパスが表示されています。
+左側の大きなペインはよくあるようにファイルシステムを渡り歩くことができます。
+ディレクトリが選択されるとそれが持っているファイル(ディレクトリは含まれない[[訳注：実際には表示される？？]])のリストが右側に表示されます。
+このファイルのリストはUnix流のパターンをウィンドウの左上にある小さな入力ボックスに入力することでフィルタをかけることができまう。
+最初はこのパターンは \ct{*} です。これは全てのファイル名にマッチします。ここで違う文字列をそこに入力してアクセプトするとパターンが変更されます(入力したパターンの前後に暗黙で \ct{*} が付加されることに気をつけてください)。
+ファイルの並び順は、\button{name} 、 \button{date} そして \button{size} ボタンで変更できます。
+残りのボタンはブラウザで選択したファイル名に依存します。
+\figref{fileList} では、ファイル名がサフィックスとして \ct{.cs} を持っています。そこでブラウザはそれはチェンジセットだと推測して、それを \button{install} するためのボタンを提供します(これはファイル名に基づいた名前の新しいチェンジセットに \textit{files it in} します)。ファイルの内容を見るには \button{changes} ボタン、ファイルの内容を実行するには \button{code} ボタン、\button{filein} ボタンで \emph{カレント} のチェンジセットにコードを取り込みます。
+\button{conflicts} ボタンはイメージにすでにあるコードとチェンジセットの変更との間のコンフリクトを教えてくれるものと推測するかもしれませんが、これは違います。
+その代わりに(ラインフィードの存在のような)ファイルが正しく読み込まれない潜在的な問題をチェックして指摘します。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -1131,44 +1102,42 @@ Instead it just checks for potential problems in the file that might indicate th
 		{\includegraphics[width=\textwidth]{fileContentsBrowser}}
 		{\includegraphics[width=0.7\textwidth]{fileContentsBrowser}}
 	\end{center}
-	\caption{A File Contents Browser}
+	\caption{[File Contents Browser]}
 	\figlabel{fileContentsBrowser}
 \end{figure}
 
-Because the choice of buttons to display depends on the file's \emph{name}, and not on its contents, sometimes the button that you want won't be on the screen.  
-However, the full set of options is always available from the \actclick \menu{more \ldots} menu, so
-you can easily work around this problem.
+ボタン表示の選択はファイルの内容ではなくファイルの \emph{名前} に依存していることから、時々、希望しないボタンが画面に出て来ます。
+しかし、すべてのオプションは常に \actclick の \menu{more \ldots} から利用できますので、簡単にこの問題へ対処できます。
 
-The \button{code} button is perhaps the most useful for working with change sets; it opens a browser on the contents of the change set file; an example is shown in \figref{fileContentsBrowser}.
-The file contents browser is similar to the browser except that it does not show categories, just classes, protocols and methods.
-For each class, the browser will tell you whether the class already exists in the system and whether it is defined in the file (but \emph{not} whether the definitions are identical).  
-It will show the methods in each class, and (as shown in \figref{fileContentsBrowser}) will show you the differences between the current version and the version in the file.
-Contextual menu items in each of the top four panes will also let you file in the whole of the change set, or the corresponding class, protocol or method. 
+\button{code} ボタンはチェンジセットを使う上でおそらくもっとも便利なものです。これはチェンジセットファイルの内容をブラウザで開きます。例を \figref{fileContentsBrowser} に示します。
+この[File Contents Browser]はブラウザによく似ていますが、クラスとプロトコルとメソッドだけを表示してカテゴリの表示がありません。
+個々のクラスごとにクラスがすでにシステムに存在しているかどうかファイルで定義されているかどうか(定義が同一か \emph{そうでないか})が分かるようになっています。
+個々のクラスのメソッドを表示した上でさらに( \figref{fileContentsBrowser} のように)現在のバージョンとファイルのバージョンとの差分を表示します。
+上部の4つのペインのコンテキストメニューはチェンジセット全体をファイルインするのか、それともクラスや、プロトコル、そしてメソッドごとにファイルインするかどうかを指示することができます。
 
 %=========================================================
-\section{In Smalltalk, you can't lose code}
+\section{Smalltalkでは、もうコードを失うことはありません}
 \seclabel{cantLoseCode} % (fold)
 
-It is quite possible to crash \pharo: as an experimental system, \pharo lets you change anything, including things that are vital to make \pharo work! 
+\pharo がクラッシュすることは十分あり得ることです。というのも、実験的なシステムであり、\pharo が機能するために必要なものを含めて！すべてものが変更可能になっているからです。
 
-\dothis{To maliciously crash \pharo, try \ct{Object become: nil}.}
+\dothis{悪意をもって \pharo をクラッシュさせましょう。 \ct{Object become: nil} を試してみてください}
 
-The good news is that you need never lose any work, even if you crash and go back to the last saved version of your image, which might be hours old.
-This is because all of the code that you executed is saved in the \emph{.changes} file.
-All of it!
-This includes one liners that you evaluate in a workspace, as well as code that you add to a class while programming.
+もしクラッシュしてしまって、何時間も前の最後に保存したバージョンにイメージが戻ってしまったとしても、よい知らせがあります。
+それはみなさんがやったことは決して失われないということです。というのも、実行した全てのコードは　\emph{.changes} ファイルにすべて保存されているからです。全てです! 
+これには[Workspace]で評価した1行プログラムからクラスを追加するプログラミングのコードまで含まれます。
 \index{changes}
 
-So here are the instructions on how to get your code back.
-There is no need to read this until you need it. 
-However, when you do need it, you'll find it here waiting for you.
+そこでここからはどのようにコードを回復するかについての手順となります。
+これを必要とする時まで、特に読む必要はありません。
+しかしながら、それを必要とするときには、ここで見つけるられるようみなさんをお待ちしてます。
 
-In the worst case, you can use a text editor on the \emph{.changes} file, but since it is many megabytes in size, this can be slow and is not recommended. 
-\pharo offers you better ways.
+最悪の事態では、\emph{.changes} ファイルにテキストエディタを用いることができますが、メガバイトの大きさを持っていることから、冴えないやり方で推奨できません。
+\pharo は、よりよい方法を提供しています。
 
 %---------------------------------------------------------
-\subsection{How to get your code back}
-Restart \pharo from the most recent snapshot, and select \menu{World\go{}Tools \ldots \go{}Recover lost changes}. 
+\subsection{コードを回復する方法}
+最後のスナップショットの \pharo をリスタートして、 \menu{World\go{}Tools \ldots \go{}Recover lost changes} を選択します。
 %This will open a workspace full of useful expressions. The first three,
 
 %\begin{code}{}
@@ -1182,47 +1151,47 @@ Restart \pharo from the most recent snapshot, and select \menu{World\go{}Tools \
 
 % If you execute \ct{ChangeList browseRecentLog}, you will be given 
 
-This will give you the opportunity to decide how far back in history you wish to browse. 
-Normally, it's sufficient to browse changes as far back as the last snapshot. (You can get much the same effect by editing \ct{ChangeList browseRecent: 2000} so that the number \ct{2000} becomes something else, using trial and error.)
+これは、履歴をどれくらい遡って見てみたいか決定する機会を与えてくれます。
+通常、最後のスナップショットまでの変更をブラウズするので十分です(同様の効果を \ct{ChangeList browseRecent: 2000} というコードを編集することで得ることができるかもしれませんが、 \ct{2000} という数値は試行錯誤することで他の数値になります)。
 
-One you have a \emph{recent changes} browser, showing, say, changes back as far as your last snapshot, you will have a list of everything that you have done to \pharo during that time. 
-You can delete items from this list using the \actclick menu.
-When you are satisfied, you can file-in what is left, thus incorporating the changes into your new image.
-It's a good idea to start a new change set, using the ordinary change set browser, before you do the file in, so that all of your recovered code will be in a new change set. 
-You can then file out this change set.
+\emph{recent changes}ブラウザが表示されますが、これは最後のスナップショットまでの間に \pharo に対して行ったすべての変更のリストです。
+このリストから \actclick メニューで項目を削除することができます。
+これで十分と判断したら残ったものをファイルインします。このように、新しいイメージに変更を加えます。
+実際にファイルインをする前に、普通のチェンジセットブラウザを使って新しいチェンジセットを作るのはいいアイデアです。これによって復元した全てのコードは新しいチェンジセットの中に入るからです。
+そしてそのチェンジセットをファイルアウトすることができます。
 
-One useful thing to do in the \emph{recent changes} browser is to \menu{remove doIts}. 
-Usually, you won't want to file in (and thus re-execute) doIts. 
-However, there is an exception. 
-Creating a class shows up as a \menu{doIt}.
-\emph{Before you can file in the methods for a class, the class must exist.}
-So, if you have created any new classes, \emph{first} file-in the class creation doIts, then \menu{remove doIts} and file in the methods.
-\lr{Maybe mention that class renames are not logged and completely screw up the change-set mechanism. (p. 174)}
+\emph{recent changes} ブラウザの便利なところは \menu{remove doIts} です。
+一般的にdoItsをファイルインしたくない(つまり再実行)したくないことが多いです。
+しかしながら例外もあります。
+クラス定義は \menu{doIt} として表現されます。
+さらに \emph{あるクラスのメソッドをファイルインする前にクラスは存在していなければなりません。}
+そこで新しいクラスを定義する際には、\emph{まず最初に}クラス定義をファイルインします。その上で \menu{remove doIts} してメソッドをファイルインします。
+%\lr{Maybe mention that class renames are not logged and completely screw up the change-set mechanism. (p. 174)}
 
-When I am finished with the recovery, I like to file out my new change set, quit \pharo without saving the image, restart, and make sure that the new change set files back in cleanly.
+リカバリが完了したら、新しいチェンジセットをファイルアウトしてイメージを保存することなく \pharo を終了します。再起動したらきれいな状態で新しいチェンジセットを適用して確実に元に戻します。
 % section cantLoseCode (end)
 
 %=========================================================
-\section{Chapter summary}
+\section{章のまとめ}
 
-In order to develop effectively with \pharo, it is important to invest some effort into learning the tools available in the environment.
+\pharo で開発作業を効果的に行うためには、環境で提供しているツールについて学習する努力を惜しまないことが重要です。
 
 \begin{itemize}
-  \item The standard \emph{browser} is your main interface for browsing existing categories, classes, method protocols and methods, and for defining new ones.
-  The browser offers several useful buttons to directly jump to senders or implementors of a message, versions of a method, and so on.
-  \item There exist several different browsers (such as the OmniBrowser and the Refactoring Browser), and several specialized browsers (such as the hierarchy browser) which provide different views of classes and methods.
-  \item From any of the tools, you can highlight the name of a class or a method and immediately jump to a browser by using the keyboard shortcut \short{b}.
-  \item You can also browse the \st system programmatically by sending messages to \ct{SystemNavigation default}.
-  \item \emph{Monticello} is a tool for exporting, importing, versioning and sharing packages of classes and methods.
-  A Monticello package consists of a category, subcategories, and related methods protocols in other categories.
-  \item The \emph{inspector} and the \emph{explorer} are two tools that are useful for exploring and interacting with live objects in your image.
-  You can even inspect tools by \metaclick{ing} to bring up their morphic halo and selecting the debug handle \debugHandle.
-  \item The \emph{debugger} is a tool that not only lets you inspect the run-time stack of your program when an error is raised, but it also enables you to interact with all of the objects of your application, including the source code. In many cases you can modify your source code from the debugger and continue executing. The debugger is especially effective as a tool to support test-first development in tandem with SUnit (\charef{SUnit}).
-  \item The \emph{process browser} lets you monitor, query and interact with the processes current running in your image.
-  \item The \emph{method finder} and the \emph{message names browser} are two tools for locating methods. The first is more useful when you are not sure of the name, but you know the expected behaviour. The second offers a more advanced browsing interface when you know at least a fragment of the name.
-  \item \emph{Change sets} are automatically generated logs of all changes to the source code of your image. They have largely been superseded by Monticello as a means to store and exchange versions of your source code, but are still useful, especially for recovering from catastrophic failures, however rare these may be.
-  \item The \emph{file list browser} is a tool for browsing the file system. It also allows you to \menu{filein} source code from the file system.
-  \item In case your image crashes before you could save it or backup your source code with Monticello, you can always recover your most recent changes using a \emph{change list browser}. You can then select the changes you want to replay and file them into the most recent copy of your image.
+  \item 標準的な \emph{ブラウザ} は、既存のカテゴリ、クラス、メソッド・プロトコル、そしてメソッドを調べたり、新しく定義するための中心となるインタフェースです。
+    ブラウザは、メッセージのセンダーやインプリメンタへ直接ジャンプしたりメソッドのバージョン表示など、いくつかの便利なボタンを提供します。
+  \item いくつかの異なるブラウザ(OmniBrowser や Refactoring Browser といった)や特殊用途のブラウザ(階層ブラウザなど)がクラスやメソッドへの異なるビューを提供します
+  \item どんなツールでも、クラスやメソッドの名前をハイライトさせてから \short{b} のショートカットを使うとすぐにブラウザへジャンプできます。
+  \item \ct{SystemNavigation default} というメッセージを送ることで \st システムをプログラミング的にブラウズしていくこともできます。
+  \item \emph{Monticello} はクラスやメソッドのパッケージを外部へ出力したり、逆に取り込んだり、バージョン管理や共有するためのツールです。
+    Monticello のパッケージはカテゴリとサブカテゴリおよび他のカテゴリに属する関連するメソッドプロトコルから構成されます。
+  \item \emph{[Inspector]} と \emph{[Explore]} の2つのツールは、イメージの中で生きているオブジェクトを調べたり対話するのに便利なツールです。
+    \metaclick{ing} によりモーフィックのハロを出してデバッグハンドル \debugHandle を選択するとツールをインスペクトすることさえできます。
+  \item \emph{[Debugger]} はエラーが起きた際にプログラムの実行スタックを見せてくれるだけでなく、ソースコードを初めとして、アプリケーションのすべてのオブジェクトとの対話を可能にするツールです。多くの場合、[Debugger]でソースコードを修正して実行を継続することが可能です。[Debugger]はSUnit(\charef{SUnit})と並んでテストファースト開発を支援する効果的なツールです。
+  \item \emph{[Process Browser]} はイメージの中で現在実行中のプロセスを監視したり照会したり対話させてくれます。
+  \item \emph{[Method Finder]} と \emph{[Message Names Browser]} はメソッドの場所を突き止めるツールです。前者は名前がはっきりしないが期待される振る舞いが分かってる時に便利です。後者は名前の一部しか分からない時に閲覧するためのより優れたインタフェースを提供します。
+  \item \emph{チェンジセット} はイメージのソースコードへのすべての変更を記録するために自動的に作成されるログです。ソースコードのバージョン管理や交換という点では全般的に Monticello に取って代われていますが、特にまれに発生しうる壊滅的な故障からの復旧などでは未だに便利です。
+  \item \emph{[File List Browser]} はファイルシステムを閲覧するツールです。これはファイルシステムからソースコードを \menu{filein} させてくれます。
+  \item イメージを保存したりソースコードを Monticello でバックする前にクラッシュしてしまった場合、\emph{[Change List Browser]} を使うことで最新の変更から回復することができます。再実行したい変更を選択して最新のコピーのイメージに取り込むことができます。
 \end{itemize}
 
 %=================================================================
