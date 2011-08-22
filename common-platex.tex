@@ -70,8 +70,6 @@
 \else
   \AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
 \fi
-\AtBeginShipoutFirst{%
-\special{pdf:tounicode 90ms-RKSJ-UCS2}}
 \usepackage[dvipdfm,
 	colorlinks=true,
 	linkcolor=black,
@@ -176,21 +174,21 @@
 %
 \newcommand{\ruleref}[1]{\ref{rule:#1}\xspace}
 %
-\newcommand{\egref}[1]{example~\ref{eg:#1}\xspace}
+\newcommand{\egref}[1]{Example~\ref{eg:#1}\xspace}
 \newcommand{\Egref}[1]{Example~\ref{eg:#1}\xspace}
 %
-\newcommand{\scrref}[1]{script~\ref{scr:#1}\xspace}
+\newcommand{\scrref}[1]{Script~\ref{scr:#1}\xspace}
 \newcommand{\Scrref}[1]{Script~\ref{scr:#1}\xspace}
 \newcommand{\tscrref}[1]{the script~\ref{scr:#1}\xspace}
 \newcommand{\Tscrref}[1]{The script~\ref{scr:#1}\xspace}
 %
-\newcommand{\mthref}[1]{method~\ref{mth:#1}\xspace}
-\newcommand{\mthsref}[1]{methods~\ref{mth:#1}\xspace}
+\newcommand{\mthref}[1]{Method~\ref{mth:#1}\xspace}
+\newcommand{\mthsref}[1]{Method~\ref{mth:#1}\xspace}
 \newcommand{\Mthref}[1]{Method~\ref{mth:#1}\xspace}
 \newcommand{\tmthref}[1]{the method~\ref{mth:#1}\xspace}
 \newcommand{\Tmthref}[1]{The method~\ref{mth:#1}\xspace}
 %
-\newcommand{\clsref}[1]{class~\ref{cls:#1}\xspace}
+\newcommand{\clsref}[1]{Class~\ref{cls:#1}\xspace}
 \newcommand{\tclsref}[1]{the class~\ref{cls:#1}\xspace}
 \newcommand{\Tclsref}[1]{The class~\ref{cls:#1}\xspace}
 
@@ -228,12 +226,12 @@
 \newcommand{\toolsflap}{\textit{Tools} flap\xspace}
 %=============================================================
 %:Mouse clicks
-\newcommand{\click}{click\xspace} % RED
+\newcommand{\click}{クリック\xspace} % RED
 \newcommand{\actclick}{action-click\xspace} % YELLOW
 \newcommand{\metaclick}{meta-click\xspace} % BLUE
 \newcommand{\Click}{Click\xspace} % RED
-\newcommand{\Actclick}{Action-click\xspace} % YELLOW
-\newcommand{\Metaclick}{Meta-click\xspace} % BLUE
+\newcommand{\Actclick}{action-click\xspace} % YELLOW
+\newcommand{\Metaclick}{meta-click\xspace} % BLUE
 %=============================================================
 %:ToSh macros
 \newboolean{tosh}
