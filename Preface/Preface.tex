@@ -40,80 +40,54 @@
 \chapter{Preface}\chalabel{intro}
 
 %=================================================================
-%\section*{What is \pharo?}
 \section*{\pharo とは?}
 
-%\pharo is a modern, open source, fully-featured implementation of the \st programming language and environment. \pharo is derived from \squeak\cite{Inga97a}, a re-implementation of the classic \st-80 system. Whereas \squeak was developed mainly as a platform for developing experimental educational software, \pharo strives to offer a lean, open-source platform for professional software development, and a robust and stable platform for research and development into dynamic languages and environments. \pharo serves as the reference implementation for the Seaside web development framework.
 \pharo は現代的な、オープンソースの、 \st プログラミング言語・環境のフル機能を実装しています。 \pharo は古典的な \st-80 システムを再実装した \squeak\cite{Inga97a}から派生しています。\squeak は主に実験的な教育向けソフトウェアを開発するためのプラットフォームとして開発されたのにくらべ、\pharo はプロフェッショナルなソフトウェアを開発するための洗練されたオープンソース・プラットフォーム、さらに研究と開発のための頑丈で安定したプラットフォームを動的な言語・環境に提供するように努めています。\pharo はSeasideウェブ開発フレームワークのリファレンス実装としても使われています。
 
-%\pharo resolves some licensing issues with \squeak. Unlike previous versions of \squeak, the \pharo core contains only code that has been contributed under the MIT license. The \pharo project started in March 2008 as a fork of \squeak 3.9, and the first 1.0 beta version was released on July 31, 2009.
 \pharo は \squeak にあったライセンスの問題を解決しています。\squeak の前バージョンとは異なり、\pharo のコア部分はMITライセンスの下に寄付されています。\pharo プロジェクトは2008年3月に \squeak 3.9からのフォークとして始まり、最初の1.0ベータバージョンは2009年7月31日にリリースされました。
 
-%Although \pharo removes many packages from \squeak, it also includes numerous features that are optional in \squeak. For example, true type fonts are bundled into \pharo. \pharo also includes support for true block closures. The user interfaces has been simplified and revised.
 \pharo は \squeak からパッケージをいくつも取り去っている一方で、\squeak ではオプショナルであった機能をたくさん取り入れてもいます。たとえば、\pharo には True Type フォントが入っています。\pharo には本物のブロッククロージャもサポートされています(訳注:\squeak ではBlockContextという再帰できないクロージャ実装でした)。
 
-%\pharo is highly portable --- even its virtual machine is written entirely in \st, making it easy to debug, analyze, and change. \pharo is the vehicle for a wide range of innovative projects from multimedia applications and educational platforms to commercial web development environments. 
 \pharo は高い可搬性を持っています。仮想マシンでさえもすべて \st で書かれていて、デバック・解析・変更をし易くなっています。\pharo はマルチメディア・アプリケーションや教育向けプラットフォームから商用ウェブ開発環境まで広範囲のイノベーティブなプロジェクトを運用する手段になります。
 
-%There is an important aspect behind \pharo: \pharo should not just be a copy of the past but really \emph{reinvent} Smalltalk. Big-bang approaches rarely succeed. \pharo will really favor evolutionary and incremental changes. We want to be able to experiment with important new features or libraries. Evolution means that \pharo accepts mistakes and is not aiming for the next perfect solution in one big step\,---\,even if we would love it. \pharo will favor small incremental changes but a multitude of them. The success of \pharo depends on the contributions of its community.
-% The \pharo community will pay attention to your submissions to improve the system.
+
 \pharo の裏にはある重要な視点があります。「\pharo は過去の複製ではなく、本当にSmalltalkを\emph{再発明}すべきだ」というものです。ビッグバンアプローチが成功するのは稀です。\pharo は進化的でインクリメンタルな変更を支持します。重要な新機能やライブラリを実験できるようにしたいのです。進化とは\pharo が誤りを受け入れることを意味します。つまり、\pharo では(私たちが大好きな)大きなワンステップによる完璧な解答は目指しません。\pharo はたくさんの小さな変更をひとまとめにせず、インクリメンタルに適用することを支持します。\pharo の成功はコミュニティからの貢献にかかっています。
-% \pharo のコミュニティはシステムを向上させるあなたの提案に注目しています。
 
 %=================================================================
 \section*{だれのための本か?}
 
-%This book is based on \emph{Squeak by Example}\footnote{\sbe}, an open-source introduction to \squeak.
-%The book has been liberally adapted and revised to reflect the differences between \pharo and \squeak.
-%This book presents the various aspects of \pharo, starting with the basics, and proceeding to more advanced topics.
 この本はオープンソースで公開されている\squeak の入門書 \emph{Squeak by Example}\footnote{\sbe} を元にしています。
 \pharo と\squeak の違いに柔軟に適応し、違いを反映して改訂されています。
 \pharo の基本からはじまり先進的な話題まで多様な側面を紹介しています。
 
-%This book will not teach you how to program. The reader should have some familiarity with programming languages. Some background with object-oriented programming would be helpful.
 この本ではどうやってプログラムするかは学べないと思います。この本はプログラミング言語をいくつか知っているひとに向いています。オブジェクト指向プログラミングの経験も役に立つと思います。
 
-%This book will introduce the \pharo programming environment, the language and the associated tools.  You will be exposed to common idioms and practices, but the focus is on the technology, not on object-oriented design. Wherever possible, we will show you lots of examples. (We have been inspired by Alec Sharp's excellent book on Smalltalk\cite{Shar97a}.)
-%\index{Sharp, Alex}
 この本では\pharo のプログラミング環境(言語と関連ツール)を紹介します。一般的なイデオムや実例に触れてもらいますが、オブジェクト指向設計ではなくて技術のほうに焦点を当てています。可能ならあらゆるところで例をたくさん示そうと思います(Alec Sharpによる素晴らしいSmalltalkの本\cite{Shar97a}にインスパイアされています)。
 \index{Sharp, Alex}
 
-%There are numerous other books on \st freely available on the web but none of these focuses specifically on \pharo. See for example:
-%\url{http://stephane.ducasse.free.fr/FreeBooks.html}
 ウェブ上には\st についての無料の本が他にもたくさんありますが、\pharo に特化したものはありません。参照:
 \url{http://stephane.ducasse.free.fr/FreeBooks.html}
 
 \ifluluelse{}{\newpage} % layout hint
 %=================================================================
-%\section*{A word of advice}
 \section*{忠告}
 
 % http://www.surfscranton.com/architecture/KnightsPrinciples.htm
 
-%Do not be frustrated by parts of \st that you do not immediately understand.
-%You do not have to know everything!
-%Alan Knight expresses this principle as follows\footnote{\url{http://www.surfscranton.com/architecture/KnightsPrinciples.htm}}:
-%\index{Knight, Alan}
 個々の\st の記述がすぐにわからないからといってイラだってはいけません。
 すべてを知る必要はないのです!
 Alan Knightはこの原則を次のように表現しています。\footnote{\url{http://www.surfscranton.com/architecture/KnightsPrinciples.htm}}:
 \index{Knight, Alan}
 
-%\important{{\bf Try not to care.}
-%Beginning \st programmers often have trouble because they think they need to understand all the details of how a thing works before they can use it. This means it takes quite a while before they can master \ct{Transcript show: 'Hello World'}. One of the great leaps in OO is to be able to answer the question ``How does this work?'' with ``I don't care''.}
 \important{{\bf 気にしないようにする}
 \st を学びはじめたプログラマーは、どうやってそれが動くのかを詳細まですべて理解しなければならないと考えて困ってしまうことがよくあります。つまり、\ct{Transcript show: 'Hello World'} をマスターするまでにかなり時間がかかるということです。オブジェクト指向における偉大な一歩のひとつは、「どうやって動くのだろう?」という問いに対して「気にしない」と答えられることなのです。}
 %=================================================================
 \section*{オープンな本}
 
-%This book is an open book in the following senses: 
 この本は、次の意味でオープンな本です。
 
 \begin{itemize}
 
-%\item	The content of this book is released under the Creative Commons Attribution-ShareAlike (by-sa) license.
-%		In short, you are allowed to freely share and adapt this book, as long as you respect the conditions of the license available at the following URL: 
-%		\url{http://creativecommons.org/licenses/by-sa/3.0/}.
 
 \item	この本の内容はクリエイティブ・コモンズの表示—継承(by-sa)ライセンスの下で公開されています。
 		つまり、以下のURLにあるライセンス条件を尊重する限り、この本を自由に配布したり改変したりできます。
@@ -121,11 +95,6 @@ Alan Knightはこの原則を次のように表現しています。\footnote{\u
 		\url{http://creativecommons.org/licenses/by-sa/3.0/}
 %翻訳メモ: リンクを日本語のページにするか?
 
-%\item	This book just describes the core of \pharo.
-%		Ideally we would like to encourage others to contribute chapters
-%		on the parts of \pharo that we have not described.
-%		If you would like to participate in this effort, please
-%		contact us.  We would like to see this book grow!
 
 \item	この本は\pharo のコア部だけを解説しています。
 		理想をいうと、私たちが書かなかった部分を他の人が寄稿してくれるようにしたいです。
@@ -133,79 +102,57 @@ Alan Knightはこの原則を次のように表現しています。\footnote{\u
 		
 \end{itemize}
 
-%For more details, visit \pbe.
+
 詳しくは、\pbe を見てください。
 
 
 %=================================================================
 \section*{ \pharo のコミュニティ}
 
-% The \pharo community is friendly and active.
-% Here is a short list of resources that you may find useful:
+
 \pharo のコミュニティは親切で活動的です。
 役に立ちそうなリソースをいくつかここにあげておきます。
 
 \begin{itemize}
-% \item \url{http://www.pharo-project.org} is the main web site of \pharo.
 \item \url{http://www.pharo-project.org} \pharo のメイン・ウェブサイト。
 
 %environment built on top of \pharo but whose audience is elementary
 %school teachers.) % I remove this [Martial: french contributor]
 
-% \item \url{http://www.squeaksource.com} is the equivalent of SourceForge for \pharo projects.
-% Many optional packages for \pharo live here.
 \item \url{http://www.squeaksource.com} \pharo プロジェクトにとってのSourceForge的なもの。\pharo 用の追加パッケージがここでたくさん生まれています。
 
 \end{itemize}
 
 %=================================================================
-%\section*{Examples and exercises}
 \section*{例と練習問題}
 
-%We make use of two special conventions in this book.
-この本では特別なきまりを2つつくりました。
+この本では特別なきまりを2つ決めました。
 
-%We have tried to provide as many examples as possible.
-%In particular, there are many examples that show a fragment of code which can be evaluated.  We use the symbol \ct{-->} to indicate the result that you obtain when you select an expression and \menu{print it}:
 できる限りたくさんの例を示すようにしています。
 特に、実行できる短いコードで示された例がたくさんあります。式を選択して\menu{print it}を選ぶと得られる結果を示すために\ct{-->}記号を使います。
 
-%\begin{code}{@TEST}
-%3 + 4 --> 7    "if you select 3+4 and 'print it', you will see 7"
-%\end{code}
 \begin{code}{@TEST}
-3 + 4 --> 7    「3+4を選択して'print it'を選ぶと7が得られる」
+3 + 4 --> 7    "3+4を選択して'print it'を選ぶと7が得られる"
 %翻訳メモ: メニューは日本語版にあわせて翻訳しておくか?
 \end{code}
 
-%In case you want to play in \pharo with these code snippets, you can download a plain text file with all the example code from the book's web site: \pbe.
 これらのコードを\pharo で遊んでみたいときは、この本のサイト(\pbe)からすべてのコード例がテキストファイルでダウンロードできます。
 
-%The second convention that we use is to display the icon \dothisicon{} to indicate when there is something for you to do:
 二つめのきまりとして、あなたがすべきことを示すために\dothisicon{}アイコンを使います。
 
-%\dothis{Go ahead and read the next chapter!}
 \dothis{次の章へ読み進みましょう!}
 
 %=================================================================
-%\section*{Acknowledgments}
 \section*{謝辞}
 
-%We would first like to thank the original developers of \squeak for making this amazing \st development environment available as an open source project.
 先ず、\squeak というこの驚くべき\st 開発環境をオープンソース・プロジェクトとして公開したオリジナルの開発者たちに感謝します。
 
-%% We would like to thank various people who have contributed to this book.
-%% In particular, we thank
-%We would also like to thank Hilaire Fernandes and Serge Stinckwich who allowed us to translate parts of their columns on \st, and Damien Cassou for contributing the chapter on streams.
 \st についてのコラムを翻訳することを許可してくれたHilaire FernandesとSerge Stinckwich、ストリームの章を寄稿してくれたDamien Cassouに感謝します。
 
-%We especially thank Alexandre Bergel, Orla Greevy, Fabrizio Perin, Lukas Renggli, Jorge Ressia and Erwann Wernli for their detailed reviews.
 査読をしてくれたAlexandre Bergel、Orla Greevy、Fabrizio Perin、Lukas Renggli、Jorge Ressia、Erwann Wernliに特に感謝します。
 
-%We thank the University of Bern, Switzerland, for graciously supporting this open-source project and for hosting the web site of this book.
 このオープンソース・プロジェクトを快く援助し、この本のウェブサイトを設置してくれたベルン大学(スイス)に感謝します。
 
-%We also thank the Squeak community for their enthusiastic support of this book project, and for informing us of the errors found in the first edition of this book.
 この本のプロジェクトを熱心に支援して、初版の間違いを教えてくれたSqueakのコミュニティに感謝します。
 
 %=============================================================
