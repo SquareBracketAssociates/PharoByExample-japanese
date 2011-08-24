@@ -52,13 +52,13 @@ Morphicと他の多くのユーザー・インタフェース・ツールキッ�
 %=================================================================
 \section{Morphicの歴史}
 
-Morphicは、\ind{Self}プログラミング言語向けとして、John MaloneyとRandy Smithによって1993年頃から開発が始められました。
+Morphicは、プログラミング言語\ind{Self}向けとして、John MaloneyとRandy Smithによって1993年頃から開発が始められました。
 Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self版の基本的な考え方は今でも\pharo のMorphicに受け継がれています。その基本的な考え方とは、\emph{directness}と\emph{liveness}です。
 Directnessとは、オブジェクトである画面上の図形を、マウスでクリックして直接調べたり変更したりできるということです。
 Livenessとは、GUIがいつでもユーザーに反応できることです。つまり、画面上の情報は、それが表している世界が変わるたびに自動的に更新されます。
 簡単な例を挙げれば、メニューから項目を取り外したものがボタンとして機能させられるのです。
 
-\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic Haloが現れます。\footnote{Preferencesブラウザで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、適当なメニュー項目の上で更に\metaclick をすると、メニュー項目の上にHaloが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
+\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic Haloが現れます。\footnote{Preferencesブラウザーで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、適当なメニュー項目の上で更に\metaclick をすると、メニュー項目の上にHaloが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
 \index{Morphic!halo}
 \index{blue button}
 
@@ -94,7 +94,7 @@ class \ct{Object}クラスにある\mthind{Object}{asMorph}メソッドのデフ
 例えば、\ct{Color tan asMorph}は、単に\clsind{Color} \ct{tan printString}の実行結果をラベルに持つStringMorphを返します。
 それでは、色のついた長方形を代わりに返すようにしましょう。
 
-\dothis{ブラウザを開き\ct{Color}クラスに以下のメソッドを追加します。}
+\dothis{ブラウザーを開き\ct{Color}クラスに以下のメソッドを追加します。}
 \needlines{3}
 \begin{method}{\ct{Color}のインスタンスを表すモーフを返す}
 Color>>>asMorph
@@ -170,7 +170,7 @@ star position: joe position.
 
 \begin{figure}[ht]
 	\centerline{\includegraphics{joeStar}}
-	\caption{青色の半透明なモーフであるjoeに星が組み込まれている。
+	\caption{青色の半透明なモーフであるjoeが星を含んでいる。
 		\figlabel{joeStar}}
 \end{figure}
 
@@ -189,7 +189,7 @@ Morphicのフレームワークは、モーフの再描画が必要となった�
 この知識を使って十字モーフを作ってみましょう。
 \index{Morph!subclassing}
 
-\dothis{ブラウザを開き、\ct{Morph}を継承した\clsind{CrossMorph}クラスを新しく定義します。}
+\dothis{ブラウザーを開き、\ct{Morph}を継承した\clsind{CrossMorph}クラスを新しく定義します。}
 \begin{classdef}{\ct{CrossMorph}を定義する}
 Morph subclass: #CrossMorph
 	instanceVariableNames: ''
@@ -227,13 +227,13 @@ drawOn: aCanvas
 しかし、マウスに反応する場所（つまりモーフを掴むのにクリックするところ）がバウンディングボックス全体になっていることに気づくと思います。これを解決しましょう。
 
 Morphicフレームワークは、モーフがカーソルの下にあるかどうか知る必要があるとき、マウスポインタの下にバウンディングボックスがある全てのモーフに対して、\ct{containsPoint:}メッセージを送ります。
-つまり、モーフの十字部分にだけ敏感な場所を制限するには、\ct{containsPoint:}メソッドをオーバーライドします。
+つまり、マウスに反応する場所をモーフの十字部分に制限するには、\ct{containsPoint:}メソッドをオーバーライドします。
 
 
 \dothis{\ct{CrossMorph}クラスに以下のメソッドを定義します。}
 
 \needlines{4}
-\begin{method}[firstContains]{\ct{CrossMorph}の敏感な場所を設定する。}
+\begin{method}[firstContains]{\ct{CrossMorph}のマウスに反応する場所を設定する。}
 containsPoint: aPoint
 	| crossHeight crossWidth horizontalBar verticalBar |
 	crossHeight := self height / 3.0.
@@ -886,7 +886,7 @@ Morphicは、グラフィカルなフレームワークで、動的にGUI要素�
 
 \begin{itemize}
   \item \ct{asMorph openInWorld}メッセージをオブジェクトに送ると、モーフに変換して画面に表示できます。
-  \item モーフを\metaclick すると、ハンドルが表示されモーフを操れるようになります。（ハンドルの機能は個々のバルーンヘルプの説明を見ましょう)
+  \item モーフを\metaclick すると、ハンドルが表示されモーフを操ることができるようになります。（ハンドルの機能は個々のバルーンヘルプの説明を見ましょう)
   \item ドラッグ＆ドロップによるか\ct{addMorph:}メッセージを送ることで、モーフを別のモーフに組み込めます。
   \item 既にあるクラスのサブクラスを作り、\ct{initialize}や\ct{drawOn:}といった主要なメソッドを再定義できます。
   \item \ct{handlesMouseDown:}メソッドや\ct{handlesMouseOver:}メソッド\etc を再定義すれば、マウスやキーボードに反応するようにモーフを制御できます。
