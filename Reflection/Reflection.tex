@@ -161,7 +161,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 (1@2) instanceVariableValues --> an OrderedCollection(1 2)
 \end{code}
 
-このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@?Pharo-1.1.1には、このメソッドは無い。
+このメソッドは、以下のように、\ct{Object}クラスで実装されています: %@?Pharo-1.[12].1には、このメソッドは無い。
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
@@ -516,7 +516,7 @@ Object>>>subclassResponsibility
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
-慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたか、その名前を示すのでしょうか? 非常に単純です。\ct{thisContext}に\ct{sender}メッセージを送るのです。
+慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたか、その名前を示すのでしょうか? 非常に単純です。\ct{thisContext}にセンダーを尋ねるのです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
@@ -530,8 +530,8 @@ we should have a Reflection applied chapter}
 ブレークポイントをかけるための\st のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開きます。
 残念なことに、これを、システムで集中的に使われるメソッドに対して行うと、数々の問題を引き起こしす。
 
-例えば、\ct{OrderedCollection>>>add:}の実行をエクスプロアしたかったとしましょう。
-このメソッドにブレークポイントをかけると、やっかいなことになります。
+例えば、\ct{OrderedCollection>>>add:}の実行を解析したかったとしましょう。
+このメソッド内にブレークポイントをかけると、やっかいなことになります。
 
 \dothis{\emph{フレッシュな}仮想イメージを使って、以下のブレークポイントをセットしてみましょう:}
 \needlines{3}
@@ -542,7 +542,7 @@ OrderedCollection>>>add: newObject
 \end{code}
 
 この仮想イメージが、ただちにフリーズする様子に注目してください! デバッガーウィンドウを開けることさえできません。
-いったん次を理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われています。そして、ブレークポイントは、変更をacceptしたまさにその直後から有効になります。しかし、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
+いったん次を理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われているので、ブレークポイントは、変更をacceptしたまさにその直後から有効になります。しかし、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
 必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する手段です。
 \clsmthind{Object}{haltIf:}が提供するのがまさに、この手段です。
 
@@ -576,7 +576,7 @@ Object>>>haltIf: condition
 \ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へと遡りながら、呼び出し側のメソッドの名前が、パラメーターと一致するかをチェックします。
 もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
 
-booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらのケースについての処理は単純で、\lct{thisContext}は活用されません。
+booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらの場合についての処理は単純で、\lct{thisContext}は活用されません。
 
 %======================================
 \section{理解されなかったメッセージをインターセプトする}
@@ -589,7 +589,7 @@ booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶことも
 このメソッド検索のプロセスは、振り出しに戻って再開され、\clsmthind{Object}{doesNotUnderstand:}が見つかるまで続けられ、そしてデバッガーが立ち上がります。
 
 しかし、もし\ct{doesNotUnderstand:}が\ct{Object}のサブクラスでオーバーライドされていて、メソッドの検索パスに入っていたらどうなるでしょう?
-結局のところ、これは、ある種の非常に動的な振る舞いを実現するのに便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できなかったメッセージに応答するための、代替えの戦略に頼れるのです。
+結局のところ、これは、ある種の非常に動的な振る舞いを実現するのに便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できなかったメッセージに応答するための、代替えの戦略に頼れるのです。 %@?fall back to: fall back on???
 
 このテクニックの非常に一般的な応用をふたつ挙げると、(1) オブジェクトの\ind{軽量プロキシー}の実装、そして、(2) 欠けているコードの、動的なコンパイルまたはロード、です。
 
@@ -629,7 +629,7 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、\ct!invocationCount!を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
+理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、メッセージ数(\ct!invocationCount!)を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -645,7 +645,7 @@ point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-\ct!become:!により、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、すべてのプロキシーへの参照を、\ct{Point}オブジェクトへの参照とスワップできます。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照することになります!
+\ct!become:!により、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、このプロキシーへのすべての参照を、\ct{Point}オブジェクトへの参照とスワップできます。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照することになります!
 
 \begin{code}{}
 point invocationCount --> 0
@@ -664,7 +664,7 @@ point class --> LoggingProxy
 \ct{@ bitShift: // bitAnd: bitOr:}
 \ct{at: at:put: size}
 \ct{next nextPut: atEnd}
-\ct{blockCopy: value value: do: new new: x y}.
+\ct{blockCopy: value value: do: new new: x y} %@?行末にたぶん余計な`.'があった。
 以下のセレクターは、決して送られません。なぜなら、これらはコンパイラーによって、比較とジャンプのバイトコードにインライン展開されるからです:
 \ct{ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:}
 \ct{and: or:}
@@ -675,7 +675,7 @@ point class --> LoggingProxy
 これらのメッセージを、非論理値オブジェクトに送ろうとしたとき、レシーバーのクラスで、\ct{mustBeBoolean}が定義されていれば、それらのメッセージ送信をインターセプトし、妥当な論理値でもって実行を再開できます。さもなくば、\ct{NonBooleanReceiver}例外をキャッチできます。
 }% NB: Notes by Lukas Renggli
 
-このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self 送信は、インターセプトできません:
+このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self-送信は、インターセプトできません:
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -684,7 +684,7 @@ point rect: (3@4)        --> 1@2 corner: 3@4
 point invocationCount --> 1
 \end{code}
 
-\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self 送信を、数え損なっています: %@?has been cheated out of
+\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信を、数え損なっています: %@?has been cheated out of?
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
@@ -695,12 +695,12 @@ Point>>>rect: aPoint
 %-----------------------------------------------------------------
 \subsection{欠けているメソッドの生成}
 
-理解されなかったメッセージのインターセプトすることの応用例として最も一般的なのは、欠けているメソッドの動的なロードと、動的な生成です。
+理解されなかったメッセージのインターセプトすることの応用例として最も一般的なのは、欠けているメソッドの動的なロードもしくは、動的な生成です。
 多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドで動的にロードします。ある時点で、この振る舞いは解除でき、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存できます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
-このテクニックの単純な応用例を見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです: %@?variant: 応用例?
+このテクニックの単純な一形態を見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです:
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -713,9 +713,9 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 			^ aMessage sendTo: self ].
 	^ super doesNotUnderstand: aMessage
 \end{code}
-理解されなかったメッセージはすべて、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
+理解されなかったメッセージはすべて、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したsその変数へのアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
 
-\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に定義された\ct{x}へのアクセサーがなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
+\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に\ct{x}へのアクセサーが定義されていなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
 \needlines{2}
 \begin{code}{}
 myDA := DynamicAccessors new.
@@ -731,7 +731,7 @@ myDA x --> nil
 	% \on{trust me, it is useful to see all the steps.}
 \end{figure}
 
-(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最後に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。 %@?self doesNotUnderstand:_#x: 引数はSymbolじゃないだろう?
+(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最後に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。 %@?self doesNotUnderstand: 引数はSymbolじゃないだろう?
 
 同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使えます。
 
@@ -747,14 +747,14 @@ myDA x --> nil
 \seclabel{wrapper}
 
 すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは、実行時システムにクエリを送れます。
-少し意外かもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドと、他のいくつかの重要なメッセージに応答するだけで済みます。 %@?respond to the method
+少し意外かもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドを実装し、他のいくつかの重要なメッセージに応答するだけで済みます。 %@?respond to the method?
 
 \dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されることを確認しましょう。}
 
 さてここで、普通の\st のオブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録しましょう。
 
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
-さて、もういちど\ct{Demo new answer42}.の結果をprintしてみましょう。今度は、\ct{42}が得られます。}
+さて、もういちど\ct{Demo new answer42}の結果をprintしてみましょう。今度は、\ct{42}が得られます。}
 
 \clsind{ObjectsAsMethodsExample}を見ると、以下のメソッドが見つかるはずです:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
@@ -777,7 +777,7 @@ run: oldSelector with: arguments in: aReceiver
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-\ct{ObjectsAsMethodsExample}をより詳しく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクトは、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのかという場合によってです)。 %@? ???
+\ct{ObjectsAsMethodsExample}をより詳しく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクトは、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのかという場合によってです)。
 
 %-------------------------------------------------------------------------
 \subsection{メソッドラッパーを、テストカバレッジの測定に使う}
@@ -786,9 +786,9 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 もともとの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーとして、\ct{CompiledMethod}のサブクラスのインスタンスを使います。インストールされると、メソッドラッパーは、もともとのメソッドを呼び出す前かあとに、特別なアクションを実行できます。
 アンインストールされると、もともとのメソッドは、メソッド辞書内の、本来あるべき位置に戻されます。
 
-Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際、オブジェクトによる軽量のメソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
+Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際、オブジェクトによる軽量メソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
 
-にもかかわらず、Pharoのテストランナーは、カバレッジを評価するのに、まさにこのテクニックを使っています。
+にもかかわらず、Pharoのテストランナーは、カバレッジを評価するのに、まさにこのテクニックを使っています。 %@?precisely: 英辞郎
 テストランナーがどのように動作するか、ザッと見てみましょう。
 
 テストカバレッジのエントリーポイントは、\clsmthind{TestRunner}{runCoverage}です:
@@ -858,7 +858,7 @@ mark
 
 ただそれだけです。
 
-メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インスツルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションの、事前・事後条件のチェック、 メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
+メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションで、事前・事後条件をチェックすること、メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
 \section{プラグマ}
@@ -867,13 +867,13 @@ mark
 プラグマには、いくつもの使い道があります、それらは、例えば以下のようなものです:
 \begin{itemize}
 \item コンパイラーへの情報: \indmain{プラグマ}は、コンパイラがメソッド呼び出しをプリミティブ関数にするのに用いられます。このプリミティブ関数は、仮想マシンか外部プラグインが定義しなければなりません。
-\item 実行時処理: いくつかのプラグマは、実行時にこれを検査できます。 %@?プログラムの実行には関与しないのではなかったか?
+\item 実行時処理: いくつかのプラグマは、実行時にこれを検査できます。
 \end{itemize}
 
 プラグマが適用可能なのは、プログラムのメソッド宣言においてのみです。メソッドは、1個かそれ以上のプラグマを宣言でき、そしてプラグマは、どのSmalltalkの文よりも先に宣言されなければなりません。各プラグマは、事実上、リテラル引数をともなった静的メッセージ送信です。
 
-この章の最初の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上の何物でもありません。 
-\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。 %@?consider ~ as: 検討??? immediate: 訳さなかった。
+この章の前の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上の何物でもありません。 
+\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}をよく見てください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。 %@immediate: 訳さなかった。
 
 コンパイラーはおそらく、プラグマの大口ユーザです。SUnitもまた、アノテーションを活用するツールです。SUnitは、テストユニットからアプリケーションのカバレッジを見積れます。SUnitでは、いくつかのメソッドを、カバレッジから除外したいと思うかもしれません。以下は、\ct!SplitJointTest class!の\ct!documentation!メソッドの場合です:
 
@@ -885,7 +885,7 @@ SplitJointTest class>>>documentation
 	^ 'This package provides function.... "
 \end{code}
 
-このように単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジの範囲をコントロールできます。
+このように単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジのスコープをコントロールできます。
 
 %Beside the compiler, Lint is a heavy user of pragmas. Lint is a static code analyzer that flags suspicious, non-portable constructs and code that is likely to contain bugs. It may happen that a method needs to be excluded from Lint analysis. This is the case here:
 
@@ -901,7 +901,7 @@ SplitJointTest class>>>documentation
 
 %One of the pragmas used by Lint to filter out methods is \ct{lint:rationale:author:}.
 
-プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メッセージに答えます。この\ct!pragmas!メソッドは、プラグマの配列を返します。
+プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メソッドを実装します。\ct!pragmas!メソッドは、プラグマの配列を返します。 %@?messageとmethodを混同している。
 
 \begin{code}{}
 (SplitJoinTest class >> #showDocumentation) pragmas.
@@ -929,19 +929,19 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 \begin{itemize}
 \item インスペクターは、\ct{instVarAt:}や、これに関連するメソッドを用いて、オブジェクトの「プライベートな」インスタンス変数にクエリを送ったり、これを変更したりします。
 \item 与えられたクラスのすべてのインスタンスを知りたければ、\ct{Behavior>>>allInstances}をそのクラスに送りましょう。
-\item ct{class}、\ct{isKindOf:}、\ct{respondsTo:}\etc メソッドは、メトリクスを収集したり、開発ツールを構築するのには便利ですが、通常のアプリケーションでは、これらは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反し、コードを理解しづらく、保守しづらいものにします。
-\item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、任意の文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な方法です!)
-\item どの \st のクラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いを知っていることになります。
+\item \ct{class}、\ct{isKindOf:}、\ct{respondsTo:}\etc メソッドは、メトリクスを収集したり、開発ツールを構築するのには便利ですが、通常のアプリケーションでは、これらは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反し、コードを理解しづらく、保守しづらいものにします。
+\item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、与えられた文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な方法です!)
+\item どの \st のクラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いを知っていることになります。 %@?closing the loop?
 \item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡便メソッドを提供しするもので、多くの\st のツールが、この\ct{MethodReference}を使っています。
-\item \ct{BrowserEnvironment}、これはリファクタリングブラウザーのインフラの一部ですが、\ct{BrowserEnvironment}によって、\ct{SystemNavigation}より洗練されたインターフェースを通して、システムにクエリを送れます。これは、クエリの結果が、次の新しいクエリのスコープとして使えるからです。\ct{BrowserEnvironment}では、GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。
+\item \ct{BrowserEnvironment}、これはリファクタリングブラウザーのインフラの一部ですが、これを使えば、\ct{SystemNavigation}より洗練されたインターフェースを通して、システムにクエリを送れます。これは、クエリの結果が、次の新しいクエリのスコープとして使えるからです。\ct{BrowserEnvironment}では、GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。
 \item \ct{thisContext}は疑似変数です。この疑似変数は、仮想マシンの実行時スタックを具現化したものです。\ct{thisContext}は、主にデバッガーで使われ、スタックに対する会話的なビューを動的に構築するのに使われます。\ct{thisContext}はまた、メッセージのセンダーを動的に特定したい場合に、とりわけ便利です。 %@?意訳しすぎか?
 \item \ct{haltIf:}を使えば、賢いブレークポイントを設定できます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数のシンボルと一致するメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
-\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、「ミニマルオブジェクト」を使います。ミニマルオブジェクトは、ターゲットのプロキシーにします。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージを捕捉します。こうすれば、ある種の追加のアクションを実行してから、もともとのターゲットにメッセージを転送できます。
-\item ふたつのオブジェクト参照を交換するには、\ct{become:}を使いましょう。\ct{become:}は、プロキシーとそのターゲットを交換するのに使えます。
+\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、「ミニマルオブジェクト」を使います。ミニマルオブジェクトは、ターゲットのプロキシーです。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージ送信を捕捉します。こうすれば、いくつかの追加のアクションを実行してから、もともとのターゲットにメッセージを転送できます。
+\item プロキシーとそのターゲットのような、ふたつのオブジェクへのト参照を交換するには、\ct{become:}を使いましょう。
 \item 注意してください。いくつかのメッセージ、例えば\ct{class}や\ct{yourself}は、決して実際には送られず、代わりに、仮想マシンによって解釈されます。他の、例えば、\ct{+}, \ct{-} and \ct{ifTrue:} も、直接仮想マシンによって解釈されるか、インライン展開されます。このようなことが起こるかどうかは、レシーバーによって異なります。 %@?コンパイラがインライン展開するのではないのか?
-\item \ct{doesNotUnderstand:}をオーバーライドする、典型的な例としては、欠けているメソッドの遅延ロードまたは、遅延コンパイルです。
+\item \ct{doesNotUnderstand:}をオーバーライドする、他の典型的な例は、欠けているメソッドの遅延ロードまたは、遅延コンパイルです。
 \item \ct{doesNotUnderstand:}は、\self 送信を捕捉できません。
-\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。ラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、仮想マシンが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを集めるのに使われています。 %@?意訳しすぎか?
+\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。メソッドラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、仮想マシンが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを集めるのに使われています。 %@?意訳しすぎか?
 \end{itemize}
 
 %=========================================================
