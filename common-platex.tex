@@ -538,7 +538,8 @@ Damien Pollet},
 \newcommand{\pkgind}[1]{\index{#1@\textsf{#1} (package)}\pkg{#1}} % package
 \newcommand{\protind}[1]{\index{#1@\textsf{#1} (protocol)}\prot{#1}} % protocol
 \newcommand{\clsind}[1]{\index{#1@\textsf{#1} (class)}\ct{#1}\xspace}
-\newcommand{\lclsind}[1]{\index{#1@\gtfamily{#1} (class)}\lct{#1}\xspace}
+\newcommand{\lclsind}[1]{\index{#1@\gtfamily{#1} (class)}\lct{#1}\xspace} % #1が日本語(平仮名)
+\newcommand{\nlclsind}[2]{\index{#2@\gtfamily{#1} (class)}\lct{#1}\lct{#2}\xspace} % #2は#1(漢字)の読み仮名
 % \newcommand{\clsind}[1]{\index{#1!\#@(class)}\ct{#1}\xspace} % class
 \newcommand{\clsindplural}[1]{\index{#1!\#@(class)}\ct{#1}s\xspace} % class
 \newcommand{\cvind}[1]{\index{#1@\textsf{#1} (class variable)}\ct{#1}\xspace} % class var
@@ -559,7 +560,7 @@ Damien Pollet},
 \newcommand{\cvindex}[1]{\index{#1@\textsf{#1} (class variable)}} % class var
 \newcommand{\glbindex}[1]{\index{#1@\textsf{#1} (global)}}% global
 \newcommand{\pvindex}[1]{\index{#1@\textsf{#1} (pseudo variable)}}% pseudo var
-\newcommand{\seeindex}[2]{\index{#1|see{#2}}} % #1, see #2
+\newcommand{\seeindex}[2]{\index{#1|\ \hfill$\Longrightarrow$ {#2}~~~}} % #1 ⇒ #2
 \newcommand{\scatindex}[1]{\index{#1@\textsf{#1} (category)}} % category
 \newcommand{\pkgindex}[1]{\index{#1@\textsf{#1} (package)}} % package
 \newcommand{\protindex}[1]{\index{#1@\textsf{#1} (protocol)}} % protocol

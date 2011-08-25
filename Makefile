@@ -22,6 +22,7 @@ PDFLATEX = pdflatex -file-line-error
 LUALATEX = lualatex -file-line-error
 PLATEX   = platex   -file-line-error -kanji=utf8
 DVIPDFMX = dvipdfmx -f ipa.map
+MENDEX   = mendex   -r -f -g -U -p any
 
 # TO-DO: add rules for BOOK1?
 
@@ -92,10 +93,43 @@ platex :
 		warnings.txt
 
 
+# platex + dvipdfmx の場合(index付き)
+platex-index :
+	cp -f common-platex.tex common.tex
+	${PLATEX} ${BOOK1}
+	${PLATEX} ${BOOK1}
+	${MENDEX} -s platex.ist ${BOOK1}
+	${PLATEX} ${BOOK1} | tee warnings.txt
+	${DVIPDFMX} ${BOOK1}
+	# Filter out blank lines and bogus warnings
+	perl -pi \
+		-e '$$/ = "";' \
+		-e 's/[\n\r]+/\n/g;' \
+		-e 's/LaTeX Warning: Label `\w*:defaultlabel'\'' multiply defined.[\n\r]*//g;' \
+		-e 's/Package wrapfig Warning: wrapfigure used inside a conflicting environment[\n\r]*//g;' \
+		warnings.txt
+
+
 # lualatex の場合
 lualatex :
 	cp -f common-lualatex.tex common.tex
 	${LUALATEX} ${BOOK1}
+	${LUALATEX} ${BOOK1} | tee warnings.txt
+	# Filter out blank lines and bogus warnings
+	perl -pi \
+		-e '$$/ = "";' \
+		-e 's/[\n\r]+/\n/g;' \
+		-e 's/LaTeX Warning: Label `\w*:defaultlabel'\'' multiply defined.[\n\r]*//g;' \
+		-e 's/Package wrapfig Warning: wrapfigure used inside a conflicting environment[\n\r]*//g;' \
+		warnings.txt
+
+
+# lualatex の場合(index付き)
+lualatex-index :
+	cp -f common-lualatex.tex common.tex
+	${LUALATEX} ${BOOK1}
+	${LUALATEX} ${BOOK1}
+	${MENDEX} -s lualatex.ist ${BOOK1}
 	${LUALATEX} ${BOOK1} | tee warnings.txt
 	# Filter out blank lines and bogus warnings
 	perl -pi \
@@ -213,7 +247,7 @@ clean :
 	-rm -f .DS_Store */.DS_Store
 	-rm -f common*.url common*.pdf SBE.url
 	-rm -f test.*
-	-rm -f *.dvi
+	-rm -f *.ind *.dvi
 
 bare : clean
 	mv figures/squeak-logo.pdf figures/squeak-logo.pdfSAVE

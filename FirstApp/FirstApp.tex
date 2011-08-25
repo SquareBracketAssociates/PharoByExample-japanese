@@ -422,7 +422,7 @@ LOGame>>>newCellAt: i at: j
 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
 \Mthref{newCellAt:at:} 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
-メソッド2.6において新しいLOCellは、cell\lclsind{行列}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}
+メソッド2.6において新しいLOCellは、cell\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}
 \mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによりマウスをクリックしたときに呼び出される振る舞いを定義しています。それに対応する定義もする必要があります。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{呼び出されるメソッド}
@@ -494,7 +494,7 @@ LOCell>>>mouseUp: anEvent
 ゲームが開き、cellをクリックでき、またそれがどのように動作するかを見ることができるでしょう。
 
 理論上は動くはずです\ldots{}
-理論上は動くはずです…。cell上でクリックするとき、エラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる\emphind{通知}ウインドウが表示されます。 \figref{lightsOutError}に描かれているように、このウインドウは、\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
+理論上は動くはずです…。cell上でクリックするとき、エラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる\emphind{つうち@通知}ウインドウが表示されます。 \figref{lightsOutError}に描かれているように、このウインドウは、\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
 
 \begin{figure}[ht]
 \ifluluelse
@@ -552,7 +552,7 @@ LOGame>>>newCellAt: i at: j
 \noindent
 \charef{quick}に戻り、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うこと、そのためには\verb|^|と打ち込むことを思い出してください。
 % \index{^@\verb|^|}
-\index{^@{$\uparrow$}|see{return}}
+\index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 
 debuggerウインドウ上で直接コードを修正したのち、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合はバグが間違ったメソッドではなく、オブジェクトの初期化処理にあるため、最も簡単な処理方法はdebuggerウインドウを閉じることです。debuggerウインドウを閉じることにより、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成することができます。
 
