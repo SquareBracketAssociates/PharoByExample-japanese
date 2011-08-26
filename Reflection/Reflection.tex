@@ -206,7 +206,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できる
 
 \important{\emph{警告:}これらの機能は、とりわけ開発ツールを定義するのに便利ですが、典型的なアプリケーションには、通常、適していません。
 オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示します。なぜならそれは、カプセル化の原則を破ることだからです。
-開発ツールは、しかし、通常のアプリケーションではありません。なぜなら、開発ツールのドメインは、ソフトウェア自身のドメインだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
+しかし、開発ツールは通常のアプリケーションではありません。なぜなら、開発ツールのドメインは、ソフトウェア自身のドメインだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
 %\on{let's not mention this if we don't actually write such a chapter!}
@@ -253,7 +253,7 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 Point someInstance --> 0@0
 \end{code}
 
-また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中で生きているインスタンスの数は、\ct!#instanceCount!を使えばわかります。
+また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中にあるインスタンスの数は、\ct!#instanceCount!を使えばわかります。
 
 \alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
@@ -286,7 +286,7 @@ Point crossReference --> an Array(
 以下のメッセージは、継承を考慮に入れます:
 \begin{itemize}
 \item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/先祖クラスを返す %@?superclassというだけでは、上下方向に不足。
-\item \mthind{Behavior}{unreferencedInstanceVariables}レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
+\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
 \end{itemize}
 
 \begin{code}{@TEST}
@@ -303,7 +303,7 @@ Rectangle unreferencedInstanceVariables            --> #()
 SystemNavigation default allClassesImplementing: #yourself --> {Object}
 \end{code}
 
-以下のメッセージの意味も、字面から明かでしょう:
+以下のメッセージの意味も、その名の通りでしょう:
 
 \mthindex{SystemNavigation}{allSentMessages}
 \mthindex{SystemNavigation}{allUnsentMessages}
@@ -314,7 +314,7 @@ SystemNavigation default allUnsentMessages size      --> 6431
 SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
-ここで次のことに注意してください。実装されてはいても送られないメッセージは、かならずしも不要ではありません。なぜなら、それらは暗黙のうちに送られることもあるからです(\eg \ct{perform:}を使って)。
+ここで次のことに注意してください。実装されてはいても送られないメッセージは、必ずしも不要ではありません。なぜなら、それらは暗黙のうちに送られることもあるからです(\eg \ct{perform:}を使って)。
 送られるのに実装されていないメッセージは、しかし、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗するからです。
 これらは、完了していない実装、廃止されたAPI、あるいは欠落したライブラリがあることを、示しているのかもしれません。
 
@@ -335,7 +335,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
-特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super 送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、より優れており、偽陽性の結果をいくつか除外できます):
+特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super 送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、より優れており、検索結果の中から不必要なものをいくぶん減らすことができます):
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -357,7 +357,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
-	\caption{\ct!Point!クラスと、その\ct!\#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞?
+	\caption{\ct!Point!クラスと、その\ct!#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞? \ct!\#*!は、おそらくタイポ。
 \end{figure}
 
 クラスとメソッドの関係について考えてみましょう。
@@ -406,7 +406,7 @@ SystemNavigation default
 \end{code}
 関心のあるメソッド(\super 送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、ナビゲートしている様子に注意してください。
 \ct{MethodReference}は、コンパイル済みメソッドのための軽量プロキシーで、たくさんのツールがこのプロキシーを使っています。
-\clsmthind{CompiledMethod}{methodReference}という簡便メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照(\ct{MethodReference})を返します。
+\clsmthind{CompiledMethod}{methodReference}という簡易メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照(\ct{MethodReference})を返します。
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
@@ -417,7 +417,7 @@ SystemNavigation default
 \clsind{SystemNavigation}は、システムコードに対して、プログラム的にこれにクエリを送り、これをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
 
 \lct{Collection}の階層のメソッドのうち、どのようなメソッドが、そのメソッドセレクターと異なるメッセージを\super に送っているかに関心があったとしましょう。
-このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コード臭}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、オーバーライドするメソッドを拡張するときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
+このように、何かをオーバーライドしているわけではないメソッドが、\super 送信をしているのは、通常は、悪い\ind{コードの臭い}と考えられます。なぜなら、そのような\super 送信は、通常は、\self 送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、オーバーライドするメソッドを拡張するときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
 
 リファクタリングブラウザーは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
 
@@ -431,7 +431,7 @@ SystemNavigation default
 \figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{自身のメソッドセレクターとは違うメッセージを、superに送っているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のメソッドセレクターとは異なるsuperメッセージを送信しているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
 ブラウザー環境はまた、プログラム的に作れます。
@@ -472,7 +472,7 @@ SystemNavigation default
 これは、どのようにして可能になっているのでしょうか?
 
 実は、デバッガーには何の魔法もありません。
-秘密は、\pvind{thisContext}という疑似変数にあります。これには、3.2章で少しだけ触れました。
+秘密は、\pvind{thisContext}という疑似変数にあります。これには、以前、少しだけ触れました。 %@?which we have encountered only in passing before???
 実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
 
 このメカニズムについて、簡単に、自分で実験できます。
@@ -510,8 +510,8 @@ SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 以下は典型的なアプリケーションです: %@?application: アプリケーションでいいか?
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを設定する。
-	このメッセージがサブクラスで実装済みであるはずだ、と宣言する。"
+	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを提唱する。
+	このメッセージがサブクラスで実装済みであるはずだ、と知らせる。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
@@ -563,7 +563,7 @@ OrderedCollection>>>add: newObject
 Object>>>haltIf: condition
 	| cntxt |
 	condition isSymbol ifTrue: [
-		"only halt if a method with selector symbol is in callchain"
+		"セレクターのシンボルを持つメソッドが、センダーの連鎖内にあったときだけhaltする"
 		cntxt := thisContext.
 		[cntxt sender isNil] whileFalse: [
 			cntxt := cntxt sender. 
@@ -780,7 +780,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 \ct{ObjectsAsMethodsExample}をより詳しく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクトは、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのかという場合によってです)。
 
 %-------------------------------------------------------------------------
-\subsection{メソッドラッパーを、テストカバレッジの測定に使う}
+\subsection{メソッドラッパーをカバレッジテストに使う}
 
 メソッドラッパーは、メッセージをインターセプトするための、よく知られたテクニックです\cite{Bran98a}。
 もともとの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーとして、\ct{CompiledMethod}のサブクラスのインスタンスを使います。インストールされると、メソッドラッパーは、もともとのメソッドを呼び出す前かあとに、特別なアクションを実行できます。
@@ -788,7 +788,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 
 Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際、オブジェクトによる軽量メソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
 
-にもかかわらず、Pharoのテストランナーは、カバレッジを評価するのに、まさにこのテクニックを使っています。 %@?precisely: 英辞郎
+にもかかわらず、Pharoのテストランナーは、テストカバレッジを評価するのに、まさにこのテクニックを使っています。 %@?precisely: 英辞郎
 テストランナーがどのように動作するか、ザッと見てみましょう。
 
 テストカバレッジのエントリーポイントは、\clsmthind{TestRunner}{runCoverage}です:
@@ -817,7 +817,7 @@ TestRunner>>>collectCoverageFor: methods
 \end{code}
 チェックする各メソッドについて1個ずつラッパーが作られ、そして、各ラッパーがインストールされます。
 テストが実行され、すべてのラッパーはアンインストールされます。
-最後に、カバーされなかったメソッドについてのフィードバックが、得られます。
+最後に、テストされなかったメソッドについてのフィードバックが、得られます。
 
 ラッパーそれ自身は、どのように動くのでしょうか?
 次の\ct{TestCoverage}ラッパーには、3個のインスタンス変数: \ct{hasRun}、\ct{reference}、\ct{method}があります。
@@ -930,9 +930,9 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 \item インスペクターは、\ct{instVarAt:}や、これに関連するメソッドを用いて、オブジェクトの「プライベートな」インスタンス変数にクエリを送ったり、これを変更したりします。
 \item 与えられたクラスのすべてのインスタンスを知りたければ、\ct{Behavior>>>allInstances}をそのクラスに送りましょう。
 \item \ct{class}、\ct{isKindOf:}、\ct{respondsTo:}\etc メソッドは、メトリクスを収集したり、開発ツールを構築するのには便利ですが、通常のアプリケーションでは、これらは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反し、コードを理解しづらく、保守しづらいものにします。
-\item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、与えられた文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な方法です!)
+\item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、与えられた文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な検索方法です!)
 \item どの \st のクラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いを知っていることになります。 %@?closing the loop?
-\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡便メソッドを提供しするもので、多くの\st のツールが、この\ct{MethodReference}を使っています。
+\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡易メソッドを提供しするもので、多くの\st のツールが、この\ct{MethodReference}を使っています。
 \item \ct{BrowserEnvironment}、これはリファクタリングブラウザーのインフラの一部ですが、これを使えば、\ct{SystemNavigation}より洗練されたインターフェースを通して、システムにクエリを送れます。これは、クエリの結果が、次の新しいクエリのスコープとして使えるからです。\ct{BrowserEnvironment}では、GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。
 \item \ct{thisContext}は疑似変数です。この疑似変数は、仮想マシンの実行時スタックを具現化したものです。\ct{thisContext}は、主にデバッガーで使われ、スタックに対する会話的なビューを動的に構築するのに使われます。\ct{thisContext}はまた、メッセージのセンダーを動的に特定したい場合に、とりわけ便利です。 %@?意訳しすぎか?
 \item \ct{haltIf:}を使えば、賢いブレークポイントを設定できます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数のシンボルと一致するメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
