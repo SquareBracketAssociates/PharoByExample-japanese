@@ -274,8 +274,8 @@ String allSubInstances size -->  101675
 \end{itemize}
 
 \begin{code}{} % TOO FRAGILE TO TEST
-Point whichSelectorsAccess: 'x'    --> #(#'\\' #= #scaleBy: ...) %@?実際にやってみたら、配列が返った(Pharo-1.[21].1)。
-Point whichSelectorsStoreInto: 'x' --> #(#setX:setY: ...) %@?実際にやってみたら、配列が返った(Pharo-1.[21].1)。
+Point whichSelectorsAccess: 'x'    --> #(#'\\' #= #scaleBy: ...)
+Point whichSelectorsStoreInto: 'x' --> #(#setX:setY: ...)
 Point whichSelectorsReferTo: #+  --> an IdentitySet(#rotateBy:about: ...)
 Point crossReference --> an Array(
 		an Array('*' an IdentitySet(#rotateBy:about: ...))
@@ -357,14 +357,14 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
-	\caption{\ct!Point!クラスと、その\ct!#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞? \ct!\#*!は、おそらくタイポ。
+	\caption{\ct!Point!クラスと、その\ct!\#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}} %@?Explorer: なぜ名詞?
 \end{figure}
 
 クラスとメソッドの関係について考えてみましょう。
 \figref{MethodsAsObjects}を見ると、クラスとメタクラスには共通のスーパークラス、\ct{Behavior}、があることがわかります。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。\ct{new}はクラスの他の主要なメソッドのひとつにすぎません。 %@?among other things/places/factors etc: used to say that you are only mentioning one or two people or things out of a much larger group: (LDOCE) 
 どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
 コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
-\figref{CompiledMethod}を見れば、Pointクラスが、\ct!\#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
+\figref{CompiledMethod}を見れば、\ct{Point}クラスが、\ct!#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
