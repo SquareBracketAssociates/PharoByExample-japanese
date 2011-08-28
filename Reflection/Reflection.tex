@@ -751,12 +751,12 @@ myDA x --> nil
 
 \dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されることを確認しましょう。}
 
-さてここで、普通の\st のオブジェクトを、この\ct{Demo}クラスのメソッド辞書に登録しましょう。
+ここで、普通の\st のオブジェクトを、この\ct{Demo}クラスのメソッド辞書にインストールしましょう。
 
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
-さて、もういちど\ct{Demo new answer42}の結果をprintしてみましょう。今度は、\ct{42}が得られます。}
+ここで、もういちど\ct{Demo new answer42}の結果をprintしてみましょう。今度は、\ct{42}という答えが得られます。}
 
-\clsind{ObjectsAsMethodsExample}を見ると、以下のメソッドが見つかるはずです:
+\clsind{ObjectsAsMethodsExample}クラスを見ると、以下のメソッドが見つかるはずです:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
 %\on{ObjectsAsMethodsExample is part of the standard pharo image -- it is not in PBE-Reflection}
 \needlines{5}
@@ -769,7 +769,7 @@ run: oldSelector with: arguments in: aReceiver
 \end{code}
 
 この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。 %@?意訳しすぎか?
-仮想マシンは、\ct{ObjectsAsMethodsExample}オブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、レシーバーが、\ct{run:with:in:}の引数になります。 %@?will: 無視した。
+仮想マシンは、\ct{ObjectsAsMethodsExample}オブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、もともとのレシーバーが、\ct{run:with:in:}の引数になります。 %@?will: 無視した。
 \ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身にメッセージを移譲します。
 
 ここで、この偽のメソッドを削除するには、以下のようにします:
@@ -786,7 +786,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 もともとの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーとして、\ct{CompiledMethod}のサブクラスのインスタンスを使います。インストールされると、メソッドラッパーは、もともとのメソッドを呼び出す前かあとに、特別なアクションを実行できます。
 アンインストールされると、もともとのメソッドは、メソッド辞書内の、本来あるべき位置に戻されます。
 
-Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際、オブジェクトによる軽量メソッドラッパーの実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
+Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際、オブジェクトによるメソッドラッパーの、軽量の実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
 
 にもかかわらず、Pharoのテストランナーは、テストカバレッジを評価するのに、まさにこのテクニックを使っています。 %@?precisely: 英辞郎
 テストランナーがどのように動作するか、ザッと見てみましょう。
@@ -845,7 +845,7 @@ TestCoverage>>>uninstall
 		put: method
 \end{code}
 \noindent
-そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパーをアンインストールし(カバレッジが検証されたから)、もともとのレシーバーにメッセージを再送します。 %@?original method?
+そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパーをアンインストールし(カバレッジが検証されたから)、もともとのメソッドにメッセージを再送します。 %@?original method?
 \begin{code}{}
 run: aSelector with: anArray in: aReceiver
 	self mark; uninstall.
@@ -854,11 +854,11 @@ run: aSelector with: anArray in: aReceiver
 mark
 	hasRun := true
 \end{code}
-(\clsmthind{ProtoObject}{withArgs:executeMethod:}を見てみましょう。そして、メソッド辞書から取り除かれていたメソッドが、どのように呼び出されるか、見てみましょう。)
+(\clsmthind{ProtoObject}{withArgs:executeMethod:}を見てみましょう。そして、メソッド辞書から取り除かれていたメソッドが、どのように呼び出されるか、見てみましょう。) %@?なぜ、ProtoObject>>withArgs:executeMethod:なのかわからない???
 
 ただそれだけです。
 
-メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションで、事前・事後条件をチェックすること、メモイゼーション(オプションで、メソッドが計算した値をキャッシュすること)です。
+メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションで、事前・事後条件をチェックすること、メモ化(オプションで、メソッドが計算した値をキャッシュすること)です。
 
 %======================================
 \section{プラグマ}
@@ -873,7 +873,7 @@ mark
 プラグマが適用可能なのは、プログラムのメソッド宣言においてのみです。メソッドは、1個かそれ以上のプラグマを宣言でき、そしてプラグマは、どのSmalltalkの文よりも先に宣言されなければなりません。各プラグマは、事実上、リテラル引数をともなった静的メッセージ送信です。
 
 この章の前の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上の何物でもありません。 
-\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}をよく見てください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。 %@immediate: 訳さなかった。
+\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。 %@immediate: 訳さなかった。
 
 コンパイラーはおそらく、プラグマの大口ユーザです。SUnitもまた、アノテーションを活用するツールです。SUnitは、テストユニットからアプリケーションのカバレッジを見積れます。SUnitでは、いくつかのメソッドを、カバレッジから除外したいと思うかもしれません。以下は、\ct!SplitJointTest class!の\ct!documentation!メソッドの場合です:
 
@@ -885,7 +885,7 @@ SplitJointTest class>>>documentation
 	^ 'This package provides function.... "
 \end{code}
 
-このように単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジのスコープをコントロールできます。
+単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジのスコープをコントロールできます。
 
 %Beside the compiler, Lint is a heavy user of pragmas. Lint is a static code analyzer that flags suspicious, non-portable constructs and code that is likely to contain bugs. It may happen that a method needs to be excluded from Lint analysis. This is the case here:
 
@@ -901,7 +901,7 @@ SplitJointTest class>>>documentation
 
 %One of the pragmas used by Lint to filter out methods is \ct{lint:rationale:author:}.
 
-プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メソッドを実装します。\ct!pragmas!メソッドは、プラグマの配列を返します。 %@?messageとmethodを混同している。
+プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メソッドを実装します。\ct!pragmas!メソッドは、プラグマの配列を返します。 %@?answers to the message ... This methodに違和感があったので。
 
 \begin{code}{}
 (SplitJoinTest class >> #showDocumentation) pragmas.
@@ -909,7 +909,7 @@ SplitJointTest class>>>documentation
 (Float>>#+) pragmas --> an Array(<primitive: 41>)
 \end{code}
 
-特定のクエリを定義するメソッドが、クラスから取り出されることがあり得ます。\ct!SplitJoinTest!のクラス側には、\ct!<ignoreForCoverage>!とアノテートされた、いくつかのメソッドがあります: %@? ???
+特定のクエリを定義するメソッドが、クラスから取り出されることがあり得ます。\ct!SplitJoinTest!のクラス側には、\ct!<ignoreForCoverage>!とアノテートされた、いくつかのメソッドがあります: %@?意味不明???
 
 \begin{code}{@TEST}
 Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignoreForCoverage> <ignoreForCoverage> <ignoreForCoverage>)
@@ -932,16 +932,16 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 \item \ct{class}、\ct{isKindOf:}、\ct{respondsTo:}\etc メソッドは、メトリクスを収集したり、開発ツールを構築するのには便利ですが、通常のアプリケーションでは、これらは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反し、コードを理解しづらく、保守しづらいものにします。
 \item \ct{SystemNavigation}はユーティリティークラスであって、クラス階層をナビゲートし、ブラウズするのに、便利なクエリを備えています。例えば、与えられた文字列をソースコードに含む、すべてのメソッドを見つけ出すには、\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使いましょう。(遅いですが、完全な検索方法です!)
 \item どの \st のクラスにも、\ct{MethodDictionary}があって、この辞書は、セレクターとコンパイル済みメソッドのインスタンスを対応づけています。コンパイル済みメソッドは、そのクラスを知っています。こうして、両者はお互いを知っていることになります。 %@?closing the loop?
-\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡易メソッドを提供しするもので、多くの\st のツールが、この\ct{MethodReference}を使っています。
+\item \ct{MethodReference}は、コンパイル済みメソッドの軽量プロキシーです。\ct{MethodReference}は、追加の簡易メソッドを提供するもので、多くの\st のツールが、この\ct{MethodReference}を使っています。
 \item \ct{BrowserEnvironment}、これはリファクタリングブラウザーのインフラの一部ですが、これを使えば、\ct{SystemNavigation}より洗練されたインターフェースを通して、システムにクエリを送れます。これは、クエリの結果が、次の新しいクエリのスコープとして使えるからです。\ct{BrowserEnvironment}では、GUIによるインターフェースとプログラム的なインターフェースの両方が利用できます。
 \item \ct{thisContext}は疑似変数です。この疑似変数は、仮想マシンの実行時スタックを具現化したものです。\ct{thisContext}は、主にデバッガーで使われ、スタックに対する会話的なビューを動的に構築するのに使われます。\ct{thisContext}はまた、メッセージのセンダーを動的に特定したい場合に、とりわけ便利です。 %@?意訳しすぎか?
 \item \ct{haltIf:}を使えば、賢いブレークポイントを設定できます。このとき、メソッドセレクターを、\ct{haltIf:}の引数にします。\ct{haltIf:}は、その引数のシンボルと一致するメソッドが、センダーとして、実行時スタック内に現われたときのみ、停止します。
-\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、「最小限のオブジェクト」を使います。最小限のオブジェクトは、ターゲットのプロキシーです。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージ送信を捕捉します。こうすれば、いくつかの追加のアクションを実行してから、もともとのターゲットにメッセージを転送できます。
-\item プロキシーとそのターゲットのような、ふたつのオブジェクへのト参照を交換するには、\ct{become:}を使いましょう。
+\item 一般的には、与えられたターゲットに送られるメッセージをインターセプトするには、「最小限のオブジェクト」を使います。最小限のオブジェクトは、ターゲットのプロキシーとして使います。プロキシーで実装するメッセージは、できるだけ少なくします。そして、\ct{doesNotunderstand:}を実装して、すべてのメッセージ送信を捕捉します。こうすれば、いくつかの追加のアクションを実行してから、もともとのターゲットにメッセージを転送できます。
+\item プロキシーとそのターゲットのような、ふたつのオブジェクトへの参照を交換するには、\ct{become:}を使いましょう。
 \item 注意してください。いくつかのメッセージ、例えば\ct{class}や\ct{yourself}は、決して実際には送られず、代わりに、仮想マシンによって解釈されます。他の、例えば、\ct{+}, \ct{-} and \ct{ifTrue:} も、直接仮想マシンによって解釈されるか、インライン展開されます。このようなことが起こるかどうかは、レシーバーによって異なります。 %@?コンパイラがインライン展開するのではないのか?
 \item \ct{doesNotUnderstand:}をオーバーライドする、他の典型的な例は、欠けているメソッドの遅延ロードまたは、遅延コンパイルです。
 \item \ct{doesNotUnderstand:}は、\self-送信を捕捉できません。
-\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル辞書が格納されるべき場所にインストールされます。メソッドラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、仮想マシンが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを集めるのに使われています。 %@?意訳しすぎか?
+\item オブジェクトをメソッドラッパーとして使えば、より厳密な意味で、メッセージをインターセプトできます。このようなラッパーは、メソッド辞書内の、本来ならコンパイル済みメソッドが格納されるべき場所にインストールされます。メソッドラッパーは、\ct{run:with:in:}を実装しなければなりません。このメッセージは、仮想マシンが、メソッド辞書内で、コンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。このテクニックは、SUnitテストランナーが、カバレッジデータを集めるのに使われています。
 \end{itemize}
 
 %=========================================================
