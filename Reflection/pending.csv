@@ -1,0 +1,63 @@
+行番号,原表現,問題点、疑問点,対処,備考
+78,"Using the inspector, you can look at an object",look atは単に見るだけの意味か?,「オブジェクトを見たり」,
+98,To trigger the window refresh...,インスペクターの右側が灰色になって、ワークスペースは何も変わらない,,
+108,"variable at position ¥lct{¥emph{index}} or identified by ¥lct{¥emph{aString}}, respectively",respectivelyを訳すとくどくなる?,訳さなかった,
+138,this can be risky business,businessが訳しづらい,risky businessごと訳さなかった,意味は通るようにしたはず
+164,The method is implemented in ¥ct{Object},Pharo-1.[12].1には、このメソッドは無い,訳注化予定,
+197,_receiver_ has a method,不正確,「レシーバーやそのスーパークラス」,
+218,such aspects as,普通の方法で、自然に訳せなかった,原文にない「:」を使った。,
+242,our knowledge,何の知識なのか、いまひとつわからない,ourは訳さなかった,
+250,As we saw previously...¥ct!#someInstance!.,LaTeXソース内にsomeInstanceは発見できなかった,¥figref{allInstanceVariables}に言及した,たぶん、この図のことだろう
+268,...to enumerate those of its methods...,thoseが文法的にわからない,無視した,誤訳している可能性が高い
+273,¥mthind{Behavior}{crossReference},crossReferenceというメソッドは見つからなかった,訳注化予定,Pharo-1.[12].1
+288,returns the superclass,superclassというだけでは、下方向に不足,「クラス/スーパークラスを返す」,
+322,¥ct!Point! as a receiver,ソースを読んだが理解できなかった,上辺だけ訳した,誤訳している可能性が高い
+326,¥prot{browsing},¥prot{query}ではないのか?,,Pharo-1.[12].1
+360,Explorer class ¥ct!Point!,Explorer: なぜ名詞?,,
+364,amongst other key methods,英和辞書では解決しなかった,英英辞書に頼った,"among other things/places/factors etc: used to say that
+you are only mentioning one or two people or things out of
+A much larger group: (LDOCE)"
+365,method selectors,method selectorは、特別な術語ではないらしい,にもかかわらず、「メソッドセレクター」,
+420,extend a method you are overriding,重言だろう,extendは訳さなかった,
+438,(行全体),"実際の動きは、そう簡単ではない。
+BrowserEnvironment>>forClasses:はClassEnvironmentのインスタンスを返す。
+ClassEnvironmentはBrowserEnvironmentのサブクラスで、
+BrowserEnvironment>>selectMethods:が、SelectorEnvironmentを返す。
+これもまたBrowserEnvironmentのサブクラスである",,
+459,its (Refactoring Browser) parse tree,これだけでは意味不明,訳注化予定,CompiledMethod>>parseTreeはRBParserにparseMethod:onError:を送る
+460,to see some the things,文法的にわからない,theは、間違えて入ってしまったものとして訳した,誤訳している可能性が高い
+470,run-time context of an executing method,executingを訳すと、くどくなる,executingは訳さなかった,
+510,application,アプリケーションでいいか?,「アプリケーション」,
+545,(行全体),原文に忠実に訳そうとすると、不明瞭な日本語になる,is triggeredを「ヒットする」、butを「実際」と訳した,
+585,our knowledge,何の知識なのか、いまひとつわからない,ourは訳さなかった,
+588,until it reaches ¥ct{Object},Objectまで行き着かない場合もある,「場合によっては¥ct{Object}にたどりつくまで」,
+588,message selector,何だそれは?,「理解されなかったメッセージ(¥clsind{Message}のインスタンス)」,
+592,fall back to an alternative strategy,fall back onの間違いか?,勝手にfall back onの間違いだとして訳した,誤訳している可能性が高い
+618,¥ct{count},おそらく¥ct{invocationCount}の間違い,「¥ct{invocationCount}」,
+662,VM,virtuarl machineという表現もある,「仮想マシン」で統一,マクロ化?
+667,(行末の`.'),前後の行を見ると、そのような`.'は余計,取り除いた,
+687,has been cheated out of two ¥self-sends,意味が分からない,「ふたつの¥self-送信を、数え損なっています」,誤訳している可能性が高い
+734,¥ct{self doesNotUnderstand: #x},doesNotUnderstand:の引数はSymbolではない,,
+750,respond to the method ¥ct{run:with:in:},respond to the messageかimplement the methodだろう,「¥ct{run:with:in:}メソッドを実装し」,
+771,(行全体),訳しづらかった,意訳した,
+772,The VM will then send...,willが訳しづらかった,willは訳さなかった,
+791,precisely,適当な訳がなかった,「まさに」,英辞郎
+848,resends the message to the original method,奇妙に見えるが、関連するソースが難解で、読んでもわからなかった,「もともとのメソッドにメッセージを再送します」,誤訳している可能性が高い
+857,(行全体),ProtoObject>>withArgs:executeMethod:なのかわからない,上辺だけ訳した,誤訳している可能性が高い
+876,immediate literal value,重言くさい,immediateは訳さなかった,
+904,answers to the message ¥mthind{CompiledMethod}{pragmas},メッセージとメソッドが混同されている,¥mthind{CompiledMethod}{pragmas}メソッドを実装します,
+912,(行全体),よくわからない,上辺だけ訳した,誤訳している可能性が高い
+934,closing the loop,理解しているか、あまり自信がない,「こうして、両者はお互いを知っていることになります」,
+941,be directly interpreted or inlined by the VM,インライン化するのはコンパイラではないのか?,「直接仮想マシンによって解釈されるか、インライン展開されます」,
+277,Point whichSelectorsAccess: 'x'    --> an IdentitySet(...),実際は配列が返る,Point whichSelectorsAccess: 'x'    → #(...),Pharo-1.[21].1
+278,Point whichSelectorsStoreInto: 'x' --> an IdentitySet(...),実際は配列が返る,Point whichSelectorsStoreInto: 'x' --> #(...),Pharo-1.[21].1
+378,"[:aClass| aClass methodDict keys select: [:aMethod |
+  (aClass superclass canUnderstand: aMethod) not ]] value: SmallInteger
+  --> an IdentitySet(#threeDigitName #printStringBase:nDigits: …)",実際は配列が返る,--> #(...),Pharo-1.[21].1
+389,"[:aClass| aClass methodDict keys select: [:aMethod |
+  (aClass>>aMethod) isAbstract ]] value: Number
+  --> an IdentitySet(#storeOn:base: #printOn:base: #+ #- #* #/ …)",実際は配列が返る,--> #(...),Pharo-1.[21].1
+,,,,
+,,,,
+,,,,
+187,one of its superclasses,superclassというのは、¥st な世界では先祖クラス全般を指すらしい,,"Morph allSuperclasses size. --> 2 ""inheritance depth"""

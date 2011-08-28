@@ -2,22 +2,6 @@
 \ct!\#*!とすると、仕上がりに\が入ってしまうケースがある。
 後者の場合、\を取ればいい。
 
-{以下、コードブロック中なので、コメントできない。
-Point whichSelectorsAccess: 'x'    --> an IdentitySet(#'\\' #= #scaleBy: ...)
-% 実際にやってみたら、配列が返った(Pharo-1.[21].1)。
-
-Point whichSelectorsStoreInto: 'x' --> an IdentitySet(#setX:setY: ...)
-% 実際にやってみたら、配列が返った(Pharo-1.[21].1)。
-
-[:aClass| aClass methodDict keys select: [:aMethod |
-  (aClass superclass canUnderstand: aMethod) not ]] value: SmallInteger
-% 実際にやってみたら、配列が返った(Pharo-1.[21].1)。
-
-[:aClass| aClass methodDict keys select: [:aMethod |
-  (aClass>>aMethod) isAbstract ]] value: Number
-% 実際にやってみたら、配列が返った(Pharo-1.[21].1)。
-}
-
 \caption{\lct!ワークスペース!をインスペクトしている様子。...}が、
 そのまま、pdf上で、「!ワークスペース!をインスペクトしている様子。」
 となってしまう。
