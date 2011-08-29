@@ -46,9 +46,9 @@
 %=============================================================
 \section{導入}
 
-コレクションクラス群は \clsindmain{Collection} クラスと \clsind{Stream} クラスのサブクラスで、汎用目的なもののグループであるとやや曖昧に定義しておきます。「\ind{ブルーブック}」~\cite{Gold83a} に登場するこのクラスのグループには \ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが含まれています。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラス群はしばしばオブジェクト指向設計の系統的な例として考えられます。
+コレクションクラス群は \clsindmain{Collection} クラスと \clsind{Stream} クラスのサブクラスで、汎用目的なもののグループであるとやや曖昧に定義しておきます。「\ind{ブルーブック}」~\cite{Gold83a} にはこれらクラスのサブグループとして、\ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが登場します。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラス群はしばしばオブジェクト指向設計の系統的な例として取り上げられます。
 
-\pharo では、抽象クラス \ct{Collection} は 101 個のサブクラスを、抽象クラス \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成として「Collection」としてはカテゴリー化されません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
+\pharo では、抽象クラス \ct{Collection} は 101 個のサブクラスを、抽象クラス \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成は「Collection」カテゴリーとして扱いません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
 同様に「ストリーム階層」は \ct{Stream} と、そのサブクラス\emph{の中で} \scat{Collections-Streams} としてカテゴライズされたものを指します。
 これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！
 
@@ -101,10 +101,10 @@
 コレクションクラス群を上手く使うには、幅広い種類のコレクションについて、その実装と、それぞれの共通点と違いについて、少なくとも表層的には理解して置かなければなりません。
 
 コレクションを用いたプログラミングは、個別の要素を扱うより、プログラムの抽象度を高める上でとても役立ちます。
-\ind{Lisp} の \ct{map} 関数は、あるリストの各要素に対して引数に渡した関数を適用した結果のリストを作って返すものです。これはコレクションのようなスタイルの初期の例ですが、\st-80 はコレクション・ベースのプログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のような現代的な関数型プログラミング言語は Smalltalk の後に続いたと言えます。
+\ind{Lisp} の \ct{map} 関数は、あるリストの各要素に対して引数に渡した関数を適用した結果のリストを作って返すものです。これはコレクションのようなスタイルを初期に実現した例ですが、\st-80 はコレクション・ベースのプログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のような現代的な関数型プログラミング言語は Smalltalk の後継者であると言えます。
 
-このアイディアはなぜよいのでしょう？
-例えば学生のレコードのコレクションといったデータ構造があったとして、なにかの基準に一致するすべての学生のデータについて同じ処理をしたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐ思いつくでしょう。でも Smalltalk プログラマーならこう書くでしょう:
+このアイディアがよいのはなぜでしょう？
+例えば学生についてのデータのコレクションといったデータ構造があったとして、なにかの基準に一致するすべての学生のデータについて同じ処理をしたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐ思いつくでしょう。でも Smalltalk プログラマーならこう書くでしょう:
 \begin{code}{}
 students select: [ :each | each gpa < threshold ]
 \end{code}
@@ -177,7 +177,7 @@ students select: [ :each | each gpa < threshold ]
 	\clsind{Dictionary} とそのサブクラスのインスタンスは、インデックスの代わりにキーで要素を参照できます。
 
   \item {\bf 可変性 (Mutable):}
-        ほとんどのコレクションは内容が可変 (mutable) ですが、\ct{Interval} 群と \ct{Symbol} 群は例外です。
+        ほとんどのコレクションは内容が可変 (mutable) ですが、\ct{Interval} 類と \ct{Symbol} 類は例外です。
         \clsind{Interval} クラスは Integer の範囲を示す内容が不変 (immutable) のコレクションです。例えば、\ct{5 to: 16 by: 2} は要素 5, 7, 9, 11,13, 15 を含むインターバルです。インターバルは \ct{at:} でインデックス参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
@@ -219,14 +219,14 @@ students select: [ :each | each gpa < threshold ]
   \item Array は要素をコレクションオブジェクト自身の(インデックス参照できる)インスタンス変数に格納します。結果として、配列はサイズ固定となり、その代わりに一回のメモリ割り当てで生成できます。
   \clsindex{Array}
   \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。こうすることで、この内部的な配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
-  \item set や dictionary の類もまた、記憶先として配列へのリファレンスを利用しますが、配列をハッシュテーブルとして用います。Bag は記憶先として、要素そのものをキー、出現回数を値として持つ \ct{Dictionaly} を使います。
+  \item set や dictionary の類もまた、記憶先として配列へのリファレンスを利用しますが、配列をハッシュテーブルとして用います。Bag は記憶先として、要素そのものをキー、出現回数を値として持つ \ct{Dictionary} を使います。
   \clsindex{Bag}
   \item LinkedList は一般的な片方向リンクの形式を取ります。
   \clsindex{LinkedList}
   \item Interval は開始点・終了点・ステップサイズの三つの整数を格納します。
   \clsindex{Interval}
 \end{enumerate}
-これらのクラスに加え、\ct{Array}、\ct{Set}、それからディクショナリーの多くの種類は、``\subind{Collection}{weak}'' という変種を持ちます。これらの変種では要素を弱く保持します。\ie 要素のガーベージコレクションを禁止しないということです。
+これらのクラスに加え、\ct{Array}、\ct{Set}、それからディクショナリーの多くの種類は、``\subind{Collection}{weak}'' という変種を持ちます。これらの変種では要素を `弱く' 保持します。\ie 要素のガーベージコレクションを禁止しないということです。
 % 自信ないので原文残す。
 % In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
 \pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
@@ -289,7 +289,7 @@ Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3} --> a Dictionary(1->7 2->3 
 \end{code}
 \noindent
 この二つのメソッドは同じではないことにご注意ください。
-具体的には、\cmind{Dictionary class}{withAll:} では与えられたコレクションを値と解釈しますが、\cmind{Dictionary class}{newFrom:} はアソシエーションのコレクションが与えられることを期待しています。
+具体的には、\cmind{Dictionary class}{withAll:} では与えられたコレクションを値と解釈しますが、\cmind{Dictionary class}{newFrom:} は関連付けのコレクションが与えられることを期待しています。
 
 %---------------------------------------------------------
 \subsection{Array}
@@ -361,7 +361,7 @@ anArray at: 3 --> 33
 静的配列を変更するときには十分注意してください！
 コンパイラは静的配列については、格納する領域を最初の一回だけ確保します。
 配列をコピーしていないので、上の例を二回目に評価したとき、``静的'' 配列は期待通りの結果にならないでしょう。
-(コピーを取らなければ、二回目の実行時には、静的配列 \ct{#(1 2 3 4 5 6)} は実際のところ\ct{#(1 2 33 4 5 6)} になっているのです！)
+(コピーを取らなければ、二回目の実行時には、静的配列 \ct{#(1 2 3 4 5 6)} は実は \ct{#(1 2 33 4 5 6)} になってしまっているのです！)
 動的配列にはこのような問題はありません。
 
 %---------------------------------------------------------
@@ -501,7 +501,7 @@ Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)
 
 %---------------------------------------------------------
 \subsection{Set}
-クラス \clsindmain{Set} (集合) は数学的な「集合」の意味を持つコレクションです。\ie 重複した要素を持たず、要素間に順序もありません。\ct{Set} の要素を加えるにはメッセージ \mthind{Set}{add:} を用い、また \ct{at:} によってアクセスすることはできません。Set に格納されるオブジェクトはメソッド \ct{hash} と \ct{=} が実装されていなければなりません。
+クラス \clsindmain{Set} (集合) は数学的な「集合」の意味を持つコレクションです。\ie 重複した要素を持たず、要素間に順序もありません。\ct{Set} の要素を加えるにはメッセージ \mthind{Set}{add:} を用います。また \ct{at:} によってアクセスすることはできません。Set に格納されるオブジェクトはメソッド \ct{hash} と \ct{=} が実装されていなければなりません。
 
 \begin{code}{@TEST | s | }
 s := Set new.
@@ -515,7 +515,7 @@ Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \
 (Set newFrom: #( 1 2 3 1 4 )) = #(1 2 3 4 3 2 1) asSet --> true
 \end{code}
 
-\mthind{Collection}{asSet} offers us a convenient way to eliminate duplicates from a collection:
+\mthind{Collection}{asSet} はコレクションから重複を取り除くのに便利に使えます。
 \begin{code}{@TEST}
 { Color black. Color white. (Color red + Color blue + Color green) } asSet size --> 2
 \end{code}
@@ -609,7 +609,7 @@ String newFrom: #($h $e $l $l $o) --> 'hello'
 
 実際は、\ct{String} は抽象クラスです。
 \ct{String} のインスタンスを作ったときに実際に得られるのは8ビット文字の \clsind{ByteString} か32ビット文字の \clsind{WideString} です。
-話を簡単にするために、その際は無視して単に \ct{String} のインスタンスについて述べます。
+話を簡単にするために、その差異は無視して単に \ct{String} のインスタンスについて述べます。
 
 \ct{String} の二つのインスタンスはコンマによって結合できます。
 \index{Collection!comma operator}
@@ -618,7 +618,7 @@ s := 'no', ' ', 'worries'.
 s -->  'no worries'
 \end{code}
 
-String は変更可能コレクションなので　\mthind{String}{at:put:} を用いることもできます。
+String は可変コレクションなので　\mthind{String}{at:put:} を用いることもできます。
 
 \begin{code}{@TEST |s| s := 'no', ' ', 'worries'.}
 s at: 4 put: $h; at: 5 put: $u.
@@ -633,7 +633,7 @@ s --> 'no hurries'
 \seeindex{String!comma}{Collection, comma operator}
 \index{Collection!comma operator}
 
-すでにある文字列を以下に示すように \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することができます。後者の文字数とインターバルは同じサイズでなければならないことに注意してください。
+以下に示すように、すでにある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することができます。後者の文字数とインターバルは同じサイズでなければならないことに注意してください。
 
 \begin{code}{@TEST |s| s := 'no hurries' copy.}
 s replaceAll: $n with: $N.
@@ -670,9 +670,9 @@ s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
 'GNU/Linux mag' findString: 'linux' startingAt: 1 caseSensitive: false  --> 5
 \end{code}
 
-Perl が提供しているようなより優れたパターンマッチングの機能も、\pkgind{Regex} パッケージで提供されています。
+Perl が提供しているようなより優れたパターンマッチングの機能も、\pkgind{Regex} パッケージによって提供されています。
 
-\paragraph{文字列に対する試験} 以下の例では文字列だけでなく他の一般的なコレクションにも定義されているメッセージ \mbox{\mthind{String}{isEmpty}、}\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
+\paragraph{文字列に対する検査} 以下の例では文字列だけでなく他の一般的なコレクションにも定義されているメッセージ \mbox{\mthind{String}{isEmpty}、}\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
 
 \begin{code}{@TEST}
 'Hello' isEmpty --> false
@@ -756,7 +756,7 @@ res := ''.
 res --> 'bob.joe.toto'
 \end{code}
 \noindent
-このコードは一時文字列を作っているという点でとてもできが良いとは言いがたく、結果をためておくのには書き込みストリームを用いたほうがいいということに注意しましょう (see \charef{streams} 参照):
+このコードは一時文字列を作っているという点でできが良いとはとても言いがたく、結果をためておくのには書き込みストリームを用いたほうがいいということに注意しましょう (see \charef{streams} 参照):
 \begin{code}{@TEST}
 String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delimiter: '.' ] --> 'bob.joe.toto'
 \end{code}
@@ -817,9 +817,9 @@ result --> #(2 3 4 35 4 11)
 #( 2 -3 4 -35 4 -11) collect: [:each | each abs ] --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-二つ目の解のもう一つ良い点は set や bug でも同じように動くことです。。
+二つ目の解のもう一つ良い点は set や bag でも同じように動くことです。。
 
-一般的にコレクションの要素それぞれにメッセージを送りたいのでなければ、\ct{do:} の利用は避けたほうが良いです。
+コレクションの要素それぞれにメッセージを送りたいのでなければ、一般的に \ct{do:} の利用は避けたほうが良いです。
 
 メッセージ \ct{collect:} を送ると、レシーバーと同じ種類のコレクションが返ることに注意しましょう。
 以下のコードが失敗するのはこれが原因です。
@@ -953,7 +953,7 @@ range --> an OrderedCollection(2 3 5 7 11 13 17 19)
 
 \paragraph{\ct{=} と \ct{hash} 両方の再定義}
 発見が難しいエラーとしては \ct{=} を再定義しているけれども、\ct{hash} を再定義していないときに起きるものがあります。集合に入れた要素がいつの間にかなくなっていたりとか、そういうおかしな挙動が兆候として現れます。Kent Beck によって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
-例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、\ct{=} をそのように再定義したくなりますが、\ct{hash} も次のように再定義すべきなのです：
+例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、\ct{=} をそのように再定義したくなりますが、そのときは \ct{hash} も次のように再定義すべきなのです：
 \index{Dictionary!overriding \ct{=} and \ct{hash}}
 
 \begin{method}{\lct{=} と \lct{hash} の再定義}
