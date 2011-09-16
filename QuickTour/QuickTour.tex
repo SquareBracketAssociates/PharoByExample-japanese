@@ -47,14 +47,14 @@
 \chalabel{quick}
 
 この章では、\pharo の快適な使い方について解説します。
-読書するばかりで無く、パソコンを用意して実際にPharoを使っていくことが出来れば、一層理解が深まると思います。
+読書するばかりで無く、パソコンを用意して実際にPharoを使っていくことができれば、一層理解が深まると思います。
 \pharo を使って実際に試してみてもらいたい箇所には、このアイコン: \dothisicon{} でマークしておきます。
 \pharo の起動や、\pharo と対話する色々な方法を知ったり、基本的なツールの使い方を理解し、メソッドの作成やクラスの作成、メッセージの使い方を覚える事になるでしょう。
 
 %=================================================================
 \section{使ってみよう}
 
-\pharo は \pharoweb から \ind{download} することが出来ます。
+\pharo は \pharoweb から \ind{download} することができます。
 ３種のパーツから構成されていますが、実際には４個のファイルをダウンロードする事になります(\figref{download})。
 
 \begin{figure}[htb]
@@ -66,7 +66,7 @@
 
   \item \emphind{バーチャルマシン} (VM)(\figref{download} の \textit{Pharo.exe})は、各OS毎に異なるファイルです。
 
-  \item \emphind{sources}ファイル(\figref{download} の \emph{SqueakV39.sources})は、\pharo の全てのソースコードを含んでいます。
+  \item \emphind{sources}ファイル(\figref{download} の \emph{SqueakV39.sources})は、\pharo のすべてのソースコードを含んでいます。
 このファイルはほぼ変更することはありません。\footnote{\pharo は\squeak 3.9 をベースに作らています。現在のVMは、\squeak と同じものを使っています。}
 
   \item 現在の \emph{system \ind{image}} は \emph{.}\emphind{image} ファイル(クラスやメソッド、オブジェクトなどをすべて含みます)と \emph{.}\emphind{changes} ファイル(システムイメージに行った変更のログをすべて含みます)の２つで構成された、\pharo システムのスナップショットになります(\figref{download} の \emph{pharo.image} と \emph{pharo.changes})。
@@ -85,7 +85,7 @@
 また、絶対に他のアプリケーションで直接変更しないでください。
 ダウンロードしたファイルは、バックアップのコピーを取っておきましょう。
 
-\emphind{sources} ファイルとVMは書き込み不可にすることが可能で、複数のユーザーで共有することが出来ます。
+\emphind{sources} ファイルとVMは書き込み不可にすることが可能で、複数のユーザーで共有することができます。
 同じ場所に置いたものを共有で使っても構わないですし、個人ごとにファイルをコピーしてもいいでしょう。
 OSや作業スタイルに合わせて使ってください。
 
@@ -101,7 +101,7 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っておく必要があるなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ・アンド・ドロップまたはコマンドラインからの起動を勧めます)。
 
 \pharo を起動すると、大きめのウィンドウが現れます(\figref{startup}を見てください)。
-このウィンドウの中では更に複数の workspace ウィンドウを開くことが出来ます。
+このウィンドウの中ではさらに複数の workspace ウィンドウを開くことができます。
 メニューバーも有りますが、\pharo では主にコンテキスト(文脈)に依存したポップアップメニューを使うことになります。
 
 \dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\click すると、workspace ウィンドウを閉じることができます。}
@@ -145,7 +145,7 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 \item [\actclick:] 
 次によく使われるボタンはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスポインタが指している場所により違うメニュー表示を行うことがあります(\figref{threeButtons:actclick})。マルチボタンのマウスを使わない場合、\emph{control} 等の修飾キーを使った \actclick を行い、表示することになります。
 \item [\metaclick:] 
-  ``morphic \subind{Morphic}{halo}''を動かすには、どんな物の上でも \metaclick を実行することが出来ます。物を回転させたりリサイズを行ったり、\figref{threeButtons:metaclick} にあるような様々なことが可能です。\footnote{\pharo ではいくつかの機能は意図的に操作を制限しています。以降の Preferences Browser の使い方では、その制限を外す設定も書かれています。}
+  ``morphic \subind{Morphic}{halo}''を動かすには、どんな物の上でも \metaclick を実行することができます。物を回転させたりリサイズを行ったり、\figref{threeButtons:metaclick} にあるような様々なことが可能です。\footnote{\pharo ではいくつかの機能は意図的に操作を制限しています。以降の Preferences Browser の使い方では、その制限を外す設定も書かれています。}
 バルーンヘルプ機能もありますので、マウスの使い方に困ることはありません。
 \pharo は、あなたの \metaclick の方法を、使っているオペレーティングシステムに依存しています。{\sc shift} \emph{ctrl} または {\sc shift} \emph{option} を押しながらクリックする事になります。
 
@@ -172,11 +172,11 @@ VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド
 右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、ボタンとして機能するスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
 % If you don't have a clickable scroll wheel, then you can get the Morphic halo by holding down the \ct{alt} or \ct{option} key while \click{ing}. 
 % \ab{This doesn't work any more.  This sentence either repeats or contradicts the meta-click item above; neither is a good idea.}
-あなたがワンボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、シミュレートすることも出来ます。それでも、\pharo を使うためには、やはり2ボタンのマウスを使ったほうが良いでしょう。
-オペレーティングシステムのマウスドライバの設定を変えることで、あなた好みの動作を行うことも出来ます。
-\ab{どうやったら3本指の洗礼無く、メタクリックを使うことが出来ますか？秘密じゃないですよね？}
+あなたがワンボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、シミュレートすることもできます。それでも、\pharo を使うためには、やはり2ボタンのマウスを使ったほうが良いでしょう。
+オペレーティングシステムのマウスドライバの設定を変えることで、あなた好みの動作を行うこともできます。
+\ab{どうやったら3本指の洗礼無く、メタクリックを使うことができますか？秘密じゃないですよね？}
 \pharo は、あなたが使っているキーボードのメタキーやマウスの設定を変更できる機能も持っています。
-Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference Browser\ldots})では、\menu{keyboard} カテゴリの \menu{swapControlAndAltKeys} オプションを使うことで、\actclick と \metaclick の機能を変更することが出来ます。
+Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference Browser\ldots})では、\menu{keyboard} カテゴリの \menu{swapControlAndAltKeys} オプションを使うことで、\actclick と \metaclick の機能を変更することができます。
 コマンドキーの設定を変更するオプションも用意されています。
 
 \begin{figure}[htb]
@@ -191,7 +191,7 @@ Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference 
 
 \dothis{\pharo のバックグラウンドで、もう一度 \click をしてみましょう。}
 \menu{World} menu が表示されましたか？
-\pharo のメニューは殆どがモーダルメニューではありませんので、右上の画鋲アイコンを \click することで、画面上に残しておくことが出来ます。
+\pharo のメニューは殆どがモーダルメニューではありませんので、右上の画鋲アイコンを \click することで、画面上に残しておくことができます。
 % Also, notice that menus appear when you click the mouse, but do not disappear when you release it; they stay visible until you make a selection, or until you click outside of the menu. You can even move the menu around by grabbing its title bar.
 
 world メニューは、\pharo の色々なツールを使うときに使います。
@@ -231,7 +231,7 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 %=================================================================
 \section{終了と再起動、保存について}
 
-\dothis{先ほど表示させたアトムのウィンドウを \click クリックすると、ウィンドウを移動させることが出来ます。もう一度 \click すると、ウィンドウを置くことが出来るはずです。}
+\dothis{先ほど表示させたアトムのウィンドウを \click クリックすると、ウィンドウを移動させることができます。もう一度 \click すると、ウィンドウを置くことができるはずです。}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -248,7 +248,7 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 \dothis{\menu{World\go{}Save as \ldots} を選択して、``myPharo'' と入力し、\button{OK} ボタンを押してください。
 その後、\menu{World\go{}Save and quit} を選択しましょう。}
 
-もともとの image ファイルと changes ファイルがあった場所に、``myPharo.\ind{image}'' と ``myPharo.\ind{changes}'' が出来ているはずです。
+もともとの image ファイルと changes ファイルがあった場所に、``myPharo.\ind{image}'' と ``myPharo.\ind{changes}'' ができているはずです。
 この2つのファイルは何処にでも移動させて構いませんが、バーチャルマシンと \emph{sources} も一緒にしておく必要があります。
 
 \dothis{では、``myPharo.image'' を使って \pharo を起動しましょう。}
@@ -257,9 +257,9 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 
 \pharo は起動時に \ind{バーチャルマシン}でイメージファイルを読み込みます。このファイルは、プログラムのコードやツール、オブジェクトそのものを数多く含んでいます。\pharo を使っていると、この object へメッセージを送ることで新しく作り出したり、消したり、使用していたメモリを回収(ガーベッジコレクション)したりすることになります。
 
-\pharo を終了するとき、通常はいわゆる上書き保存になります。勿論、先ほど行ったみたいに、更に別名での保存もできます。
+\pharo を終了するとき、通常はいわゆる上書き保存になります。もちろん、先ほど行ったみたいに、さらに別名での保存もできます。
 
-\emph{.changes} ファイルは、あなたが行った追加変更を全て記録しています。このファイルはエラーが起きたときなどに重宝しますが、通常はあまり意識する必要はありません。
+\emph{.changes} ファイルは、あなたが行った追加変更をすべて記録しています。このファイルはエラーが起きたときなどに重宝しますが、通常はあまり意識する必要はありません。
 
 このやり方は 1970年代の \st-80 から変わりません。
 
@@ -274,10 +274,10 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 \section{Workspaces と Transcripts}
 \seclabel{transcript}
 
-\dothis{全てのウィンドウを閉じて、\ind{transcript} と \ind{workspace} を新しく開いてください。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
+\dothis{すべてのウィンドウを閉じて、\ind{transcript} と \ind{workspace} を新しく開いてください。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
 
 \dothis{transcript と workspace の位置やサイズを変えてみましょう。}
-\metaclick で morphic halo の右下の黄色ハンドルを使うことでリサイズが出来ます。
+\metaclick で morphic halo の右下の黄色ハンドルを使うことでリサイズができます。
 
 常に、枠が強調されているウィンドウだけがアクティブになります。
 % The mouse cursor must be in the window in which you wish to type.
@@ -289,7 +289,7 @@ transcript はシステムメッセージのログを確認するときに良く
 % ON: I think the transcript has been made thread-safe now, right?
 
 workspaces は実験的に試してみたい \st コードを使うときに役立ちます。
-勿論、メモ帳としても使えます。
+もちろん、メモ帳としても使えます。
 イメージに保存されるので、付箋がわりに使うのも良いアイデアです(\figref{startup})。
 
 \dothis{workspace に次のコードを入力してみてください。}
@@ -301,7 +301,7 @@ workspace のウィンドウの中で、単語の上や単語の間、コード�
 
 \dothis{コード全体を選択して、\actclick で \menu{do it (d)} を選択します。}
 transcript ウィンドウに``hello world''と表示されたのを確認してみましょう(\figref{helloworld})。
-(\menu{(d)} は \menu{do it (d)} のキーボードショートカットです。例えば、 \emph{do it} を \short{d} のように使うことが出来ます。)
+(\menu{(d)} は \menu{do it (d)} のキーボードショートカットです。例えば、 \emph{do it} を \short{d} のように使うことができます。)
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{HelloWorld}}
@@ -311,7 +311,7 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 %=================================================================
 \section{キーボードショートカット}
 
-コードを実行するときは、\actclick ではなく \ind{キーボードショートカット}を使うことも出来ます。キーボードショートカットを使えば、操作が簡単になります。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、\short{\emph{key}} のように control / alt / command / meta 等の修飾キーを同時に使用することになるでしょう。
+コードを実行するときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。キーボードショートカットを使えば、操作が簡単になります。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、\short{\emph{key}} のように control / alt / command / meta 等の修飾キーを同時に使用することになるでしょう。
 
 
 \dothis{キーボードショートカットを使って、式を評価してみましょう(例：\short{d})。}
@@ -343,9 +343,9 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 \dothis{選択されている ``\ct{7}'' を削除し(delete キーを押します)、\ct{3+4} をもう一度選択してから \menu{inspect it} (\short{i}) を実行しましょう。}
 \noindent
 整数クラスの一つである \ct{SmallInteger: 7} (\figref{inspectit}) の \emphind{inspector}(インスペクタ)ウィンドウが表示されるはずです。
-inspector はどんなオブジェクトでもあなたと対話することが出来る優れたツールです。
+inspector はどんなオブジェクトでもあなたと対話することができる優れたツールです。
 タイトルの意味は、\ct{7} は \clsind{SmallInteger} クラスのインスタンスであるという意味です。
-左のパネルはオブジェクトのインスタンス変数を示し、その値が右のパネルに表示されます。下のパネルは、オブジェクトへメッセージを送るための式を記述することが出来ます。
+左のパネルはオブジェクトのインスタンス変数を示し、その値が右のパネルに表示されます。下のパネルは、オブジェクトへメッセージを送るための式を記述することができます。
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{InspectIt}}
@@ -369,7 +369,7 @@ inspector はどんなオブジェクトでもあなたと対話することが�
 
 explorer は inspector と似ていますが、ツリー構造により複雑なオブジェクトの中身を表示します。
 今私たちは、\ct{Object} クラスの中身を explorer で見ていることになります。
-このウィンドウでは全ての情報を参照し、操作することが可能です。
+このウィンドウではすべての情報を参照し、操作することが可能です。
 
 %=================================================================
 \section{Class Browser}
@@ -395,7 +395,7 @@ class \ind{browser}(クラスブラウザー)\footnote{
 タイトルに書かれているとおり、\clsind{Object} クラスをブラウズしています。
 %\footnote{If the browser you have seems to differ from the one described in this book, you may be using an image with a different default browser. See \faqref{omnibrowser}.}
 
-最初に browser を開くと、左のパネル以外は全て空欄です。左のパネルは、クラスを含んだ全ての \emph{packages}(パッケージ) をリスト表示しています。
+最初に browser を開くと、左のパネル以外はすべて空欄です。左のパネルは、クラスを含んだすべての \emph{packages}(パッケージ) をリスト表示しています。
 \index{category}
 
 \dothis{\scatind{Kernel} パッケージを選択しましょう。}
@@ -403,14 +403,14 @@ class \ind{browser}(クラスブラウザー)\footnote{
 
 \dothis{\clsind{Object} クラスを選択しましょう。}
 三番目のパネルは選択されたクラスの\emph{protocols}(プロトコル)が表示されます。
-\ind{protocol} を選択していなければ、全てのメソッドが四番目のパネルに表示されます。
+\ind{protocol} を選択していなければ、すべてのメソッドが四番目のパネルに表示されます。
 
 \dothis{\protind{printing} プロトコルを選択しましょう。}
 printing のプロトコルに属するメソッドが四番目のパネルに表示されます。
 
 \dothis{\mthind{Object}{printString} メソッドを選択しましょう。}
 下のパネルに\ct{printString} メソッドのソースコードが表示されます。
-このソースコードは、全てのクラスで共有される、オーバーライドされていないソースコードになります。
+このソースコードは、すべてのクラスで共有される、オーバーライドされていないソースコードになります。
 
 %=================================================================
 \section{クラスの検索}
@@ -439,7 +439,7 @@ Boolean クラスをポイントした状態の browser が開きましたか(\f
 このクラス定義は、親クラスにサブクラスを生成するメッセージそのものです。
 \ct{Object} クラスに対して、インスタンス変数、クラス変数、``pool dictionaries''(プール辞書)の定義を空っぽとし、\scatind{Kernel-Objects} カテゴリで \ct{Boolean} クラスを定義しています。
 % The lower pane shows the \emph{class comment} --- a piece of plain text describing the class.
-\button{?} をクリックすると、\subind{class}{comment}(クラスコメント)を見ることが出来ます(\figref{classComment})。
+\button{?} をクリックすると、\subind{class}{comment}(クラスコメント)を見ることができます(\figref{classComment})。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{classComment}}
@@ -489,7 +489,7 @@ method finder はまだ他の使い方もあります。例えば、\ct{'eureka'
 
 \dothis{\ct{'eureka' . 'EUREKA'} と method finder に入力し、\textsc{return} キーを押してください(\figref{methodFinder-example1})。}
 \noindent
-method finder はあなたの思った通りを動作をしましたか？\footnote{警告のメッセージダイアログが出てもびっくりしないでください。method finder は単にありそうな候補全てを表示するだけなので、推奨されないメソッドも含まれます。慌てず騒がず、\button{Proceed} をクリックしてください。}
+method finder はあなたの思った通りを動作をしましたか？\footnote{警告のメッセージダイアログが出てもびっくりしないでください。method finder は単にありそうな候補すべてを表示するだけなので、推奨されないメソッドも含まれます。慌てず騒がず、\button{Proceed} をクリックしてください。}
 
 右のペインでアスタリスクが付いているクラスは、実際にアルファベット大文字へ変換したときに使われたことを示します。このケースでは、\ct{String asUppercase} が実際に使われたということです。
 アスタリスクが付いていないクラスは、単に同じ名前のメソッドが定義されているというだけでリストアップされています。\ct{'eureka'} は \clsind{Character} のオブジェクトではないので、\cmind{Character}{asUppercase} は使われなかったということです。
@@ -500,7 +500,7 @@ method finder はあなたの思った通りを動作をしましたか？\footn
 \figlabel{methodFinder-example1}}
 \end{figure}
 
-他にも使い方は色々有ります。二つの整数の最大公約数を見つけるメソッドを見つけたいときは、\ct{25. 35. 5} と入力してみてください。下のペインではいくつかのサンプルを見ることが出来ます。
+他にも使い方は色々有ります。二つの整数の最大公約数を見つけるメソッドを見つけたいときは、\ct{25. 35. 5} と入力してみてください。下のペインではいくつかのサンプルを見ることができます。
 
 %=================================================================
 \section{メソッドの新規定義}
@@ -536,7 +536,7 @@ testShout
 \end{figure}
 
 \dothis{browser で \ct{StringTest} クラスを選択してください。適切なプロトコルとして、\menu{tests - converting} を選択しましょう(\figref{newMethodTemplate})}。
-browser の下のペインで表示されているのはテンプレートコードです。全て消した後に、\mthref{testShout} を入力してください。
+browser の下のペインで表示されているのはテンプレートコードです。すべて消した後に、\mthref{testShout} を入力してください。
 browser にプログラムコードを入力したときに、ペインの一部が赤くなっているはずです。これは、入力したプログラムコードがまだ保存されていないというマーカーです。
 \actclick のメニューから \menu{accept (s)} を選択するか、\short{s} でメソッドのプログラムコードを保存してください。
 \index{キーボードショートカット}
@@ -613,7 +613,7 @@ browser にプログラムコードを入力したときに、ペインの一部
 \figlabel{predebugger}
 \end{figure}
 
-このエラーは、意図したとおりの動作になります。まだ \ct{shout} を実装していませんので、当然の事になります。しかしながら、当然のエラーが発生したということは、今までの実践内容が全て正しかったという裏返しの確認でもあります。
+このエラーは、意図したとおりの動作になります。まだ \ct{shout} を実装していませんので、当然の事になります。しかしながら、当然のエラーが発生したということは、今までの実践内容がすべて正しかったという裏返しの確認でもあります。
 取り敢えず、\button{Abandon} ボタンを押して、ウィンドウを閉じましょう。
 因みに、\button{Create} はデバッガの中で新しくメソッドを作成することを促されますし、\button{Proceed} ボタンはそのまま続行することになります。
 
@@ -630,7 +630,7 @@ $\uparrow$ は \pharo では返される答えになります。$\uparrow$ 以�
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
-出来ましたか？では、もう一度テストを実行しましょう。
+できましたか？では、もう一度テストを実行しましょう。
 
 \dothis{\menu{Run Selected} を再実行します。今度は緑色でエラー無し状態のウィンドウを見るはずです。}
 どうでしたか？うまくいきました？
@@ -657,9 +657,9 @@ $\uparrow$ は \pharo では返される答えになります。$\uparrow$ 以�
 \begin{itemize}
   \item \pharo は、\emph{virtual machine}、\emph{sources} ファイル、\emph{image} と \emph{changes} ファイルで構成されており、\emph{image} と \emph{changes} ファイルはスナップショットとして変化していきます。
   \item \pharo は、あなたが前回終了したときと全く同じ状態で再起動します。
-  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。勿論、マウスがなくても、キーボードの修飾キーを使うことで、\click 、 \actclick と \metaclick が使えます。
+  \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。もちろん、マウスがなくても、キーボードの修飾キーを使うことで、\click 、 \actclick と \metaclick が使えます。
   \item \pharo の背景部分をクリックすることで、\emph{World menu} が表示できます。
-  \item \emph{workspace} では、プログラムコードを試すことも出来ますし、単なるメモ帳としても使えます。
+  \item \emph{workspace} では、プログラムコードを試すこともできますし、単なるメモ帳としても使えます。
   \item プログラムコードを評価するのに、\menu{do it} (\short{d})、 \menu{print it} (\short{p})、 \menu{inspect it} (\short{i})、 \menu{explore it} (\short{I}) と \menu{browse it} (\short{b}) が使えます。
 %  \item \sqmap is a tool for loading useful packages from the Internet.
   \item \emph{browser} は \pharo のプログラムコードを見たり開発したりするための重要なツールです。
