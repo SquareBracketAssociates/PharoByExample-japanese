@@ -1,0 +1,3 @@
+"行番号","原表現","問題点、疑問点","対処","備考"
+605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}",
+685,"\footnotemark","対応する文章がない","カット",
