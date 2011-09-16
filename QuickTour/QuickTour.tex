@@ -50,32 +50,32 @@
 読書するばかりで無く、パソコンを用意して実際にPharoを使っていくことができれば、一層理解が深まると思います。
 
 \pharo を使って実際に試してみてもらいたい箇所には、このアイコン: \dothisicon{} でマークしておきます。
-\pharo の起動や、\pharo と対話する色々な方法を知ったり、基本的なツールの使い方を理解し、
-メソッドの作成やクラスの作成、メッセージの使い方を覚える事になるでしょう。
+\pharo の起動や、\pharo と対話する色々な方法を学んだり、基本的なツールを見付けたり、
+メソッドの作成方法や、オブジェクトを作成し、それにメッセージを送る方法を学ぶことになるでしょう。
 
 %=================================================================
 \section{使ってみよう}
 
-\pharo は \pharoweb から \ind{download} することができます。
-３種のパーツから構成されていますが、実際には４個のファイルをダウンロードする事になります(\figref{download})。
+\pharo は \pharoweb から自由に \ind{download} することができます。
+3種のパーツから構成されていますが、実際には4個のファイルをダウンロードすることになります(\figref{download})。
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{annotatedDownload-flat}}
-\caption{サポートしているOS毎にダウンロードする \pharo のファイル\figlabel{download}}
+\caption{サポートしているOS毎にダウンロードする \pharo のファイル。\figlabel{download}}
 \end{figure}
 
 \begin{enumerate}
 
-  \item \emphind{バーチャルマシン} (VM)(\figref{download} の \textit{Pharo.exe})は、各OS毎に異なるファイルです。
+  \item \emphind{仮想マシン} (VM)。VMは、システムで唯一、各OSとCPU毎に異なるパーツです。主要なプラットフォーム用の、コンパイル済みの仮想マシンが手に入ります。\figref{download}には、Windows用のVMである \textit{Pharo.exe} があります。
 
-  \item \emphind{sources}ファイル(\figref{download} の \emph{SqueakV39.sources})は、\pharo のすべてのソースコードを含んでいます。
-このファイルはほぼ変更することはありません。\footnote{\pharo は\squeak 3.9 をベースに作らています。現在のVMは、\squeak と同じものを使っています。}
+  \item \emphind{sources} ファイル。sources ファイルは、\pharo のすべてのパーツのソースコードを含みます。このファイルは、ほぼ変更されることはありません。\figref{download} では \emph{SqueakV39.sources}が sources ファイルです。\footnote{\pharo は \squeak 3.9 をベースに作らています。現在のVMは、\squeak と同じものを使っています。}
 
-  \item 現在の \emph{system \ind{image}} は \emph{.}\emphind{image} ファイル(クラスやメソッド、オブジェクトなどをすべて含みます)と \emph{.}\emphind{changes} ファイル(システムイメージに行った変更のログをすべて含みます)の２つで構成された、\pharo システムのスナップショットになります(\figref{download} の \emph{pharo.image} と \emph{pharo.changes})。
+  \item 現在の \emph{システム\ind{イメージ}}は、実行中の \pharo システムのスナップショットです。このスナップショットは二つのファイルからなります: \emph{.}\emphind{image} ファイル。 .image ファイルは、システムのすべてのオブジェクトの状態を含みます(クラスやメソッドも含みます。これらもオブジェクトです)と、 \emph{.}\emphind{changes} ファイル。 .changes ファイルは、システムのソースコードの変更のログをすべて含みます。
+\figref{download}では、これらのファイルは、 \emph{pharo.image} 、 \emph{pharo.changes} となっています。
 \end{enumerate}
 
 \dothis{\pharo をダウンロードし、インストールしてみましょう。}
-\pharo by Example のウェブページからimageファイルをダウンロードしてみましょう。\footnote{\pbe}
+\pharo by Example のウェブページからイメージをダウンロードすることをお勧めします。\footnote{\pbe}
 \index{download}
 \seclabel{sbeImage}
 
@@ -83,13 +83,13 @@
 しかし、外見や動作のちょっとした違いがあっても驚かないで下さいね。
 % On the other hand, if you are about to download \pharo for the first time, you may as well grab the \emph{\pharo by Example} image.
 
-\pharo でなにか作業している時、imageファイルとchangesファイルは常に内容が更新されているため、確実に書き込み可能ファイルにし、
-同じ場所に置いて下さい。
-また、絶対に他のアプリケーションで直接変更しないでください。
-ダウンロードしたファイルは、バックアップのコピーを取っておきましょう。
+\pharo で何か作業している時、 .image ファイルと .changes ファイルは常に内容が更新されているため、確実に書き込み可能ファイルにしてください。
+そして、これらは二つのファイルは、常に同じ場所に置いて下さい。
+また、これらを、絶対にテキストエディターで直接変更しないでください。\pharo はこれらを、オブジェクトを格納したり、ソースコードの変更のログを書き出すのに使います。
+ダウンロードしたファイルのバックアップコピーを取っておくのは良い考えです。こうしておけばいつでも、フレッシュなイメージから \pharo を開始し、(それがセーブしてあれば)あなたのプログラムを読み込むことができます。
 
-\emphind{sources} ファイルとVMは書き込み不可にすることが可能で、複数のユーザーで共有することができます。
-同じ場所に置いたものを共有で使っても構わないですし、個人ごとにファイルをコピーしてもいいでしょう。
+\emphind{sources} ファイルとVMは書き込み不可にすることが可能です\,---\,これらを複数のユーザーで共有することができます。
+仮想マシン・sources ファイル・image ファイル・changes ファイルは、同じ場所に置いても構いませんし、仮想マシン・sources ファイルだけ別の共有ディレクトリに置いても構いません。
 OSや作業スタイルに合わせて使ってください。
 
 %\sd{it would be really nice to have a setup and startup section on PC, Mac and Linux}
@@ -99,27 +99,27 @@ OSや作業スタイルに合わせて使ってください。
 \begin{figure}[htb]
 % \centerline {\includegraphics[width=0.6\textwidth]{download}}
 \centerline {\includegraphics[width=\textwidth]{startup}}
-\caption{\pbe からダウンロードした状態の imageファイル\figlabel{startup}}
+\caption{\pbe からダウンロードした状態の イメージ\figlabel{startup}}
 \end{figure}
 
 \index{launching \pharo}
-\paragraph{起動してみましょう。} \pharo の起動は、普通のアプリケーションと同様です。VMファイルに\emph{.}\emphind{image} ファイルをドラッグ・アンド・ドロップしたり、\emph{.image} ファイルをダブルクリックする、コマンドラインで VM ファイルの後にパスを付けて \emph{.image} ファイルをタイプしてもいいでしょう。使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っておく必要があるなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ・アンド・ドロップまたはコマンドラインからの起動を勧めます)。
+\paragraph{起動してみましょう。} \pharo の起動は、普通のアプリケーションと同様です。仮想マシンのアイコンに \emph{.}\emphind{image} ファイルをドラッグ・アンド・ドロップしたり、 \emph{.image} ファイルをダブルクリックしたり、コマンドラインで、仮想マシンの名前の後に \emph{.image} へのパスをタイプすることになるでしょう。使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っておく必要があるなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ・アンド・ドロップまたはコマンドラインからの起動を勧めます)。
 
-\pharo を起動すると、大きめのウィンドウが現れます(\figref{startup}を見てください)。このウィンドウの中ではさらに複数の workspace ウィンドウを開くことができます。
+\pharo を起動すると、大きめのウィンドウが現れます。このウィンドウの中ではさらに複数のワークスペースウィンドウを開くことができます(\figref{startup}を見てください)。しかし、このあとどう続けたらいいか、明かではありません!
 メニューバーも有りますが、\pharo では主にコンテキスト(文脈)に依存したポップアップメニューを使うことになります。
 % You will notice that there is no menu bar, or at least not a useful one.  
 % Instead,  \pharo makes heavy use of context-dependent pop-up menus.
 
-\dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\click すると、workspace ウィンドウを閉じることができます。}
+\dothis{\pharo を始めましょう。ウィンドウの左上にある赤いクローズボタンを \click すると、ワークスペースを閉じることができます。}
 
-ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタンを\click してください。
+ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタンを \click してください。
 
 %-----------------------------------------------------------------
-\paragraph{\pharo を使い始めましょう。}
+\paragraph{最初の対話。}
 
-\figref{threeButtons:click} のように、\ind{world menu} を表示しましょう。
+\figref{threeButtons:click} のように、\ind{world メニュー} を表示しましょう。
 
-\dothis{マウスカーソルがメインウィンドウのバックグラウンドにある状態で、マウスのボタンをクリックし、表示された world メニューから \menu{Workspace} を選択すると、新しい workspace ウィンドウが出てきます。}
+\dothis{マウスカーソルがメインウィンドウの背景にある状態で、マウスのボタンをクリックし、world メニューを表示しましょう。そして、\menu{Workspace} を選択して、新しいワークスペースを出しましょう。}
 
 %\begin{figure}[tbh]
 %	\centering
@@ -138,11 +138,11 @@ OSや作業スタイルに合わせて使ってください。
 		\includegraphics[width=0.40\linewidth]{worldMenu}}\hfill
 	\subfigure[コンテキストメニュー]{\figlabel{threeButtons:actclick}% action click
 		\includegraphics[width=0.55\linewidth]{yellowButtonMenuOnWorkspace}}\hfill
-	\subfigure[morphic halo]{\figlabel{threeButtons:metaclick}% meta click
+	\subfigure[morphic ハロー]{\figlabel{threeButtons:metaclick}% meta click
 		\includegraphics[width=0.60\linewidth]{morphicHaloOnWorkspace}}% these braces needed (else no whitespace at end of line)
-	\caption{world メニュー(\click)、コンテキストメニュー(\actclick)、morphic \subind{Morphic}{halo} (\metaclick).\figlabel{threeButtons}}
+	\caption{world メニュー(\click)、コンテキストメニュー(\actclick)、morphic \subind{Morphic}{ハロー} (\metaclick).\figlabel{threeButtons}}
 \end{figure}
-\seeindex{morphic halo}{Morphic}
+\seeindex{morphic ハロー}{Morphic}
 
 %% ON: I had to shrink this and move it up to avoid
 %% it running over the end of the page.
@@ -155,28 +155,28 @@ OSや作業スタイルに合わせて使ってください。
 %\figlabel{colouredMouse}
 %\end{wrapfigure}
 
-\st は、元々の設計時点から3ボタンマウスを想定しています。使っているマウスのボタンが足りないときは、キーボードの\emph{control}キーや\emph{ALT}キー、\emph{meta}キーなどが修飾キーとして使われます(キーを押しながらマウスボタンを\click してください)。それでも、一番良い方法は3つボタンマウスを用意することです。これだけで、\pharo をビックリするほど快適に使うことができます。
+\st は、元々の設計時点から、3ボタンマウスを想定しています。使っているマウスのボタンが足りないときは、修飾キーを押しながらマウスボタンを\click してください。2ボタンマウスでも、十分に \pharo を使うことができますが、もし1ボタンマウスしか持っていなら、クリックできるスクロールホイールが付いた2ボタンマウスを買うことを、真剣に考えましょう: これだけで、\pharo を、よりいっそう快適に使うことができます。
 
-色々なコンピュータやマウス、キーボード、個人環境が有るため、\pharo では``左マウスボタンのクリック''という表現は避けています。
-元来、\st は異なるマウスボタンを色で表現していました。\footnote{マウスボタンの色は、\emph{赤}、\emph{黄}そして\emph{青}です。}
-\index{red button}
-\index{yellow button}
-\index{blue button}
+色々なコンピューターやマウス、キーボード、個人環境が有るため、\pharo では``左マウスボタンのクリック''という表現は避けています。
+元来、\st は異なるマウスボタンを色で表現していました。\footnote{マウスボタンの色は、\emph{赤}、\emph{黄}そして\emph{青}です。この本の著者は、どの色がどのボタンを指していたのか、さっぱり思い出せません。}
+\index{赤ボタン}
+\index{黄ボタン}
+\index{青ボタン}
 マウスボタンが違ったり、修飾キー(\emph{control}キー、\emph{ALT}キー、\emph{meta}キー、\etc)を押しながらマウスを使うような状況を統一するため、次の用語を使います:
 \begin{description}
-\item [\click:] 修飾キー等を使うことがない、一番使われる(\click される)マウスボタンです。背景部分を\click して ``World'' メニュー(\figref{threeButtons:click})を表示してみましょう。
-\item [\actclick:] 次によく使われるボタンはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスポインタが指している場所により違うメニュー表示を行うことがあります(\figref{threeButtons:actclick})。マルチボタンのマウスを使わない場合、\emph{control} 等の修飾キーを使った \actclick を行い、表示することになります。
-\item [\metaclick:] ``morphic \subind{Morphic}{halo}''を動かすには、どんな物の上でも\metaclick を実行することができます。物を回転させたりリサイズを行ったり、\figref{threeButtons:metaclick} にあるような様々なことが可能です。\footnote{\pharo ではいくつかの機能は意図的に操作を制限しています。以降の Preferences Browser の使い方では、その制限を外す設定も書かれています。}
+\item [\click:] 一番使われるマウスボタンで、普通は、修飾キー等を使わずに1ボタンマウスを \click するのと同じです; 背景部分を \click して ``World'' メニュー(\figref{threeButtons:click})を表示してみましょう。
+\item [\actclick:] 次によく使われるボタンです; これはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスポインタが指している場所により違うメニュー表示を行うことがあります; \figref{threeButtons:actclick}を見てください。マルチボタンのマウスを使わない場合、普通は、\emph{control} 修飾キーを使って \actclick をすることになります。
+\item [\metaclick:] 最後に、画面に表示されたどんなオブジェクトに対しても、それを \metaclick して ``morphic \subind{Morphic}{ハロー}'' を有効にすることができます。ハローは、画面上のオブジェクトを、回転させたりリサイズしたりするためのハンドルの集りです; \figref{threeButtons:metaclick} を見てください。\footnote{\pharo は、いくつかの Morphic ハンドルの操作を、標準で制限しています。以降の ``Preferences Browser の使い方'' には、その制限を外す方法も書いてあります。}
 バルーンヘルプ機能もありますので、マウスの使い方に困ることはありません。
-\pharo は、あなたの \metaclick の方法を、使っているオペレーティングシステムに依存しています。
-{\sc shift} \emph{ctrl} または {\sc shift} \emph{option} を押しながらクリックする事になります。
+\pharo で \metaclick する方法は、使っているオペレーティングシステムに依存ます。
+{\sc shift} \emph{ctrl} または {\sc shift} \emph{option} を押しながらクリックすることになります。
 % \ab{This makes it sound like either {\sc shift} \emph{ctrl} or {\sc shift} \emph{alt} will work.  On my (Mac OS) system, only the latter works.  Perhaps we want to say: In \pharo, how you meta-click depends on your operating system. On Linux \ldots}
 % Typically you will use a third modifier key, such as \emph{command} or \emph{meta} to \metaclick.
 \end{description}
 
-\dothis{\ct{Time now} を workspace 上で記述してみてください。
-\actclick を表示して、
-\menu{print it} を選択してみましょう。}
+\dothis{\ct{Time now} とワークスペースにタイプしましょう。
+そして、ワークスペースで \actclick して、
+\menu{print it} を選択しましょう。}
 
 %Now we will activate \metaclick{ing}.
 
@@ -190,20 +190,20 @@ OSや作業スタイルに合わせて使ってください。
 %\dothis{Now you should be able to \metaclick on the workspace. (See \figref{threeButtons:metaclick}.)
 %Grab the blue \raisebox{-0.4ex}{\includegraphics[width=1em]{morphicRotate}} handle near the bottom left corner and drag it to rotate the workspace.}
 
-右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、ボタンとして機能するスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
+右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、クリックできるスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
 % If you don't have a clickable scroll wheel, then you can get the Morphic halo by holding down the \ct{alt} or \ct{option} key while \click{ing}. 
 % \ab{This doesn't work any more.  This sentence either repeats or contradicts the meta-click item above; neither is a good idea.}
-あなたがワンボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、シミュレートすることもできます。それでも、\pharo を使うためには、やはり2ボタンのマウスを使ったほうが良いでしょう。
+あなたが1ボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、\actclick か \metaclick をシミュレートすることもできます。それでも、これから \pharo を頻繁に使おうと言うのなら、最低でも二つのボタンの付いたマウスに投資することを、お勧めします。
 
 オペレーティングシステムのマウスドライバの設定を変えることで、あなた好みの動作を行うこともできます。
-\ab{どうやったら3本指の洗礼無く、メタクリックを使うことができますか？秘密じゃないですよね？}
-\pharo は、あなたが使っているキーボードのメタキーやマウスの設定を変更できる機能も持っています。
-Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference Browser\ldots})では、\menu{keyboard} カテゴリの \menu{swapControlAndAltKeys} オプションを使うことで、\actclick と \metaclick の機能を変更することができます。
-コマンドキーの設定を変更するオプションも用意されています。
+\ab{How can I get meta-click without a three-finger salute?  Is this a secret?}
+\pharo は、キーボードのメタキーや、マウスの設定を変更できる機能も持っています。
+Preference Browser (\menu{System {\ldots\go} Preferences {\ldots\go} Preference Browser\ldots})では、\menu{keyboard} カテゴリーの \menu{swapControlAndAltKeys} オプションを使うことで、\actclick と \metaclick の機能を交換することができます。
+コマンドキーの設定を変更するオプションも、用意されています。
 
 \begin{figure}[htb]
 \centerline{\includegraphics[width=\textwidth]{PreferenceBrowser}}
-\caption{The Preference Browser.\figlabel{prefBrowser}}
+\caption{Preference Browser。\figlabel{prefBrowser}}
 \end{figure}
 
 
@@ -220,13 +220,13 @@ world メニューは、\pharo の色々なツールを使うときに使いま�
 
 \dothis{\menu{World} と \menu{{}Tools \ldots} を見てみましょう。(\figref{threeButtons:click})}
 
-次の章では、workspace や browser 等の \pharo のツールについて見ていきましょう。
+次の章では、ワークスペースや browser 等の \pharo のツールについて見ていきましょう。
 %@stub: 2行 -> 1行
 
 %=================================================================
 \section{メッセージ送信}
 
-\dothis{workspaceを使って、以下のテキストを入力してみてください:}
+\dothis{ワークスペースを使って、以下のテキストを入力してみてください:}
 
 \begin{code}{}
 BouncingAtomsMorph new openInWorld
@@ -242,7 +242,7 @@ BouncingAtomsMorph new openInWorld
 左上にアトム(小さな玉)が弾むウインドウが表示されたはずです。
 
 あなたは最初の \st プログラムを実行したことになります。
-\bam クラスへ \ct{new} メッセージを送り、生成された \bam のインスタンスに続く \ct{openInWorld} メッセージを送った事になります。
+\bam クラスへ \ct{new} メッセージを送り、生成された \bam のインスタンスに続く \ct{openInWorld} メッセージを送ったことになります。
 \bam クラスは \ct{new} メッセージを理解し、適切に動作を行いました。
 同様に、\bam インスタンスも \ct{openInWorld} を適切に処理しています。
 
@@ -271,14 +271,14 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 \dothis{\menu{World\go{}Save as \ldots} を選択して、``myPharo'' と入力し、\button{OK} ボタンを押してください。
 その後、\menu{World\go{}Save and quit} を選択しましょう。}
 
-もともとの image ファイルと changes ファイルがあった場所に、``myPharo.\ind{image}'' と ``myPharo.\ind{changes}'' ができているはずです。
+もともとの image ファイルと changes ファイルがあった場所に、 ``myPharo.\ind{image}'' と ``myPharo.\ind{changes}'' ができているはずです。
 この2つのファイルは何処にでも移動させて構いませんが、バーチャルマシンと \emph{sources} も一緒にしておく必要があります。
 
 \dothis{では、``myPharo.image'' を使って \pharo を起動しましょう。}
 
 先ほど、\pharo を終了したときのままに成っているはずです。\bam も同じところにあり、アトムは弾み続けているでしょう？
 
-\pharo は起動時に \ind{バーチャルマシン}でイメージファイルを読み込みます。このファイルは、プログラムのコードやツール、オブジェクトそのものを数多く含んでいます。\pharo を使っていると、この object へメッセージを送ることで新しく作り出したり、消したり、使用していたメモリを回収(ガーベッジコレクション)したりすることになります。
+\pharo は起動時に \ind{バーチャルマシン}で image ファイルを読み込みます。このファイルは、プログラムのコードやツール、オブジェクトそのものを数多く含んでいます。\pharo を使っていると、この object へメッセージを送ることで新しく作り出したり、消したり、使用していたメモリを回収(ガーベッジコレクション)したりすることになります。
 
 \pharo を終了するとき、通常はいわゆる上書き保存になります。もちろん、先ほど行ったみたいに、さらに別名での保存もできます。
 
@@ -301,12 +301,12 @@ object はメッセージを理解し、適切なメソッドを選択して実�
 十字ピンク色の円をクリックすると、\bam は消えるはずです。
 
 %=================================================================
-\section{Workspaces と Transcripts}
+\section{ワークスペースと Transcript}
 \seclabel{transcript}
 
-\dothis{すべてのウィンドウを閉じて、\ind{transcript} と \ind{workspace} を新しく開いてください。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
+\dothis{すべてのウィンドウを閉じて、\ind{transcript} と \ind{ワークスペース}を新しく開いてください。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
 
-\dothis{transcript と workspace の位置やサイズを変えてみましょう。}
+\dothis{transcript とワークスペースの位置やサイズを変えてみましょう。}
 \metaclick で morphic halo の右下の黄色ハンドルを使うことでリサイズができます。
 
 常に、枠が強調されているウィンドウだけがアクティブになります。
@@ -318,17 +318,17 @@ transcript はシステムメッセージのログを確認するときに良く
 %In addition the transcript is not thread-safe so you may experience strange problems if multiple objects write concurrently to the transcript.
 % ON: I think the transcript has been made thread-safe now, right?
 
-workspaces は実験的に試してみたい \st コードを使うときに役立ちます。
+ワークスペースは、実験的に試してみたい \st コードを使うときに役立ちます。
 もちろん、メモ帳としても使えます。
 イメージに保存されるので、付箋がわりに使うのも良いアイデアです(\figref{startup})。
 
-\dothis{workspace に次のコードを入力してみてください。}
+\dothis{ワークスペースに次のコードを入力してみてください。}
 \begin{code}{}
 Transcript show: 'hello world'; cr.
 \end{code}
 
-workspace のウィンドウの中で、単語の上や単語の間、コードの最後のピリオドの後ろなどを \click して、
-選択されるエリアの確認をやってみましょう。
+ワークスペースの中で、単語の上や単語の間、コードの最後のピリオドの後ろなどを \click して、選択されるエリアの確認をやってみましょう。
+%@stub: 2行 -> 1行
 
 \dothis{コード全体を選択して、\actclick で
 \menu{do it (d)} を選択します。}
@@ -339,7 +339,7 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{HelloWorld}}
-\caption{workspace がアクティブとなった状態の transcript と workspace。\figlabel{helloworld}}
+\caption{ワークスペースがアクティブとなった状態の Transcript とワークスペース。\figlabel{helloworld}}
 \end{figure}
 
 %=================================================================
@@ -353,7 +353,7 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 
 \menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} も使えますが、それらについては後述します。
 
-\dothis{\ct{3 + 4} と workspace の中に入力し、キーボードショートカットを使って \menu{do it} を実行してみましょう。}
+\dothis{\ct{3 + 4} とワークスペースの中に入力し、キーボードショートカットを使って \menu{do it} を実行してみましょう。}
 
 何も起きなかったことに驚かないでください。ここでは数字の \ct{3} に数字の \ct{4} を引数とした \ct{+} メッセージを送ったことになります。プログラムが実行され、計算はされたのですが、表示することを知らないのです。結果を表示させたければ、\menu{print it} を使うことになります。実行されて計算され、最後に \ct{printString} を送ることで文字列として表示させるまでを行います。
 
@@ -390,7 +390,7 @@ inspector はどんなオブジェクトでもあなたと対話することが�
 \dothis{下のパネルに \ct{self squared} と入力し、\menu{print it} を実行した結果。}
 
 \needlines{2}
-\dothis{inspector を閉じ、\ct{Object} を workspace に入力して、\menu{explore it} (\short{I}, アルファベット大文字 i)を実行してみましょう。}
+\dothis{inspector を閉じ、\ct{Object} をワークスペースに入力して、\menu{explore it} (\short{I}, アルファベット大文字 i)を実行してみましょう。}
 \index{キーボードショートカット!explore it}
 \index{explorer}
 
@@ -459,7 +459,7 @@ printing のプロトコルに属するメソッドが四番目のパネルに�
 
 二つ目として、クラスに \ct{browse} メッセージを送り、browser を開く方法があります。\clsind{Boolean} クラスをブラウズしたいと考えてみましょう。
 
-\dothis{workspace に \ct{Boolean browse} と記述し、\menu{do it} してみましょう。}
+\dothis{ワークスペースに \ct{Boolean browse} と記述し、\menu{do it} してみましょう。}
 Boolean クラスをポイントした状態の browser が開きましたか(\figref{browseBoolean})？
 クラスをブラウズする場合は、クラス名を選択して、\ind{keyboard shortcut} \short{b} (browse) を使う方法もあります。
 \index{キーボードショートカット!browse it}
@@ -589,7 +589,7 @@ browser にプログラムコードを入力したときに、ペインの一部
 \index{キーボードショートカット!accept}
 \seeindex{accept it}{キーボードショートカット, accept}
 
-使用している image にはじめて書き込んだのであれば、あなたの名前を入力するように促されるはずです。たくさんの寄贈プログラムコードの一つとしてあなたの名前を入力しておきましょう。難しいことは考えずに、ファーストネーム、ラストネーム(間に空白或いはドットで繋ぎましょう)でいいでしょう。
+使用しているイメージにはじめて書き込んだのであれば、あなたの名前を入力するように促されるはずです。たくさんの寄贈プログラムコードの一つとしてあなたの名前を入力しておきましょう。難しいことは考えずに、ファーストネーム、ラストネーム(間に空白或いはドットで繋ぎましょう)でいいでしょう。
 
 %\begin{figure}[hbt]
 %\centerline {\includegraphics[width=0.35\textwidth]{initials}}
@@ -660,7 +660,7 @@ browser にプログラムコードを入力したときに、ペインの一部
 \figlabel{predebugger}
 \end{figure}
 
-このエラーは、意図したとおりの動作になります。まだ \ct{shout} を実装していませんので、当然の事になります。
+このエラーは、意図したとおりの動作になります。まだ \ct{shout} を実装していませんので、当然のことになります。
 しかしながら、当然のエラーが発生したということは、今までの実践内容がすべて正しかったという裏返しの確認でもあります。
 取り敢えず、\button{Abandon} ボタンを押して、ウィンドウを閉じましょう。
 因みに、\button{Create} はデバッガの中で新しくメソッドを作成することを促されますし、\button{Proceed} ボタンはそのまま続行することになります。
@@ -702,11 +702,11 @@ $\uparrow$ は \pharo では返される答えになります。$\uparrow$ 以�
 本章では、\pharo の構文をすこしばかりと、様々なツールの簡単な使い方を学びました。
 
 \begin{itemize}
-  \item \pharo は、\emph{virtual machine}、\emph{sources} ファイル、\emph{image} と \emph{changes} ファイルで構成されており、\emph{image} と \emph{changes} ファイルはスナップショットとして変化していきます。
+  \item \pharo は、\emph{仮想マシン}、 \emph{sources} ファイル、 \emph{image} ファイルと \emph{changes} ファイルで構成されており、最後の二つだけが、実行中のシステムのスナップショットとして変化していきます。
   \item \pharo は、あなたが前回終了したときと全く同じ状態で再起動します。
   \item \pharo は、3ボタンマウスを使うことで最高の使い勝手を提供します。もちろん、マウスがなくても、キーボードの修飾キーを使うことで、\click 、 \actclick と \metaclick が使えます。
   \item \pharo の背景部分をクリックすることで、\emph{World menu} が表示できます。
-  \item \emph{workspace} では、プログラムコードを試すこともできますし、単なるメモ帳としても使えます。
+  \item \emph{ワークスペース}では、プログラムコードを試すこともできますし、単なるメモ帳としても使えます。
   \item プログラムコードを評価するのに、\menu{do it} (\short{d})、 \menu{print it} (\short{p})、 \menu{inspect it} (\short{i})、 \menu{explore it} (\short{I}) と \menu{browse it} (\short{b}) が使えます。
 %  \item \sqmap is a tool for loading useful packages from the Internet.
   \item \emph{browser} は \pharo のプログラムコードを見たり開発したりするための重要なツールです。
