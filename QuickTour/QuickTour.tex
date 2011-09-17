@@ -293,7 +293,7 @@ Smalltalkerたちとしばらく話せば、あなたはすぐに、彼らが、
 
 ソフトウェアプロジェクトを保存・管理する方法として、イメージは重要なメカニズムであると考えるかも知れませんが、それは違います。
 すぐ後で見るように、ソースコードを管理し、ソフトウェアをチームで共有するには、Monticello などの、もっと良いツールがあります。
-イメージは非常に便利ですが、こうしたツールがあるので、イメージを、無造作に作ったり捨てたり消したりすることを、you should learn TODO。
+イメージは非常に便利ですが、こうしたツールがあるので、イメージを、無造作に作ったり捨てたりすることに慣れましょう。
 
 \dothis{マウス(必要ならば修飾キーを使って) \bam を \metaclick してみましょう。\footnote{うまくいかない場合は、Preferences Browser の \ct{halosEnabled} オプションをチェックしてみてください。}}
 \bam の morphic \subind{Morphic}{ハロー} と呼ばれる、色とりどりの円が表示されたはずです。
@@ -304,60 +304,60 @@ Smalltalkerたちとしばらく話せば、あなたはすぐに、彼らが、
 \section{ワークスペースと Transcript}
 \seclabel{transcript}
 
-\dothis{すべてのウィンドウを閉じて、\ind{transcript} と \ind{ワークスペース}を新しく開いてください。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
+\dothis{すべてのウィンドウを閉じましょう。\ind{transcript} と \ind{ワークスペース}を新しく開きましょう。(transcript は、\menu{World{\go}Tools ...} のサブメニューにあります。)}
 
-\dothis{transcript とワークスペースの位置やサイズを変えてみましょう。}
-\metaclick で morphic halo の右下の黄色ハンドルを使うことでリサイズができます。
+\dothis{transcript とワークスペースの位置やサイズを変えて、ワークスペースをtranscriptにオーバーラップさせましょう。}
+ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して morphic ハローを出し、右下の黄色のハンドルをドラッグします。
 
-常に、枠が強調されているウィンドウだけがアクティブになります。
+常に、1個のウィンドウだけがアクティブです; そのウィンドウは前面にあって、枠が強調されています。
 % The mouse cursor must be in the window in which you wish to type.
 
-transcript はシステムメッセージのログを確認するときに良く使われます。
+transcript はシステムメッセージのログを確認するときに良く使われるオブジェクトです。
 いわば、``システムコンソール''と言えるでしょう。
 %Note that the transcript is terribly slow, so if you keep it open and write to it certain operations can become 10 times slower.
 %In addition the transcript is not thread-safe so you may experience strange problems if multiple objects write concurrently to the transcript.
 % ON: I think the transcript has been made thread-safe now, right?
 
-ワークスペースは、実験的に試してみたい \st コードを使うときに役立ちます。
-もちろん、メモ帳としても使えます。
-イメージに保存されるので、付箋がわりに使うのも良いアイデアです(\figref{startup})。
+ワークスペースは、実験的に試してみたい \st コードの断片を入力するのに役立ちます。
+ワークスペースには、単に覚書のテキストを書いておくこともできます。TODOリストや、あなたのイメージを使う人への手引きなどに使えるでしょう。
+ワークスペースは、しばしば、保存されたイメージについてのドキュメントとして使われます。先にダウンロードした標準のイメージが一例です(\figref{startup}を見てください)。
 
-\dothis{ワークスペースに次のコードを入力してみてください。}
+\dothis{ワークスペースに次のテキストを入力してみましょう。}
 \begin{code}{}
 Transcript show: 'hello world'; cr.
 \end{code}
 
-ワークスペースの中で、単語の上や単語の間、コードの最後のピリオドの後ろなどを \click して、選択されるエリアの確認をやってみましょう。
-%@stub: 2行 -> 1行
+ワークスペースの中で、今入力したテキストの色々な箇所を、ダブル \click してみましょう。
+単語の上、文字列の終り(\ct{'})、テキスト全体の終り(\ct{.})、という具合に \click してみて、単語全体、文字列全体、テキスト全体が選択される様子を確認しましょう。
 
-\dothis{コード全体を選択して、\actclick で
+\dothis{入力したテキスト全体を選択して、\actclick で
 \menu{do it (d)} を選択します。}
-transcript ウィンドウに``hello world''と表示されたのを確認してみましょう
+transcript ウィンドウに``hello world''と表示されたのを確認しましょう
 (\figref{helloworld})。
-%stub: 訳していないのか?
-(\menu{(d)} は \menu{do it (d)} のキーボードショートカットです。例えば、 \emph{do it} を \short{d} のように使うことができます。)
+もう一度やってみましょう。
+(\menu{do it (d)}の中の\menu{(d)} は、 \emph{do it}へのキーボードショートカットが \short{d}であることを示しています。これについて詳しい話は、次の節で!)
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{HelloWorld}}
-\caption{ワークスペースがアクティブとなった状態の Transcript とワークスペース。\figlabel{helloworld}}
+\caption{オーバーラップしたウィンドウ。ワークスペースがアクティブ。\figlabel{helloworld}}
 \end{figure}
 
 %=================================================================
 \section{キーボードショートカット}
 
-コードを実行するときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。キーボードショートカットを使えば、操作が簡単になります。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、\short{\emph{key}} のように control / alt / command / meta 等の修飾キーを同時に使用することになるでしょう。
-%@stub: 訳していないのか?
+式を評価したいときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、プラットフォームに応じて、control、alt、command、meta 等の修飾キーを同時に使用することになるでしょう
+(このようなキーボードショートカットを、一般的に、\short{\emph{キー}}と表記することにします)。
 
-\dothis{キーボードショートカットを使って、式を評価してみましょう(例：\short{d})。}
+\dothis{キーボードショートカットを使って、再びワークスペースの式を評価してみましょう: \short{d}。}
 \index{キーボードショートカット!do it}
 
-\menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} も使えますが、それらについては後述します。
+\menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} にも気付いたでしょう。これらについて手短に説明します。
 
 \dothis{\ct{3 + 4} とワークスペースの中に入力し、キーボードショートカットを使って \menu{do it} を実行してみましょう。}
 
-何も起きなかったことに驚かないでください。ここでは数字の \ct{3} に数字の \ct{4} を引数とした \ct{+} メッセージを送ったことになります。プログラムが実行され、計算はされたのですが、表示することを知らないのです。結果を表示させたければ、\menu{print it} を使うことになります。実行されて計算され、最後に \ct{printString} を送ることで文字列として表示させるまでを行います。
+何も起きなかったことに驚かないでください。ここでは数字の \ct{3} に数字の \ct{4} を引数とした \ct{+} メッセージを送ったことになります。普通に \ct{7} が計算され、返されたのですが、ワークスペースはこの答えをどうするべきか知らないので、答えを捨ててしまいます。結果を表示させたければ、\menu{print it} を使うことになります。\menu{print it} は、式をコンパイルし、実行し、その結果に \ct{printString} を送って得た文字列を表示します。
 
-\dothis{\ct{3+4} を選択肢、\menu{print it} を実行しましょう(\short{p})。}
+\dothis{\ct{3+4} を選択し、\menu{print it} を実行しましょう(\short{p})。}
 今度は予想通りの結果です(\figref{printit})。
 \index{キーボードショートカット!print it}
 
@@ -372,9 +372,9 @@ transcript ウィンドウに``hello world''と表示されたのを確認して
 3 + 4 --> 7
 \end{code}
 \noindent
-これからは、\menu{print it} を使って結果の表示が行われたときには、\ct{-->} の表記をします。
+この本の習慣として、特定の \pharo の式を\menu{print it}したらどうなるかを示すのに、\ct{-->}の表記を用います。
 
-\dothis{選択されている ``\ct{7}'' を削除し(delete キーを押します)、\ct{3+4} をもう一度選択してから \menu{inspect it} (\short{i}) を実行しましょう。}
+\dothis{選択されている ``\ct{7}'' を削除し(\pharo は既に``\ct{7}''を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it} (\short{i})しましょう。}
 \noindent
 整数クラスの一つである \ct{SmallInteger: 7} (\figref{inspectit}) の \emphind{inspector}(インスペクタ)ウィンドウが表示されるはずです。
 inspector はどんなオブジェクトでもあなたと対話することができる優れたツールです。
