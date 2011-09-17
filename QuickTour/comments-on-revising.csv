@@ -1,9 +1,14 @@
 "行番号","原表現","問題点、疑問点","対処","備考"
-304,"Workspaces and Transcripts",,"ワークスペースと Transcript","かなり嫌"
-605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}",
-685,"\footnotemark","対応する文章がない","カット",
 113,"red button","バージョン依存","訳注化予定",
 113,"orange button","バージョン依存","訳注化予定",
 113,"green button","バージョン依存","訳注化予定",
 113,"(so that...)","訳されていなかった","訳さない","意図的なものと思われる"
 202,"...duplicate...","訳されていなかった","誰か教えて","自分にもわからない"
+246,"looked up its methods","メソッドの中から検索したのか","メソッドを検索",
+247,"looked up its method","メソッドを検索したのか","メソッドを検索",
+281,"for the first time","なぜこれが必要なのか?","訳さない",
+304,"Workspaces and Transcripts",,"ワークスペースと Transcript","かなり嫌"
+605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}","もともとコメントにあった。
+行番号がずれると嫌なのでこちらに移動した。"
+685,"\footnotemark","対応する文章がない","カット","もともとコメントにあった。
+行番号がずれると嫌なのでこちらに移動した。"
