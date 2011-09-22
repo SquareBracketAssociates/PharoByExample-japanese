@@ -13,8 +13,8 @@
 323,"see \figref{startup}","この図にはワークスペースは出ていない",,"訳注",
 331,"string, expression","未紹介の概念",,"訳注",
 379,"heading \ct{SmallInteger: 7}","Pharo-1.1.1では、こうならない。Pharo-1.2.1では、こうなる。\figref{inspectit}は、こうなっていない。",,"訳注",
-379,"インスペクター","訳しづらい",,"inspector、inspectのニュアンスを訳注する",
-403,"エクスプロアしている","訳しづらい",,"explore、explorerのニュアンスを訳注する",
+379,"inspector","訳しづらい","インスペクター","inspector、inspectのニュアンスを訳注する",
+403,"Exploring","訳しづらい","エクスプロアしている","explore、explorerのニュアンスを訳注する",
 407,"\ct{Object}クラス","Objectクラスもオブジェクト",,"訳注",
 408,"...information...parts.","英文を理解している自信無し",,"TODO: 識者に訳してもらう",
 432,"panes","わからない人もいるかも","ペイン","訳注",
@@ -23,5 +23,7 @@
 512,"where might it be?","mightの正確な意味がわからない","どこにあるのでしょう?","TODO: …",
 513,"method finder",,"method finder",,
 546,"multiple...how.","嘘?",,"そのまま訳す",
+583,"test - converting","testing – convertingでは?","testing – converting",,"Pharo-1.[12].1"
 605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}",,"1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
+643,"String tests","StringTestか?","StringTest","原著者に確認",
 685,"\footnotemark","対応する文章がない",,"カット","1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
