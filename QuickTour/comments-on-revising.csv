@@ -1,0 +1,32 @@
+"行番号","原表現または1訳","問題点、疑問点","訳","対処","備考"
+71,"SqueakV39.sources","Pharo-1.[12].1でも、PBE-1.0でも、PharoV10.sourcesである。訳注したいが、既に\footnoteされている。download.png内の文字列を変更するべきである。",,,
+101,"{...{startup}}","この絵はPBE-1.0/PBE.imageのまっさらなイメージと違う。",,"図を差し替える",
+109,"You might notice a menu bar....","たぶん、そのようなものは無い。",,"文ごとカット",
+113,"(so that...)","訳されていなかった",,"訳さない","意図的なものと思われる"
+167,"``World'' menu","「ワールド」メニューと訳すのか?","「ワールド」メニュー",,
+193,"We recommend...available.","どうやってコンフィグするのか? Preference Browserをいじってみたがよくわからない。",,,
+202,"...duplicate...","訳されていなかった","TODO","TODO: 識者に訳してもらう","自分にもわからない"
+242,"top left of the \pharo image.","imageとは画面のことか仮想イメージのことか?","\pharo の画面左上に",,
+246,"looked up its methods","メソッドの中から検索したのか","メソッドを検索",,
+247,"looked up its method","メソッドを検索したのか","メソッドを検索",,
+281,"for the first time","なぜこれが必要なのか?","訳さない",,
+298,"halosEnabled","PBE-1.0/PBE.imageのPreference Browserに、このようなオプションは無い。",,,
+315,"logging system messages","確認するとは書いてない",,"1訳を生かす","うーん"
+322,"メモ帳","ウィンドウズ臭い","覚書",,
+323,"see \figref{startup}","この図にはワークスペースは出ていない",,"訳注",
+331,"string, expression","未紹介の概念",,"訳注",
+379,"heading \ct{SmallInteger: 7}","Pharo-1.1.1では、こうならない。Pharo-1.2.1では、こうなる。\figref{inspectit}は、こうなっていない。",,"訳注",
+379,"inspector","訳しづらい","インスペクター","inspector、inspectのニュアンスを訳注する",
+403,"Exploring","訳しづらい","エクスプロアしている","explore、explorerのニュアンスを訳注する",
+407,"\ct{Object}クラス","Objectクラスもオブジェクト",,"訳注",
+408,"...information...parts.","英文を理解している自信無し",,"TODO: 識者に訳してもらう",
+432,"panes","わからない人もいるかも","ペイン","訳注",
+433,"package","すぐ下に\index{category}","カテゴリー",,
+436,"\scatind{Kernel} package","ここもカテゴリーだろう","\scatind{Kernel-Objects}カテゴリー",,
+512,"where might it be?","mightの正確な意味がわからない","どこにあるのでしょう?","TODO: …",
+513,"method finder",,"method finder",,
+546,"multiple...how.","嘘?",,"そのまま訳す",
+583,"test - converting","testing – convertingでは?","testing – converting",,"Pharo-1.[12].1"
+605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}",,"1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
+643,"String tests","StringTestか?","StringTest","原著者に確認",
+685,"\footnotemark","対応する文章がない",,"カット","1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
