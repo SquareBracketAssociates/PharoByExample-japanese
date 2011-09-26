@@ -304,22 +304,22 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 \section{ワークスペースとトランスクリプト}
 \seclabel{トランスクリプト}
 
-\dothis{すべてのウィンドウを閉じましょう。\ind{トランスクリプト} と \ind{ワークスペース}を新しく開きましょう。(トランスクリプトは、\menu{World{\go}Tools ...}のサブメニューにあります。)}
+\dothis{すべてのウィンドウを閉じましょう。\ind{トランスクリプト}と\ind{ワークスペース}を新しく開きましょう。(トランスクリプトは、\menu{World{\go}Tools ...}サブメニューにあります。)}
 
 \dothis{トランスクリプトとワークスペースの位置やサイズを変えて、ワークスペースをトランスクリプトにオーバーラップさせましょう。}
-ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して ハローを出し、右下の黄色のハンドルをドラッグします。
+ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して ハローを出し、黄色の(右下の)ハンドルをドラッグします。
 
 常に、1個のウィンドウだけがアクティブです; そのウィンドウは前面にあって、枠が強調されています。
 % The mouse cursor must be in the window in which you wish to type.
 
-トランスクリプトはシステムメッセージのログを確認するときに良く使われるオブジェクトです。
-いわば、「システムコンソール」と言えるでしょう。
+トランスクリプトは、システムメッセージのログを取るのにしばしば使われるオブジェクトです。
+「システムコンソール」の一種です。
 %Note that the transcript is terribly slow, so if you keep it open and write to it certain operations can become 10 times slower.
 %In addition the transcript is not thread-safe so you may experience strange problems if multiple objects write concurrently to the transcript.
 % ON: I think the transcript has been made thread-safe now, right?
 
 ワークスペースは、実験的に試してみたい \st コードの断片を入力するのに役立ちます。
-ワークスペースには、単に覚書のテキストを書いておくこともできます。TODOリストや、あなたのイメージを使う人への手引きなどに使えるでしょう。
+ワークスペースには、どのようなテキストを書いてもいいので、これを覚書として使うこともできます。TODOリストや、あなたのイメージを使う人への手引きなどに使えるでしょう。
 ワークスペースは、しばしば、保存されたイメージについてのドキュメントとして使われます。先にダウンロードした標準のイメージが一例です(\figref{startup})。
 
 \dothis{ワークスペースに次のテキストを入力しましょう。}
@@ -327,8 +327,8 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 Transcript show: 'hello world'; cr.
 \end{code}
 
-ワークスペースの中で、今入力したテキストの色々な箇所を、ダブル \click してみましょう。
-単語の上、文字列の終り(\ct{'})、テキスト全体の終り(\ct{.})、という具合に \click してみて、単語全体、文字列全体、テキスト全体が選択される様子を確認しましょう。
+ワークスペースの中で、今入力したテキストの色々な箇所を、ダブル-\click してみましょう。
+単語の上、文字列の終り(\ct{'})、式全体の終り(\ct{.})、という具合に \click してみて、単語全体、文字列全体、テキスト全体が選択される様子を確認しましょう。\footnote{訳注: \st のコードでは、文字列は\ct{'}で括ります。式の終りを明示したい時は、\ct{.}を使います。}
 
 \dothis{入力したテキスト全体を選択して、\actclick で
 \menu{do it (d)} を選択します。}
@@ -345,26 +345,26 @@ Transcript show: 'hello world'; cr.
 %=================================================================
 \section{キーボードショートカット}
 
-式を評価したいときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、プラットフォームに応じて、control、alt、command、meta 等の修飾キーを同時に使用することになるでしょう
+式を評価したいときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、プラットフォームに応じた修飾キー(control、alt、command、あるいはmeta)を同時に使用することになるでしょう
 (このようなキーボードショートカットを、一般的に、\short{\emph{キー}}と表記することにします)。
 
-\dothis{キーボードショートカットを使って、再びワークスペースの式を評価してみましょう: \short{d}。}
+\dothis{もう一度ワークスペースの式を評価してみましょう。ただし、キーボードショートカットを使って: \short{d}。}
 \index{キーボードショートカット!do it}
 
-\menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} にも気付いたでしょう。これらについて手短に説明します。
+\menu{do it}に加えて、\menu{print it}、\menu{inspect it}、\menu{explore it}にも気付いたでしょう。これらについて手短に説明します。
 
-\dothis{\ct{3 + 4} とワークスペースの中に入力し、キーボードショートカットを使って \menu{do it} を実行しましょう。}
+\dothis{\ct{3 + 4}とワークスペースの中に入力し、キーボードショートカットを使って\menu{do it}を実行しましょう。}
 
-何も起きなかったことに驚かないでください。ここでは数字の \ct{3} に数字の \ct{4} を引数とした \ct{+} メッセージを送ったことになります。普通に \ct{7} が計算され、返されたのですが、ワークスペースはこの答えをどうするべきか知らないので、答えを捨ててしまいます。結果を表示させたければ、\menu{print it} を使うことになります。\menu{print it} は、式をコンパイルし、実行し、その結果に \ct{printString} を送って得た文字列を表示します。
+何も起きなかったことに驚かないでください。ここでは数の\ct{3}に\ct{+}メッセージを、\ct{4}を引数付きで送ったことになります。普通に\ct{7}が計算され、返されたのですが、ワークスペースはこの答えをどうするべきか知らないので、答えを捨ててしまいます。結果を表示させたければ、代わりに\menu{print it}を使うことになります。\menu{print it}は、式をコンパイルし、実行し、その結果に\ct{printString}を送って得た文字列を表示します。
 
-\dothis{\ct{3+4} を選択し、\menu{print it} を実行しましょう(\short{p})。}
-今度は予想通りの結果です(\figref{printit})。
+\dothis{\ct{3+4}を選択し、\menu{print it}を実行しましょう(\short{p})。}
+今度は予想通りの結果になります(\figref{printit})。
 \index{キーボードショートカット!print it}
 
 \begin{figure}[htb]
 % \centerline {\includegraphics[width=0.4\textwidth]{PrintIt}}
 \centerline {\includegraphics[width=0.8\textwidth]{PrintIt}}
-\caption{「do it」ではなく「Print it」。\figlabel{printit}}
+\caption{「do it」ではなく「print it」。\figlabel{printit}}
 \end{figure}
 
 \needlines{3}
@@ -374,29 +374,29 @@ Transcript show: 'hello world'; cr.
 \noindent
 この本の習慣として、特定の \pharo の式を\menu{print it}したらどうなるかを示すのに、\ct{-->}の表記を用います。
 
-\dothis{選択されている 「\ct{7}」 を削除し(\pharo は既に「\ct{7}」を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it} (\short{i})しましょう。}
+\dothis{選択されている「\ct{7}」を削除し(\pharo は既に「\ct{7}」を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it}(\short{i})しましょう。}
 \noindent
-タイトルに\ct{SmallInteger: 7} (\figref{inspectit})と書かれた\emphind{インスペクタ}ウィンドウが表示されるはずです(inspector)。
-インスペクタは極めて便利なツールで、これを用いれば、システムのどんなオブジェクトとも、ブラウズ・やりとりすることができます。
-タイトルの意味は、\ct{7} は \clsind{SmallInteger} クラスのインスタンスであるということです。
-左のパネルはオブジェクトのインスタンス変数を示し、その値が右のパネルに表示されます。
-下のパネルは、オブジェクトへメッセージを送るための式を記述することができます。
+タイトルに\ct{7 on Inspector} (\figref{inspectit})と書かれた\emphind{インスペクタ}ウィンドウが表示されるはずです。
+インスペクタは極めて便利なツールで、これを用いれば、システムのどんなオブジェクトもブラウズできますし、どんなオブジェクトともやりとりすることができます。
+%タイトルの意味は、\ct{7} は \clsind{SmallInteger} クラスのインスタンスであるということです。
+左のペイン\footnote{訳注: ウィンドウの1区画を、ペインと呼ぶことがあります。}は、オブジェクトのインスタンス変数を示し、その値が、右のペインに表示されます。
+下のペインには、オブジェクトへメッセージを送るための式を記述することができます。
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{InspectIt}}
 \caption{オブジェクトをインスペクトする。\figlabel{inspectit}}
 \end{figure}
 
-\dothis{下のパネルに \ct{self squared}と入力し、\menu{print it}しましょう。}
+\dothis{\ct{7}のインスペクタの下のペインに\ct{self squared}と入力し、\menu{print it}しましょう。}
 
 \needlines{2}
-\dothis{インスペクタを閉じ、\ct{Object} をワークスペースに入力して、今度は、\menu{explore it} (\short{I}, 大文字 i)してみましょう。}
+\dothis{インスペクタを閉じ、\ct{Object}をワークスペースに入力して、今度は、\menu{explore it}(\short{I}, 大文字 i)してみましょう。}
 \index{キーボードショートカット!explore it}
 \index{エクスプローラ}
 
-今度は、\clsind{Object} のタイトルが付いた、
-\mbox{$\triangleright$ \ct{root: Object}} と表示されているウィンドウが開きます(エクスプローラ = explorer)。
-三角のアイコンを使って、中身を表示してください (\figref{exploreit})。
+今度は、\clsind{Object}のタイトルが付いた、
+\mbox{$\triangleright$ \ct{root: Object}}というテキストを含んだウィンドウが現れます。
+三角のアイコンをクリックして、中身を開いてください(\figref{exploreit})。\footnote{訳注: 既に開いた状態になっているかも知れません。}
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=0.7\textwidth]{ExploreIt}}
@@ -404,8 +404,8 @@ Transcript show: 'hello world'; cr.
 \end{figure}
 
 エクスプローラはインスペクタと似ていますが、複雑なオブジェクトの中身をツリー表示します。
-この例でエクスプロアされているオブジェクトは、\ct{Object}クラスです。
-ここでは、このオブジェクトに格納されている要素を直に見ることができますし、さらに要素の内部構造をたどって行くこともできます。
+この例では、見ているオブジェクトは、\ct{Object}クラス\footnote{訳注: \ct{Object}クラスという名の、1個のオブジェクトです。やがて、その意味がわかるようになるでしょう。}です。
+ここでは、このオブジェクトに格納されている要素を直に見ることができますし、さらに要素の内部構造をたどって行くことも、容易です。
 
 %=================================================================
 \section{Class Browser}
