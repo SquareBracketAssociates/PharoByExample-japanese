@@ -632,11 +632,11 @@ testShout
 %\figlabel{testShoutConfirm}}
 %\end{figure}
 
-\dothis{今作ったテストを実行しましょう: \menu{World}から \ind{SUnit} \emphind{TestRunner}を開けましょう。}
+\dothis{今作ったテストを実行しましょう: \menu{World}から\ind{SUnit} \emphind{TestRunner}を開けましょう。}
 
 一番左に二つ並んだペインは、ブラウザの上部のペインに少し似ています。左側のペインはカテゴリの一覧ですが、テストクラスを含んだカテゴリに限られます。
 
-\dothis{\scat{CollectionsTests-Text}を選択しましょう。右側のペインには、そのカテゴリのすべてのテストクラスが表示されます。その中に、\ct{StringTest}もあります。テストクラスはすべて選択されているので、\menu{Run Selected}を \click してこれらを実行しましょう。}
+\dothis{\scat{CollectionsTests-Text}を選択しましょう。右側のペインには、そのカテゴリのすべてのテストクラスが表示されます。その中に、\ct{StringTest}もあります。テストクラスの名前は既に選択されているので、\menu{Run Selected}を \click してこれらを実行しましょう。}
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{testRunnerOnStringTest}}
@@ -644,13 +644,13 @@ testShout
 \figlabel{testRunnerTestShout}}
 \end{figure}
 
-テストを実行した結果が、\figref{testRunnerTestShout}のように表示され、実行時エラーあったことが分かります。エラーがある箇所は右下のペインに表示されます; ご覧のとおり、\ct{StringTest>>>#testShout}が原因です。
+テストを実行した結果が、\figref{testRunnerTestShout}のように表示され、テストの実行時にエラーがあったことが分かります。エラーを起こしたテストのリストは、右下のペインに表示されます; ご覧のとおり、\ct{StringTest>>>#testShout}が原因です。
 (\st では\ct{StringTest}クラスの\mthind{StringTest}{testShout}メソッドを、\ct{StringTest>>>#testShout}と表記する習慣があります。)
-\ct{StringTest>>>#testShout} を \click すると、再度そのテストだけが実行され、\ct{MessageNotUnderstood: ByteString>>>shout}というウィンドウがポップアップします。
+\ct{StringTest>>>#testShout} を \click すると、再度そのテストだけが実行され、\ct{MessageNotUnderstood: ByteString>>>shout}というウィンドウが開きます。
 \seeindex{\ct{>>}}{Behavior, \ct{>>}}
 \cmindex{Behavior}{>>}
 
-エラーメッセージとともにポップアップしたこのウィンドウは、 \st のデバッガです(\figref{predebugger})。
+エラーメッセージとともに開いたこのウィンドウは、 \st のデバッガです(\figref{predebugger})。
 % \ab{Well, it's actually the \emph{pre-}debugger.  Does this matter?}\damien{I don't think it's important at this point.}
 \ind{デバッガ}とその使い方については、\charef{env}で解説します。
 
@@ -660,15 +660,15 @@ testShout
 \figlabel{predebugger}
 \end{figure}
 
-このエラーは、もちろん、意図したとおりのものです: 文字列が\ct{shout}するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生します。
-それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テスト装置が正しく設置されていることが確認できるからです。
-いったんエラーを見たら、テストの実行をやめて(\button{Abandon})ウィンドウを閉じることができます。
-因みに、 \st ではしばしば、まだ無いメソッドを、\button{Create}を使ってその場で書いてしまうことができます。デバッガの中で、新しく作成されたメソッドの雛形を編集し、テストを続行(\button{Proceed})することもできます。
+このエラーは、もちろん期待したとおりのものです: 文字列が\ct{shout}するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生します。
+それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テスト装置が正しく設置され、新しいテストが実際に実行されたことが確認できるからです。
+いったんエラーを見たら、テストの実行をやめて(\button{Abandon})、デバッガウィンドウを閉じることができます。
+因みに、\st ではしばしば、まだ無いメソッドを、\button{Create}を使ってその場で書いてしまうことができます。デバッガの中で、新しく作成されたメソッドのテンプレートを編集し、テストを続行(\button{Proceed})することができます。
 
-では、テストが成功するためのメソッドを作成しましょう!
+では、テストを成功させるメソッドを作成しましょう!
 
-\dothis{ブラウザで\clsind{String}クラスの\menu{converting}プロトコルを選択し、\mthref{shout}のテキストでメソッドテンプレートを上書きし、\menu{accept}しましょう。
-(Note: \mbox{\ct{^}}のところには、\caret を入力します)。 }
+\dothis{ブラウザで\clsind{String}クラスの\menu{converting}プロトコルを選択し、\mthref{shout}のテキストでメソッド作成テンプレートを上書きし、\menu{accept}しましょう。
+(Note: \mbox{\ct{^}}のところには、\caret を入力します)。}
 \begin{method}[shout]{shout メソッド}
 shout
 	^ self asUppercase, 'BANG'
@@ -679,11 +679,11 @@ shout
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
-このメソッドは動くのでしょうか? もう一度テストを実行しましょう。
+このメソッドは、思いどおり動くのでしょうか? もう一度テストを実行して、どうなるか見てみましょう。
 
 \dothis{テストランナーで\menu{Run Selected}を再びクリックしましょう。今度は緑のバーが出て、すべてのテストが、失敗もエラーもなく実行されたことが表示されます。}
-緑のバーが出たときは、仕事の成果を保存して、一休みするのがいい考えです。
-さあ、一休みしましょう！
+緑のバーが出せた時は、仕事の成果を保存して一休みするのがいい考えです。
+さあ、一休みしましょう!
 %\footnotetext{Actually, you might not get a green bar since some images contains tests for bugs that still need to be fixed.
 %Don't worry about this.
 %\pharo is constantly evolving.
@@ -693,23 +693,23 @@ shout
 \ifluluelse
 	{\centerline{\includegraphics[width=\textwidth]{String-Shout}}}
 	{\centerline{\includegraphics[width=0.7\textwidth]{String-Shout}}}
-\caption{\ct{String}クラスに定義された\ct{shout}メソッド。
+\caption{\ct{String}クラスで定義された\ct{shout}メソッド。
 \figlabel{String-shout}}
 \end{figure}
 
 %=================================================================
 \section{まとめ}
-本章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った主なツールの使い方を学びました。\pharo の構文についても、完全にとは言わないまでも、少し学びました。
+この章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った重要なツールの使い方を学びました。\pharo の構文についても、完全にとは言わないまでも、少し学びました。
 
 \begin{itemize}
-  \item 実行中の \pharo システムは、\emph{バーチャルマシン}、\emph{sources}ファイル、\emph{image}ファイルと\emph{changes}ファイルで構成されており、最後の二つだけが、実行中のシステムのスナップショットとして変化していきます。
-  \item \pharo イメージをロードすると、以前と全く同じ状態\,---\,実行中のオブジェクトもそのままに\,---\,イメージを保存したときとの状態が再現されます。
-  \item \pharo は、3ボタンマウスを使って \click、 \actclick、 \metaclick するように設計されています。もちろん、3ボタンマウスが無くても、キーボードの修飾キーを使えば、同じことができます。
+  \item 実行中の \pharo システムは、\emph{バーチャルマシン}、\emph{sources}ファイル、\emph{image}ファイルと\emph{changes}ファイルで構成されいます。この中で、最後の二つだけが変化します; これらは、実行中のシステムのスナップショットを記録します。
+  \item \pharo 仮想イメージをロードすると、以前と全く同じ状態\,---\,実行中のオブジェクトもそのままに\,---\,仮想イメージを保存したときの状態が再現されます。
+  \item \pharo は、3ボタンマウスを使って \click、 \actclick、 \metaclick するように設計されています。3ボタンマウスが無くても、キーボードの修飾キーを使えば、同じことができます。
   \item \pharo の背景部分を \click すれば、\emph{ワールドメニュー}が表示できます。ワールドメニューからは、様々なツールが起動できます。
   \item \emph{ワークスペース}は、コードの断片を書いて評価するためのツールです。ワークスペースにはまた、任意のテキストを書いておくこともできます。
-  \item コードを評価するには、ワークスペースのテキストに\ind{キーボードショートカット}を使ったり、他のツールを使うことができます。最も重要なのは、\menu{do it} (\short{d})、\menu{print it} (\short{p})、\menu{inspect it} (\short{i})、\menu{explore it} (\short{I})、そして\menu{browse it} (\short{b})です。
+  \item コードを評価するには、ワークスペースのテキストの上で\ind{キーボードショートカット}を使ったり、他のツールを使うことができます。最も重要なのは、\menu{do it} (\short{d})、\menu{print it} (\short{p})、\menu{inspect it} (\short{i})、\menu{explore it} (\short{I})、そして\menu{browse it} (\short{b})です。
 %  \item \sqmap is a tool for loading useful packages from the Internet.
-  \item \emph{browser}は \pharo のコードをブラウズしたり、新しくコードを開発したりするための重要なツールです。
+  \item \emph{browser}は \pharo のコードをブラウズしたり新しくコードを開発したりするための、最も重要なツールです。
   \item \emph{テストランナー}はユニットテストを実行するためのツールです。テストランナーは、テスト駆動開発もサポートします。
 \end{itemize}
 
