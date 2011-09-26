@@ -21,10 +21,5 @@
 434,"\index{category}","本文と不整合","\index{パッケージ}",,
 446,,"文の流れが悪い",,"()でくくる",
 455,"category","OBブラウザを使っているので、パッケージの方がいいのでは?","パッケージ","TODO: 識者にチェックしてもらう",
-512,"where might it be?","mightの正確な意味がわからない","どこにあるのでしょう?","TODO: …",
-513,"method finder",,"method finder",,
-546,"multiple...how.","嘘?",,"そのまま訳す",
-583,"test - converting","testing – convertingでは?","testing – converting",,"Pharo-1.[12].1"
-605,"\figref{testShoutConfirm}","恐らく間違い","\figref{name}",,"1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
 643,"String tests","StringTestか?","StringTest","原著者に確認",
 685,"\footnotemark","対応する文章がない",,"カット","1訳のコメントにあった。行番号がずれると嫌なのでこちらに移動した。"
