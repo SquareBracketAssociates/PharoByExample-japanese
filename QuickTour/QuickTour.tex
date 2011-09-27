@@ -99,7 +99,7 @@ OSや作業スタイルに合わせて、一番良い方法を選んでくださ
 \end{figure}
 
 \index{\pharo を起動する}
-\paragraph{起動。} \pharo の起動は、普通のアプリケーションと同様です。バーチャルマシンのアイコンに\emph{.}\emphind{image}ファイルをドラッグ&ドロップしたり、\emph{.image}ファイルをダブルクリックしたり、コマンドラインで、バーチャルマシンの名前の後に\emph{.image}ファイルへのパスを入力することになるでしょう。使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っているなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ&ドロップまたはコマンドラインからの起動を勧めます)。
+\paragraph{起動。} \pharo の起動は、普通のアプリケーションと同様です。バーチャルマシンのアイコンに\emph{.}\emphind{image}ファイルをドラッグ\&ドロップしたり、\emph{.image}ファイルをダブルクリックしたり、コマンドラインで、バーチャルマシンの名前の後に\emph{.image}ファイルへのパスを入力することになるでしょう。使っているOSに合わせて下さい(もし、異なるバージョンのVMを持っているなら、どのVMが動作しているかはっきりさせるためにも、ドラッグ\&ドロップまたはコマンドラインからの起動を勧めます)。
 
 \pharo を起動すると、1個の大きなウィンドウが現れます。このウィンドウの中には、あるいは、ワークスペースと呼ばれるウィンドウが、いくつか開いているかも知れません(\figref{startup})。しかし、このあとどう続けたらいいか、明かではありません!
 Mac OSの場合メニューバーも出ますが、\pharo では専ら、コンテキストに依存したポップアップメニューを活用します。
@@ -251,7 +251,7 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 %=================================================================
 \section{終了と再起動、保存について}
 
-\dothis{弾む原子のウィンドウを \click クリックし、好きな所へウィンドウをドラッグしましょう。デモウィンドウは、もはや「意のまま」です。もう一度 \click して、適当な場所に置きましょう。}
+\dothis{弾む原子のウィンドウを \click し、好きな所へウィンドウをドラッグしましょう。デモウィンドウは、もはや「意のまま」です。もう一度 \click して、適当な場所に置きましょう。}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -300,22 +300,22 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 \section{ワークスペースとトランスクリプト}
 \seclabel{トランスクリプト}
 
-\dothis{すべてのウィンドウを閉じましょう。\ind{トランスクリプト} と \ind{ワークスペース}を新しく開きましょう。(トランスクリプトは、\menu{World{\go}Tools ...}のサブメニューにあります。)}
+\dothis{すべてのウィンドウを閉じましょう。\ind{トランスクリプト}と\ind{ワークスペース}を新しく開きましょう。(トランスクリプトは、\menu{World{\go}Tools ...}サブメニューにあります。)}
 
 \dothis{トランスクリプトとワークスペースの位置やサイズを変えて、ワークスペースをトランスクリプトにオーバーラップさせましょう。}
-ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して ハローを出し、右下の黄色のハンドルをドラッグします。
+ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して ハローを出し、黄色の(右下の)ハンドルをドラッグします。
 
 常に、枠が強調されているウィンドウだけがアクティブになります。
 % The mouse cursor must be in the window in which you wish to type.
 
-トランスクリプトはシステムメッセージのログを確認するときに良く使われるオブジェクトです。
-いわば、「システムコンソール」と言えるでしょう。
+トランスクリプトは、システムメッセージのログを取るのにしばしば使われるオブジェクトです。
+「システムコンソール」の一種です。
 %Note that the transcript is terribly slow, so if you keep it open and write to it certain operations can become 10 times slower.
 %In addition the transcript is not thread-safe so you may experience strange problems if multiple objects write concurrently to the transcript.
 % ON: I think the transcript has been made thread-safe now, right?
 
 ワークスペースは、実験的に試してみたい \st コードの断片を入力するのに役立ちます。
-ワークスペースには、単に覚書のテキストを書いておくこともできます。TODOリストや、あなたのイメージを使う人への手引きなどに使えるでしょう。
+ワークスペースには、どのようなテキストを書いてもいいので、これを覚書として使うこともできます。TODOリストや、あなたのイメージを使う人への手引きなどに使えるでしょう。
 ワークスペースは、しばしば、保存されたイメージについてのドキュメントとして使われます。先にダウンロードした標準のイメージが一例です(\figref{startup})。
 
 \dothis{ワークスペースに次のテキストを入力しましょう。}
@@ -323,7 +323,8 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 Transcript show: 'hello world'; cr.
 \end{code}
 
-workspace のウィンドウの中で、単語の上や単語の間、コードの最後のピリオドの後ろなどを \click して、選択されるエリアの確認をやってみましょう。
+ワークスペースの中で、今入力したテキストの色々な箇所を、ダブル-\click してみましょう。
+単語の上、文字列の終り(\ct{'})、式全体の終り(\ct{.})、という具合に \click してみて、単語全体、文字列全体、テキスト全体が選択される様子を確認しましょう。\footnote{訳注: \st のコードでは、文字列は\ct{'}で括ります。式の終りを明示したい時は、\ct{.}を使います。}
 
 \dothis{入力したテキスト全体を選択して、\actclick で
 \menu{do it (d)} を選択します。}
@@ -340,26 +341,26 @@ workspace のウィンドウの中で、単語の上や単語の間、コード�
 %=================================================================
 \section{キーボードショートカット}
 
-コードを実行するときは、\actclick ではなく \ind{キーボードショートカット}を使うことも出来ます。キーボードショートカットを使えば、操作が簡単になります。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、\short{\emph{key}} のように control / alt / command / meta 等の修飾キーを同時に使用することになるでしょう。
+式を評価したいときは、\actclick ではなく \ind{キーボードショートカット}を使うこともできます。メニューの括弧書きの部分が該当します。ショートカットキーを使う時には、プラットフォームに応じた修飾キー(control、alt、command、あるいはmeta)を同時に使用することになるでしょう
+(このようなキーボードショートカットを、一般的に、\short{\emph{キー}}と表記することにします)。
 
-
-\dothis{キーボードショートカットを使って、式を評価してみましょう(例：\short{d})。}
+\dothis{もう一度ワークスペースの式を評価してみましょう。ただし、キーボードショートカットを使って: \short{d}。}
 \index{キーボードショートカット!do it}
 
-\menu{do it} だけでなく、\menu{print it}、 \menu{inspect it}、 \menu{explore it} も使えますが、それらについては後述します。
+\menu{do it}に加えて、\menu{print it}、\menu{inspect it}、\menu{explore it}にも気付いたでしょう。これらについて手短に説明します。
 
-\dothis{\ct{3 + 4} とワークスペースの中に入力し、キーボードショートカットを使って \menu{do it} を実行しましょう。}
+\dothis{\ct{3 + 4}とワークスペースの中に入力し、キーボードショートカットを使って\menu{do it}を実行しましょう。}
 
-何も起きなかったことに驚かないでください。ここでは数字の \ct{3} に数字の \ct{4} を引数とした \ct{+} メッセージを送ったことになります。プログラムが実行され、計算はされたのですが、表示することを知らないのです。結果を表示させたければ、\menu{print it} を使うことになります。実行されて計算され、最後に \ct{printString} を送ることで文字列として表示させるまでを行います。
+何も起きなかったことに驚かないでください。ここでは数の\ct{3}に\ct{+}メッセージを、\ct{4}を引数付きで送ったことになります。普通に\ct{7}が計算され、返されたのですが、ワークスペースはこの答えをどうするべきか知らないので、答えを捨ててしまいます。結果を表示させたければ、代わりに\menu{print it}を使うことになります。\menu{print it}は、式をコンパイルし、実行し、その結果に\ct{printString}を送って得た文字列を表示します。
 
-\dothis{\ct{3+4} を選択肢、\menu{print it} を実行しましょう(\short{p})。}
-今度は予想通りの結果です(\figref{printit})。
+\dothis{\ct{3+4}を選択し、\menu{print it}を実行しましょう(\short{p})。}
+今度は予想通りの結果になります(\figref{printit})。
 \index{キーボードショートカット!print it}
 
 \begin{figure}[htb]
 % \centerline {\includegraphics[width=0.4\textwidth]{PrintIt}}
 \centerline {\includegraphics[width=0.8\textwidth]{PrintIt}}
-\caption{「do it」ではなく「Print it」。\figlabel{printit}}
+\caption{「do it」ではなく「print it」。\figlabel{printit}}
 \end{figure}
 
 \needlines{3}
@@ -369,29 +370,29 @@ workspace のウィンドウの中で、単語の上や単語の間、コード�
 \noindent
 これからは、\menu{print it} を使って結果の表示が行われたときには、\ct{-->} の表記をします。
 
-\dothis{選択されている 「\ct{7}」 を削除し(\pharo は既に「\ct{7}」を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it} (\short{i})しましょう。}
+\dothis{選択されている「\ct{7}」を削除し(\pharo は既に「\ct{7}」を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it}(\short{i})しましょう。}
 \noindent
-タイトルに\ct{SmallInteger: 7} (\figref{inspectit})と書かれた\emphind{インスペクタ}ウィンドウが表示されるはずです(inspector)。
-インスペクタは極めて便利なツールで、これを用いれば、システムのどんなオブジェクトとも、ブラウズ・やりとりすることができます。
-タイトルの意味は、\ct{7} は \clsind{SmallInteger} クラスのインスタンスであるということです。
-左のパネルはオブジェクトのインスタンス変数を示し、その値が右のパネルに表示されます。
-下のパネルは、オブジェクトへメッセージを送るための式を記述することができます。
+タイトルに\ct{7 on Inspector} (\figref{inspectit})と書かれた\emphind{インスペクタ}ウィンドウが表示されるはずです。
+インスペクタは極めて便利なツールで、これを用いれば、システムのどんなオブジェクトもブラウズできますし、どんなオブジェクトともやりとりすることができます。
+%タイトルの意味は、\ct{7} は \clsind{SmallInteger} クラスのインスタンスであるということです。
+左のペイン\footnote{訳注: ウィンドウの1区画を、ペインと呼ぶことがあります。}は、オブジェクトのインスタンス変数を示し、その値が、右のペインに表示されます。
+下のペインには、オブジェクトへメッセージを送るための式を記述することができます。
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{InspectIt}}
 \caption{オブジェクトをインスペクトする。\figlabel{inspectit}}
 \end{figure}
 
-\dothis{下のパネルに \ct{self squared}と入力し、\menu{print it}しましょう。}
+\dothis{\ct{7}のインスペクタの下のペインに\ct{self squared}と入力し、\menu{print it}しましょう。}
 
 \needlines{2}
-\dothis{インスペクタを閉じ、\ct{Object} をワークスペースに入力して、今度は、\menu{explore it} (\short{I}, 大文字 i)してみましょう。}
+\dothis{インスペクタを閉じ、\ct{Object}をワークスペースに入力して、今度は、\menu{explore it}(\short{I}, 大文字 i)してみましょう。}
 \index{キーボードショートカット!explore it}
 \index{エクスプローラ}
 
-今度は、\clsind{Object} のタイトルが付いた、
-\mbox{$\triangleright$ \ct{root: Object}} と表示されているウィンドウが開きます(エクスプローラ = explorer)。
-三角のアイコンを使って、中身を表示してください (\figref{exploreit})。
+今度は、\clsind{Object}のタイトルが付いた、
+\mbox{$\triangleright$ \ct{root: Object}}というテキストを含んだウィンドウが現れます。
+三角のアイコンをクリックして、中身を開いてください(\figref{exploreit})。\footnote{訳注: 既に開いた状態になっているかも知れません。}
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=0.7\textwidth]{ExploreIt}}
@@ -399,18 +400,18 @@ workspace のウィンドウの中で、単語の上や単語の間、コード�
 \end{figure}
 
 エクスプローラはインスペクタと似ていますが、複雑なオブジェクトの中身をツリー表示します。
-この例でエクスプロアされているオブジェクトは、\ct{Object}クラスです。
-ここでは、このオブジェクトに格納されている要素を直に見ることができますし、さらに要素の内部構造をたどって行くこともできます。
+この例では、見ているオブジェクトは、\ct{Object}クラス\footnote{訳注: \ct{Object}クラスという名の、1個のオブジェクトです。やがて、その意味がわかるようになるでしょう。}です。
+ここでは、このオブジェクトに格納されている要素を直に見ることができますし、さらに要素の内部構造をたどって行くことも、容易です。
 
 %=================================================================
-\section{Class Browser}
+\section{クラスブラウザ}
 
-クラス \ind{ブラウザ}\footnote{紛らわしいことに、「system browser」や「code browser」など呼ばれることがあります。\pharo では \ind{OmniBrowser}というブラウザの実装が使われています。OmniBrowserは、「OB」または「Package browser」としても知られています。
-この本ではシンプルに「ブラウザ」を用いますが、曖昧さが問題になるケースでは、「クラスブラウザ」と表記します。}はプログラミングにおいて、最も重要なツールの一つです。
-\pharo にはいくつかのブラウザが有りますが、どのイメージを使う場合でも、「クラスブラウザ」は最も基本的なブラウザです。
+クラス\ind{ブラウザ}\footnote{紛らわしいことに、「system browser」や「code browser」など呼ばれることがあります。\pharo では\ind{OmniBrowser}というブラウザの実装が使われています。OmniBrowserは、「OB」または「Package browser」としても知られています。
+この本ではシンプルに「ブラウザ」という用語を用いますが、曖昧さが問題になるケースでは、「クラスブラウザ」と表記します。}は、プログラミングにおいて重要なツールの一つです。
+\pharo にはいくつかの興味深いブラウザがありますが、どのイメージを使う場合でも、クラスブラウザは、最も基本的なブラウザです。
 \seeindex{クラスブラウザ}{ブラウザ}
 
-\dothis{\menu{World \go Class browser}を選択してブラウザを開きましょう。\footnote{もし、browser が \figref{classBrowser} に似ていなければ、デフォルトのブラウザを変更する必要があるでしょう。\faqref{packagebrowser}を見てください。}}
+\dothis{\menu{World \go Class browser}を選択してブラウザを開きましょう。\footnote{もし、browser が \figref{classBrowser}に似ていなければ、デフォルトのブラウザを変更する必要があるでしょう。\faqref{packagebrowser}を見てください。}}
 
 \begin{figure}[htb]
 \ifluluelse
@@ -421,46 +422,46 @@ workspace のウィンドウの中で、単語の上や単語の間、コード�
 \end{figure}
 
 \figref{classBrowser}にあるのがブラウザです。
-タイトルに書かれているとおり、\clsind{Object}クラスをブラウズしています。
+タイトルバーに書かれているとおり、\clsind{Object}クラスをブラウズしています。
 %\footnote{If the browser you have seems to differ from the one described in this book, you may be using an image with a different default browser. See \faqref{omnibrowser}.}
 
-最初にブラウザを開くと、一番左のペイン以外はすべて空欄です。
-このペインは、すべての \emph{カテゴリ}をリストしています。各カテゴリには、関連するクラスがまとめられています。
-\index{category}
+ブラウザを最初に開くと、一番左のペイン以外はすべて空欄です。
+このペインは、すべての \emph{パッケージ}をリストしています。各パッケージには、関連するクラスがまとめられています。
+\index{パッケージ}
 
-\dothis{\scatind{Kernel-Objects}カテゴリをクリックしましょう。}
-選択されたカテゴリに含まれるクラスが、2番目のペインにリストされます。
+\dothis{\scatind{Kernel}パッケージをクリックしましょう。}
+選択されたパッケージに含まれるクラスが、2番目のペインにリストされます。
 
 \dothis{\clsind{Object}クラスを選択しましょう。}
 今度は、残りの二つのペインにテキストが表示されます。
-3番目のパネルは選択されたクラスの\emph{プロトコル}が表示されます。
+3番目のペインは選択されたクラスの\emph{プロトコル}が表示されます。
 プロトコルは、関連するメソッドを、扱いやすいようにグループ分けします。
-\ind{プロトコル}を選択していなければ、すべてのメソッドが4番目のパネルに表示されます。
+\ind{プロトコル}を何も選択していなければ、すべてのメソッドが4番目のペインに表示されます。
 
-\dothis{\protind{printing} プロトコルを選択しましょう。}
+\dothis{\protind{printing}プロトコルを選択しましょう。}
 (printing プロトコルを見つけるには、下にスクロールしなければならないかも知れません。)
-printing のプロトコルに属するメソッドだけが、4番目のペインに表示されます。
+プリントに属するメソッドだけが、4番目のペインに表示されます。
 
 \dothis{\mthind{Object}{printString}メソッドを選択しましょう。}
 今度は、下のペインに、\ct{printString}メソッドのソースコードが表示されます。このソースコードは、すべてのオブジェクトで共有されます(このメソッドをオーバーライドするものを除く)。
 
 %=================================================================
-\section{クラスの検索}
+\section{クラスを見つける}
 
-\pharo でクラスを見つけるには、いくつかの方法が有ります。一つ目は、今見たように、ブラウザのナビゲーションを使ってカテゴリからたどっていく方法です。
+\pharo でクラスを見つけるには、いくつかの方法が有ります。一つ目は、今見たように、ブラウザを使ってパッケージからたどっていく方法です。この場合パッケージ名は、最初からわかっているか推測することになります。
 \index{ブラウザ}
-\seeindex{ブラウザ!クラスを見つける}{クラス, 検索}
-\index{クラス!検索}
+\seeindex{ブラウザ!クラスを見つける}{クラス, 見つける}
+\index{クラス!見つける}
 
-二つ目として、クラスに\ct{browse}メッセージを送り、そのクラス自身のブラウザを開く方法があります。\clsind{Boolean}クラスをブラウズしたかったとしましょう。
+二つ目として、クラスに\ct{browse}メッセージを送り、自身のブラウザを開いてもらう方法があります。\clsind{Boolean}クラスをブラウズしたかったとしましょう。
 
 \dothis{ワークスペースに \ct{Boolean browse}と入力し、\menu{do it}しましょう。}
-Boolean クラスについてのブラウザが開きましたか(\figref{browseBoolean})?
-クラスをブラウズする場合は、クラス名を選択して、\ind{キーボードショートカット} \short{b} (browse) を使う方法もあります。この方法は、クラス名が現われる場所なら、どのツールの中でも使えます;
+Boolean クラスについてのブラウザが開きます(\figref{browseBoolean})。
+クラスをブラウズする場合は、クラス名を選択して、\ind{キーボードショートカット}\short{b}(browse)を使う方法もあります。この方法は、クラス名が現われる場所なら、どのツールの中でも使えます;
 \index{キーボードショートカット!browse it}
 クラス名を選択して\short{b}をタイプします。
 
-\dothis{キーボードショートカットを使って \ct{Boolean} クラスをブラウズしてみましょう。}
+\dothis{キーボードショートカットを使って、\ct{Boolean}クラスをブラウズしてみましょう。}
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{Kernel-objects-boolean}}
@@ -468,11 +469,11 @@ Boolean クラスについてのブラウザが開きましたか(\figref{browse
 \figlabel{browseBoolean}}
 \end{figure}
 
-\ct{Boolean} クラスが選択されていて、プロトコルかメソッドが選択されていないときに、メソッドのソースコードの代わりに、\emph{クラス定義}が表示されることに注意してください(\figref{browseBoolean})。
-このクラス定義は、親クラスにサブクラスの生成を依頼する、通常の \st のメッセージです。それ以上のものではありません。
-ここでは、\ct{Object}クラスが、空のインスタンス変数、クラス変数、「プール辞書」を持った\ct{Boolean}というサブクラスを、\scatind{Kernel-Objects}カテゴリ内に作成するよう依頼されている様子がわかります。
+\ct{Boolean}クラスが選択されていて、プロトコルもメソッドが選択されていないときに、メソッドのソースコードの代わりに、\emph{クラス定義}が表示されることに注意してください(\figref{browseBoolean})。
+このクラス定義は、親クラスにサブクラスの作成を依頼する、通常の \st のメッセージです。それ以上のものではありません。
+ここでは、\ct{Object}クラスが、\ct{Boolean}サブクラスの作成を依頼されている様子がわかります; \ct{Object}クラスは、インスタンス変数、クラス変数、「プール辞書」が全部空の、\ct{Boolean}というサブクラスを作成し、それを、\scatind{Kernel-Objects}カテゴリ内に収めます。
 % The lower pane shows the \emph{class comment} --- a piece of plain text describing the class.
-\button{?} をクリックすると、\subind{クラス}{コメント}を見ることができます(\figref{classComment})。
+クラスペインの下の\button{?} を \click すると、専用のペインの中に、クラス\subind{クラス}{コメント}を見ることができます(\figref{classComment})。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{classComment}}
@@ -480,11 +481,11 @@ Boolean クラスについてのブラウザが開きましたか(\figref{browse
 \figlabel{classComment}}
 \end{figure}
 
-クラスを見つける一番速い方法は、名前で検索することにかも知れません。例えば、日付と時間を表現するクラスを探しているとしましょう。
+しばしば、名前による検索が、クラスを見つける一番速い方法になります。例えば、日付と時間を表現するクラスを探しているとしましょう。
 
-\dothis{ブラウザのカテゴリペインにマウスを置き、持って行き、\short{f}とタイプするか、\actclick で \menu{find class \ldots (f)}を選択し、表示されたダイアログに「time」と入力しましょう。} 
+\dothis{ブラウザのパッケージペインにマウスを置き、持って行き、\short{f}とタイプするか、\actclick で\menu{find class \ldots (f)}を選択し、表示されたダイアログボックスに「time」と入力しましょう。} 
 \noindent
-「time」を含んだクラス名の一覧が表示されます(\figref{findit})。\ct{Time}を選択しましょう。ブラウザが\ct{Time}を表示します。\ct{Time}のクラスコメントには、他のお勧めのクラスが書いてあります。これらをブラウズしたければ、その名前を選んで\short{b}をタイプします(実際は、どのテキストペインでもこの方法は使えます)。\footnote{訳注: \pharo のバージョンにより動作が微妙に異なりますが、感覚的にすぐにわかります。}
+「time」を含んだクラス名の一覧が表示されます(\figref{findit})。\ct{Time}を選択しましょう。ブラウザが\ct{Time}を表示します。\ct{Time}のクラスコメントには、他のお勧めのクラスが書いてあります。これらをブラウズしたければ、その名前を選んで\short{b}をタイプします(実際は、どのテキストペインでもこの方法は使えます)。
 \index{キーボードショートカット!find ...}
 \index{キーボードショートカット!browse it}
 
@@ -501,18 +502,18 @@ Boolean クラスについてのブラウザが開きましたか(\figref{browse
 検索ダイアログで、完全なクラス名を入力した場合(そして単語の頭を正しく大文字化した場合)、ブラウザは、候補リストを表示することなく、そのクラスに直行することに注意してください。
 
 %=================================================================
-\section{メソッドの検索}
+\section{メソッドを見つける}
 \seclabel{quick:methodFinder}
 
-メソッド名または少なくともメソッド名の一部が、クラス名よりも簡単に推測できることもあるでしょう。例えば、今現在の時間に関して、「now」や「now」を含んだメソッドがあると期待できます。しかしどこにあるのでしょう?
-\emphind{メソッド・ファインダ} (method finder)は、そのような場合に重宝するツールです。
-\seeindex{ブラウザ!メソッドの検索}{メソッド, 検索}
-\index{メソッド!検索}
+メソッド名または少なくともメソッド名の一部が、クラス名よりも簡単に推測できることもあるでしょう。例えばあなたは、現在の時間が知りたかったとして、それには、「now」というメソッドや、「now」を名前に含んだメソッドが使える、と期待するかも知れません。しかしどこにあるのでしょうね?
+そんな時は、\emphind{メソッド・ファインダ}が助けてくれます。
+\seeindex{ブラウザ!メソッドの検索}{メソッド, 見つける}
+\index{メソッド!見つける}
 
 \dothis{\menu{World \go Tools ... \go Method finder}を選択し、
-左上のペインに「now」を入力し、\menu{accept}しましょう(または、\textsc{return}キーを押しましょう)。\footnote{訳注: メソッド・ファインダは、Pharo-1.1.1までの機能です。Pharo-1.2.1以降にはありません。}}
-メソッド・ファインダは、「now」を含むメソッド名の一覧を表示します。
-\ct{now}までスクロールするには、リスト表示のペインで「\ct{n}」をキーボードから入力します; すると、\ct{n}で始まる要素までスクロールします。このトリックは、すべてのスクロールするウィンドウで使えます。さてここで、「now」を選択すると、右側のペインには、このメソッドを定義しているクラスがリストされます(\figref{MethodFinder} )。クラス名を選択すると、そのクラスのブラウザが立ち上がります。
+左上のペインに「now」を入力し、\menu{accept}しましょう(または、\textsc{return}キーを押しましょう)。}
+メソッド・ファインダは、「now」を含むすべてのメソッド名の一覧を表示します。
+\ct{now}までスクロールするには、リスト表示のペインで「\ct{n}」をキーボードから入力します; すると、\ct{n}で始まる項目までスクロールします。このトリックは、すべてのスクロールするウィンドウで使えます。さてここで、「now」を選択すると、右側のペインには、このメソッドを定義しているクラスがリストされます(\figref{MethodFinder})。クラス名を選択すると、そのクラスのブラウザが立ち上がります。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=0.7\textwidth]{methodFinder-now}}
@@ -521,38 +522,38 @@ Boolean クラスについてのブラウザが開きましたか(\figref{browse
 \end{figure}
 
 時には、メソッドが存在することは分かっていても、それが何と呼ばれるか、見当が付かないこともあるでしょう。
-メソッド・ファインダは、このような場合にも助けてくれます。例えば、\ct{'eureka'}を\ct{'EUREKA'}というように、アルファベット大文字に変換するメソッドを探したかったとしましょう。
+メソッド・ファインダは、このような場合にも助けてくれます。例えば、文字列を大文字化するメソッドを探したかったとしましょう。\ct{'eureka'}を\ct{'EUREKA'}という具合にです。
 
 \dothis{\ct{'eureka' . 'EUREKA'}とメソッド・ファインダに入力し、
   \textsc{return} キーを押してください
   (\figref{methodFinder-example1})。}
 \noindent
-メソッド・ファインダは、お望みのメソッドを勧めてくれましたか?\footnote{このとき、ウィンドウがポップアップして、推奨されないメソッドについて警告されても、驚かないでください --- メソッド・ファインダは、単にありそうな候補すべてを表示するだけです。その中には、推奨されないメソッドも含まれます。慌てず騒がず、\button{Proceed}をクリックしてください。}
+メソッド・ファインダは、お望みのメソッドを勧めてくれるでしょう。\footnote{もしこのとき、ウィンドウがポップアップして、推奨されないメソッドについて警告されても、驚かないでください --- メソッド・ファインダは、単に、ありそうな候補すべてを表示しようとするだけです。その中に、推奨されないメソッドが含まれることもあります。そのような場合は、慌てず騒がず、~\button{Proceed}を \click してください。}
 
-右のペインで、先頭にアスタリスクが付いているメソッドは、実際の変換に使われたことを示します。
-このケースでは、\ct{String asUppercase}の先頭のアスタリスクが、\clsind{String}で定義された\mthind{String}{asUppercase}が、実際の\ct{'eureka' . 'EUREKA'}の変換に使われたことを示します。アスタリスクが付いていないメソッドは、単に名前が同じだと言うだけでリストされたものです。\cmind{Character}{asUppercase}は、この場合実行されていません。\ct{'eureka'}は、\clsind{Character}オブジェクトではないからです。
+メソッド・ファインダの右のペインの行頭のアスタリスクは、そのメソッドが、望んだ結果を得るのに実際に使われたことを示します。
+だから、\ct{String asUppercase}の先頭のアスタリスクを見れば、\clsind{String}で定義された\mthind{String}{asUppercase}が、実際の\ct{'eureka' . 'EUREKA'}の変換に使われたことがわかります。アスタリスクが付いていないメソッドは、単に名前が同じだと言うだけで挙げられたものです。\cmind{Character}{asUppercase}は、この場合実行されていません。\ct{'eureka'}は、\clsind{Character}オブジェクトではないからです。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{MethodFinder-example1}}
-\caption{例によるメソッド検索。
+\caption{例を使ってメソッドを見つける。
 \figlabel{methodFinder-example1}}
 \end{figure}
 
-引数のあるメソッドについても、メソッド・ファインダを使うことができます; 例えば、二つの整数の最大公約数を見つけるメソッドを探すときは、\ct{25. 35. 5}を例として入力してみてください。また、複数の例を使って、検索の範囲を絞りこむことができます; 下のペインのヘルプテキストに、やり方が書いてあります。
+引数のあるメソッドについても、メソッド・ファインダを使うことができます; 例えば、二つの整数の最大公約数を見つけるメソッドを探すときは、\ct{25. 35. 5}を例として入力することができます。また、複数の例を使って、検索の範囲を絞りこむことができます; 下のペインのヘルプテキストに、やり方が書いてあります。\footnote{訳注: このペインを、下の方にスクロールしないと分からないはずです。}
 
 %=================================================================
 \section{メソッドを新しく定義する}
 
-\ind{テスト駆動開発}\cite{Beck03a} (TDD\footnote{訳注: Test Driven Development})が到来してから、コードを書く方法は一変しました。
+\ind{テスト駆動開発}\cite{Beck03a} (TDD\footnote{訳注: Test Driven Development})が登場してから、コードを書く方法は一変しました。
 TDD の考え方は、テストを、コードそれ自身より先に書く、というものです。コードに期待する振舞いは、テストが定義します。
 テストを書いて初めて、そのテストを満足させるコードを書くことができます。
 \seeindex{振舞い駆動開発}{テスト駆動開発}
 % \orla{describe the technique where we write a test hat ... subsequently we write ...}
 
-「何かを大声で強調して言う」メソッドを書く、という課題があったとしましょう。これは正確にはどういうことでしょう? そのようなメソッドの名前として相応わしいのは何でしょう? 将来そのメソッドを保守するプログラマに、このメソッドが何をするべきなのか、正確に伝えるにはどうすればいいでしょう? 「例」を使えば、これらの疑問のすべてに答えることができます。
+「何かを大声で強調して言う」メソッドを書く、という課題があったとしましょう。これは正確にはどういうことでしょう? そのようなメソッドの名前として相応わしいのは何でしょう? 将来そのメソッドを保守することになるかも知れないプログラマに、このメソッドが何をするべきなのか、確実に伝えるにはどうすればいいでしょう? 「例」を使えば、これらの疑問のすべてに答えることができます。
 
 \begin{quote}
-文字列「Don't panic」にメッセージ\ct{shout}を送ると、結果は「DON'T PANIC!」となる。
+文字列「Don't panic」にメッセージ\ct{shout}を送ると、結果は「DON'T PANIC!」でなければならない。
 \end{quote}
 
 \noindent
@@ -566,25 +567,25 @@ testShout
 	self assert: ('Don''t panic' shout = 'DON''T PANICBANG')
 \end{method} % BANG is the escape for !
 
-どうしたら、\pharo で新しくメソッドが作れるでしょうか? 最初に、そのメソッドがどのクラスに属するかを決めなければいけません。
+どうしたら、\pharo で新しくメソッド\footnote{訳注: ここでは\ct{testShout}です。}が作れるでしょうか? 最初に、そのメソッドがどのクラスに属するかを決めなければいけません。
 この場合、今からテストしようとしている\ct{shout}メソッドが\clsind{String}クラスに属することになるので、テストは、習慣として、\clsind{StringTest}に作成します。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{StringTest-newMethodTemplate}}
-\caption{\ct{StringTest}の新規メソッドの雛形。
+\caption{\ct{StringTest}の新規メソッドのテンプレート。
 \figlabel{newMethodTemplate}}
 \end{figure}
 
-\dothis{\ct{StringTest}のブラウザを開きましょう。適切なプロトコルとして、\menu{tests - converting}を選択しましょう(\figref{newMethodTemplate})。
-下のペインで選択されているのは、メソッドの雛形で、\st のメソッドの概形を教えてくれます。
-これを消して、先程の\mthref{testShout}で初まるコードを入力しましょう。}
-ブラウザにテキストを入力したときに、下のペインが赤く縁取りされます。これにより、入力したプログラムコードがまだ保存されていないことがわかります。
-下のペインで \actclick して \menu{accept (s)}を選択するか、\short{s}をタイプして、メソッドをコンパイル・保存してください。
+\dothis{\ct{StringTest}のブラウザを開きましょう。\ct{testShout}のための適切なプロトコルとして、\menu{tests - converting}を選択しましょう(\figref{newMethodTemplate})。
+下のペインで選択されているのは、メソッドのテンプレートです。これを見れば、\st のメソッドの大まかな姿がわかります。
+これを消して、先程の\mthref{testShout}のコードを入力しましょう。}
+ブラウザにテキストを入力したときに、下のペインが赤く縁取りされることに注意してください。これにより、このペインへの変更が、まだ保存されていないことがわかります。
+それでは、下のペインで \actclick して \menu{accept (s)}を選択するか、\short{s}をタイプして、メソッドをコンパイル・保存してください。
 \index{キーボードショートカット}
 \index{キーボードショートカット!accept}
 \seeindex{accept it}{キーボードショートカット, accept}
 
-このイメージで accept するのが初めてであれば、あなたの名前を入力するように促されるはずです。イメージには沢山の人がコードを寄贈し来ているので、メソッドを作った・変更したのは誰か、記録しておくことが重要なのです。単純に、ファーストネーム、ラストネームを、空白を入れずにあるいはドットで繋いで、入力します。
+このイメージでコードをアクセプトするのが初めてであれば、あなたの名前を入力するように促されるはずです。イメージは、沢山の人が書いたコードからできているので、メソッドを作った・変更したのは誰か、記録しておくことは重要です。単純に、ファーストネーム、ラストネームを、空白を入れずにあるいはドットでつないで、入力します。
 
 %\begin{figure}[hbt]
 %\centerline {\includegraphics[width=0.35\textwidth]{initials}}
@@ -592,8 +593,8 @@ testShout
 %\figlabel{initials}}
 %\end{figure}
 
-\ct{shout}というメソッドは、まだ無いので、ブラウザは、\ct{testShout}が、本当に\ct{shout}メッセージを送っていいのか確認します\,---\,同時に、他の候補もリストします(\figref{testShoutConfirm})。
-タイプミスなどの時にはこの機能は非常に助かりますが、今回は\emph{本当に}作成\ct{shout}をしたいので、というのは、これが、これから作ろうとするメソッドなので、\figref{testShoutConfirm}のように、一番上の項目を選択します。
+\ct{shout}というメソッドはまだ無いので、ブラウザは、これが本当にあなたが意図した名前であるか確認するよう求めます\,---\,そして、他の可能性のある名前についても提案してきます(\figref{testShoutConfirm})。
+タイプミスなどの時にはこの機能は非常に助かりますが、今回は\emph{本当に}\ct{shout}を作成したいので、というのは、これが今から作ろうとするメソッドなので、\figref{testShoutConfirm}のように、一番上の項目を選択しなければなりません。
 
 タイプミスなどの時にはこの機能は非常に助かりますが、今回は本当に作成したい状況ですので、\figref{testShoutConfirm} のように一番上の項目を選択します。
 
@@ -616,7 +617,7 @@ testShout
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{testShoutConfirm}}
-\caption{\ct{StringTest}の\ct{testShout}メソッドをacceptする。\figlabel{testShoutConfirm}}
+\caption{\ct{StringTest}の\ct{testShout}メソッドをアクセプトする。\figlabel{testShoutConfirm}}
 \end{figure}
 
 
@@ -628,11 +629,11 @@ testShout
 %\figlabel{testShoutConfirm}}
 %\end{figure}
 
-\dothis{今作ったテストを実行しましょう: \menu{World}から \ind{SUnit} \emphind{TestRunner}を開けましょう。}
+\dothis{今作ったテストを実行しましょう: \menu{World}から\ind{SUnit} \emphind{TestRunner}を開けましょう。}
 
 一番左に二つ並んだペインは、ブラウザの上部のペインに少し似ています。左側のペインはカテゴリの一覧ですが、テストクラスを含んだカテゴリに限られます。
 
-\dothis{\scat{CollectionsTests-Text}を選択しましょう。右側のペインには、そのカテゴリのすべてのテストクラスが表示されます。その中に、\ct{StringTest}もあります。テストクラスはすべて選択されているので、\menu{Run Selected}を \click してこれらを実行しましょう。}
+\dothis{\scat{CollectionsTests-Text}を選択しましょう。右側のペインには、そのカテゴリのすべてのテストクラスが表示されます。その中に、\ct{StringTest}もあります。テストクラスの名前は既に選択されているので、\menu{Run Selected}を \click してこれらを実行しましょう。}
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{testRunnerOnStringTest}}
@@ -640,13 +641,13 @@ testShout
 \figlabel{testRunnerTestShout}}
 \end{figure}
 
-テストを実行した結果が、\figref{testRunnerTestShout}のように表示され、実行時エラーあったことが分かります。エラーがある箇所は右下のペインに表示されます; ご覧のとおり、\ct{StringTest>>>#testShout}が原因です。
+テストを実行した結果が、\figref{testRunnerTestShout}のように表示され、テストの実行時にエラーがあったことが分かります。エラーを起こしたテストのリストは、右下のペインに表示されます; ご覧のとおり、\ct{StringTest>>>#testShout}が原因です。
 (\st では\ct{StringTest}クラスの\mthind{StringTest}{testShout}メソッドを、\ct{StringTest>>>#testShout}と表記する習慣があります。)
-\ct{StringTest>>>#testShout} をクリックすると、再度そのテストだけが実行され、\ct{MessageNotUnderstood: ByteString>>>shout}というウィンドウがポップアップします。
+\ct{StringTest>>>#testShout} を \click すると、再度そのテストだけが実行され、\ct{MessageNotUnderstood: ByteString>>>shout}というウィンドウが開きます。
 \seeindex{\ct{>>}}{Behavior, \ct{>>}}
 \cmindex{Behavior}{>>}
 
-エラーメッセージとともにポップアップしたこのウィンドウは、 \st のデバッガです(\figref{predebugger})。
+エラーメッセージとともに開いたこのウィンドウは、 \st のデバッガです(\figref{predebugger})。
 % \ab{Well, it's actually the \emph{pre-}debugger.  Does this matter?}\damien{I don't think it's important at this point.}
 \ind{デバッガ}とその使い方については、\charef{env}で解説します。
 
@@ -656,15 +657,15 @@ testShout
 \figlabel{predebugger}
 \end{figure}
 
-このエラーは、もちろん、意図したとおりのものです: 文字列が\ct{shout}するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生します。
-それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テスト装置が正しく設置されていることが確認できるからです。
-いったんエラーを見たら、テストの実行をやめて(\button{Abandon})ウィンドウを閉じることができます。
-因みに、 \st ではしばしば、まだ無いメソッドを、\button{Create}を使ってその場で書いてしまうことができます。デバッガの中で、新しく作成されたメソッドの雛形を編集し、テストを続行(\button{Proceed})することもできます。
+このエラーは、もちろん期待したとおりのものです: 文字列が\ct{shout}するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生します。
+それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テスト装置が正しく設置され、新しいテストが実際に実行されたことが確認できるからです。
+いったんエラーを見たら、テストの実行をやめて(\button{Abandon})、デバッガウィンドウを閉じることができます。
+因みに、\st ではしばしば、まだ無いメソッドを、\button{Create}を使ってその場で書いてしまうことができます。デバッガの中で、新しく作成されたメソッドのテンプレートを編集し、テストを続行(\button{Proceed})することができます。
 
-では、テストが成功するためのメソッドを作成しましょう!
+では、テストを成功させるメソッドを作成しましょう!
 
-\dothis{ブラウザで\clsind{String}クラスの\menu{converting}プロトコルを選択し、\mthref{shout}のテキストでメソッドテンプレートを上書きし、\menu{accept}しましょう。
-(Note: \mbox{\ct{^}}のところには、\caret を入力します)。 }
+\dothis{ブラウザで\clsind{String}クラスの\menu{converting}プロトコルを選択し、\mthref{shout}のテキストでメソッド作成テンプレートを上書きし、\menu{accept}しましょう。
+(Note: \mbox{\ct{^}}のところには、\caret を入力します)。}
 \begin{method}[shout]{shout メソッド}
 shout
 	^ self asUppercase, 'BANG'
@@ -675,11 +676,11 @@ shout
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
-このメソッドは動くのでしょうか? もう一度テストを実行しましょう。
+このメソッドは、思いどおり動くのでしょうか? もう一度テストを実行して、どうなるか見てみましょう。
 
 \dothis{テストランナーで\menu{Run Selected}を再びクリックしましょう。今度は緑のバーが出て、すべてのテストが、失敗もエラーもなく実行されたことが表示されます。}
-緑のバーが出たときは、仕事の成果を保存して、一休みするのがいい考えです。
-さあ、一休みしましょう！
+緑のバーが出せた時は、仕事の成果を保存して一休みするのがいい考えです。
+さあ、一休みしましょう!
 %\footnotetext{Actually, you might not get a green bar since some images contains tests for bugs that still need to be fixed.
 %Don't worry about this.
 %\pharo is constantly evolving.
@@ -689,23 +690,23 @@ shout
 \ifluluelse
 	{\centerline{\includegraphics[width=\textwidth]{String-Shout}}}
 	{\centerline{\includegraphics[width=0.7\textwidth]{String-Shout}}}
-\caption{\ct{String}クラスに定義された\ct{shout}メソッド。
+\caption{\ct{String}クラスで定義された\ct{shout}メソッド。
 \figlabel{String-shout}}
 \end{figure}
 
 %=================================================================
 \section{まとめ}
-本章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った主なツールの使い方を学びました。\pharo の構文についても、完全にとは言わないまでも、少し学びました。
+この章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った重要なツールの使い方を学びました。\pharo の構文についても、完全にとは言わないまでも、少し学びました。
 
 \begin{itemize}
-  \item 実行中の \pharo システムは、\emph{バーチャルマシン}、\emph{sources}ファイル、\emph{image}ファイルと\emph{changes}ファイルで構成されており、最後の二つだけが、実行中のシステムのスナップショットとして変化していきます。
-  \item \pharo イメージをロードすると、以前と全く同じ状態\,---\,実行中のオブジェクトもそのままに\,---\,イメージを保存したときとの状態が再現されます。
-  \item \pharo は、3ボタンマウスを使って \click、 \actclick、 \metaclick するように設計されています。もちろん、3ボタンマウスが無くても、キーボードの修飾キーを使えば、同じことができます。
+  \item 実行中の \pharo システムは、\emph{バーチャルマシン}、\emph{sources}ファイル、\emph{image}ファイルと\emph{changes}ファイルで構成されいます。この中で、最後の二つだけが変化します; これらは、実行中のシステムのスナップショットを記録します。
+  \item \pharo 仮想イメージをロードすると、以前と全く同じ状態\,---\,実行中のオブジェクトもそのままに\,---\,仮想イメージを保存したときの状態が再現されます。
+  \item \pharo は、3ボタンマウスを使って \click、 \actclick、 \metaclick するように設計されています。3ボタンマウスが無くても、キーボードの修飾キーを使えば、同じことができます。
   \item \pharo の背景部分を \click すれば、\emph{ワールドメニュー}が表示できます。ワールドメニューからは、様々なツールが起動できます。
   \item \emph{ワークスペース}は、コードの断片を書いて評価するためのツールです。ワークスペースにはまた、任意のテキストを書いておくこともできます。
-  \item コードを評価するには、ワークスペースのテキストに\ind{キーボードショートカット}を使ったり、他のツールを使うことができます。最も重要なのは、\menu{do it} (\short{d})、\menu{print it} (\short{p})、\menu{inspect it} (\short{i})、\menu{explore it} (\short{I})、そして\menu{browse it} (\short{b})です。
+  \item コードを評価するには、ワークスペースのテキストの上で\ind{キーボードショートカット}を使ったり、他のツールを使うことができます。最も重要なのは、\menu{do it} (\short{d})、\menu{print it} (\short{p})、\menu{inspect it} (\short{i})、\menu{explore it} (\short{I})、そして\menu{browse it} (\short{b})です。
 %  \item \sqmap is a tool for loading useful packages from the Internet.
-  \item \emph{browser}は \pharo のコードをブラウズしたり、新しくコードを開発したりするための重要なツールです。
+  \item \emph{browser}は \pharo のコードをブラウズしたり新しくコードを開発したりするための、最も重要なツールです。
   \item \emph{テストランナー}はユニットテストを実行するためのツールです。テストランナーは、テスト駆動開発もサポートします。
 \end{itemize}
 
