@@ -92,8 +92,12 @@
 VM・sources ファイル・image ファイル・changes ファイルは、同じ場所に置いても構いませんし、バーチャルマシン・sources ファイルだけ別の共有ディレクトリに置いても構いません。
 OSや作業スタイルに合わせて、一番良い方法を選んでください。
 
+%\sd{it would be really nice to have a setup and startup section on PC, Mac and Linux}
+%\ab{I agree entirely; the reason that this is not here is because I could do only the Mac section.  Damien can probably do Windoze.  Perhaps we can ask on the list for a Linux volunteer?}
+
 %-----------------------------------------------------------------
 \begin{figure}[htb]
+% \centerline {\includegraphics[width=0.6\textwidth]{download}}
 \centerline {\includegraphics[width=\textwidth]{startup}}
 \caption{\pbe からダウンロードしたままの、まっさらなイメージ\figlabel{startup}}
 \end{figure}
@@ -106,7 +110,7 @@ Mac OSの場合メニューバーも出ますが、\pharo では専ら、コン�
 % You will notice that there is no menu bar, or at least not a useful one.  
 % Instead,  \pharo makes heavy use of context-dependent pop-up menus.
 
-\dothis{\pharo を始めましょう。ウィンドウの左上にあるクローズボタンを\click すると、workspace ウィンドウを閉じることができます。}
+\dothis{\pharo を始めましょう。ウィンドウの左上にある赤いクローズボタンを \click すると、ワークスペースを閉じることができます。}
 
 ウィンドウを最小化するにはオレンジ色のボタン、最大化するには緑色のボタン\footnote{訳注: 仮想イメージのバージョンによって、ボタンの色が異ることがあります。}を \click してください。
 
@@ -159,7 +163,6 @@ Mac OSの場合メニューバーも出ますが、\pharo では専ら、コン�
 \index{黄ボタン}
 \index{青ボタン}
 マウスボタンが違ったり、修飾キー(\emph{control}キー、\emph{ALT}キー、\emph{meta}キー、\etc)を押しながらマウスを使うような状況を統一するため、次の用語を使います:
-
 \begin{description}
 \item [\click:] 一番使われるマウスボタンで、普通は、修飾キーを使わずに1ボタンマウスを \click するのと同じです; 背景部分を \click して 「ワールド」メニュー(\figref{threeButtons:click})を表示してみましょう。
 \item [\actclick:] 次によく使われるボタンです; これはコンテキストメニューを表示するボタンです。コンテキストメニューは、マウスが指している場所によって異る、アクションの一覧を表示します; \figref{threeButtons:actclick}を見てください。マルチボタンのマウスを持っていない場合、普通は、\emph{control} 修飾キーを使って \actclick をするように設定します。
@@ -187,7 +190,7 @@ Mac OSの場合メニューバーも出ますが、\pharo では専ら、コン�
 %\dothis{Now you should be able to \metaclick on the workspace. (See \figref{threeButtons:metaclick}.)
 %Grab the blue \raisebox{-0.4ex}{\includegraphics[width=1em]{morphicRotate}} handle near the bottom left corner and drag it to rotate the workspace.}
 
-右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、ボタンとして機能するスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
+右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、クリックできるスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
 % If you don't have a clickable scroll wheel, then you can get the Morphic halo by holding down the \ct{alt} or \ct{option} key while \click{ing}. 
 % \ab{This doesn't work any more.  This sentence either repeats or contradicts the meta-click item above; neither is a good idea.}
 あなたが1ボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、\actclick か \metaclick をシミュレートすることもできます。それでも、これから \pharo を頻繁に使おうと言うのなら、最低でも二つのボタンの付いたマウスに投資することを、お勧めします。
@@ -221,9 +224,9 @@ TODO
 次の章では、これらのツールのほとんどを、見ることになります。
 
 %=================================================================
-\section{メッセージ送信}
+\section{メッセージを送る}
 
-\dothis{workspaceを使って、以下のテキストを入力してみてください:}
+\dothis{ワークスペースを開けましょう。そして以下のテキストを入力しましょう:}
 
 \begin{code}{}
 BouncingAtomsMorph new openInWorld
@@ -249,7 +252,7 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 あなたではなくオブジェクトが、メッセージに反応するための適切なメソッドを選びます。
 
 %=================================================================
-\section{終了と再起動、保存について}
+\section{保存、終了と再起動について}
 
 \dothis{弾む原子のウィンドウを \click し、好きな所へウィンドウをドラッグしましょう。デモウィンドウは、もはや「意のまま」です。もう一度 \click して、適当な場所に置きましょう。}
 
@@ -273,7 +276,7 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 
 \dothis{今作った「myPharo.image」ファイルを使って \pharo を起動しましょう。}
 
-先ほど、\pharo を終了したときのままに成っているはずです。\bam も同じところにあり、アトムは弾み続けているでしょう？
+先ほど \pharo を終了した時とそっくりそのままの状態に戻ったことに気付くはずです。\bam も同じところにあり、原子は弾み続けているでしょう。
 
 \pharo を起動すると、\pharo \ind{バーチャルマシン}は、指定された image ファイルを読み込みます。このファイルには、たくさんのオブジェクトのスナップショットが入っています。これらのオブジェクトには、既に書かれた大量のコードや、たくさんのプログラミングツール(これらはすべて、オブジェクトです)が含まれます。\pharo を使っていると、これらのオブジェクトへメッセージ送ったり、新しいオブジェクトを作ったりすることになります。また、いくつかのオブジェクトは命を終え、オブジェクトに割り当てられていたメモリは回収(\ie ガベージコレクション)されます。
 
@@ -285,7 +288,8 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 しかし、\emph{.changes}ファイルは、エラーから回復したり、保存しそこなった変更を再現するのに重宝します。
 これについては、後ほど!
 
-このやり方は 1970年代の \st-80 から変わりません。
+あなたが使ってきたイメージは、1970年代後半に作られた、オリジナルの \st-80 のイメージの子孫です。
+このイメージの中には、何10年と生き続けているオブジェクトもあります。
 
 ソフトウェアプロジェクトを保存・管理する方法として、イメージは基本的なメカニズムであると考えるかも知れませんが、それは違います。
 すぐ後で見るように、コードを管理し、ソフトウェアをチームで共有するには、Monticelloなどの、もっと良いツールがあります。
@@ -305,7 +309,7 @@ Smalltalker\footnote{訳注: \st を使ってプログラミングする人た�
 \dothis{トランスクリプトとワークスペースの位置やサイズを変えて、ワークスペースをトランスクリプトにオーバーラップさせましょう。}
 ウィンドウをリサイズするには、ウィンドウの角をドラッグするか、\metaclick して ハローを出し、黄色の(右下の)ハンドルをドラッグします。
 
-常に、枠が強調されているウィンドウだけがアクティブになります。
+常に、1個のウィンドウだけがアクティブです; そのウィンドウは前面にあって、枠が強調されています。
 % The mouse cursor must be in the window in which you wish to type.
 
 トランスクリプトは、システムメッセージのログを取るのにしばしば使われるオブジェクトです。
@@ -335,7 +339,7 @@ Transcript show: 'hello world'; cr.
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=\textwidth]{HelloWorld}}
-\caption{workspace がアクティブとなった状態の transcript と workspace。\figlabel{helloworld}}
+\caption{オーバーラップしたウィンドウ。ワークスペースがアクティブ。\figlabel{helloworld}}
 \end{figure}
 
 %=================================================================
@@ -368,7 +372,7 @@ Transcript show: 'hello world'; cr.
 3 + 4 --> 7
 \end{code}
 \noindent
-これからは、\menu{print it} を使って結果の表示が行われたときには、\ct{-->} の表記をします。
+この本の習慣として、特定の \pharo の式を\menu{print it}したらどうなるかを示すのに、\ct{-->}の表記を用います。
 
 \dothis{選択されている「\ct{7}」を削除し(\pharo は既に「\ct{7}」を選択しているはずです。だから、delete キーを押すだけです)、\ct{3+4}をもう一度選択してから、今度は \menu{inspect it}(\short{i})しましょう。}
 \noindent
@@ -596,7 +600,6 @@ testShout
 \ct{shout}というメソッドはまだ無いので、ブラウザは、これが本当にあなたが意図した名前であるか確認するよう求めます\,---\,そして、他の可能性のある名前についても提案してきます(\figref{testShoutConfirm})。
 タイプミスなどの時にはこの機能は非常に助かりますが、今回は\emph{本当に}\ct{shout}を作成したいので、というのは、これが今から作ろうとするメソッドなので、\figref{testShoutConfirm}のように、一番上の項目を選択しなければなりません。
 
-タイプミスなどの時にはこの機能は非常に助かりますが、今回は本当に作成したい状況ですので、\figref{testShoutConfirm} のように一番上の項目を選択します。
 
 %\begin{figure}[htb]
 %\begin{minipage}[b]{0.48\textwidth}
