@@ -281,21 +281,16 @@ Hyena count --> 1
 
 インスタンス変数がインスタンスごとにプライベートなのと同様に、クラスインスタンス変数はクラスごとにプライベートだということにも注意してください。クラスとそのインスタンスは別々のオブジェクトなので、以下のことが言えます。
 
-%ここまで
+\important{クラスはそのインスタンスのインスタンス変数にアクセスできない。}
+\important{クラスのインスタンスは、そのクラスのクラスインスタンス変数にアクセスできない。}
+このことから、インスタンスを初期化するメソッドは常に\subind{ブラウザ}{インスタンス側}で定義しなければなりません --- \subind{ブラウザ}{クラス側}からはインスタンス変数にアクセスできないので、初期化できないのです。クラスができることは、新しく生成されたインスタンスに、\ind{初期化}用のメッセージを(時にはアクセサも使ったりして)送ることです。
 
-\important{クラスはそのインスタンスのインスタンス変数にアクセスすることはできない。}
-\important{クラスのインスタンスは、そのクラスのクラスインスタンス変数にアクセスすることはできない。}
-このことから、インスタンスを初期化するメソッドは常に\subind{ブラウザ}{インスタンス側}で定義しなければなりません --- \subind{ブラウザ}{クラス側}からはインスタンス変数にアクセスできないので、初期化できません！
-クラスができることは、新しく生成されたインスタンスに、\ind{初期化}メッセージを送信することと、可能ならばアクセサを使うことです。
+同様にインスタンスがクラスインスタンス変数にアクセスするには、クラスにアクセサメッセージを送り間接的に行うしかありません。
 
-同じようにインスタンスからクラスインスタンス変数にアクセスするには、クラスにアクセサメッセージを送ることによって間接的にアクセスするしかありません。
-
-\ind{Java}にはクラスインスタンス変数に相当するものはありません。
-Javaと\ind{C++}の静的変数は、\st ではどちらかというと\secref{classVars}で説明するクラス変数に似ています：すべてのサブクラスやインスタンスは同一の静的変数を共有します。
+\ind{Java}にはクラスインスタンス変数に相当するものはありません。Javaと\ind{C++}の静的変数は、\st ではどちらかというと\secref{classVars}で説明するクラス変数に似ています。すべてのサブクラスとインスタンスが同一の静的変数を共有するというものだからです。
 
 \paragraph{例題: シングルトンを定義する。}
-\ind{シングルトンパターン}~\cite{Alpe98a}はクラスインスタンス変数とクラスメソッドを使う典型例です。
-\ct{WebServer}クラスを実装してみましょう。シングルトンパターンを使って、\ct{WebServer}クラスには1つしかインスタンスがないことを保証します。
+\ind{シングルトンパターン}~\cite{Alpe98a}はクラスインスタンス変数とクラスメソッドを使う典型例です。\ct{WebServer}クラスを実装してみましょう。シングルトンパターンを使い、\ct{WebServer}クラスには1つしかインスタンスができないようにします。
 
 ブラウザの\button{instance}ボタンをクリックして、\clsind{WebServer}クラスを以下のように定義します。(\clsref{singleton})
 
@@ -304,25 +299,19 @@ Object subclass: #WebServer
 	instanceVariableNames: 'sessions' 	
 	classVariableNames: '' 	
 	poolDictionaries: '' 	
-
 	category: 'Web'
 \end{classdef}
 
-そして、\button{class}ボタンをクリックして、\subind{ブラウザ}{クラス側}でインスタンス変数\ct{uniqueInstance}を追加します。
+そして、\button{class}ボタンをクリックして、\subind{ブラウザ}{クラス側}でクラスインスタンス変数\ct{uniqueInstance}を追加します。
 
 \begin{classdef}[webserver]{シングルトンクラスのクラス側}
 WebServer class 	
 	instanceVariableNames: 'uniqueInstance'
 \end{classdef}
 
-この結果、\ct{WebServer}クラスにはもう1つのインスタンス変数が追加されます。
-それまでは、\ct{superclass}や\ct{methodDict}といった変数を継承していました。
+この結果、\ct{WebServer}クラスは、新たなインスタンス変数を追加で持つことになります。\ct{superclass}や\ct{methodDict}といった変数もスーパークラスから継承しているからです。
 
-さて、これで\subind{クラス}{メソッド}\ct{luniqueInstance}を定義することができます。\mthref{uniqueInstance}に示します。
-このメソッドはまず、\ct{uniqueInstance}が初期化されているかどうかをチェックします。
-もしまだならば、インスタンスを生成して、クラスインスタンス変数\ct{uniqueInstance}に代入します。
-最後に、\ct{uniqueInstance}の値が返されます。
-\ct{uniqueInstance}はクラスインスタンス変数なので、このメソッドは直接アクセスすることができます。
+さて、これで\subind{クラス}{メソッド}\ct{luniqueInstance}を定義できます。\mthref{uniqueInstance}を見てください。このメソッドではまず、\ct{uniqueInstance}が初期化されているかをチェックします。初期化されていない場合は、インスタンスを生成し、クラスインスタンス変数\ct{uniqueInstance}に代入します。最後に、\ct{uniqueInstance}の値を返しています。\ct{uniqueInstance}はクラスインスタンス変数なので、このクラスメソッド内では直接アクセスすることができます。
     
 \begin{method}[uniqueInstance]{uniqueInstance (クラス側)}
 WebServer class>>>uniqueInstance
@@ -330,25 +319,19 @@ WebServer class>>>uniqueInstance
      ^ uniqueInstance
 \end{method}
 
-\ct{Webserver uniqueInstance}が最初に実行される時には、\ct{WebServer}クラスのインスタンスが生成され、変数\ct{uniqueInstance}に代入されます。
-次回の実行では、新しいインスタンスを生成することなしに、前回生成されたインスタンスが返されます。
+\ct{Webserver uniqueInstance}が最初に実行される時には、\ct{WebServer}クラスのインスタンスが生成され、変数\ct{uniqueInstance}に代入されます。以後は、新しいインスタンスを生成することなしに、前回生成されたインスタンスが返されます。
 
-\mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。
-何が違うのでしょうか？
+\mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。何が違うのでしょうか？
 \ct{uniqueInstance}メソッドは\ct{WebServer class}に定義されているので、同じことだと思うかもしれません。
-\ct{WebServer}のサブクラスが作られるまでは本当に同じなのですが、\ct{ReliableWebServer}が\lct{WebServer}のサブクラスで、\ct{uniqueInstance}メソッドを継承していたりしたらどうでしょうか。
-\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}であることを期待するでしょう。
-\self を使うことで、そうなることが保証されます。\self はメッセージを受けたクラスなので。
-
-\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値を持ちます。
+\ct{WebServer}のサブクラスが作られるまでは確かに同じなのですが、\ct{ReliableWebServer}が\lct{WebServer}のサブクラスで、\ct{uniqueInstance}メソッドを継承していたらどうなるでしょうか。普通は\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}のインスタンスとなって欲しいはずです。こうしたときに、\self を使うことで、そのようにすることができます。\self はメッセージを受けとるクラス自身だからです。\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値になります。
 
 %=========================================================
 \section{すべてのクラスはスーパークラスを持っている}
 
 %\ruleref{inheritance}
 
-\st では、それぞれのクラスは単一の\emphind{スーパークラス}から振舞いと構造の記述を継承します。
-つまり\st は単一\ind{継承}を持っています。
+\st では、各クラスは単一の\emphind{スーパークラス}から、振舞いと構造の記述を継承します。
+つまり\st は単一\ind{継承}です。
 
 \needlines{2}
 \begin{code}{@TEST}
@@ -359,6 +342,8 @@ Magnitude superclass    --> Object
 Object superclass           --> ProtoObject
 ProtoObject superclass  --> nil
 \end{code}
+
+%ここまで
 
 伝統的には、\st の継承階層のルートは\clsind{Object}クラスです。(なぜなら、すべてのものはオブジェクトだからです。)
 \pharo では、実際にはルートは\clsind{ProtoObject}と呼ばれるクラスです。しかし、通常はこのクラスに注意する必要はありません。
