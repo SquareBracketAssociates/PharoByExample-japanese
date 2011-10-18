@@ -377,8 +377,6 @@ ProtoObject superclass  --> nil
 \subsubsection{例: \ct{Magnitude}クラス}
 \clsind{Magnitude}は互いに比較するクラスを定義するのに役立つ抽象クラスです。\ct{Magnitude}のサブクラスは\ct{<}および\ct{=}、\ct{hash}の3つのメソッドを定義しなければなりません。\ct{Magnitude}では、それらのメッセージを使って\ct{>}および\ct{>=}、\ct{<=}、\ct{max:}、\ct{min:}、\ct{between:and:}等のメソッドを定義しています。こうしたメソッドはサブクラスで継承されて使われます。抽象メソッド\mthind{Magnitude}{<}は、\mthref{MagnitudeLessThan}のようになっています。
 
-%ここまで
-
 \begin{method}[MagnitudeLessThan]{\ct{Magnitude>>><}}
 Magnitude>>>< aMagnitude 
 	"レシーバが引数より小さいかどうかを答える。"
@@ -395,7 +393,7 @@ Magnitude>>>< aMagnitude
 \end{method}
 他の比較メソッドも同様です。
 
-\clsind{Character}は\ct{Magnitude}のサブクラスで、\ct{<}メソッドの\mthind{Object}{subclassResponsibility}をオーバーライドして独自のメソッドを定義しています(\mthref{CharacterLessThan}参照)。\ct{Character}は\ct{=}メソッドおよび\ct{hash}メソッドも定義していて、\ct{>=}および\ct{<=}、\ct{~=}等のメソッドを\ct{Magnitude}から継承しています。
+\clsind{Character}は\ct{Magnitude}のサブクラスで、\mthind{Object}{subclassResponsibility}となっていた\ct{<}メソッドをオーバーライドして、メソッドを再定義しています(\mthref{CharacterLessThan}参照)。\ct{Character}は\ct{=}メソッドおよび\ct{hash}メソッドも定義していて、\ct{>=}および\ct{<=}、\ct{~=}等のメソッドを\ct{Magnitude}から継承しています。
 
 \begin{method}[CharacterLessThan]{\ct{Character>>><}}
 Character>>>< aCharacter 
@@ -405,10 +403,9 @@ Character>>>< aCharacter
 
 %---------------------------------------------------------
 \subsection{トレイト}
-\emphind{トレイト}は、継承なしにクラスの振る舞いに取り込むことができるメソッドの集合です。
-これによって、単一継承の容易さを保ちながら、別々のクラスに有用なメソッドを共通化することができます。
+\emphind{トレイト}は、継承なしにクラスの振る舞いに取り込むことができるメソッドの集合です。これによって、単一継承の容易さを保ちながら、複数のクラスにとって有用なメソッドを共通化することができます。
 
-新しいトレイトを定義する方法は、単にサブクラス定義のテンプレートの代わりに、\clsind{Trait}クラスへのメッセージに置き換えるだけです。
+新しいトレイトを定義する方法は、単にサブクラス定義のテンプレートを、\clsind{Trait}用のメッセージに置き換えるだけです。
 
 \needspace{5\baselineskip}
 \begin{classdef}[tauthor]{新しいトレイトを定義する}
@@ -418,13 +415,9 @@ Trait named: #TAuthor
 \end{classdef}
 
 \noindent
-ここでは、\scat{PBE-LightsOut}カテゴリに\ct{TAuthor}トレイトを定義しています。
-このトレイトは既存のトレイトは\emph{使って}いません。
-一般には、\ct{uses:}キーワードの引数の一部に、他のトレイトの\emph{トレイト合成式}を使うことができます。
-ここでは単に空の配列を与えています。
+ここでは、\scat{PBE-LightsOut}カテゴリに\ct{TAuthor}トレイトを定義しています。このトレイトでは既存のトレイトを\emph{使って}いません。一般には、\ct{uses:}の引数として、他のトレイトの\emph{トレイト合成式}を使うことができます。ここでは単に空の配列にしています。
 
-トレイトはメソッドは持つことができますが、インスタンス変数は持ちません。
-以下のようにすると、色々なクラスに、階層のどこに位置するかに関係なく\ct{author}メソッドを追加できるようになります。
+トレイトはメソッドを持つことができますが、インスタンス変数は持ちません。以下のようにすると、クラス階層のどこに位置するかに関係なく\ct{author}メソッドを色々なクラスに追加できるようになります。
 
 \begin{method}[author]{authorメソッド}
 TAuthor>>>author
@@ -433,27 +426,24 @@ TAuthor>>>author
 \end{method}
 
 \noindent
-さあ、これで既にスーパークラスを持っているクラスに対してこのトレイトを使うことができます。例えば、\charef{firstApp}で定義した\ct{LOGame}クラスです。
-単に、\ct{LOGame}クラスを生成するテンプレートを書き変えて、\ct{uses:}キーワードの引数で\ct{TAuthor}を使うように指定するだけです。
+さあ、これで既にスーパークラスを持っているクラスに対してこのトレイトを使うことができます。例えば、\charef{firstApp}で定義した\ct{LOGame}クラスです。単に、\ct{LOGame}クラスを定義するテンプレートを書き変え、\ct{uses:}の引数で\ct{TAuthor}を使うように指定するだけです。
 
 \begin{classdef}[sbegamewithtrait]{トレイトを使う}
 BorderedMorph subclass: #LOGame
 	uses: TAuthor
-	instanceVariableNames: -'cells'ss
-	classVariableNames: ''e
+	instanceVariableNames: 'cells'
+	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'PBE-LightsOut'
 \end{classdef}
 
-これで、\ct{LOGame}のインスタンスを生成したら、そのインスタンスは期待通り\ct{author}メッセージに答えてくれるでしょう。
+\ct{LOGame}のインスタンスを生成すると、期待通り\ct{author}メッセージに答えてくれるようになります。
 
 \begin{code}{}
 LOGame new author --> 'on'
 \end{code}
 
-トレイト合成式では複数のトレイトを\ct{+}演算子でつなげることができます。
-もし不整合(例えば、複数のトレイトが同じ名前のメソッドを定義したら)があれば、\ct{-}演算子でそれらのメソッドを明示的に除外したり、あるいは、今定義しているクラスやトレイトで再定義することで、不整合を解消することができます。
-\ct{@}演算子でメソッドに\emph{エイリアス}として新しい名前を与えることも可能です。
+トレイト合成式では複数のトレイトを\ct{+}演算子でつなげることができます。もし不整合(複数のトレイトで同じ名前のメソッドを定義しているなど)があっても、\ct{-}演算子でそうしたメソッドを明示的に除外したり、今定義しているクラスやトレイト側で再定義したりすることで、解消することができます。\ct{@}演算子でメソッドに\emph{エイリアス}として別名をつけることも可能です。
 
 トレイトはシステムの中核部分で使われています。
 \mbox{\clsind{Behavior}}クラスが良い例です。
@@ -468,8 +458,11 @@ Object subclass: #Behavior
 	category: 'Kernel-Classes'
 \end{classdef}
 \noindent
-ここでは、\ct{TPureBehavior}で定義されている\ct{addTraitSelector:withMethod:}メソッドが\ct{basicAddTraitSelector:withMethod:}にエイリアスされています。
-現在、ブラウザにトレイトへのサポートが追加されているところです。
+ここでは、\ct{TPureBehavior}の\ct{addTraitSelector:withMethod:}メソッドを\ct{basicAddTraitSelector:withMethod:}として別名をつけています。
+現在、トレイトをサポートする機能がブラウザに追加されているところです。
+
+%PBE.image(1.0)のソースを見ても上記のようにはなっていない
+%ここまで
 
 %=========================================================
 \section{あらゆるコトは、メッセージ送信で起こる}
