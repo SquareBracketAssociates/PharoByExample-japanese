@@ -1,11 +1,13 @@
 "行番号","原表現または1訳","問題点、疑問点","訳","対処(*済)","備考"
 62,"\begin{figure}","図... と展開されるべきである",,"common.texの修正",
-71,"SqueakV39.sources","Pharo-1.[12].1 でも、PBE-1.0 でも、PharoV10.sources である。annotatedDownload-flat.png の内容が不適切である",,"訳注、図の差し替え",
+71,"SqueakV39.sources","Pharo-1.[12].1 でも PBE-1.0 でも、PharoV10.sources である。annotatedDownload-flat.png の内容が不適切である",,"訳注、図の差し替え",
 78,"image provided on the \pharo by Example web page","このイメージを使うことは「強く」推奨されるべきな上、このイメージの使い方は、OneClick のように自明ではない。どこかに解説が必要だと思う",,,
 89,"start from a fresh image and reload your code","reload your code の意味が不明瞭?",,"*(...)を補う",
 101,"{...{startup}}","この絵は PBE-1.0/PBE.image のまっさらなイメージと違う",,"図の差し替え",
 109,"You might notice a menu bar","たぶん、Mac OS 固有",,"訳注",
 115,"(so that...)","訳されていなかった",,"*訳さない","意図的なものと思われる"
+143,"\actclick","英語のまま",,"common.texの修正",
+143,"\metaclick","英語のまま",,"common.texの修正",
 193,"We recommend...available.","どうやってコンフィグするのか? Preference Browser をいじってみたがよくわからない",,,
 202,"...duplicate...","訳されていなかった",,"識者に聞く",
 242,"top left of the \pharo image.","image とは画面のことか仮想イメージのことか?","\pharo の画面左上に","*",
