@@ -80,7 +80,7 @@
 \seclabel{sbeImage}
 
 「入門」で扱う題材のほとんどが、\pharo のどのバージョンでも動作するので、もし \pharo を既にインストールしているのなら、それを使っても構いません。
-しかし、外見や動作のちょっとした違いがあっても、驚かないで下さい。
+しかし、外見や振る舞いのちょっとした違いがあっても、驚かないで下さい。
 % On the other hand, if you are about to download \pharo for the first time, you may as well grab the \emph{\pharo by Example} image.
 
 \pharo で何か作業している時、イメージファイルとチェンジファイルは常に内容が更新されるため、確実に書き込み可能にしておいてください。
@@ -155,7 +155,7 @@ OS や作業スタイルに合わせて、一番良い方法を選んでくだ�
 %\figlabel{colouredMouse}
 %\end{wrapfigure}
 
-\st はもともと、\ind{3 ボタンマウス}が付いたコンピュータのために設計されています。マウスのボタンが足りないときは、修飾キーを押しながらマウスを \click してください。2 ボタンマウスでも、十分に \pharo を使うことができますが、もし 1 ボタンマウスしか持っていなら、クリックできるスクロールホイールが付いた 2 ボタンマウスを買うことを、真剣に考えましょう: これで、\pharo を、よりいっそう楽しく使うことができます。
+\st はもともと、\ind{3 ボタンマウス}付きのコンピュータのために設計されています。マウスのボタンが足りないときは、修飾キーを押しながらマウスを \click してください。2 ボタンマウスでも、十分に \pharo を使うことができますが、もし 1 ボタンマウスしか持っていなら、クリックできるスクロールホイールが付いた 2 ボタンマウスを買うことを、真剣に考えましょう: これで \pharo を、よりいっそう楽しく使えるようになります。
 
 色々なコンピュータやマウス、キーボード、個人設定があるため、\pharo では「マウスの左ボタンをクリック」という表現は避けています。
 もともと \st は、異なるマウスボタンを、色で表わしていました。\footnote{マウスボタンの色は、\emph{赤}、\emph{黄}そして\emph{青}です。この本の著者は、どの色がどのボタンを指していたのか、さっぱり思い出せません。}
@@ -193,7 +193,7 @@ OS や作業スタイルに合わせて、一番良い方法を選んでくだ�
 右利きの人なら、\click は左ボタンに、\actclick は右ボタンに、クリックできるスクロールホイールがあるマウスなら、\metaclick をそれに設定することをお勧めします。
 % If you don't have a clickable scroll wheel, then you can get the Morphic halo by holding down the \ct{alt} or \ct{option} key while \click{ing}. 
 % \ab{This doesn't work any more.  This sentence either repeats or contradicts the meta-click item above; neither is a good idea.}
-あなたが 1 ボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、\actclick か \metaclick をシミュレートすることもできます。それでも、これから \pharo を頻繁に使おうと言うのなら、最低でも二つのボタンの付いたマウスに投資することを、お勧めします。
+1 ボタンのマウスで Macintosh を使っているのなら、\clover{} を押しながらマウスを \click することで、\actclick か \metaclick をシミュレートすることもできます。それでも、これから \pharo を頻繁に使おうと言うのなら、最低でも二つのボタンの付いたマウスに投資することを、お勧めします。
 
 オペレーティングシステムやマウスドライバの設定を変えることで、マウスの動作を望み通りにすることができます。
 %\ab{How can I get meta-click without a three-finger salute?  Is this a secret?}
@@ -246,7 +246,7 @@ BouncingAtomsMorph new openInWorld
 \ct{new} メッセージを受け取った時にすることを決めたのは、\bam クラスです。つまり \bam クラスは、\ct{new} メッセージを扱う\emph{メソッド}を探索して、適切に反応しました。
 同様に、\bam インスタンスも、\ct{openInWorld} に反応するメソッドを探索して、適切なアクションを取りました。
 
-スモールトーカーたちとしばらく話せば、あなたはすぐに、彼らが、「手続きをコールする」または、「メソッドを呼び出す」などの表現を使わず、代わりに、「メッセージを送る」と言うことに気付くでしょう。
+スモールトーカーたちとしばらく話せば、すぐに、彼らが「手続きをコールする」または「メソッドを呼び出す」などの表現を使わず、代わりに「メッセージを送る」と言うことに気付くでしょう。
 これは、オブジェクトは自分自身のアクションに責任を持つ、という思想を反映しています。
 あなたは決して、オブジェクトに、何々をしろと\emph{命令する}ことはありません\,---\,代わりにメッセージを送って、何かしてほしい、と礼儀正しく\emph{頼み}ます。
 あなたではなくオブジェクトが、メッセージに反応するための適切なメソッドを選びます。
@@ -268,7 +268,7 @@ BouncingAtomsMorph new openInWorld
 \end{minipage}
 \end{figure}
 
-\dothis{\menu{World\go{}Save as \ldots} を選択して、「myPharo」と入力し、\button{OK} ボタンを \click しましょう。
+\dothis{\menu{World\go{}Save as \ldots} を選択して「myPharo」と入力し、\button{OK} ボタンを \click しましょう。
 そして、\menu{World\go{}Save and quit} を選択しましょう。}
 
 もともとのイメージファイルとチェンジファイルがあった場所に、「myPharo.\ind{image}」と「myPharo.\ind{changes}」というファイルができているはずです。これらのファイルには、\menu{Save and quit} する直前の \pharo 仮想イメージの、動作中の状態が入っています。
@@ -295,9 +295,9 @@ BouncingAtomsMorph new openInWorld
 すぐ後で見るように、コードを管理し、ソフトウェアをチームで共有するには、もっと良いツールがあります。
 仮想イメージは非常に便利ですが、Monticello などのツールを使えば、バージョン管理やコードの共有がもっとうまくできるので、仮想イメージに執着せず、これを無造作に作ったり捨てたりすることに慣れた方が良いでしょう。
 
-\dothis{マウス(と必要ならば修飾キーを使って) \bam を \metaclick しましょう。\footnote{うまくいかない場合は、プリファレンス・ブラウザの \ct{halosEnabled} オプションをチェックしてみてください。}}
+\dothis{マウス(と必要ならば修飾キー)を使って \bam を \metaclick しましょう。\footnote{うまくいかない場合は、プリファレンス・ブラウザの \ct{halosEnabled} オプションをチェックしてみてください。}}
 色とりどりの円が表示されたはずです。これらをまとめて、\bam の\subind{Morphic}{ハロー}と呼びます。
-一つ一つの円は、\emph{ハンドル}と呼ばれます。
+一つ一つの円は、\emph{ハンドル}と呼びます。
 十字のピンクのハンドルをクリックしましょう; \bam は消えるはずです。
 
 %=================================================================
@@ -313,7 +313,7 @@ BouncingAtomsMorph new openInWorld
 % The mouse cursor must be in the window in which you wish to type.
 
 トランスクリプトは、システムメッセージのログを取るのにしばしば使われるオブジェクトです。
-トランスクリプトは、「システムコンソール」の一種です。
+トランスクリプトは「システムコンソール」の一種です。
 %Note that the transcript is terribly slow, so if you keep it open and write to it certain operations can become 10 times slower.
 %In addition the transcript is not thread-safe so you may experience strange problems if multiple objects write concurrently to the transcript.
 % ON: I think the transcript has been made thread-safe now, right?
@@ -327,7 +327,7 @@ BouncingAtomsMorph new openInWorld
 Transcript show: 'hello world'; cr.
 \end{code}
 
-ワークスペースの中で、今入力したテキストの色々な箇所を、ダブル\click してみましょう。
+ワークスペースの中で、今入力したテキストの色々な箇所をダブル\click してみましょう。
 単語の上、文字列の終り、式全体の終り、という具合に \click してみて、単語全体、文字列全体、テキスト全体が選択される様子を確認しましょう。
 
 \dothis{入力したテキスト全体を選択して、\actclick しましょう。
@@ -351,7 +351,7 @@ Transcript show: 'hello world'; cr.
 \dothis{もう一度ワークスペースの式を評価してみましょう。ただし、キーボードショートカットを使って: \short{d}。}
 \index{キーボードショートカット!do it}
 
-\menu{do it} に加えて、\menu{print it}、\menu{inspect it}、\menu{explore it} にも気付いたでしょう。これらについて手短に説明します。
+\menu{do it} の他に、\menu{print it}、\menu{inspect it}、\menu{explore it} にも気付いたでしょう。これらについて手短に説明します。
 
 \dothis{\ct{3 + 4} とワークスペースの中に入力しましょう。そして、キーボードショートカットを使って、\menu{do it} しましょう。}
 
@@ -410,8 +410,8 @@ Transcript show: 'hello world'; cr.
 %=================================================================
 \section{クラスブラウザ}
 
-クラス\ind{ブラウザ}\footnote{紛らわしいことに、「システムブラウザ」や「コードブラウザ」など呼ばれることがあります。\pharo では \ind{OmniBrowser} というブラウザの実装が使われています。OmniBrowser は、「OB」または「パッケージブラウザ」としても知られています。
-この本ではシンプルに「ブラウザ」という用語を用いますが、曖昧さが問題になるケースでは、「クラスブラウザ」を用います。}は、プログラミングにおいて重要なツールの一つです。
+クラス\ind{ブラウザ}\footnote{紛らわしいことに「システムブラウザ」や「コードブラウザ」など呼ばれることがあります。\pharo では \ind{OmniBrowser} というブラウザの実装が使われています。OmniBrowser は「OB」または「パッケージブラウザ」としても知られています。
+この本では単に「ブラウザ」という用語を用いますが、曖昧さが問題になるケースでは「クラスブラウザ」を用います。}は、プログラミングにおいて重要なツールの一つです。
 後で見るように、\pharo にはいくつかの興味深いブラウザがありますが、どの仮想イメージを使う場合でも、クラスブラウザは、最も基本的なブラウザです。
 \seeindex{クラスブラウザ}{ブラウザ}
 
@@ -438,7 +438,7 @@ Transcript show: 'hello world'; cr.
 
 \dothis{\clsind{Object} クラスを選択しましょう。}
 今度は、残りの二つのペインにテキストが表示されます。
-3 番目のペインは選択されたクラスの\emph{プロトコル}が表示されます。
+3 番目のペインには、選択されたクラスの\emph{プロトコル}が表示されます。
 プロトコルは、関連するメソッドを、扱いやすいようにグループ分けします。
 \ind{プロトコル}を何も選択していなければ、すべてのメソッドが 4 番目のペインに表示されます。
 
@@ -473,7 +473,7 @@ Boolean クラスのブラウザが開きます(\figref{browseBoolean})。
 \figlabel{browseBoolean}}
 \end{figure}
 
-\ct{Boolean} クラスが選択されていて、プロトコルもメソッドが選択されていないときに、メソッドのソースコードの代わりに、\emph{クラス定義}が表示されることに注意してください(\figref{browseBoolean})。
+\ct{Boolean} クラスが選択されていて、プロトコルもメソッドも選択されていないときは、メソッドのソースコードの代わりに、\emph{クラス定義}が表示されることに注意してください(\figref{browseBoolean})。
 このクラス定義自体、通常の \st のメッセージです。\st では、クラスは、親クラスにサブクラスの作成を依頼することで定義されます。
 ここでは \ct{Object} クラスが、\ct{Boolean} という名前のサブクラスを作成するよう依頼されているのが分かります。\ct{Boolean} クラスは、インスタンス変数、クラス変数、「プール辞書」が全部空で、\scatind{Kernel-Objects} カテゴリ内に収められます。
 % The lower pane shows the \emph{class comment} --- a piece of plain text describing the class.
@@ -509,7 +509,7 @@ Boolean クラスのブラウザが開きます(\figref{browseBoolean})。
 \section{メソッドを見つける}
 \seclabel{quick:methodFinder}
 
-メソッド名または少なくともメソッド名の一部が、クラス名よりも簡単に推測できることもあるでしょう。例えばあなたは、現在の時間が知りたかったとして、それには、「now」というメソッドや、「now」を名前に含んだメソッドが使える、と期待するかも知れません。しかしどこにあるのでしょう?
+メソッド名または少なくともメソッド名の一部が、クラス名よりも簡単に推測できることもあるでしょう。例えばあなたは、現在の時間が知りたかったとして、それには「now」というメソッドや、「now」を名前に含んだメソッドが使える、と期待するかも知れません。しかしどこにあるのでしょう?
 そのような時は、\emphind{メソッド・ファインダ}が助けてくれます。
 \seeindex{ブラウザ!メソッドを見つける}{メソッド, 見つける}
 \index{メソッド!見つける}
@@ -517,7 +517,7 @@ Boolean クラスのブラウザが開きます(\figref{browseBoolean})。
 \dothis{\menu{World \go Tools ... \go Method finder} を選択しましょう。
 左上のペインに「now」を入力し、\menu{accept} しましょう(または、\textsc{return} キーを押しましょう)。}
 メソッド・ファインダは、「now」を含むすべてのメソッド名のリストを表示します。
-\ct{now} までスクロールするには、カーソルをリストに移動して、「\ct{n}」を入力します; このトリックは、すべてのスクロールするウィンドウで使えます。「now」を選択しましょう。すると右側のペインには、この名前のメソッドを定義しているクラスの一覧が表示されます(\figref{MethodFinder})。クラス名を選択すると、そのクラスのブラウザが開きます。
+\ct{now} までスクロールするには、カーソルをリストに移動して「\ct{n}」をタイプします; このトリックは、すべてのスクロールするウィンドウで使えます。「now」を選択しましょう。すると右側のペインには、この名前のメソッドを定義しているクラスの一覧が表示されます(\figref{MethodFinder})。クラス名を選択すると、そのクラスのブラウザが開きます。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=0.7\textwidth]{methodFinder-now}}
@@ -674,7 +674,7 @@ shout
 	^ self asUppercase, 'BANG'
 \end{method}
 
-カンマはこの場合、文字列連結演算子になります。つまりこのメソッドの本体は、\ct{shout} を受け取った任意の \ct{String} オブジェクトを大文字化して、末尾に感嘆符を連結します。
+カンマはこの場合、文字列連結演算子になります。つまりこのメソッドの本体は、\ct{shout} を受け取った任意の \ct{String} オブジェクトを大文字化して、末尾に感嘆符を付け足します。
 \pharo では、$\uparrow$ 以下の式が、メソッドの戻り値になります。ここでは戻り値は、大文字化され、感嘆符が連結された、\emph{新しい}文字列です。
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
@@ -699,14 +699,13 @@ shout
 
 %=================================================================
 \section{まとめ}
-この章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った主要なツールの使い方を学びました。\pharo の構文についても、少しだけ紹介しました。
-
+この章では、\pharo の環境を紹介し、ブラウザ、メソッド・ファインダ、テストランナーと言った主要なツールの使い方を学びました。\pharo の構文についても、全部ではありませんが、少しだけ学びました。
 \begin{itemize}
   \item 実行中の \pharo システムは、\emph{バーチャルマシン}、\emph{ソースファイル}、\emph{イメージファイル}と\emph{チェンジファイル}で構成されます。この中で、最後の二つだけが変化します; これらは、実行中のシステムのスナップショットを記録します。
   \item \pharo 仮想イメージをロードすると、以前とまったく同じ状態\,---\,実行中のオブジェクトもそのままに\,---\,仮想イメージを保存したときの状態が再現されます。
   \item \pharo は、3 ボタンマウスを使って \click、\actclick、\metaclick するように設計されています。3 ボタンマウスが無くても、キーボードの修飾キーを使えば、同じことができます。
   \item \pharo の背景部分を \click すれば、\emph{ワールドメニュー}が表示できます。ワールドメニューからは、様々なツールが起動できます。
-  \item \emph{ワークスペース}は、コードの断片を書いて評価するためのツールです。ワークスペースにはまた、任意のテキストを書いておくこともできます。
+  \item \emph{ワークスペース}は、コードの断片を書いて評価するためのツールです。ワークスペースにはまた、任意のテキストを書いておくことができます。
   \item コードを評価するのに、ワークスペースや他の任意のツールのテキストの上で、\ind{キーボードショートカット}を使うことができます。最も重要なのは、\menu{do it} (\short{d})、\menu{print it} (\short{p})、\menu{inspect it} (\short{i})、\menu{explore it} (\short{I})、そして \menu{browse it} (\short{b})です。
 %  \item \sqmap is a tool for loading useful packages from the Internet.
   \item \emph{ブラウザ}は、\pharo のコードをブラウズしたり新しくコードを開発したりするための、最も重要なツールです。
