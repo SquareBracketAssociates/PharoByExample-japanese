@@ -43,7 +43,7 @@
 
 \indmain{Morphic}は、\pharo のGUIに付けられた名前です。
 Morphicは\st で書かれており、さまざまなOSの間で完全な互換性があります。その結果、\pharo はUnix, MacOS, Windowsのいずれにおいても全く同じ見た目となっています。
-Morphicと他の多くのユーザー・インタフェース・ツールキットとの違いは、インタフェースを「構成すること」と「実行すること」との間に差がないということです。画面上の全てのグラフィック要素（graphical elements）は、いつでもユーザーがまとめたり分けたりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
+Morphicと他の多くのユーザー・インタフェース・ツールキットとの違いは、インタフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザーが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
 
 \ab{After the first printing, I took an editing pass, correcting some errors and grammatical infelicities.}
 
@@ -53,12 +53,12 @@ Morphicと他の多くのユーザー・インタフェース・ツールキッ�
 \section{Morphicの歴史}
 
 Morphicは、プログラミング言語\ind{Self}向けとして、John MaloneyとRandy Smithによって1993年頃から開発が始められました。
-Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self版の基本的な考え方は今でも\pharo のMorphicに受け継がれています。その基本的な考え方とは、\emph{directness}と\emph{liveness}です。
-Directnessとは、オブジェクトである画面上の図形を、マウスでクリックして直接調べたり変更したりできるということです。
-Livenessとは、GUIがいつでもユーザーに反応できることです。つまり、画面上の情報は、それが表している世界が変わるたびに自動的に更新されます。
-簡単な例を挙げれば、メニューから項目を取り外したものがボタンとして機能させられるのです。
+Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self版の基本的な考え方は今でも\pharo のMorphicに受け継がれています。その基本的な考え方とは、\emph{直接性}と\emph{生命感}です。
+直接性とは、画面上の図形がマウスでクリックして直接調べたり変更したりできるオブジェクトであるということです。
+生命感とは、ユーザーインターフェースがいつでもユーザーの操作に反応できることです。つまり、画面上の情報は、それが表している世界が変わるたびに自動的に更新されます。
+簡単な例を挙げれば、メニューから項目を取り外してボタンとして使うことができます。
 
-\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic Haloが現れます。\footnote{Preferencesブラウザーで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、適当なメニュー項目の上で更に\metaclick をすると、メニュー項目の上にHaloが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
+\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic ハローが現れます。\footnote{プリファレンス・ブラウザーで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、取り外したいメニュー項目の上で更に\metaclick をすると、メニュー項目の上にハローが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
 \index{Morphic!halo}
 \index{blue button}
 
@@ -68,7 +68,7 @@ Livenessとは、GUIがいつでもユーザーに反応できることです。
 		\figlabel{detachingMenu}}
 \end{figure}
 
-\pharo の起動後、画面上にある全てのオブジェクトは、\emph{モーフ}と呼ばれます。つまり、これらのオブジェクトは\ct{Morph}クラスのインスタンスです。
+\pharo の起動後、画面上にあるすべてのオブジェクトは、\emph{モーフ}と呼ばれます。つまり、これらのオブジェクトは\ct{Morph}クラスのインスタンスです。
 \mbox{\ct{Morph}}クラスは多くのメソッドを持つ大きなクラスであるため、少ないコードで面白い動作をするサブクラスを作れます。
 あらゆるオブジェクトを表すモーフを作れますが、どのくらい良い表現が得られるかはオブジェクトによります。
 
@@ -86,13 +86,13 @@ Livenessとは、GUIがいつでもユーザーに反応できることです。
 % ON: openViewerForArgument is gone in pharo!
 
 これは、\ct{'Morph'}という文字列を表すモーフを作り、「ワールド」上で開きます。（つまり、表示します）「ワールド」とは、\pharo の画面のことです。
-表示されているモーフは\metaclick で掴めます。
+これで\metaclick で操作できるグラフィック要素 — モーフ — が得られます。
 %The second line opens a ``viewer'' that shows you attributes of this Morph, such as its \ct{x} and \ct{y}  coordinates on the screen.  Clicking on one of the yellow exclamation marks sends a message to the Morph, which responds appropriately.
 
 もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
 class \ct{Object}クラスにある\mthind{Object}{asMorph}メソッドのデフォルトの実装では、単にStringMorphを作るだけです。
 例えば、\ct{Color tan asMorph}は、単に\clsind{Color} \ct{tan printString}の実行結果をラベルに持つStringMorphを返します。
-それでは、色のついた長方形を代わりに返すようにしましょう。
+それでは、これを変更して色のついた長方形を代わりに返すようにしましょう。
 
 \dothis{ブラウザーを開き\ct{Color}クラスに以下のメソッドを追加します。}
 \needlines{3}
@@ -110,7 +110,7 @@ Color>>>asMorph
 モーフはオブジェクトです。つまり、\st の他のオブジェクトと同様に操作できます。
 メッセージを送ることで属性を変えたり、新しいMorphのサブクラスを作ったりできます。
 どんなモーフも（たとえ画面に表示されていなくとも）位置と大きさを持っています。
-便宜上、全てのモーフは画面上の四角形の領域を占めていると考えます。不規則な形状の場合、その位置と大きさは、そのモーフを囲む最小の四角形の「箱」となります。この箱を、モーフのバウンディングボックス、あるいは単に「bounds」と言います。
+便宜上、すべてのモーフは画面上の四角形の領域を占めていると考えます。不規則な形状の場合であっても、その位置と大きさは、そのモーフを囲む最小の四角形の「箱」となります。この箱を、モーフのバウンディングボックス、あるいは単に「bounds」と言います。
 \mthind{Morph}{position}メソッドは、モーフの左上の座標（またはモーフのバウンディングボックスの左上の座標）を表す\ct{Point}オブジェクトを返します。
 この座標系の原点は画面の左上の端にあります。$y$座標は画面の\emph{下方向に}増えていき、$x$座標は右方向に増えていきます。
 \ct{extent}メソッドも\ct{Point}オブジェクトを返しますが、位置ではなくモーフの幅と高さからなる座標値を返します。
