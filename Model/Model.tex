@@ -571,7 +571,7 @@ Morph>>>openInWorld
 %---------------------------------------------------------
 \subsection{selfを返す} 
 
-\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})は返り値を示すものがないことに注目してください。
+\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})は戻り値を示すものがないことに注目してください。
 
 実際にはメソッドは\emph{常に}値を返します。もちろん、値というのはオブジェクトです。答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまった場合、それでもなおメソッドは値を返します。その場合、メソッドは、そのメッセージを受け取ったオブジェクトを返すのです。
 そのことを、``\self を返す''と言います。Smalltalkでは疑似変数\self はメッセージを受けたレシーバを指します。\ind{Java}の\ct{this}のようなものです。
@@ -592,38 +592,30 @@ Morph>>>openInWorld
 
 %ここまで
 
-なぜ上記のような場合には\ct{^ self}と明示的に書かないほうがいいのかと言うと、
-何か明示的に返す場合には、メッセージを送ったセンダーにとって何か意味があることだということをコードに書いていると言えます。
-\self を明示的に返すのであれば、センダーにその返り値を使ってほしい、と言う意味になるのです。
-上記のコードではそういう意図はないので、\self を返すということを明示しないほうがよいでしょう。
+なぜ上記で\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味があるものを返しているということを示すからです。\self を明示的に返す場合、センダがその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
 
-これは\st では日常的なイディオムで、ケント・ベックは``興味を惹くような返り値'' \cite{Beck97a} と呼んでいます。
+これは\st では日常的なイディオムで、ケント・ベックは``興味を惹くような戻り値(Interesting return value)'' \cite{Beck97a} と呼んでいます。
 \index{Beck, Kent}
 
-\important{センダーにその値を使ってほしい時にだけ、返り値を示すこと。}
+\important{センダにその値を使ってほしい時にだけ、戻り値を示すこと。}
 
 %---------------------------------------------------------
 \subsection{オーバーライドと拡張}
 
-\figref{openInWorldLookup}で示された\ct{EllipseMorph}クラスの階層では、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。
-実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青いモーフが出ます。楕円の場合にはデフォルトで黄色です。
+\figref{openInWorldLookup}の\ct{EllipseMorph}クラスの階層を見ると、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青いモーフが出ます。楕円の場合にはデフォルトで黄色です。
 \index{メソッド!オーバーライド}
 \index{メソッド!拡張}
 \seeindex{オーバーライド}{メソッド, オーバーライド}
 \seeindex{拡張}{メソッド, 拡張}
 
-これを、\ct{EllipseMorph}が\ct{Morph}から継承した\ct{defaultColor}メソッドを\emph{オーバーライド}する、と言います。
-継承したメソッドは、\ct{anEllipse}の視点からは見えなくなります。
+これを、\ct{EllipseMorph}が\ct{Morph}から継承した\ct{defaultColor}メソッドを\emph{オーバーライド}している、と言います。継承したメソッドは、\ct{anEllipse}からは見えなくなります。
 
-継承したメソッドをオーバーライドするのではなく、機能を追加して\emph{拡張}したいこともあります。つまり、サブクラスで定義する新しい機能\emph{に加えて}オーバーライドされたメソッドを実行したい、ということです。
-\st では、\super 送信すれば可能です。単一継承をサポートする多くのオブジェクト指向言語によく見られる方法です。
+継承したメソッドをオーバーライドするのではなく、機能を追加して\emph{拡張}したいこともあります。つまり、オーバーライドされるメソッドに、サブクラスで新たな機能を\emph{付け加えて}実行したいということです。\st では、\super に対するメッセージ送信でこれを実現しています。単一継承をサポートする多くのオブジェクト指向言語で典型的な方法です。
 
-\ct{initialize}メソッドは、この仕組みの一番重要な応用例です。
-あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。
-しかし、どうやって初期化するのかは、継承の連鎖の中でスーパークラスそれぞれの\ct{initialize}メソッドに既に記述されています。
-サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
+\ct{initialize}メソッドは、この仕組みの最も重要な例です。あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。しかし、どうやって初期化するかは、継承の連鎖の中で各スーパークラスの\ct{initialize}メソッドに既に記述されています。サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
 
-以上のことから、良いプラクティスでは、\ct{initialize}メソッドを実装する時には常にまず\ct{super initialize}を送信してから他の\ind{初期化}を続けます。
+以上のことから、\ct{initialize}メソッドを実装する時には、まず\ct{super initialize}を送信してから、他の変数の\ind{初期化}を書くようにするのが良いプラクティスです。
+
 \index{super!initialize}
 
 \needlines{6}
@@ -634,18 +626,16 @@ BorderedMorph>>>initialize
 	self borderInitialize
 \end{method}
 
-\important{ \ct{initialize}メソッドは、必ず\ct{super initialize}で始めること。}
+\important{ \ct{initialize}メソッドは、\ct{super initialize}で始めること。}
 
 %---------------------------------------------------------
-\subsection{self送信とsuper送信}
+\subsection{self、superへのメッセージ送信}
 
-\super\subind{super}{送信}{}は、継承されオーバーライドされてしまう振る舞いを組み入れるのに用います。
-しかしながら、継承されたものであろうとそうでなかろうと、メソッドを組み入れるには通常、\self\subind{self}{送信}{}を用います。
+\super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
 
-\self 送信と\super 送信の違いは何でしょうか？ 
-\self と同様に、\super はメッセージを受けたレシーバを表わします。
-違うのは、\ind{メソッド探索}だけです。
-\super 送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
+\self 送信と\super 送信の違いは何でしょうか？ \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
+
+%ここまで
 
 \super はスーパークラス\emph{ではない}ことに注意してください！
 スーパークラスのことだと思うのは、よく見られる間違いです。
@@ -656,7 +646,7 @@ BorderedMorph>>>initialize
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'
 \end{code}
-返り値は、評価するとそのモーフを再生成できる文字列です。
+戻り値は、評価するとそのモーフを再生成できる文字列です。
 
 \self と\super をどう組み合わせて、この文字列が得られるのでしょうか？
 まず最初に、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。
