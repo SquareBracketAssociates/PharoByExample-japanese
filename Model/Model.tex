@@ -121,7 +121,7 @@ Object new class --> Object
 クラスをインスタンスとするクラスは\emphind{メタクラス}と呼ばれます。
 クラスを定義するたびに、システムは自動的にメタクラスを生成します。
 メタクラスは、インスタンスとしてのクラスの構造と振る舞いを定義します。
-99\% \damien{どなたか、本当に99\%だと確かめましたか？大抵のものは'99\%'よりも良いかもしれませんよ}は、メタクラスについて考える必要はないでしょう。当面は無視しても大丈夫です。
+99\% \damien{どなたか、本当に99\%だと確かめましたか?大抵のものは'99\%'よりも良いかもしれませんよ}は、メタクラスについて考える必要はないでしょう。当面は無視しても大丈夫です。
 (\charef{metaclasses}でメタクラスについて詳しく見ていきます。)
 %---------------------------------------------------------
 \subsection{インスタンス変数}
@@ -321,7 +321,7 @@ WebServer class>>>uniqueInstance
 
 \ct{Webserver uniqueInstance}が最初に実行される時には、\ct{WebServer}クラスのインスタンスが生成され、変数\ct{uniqueInstance}に代入されます。以後は、新しいインスタンスを生成することなしに、前回生成されたインスタンスが返されます。
 
-\mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。何が違うのでしょうか？
+\mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。何が違うのでしょうか?
 \ct{uniqueInstance}メソッドは\ct{WebServer class}に定義されているので、同じことだと思うかもしれません。
 \ct{WebServer}のサブクラスが作られるまでは確かに同じなのですが、\ct{ReliableWebServer}が\lct{WebServer}のサブクラスで、\ct{uniqueInstance}メソッドを継承していたらどうなるでしょうか。普通は\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}のインスタンスとなって欲しいはずです。こうしたときに、\self を使うことで、そのようにすることができます。\self はメッセージを受けとるクラス自身だからです。\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値になります。
 
@@ -512,7 +512,7 @@ Object subclass: #Behavior
 
 %\ruleref{lookup}
 
-オブジェクトがメッセージを受け取ると、何が起こるのでしょう？
+オブジェクトがメッセージを受け取ると、何が起こるのでしょう?
 
 とても単純な過程をたどります。メッセージを受けたレシーバのクラスは、メッセージを処理するのに用いるメソッドを探索します。もしそのクラスがメソッドを持っていなければ、その\ind{スーパークラス}にたずねます。\ind{継承}の連鎖をたどり、メソッドを探していくのです。メソッドが見つかれば、渡した引数の値はそのメソッドの引数に束縛され、\ind{仮想マシン}がメソッドを実行します。
 \index{メソッド!探索}
@@ -520,10 +520,10 @@ Object subclass: #Behavior
 基本的にはメソッド探索はこんなに簡単なのですが、いくつか注意しなければならない点もあります。
 
 \begin{itemize}
-  \item \emph{メソッドが明示的に値を返していない場合は、どうなるのでしょうか？}
-  \item \emph{あるクラスがスーパークラスのメソッドを再実装している場合は、どうなるのでしょうか？}
-  \item \emph{\pvind{self}送信と\pvind{super}送信は何が違うのでしょうか？}
-  \item \emph{メソッドが見つからない場合には、どうなるのでしょうか？}
+  \item \emph{メソッドが明示的に値を返していない場合は、どうなるのでしょうか?}
+  \item \emph{あるクラスがスーパークラスのメソッドを再実装している場合は、どうなるのでしょうか?}
+  \item \emph{\pvind{self}送信と\pvind{super}送信は何が違うのでしょうか?}
+  \item \emph{メソッドが見つからない場合には、どうなるのでしょうか?}
 \end{itemize}
 
 ここでは、メソッド探索の概念的な規則を示します。仮想マシンを実装する人はありとあらゆるトリックや最適化を駆使してメソッド探索を高速化するのですが、それは彼等に任せておきましょう。ここで示す規則から外れているとは判らないように、やっているはずです。
@@ -590,9 +590,7 @@ Morph>>>openInWorld
 	^ self		"不要なので、通常はわざわざ書かないこと！"
 \end{method}
 
-%ここまで
-
-なぜ上記で\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味があるものを返しているということを示すからです。\self を明示的に返す場合、センダがその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
+なぜ上記で\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味あるものを返しているということを示すからです。\self を明示的に返す場合、センダがその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
 
 これは\st では日常的なイディオムで、ケント・ベックは``興味を惹くような戻り値(Interesting return value)'' \cite{Beck97a} と呼んでいます。
 \index{Beck, Kent}
@@ -633,24 +631,17 @@ BorderedMorph>>>initialize
 
 \super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
 
-\self 送信と\super 送信の違いは何でしょうか？ \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
+\self 送信と\super 送信の違いは何でしょうか? \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
 
-%ここまで
+\super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスのことだと思うのは、よく見られる間違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
 
-\super はスーパークラス\emph{ではない}ことに注意してください！
-スーパークラスのことだと思うのは、よく見られる間違いです。
-また、レシーバのスーパークラスから探索を始めるというのも、間違いです。
-どういうことか、以下に例を示します。
-
-\ct{constructorString}メッセージは、どんなモーフにも送信することができます。
+\ct{constructorString}というメッセージを例にしましょう。これは、任意のモーフに送信することができます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'
 \end{code}
-戻り値は、評価するとそのモーフを再生成できる文字列です。
+戻り値は、評価するとモーフを復元できる文字列です。
 
-\self と\super をどう組み合わせて、この文字列が得られるのでしょうか？
-まず最初に、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。
-\figref{constructorStringLookup}を見てください。
+\self 送信と\super 送信をどう組み合わせれば、この文字列が得られるでしょうか? まず、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。\figref{constructorStringLookup}を見てください。
 
 \begin{figure}[htb]
 \begin{center}
@@ -666,13 +657,11 @@ anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) co
 Morph>>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
 \end{method}
-\cmind{Morph}{constructorString}メソッドが\lct{printConstructorOn:indent:}を\self 送信します。
-このメッセージもまた探索され、探索は\lct{EllipseMorph}クラスから始まって、\ct{Morph}で見つかります。
-次にこのメソッドは\lct{printConstructorOn:indent:nodeDict:}を\self 送信します。それがまた\ct{fullPrintOn:}を\self 送信します。
-さらに、\ct{fullPrintOn:}は\ct{EllipseMorph}クラスから探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を参照してください。)
-注意していただきたいのは、\self 送信ではレシーバのクラス、この場合には\ct{anEllipse}クラスから、メソッド探索を始めます。
+\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}クラスから、メソッド探索が始まるということです。
 
 \important{\self 送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
+
+%ここまで
 
 \needlines{4}
 \begin{method}[fullPrintOn]{\super 送信と\self 送信を組み合わせる}
@@ -697,7 +686,7 @@ BorderedMorph>>>fullPrintOn: aStream
 %---------------------------------------------------------
 \subsection{理解されないメッセージ}
 
-探しているメソッドが見つからなかったら、どうなるのでしょうか？
+探しているメソッドが見つからなかったら、どうなるのでしょうか?
 \index{メッセージ!理解されない}
 
 楕円に\ct{foo}メッセージを送ってみましょう。
