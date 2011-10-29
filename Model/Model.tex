@@ -631,7 +631,7 @@ BorderedMorph>>>initialize
 
 \super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
 
-\self 送信と\super 送信の違いは何でしょうか? \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、そのメソッドを定義しているクラスのスーパークラスから探索を始めます。
+\self 送信と\super 送信の違いは何でしょうか? \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、superへの送信を行っているメソッドのクラスのスーパークラスから探索を始めます。
 
 \super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスのことだと思うのは、よく見られる間違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
 
@@ -661,8 +661,6 @@ Morph>>>constructorString
 
 \important{\self 送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
 
-%ここまで
-
 \needlines{4}
 \begin{method}[fullPrintOn]{\super 送信と\self 送信を組み合わせる}
 BorderedMorph>>>fullPrintOn: aStream
@@ -671,17 +669,13 @@ BorderedMorph>>>fullPrintOn: aStream
 	aStream nextPutAll: ') setBorderWidth: '; print: borderWidth;
 		nextPutAll: ' borderColor: ' , (self colorString: borderColor)
 \end{method}
-こうすると\ct{BorderedMorph>>>fullPrintOn:}は、\super 送信をして、スーパークラスから継承した\ct{fullPrintOn:}を拡張しています。
-\super 送信なので、メソッド探索は\super 送信が発生したクラスのスーパークラスである\ct{Morph}クラスから開始します。
-すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それを評価します。
+一方、\ct{BorderedMorph>>>fullPrintOn:}では、\super へメッセージ送信をして、スーパークラスから継承した\ct{fullPrintOn:}の振る舞いを拡張しています。\super への送信なので、メソッド探索は\super 送信を行うクラスのスーパークラスである\ct{Morph}クラスから始まります。すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それが評価されす。
 
-\super 送信の探索はレシーバのスーパークラスから開始しているのではない、ということに注意してください。
-もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
+\super 送信の探索はレシーバのスーパークラスから開始しているのではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
 
 \important{\super 送信は、\emph{静的な}メソッド探索を、\super 送信を行なっているメソッドを定義しているクラスのスーパークラスから開始します。}
 
-\super 送信と\figref{constructorStringLookup}から、\super は静的束縛だということが判ります。\super 送信をしているソースコードがどのクラスにあるかだけですべて決まります。
-対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を開始します。
+\super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を開始します。
 
 %---------------------------------------------------------
 \subsection{理解されないメッセージ}
@@ -689,9 +683,7 @@ BorderedMorph>>>fullPrintOn: aStream
 探しているメソッドが見つからなかったら、どうなるのでしょうか?
 \index{メッセージ!理解されない}
 
-楕円に\ct{foo}メッセージを送ってみましょう。
-まず最初に、通常のメソッド探索が開始され、\ct{foo}メソッドを探して\clsind{Object}(正確には\clsind{ProtoObject})まで継承の連鎖を一通り探索します。
-メソッドが見つからない場合、\ind{仮想マシン}がそのオブジェクトに\ct{self doesNotUnderstand: #foo}メッセージを送信させます。(\figref{fooNotFound}を参照)
+楕円に\ct{foo}メッセージを送ってみましょう。まず、通常のメソッド探索が開始され、\ct{foo}メソッドを探して\clsind{Object}(正確には\clsind{ProtoObject})まで継承の連鎖を一通り探索します。メソッドが見つからない場合、\ind{仮想マシン}からそのオブジェクトに\ct{self doesNotUnderstand: #foo}メッセージが送信されます。(\figref{fooNotFound}を参照)
 
 \begin{figure}[htb]
 \begin{center}
@@ -702,16 +694,14 @@ BorderedMorph>>>fullPrintOn: aStream
 \end{center}
 \end{figure}
 
-さあ、これは全く普通の動的なメッセージ送信なので、探索はまた\ct{EllipseMorph}から始まります。ただし、今度は\ct{doesNotUnderstand:}メソッドを探します。
-結局のところ、\ct{Object}が\ct{doesNotUnderstand:}を実装しています。
-このメソッドは、\ct{MessageNotUnderstood}オブジェクトを生成します。\ct{MessageNotUnderstood}オブジェクトは、現在実行しているコンテキストでデバッガを立ち上げることができます。
+これも普通の動的なメッセージ送信なので、探索はまた\ct{EllipseMorph}から始まります。ただし、今度は\ct{doesNotUnderstand:}メソッドを探します。結局のところ、\ct{Object}が\ct{doesNotUnderstand:}を実装しています。
+このメソッドでは、\ct{MessageNotUnderstood}オブジェクトを生成されます。\ct{MessageNotUnderstood}オブジェクトは、現在実行しているコンテキストでデバッガを立ち上げることができます。
 
-なぜこんな明らかなエラーを扱うのにこんなに複雑なことをするのかというと、
-こうすると開発者がエラーを捕まえて別のアクションをするようにするのが簡単になるのです。
-\mthind{Object}{doesNotUnderstand:}は\ct{Object}のどのサブクラスでもオーバーライドして、エラーを別のやり方で処理することができます。
+なぜ明らかにエラーであるのにこんなに複雑なことをするのかというと、こうすると開発者がエラーを捕まえて別のアクションをすることが簡単になるからです。\mthind{Object}{doesNotUnderstand:}は\ct{Object}の任意のサブクラスでオーバーライドして、エラーを別のやり方で処理することができます。
 
-実際、あるオブジェクトから別のオブジェクトにメッセージを自動的に移譲する実装が簡単になります。
-\ct{Delegator}オブジェクトは実装していないすべてのメッセージを単純に別のオブジェクトに移譲して、そのメッセージを処理させたりそのオブジェクトにエラーを発生させることができます。
+実際、あるオブジェクトから別のオブジェクトに自動的にメッセージを移譲することが容易に実装できます。\ct{Delegator}オブジェクトは実装していないメッセージを別のオブジェクトに移譲し、メッセージを改めて処理させたり、エラーを発生させたりすることができます。
+
+%ここまで
 
 %=========================================================
 \section{共有変数}
