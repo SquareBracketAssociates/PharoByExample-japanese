@@ -20,6 +20,7 @@
 321,"snippet","他の章では訳されていないようだ","断片","この章では訳す","そうした方が自然な気がする"
 323,"see \figref{startup}","この図にはワークスペースは出ていない",,"図の差し替え",
 331,"end of the string, or at the end of the entire expression.","string、expression は、未紹介",,"訳注",
+375,"convention","場面に応じて訳語を選んだ方が良さそう","約束事","*",
 379,"heading \ct{SmallInteger: 7}","Pharo-1.1.1 では、こうならない。Pharo-1.2.1 では、こうなる。\figref{inspectit} は、こうなっていない",,"訳注、図の差し替え",
 385,"\begin{figure}","(379行と同じ図だが)インスペクタがの中に妙なインスタンス変数がある",,"図の差し替え",
 382,"panel","paneではないのか? ペインだとして、わからない人もいるかも","ペイン","*訳注+",
@@ -32,7 +33,9 @@
 492,"along with a class comment","along withというよりは、class commentの中にother classes that might be usefulがあるようだが","クラスコメントには、他のお勧めのクラスが","*",
 546,"help text in the bottom pane","スクロールしないと見逃してしまう",,"訳注",
 551,"TDD","日本語だと何の略かわからない",,"訳注",
+575,"convention","場面に応じて訳語を選んだ方が良さそう","習慣","*",
 643,"String tests","StringTestか?","StringTest","*",
+648,"convention","場面に応じて訳語を選んだ方が良さそう","習慣","*",
 659,"(pre-)debugger","「(プリ)デバッガ」でいいか?","(プリ)デバッガ","*",
 685,"When you get to a green bar\footnotemark,","\footnotemark に対応する文章がない",,"*カット",
 712,"main","「主要な」でも意味は同じそうだが……","最も重要な","*","bigger or more important than all other things, ideas etc of the same kind (LDOCE)"

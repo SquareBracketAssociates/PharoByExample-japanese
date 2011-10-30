@@ -98,7 +98,7 @@
 		\lct{| x y |}				&	変数 \lct{x} と \lct{y} の宣言	\\
 		\lct{x := 1}				&	\lct{x} に 1 を代入 \\
 		\lct{[ x + y ]}			&	\lct{x+y} を評価するブロック \\
-		\lct{<primitive: 1>}		&	バーチャルマシン・プリミティブもしくはアノテーション \\
+		\lct{<primitive: 1>}		&	バーチャルマシンプリミティブもしくはアノテーション \\
 		\midrule
 		\lct{3 factorial}			&	単項メッセージ \\
 		\lct{3+4}					&	二項メッセージ \\
@@ -115,7 +115,7 @@
 \tabref{syntax} は、様々な文法要素の例です。
 \begin{description}
 \item[ローカル変数] \ct{startPoint} は、変数名もしくは識別子です。
-		慣習により、識別子は「\ind{キャメルケース}」 (\ie 2 番目以降の単語の先頭が大文字)の単語をつなげて構成されます。
+		規約により、識別子は「\ind{キャメルケース}」 (\ie 2 番目以降の単語の先頭が大文字)の単語をつなげて構成されます。
 		インスタンス変数、メソッドとブロックの引数、一時変数の先頭の文字は小文字でなければいけません。
 		これにより、変数の有効範囲がプライベートであることが、読み手に伝わります。
 
@@ -176,16 +176,16 @@
 		\seeindex{\_@{\textsf{\_}}}{代入}
 		\seeindex{<-@{$\leftarrow$}}{代入}
 
-\item[ブロック。] 角括弧 \ct{[ ]} は、ブロッククロージャーあるいは静的クロージャーと呼ばれる\ind{ブロック}を定義します。ブロックは、関数を表わす第一級のオブジェクトです。
-		ブロックは引き数をとることも、ローカル変数を持つこともできます。
+\item[ブロック。] 角括弧 \ct{[ ]} は、ブロッククロージャーあるいは静的クロージャーと呼ばれる\ind{ブロック}を定義します。ブロックは、関数を表す第一級のオブジェクトです。
+		ブロックは引き数を取ることも、ローカル変数を持つこともできます。
 	\seeindex{[ ]@{\textsf{[ ]}}}{ブロック}
 	\seeindex{クロージャー}{ブロック}
 	\seeindex{静的クロージャー}{ブロック}
 
 \item[プリミティブ。] \ct{<primitive: ...>}は、\ind{バーチャルマシン}\ind{プリミティブ}の呼出しを表わします。
-	(\ct{<primitive: 1>} は \ct{SmallInteger>>>+}のバーチャルマシンプリミティブです。)
+	(\ct{<primitive: 1>} は、\ct{SmallInteger>>>+} のバーチャルマシンプリミティブです。)
 	プリミティブの後にあるコードは、プリミティブが失敗した場合にだけ実行されます。
-	同じ文法は、メソッド・アノテーションにも使われます。
+	同じ文法は、メソッドアノテーションにも使われます。
 
 \item[単項メッセージ。] レシーバ(例えば \ct{3})に、単一の単語(例えば \ct{factorial})が、メッセージとして送られます。
 	\index{メッセージ!単項}
@@ -200,7 +200,7 @@
 	\index{メッセージ!キーワード}
 	\seeindex{キーワードメッセージ}{メッセージ, キーワード}
 
-\item[メソッド・リターン。] \ct{^}はメソッドから値を返すために使われます(\ct{^} を入力するには、\verb|^| とタイプしなければなりません)。
+\item[メソッドリターン。] \ct{^}はメソッドから値を返すために使われます(\ct{^} を入力するには、\verb|^| とタイプしなければなりません)。
 \md{\ct{^} always returns from the method, even if used in a block, it returns from the enclosing method.}
 
 \item[文の並び。] ピリオド(\ct{.})は、文\emphsubind{文}{セパレータ}です。二つの式の間にピリオドを置くと、それらは独立した文として扱われます。
@@ -208,12 +208,12 @@
 	\seeindex{ピリオド}{文セパレータ}
 	\seeindex{\ct{.}}{文セパレータ}
 
-\item[カスケード。] セミコロンは、一つのレシーバへメッセージを連続して送るのに使うことができます。\ct{Transcript show: 'hello'; cr} は、最初に \ct{Transcript} にキーワード・メッセージ \ct{show: 'hello'} を送り、次に同じレシーバ(\ct{Transcript})に単項メッセージ \ct{cr} を送ります。
+\item[カスケード。] セミコロンは、一つのレシーバへメッセージを連続して送るのに使うことができます。\ct{Transcript show: 'hello'; cr} は、最初に \ct{Transcript} にキーワードメッセージ \ct{show: 'hello'} を送り、次に同じレシーバ(\ct{Transcript})に単項メッセージ \ct{cr} を送ります。
 	\seeindex{;}{カスケード}
 
 \end{description}
 
-クラス\ct{Number}、\ct{Character}、\ct{String}、\ct{Boolean}については、\charef{basic}でより詳細に述べます。
+\ct{Number}、\ct{Character}、\ct{String}、\ct{Boolean} クラスについては、\charef{basic} でより詳細に述べます。
 
 \on{Blocks are described in \charef{blocks}. (Control flow and Iterators).}
 
@@ -225,7 +225,7 @@
 これらは事前に定義され、代入することができないので、\subind{変数}{擬似}変数とも呼ばれます。
 \ct{true}、\ct{false}および\ct{nil}は定数です。一方、\ct{self}、\ct{super} および \ct{thisContext} の値は、コードの実行中に動的に変化します。
 
-\ct{true} と \ct{false} は \clsind{Boolean} クラス \clsind{True} および \clsind{False} の唯一のインスタンスです。
+\ct{true} と \ct{false} は \clsind{Boolean} クラスである \clsind{True} および \clsind{False} の唯一のインスタンスです。
 より詳細については、\charef{basic} を参照してください。
 
 \pvind{self} は、常に現在実行しているメソッドのレシーバを指します。
@@ -235,9 +235,9 @@
 
 \ct{nil} は、未定義のオブジェクトです。
 \ct{nil} は、\clsind{UndefinedObject} クラスの唯一のインスタンスです。
-インスタンス変数、クラス変数およびローカル変数は \ct{nil} に初期化されます。
+インスタンス変数、クラス変数およびローカル変数は、\ct{nil} に初期化されます。
 
-\ct{thisContext} は、実行時スタックのトップフレームを表わす擬似変数です。
+\ct{thisContext} は、実行時スタックのトップフレームを表す擬似変数です。
 言い換えれば、現在実行している \clsind{MethodContext} あるいは \clsind{BlockClosure} を表します。
 \ct{thisContext} は、通常のプログラミングに必要ありませが、デバッガのような開発ツールを実装するには不可欠です。また、例外処理と継続を実装するためにも使われます。
 
@@ -246,13 +246,13 @@
 
 \pharo には 3 種類のメッセージ(メッセージ送信)があります。
 \begin{enumerate}
-  \item 引数をとらない単項メッセージ。
+  \item 引数を取らない単項メッセージ。
   \ct{1 factorial}は、オブジェクト \ct{1} に、メッセージ \ct{factorial} を送ります。
-  \item 単一の引き数をとる二項メッセージ。
-  	\ct{1 + 2} は、オブジェクト \ct{1} に、メッセージ \ct{+} を引数 \ct{2} とともに送ります。
-  \item 任意個の引数をとるキーワードメッセージ。
+  \item 単一の引き数を取る二項メッセージ。
+  	\ct{1 + 2} は、オブジェクト \ct{1} に、メッセージ \ct{+} を送ります。引数は \ct{2} です。
+  \item 任意個の引数を取るキーワードメッセージ。
   	\ct{2 raisedTo: 6 modulo: 10} は、オブジェクト \ct{2} に、メッセージセレクタ
-	\ct{raisedTo:modulo:} と引数 \ct{6}、\ct{10} から成るメッセージを送ります。
+	\ct{raisedTo:modulo:}、引数 \ct{6}、引数 \ct{10} から成るメッセージを送ります。
 \end{enumerate}
 
 単項メッセージのメッセージセレクタは、英小文字から始まるで英数字で記述します。
@@ -267,27 +267,27 @@
 % [\~\!\@\%\&\*\-\+\=\\\|\?\/\>\<\,]
 \on{It seems that 3 or more chars work fine, but it is not possible to have more than one ``-'' in a binary selector. Perhaps due to a conflict with parsing negative numbers?}
 \ab{That's right; $-$ is weird.}
-キーワードメッセージのメッセージセレクタは、一連のキーワードから構成します。キーワードはそれぞれ英小文字で始まり、コロンで終わる英数字で記述します。
+キーワードメッセージのメッセージセレクタは、一連のキーワードで構成します。キーワードはそれぞれ英小文字で始まり、コロンで終わる英数字で記述します。
 \index{メッセージ!キーワード}
 
 単項メッセージは、最も高い優先順位を持ちます。次に二項メッセージ、最後にキーワードメッセージの順になります。つまり:
 \begin{code}{@TEST}
 2 raisedTo: 1 + 3 factorial --> 128
 \end{code}
-(最初に、\ct{3} に \ct{factorial} を送ります。次に、\ct{1} に \ct{+ 6} を送ります。最後に、\ct{2} に \ct{raisedTo: 7} を送ります。)
-式を評価した結果を示すために、\lct{\emph{式}}\ct{-->}\lct{\emph{結果}}という表記を使うことを思い出してください。
+となります(最初に \ct{3} に \ct{factorial} を送ります。次に、\ct{1} に \ct{+ 6} を送ります。最後に、\ct{2} に \ct{raisedTo: 7} を送ります)。
+式を評価した結果を示すのに、\lct{\emph{式}}\ct{-->}\lct{\emph{結果}}という表記を使うことを思い出してください。
 
-優先順位の話を別にすると、評価順は、厳密に左から右です、つまり
+優先度を別にすると、評価順は、厳密に左から右です。つまり、
 \begin{code}{@TEST}
 1 + 2 * 3 --> 9
 \end{code}
-\ct{7} ではありません。
+となります。\ct{7} ではありません。
 評価順序を変更するためには、括弧を使わなければなりません:
 \begin{code}{@TEST}
 1 + (2 * 3) --> 7
 \end{code}
 
-メッセージ送信は、ピリオドとセミコロンで組み立てられることもあります。ピリオドで区切られた式の並びは、文として順々に評価されます。
+メッセージ送信は、ピリオドとセミコロンを使って組み立てられることもあります。ピリオドで区切られた式の並びは、文として順々に評価されます。
 \index{文!セパレータ}
 
 \begin{code}{}
@@ -297,10 +297,10 @@ Transcript cr
 \end{code}
 
 \noindent
-これは \glbind{Transcript} オブジェクトに \ct{cr} を送り、次にこれに、\ct{show: 'hello world'} を送り、最後にこれに、もう一つの \ct{cr} を送ります。
+これは、\glbind{Transcript} オブジェクトに \ct{cr} を送り、次にこれに、\ct{show: 'hello world'} を送り、最後にこれに、もう一つの \ct{cr} を送ります。
 
 一連のメッセージを\emph{同じ}レシーバへ送る場合、\emphind{カスケード}としてより簡潔に表現することができます。
-レシーバを一度だけ指定し、メッセージのシーケンスをセミコロンで区切ります:
+レシーバを一度だけ指定し、メッセージの列をセミコロンで区切ります:
 
 \begin{code}{}
 Transcript cr;
@@ -310,22 +310,22 @@ Transcript cr;
 これは、前の例とまったく同じ意味になります。
 
 %=================================================================
-\section{Method syntax}
+\section{メソッド文法}
 
-\pharo のあらゆる場所(例えば、デバッガ、ワークスペース、ブラウザ)で式を評価することができます。けれども、メソッドは通常、ブラウザウィンドウやデバッガで定義します。
-(外部媒体で記述したメソッドを読み込むこともできます。しかし、\pharo でプログラムする普通の方法ではありません。)
+式は、\pharo のあらゆる場所(例えば、デバッガ、ワークスペース、ブラウザ)で評価することができますが、通常、メソッドはブラウザウィンドウやデバッガで定義します
+(メソッドは、外部メディアからファイルインすることもできますが、これは \pharo でプログラムする普通の方法ではありません)。
 
-プログラムは、クラスのコンテキストの中で、１メソッドずつ開発していきます。
-(クラスは既存のクラスにサブクラスを作成するようにメッセージを送ることにより定義します。したがって、クラスの定義に特別の文法は必要ないのです。)
+プログラムは、クラスのコンテキストの中で、一度に 1 メソッドずつ開発していきます
+(クラスは、既存のクラスにサブクラスを作成するようにメッセージを送って定義します。したがって、クラスの定義に特別の文法は必要ありません)。
 
-次の例には、クラス\clsind{String}にメソッド\mthind{String}{lineCount}があります。
-(慣例でメソッドを\ct{ClassName>>>methodName}と表します。したがって、このメソッドは\ct{String>>>lineCount}と表します。)
+以下は、\clsind{String} クラスの \mthind{String}{lineCount} メソッドです
+(習慣により、メソッドを \ct{ClassName>>>methodName} と表します。したがってこのメソッドは、\ct{String>>>lineCount} と表します)。
 
 \needlines{9}
 \begin{method}[lineCount]{Line count}
 String>>>lineCount
-   "Answer the number of lines represented by the receiver,
-   where every cr adds one line."
+   "レシーバの行数を答える。
+   crに出会うたび 1 行増やす。"
    | cr count |
    cr := Character cr.
    count := 1 min: self size.
@@ -334,57 +334,57 @@ String>>>lineCount
    ^ count
 \end{method}
 
-構文上、メソッドは次のものから構成されます:
+文法上、メソッドは以下のものから成ります:
 \begin{enumerate}
-  \item 名前(\ie \ct{lineCount})と引数(この例ではひとつもない)からなるメソッドの型
-  \item コメント(どんな場所にも書くことができますが、慣例では、メソッドが何を行うかの説明を一番上に書きます。)
-  \item ローカル変数(\ie \ct{cr} と \ct{count})
-  \item ドットによって分割した任意個の式(この例では4つあります)
+  \item 名前(\ie \ct{lineCount})と引数(あれば。この例では一つも無い)から成るメソッドのパターン;
+  \item コメント(どんな場所にも書くことができますが、メソッドが何を行うかの説明を一番上に書く習慣があります);
+  \item ローカル変数(\ie \ct{cr} と \ct{count})の宣言; そして
+  \item ドットで区切った任意個の式; ここでは式は、4 個。
 \end{enumerate}
 
-\ct{^}(\verb|^|とタイプした)が先頭にある式を評価すると、その式の値を返し、その時点でメソッドを終了します。
-明示的に式を評価せずに終了するメソッドは暗黙的に\pvind{self}を返します。
-\index{return!implicit}
+\ct{^}(\verb|^|とタイプした)が先行した任意の式は、それ評価すると、その時点でメソッドを終了してその式の値を返します。
+明示的に式を返さずに終了するメソッドは、暗黙的に \pvind{self} を \ind{リターン TODO}します。
+\index{リターン TODO!暗黙}
 
-引数とローカル変数は、常に英小文字で始めます。
-英大文字で始まる名前はグローバル変数に使用します。
-例えば、\ct{Character}のようなクラス名は、そのクラスを表わすオブジェクトを指すグローバル変数です。
+引数とローカル変数は、常に英小文字で始めなければいけません。
+英大文字で始まる名前は、グローバル変数とみなされます。
+例えば、\ct{Character} のようなクラス名は、単に、そのクラスを表すオブジェクトを参照するグローバル変数です。
 
 %=================================================================
-\section{Block syntax}
+\section{ブロック文法}
 
-\ind{ブロック}は、式の評価を遅延させるためのメカニズムを提供します。
-ブロックは本質的には無名の関数で、メッセージ\mthind{BlockClosure}{value}を送ることにより評価することができます。
-ブロックは明示的なリターン(\ct{^}が付いた式)がなければ、本体中の最後の式の値を返します。
+\ind{ブロック}は、式の評価を遅延させるためのメカニズムです。
+ブロックは、本質的には無名の関数で、メッセージ \mthind{BlockClosure}{value} を送って、これを評価します。
+ブロックは、明示的なリターン(\ct{^} で示す)が無ければ、その最後の式の値を返します。
 \seeindex{value}{BlockClosure}
 
 \begin{code}{@TEST}
 [ 1 + 2 ] value --> 3
 \end{code}
 
-ブロックは引数をとることができます。引数は先頭にコロンをつけて宣言します。
-縦線でブロックの本体と引数宣言を区切ります。
-1つの引数を持ったブロックを評価するためには、1つの引数を持ったメッセージ\mthind{BlockClosure}{value:}を送らなければなりません。
-2つの引数をとるブロックでは\mthind{BlockClosure}{value:value:}を送ります、同様に、4つまでの引数を使えます。
+ブロックは、引数を取ることができます。引数は、先頭にコロンをつけて宣言します。
+縦線で、ブロックの本体と引数宣言を区切ります。
+パラメータが 1 個のブロックを評価するには、メッセージ \mthind{BlockClosure}{value:} に、引数を 1 個付けて送らなければなりません。
+パラメータが 2 個のブロックを評価するには、\mthind{BlockClosure}{value:value:}を送らなければなりません。同様に、4 個までの引数を渡すことができます。
 
 \begin{code}{@TEST}
 [ :x | 1 + x ] value: 2 --> 3
 [ :x :y | x + y ] value: 1 value: 2 --> 3
 \end{code}
 
-4つ以上の引数を持ったブロックには、\mthind{BlockClosure}{valueWithArguments:}を使い、引数の配列を渡します。
-(多くの引数が必要なブロックは設計に問題があるのかもしれません。)
+パラメータが 4 個以上のブロックには、\mthind{BlockClosure}{valueWithArguments:} を使い、引数を配列にして渡さなければなりません
+(パラメータが多いブロックは、しばしば設計上の問題の兆候です)。
 
-メソッドのローカル変数宣言のように、ブロックにローカル変数(縦線に囲まれる)を宣言することができます。
+ブロック内にも、縦線で囲んでローカル変数を宣言することができます。これは、メソッドのローカル変数宣言とまったく同様です。
 ローカル変数は引数の後に宣言します。
-\index{variable!declaration}
+\index{変数!宣言}
 
 \begin{code}{@TEST}
 [ :x :y | | z | z := x+ y. z ] value: 1 value: 2 --> 3
 \end{code}
 
-ブロックは外側環境の変数を参照することができるので、レキシカル(静的)\emph{クロージャー}です。
-次のブロックは、環境を包む変数\ct{x}を指します:
+ブロックは、それを取り囲む環境の変数を参照することができるので、静的\emph{クロージャー}と同じものです。
+次のブロックは、それを取り囲む環境の変数 \ct{x} を参照します:
 
 \begin{code}{@TEST}
 | x |
@@ -392,8 +392,8 @@ x := 1.
 [ :y | x + y ] value: 2 --> 3
 \end{code}
 
-ブロックはクラス\clsind{BlockClosure}のインスタンスです。
-つまり、ブロックはオブジェクトです。したがって、変数に代入することができ、他のオブジェクトと同じように引数として渡すことができます。
+ブロックは、クラス \clsind{BlockClosure} のインスタンスです。
+つまり、ブロックはオブジェクトで、変数に代入したり引数として渡すことができます。このことは、他の普通のオブジェクトとまったく同じです。
 % For both understandability and performance, it is better for blocks to refer only to their parameters and local variables; blocks that do not refer external variables are optimized by the compiler.
 % MARCUS sez: I would just delete the sentence. There is nothing optimized, accessign outer temps is as fast as inner, so the only reason to avoid accessing outer temps would be that the code is easier to understand. But that's a relatively weak argument, I think.
 % However, the ability to refer (``capture'') non-local variables can be very powerful when it is needed. 
@@ -463,8 +463,8 @@ n := 1.
 n --> 1024
 \end{code}
 
-ループ・カウンターの初期値として作用する数にメッセージ\mthind{Number}{to:do:}を送ることができます。
-2つの引数は、ループ・カウンターの上限と、引数としてループ・カウンターの現在値をとるブロックです。
+ループカウンターの初期値として作用する数にメッセージ\mthind{Number}{to:do:}を送ることができます。
+2つの引数は、ループカウンターの上限と、引数としてループカウンターの現在値を取るブロックです。
 
 \needlines{4}
 \begin{code}{@TEST | result |}
@@ -484,7 +484,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 コレクションには多くの様々なクラスがあります。コレクションの多くは同じプロトコルをサポートします。
 コレクションをイテレートするための重要メッセージは
 \mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:}, \mthind{collection}{detect:}および\mthind{Collection}{inject:into:}です。
-これらのメッセージは、コンパクトなコードを書くことを可能にする、ハイ・レベルのイテレーターを定義します。
+これらのメッセージは、コンパクトなコードを書くことを可能にする、ハイレベルのイテレーターを定義します。
 
 \clsind{Interval}は数列の始点から終点をイテレートするコレクションです。
 \ct{1 to: 10}は1から10までの区間を表わします。
@@ -538,7 +538,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 
 \st においては、すべてはオブジェクトです。そして、あらゆることがメッセージを送ることにより発生します。
 しかし、ある地点で底に当たります。
-いくつかのオブジェクトは\ind{バーチャルマシン}・\ind{プリミティブ}を呼び出すことが必要になります。
+いくつかのオブジェクトは\ind{バーチャルマシン}\ind{プリミティブ}を呼び出すことが必要になります。
 
 例えば、下記はすべてプリミティブとして実装されています。
 メモリアロケーション(new, new:)、
@@ -578,7 +578,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 %\end{method}
 
 
-\pharo では、角括弧文法もプラグマと呼ばれるメソッド・アノテーションに使われます。
+\pharo では、角括弧文法もプラグマと呼ばれるメソッドアノテーションに使われます。
 \sd{we should give an example}\ab{Please do!  Is don't know about these.}\damien{it's the third time we talk about pragmas without saying what they are and how to use them.}
 
 %=================================================================
@@ -588,7 +588,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 
 \item	\pharo には擬似変数と呼ばれる6つ(だけ)の予約識別子があります: \ct{true},\ct{false},\ct{nil},\ct{self},\ct{super},および\ct{thisContext}。
 
-\item	5種類のリテラル・オブジェクトがあります。数(\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111})、文字(\ct{\$a})、文字列(\ct{'hello'})、シンボル(\ct{#hello})および配列(\ct{#('hello' #hi)})
+\item	5種類のリテラルオブジェクトがあります。数(\ct{5}, \ct{2.5}, \ct{1.9e15}, \ct{2r111})、文字(\ct{\$a})、文字列(\ct{'hello'})、シンボル(\ct{#hello})および配列(\ct{#('hello' #hi)})
 
 \item	文字列はシングルクォート(コメントはダブルクォート)で囲みます。
 		文字列の内部のクォートを得るためには、それを重ねてください。
@@ -616,7 +616,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \item	式は場合により括弧でグループ化した、メッセージ送信、カスケード、代入により構成します。
 		\emph{ステートメント}はピリオドによって分割した式です。
 
-\item	ブロック・クロージャーは角括弧で囲まれた式です。
+\item	ブロッククロージャーは角括弧で囲まれた式です。
 		ブロックは引数をとってもよく、一時変数を使うことができます。
 		ブロックに適切な数の引数を伴ったvalueメッセージを送るまで、
 		ブロック中の式は評価されません。\\
