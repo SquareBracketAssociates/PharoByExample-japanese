@@ -105,7 +105,7 @@
 		\lct{2 raisedTo: 6 modulo: 10}		&	キーワードメッセージ \\
 		\midrule
 		\lct{$\uparrow$ true} 			&	値 true を返す \\
-		\lct{Transcript show: 'hello'. Transcript cr }		&	式セパレーター (\lct{.})	\\
+		\lct{Transcript show: 'hello'. Transcript cr }		&	式セパレータ (\lct{.})	\\
 		\lct{Transcript show: 'hello'; cr}					&	メッセージカスケード (\lct{;}) \\
 		\bottomrule
 	\end{tabular}
@@ -242,24 +242,24 @@
 \ct{thisContext} は、通常のプログラミングに必要ありませが、デバッガのような開発ツールを実装するには不可欠です。また、例外処理と継続を実装するためにも使われます。
 
 %=================================================================
-\section{Message sends}
+\section{メッセージ送信}
 
-\pharo には3種類のメッセージがあります。
+\pharo には 3 種類のメッセージ(メッセージ送信)があります。
 \begin{enumerate}
   \item 引数をとらない単項メッセージ。
-  \ct{1 factorial}は、オブジェクト\ct{1}に、メッセージ\ct{factorial}を送ります。
-  \item 1つの引き数をとる二項メッセージ。
-  	\ct{1 + 2}は、オブジェクト \ct{1} に、メッセージ \ct{+} を引数 \ct{2} とともに送ります。
-  \item 任意の数の引数をとるキーワードメッセージ。
+  \ct{1 factorial}は、オブジェクト \ct{1} に、メッセージ \ct{factorial} を送ります。
+  \item 単一の引き数をとる二項メッセージ。
+  	\ct{1 + 2} は、オブジェクト \ct{1} に、メッセージ \ct{+} を引数 \ct{2} とともに送ります。
+  \item 任意個の引数をとるキーワードメッセージ。
   	\ct{2 raisedTo: 6 modulo: 10} は、オブジェクト \ct{2} に、メッセージセレクタ
-	\ct{raisedTo:modulo:} と引数 \ct{6}, \ct{10} から構成されるメッセージを送ります。
+	\ct{raisedTo:modulo:} と引数 \ct{6}、\ct{10} から成るメッセージを送ります。
 \end{enumerate}
 
-単項のメッセージセレクタは英小文字でから始まる英数字で記述します。
-\index{message!unary}
+単項メッセージのメッセージセレクタは、英小文字から始まるで英数字で記述します。
+\index{メッセージ!単項}
 
-二項メッセージ・セレクタは次の文字を使い1文字以上で記述します:
-\index{message!binary}
+二項メッセージのメッセージセレクタは、次の文字セットを使い、1 文字以上で記述します:
+\index{メッセージ!二項}
 \begin{code}{}
 + - / \ * ~ < > = @ % | & ! ? ,
 \end{code}
@@ -267,28 +267,28 @@
 % [\~\!\@\%\&\*\-\+\=\\\|\?\/\>\<\,]
 \on{It seems that 3 or more chars work fine, but it is not possible to have more than one ``-'' in a binary selector. Perhaps due to a conflict with parsing negative numbers?}
 \ab{That's right; $-$ is weird.}
-キーワード・メッセージセレクタは一連のキーワードから構成します。キーワードはそれぞれ英小文字で始まり、コロンで終わる英数字で記述します。
-\index{message!keyword}
+キーワードメッセージのメッセージセレクタは、一連のキーワードから構成します。キーワードはそれぞれ英小文字で始まり、コロンで終わる英数字で記述します。
+\index{メッセージ!キーワード}
 
-単項のメッセージは最も高い優先順位を持ちます。次に二項メッセージ、最後にキーワード・メッセージの順になります。
+単項メッセージは、最も高い優先順位を持ちます。次に二項メッセージ、最後にキーワードメッセージの順になります。つまり:
 \begin{code}{@TEST}
 2 raisedTo: 1 + 3 factorial --> 128
 \end{code}
-(最初に、\ct{3}へ\ct{factorial}を送ります。次に、\ct{1}へ\ct{+ 6}を送ります。最後に、\ct{2}へ\ct{raisedTo: 7}を送ります。)
-式を評価した結果を示すために、式\ct{-->}結果という表記を使うことを思い出してください。
+(最初に、\ct{3} に \ct{factorial} を送ります。次に、\ct{1} に \ct{+ 6} を送ります。最後に、\ct{2} に \ct{raisedTo: 7} を送ります。)
+式を評価した結果を示すために、\lct{\emph{式}}\ct{-->}\lct{\emph{結果}}という表記を使うことを思い出してください。
 
-評価順は、厳密に左から右です、
+優先順位の話を別にすると、評価順は、厳密に左から右です、つまり
 \begin{code}{@TEST}
 1 + 2 * 3 --> 9
 \end{code}
-\ct{7}ではありません。
-評価順序を変更するためには括弧を使わなければなりません:
+\ct{7} ではありません。
+評価順序を変更するためには、括弧を使わなければなりません:
 \begin{code}{@TEST}
 1 + (2 * 3) --> 7
 \end{code}
 
-メッセージ送信はピリオドとセミコロンで組み立てられることもあります。ピリオドで分離された式の並びはステートメントとして順々に評価されます。
-\index{statement!separator}
+メッセージ送信は、ピリオドとセミコロンで組み立てられることもあります。ピリオドで区切られた式の並びは、文として順々に評価されます。
+\index{文!セパレータ}
 
 \begin{code}{}
 Transcript cr.
@@ -297,17 +297,17 @@ Transcript cr
 \end{code}
 
 \noindent
-これは\glbind{Transcript}オブジェクトに\ct{cr}を送り、次に、\ct{show: 'hello world'}を送り、最後に、もう一つの\ct{cr}を送ります。
+これは \glbind{Transcript} オブジェクトに \ct{cr} を送り、次にこれに、\ct{show: 'hello world'} を送り、最後にこれに、もう一つの \ct{cr} を送ります。
 
-一連のメッセージを同じレシーバへ送る場合、カスケードとしてより簡潔に表現することができます。
-レシーバを、一度だけ指定し、メッセージのシーケンスをセミコロンで分割します:
+一連のメッセージを\emph{同じ}レシーバへ送る場合、\emphind{カスケード}としてより簡潔に表現することができます。
+レシーバを一度だけ指定し、メッセージのシーケンスをセミコロンで区切ります:
 
 \begin{code}{}
 Transcript cr;
     show: 'hello world';
     cr
 \end{code}
-このプログラムは前のプログラムと同じ意味になります。
+これは、前の例とまったく同じ意味になります。
 
 %=================================================================
 \section{Method syntax}
