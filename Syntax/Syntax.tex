@@ -218,28 +218,28 @@
 \on{Blocks are described in \charef{blocks}. (Control flow and Iterators).}
 
 %=================================================================
-\section{Pseudo-variables}
+\section{擬似変数}
 
-\st では、次の6つの予約キーワード、擬似変数があります:
+\st では、次の 6 個の予約語/キーワードがあります:
 \pvind{nil}、\pvind{true}、\pvind{false}、\pvind{self}、\pvind{super}、\pvind{thisContext}。
-これらは事前に定義され、代入することができないので、擬似変数と呼びます。
-\ct{true}、\ct{false}および\ct{nil}は定数です。その一方で、\ct{self}、\ct{super}および\ct{thisContext}の値はコードの実行中に動的に変化します。
+これらは事前に定義され、代入することができないので、\subind{変数}{擬似}変数とも呼ばれます。
+\ct{true}、\ct{false}および\ct{nil}は定数です。一方、\ct{self}、\ct{super} および \ct{thisContext} の値は、コードの実行中に動的に変化します。
 
-\ct{true}と\ct{false}は\clsind{Boolean}クラス\clsind{True}および\clsind{False}の唯一のインスタンスです。
-より詳細については、\charef{basic}を参照してください。
+\ct{true} と \ct{false} は \clsind{Boolean} クラス \clsind{True} および \clsind{False} の唯一のインスタンスです。
+より詳細については、\charef{basic} を参照してください。
 
-\pvind{self}は、常に現在実行しているメソッドのレシーバを指します。
+\pvind{self} は、常に現在実行しているメソッドのレシーバを指します。
 
-\ct{super}は、カレントメソッドのレシーバを指します。しかし、\ct{super}にメッセージを送る場合、メソッド・ルックアップはスーパークラスから始まります。
-更なる詳細は\charef{model}を参照してください。
+\ct{super} も、現在実行しているメソッドのレシーバを指します。しかし、\ct{super} にメッセージを送る場合、メソッド探索は、そのメソッドを定義しているクラスの、スーパークラスから始まります。
+より詳細については、\charef{model} を参照してください。
 
-\ct{nil}は未定義のオブジェクトを
-表すクラスUndefinedObjectの唯一のインスタンスです。
-インスタンス変数、クラス変数およびローカル変数は\ct{nil}に初期化されます。
+\ct{nil} は、未定義のオブジェクトです。
+\ct{nil} は、\clsind{UndefinedObject} クラスの唯一のインスタンスです。
+インスタンス変数、クラス変数およびローカル変数は \ct{nil} に初期化されます。
 
-\ct{thisContext}は、ランタイム・スタックのトップフレームを表わす擬似変数です。
-現在実行している\clsind{MethodContext}あるいは\clsind{BlockClosure}を表わすと言い換えることができます。
-\ct{thisContext}は、通常のプログラミングに必要ありませが、デバッガのような開発ツールの実装には不可欠です。また、例外処理と継続を実装するためにも使われます。
+\ct{thisContext} は、実行時スタックのトップフレームを表わす擬似変数です。
+言い換えれば、現在実行している \clsind{MethodContext} あるいは \clsind{BlockClosure} を表します。
+\ct{thisContext} は、通常のプログラミングに必要ありませが、デバッガのような開発ツールを実装するには不可欠です。また、例外処理と継続を実装するためにも使われます。
 
 %=================================================================
 \section{Message sends}
