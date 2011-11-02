@@ -711,34 +711,27 @@ BorderedMorph>>>fullPrintOn: aStream
 \index{クラス!変数}
 \index{変数!プール}
 
-%ここまで
-
 %---------------------------------------------------------
 \subsection{グローバル変数}
-\pharo では、すべてのグローバル変数は\glbind{Smalltalk}という名前空間に格納されます。\glbind{Smalltalk}は\clsind{SystemDictionary}クラスのインスタンスとして実装されています。
-グローバル変数はどこからでもアクセス可能です。
-各クラスはグローバル変数で名付けられています。加えて、特別なオブジェクトや共通して有用なオブジェクトもグローバル変数で名前付けられています。
+\pharo では、すべてのグローバル変数は\glbind{Smalltalk}という名前空間に格納されます。\glbind{Smalltalk}は\clsind{SystemDictionary}クラスのインスタンスとして実装されています。グローバル変数はどこからでもアクセス可能です。各クラスはグローバル変数で名づけられています。特別なオブジェクトや共通して使われるオブジェクトもグローバル変数で名前がついています。
 
-変数\glbind{Transcript}(トランスクリプト)は\clsind{TranscriptStream}のインスタンスを指します。\clsind{TranscriptStream}はスクロール付きウィンドウに書き込むストリームです。
-以下のコードは、\ct{Transcript}に情報を表示して改行します。
+変数\glbind{Transcript}(トランスクリプト)は\clsind{TranscriptStream}のインスタンスを指しています。\clsind{TranscriptStream}はスクロールつきのウィンドウに書き込むストリームです。以下のコードは、\ct{Transcript}に情報を表示して改行します。
 
 \begin{code}{}
 Transcript show: 'Pharoは楽しくてパワフル！' ; cr
 \end{code}
 
 \noindent
-\menu{do it}する前に、\menu{World \go Tools \ldots \go Transcript}でトランスクリプトを開いてください。
+\menu{do it}する前に、\menu{World \go Tools \ldots \go Transcript}でトランスクリプトを開いておいてください。
 
-\hint{トランスクリプトへの書き込みは遅いです。特に、トランスクリプトウィンドウが開いている時は。
-なので、速度が低下した時は、トランスクリプトに書き込んでいるのなら窓を畳んでみることも1つの手です。}
+\hint{トランスクリプトへの書き込みは遅いです。トランスクリプトウィンドウが開いている時はなおさらです。
+トランスクリプトに書き込んでいて遅いと思ったときは最小化してみるのも1つの手です。}
 
 \subsubsection{他の便利なグローバル変数}
 
 \begin{itemize}
 \item
-\ct{Smalltalk}は\ct{SystemDictionary}のインスタンスで、\ct{Smalltalk}自身を含むすべてのグローバル変数を定義します。
-この辞書のキーは\st コードでグローバル変数名として使われているシンボルです。
-従って、例えば、
+\ct{Smalltalk}は\ct{SystemDictionary}のインスタンスで、\ct{Smalltalk}自身を含むすべてのグローバル変数を定義してします。この辞書のキーはシンボルで、\st のコード内でグローバル変数を示すのに使われます。例えば、
 \begin{code}{@TEST}
 Smalltalk at: #Boolean --> Boolean
 \end{code}
@@ -750,22 +743,19 @@ Smalltalk at: #Smalltalk-->a SystemDictionary(lots of globals)}
 \begin{code}{@TEST}
 (Smalltalk at: #Smalltalk) == Smalltalk --> true
 \end{code}
+となります。
 
-\item \clsind{Sensor}は\clsind{EventSensor}のインスタンスで、\pharo への入力を代表します。
-例えば、\lct{Sensor keyboard}はキーボードからの次の入力を答えます。
- and \ct{Sensor leftShiftDown} answers \ct{true} if the left shift key is being held down,
-そして、\ct{Sensor leftShiftDown}は、左シフトキーが押されている時に\ct{true}と答えて、
-さらに、\ct{Sensor mousePoint}は現在のマウスの位置を示す\ct{Point}を答えます。
+\item \clsind{Sensor}は\clsind{EventSensor}のインスタンスで、\pharo への入力を表してます。例えば、\lct{Sensor keyboard}はキーボードからの次の入力を答えます。そして、\ct{Sensor leftShiftDown}は、左シフトキーが押されている時に\ct{true}と答えます。さらに、\ct{Sensor cursorPoint}は現在のマウスの位置を示す\ct{Point}を返します。
 
-\item \glbind{World} is an instance of \clsind{PasteUpMorph} that represents the screen.
-\item \glbind{World}は\clsind{PasteUpMorph}のインスタンスで、スクリーンを代表します。
-\ct{World bounds}はスクリーン全体の範囲を示す矩形を答えます。すべてのモーフは\ct{World}のサブモーフです。
+%Sensor mousePointとあったが、cursorPointの誤り (ume)
+
+\item \glbind{World}は\clsind{PasteUpMorph}のインスタンスで、スクリーンを表します。\ct{World bounds}はスクリーン全体の範囲を示す矩形を答えます。すべてのモーフは\ct{World}のサブモーフです。
 \index{Morphic}
 
 \item 
-\glbind{ActiveHand}は\clsind{HandMorph}の現在のインスタンスで、カーソルのグラフィックを代表します。
-\ct{ActiveHand}のサブモーフはマウスでドラッグしているものを持ちます。
-\ab{I have never used this, and had to browse the image to see what it is!  What do you use it for?}
+\glbind{ActiveHand}は\clsind{HandMorph}の現在のインスタンスで、カーソルのグラフィックを表します。マウスでモーフをドラッグしている間は\ct{ActiveHand}のサブモーフになっています。
+
+%ここまで
 
 \item
 \glbind{Undeclared}も辞書です。すべての未宣言の変数を持っています。
