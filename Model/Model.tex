@@ -755,40 +755,27 @@ Smalltalk at: #Smalltalk-->a SystemDictionary(lots of globals)}
 \item 
 \glbind{ActiveHand}は\clsind{HandMorph}の現在のインスタンスで、カーソルのグラフィックを表します。マウスでモーフをドラッグしている間は\ct{ActiveHand}のサブモーフになっています。
 
-%ここまで
+\item
+\glbind{Undeclared}も辞書です。宣言されていない変数群を保持しています。宣言されていない変数を参照するメソッドを書くと、通常はブラウザが、グローバル変数やインスタンス変数として宣言するよう促します。それでも、後で変数の宣言を削除してしまった場合には、コードは未宣言の変数を参照することになります。\ct{Undeclared}をインスペクトすることで、奇妙な振舞いの原因がわかることもあるでしょう。
 
 \item
-\glbind{Undeclared}も辞書です。すべての未宣言の変数を持っています。
-未宣言の変数を参照するメソッドを書くと、通常はブラウザがそれを宣言するよう促します。例えば、グローバル変数やそのクラスのインスタンス変数として。
-しかし、後で変数宣言を削除した場合には、コードは未宣言の変数を参照することになります。
-\ct{Undeclared}をインスペクトすることで、奇妙な振舞いの原因がわかることもあるでしょう。
-
-\item
-\glbind{SystemOrganization}は\clsind{SystemOrganizer}のインスタンスです。クラスの構成をパッケージに記録します。より正確に言えば、\emph{クラス名}をカテゴリーに分類します。
+\glbind{SystemOrganization}は\clsind{SystemOrganizer}のインスタンスです。クラスの構成情報をまとめて保持しています。より正確に言えば、\emph{クラス名}をカテゴリに分類します。
 \end{itemize}
 
 \begin{code}{@TEST}
 SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 \end{code}
 
-現在のプラクティスでは、グローバル変数の使用を厳格に制限します。通常はクラスインスタンス変数やクラス変数を使ってクラスメソッドでアクセスすることが望ましいです。
-もし仮に\pharo を1から再実装するようなことがあれば、グローバル変数はクラスを除いてほとんどがシングルトンに置き換えられるでしょう。
+グローバル変数は極力使わないというのが現在のプラクティスとなっています。通常はクラスインスタンス変数やクラス変数を使い、クラスメソッドでアクセスするほうが望ましいです。もし\pharo を一から再実装するようなことがあれば、グローバル変数は、クラス群を除いては、ほとんどシングルトンに置き換えられるでしょう。
 
-通常、グローバル変数を定義するには、大文字で始まる未宣言の識別子への代入を\menu{do it}するだけでいいです。
-すると、パーサがグローバル変数を定義するよう提案します。
-プログラムでグローバル変数を定義するには、\ct{Smalltalk at: #AGlobalName put: nil}を実行するだけでいいです。
-削除するには、\ct{Smalltalk removeKey: #AGlobalName}です。
+通常、グローバル変数を定義するには、\menu{do it}で、大文字で始まる未宣言の識別子に代入するだけです。すると、パーサがグローバル変数を定義するよう促します。プログラムでグローバル変数を定義するには、\ct{Smalltalk at: #AGlobalName put: nil}を実行します。削除するには、\ct{Smalltalk removeKey: #AGlobalName}です。
 \glbindex{Smalltalk}
 
 %---------------------------------------------------------
 \subsection{クラス変数}
 \seclabel{classVars}
 
-あるクラスとそのクラスのすべてのインスタンスでデータを共有する必要があることがあります。
-\emph{クラス変数}を使えば可能です。
-クラス\subind{クラス}{変数}という用語は、変数のライフタイムがクラスと同じだということを示しています。
-しかし、その用語の字面からはわかりませんが、クラス変数はクラスの間だけでなく、インスタンスとも共有されます。\figref{privateSharedVar}を参照ください。
-実際のところ、\emph{共有変数}という名称のほうがより適切だったでしょう。そのほうが役割がより明らかで、使用上の危険の警告にもなっています。特に変更する時には危険です。
+クラスとそのクラスのすべてのインスタンスで、データを共有したい時があります。これは\emph{クラス変数}で可能です。クラス\subind{クラス}{変数}という用語は、変数のライフタイムがクラスと同じということを示しています。しかし、その用語の字面からはわかりませんが、クラス変数はクラスの間だけでなく、インスタンスとも共有されます。\figref{privateSharedVar}を見てください。実際のところ、\emph{共有変数}という名称のほうが適切だったでしょう。役割がより明らかになりますし、使う際(特に変更する場合)の危険性も伝わります。
 
 \begin{figure}[htb]
 \begin{center}
@@ -798,6 +785,8 @@ SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 \caption{インスタンスメソッドとクラスメソッドが別々の変数にアクセスしている。\figlabel{privateSharedVar}}
 \end{center}
 \end{figure}
+
+%ここまで
 
 \figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、したがって、\clsind{Color}のインスタンスからアクセス可能です。
 また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数であり、\lct{Color}クラスからしかアクセスできません。
