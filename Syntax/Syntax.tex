@@ -182,7 +182,7 @@
 	\seeindex{クロージャー}{ブロック}
 	\seeindex{静的クロージャー}{ブロック}
 
-\item[プリミティブ。] \ct{<primitive: ...>}は、\ind{バーチャルマシン}\ind{プリミティブ}の呼出しを表わします。
+\item[プリミティブ。] \ct{<primitive: ...>}は、\ind{バーチャルマシン}\ind{プリミティブ}の呼出しを表します。
 	(\ct{<primitive: 1>} は、\ct{SmallInteger>>>+} のバーチャルマシンプリミティブです。)
 	プリミティブの後にあるコードは、プリミティブが失敗した場合にだけ実行されます。
 	同じ文法は、メソッドアノテーションにも使われます。
@@ -300,7 +300,7 @@ Transcript cr
 これは、\glbind{Transcript} オブジェクトに \ct{cr} を送り、次にこれに、\ct{show: 'hello world'} を送り、最後にこれに、もう一つの \ct{cr} を送ります。
 
 一連のメッセージを\emph{同じ}レシーバへ送る場合、\emphind{カスケード}としてより簡潔に表現することができます。
-レシーバを一度だけ指定し、メッセージの列をセミコロンで区切ります:
+レシーバを一度だけ指定し、メッセージの並びをセミコロンで区切ります:
 
 \begin{code}{}
 Transcript cr;
@@ -337,14 +337,14 @@ String>>>lineCount
 文法上、メソッドは以下のものから成ります:
 \begin{enumerate}
   \item 名前(\ie \ct{lineCount})と引数(あれば。この例では一つも無い)から成るメソッドのパターン;
-  \item コメント(どんな場所にも書くことができますが、メソッドが何を行うかの説明を一番上に書く習慣があります);
+  \item コメント(どこに書いても構いませんが、メソッドが何を行うかの説明を一番上に書く習慣があります);
   \item ローカル変数(\ie \ct{cr} と \ct{count})の宣言; そして
   \item ドットで区切った任意個の式; ここでは式は、4 個。
 \end{enumerate}
 
 \ct{^}(\verb|^|とタイプした)が先行した任意の式は、それ評価すると、その時点でメソッドを終了してその式の値を返します。
-明示的に式を返さずに終了するメソッドは、暗黙的に \pvind{self} を \ind{リターン TODO}します。
-\index{リターン TODO!暗黙}
+明示的に式を返さずに終了するメソッドは、暗黙的に \pvind{self} を \ind{リターン}します。
+\index{リターン!暗黙}
 
 引数とローカル変数は、常に英小文字で始めなければいけません。
 英大文字で始まる名前は、グローバル変数とみなされます。
@@ -353,7 +353,7 @@ String>>>lineCount
 %=================================================================
 \section{ブロック文法}
 
-\ind{ブロック}は、式の評価を遅延させるためのメカニズムです。
+\ind{ブロック}は、式の評価を遅らせるためのメカニズムです。
 ブロックは、本質的には無名の関数で、メッセージ \mthind{BlockClosure}{value} を送って、これを評価します。
 ブロックは、明示的なリターン(\ct{^} で示す)が無ければ、その最後の式の値を返します。
 \seeindex{value}{BlockClosure}
@@ -362,8 +362,8 @@ String>>>lineCount
 [ 1 + 2 ] value --> 3
 \end{code}
 
-ブロックは、引数を取ることができます。引数は、先頭にコロンをつけて宣言します。
-縦線で、ブロックの本体と引数宣言を区切ります。
+ブロックは、パラメータを持つことができます。パラメータは、先頭にコロンをつけて宣言します。
+縦線で、ブロックの本体とパラメータ宣言を区切ります。
 パラメータが 1 個のブロックを評価するには、メッセージ \mthind{BlockClosure}{value:} に、引数を 1 個付けて送らなければなりません。
 パラメータが 2 個のブロックを評価するには、\mthind{BlockClosure}{value:value:}を送らなければなりません。同様に、4 個までの引数を渡すことができます。
 
@@ -376,14 +376,14 @@ String>>>lineCount
 (パラメータが多いブロックは、しばしば設計上の問題の兆候です)。
 
 ブロック内にも、縦線で囲んでローカル変数を宣言することができます。これは、メソッドのローカル変数宣言とまったく同様です。
-ローカル変数は引数の後に宣言します。
+ローカル変数はパラメータの後に宣言します。
 \index{変数!宣言}
 
 \begin{code}{@TEST}
 [ :x :y | | z | z := x+ y. z ] value: 1 value: 2 --> 3
 \end{code}
 
-ブロックは、それを取り囲む環境の変数を参照することができるので、静的\emph{クロージャー}と同じものです。
+ブロックは、それを取り囲む環境の変数を参照することができるので、事実上静的\emph{クロージャー}です。
 次のブロックは、それを取り囲む環境の変数 \ct{x} を参照します:
 
 \begin{code}{@TEST}
@@ -415,12 +415,12 @@ x := 1.
 
 
 %=================================================================
-\section{Conditionals and loops in a nutshell}
+\section{条件式とループの要点}
 
-\st は、制御のために特別の文法を使うことはしません。
-代わりに、真偽値、数およびコレクションに引数としてのブロックと共にメッセージを送ることにより表現します。
+\st には、制御構造のための特別の文法はありません。
+代わりに、真偽値、数およびコレクションに、ブロックを引数とするメッセージを送ることで、制御構造を表現します。
 
-条件は、ブール式の結果にメッセージ\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}あるいは\mthind{Boolean}{ifTrue:ifFalse:}のうちの1つを送ることにより表わします。真偽値に関する詳細については、\charef{basic}を参照してください。
+条件式は、真偽値にメッセージ \mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:} あるいは \mthind{Boolean}{ifTrue:ifFalse:} を送ることにより表します。真偽値に関する詳細については、\charef{basic}を参照してください。
 
 \begin{code}{}
 (17 * 13 > 220)
@@ -430,14 +430,14 @@ x := 1.
 % ON: Not a test.
 % My regex approach cannot handle multi-line expressions :-(
 
-ループは、ブロック、整数あるいはコレクションにメッセージを送ることにより表現します。
-ループの終了条件は繰り返し評価されるかもしれないので、ブール値ではなくブロックです。
-ここに、非常に手続き的なループの一例があげます:
-\index{iteration}
-\index{iteration|seealso{Collection, iteration}}
-\seeindex{loops}{iteration}
-\seeindex{enumeration}{iteration}
-\seeindex{control constructs}{iteration}
+ループは、ブロック、整数あるいはコレクションに、メッセージを送ることで表現します。
+ループの終了条件は、繰り返し評価されるかもしれないので、真偽値そのものではなく真偽値を返すブロックでなければなりません。
+以下は、非常に手続き的なループの例です:
+\index{繰り返し}
+\index{繰り返し|seealso{Collection, iteration}}
+\seeindex{ループ}{繰り返し}
+\seeindex{列挙}{繰り返し}
+\seeindex{制御構造}{繰り返し}
 
 \begin{code}{@TEST | n |}
 n := 1.
@@ -447,7 +447,7 @@ n --> 1024
 \cmindex{BlockClosure}{whileTrue:}
 
 \noindent
-\mthind{BlockClosure}{whileFalse:}は終了条件を逆にします。
+\mthind{BlockClosure}{whileFalse:} は、終了条件を逆にします。
 \begin{code}{@TEST | n |}
 n := 1.
 [ n > 1000 ] whileFalse: [ n := n*2 ].
@@ -455,7 +455,7 @@ n --> 1024
 \end{code}
 
 \noindent
-\mthind{Integere}{timesRepeat:}は、固定回数の繰り返しを実装する単純な方法です。
+\mthind{Integere}{timesRepeat:} により、単純な固定回数の繰り返しが実装できます。
 
 \begin{code}{@TEST | n |}
 n := 1.
@@ -463,8 +463,8 @@ n := 1.
 n --> 1024
 \end{code}
 
-ループカウンターの初期値として作用する数にメッセージ\mthind{Number}{to:do:}を送ることができます。
-2つの引数は、ループカウンターの上限と、引数としてループカウンターの現在値を取るブロックです。
+数に、メッセージ \mthind{Number}{to:do:} を送って、その数をループカウンタの初期値とすることもできます。
+二つの引数は、ループカウンタの上限とブロックです。ループカウンタの現在の値がブロックの引数になります。
 
 \needlines{4}
 \begin{code}{@TEST | result |}
@@ -480,16 +480,16 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % n --> 55
 % \end{code}
 
-\paragraph{High-Order Iterators.}
-コレクションには多くの様々なクラスがあります。コレクションの多くは同じプロトコルをサポートします。
-コレクションをイテレートするための重要メッセージは
-\mthind{Collection}{do:}, \mthind{Collection}{collect:}, \mthind{Collection}{select:}, \mthind{Collection}{reject:}, \mthind{collection}{detect:}および\mthind{Collection}{inject:into:}です。
-これらのメッセージは、コンパクトなコードを書くことを可能にする、ハイレベルのイテレーターを定義します。
+\paragraph{高階イテレータ。}
+コレクションには、多くの異ったクラスがあります。それらの多くは、同じプロトコルをサポートします。
+コレクションの要素について繰り返し処理するための最も重要メッセージには、
+\mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:}、\mthind{collection}{detect:} および \mthind{Collection}{inject:into:} があります。
+これらのメッセージは、高レベルのイテレータを定義しており、それによって非常にコンパクトなコードを書くことができます。
 
-\clsind{Interval}は数列の始点から終点をイテレートするコレクションです。
-\ct{1 to: 10}は1から10までの区間を表わします。
-これはコレクションなので、メッセージ\ct{do:}を送ることができます。
-引数はコレクションの各要素ごとに評価されるブロックです。
+\clsind{Interval} は、数の並びを、始点から終点まで繰り返し処理するためのコレクションです。
+\ct{1 to: 10}は 1 から 10 までの数の並びを表します。
+これはコレクションなので、メッセージ \ct{do:} を送ることができます。
+\ct{do:} の引数はブロックで、コレクションの要素がブロックのパラメータにバインドされ、繰り返し評価されます。
 
 \begin{code}{@TEST | result |}
 result := String new.
@@ -504,14 +504,14 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % n --> 55
 % \end{code}
 
-\ct{collect:}は各要素を変換して、同じサイズの新しいコレクションを作ります。
+\ct{collect:} は、各要素を変換して同じサイズの新しいコレクションを作ります。
 \begin{code}{@TEST}
 (1 to: 10) collect: [ :each | each * each ] --> #(1 4 9 16 25 36 49 64 81 100)
 \end{code}
 
-\ct{select:}と\ct{reject:}はブロックで表した条件を満たす(あるいは満たさない)要素の集合からなる新しいコレクションを作ります。
-\ct{detect:}は、条件を満たす最初の要素を返します。
-さらに、文字列がコレクションであることを忘れないでください。したがって、文字をイテレートすことができます。
+\ct{select:} と \ct{reject:} は、真偽値を返すブロックを満たす(あるいは満たさない)要素からなる新しいコレクション(部分集合)を作ります。
+\ct{detect:} は、条件を満たす最初の要素を返します。
+文字列が文字のコレクションであることを覚えておいてください。文字列内の文字は、繰り返し処理することができます。
 
 \begin{code}{@TEST}
 'hello there' select: [ :char | char isVowel ] --> 'eoee'
@@ -519,9 +519,9 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 'hello there' detect: [ :char | char isVowel ] --> $e
 \end{code}
 
-コレクションは関数型の畳み込み演算\emph{fold}を\ct{inject:into:}メソッドによりサポートします。
-これは、シード値で始まり、コレクションの各要素を反映する式を使って、累積的な結果を生成します。
-代表例は和と積です。
+最後に、コレクションが、\ct{inject:into:} メソッドにより、関数型の(高階の)\emph{畳み込み}演算をサポートすることに留意してください。
+これを使うと、シード値で始まる式にコレクションの各要素を注入して、累積的な値を得ることができます。
+和や積の累積は、\ct{inject:into:} の典型的な応用例です。
 \seeindex{fold}{\ct{Collection>>>inject:into}}
 
 \begin{code}{@TEST}
@@ -529,9 +529,9 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \end{code}
 
 \noindent
-これは\ct{0+1+2+3+4+5+6+7+8+9+10}と同等です。
+これは、\ct{0+1+2+3+4+5+6+7+8+9+10}と等価です。
 
-コレクションに関して\charef{collections}でさらに詳しく扱います。
+コレクションに関しては、\charef{collections} でより詳しく述べます。
 
 %=================================================================
 \section{Primitives and pragmas}
