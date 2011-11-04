@@ -786,22 +786,15 @@ SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 \end{center}
 \end{figure}
 
-%ここまで
+\figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、そのため、\clsind{Color}のインスタンスからアクセス可能です。また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数なので、\lct{Color}クラスからのみアクセスできます。
 
-\figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、したがって、\clsind{Color}のインスタンスからアクセス可能です。
-また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数であり、\lct{Color}クラスからしかアクセスできません。
-
-しかし、何か新しいものもあります。\ct{ColorNames}と\ct{CachedColormaps}は\emph{クラス変数}で、\ct{Color}に定義されています。
-これらの変数が大文字であることが、共有されているというヒントを与えてくれます。
-実際、\ct{Color}の全インスタンスがこれらの共有変数にアクセスできるだけでなく、\ct{Color}クラス自身と\emph{そのすべてのサブクラスからアクセス可能です}。
-これらの共有変数には、インスタンスメソッドとクラスメソッドの両方がアクセス可能です。
+新しくでてきたのは\ct{ColorNames}と\ct{CachedColormaps}の\emph{クラス変数}で、\ct{Color}に定義されています。これらの変数が大文字であることが、共有されているというヒントを与えてくれます。実際、\ct{Color}の全インスタンスがこれらの共有変数にアクセスできるだけでなく、\ct{Color}クラス自身と\emph{そのすべてのサブクラスからもアクセス可能です}。インスタンスメソッドとクラスメソッドの両方からこれらの共有変数にアクセスできます。
 
 %\begin{figure}
 %\begin{center}\includegraphics[width=6cm]{dateToday}\caption{A date is an object that  represents only anumber of days; all the information about month names, day names, etc.\ is shared among all the instances \figlabel{dateToday}}\end{center}.
 %\end{figure}
 
-クラス\subind{クラス}{変数}はクラス定義テンプレートの中で宣言されます。
-例えば、\ct{Color}クラスは大量のクラス変数を定義して色オブジェクトの生成を高速化しています。その定義を下図(\clsref{Color})に示します。
+クラス\subind{クラス}{変数}はクラス定義テンプレートの中で宣言されます。例えば、\ct{Color}クラスでは大量のクラス変数を定義しており、色オブジェクトの生成を高速化しています。その定義を下図(\clsref{Color})に示します。
 \needlines{5}
 \begin{classdef}[Color]{Colorとクラス変数}
 Object subclass: #Color 	
@@ -811,12 +804,11 @@ Object subclass: #Color
         category: 'Graphics-Primitives'
 \end{classdef}
 
-クラス変数\cvind{ColorNames}は、よく使われる色の名前を持つ配列です。
-この配列は\ct{Color}とそのサブクラス\clsind{TranslucentColor}のすべてのインスタンスに共有されていて、インスタンスメソッドやクラスメソッドからアクセス可能です。% (see \figref{ClassVarAccess2}).
+クラス変数\cvind{ColorNames}は、よく使われる色の名前を持つ配列です。この配列は\ct{Color}とそのサブクラス\clsind{TranslucentColor}の、すべてのインスタンスで共有されていて、インスタンスメソッドやクラスメソッドからアクセス可能です。% (see \figref{ClassVarAccess2}).
 
-\ct{ColorNames}は\cmind{Color class}{initializeNames}で一度だけ初期化されますが、\ct{Color}のインスタンスからアクセスされます。
-\cmind{Color}{name}メソッドは、ある色の名前を探すためにこの変数を使います。
-ほとんどの色は名前を持たないので、インスタンス変数\ct{name}をすべての色が持つことは適切ではないと考えられたからです。
+\ct{ColorNames}は\cmind{Color class}{initializeNames}で一度だけ初期化され、\ct{Color}のインスタンスからアクセスされます。\cmind{Color}{name}メソッドで、色の名前を探すためにこの変数が使われています。このようになっているのは、ほとんどの色は名前を持たないため、インスタンス変数\ct{name}を色ごとに持つのは不適切と考えたからです。
+
+%ここまで
 
 \subsubsection{クラスの初期化}
 
