@@ -244,7 +244,7 @@ containsPoint: aPoint
 		or: [verticalBar containsPoint: aPoint]
 \end{method}
 
-このメソッドは\ct{drawOn:}と同じ方法を使います。要は、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると言えるからです。
+このメソッドは\ct{drawOn:}と同じロジックを使っています。つまり、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると確実に言えます。
 \ct{Rectangle}クラスの\mthind{Rectangle}{containsPoint:}を活用すれば、この面倒な仕事をやりとげることができます。
 
 メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには２つの問題点があります。
