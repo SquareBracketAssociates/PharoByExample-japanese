@@ -318,7 +318,7 @@ m color: (Color blue alpha: 0.3).
 
 \noindent
 この解決法は、verticalBarを３つの部分に分け、上側と下側の部分だけ塗りつぶすということです。
-再度、\ct{Rectangle}クラスでこの面倒な仕事をするメソッドを見つけます。\ct{r1 areasOutside: r2}は、\ct{r2}の外側に出ている\ct{r1}の部分を含んだ、四角形の配列を返します。
+\ct{Rectangle}クラスでこの面倒な仕事をしてくれるメソッドがまた見つかります。\ct{r1 areasOutside: r2}は、\ct{r2}の外側に出ている\ct{r1}を構成する四角形の配列を返します。
 以下が改良されたコードになります。
 
 \begin{method}{\ct{drawOn:}メソッドの改良版。十字の中心を一度だけ描く。}
