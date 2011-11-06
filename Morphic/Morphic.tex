@@ -405,7 +405,7 @@ verticalBar
 後述するように、\ct{mouseDown:}と\ct{mouseUp:}メッセージは、\clsind{MouseEvent}オブジェクトの引数を伴って送られます。この引数は、マウスの動作の詳細を表しています。
 
 \ct{CrossMorph}クラスを拡張して、マウスイベントを扱うようにしましょう。
-まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに\ct{true}を返すようにします。
+まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに確実に\ct{true}を返すことから始めます。
 
 \dothis{\ct{CrossMorph}に以下のメソッドを追加します。}
 \begin{method}{\ct{CrossMorph}がマウスクリックに反応するように宣言する。}
