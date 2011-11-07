@@ -81,7 +81,7 @@
 \ifluluelse
 	{\centerline {\includegraphics[width=0.9\textwidth]{AddPackage}}}
 	{\centerline {\includegraphics[scale=0.7]{AddPackage}}}
-	\caption{Adding a package.
+	\caption{パッケージを追加します。
 	\figlabel{addPackage}}
 \end{minipage}
 \hfill
@@ -89,7 +89,7 @@
 \ifluluelse
 	{\centerline {\includegraphics[width=0.8\textwidth]{ClassTemplate}}}
 	{\centerline {\includegraphics[scale=0.6]{ClassTemplate}}}
-	\caption{The class template.
+	\caption{クラステンプレート。
 	\figlabel{classTemplate}}
 \end{minipage}
 \end{figure}
@@ -135,9 +135,10 @@ SimpleSwitchMorph subclass: #LOCell
 \index{class!creation}
 \index{Morphic}
 
-この新しく定義した\st 式は、 \ct{SimpleSwitchMorph}という名の既存のクラスに対し、\ct{LOCell}という名のサブクラスを作るようメッセージを送ります。(実際には\ct{LOCell}サブクラスはまだ作られていないため、これから作るサブクラスの名前、つまり\emphind{シンボル} \ct{#LOCell}を引数として渡します。)
-また、マウスでクリックしたときにcellがどのような動作をするか、ということもこの後定義する\ct{mouseAction}インスタンス変数に対し伝えなければなりません。
-\emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだプログラムを\emph{変更が保存されていないこと}を意味します。実際に保存するために\menu{accept}する必要があります。
+この新しい定義は、\ct{SimpleSwitchMorph}という既存のクラスに対して\ct{LOCell}という名のサブクラスを作るようメッセージを送る\st 式になっています(実際には\ct{LOCell}クラスはまだ存在していないため、クラス名を表す\emphind{シンボル} \ct{#LOCell}を引数として渡しています)。
+また、このメッセージには新しいクラスのインスタンスが\ct{mouseAction}インスタンス変数を持つことも含まれています。\ct{mouseAction}は、cell上でマウスがクリックされた際の振る舞いを定義するために使用するインスタンス変数になります。
+
+\emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだ\emph{変更が保存されていないこと}を意味しています。実際にこのメッセージを送るためには、この変更を\menu{accept}する必要があります。
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -148,11 +149,12 @@ SimpleSwitchMorph subclass: #LOCell
 \end{figure}
 
 \dothis{新しいクラス定義をacceptします}
-action-clickをして\menu{accept}を選択、もしくはショートカットの\short{s} (保存のため)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
-1度クラス定義がacceptされると、クラスが作られ、Browserのクラスペインにそのクラスが表示されます(\figref{LOCell})。今、編集ペインにはクラス定義が表示されているはずです。またその下にある小さなペインではそのクラスの目的を書くことをうながしてきます。これは\emph{クラスコメント}と呼ばれ、他のプログラマーに対し、このクラスの目的を伝えるために非常に役に立つ概要を与えてくれます。\st プログラマーは自分が書くコードの読みやすさを重視します。そのためメソッド内に書かれる詳細なコメントの質は並外れていて、そのコードについての哲学が語られています。(もしそうなっていない場合は、そうなるまでリファクタリングするべきです。)
+action-clickして\menu{accept}を選択、もしくはショートカットの\short{s} (save)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
+クラス定義をacceptすると、すぐさまクラスが作成されてBrowserのクラスペインに表示されます(\figref{LOCell})。編集ペインにはクラス定義が表示され、その下にある小さなペインdでは簡潔にそのクラスの目的を説明することがうながされます。ここへ記述する内容は\emph{クラスコメント}と呼ばれ、他のプログラマーへクラスの大まかな目的を伝えるためのとても重要なものになります。\st プログラマーはコードの読みやすさを重視するため、メソッド内に詳細なコメントが書かれることは稀です。ここでの哲学は、コードの意図はコード自身に語らせよ、ということです(もしそうなっていない場合は、そうなるまでリファクタリングしましょう！)。
+
 \index{keyboard shortcut!accept}
 
-\subind{クラス}{コメント}に、クラスの詳細な説明が含まれている必要はありません。しかし、クラス全体の目的を数語で表現できれば、後進のプログラマーがこのクラスを時間を費やしてでも読む気にさせてくれるでしょう。
+\subind{クラス}{コメント}には、クラスの詳細な説明ではなく、後進のプログラマーがこのクラスを調査する際に必要となる全体的な目的を簡潔に記述するようにしましょう。
 
 \dothis{LOCellクラスのコメントを入力し、acceptして下さい。これは後に変更することができます。}
 
