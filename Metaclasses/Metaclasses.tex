@@ -331,19 +331,23 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 \on{The text below needs more details and convincing examples ...}
 
 \paragraph{\lct{Behavior}、\lct{ClassDescription}および\lct{Class}の責務について}
-\clsind{Behavior}は、インスタンスを持つための必要最小限の状態を保持しています。すなわち、スーパークラスへのリンク、メソッド辞書、インスタンスフォーマットの指定（\ie 数字の表示）などです。
+\clsind{Behavior}は、インスタンスを持つための必要最小限の状態を保持しています。すなわち、スーパークラスへのリンク、メソッド辞書、およびクラスのフォーマット(ポインターオブジェクト・非ポインターオブジェクトの区別、コンパクトクラス・非コンパクトクラスの区別、およびインスタンス変数の個数をコード化したもの)などです。
 \on{not sure I understand the last point}
 \ct{Behavior}は\ct{Object}を継承しているので、それ自身、およびそのすべてのサブクラスは、一般のオブジェクトとしても振る舞うことができます。
 
 \ct{Behavior}は、コンパイラへの基本的なインターフェースも提供します。メソッド辞書の生成、メソッドのコンパイル、インスタンスの生成（\ie \mthind{Behavior}{new}, \mthind{Behavior}{basicNew}, \mthind{Behavior}{new:}, \mthind{Behavior}{basicNew:}）、クラス階層の操作（\ie \mthindex{Behavior}{superclass:} \lct{superclass:}, \mthind{Behavior}{addSubclass:}）、メソッドへのアクセス（\ie \mthind{Behavior}{selectors}, \lmthind{Behavior}{allSelectors}, \mthind{Behavior}{compiledMethodAt:}）、インスタンス、およびインスタンス変数へのアクセス（\ie \mthind{Behavior}{allInstances}, \mthind{Behavior}{instVarNames}\ldots）、クラス階層へのアクセス（\ie \mthind{Behavior}{superclass}, \mthind{Behavior}{subclasses}）、クラス階層関連の問い合わせ（\ie \mthind{Behavior}{hasMethods}, \mthind{Behavior}{includesSelector}, \mthind{Behavior}{canUnderstand:}, \mthind{Behavior}{inheritsFrom:}, \mthind{Behavior}{isVariable}）などを提供します。
 
 \clsind{ClassDescription}は抽象クラスであり、\clsind{Class}と\clsind{Metaclass}という直接のサブクラスが必要とする機能を提供しています。
-\clsind{ClassDescription}は\ct{Behavior}で提供されている最小限の基礎に以下のような多くの機能を追加しています。それらは、インスタンス変数の名前の管理、プロトコルによるメソッドの分類、the notion of a name (abstract)、チェンジセットや変更ログの取り扱い、そしてファイルアウト機能の大部分などです。
+\clsind{ClassDescription}は\ct{Behavior}で提供されている最小限の基礎に以下のような多くの機能を追加しています。それらは、
+インスタンス変数の名前の管理、
+プロトコルによるメソッドの分類、
+チェンジセットや変更ログの取り扱い、
+そしてファイルアウト機能の大部分などです。
 
 \clsind{Class}は、すべてのクラスに共通する一般的な振る舞いを提供します。
 それらは、クラス名、メソッドのコンパイル、メソッドの保管、インスタンス変数に関わる機能です。
 また、クラス変数名、共有プール変数に関わる機能（\mthind{Class}{addClassVarName:}, \mthind{Class}{addSharedPool:}, \mthind{Class}{initialize}）も持ちます。
-\ct{Class}がインスタンス変数を生成する機能を持つので、つまるところ、すべてのメタクラスは\ct{Class}を継承することになります。
+メタクラスは通常のクラスという形でインスタンスを持ち、そのインスタンスにクラスとしてのサービスを提供しなくてはならないので、すべてのメタクラスは\ct{Class}を継承することになります。
 
 %=================================================================
 \section{すべてのメタクラスは\lct{Metaclass}のインスタンス}
