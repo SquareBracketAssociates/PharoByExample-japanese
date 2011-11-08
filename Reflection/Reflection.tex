@@ -105,18 +105,19 @@ w inspect
 この理屈から言えば、クラスが何らかのアクセサメソッドを定義していない限り、他のオブジェクトからインスタンス変数にアクセスさせることはできません。
 しかし実際には、インスペクタはアクセサメソッドがなくてもインスタンス変数にアクセスできます。これは\stがリフレクション可能だからです。
 \st では、クラスはインスタンス変数を名前または数値の添字で定義します。
-インスペクターは、インスタンス変数にアクセスするための汎用のメソッドを用いるのですが、これらのメソッドは、\ct!Object!クラスで定義されています。これらのうち、\lct{instVarAt: \emph{index}}や\lct{instVarNamed: \emph{aString}}は、インスタンス変数の値を得るのに使えます。インスタンス変数は、\lct{\emph{index}}によって位置を特定されるか、\lct{\emph{aString}}で識別されます。インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:!や\ct!instVarNamed:put:!を用います。
+インスペクタは、\ct!Object!クラスで定義されているメソッド \lct{instVarAt: \emph{index}} または \lct{instVarNamed: \emph{aString}} を使ってインスタンス変数にアクセスします。数値の添字 \lct{\emph{index}} で位置を指定するか、インスタンス変数名 \lct{\emph{aString}} を指定します。インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:! か \ct!instVarNamed:put:! を使います。
 \mthindex{Object}{instVarAt:}
 \mthindex{Object}{instVarNamed:}
 \mthindex{Object}{instVarAt:put:}
 \mthindex{Object}{instVarNamed:put:}
 
-例えば、以下を評価すれば、最初のワークスペースで\ct!w!にバインドされていたもうひとつのワークスペースオブジェクトの、内部状態を変更できます:
+例えば次のコードを評価すると、最初のワークスペースで変数 \ct!w! に束縛されていたオブジェクトの内部状態を変更できます。
+
 \begin{code}{}
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
-\important{\emph{警告:} これらのメソッドは、開発ツールを構築するのに便利ですが、通常のアプリケーションを開発するのにこれらを使うのは、悪い考えです: これらのリフレクティブなメソッドは、オブジェクトのカプセル化の境界を破り、その結果、コードは、よりわかりづらく、保守しづらいものになりかねません。}
+\important{\emph{注意:} これらのメソッドは開発ツールを作る分には便利ですが、通常のアプリケーションの開発にはよくありません。リフレクション可能なメソッドはオブジェクトのカプセル化の境界を壊すので、理解も保守も難しいコードを生んでしまいます。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
 \ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。それは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
