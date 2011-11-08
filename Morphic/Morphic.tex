@@ -244,13 +244,13 @@ containsPoint: aPoint
 		or: [verticalBar containsPoint: aPoint]
 \end{method}
 
-このメソッドは\ct{drawOn:}と同じ方法を使います。要は、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると言えるからです。
+このメソッドは\ct{drawOn:}と同じロジックを使っています。つまり、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると確実に言えます。
 \ct{Rectangle}クラスの\mthind{Rectangle}{containsPoint:}を活用すれば、この面倒な仕事をやりとげることができます。
 
 メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには２つの問題点があります。
 あきらかな点は、コードが重複していることです。
 これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、２カ所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
-解決方法は、これらの計算を新たな２つのメソッドに分けることです。どちらも\ct{private}プロトコルに格納します。
+解決方法は、これらの計算を新たな２つのメソッドに抽出することです。どちらも\ct{private}プロトコルに格納します。
 
 \needlines{4}
 \begin{method}{\ct{horizontalBar}.}
@@ -285,7 +285,7 @@ containsPoint: aPoint
 		or: [self verticalBar containsPoint: aPoint]
 \end{method}
 
-意味のある名前をプライベートメソッドにしたことで、このコードはより簡単に理解できるようになりました。
+プライベートメソッドに意味のある名前をつけたおかげで、このコードはより簡単に理解できるようになりました。
 実際、すぐに２番目の問題が明らかになります。それは、十字の中央の部分がhorizontalBarとverticalBarの両者の下になっており、２度描かれてしまうという問題です。
 不透明な色を塗る場合には問題になりませんが、\figref{overdrawBug}に示すような半透明な色で描くとすぐにこのバグが露見します。
 
@@ -317,11 +317,11 @@ m color: (Color blue alpha: 0.3).
 \end{code}
 
 \noindent
-この解決法は、verticalBarを３つの部分に分け、上側と下側の部分だけ描くということです。
-再度、\ct{Rectangle}クラスでこの面倒な仕事をするメソッドを見つけます。\ct{r1 areasOutside: r2}は、\ct{r2}の外側に出ている\ct{r1}の部分を含んだ、四角形の配列を返します。
+この解決法は、verticalBarを３つの部分に分け、上側と下側の部分だけ塗りつぶすということです。
+\ct{Rectangle}クラスでこの面倒な仕事をしてくれるメソッドがまた見つかります。\ct{r1 areasOutside: r2}は、\ct{r2}の外側に出ている\ct{r1}を構成する四角形の配列を返します。
 以下が改良されたコードになります。
 
-\begin{method}{\ct{drawOn:}メソッドの改良版。十字の中心を一度だけ描く。}
+\begin{method}{\ct{drawOn:}メソッドの改良版。十字の中心を一度だけ塗りつぶす。}
 drawOn: aCanvas 
 	| topAndBottom |
 	aCanvas fillRectangle: self horizontalBar color: self color.
@@ -394,7 +394,7 @@ verticalBar
 %=================================================================
 \section{対話とアニメーション}
 
-モーフを使って、生きたユーザー・インタフェースを実現するには、マウスやキーボードでモーフと対話できなければなりません。
+モーフを使って、いきいきとしたユーザーインターフェースを実現するには、マウスやキーボードでモーフと対話できなければなりません。
 さらに、モーフは自分の見た目や位置を変えることで（つまり自分自身のアニメーションによって）、ユーザーからの入力に反応する必要があります。
 
 
@@ -405,7 +405,7 @@ verticalBar
 後述するように、\ct{mouseDown:}と\ct{mouseUp:}メッセージは、\clsind{MouseEvent}オブジェクトの引数を伴って送られます。この引数は、マウスの動作の詳細を表しています。
 
 \ct{CrossMorph}クラスを拡張して、マウスイベントを扱うようにしましょう。
-まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに\ct{true}を返すようにします。
+まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに確実に\ct{true}を返すことから始めます。
 
 \dothis{\ct{CrossMorph}に以下のメソッドを追加します。}
 \begin{method}{\ct{CrossMorph}がマウスクリックに反応するように宣言する。}
