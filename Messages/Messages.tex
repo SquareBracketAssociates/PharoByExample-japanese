@@ -37,25 +37,25 @@
 \chapter{メッセージ構文を理解しよう}
 \chalabel{understanding}
 
-\st の構文はとても簡素ではありますが、標準的なものではないために慣れるのに少し時間が必要でしょう。
-この章ではメッセージ構文の特徴に順応するためのガイダンスを提供します。
-もしすでに構文には慣れていると思われるなら、この章は飛ばしてもよいですし、あるいはまたあとで読むことにしてもよいでしょう。
+\st の構文はとても単純ですが、標準的なものではないので、慣れるのに少し時間がかかるでしょう。
+この章では、この特殊なメッセージ構文に順応するためのガイダンスを提供します。
+もしすでに構文には慣れていると思われるなら、この章は飛ばしても構いませんし、あるいはまた後で読んでも良いでしょう。
 
 %=============================================================
 \section{メッセージを読み取る}
 
-\st では\charef{syntax}で紹介した構文要素 (\ct+:= ^ . ; # () {} [ : | ]+)を除けば、, すべてがメッセージ送信です。
-\ind{C++}のように、\ct{+}のような演算子を自分で作ったクラスに定義することもできますが、すべての演算子は同じ優先順位となることに気をつけてください。
-また、あるメソッドが受け取る引数の個数も変えられません。例えば、``\ct{-}''は常に2項演算子で、単項の``\ct{-}''をオーバーロードして作ることはできません。
+\st では \charef{syntax} で紹介した構文要素 (\ct+:= ^ . ; # () {} [ : | ]+)を除けば、すべてがメッセージ送信です。
+\ind{C++} のように、\ct{+} のような演算子を自分で作ったクラスに定義することもできますが、すべての演算子の優先順位は同じです。
+さらに、あるメソッドが受け取る引数の個数も変えられません。例えば ``\ct{-}'' は、常に二項演算子で、単項の ``\ct{-}'' をオーバーロードして作ることはできません。
 
-\st では、メッセージ構文の優先順位、すなわち記述されたメッセージがどのような順番で送信されるかはメッセージ構文の種類によって決定されます。そのメッセージ構文の種類は3種類だけです。それらは\emphsubind{message}{unary(単項)}、\emphsubind{message}{binary(2項)}および\emphsubind{message}{keyword(キーワード)}メッセージです。単項メッセージは最高の優先順位であり、その次が2項、そして最後がキーワードメッセージです。ほかの多くの言語と同様に、\ind{かっこ}を使って評価順を変えることができます。これらの規則によって、\st のコードは可能な限り読みやすく、かつ規則のことに頭を悩ませなくてもよいようになっています。
+\st では、メッセージの優先順位、すなわち記述されたメッセージがどのような順番で送信されるかは、メッセージの種類によって決定されます。そのメッセージの種類は 3 種類だけです: \emphsubind{メッセージ}{単項}、\emphsubind{メッセージ}{二項}および\emphsubind{メッセージ}{キーワード}メッセージです。単項メッセージは最高の優先順位であり、その次が二項、そして最後がキーワードメッセージです。他の多くの言語と同様に、\ind{括弧}を使って評価順を変えることができます。これらの規則によって、\st のコードは可能な限り読みやすく、かつ規則のことに頭を悩ませなくてもよいようになっています。
 
-基本的に\st でのすべての計算はメッセージ送信によって行われるので、メッセージを正しく読み取ることが非常に重要です。以下にまとめた用語と概念を理解することが役に立つでしょう。
+基本的に、\st でのすべての計算はメッセージ送信によって行われるので、メッセージを正しく読み取ることが非常に重要です。以下にまとめた用語と概念を理解することが役に立つでしょう。
 
 \begin{itemize}
-  \item メッセージは\emphsubind{message}{セレクター}および必要な場合に指定されるメッセージ引数からなりたっています。
-  \item メッセージは\emphsubind{message}{レシーバー}に送信されます。
-  \item レシーバーとメッセージの組み合わせが、\figref{firstScriptMessage}にあるように\emph{メッセージ} \emphsubind{message}{送信}と呼ばれています。
+  \item メッセージは、\emphsubind{メッセージ}{セレクタ}およびオプションのメッセージ引数からなりたっています。
+  \item メッセージは、\emphsubind{メッセージ}{レシーバ}に送信されます。
+  \item レシーバとメッセージの組み合わせが、\emph{メッセージ} \emphsubind{メッセージ}{送信}と呼ばれます(\figref{firstScriptMessage})。
 %  \item We call expression a message send, a variable, an assignment, a literal or a block. 
 \end{itemize}
 
@@ -63,7 +63,7 @@
 \begin{minipage}{0.53\textwidth}
 	\begin{center}
 	\includegraphics[width=0.95\textwidth]{message}
-	\caption{レシーバー、セレクター、引数からなるメッセージ送信の例２つ。\figlabel{firstScriptMessage}}\end{center}
+	\caption{レシーバ、セレクタ、引数からなるメッセージ送信の例。二つ。\figlabel{firstScriptMessage}}\end{center}
 \end{minipage}
 \hfill
 \begin{minipage}{0.43\textwidth}
@@ -71,7 +71,7 @@
 	\ifluluelse
 		{\includegraphics[width=0.9\textwidth]{uKeyUnOne}}
 		{\includegraphics[width=6cm]{uKeyUnOne}}
-	\caption{\ct{aMorph color: Color yellow}という式は\ct{Color yellow}および\ct{aMorph color: Color yellow}という二つのメッセージ送信からなりたっている。\figlabel{ellipse}}
+	\caption{\ct{aMorph color: Color yellow} という式は、\ct{Color yellow} および \ct{aMorph color: Color yellow} という二つのメッセージ送信からなりたっている。\figlabel{ellipse}}
 	\end{center}
 \end{minipage}
 \end{figure}
@@ -82,7 +82,7 @@
 %\caption{Two messages composed of a receiver, a method selector, and a set of arguments.\figlabel{firstScriptMessage}}\end{center}
 %\end{figure}
 
-\important{メッセージは常にレシーバーに送信されます。レシーバーはリテラル、ブロック、変数または他のメッセージを評価した結果のいずれかです。}
+\important{メッセージは、常にレシーバに送信されます。レシーバは、リテラル・ブロック・変数・他のメッセージを評価した結果、のいずれかです。}
 %sd-ま、代入を考えてないからかんぜんただしいというわけではないがな
 
 以下の図ではメッセージのレシーバーを同定しやすくなるよう、レシーバーに下線を引くことにします。
