@@ -317,9 +317,10 @@ ExampleSetTest>>>testIllegal
 	self should: [empty at: 5 put: #zork] raise: Error
 \end{method}
 
-\sunit では処理系依存のコードをできるだけ避けて移植性を高めており、どの \st 処理系でも使えるようになっています。
-例えばシステムエラーのクラスは処理系によって異なるため、 \cmind{TestResult class}{error} メソッドで返すようにしています。
-処理系に依存しないようにするには、 \mthref{ESTtestIllegal} のコードを次のように書き換えます。
+\sunit は移植性が確保されていて、どの \st 処理系でも使えます。
+\sunit の開発者は処理系依存のコードを括り出すことで移植性を確保しました。
+例えば、 \cmind{TestResult class}{error} メソッドがシステムエラーを表わすクラスを返すことで、処理系に依存しない記述が可能です。
+これを使うと、 \mthref{ESTtestIllegal} のコードを次のように書き換えることができ、 Smalltalk のあらゆる処理系で動かすことができます。
 
 \needlines{4}
 \begin{method}[portabletestillegal]{移植性の高いエラー捕捉方法}
@@ -330,22 +331,19 @@ ExampleSetTest>>>testIllegal
 
 \dothis{試してみましょう。}
 
-\subsection{メニューを使わずにテストランナーを開く}
-
-ワークスペースなどで \ct{TestRunner open} を実行 (コンテキストメニューから \menu{do it} を選択) します。
-
-% この内容は次の "Running a single test" で書かれていますが、
-% あまり関係がないため独立させました。
-
 \subsection{テストを一つだけ実行する}
 
-テストランナーを開かずにテストを一つだけ実行したい場合、次のコードを実行します。
+通常は TestRunner を使ってテストを実行しますが、もし TestRunner を \menu{open...} メニューから開くのが好みではないのでしたら、 \ct{TestRunner open} を \menu{print it} することができますね。
+% この内容は次の "Running a single test" で書かれていますが、
+% あまり関係がないため独立させました。
+%% 構造は原文と揃えたほうがいいのと、Workspace上でのTestCase実行に橋渡しをする導入ということで、元の位置に戻しました。
+テストを一つだけ実行したい場合には、次のコードを実行します。
 
 \begin{code}{}
 ExampleSetTest run: #testRemove --> 1 run, 1 passed, 0 failed, 0 errors
 \end{code}
 
-\subsection{テストクラスに定義されたすべてのテストを実行する}
+\subsection{1つのテストクラスに定義されたすべてのテストを実行する}
 
 \ct{TestCase} のサブクラスに \ct{suite} メッセージを送ると、名前が ``\ct{test}'' で始まるメソッドを集めてテストスイートを組み立てます。
 このテストスイートに \ct{run} メッセージを送ってテストを実行します。
@@ -355,11 +353,12 @@ ExampleSetTest run: #testRemove --> 1 run, 1 passed, 0 failed, 0 errors
 ExampleSetTest suite run --> 5 run, 5 passed, 0 failed, 0 errors
 \end{code}
 
-\subsection{必ず TestCase クラスを継承しなければならない？}
+\subsection{必ず TestCase クラスを継承しなければならないのでしょうか？}
 
 \ct{TestCase} クラスを継承しなくても \clsind{TestSuite} は組み立てられます。
 ただし、自分で \ct{TestCase} クラスの主要なメソッド (\ct{assert:} など) を実装したり、テストスイートを自分で作る必要が出てきます。
-\ct{TestCase} クラスを継承しましょう。
+\ct{TestCase} クラスを継承することをお勧めします。
+フレームワークが既にあるのですから、それを使えばいいのです。
 
 % JUnit の説明が少し違います。
 % JUnit 3.x 系では TestCase クラスを継承して test* メソッドを定義しますが、
@@ -368,9 +367,9 @@ ExampleSetTest suite run --> 5 run, 5 passed, 0 failed, 0 errors
 
 \section{SUnit フレームワーク}
 
-SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
-\clsind{TestSuite} 、 \clsind{TestResult} 、 \clsind{TestResource} (\figref{sunit-classes}) 。
-\emph{テストリソース}は \sunit 3.1 で導入された概念で、コストの高いセットアップに使われます。
+SUnit は、\figref{sunit-classes}に示されるように、主に次の 4 つのクラス: \clsind{TestCase} 、
+\clsind{TestSuite} 、 \clsind{TestResult} 、 \clsind{TestResource} (\figref{sunit-classes}) から構成されています。
+\emph{テストリソース}は \sunit 3.1 で導入された概念で、セットアップのコストが高く、かつ、一連のテスト全体で使われるようなリソースに使われます。
 \ct{TestResource} の \ct{setUp} メソッドは \ct{TestCase>>>setUp} と異なり、テストスイートの実行前に一度だけ実行されます。 \ct{TestCase>>>setUp} は各テストの実行前に setUp メソッドが実行されます。
 
 \begin{figure}[htb]
@@ -383,14 +382,16 @@ SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
 
 \subsection{TestCase}
 
-\clsindmain{TestCase} は抽象クラスです。サブクラスにテストを記述し、テスト間で実行時の状態を共有します (テストスイート) 。
-各テストは、それぞれ \ct{TestCase} のサブクラスのインスタンスを生成してから実行されます。 \mthind{TestCase}{setUp} を実行し、テストメソッドを実行し、最後に \mthind{TestCase}{tearDown} を実行します。
+\clsindmain{TestCase} は抽象クラスです。サブクラスには、お互いにコンテキスト(テストスイート)を共有する一群のテストを記述します。
+一群のテストの中の各テストは、それぞれ \ct{TestCase} のサブクラスのインスタンスを生成してから実行されます。 \mthind{TestCase}{setUp} を実行し、そのテストをおこなうテストメソッドを実行し、最後に \mthind{TestCase}{tearDown} を実行します。
 
-実行時の状態をインスタンス変数で表し、オーバーライドした \ct{setUp} メソッドで初期化します。 \ct{setUp} で初期化したオブジェクトの終了処理を行うには、 \ct{tearDown} メソッドをオーバーライドします。
+テストのコンテキストは、サブクラスのインスタンス変数とサブクラス毎に特化された \ct{setUp} メソッドとして記述されます。 後者\ct{setUp} メソッドが前者インスタンス変数を初期化します。 \ct{setUp} で初期化したオブジェクトの終了処理を行うには、 \ct{tearDown} メソッドをオーバーライドします。
 
 \subsection{TestSuite}
 
-\clsindmain{TestSuite} はテストケース (テストとテストスイート) の集合を含みます。つまり、 \ct{TestSuite} は \ct{TestCase} と \ct{TestSuite} のインスタンスを含みます。
+テストスイートはテストケースの集合です。
+\clsindmain{TestSuite} のインスタンスは、テストや他のテストスイートの集合を持っています。
+つまり、 \ct{TestSuite} は \ct{TestCase} と \ct{TestSuite} のインスタンスを含みます。
 \lct{TestCase} と \lct{TestSuite} の間に継承関係はありませんが、どちらも同じプロトコルを実装しているので同じように扱えます。
 例えば、どちらも \ct{run} メソッドが定義されています。
 \ct{TestSuite} を枝、 \ct{TestCase} を葉として Composite パターンを適用しています (詳しくは\textit{デザインパターン}を参照してください) 。
@@ -398,21 +399,21 @@ SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
 \subsection{TestResult}
 
 \clsindmain{TestResult} は \ct{TestSuite} の実行結果を扱います。
-成功したテストの数、失敗したテストの数、エラーの発生したテストの数を記録します。
+成功したテストの数、失敗したテストの数、エラーが発生したテストの数を記録します。
 
 \subsection{TestResource}
 \seclabel{resource}
 
 一連のテストでは、各テストが互いに独立していることが重要です。
 一つのテストの失敗が他のテストに波及しないように、テストの実行順序が結果に影響のないようにすべきです。
-\ct{setUp} と \ct{tearDown} で調整しましょう。
+\ct{setUp} と \ct{tearDown} がこの独立性を高めます。
 
 しかし、テストのたびに環境を用意していては時間がかかり過ぎる場合があります。
-さらに環境を壊さずに済むテストなら、一度作った環境を使い回せば十分です。
+さらに環境を壊さずに済むことが事前に分かっているテストなら、一度作った環境を使い回せば十分です。
 例えば、一連のテストがデータベースに問い合わせを行うなら、事前に用意しておいたデータベースに接続するだけで準備できます。
 コンパイルされたコードを分析するテストなら、同様に事前にソースコードをコンパイルしておけば十分です。
 
-リソースをキャッシュさえすれば、テスト間で共有できるようになるでしょうか？
+リソースをどこにキャッシュすれば、テスト間で共有できるようになるでしょうか？
 \ct{TestCase} のインスタンス変数はキャッシュとして使えません。
 \ct{TestCase} クラスのインスタンスは一つのテストでしか使われないからです。
 グローバル変数ならできますが、多用するとシステムがグローバル変数であふれてしまいますし、各テストとグローバル変数の関係がわかりにくくなります。
@@ -426,9 +427,11 @@ SUnit は次の 4 つのクラスから構成されます: \clsind{TestCase} 、
 \ab{}
 デフォルトでは、 \ct{TestSuite} のリソースはすべての \ct{TestCase} のリソースの集合です。
 
-次にリソースの例を示します。
+例題で説明しましょう。
 \ct{TestResource} のサブクラス \ct{MyTestResource} を定義します。
 次に \ct{MyTestCase} のクラスメソッド \ct{resources} で、このクラスのテストで使うリソースの配列を返します。
+
+% --- revised upto here, Nov 14, 2011, TO
 
 \needlines{8}
 \begin{classdef}[mytestresource]{TestResource のサブクラスの使用例}
