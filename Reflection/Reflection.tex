@@ -120,23 +120,23 @@ w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \important{\emph{注意:} これらのメソッドは開発ツールを作る分には便利ですが、通常のアプリケーションの開発にはよくありません。リフレクション可能なメソッドはオブジェクトのカプセル化の境界を壊すので、理解も保守も難しいコードを生んでしまいます。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
-\ct!instVarAt:!も\ct!instVarAt:put:!も、\ind{プリミティブメソッド}です。それは、これらが、\pharo 仮想マシンのプリミティブな操作によって実装されていることを意味します。
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! が見つかるでしょう。なお、ここで、\ct!N!は整数です。
+\ct!instVarAt:!と\ct!instVarAt:put:!は\ind{プリミティブメソッド}です。プリミティブメソッドは、バーチャルマシンのプリミティブな操作として実装されています。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! （\ct!N!は整数）が見つかるでしょう。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
 \begin{code}{}
 Object>>>instVarAt: index 
-	"プリミティブ。オブジェクト内で固定長配列で管理されたインスタンス変数を返す。 ..."
+	"プリミティブ。オブジェクト内の固定長配列で管理されているインスタンス変数を返す。"
 	!\textbf{<primitive: 73>}!
-	"固定長配列の範囲を超えた変数にアクセスする。"
+	"固定長配列の範囲を超えてアクセスする。"
 	^self basicAt: index - self class instSize		
 \end{code}
 
-通常は、こうしたプリミティブ呼び出しのあとのコードは、実行されません。
-プリミティブ呼び出しのあとのコードは、プリミティブが失敗したときにのみ、実行されます。この\ct!instVarAt:!の例では、存在しないインスタンス変数にアクセスしようとしたとき、プリミティブに続くコードが試されます。
-こうすれば、プリミティブメソッドからデバッガーを開始することもできます。
-プリミティブメソッドのコードは変更できますが、そのようなことをすれば、\pharo システムの安定性を脅かしかねないことに、注意してください。
+プリミティブに続くコードは、プリミティブが失敗した場合にのみ実行されます。
+\ct!instVarAt:!では、存在しないインスタンス変数にアクセスしようとすると、プリミティブに続くコードが実行されます。
+こうすれば、プリミティブメソッドが失敗したときにデバッガを起動できます。
+プリミティブメソッドのコードは変更できますが、\pharo システムの安定性を脅かしかねないため注意してください。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
