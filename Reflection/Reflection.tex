@@ -143,11 +143,12 @@ Object>>>instVarAt: index
 	\caption{\ct!Workspace!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
-\figref{allInstanceVariables}を見れば、\ct!Workspace!クラスの任意のインスタンス(\ct!w!)のインスタンス変数を表示する方法がわかります。
-この\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
+\figref{allInstanceVariables}は、\ct!Workspace!クラスのインスタンス（\ct!w!）の任意のインスタンス変数を表示する方法を示しています。
+\ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
-同様の精神で、特定の属性を持ったインスタンスを集めることが可能です。
-例えば、\ct!SketchMorph!クラスのインスタンスで、\ct!owner!インスタンス変数がワールドモーフに設定されているものすべて(\ie 現在表示されているすべてのイメージ)を得るために、次の式を試してみましょう:
+同様の方法で、同じ特徴を持つインスタンスを集めることもできます。
+例えば\ct!SketchMorph!クラスのインスタンスのうち、\ct!owner!インスタンス変数の内容がワールドモーフであるもの（\ie 現在表示されているすべてのイメージ）を集めてみましょう。次の式を試してみてください。
+
 \begin{code}{}
 SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
@@ -156,17 +157,17 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \subsection{インスタンス変数について繰り返し処理する}
 
 \mthindex{Object}{instanceVariableValues}
-\ct!instanceVariableValues!メッセージについて考えてみましょう。これは、クラスが定義しているすべてのインスタンス変数の値のコレクションを返します。ただし、継承されたインスタンス変数は除きます。
-例えば:
+\ct!instanceVariableValues!メッセージについて調べてみましょう。このメソッドは、すべてのインスタンス変数（継承したものは除く）の値のコレクションを返します。
+次に例を示します:
 \begin{code}{@TEST}
 (1@2) instanceVariableValues --> an OrderedCollection(1 2)
 \end{code}
 
-このメソッドは、以下のように、\ct{Object}クラスで実装されています:
+このメソッドは\ct{Object}クラスで次のように実装されています:
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
-	"レシーバーのクラスが追加した、すべてのレシーバーのインスタンス変数の値を要素とするコレクションを返す。"	
+	"レシーバのクラスが定義したインスタンス変数の値を集めたコレクションを返す。"	
 	| c |
 	c := OrderedCollection new.
 	self class superclass instSize + 1
