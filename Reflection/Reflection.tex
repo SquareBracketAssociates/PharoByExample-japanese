@@ -176,18 +176,18 @@ Object>>>instanceVariableValues
 	^ c
 \end{code}
 
-このメソッドは、そのクラスが定義する一連のインスタンス変数の添字について、繰り返し処理します。このときの添字は、スーパークラスで用いられていた最後の添字の直後の値から始まります。
-(\ct!instSize!メソッドは、クラスが定義しているすべての名前付きのインスタンス変数の数を返します)。
+このメソッドは、レシーバのクラスが定義しているインスタンス変数の添字に基づいて、インスタンス変数の値を集めます。この添字は、スーパークラスで使われている最後の添字の直後の値から始まります。
+（\ct!instSize! メソッドは、クラスが定義している名前付きのインスタンス変数の数を返します）。
 
 %-----------------------------------------------------------------
-\subsection{クラスやインターフェースへのクエリ}
+\subsection{クラスやインターフェースへの問い合わせ}
 
-\pharo の開発ツール(コードブラウザー、デバッガー, インスペクター...)はすべて、これまでに見たリフレクティブな機能を使っています。
+\pharo の開発ツール（コードブラウザ、デバッガ, インスペクタなど）はすべて、これまでに見て来たリフレクション可能な機能を使っています。
 
-この他にもう少し、おそらく開発ツールを構築するのに便利なメッセージを挙げます:
+もういくつか、開発ツールにとって役立つメッセージを挙げましょう:
 
-\lct{isKindOf: \emph{aClass}}は、レシーバーが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであるときに、trueを返します。
-例えば:
+\lct{isKindOf: \emph{aClass}}は、レシーバが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであれば真を返します。例:
+
 \begin{code}{@TEST}
 1.5 class                     --> Float
 1.5 isKindOf: Number --> true
@@ -196,19 +196,19 @@ Object>>>instanceVariableValues
 \mthindex{Object}{class}
 \mthindex{Object}{isKindOf:}
 
-\lct{respondsTo: \emph{aSymbol}}は、レシーバーやそのスーパークラスに、セレクターが\lct{\emph{aSymbol}}であるようなメソッドが定義されているときに、trueを返します。
-例えば:
+\lct{respondsTo: \emph{aSymbol}}は、セレクタが\lct{\emph{aSymbol}}であるメソッドをレシーバが持っていれば真を返します。例:
+
 \needlines{3}
 \begin{code}{@TEST}
-1.5 respondsTo: #floor      --> true    "Numberがfloorを実装しているので"
+1.5 respondsTo: #floor      --> true    "Numberクラスはfloorを実装しています"
 1.5 floor                            --> 1
-Exception respondsTo: #, --> true    "例外クラスはグループ化できる"
+Exception respondsTo: #, --> true    "例外クラスはグループ化できます"
 \end{code}
 \mthindex{Object}{respondsTo:}
 
-\important{\emph{警告:}これらの機能は、とりわけ開発ツールを定義するのに便利ですが、典型的なアプリケーションには、通常、適していません。
-オブジェクトに、それが属するクラスを尋ねたり、オブジェクトがどのようなメッセージを理解するかを見つけ出そうと、それにクエリを送ったりすることは、典型的な設計上の欠陥を示すものです。なぜならそれは、カプセル化の原則を破ることだからです。
-開発ツールは、しかし、通常のアプリケーションではありません。なぜなら、開発ツールのドメインは、ソフトウェア自身のドメインだからです。それで、これらのツールは、コードの内部の詳細について、深く掘り下げることを許されているのです。}
+\important{\emph{警告:}ここで紹介した機能は、開発ツールにとっては便利ですが、普通のアプリケーションには適していません。
+オブジェクトが属するクラスや理解できるメッセージを調べようとするのは、設計に問題がある兆候です。カプセル化の原則に反しています。
+ただし、開発ツールは普通のアプリケーションではありません。開発ツールはソフトウェアそのものを扱うので、コードの内部を詳細に調べる権利があります。}
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
 %\on{let's not mention this if we don't actually write such a chapter!}
