@@ -228,9 +228,9 @@ initialize
 %=================================================================
 \section{オブジェクトをインスペクトする}
 
-新たな\ct{LOCell}を作り、それをインスペクトすることによって書いたコードの効果をテストできます。
+新しく\ct{LOCell}オブジェクトを作ってインスペクトすることによって、さきほど書いたコードの効果を確認することができます。
 
-\dothis{workspaceを開き、そこで\ct{LOCell new}と打ち込み\menu{inspect it}して下さい。}
+\dothis{workspaceを開いて、\ct{LOCell new}と打ち込み\menu{inspect it}して下さい。}
 
 \begin{figure}[htbp]
    \centering
@@ -238,7 +238,7 @@ initialize
    \caption{LOCellオブジェクトを調べるために使用したinspector。\figlabel{LOCellInspector}}
 \end{figure}
 
-\ind{inspector}の左側のペインには、インスペクトしたインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds})を選んで見てください}、右側のペインにその\ind{インスタンス変数}の値が表示されます。
+\ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds}})を選んで見てください。すると、右側のペインにその\ind{インスタンス変数}の値が表示されます。
 
 %  You can also use the inspector to change the value of an instance variable.
 %\dothis{Change the value of \ct{bounds} to \ct{0@0 corner: 50@50} and \menu{accept} it.}
@@ -246,10 +246,11 @@ initialize
 %\ct{OTNamedVariableNode(Object)>>doesNotUnderstand: #selectedClass}
 %\on{should use the mini workspace instead to send bounds: ?}
 
-inspectorの下側にあるペインは便利なmini-workspaceです。なぜなら擬似変数\self が選択されたオブジェクトに束縛されているためです。
+inspectorの下側にあるペインはmini-workspaceです。このmini-workspaceは擬似変数\self が選択されたオブジェクトに束縛されているため、とても便利です。
 
 \dothis{
 inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み do it して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
+
 画面の左上の端にcellが表示されます。実際、\ct{bounds}メッセージで表示するよう指示した場所に正確に表示されます。cell上で\metaclick をすると\subind{Morphic}{halo}が現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、inspectorを使って確認して下さい。(新たな bounds の値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
 \begin{figure}[htbp]
