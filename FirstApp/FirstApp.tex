@@ -230,7 +230,7 @@ initialize
 
 新しく\ct{LOCell}オブジェクトを作ってインスペクトすることによって、さきほど書いたコードの効果を確認することができます。
 
-\dothis{workspaceを開いて、\ct{LOCell new}と打ち込み\menu{inspect it}して下さい。}
+\dothis{workspaceを開いて、\ct{LOCell new}と打ち込み\menu{inspect it}してください。}
 
 \begin{figure}[htbp]
    \centering
@@ -251,7 +251,7 @@ inspectorの下側にあるペインはmini-workspaceです。このmini-workspa
 \dothis{
 inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み do it して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
 
-画面の左上の端にcellが表示されます。実際、\ct{bounds}メッセージで表示するよう指示した場所に正確に表示されます。cell上で\metaclick をすると\subind{Morphic}{halo}が現れます。cellを右上2番目の茶色いハンドルを使って移動したり、右下にある黄色のハンドルを使ってリサイズしてみましょう。bounds の値がどのように変化するか、inspectorを使って確認して下さい。(新たな bounds の値を見るために \menu{refresh} \actclick が必要かもしれません。)
+画面の左上の端、実際には\ct{bounds}メッセージで表示するよう指示した場所にcellが表示されます。cell上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってcellを移動したり、右下にある黄色のハンドルを使ってcellをリサイズしてみましょう。boundsの値がどのように変化するか、inspectorを使って確認して下さい。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
@@ -261,15 +261,16 @@ inspectorウィンドウのルートにあるLOCellを選択してください�
 \caption{cellのリサイズ。\figlabel{cellresize}}
 \end{figure}
 
-\dothis{ピンク色のハンドル\ct{x}をクリックすることでcellは消せます。}
+\dothis{ピンク色のハンドル\ct{x}をクリックしてcellを消してください。}
 
 %=================================================================
 \section{LOGameクラスを定義する}
 
-これから、\clsind{LOGame}と呼ばれるゲームを作るのに必要な他のクラスを作りましょう。
+ゲームを行うために必要なもう一つのクラスを作っていきます。クラス名は\clsind{LOGame}とします。
 
-\dothis{Browserのメインウインドウで、クラス定義テンプレートを作ってください。}
-これはパッケージ名をクリックすればできます。以下の通りにコードを書き、\menu{accept}して下さい。
+\dothis{Browserのメインウインドウで、クラス定義テンプレートを表示させてください。}
+
+パッケージ名をクリックすることで、クラス定義テンプレートを表示させることができます。以下のようにコードを書いたら、それを\menu{accept}して下さい。
 
 \needlines{6}
 \begin{classdef}[sbegame]{LOGameクラスを定義します。}
@@ -280,7 +281,7 @@ BorderedMorph subclass: #LOGame
    category: 'PBE-LightsOut'
 \end{classdef}
 
-ここでは\clsind{BorderedMorph}をサブクラス化しています。\clsind{Morph}は\pharo のグラフィック図形すべてのスーパークラスです。そして(驚くことに)、\ct{BorderedMorph}は境界線を持った\ct{Morph}です(意味不明 再度翻訳する)。2行目にある引用符の間にインスタンス変数の名前を入れることができますが、今はここは空のままにしておきましょう。
+\ct{LOGame}は\clsind{BorderedMorph}のサブクラスとしました。\clsind{Morph}は\pharo のグラフィック図形すべてのスーパークラスで、\ct{BorderedMorph}は境界線を扱える\ct{Morph}になります。2行目にある引用符の間にはインスタンス変数の名前を入れることができますが、ここでは空のままにしておきましょう。
 
 \ct{LOGame}の\mthind{LOGame}{initialize}メソッドを定義しましょう。
 
