@@ -284,7 +284,7 @@ BorderedMorph subclass: #LOGame
 
 \ct{LOGame}の\mthind{LOGame}{initialize}メソッドを定義しましょう。
 
-\dothis{\ct{LOGame}のメソッドとして以下の内容をBrowserに打ち込んでください。その後\menu{accept}して下さい。}
+\dothis{以下の内容を\ct{LOGame}のメソッドとしてBrowserに書き込んで、\menu{accept}して下さい。}
 
 \begin{numMethod}[sbegameinitialize]{ゲームを初期化する}
 initialize
@@ -301,8 +301,7 @@ initialize
 %\sd{it would be nicer if we would not have to create an instance of LOCell for nothing}
 %\on{yes}
 
-いくつかの用語の認識できない、と\pharo は警告してくるでしょう。\ct{cellsPerSide}メッセージとは何かを\pharo は認識していないことを示し、スペルミスの場合はいくつかの修正案を提示してきます。
-
+\pharo は用語のいくつかが認識できないと警告をしてくるはずです。まずはじめに、\pharo は、\ct{cellsPerSide}メッセージが認識できないことと、スペルミスの場合に備えた修正案をいくつか提示してきます。
 
 \begin{figure}[htb]
 \begin{minipage}{0.48\textwidth}
@@ -322,14 +321,16 @@ initialize
 \end{minipage}
 \end{figure}
 
-しかし、\ct{cellsPerSide}はスペルミスではありません。\pharo が警告してくるのは、私達がまだこのメソッドを定義されていないからです。これから1,2分でこの定義を行いましょう。
+しかし、\ct{cellsPerSide}はスペルミスではありません。単にまだこのメソッドを定義していないだけです。これから1,2分の間にはこのメソッドを定義することにしましょう。
 
-\dothis{それではメニューから最初のアイテムを選択し、\ct{cellsPerSide}がスペルミスなどではないことを確認しましょう。}
+\dothis{メニューから最初のアイテムを選択し、\ct{cellsPerSide}がスペルミスなどではないことを確認します。}
 
-次に、\ct{cells}の意味が認識できないと\pharo は警告します。\pharo はこれを修正するために、いくつかの方法を提示してきます。
+次に\pharo は\ct{cells}が認識できないと警告してきます。\pharo はこの問題を解消するための案をいくつか提示してきます。
 
-\dothis{\menu{declare instance}を選択しましょう。なぜなら\ct{cell}をインスタンス変数としたいからです。}
-最後に、最終行に送られる\ct{newCellAt:at:}メッセージについて\pharo は警告します。もちろんこれは間違いなどではなく、今までと同様に確認して下さい。
+\dothis{\ct{cell}をインスタンス変数として扱いたいので、\menu{declare instance}を選択します。}
+
+最後に\pharo は最終行で使われている\ct{newCellAt:at:}メッセージについて警告してきます。もちろんこれもスペルミスではないので、先ほどと同様に確認してください。
+
 \index{on the fly variable definition}
 \index{instance variable definition} 
 
