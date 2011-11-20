@@ -1,10 +1,17 @@
 "行番号","原表現または1訳","問題点、疑問点","訳/対処","備考"
+37,"syntax","「構文」と訳した方が自然な気もする","#1 訳のまま","この章全体で1 訳を尊重する"
+40,"syntax",,"文法(構文)",
 49,"binary message","二項演算子","1 訳を尊重。ただし、2 → 二",
 51,"message → メッセージ構文","syntax とは言っていない。補うなら、メッセージ送信かメッセージ式だと思う","メッセージ","原文では、これらは意図的に? 混同されている"
 53,"message passing",,"メッセージパッシング",
 88,"we will","\figref{ellipse} のことを言っている。過去形の方が適切","段落の先頭に \figref{ellipse} 補い、全体を過去形にした",
 89,"we will","\figref{ellipse} のことを言っている。過去形の方が適切","段落の先頭に \figref{ellipse} 補い、全体を過去形にした",
+98,"receive","send は、機械的に「送信」としているが……","#1 訳のまま",
 100,"object returned by the message send \ct{Pen new}","長い。139 行と同じ","\ct{Pen new} オブジェクト(\ct{Pen new} の結果として返されるオブジェクト)",
 139,"object that results from the execution of the message send \ct{Pen new}","長過ぎ。100 行と同じ","\ct{Pen new} オブジェクト",
 155,"messageName","selector ではないか、との指摘あり","selector",
 199,"""creates a new color""","Color red は新しい色を作る訳ではない、との指摘あり","""色オブジェクトを返す""",
+228,"color object","?","色オブジェクト",
+258,,"258 ~ 259 の流れが変?","#適当に誤魔化した",
+259,,"259 ~ 259 の流れが変?","#適当に誤魔化した",
+259,"bind",,"バインド",
