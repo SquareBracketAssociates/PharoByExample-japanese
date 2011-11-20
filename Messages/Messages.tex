@@ -97,7 +97,7 @@
 
 \figref{ellipse} は、\ct{Color yellow}と \ct{aMorph color: Color yellow} という二つのメッセージ送信を表しているので、楕円も二つあります。メッセージ送信 \ct{Color yellow} がまず実行されるので、それを囲む楕円に、番号 \ct{1} が付いています。全体では、レシーバが二つあります: 一つは \ct{aMorph} で、メッセージ \ct{color: ...} が送られており、もう一つは \ct{Color} で、メッセージ \ct{yellow} が送られています。レシーバにはそれぞれ、既に述べたように、下線が引いてあります。
 
-レシーバは、メッセージ送信の最初の要素であることが多いです。例えば、\ct{100 + 200} の \ct{100} や \ct{Color yellow} の \ct{Color} がそうです。しかし、他のメッセージの結果がレシーバとして使われることも、よくあります。例えば、\ct{Pen new go: 100} という式では、メッセージ \ct{go: 100} のレシーバは、\ct{Pen new} オブジェクト(\ct{Pen new} の結果として返されるオブジェクト)です。いずれにせよメッセージは、\emph{レシーバ} と呼ばれるオブジェクトに送られ、そのオブジェクトは、他のメッセージ送信の結果であっても良い、ということです。
+レシーバは、メッセージ送信の最初の要素であることが多いです。例えば、\ct{100 + 200} の \ct{100} や \ct{Color yellow} の \ct{Color} がそうです。しかし、他のメッセージ送信の結果がレシーバとして使われることも、よくあります。例えば、\ct{Pen new go: 100} という式では、メッセージ \ct{go: 100} のレシーバは、\ct{Pen new} オブジェクト(\ct{Pen new} の結果として返されるオブジェクト)です。いずれにせよメッセージは、\emph{レシーバ} と呼ばれるオブジェクトに送信され、そのオブジェクトは、他のメッセージ送信の結果であっても良い、ということです。
 
 \begin{table}\centering
 	\begin{tabularx}{\linewidth}{llX}
@@ -135,8 +135,8 @@
 
 \tabref{messageExamples}にいくつかのメッセージ送信の例を挙げました。
 必ずしもすべてのメッセージ送信に引数があるわけではない、ということに注意してください。\ct{open} のような単項メッセージには、引数はありません。\ct{go: 100} のような単独のキーワードメッセージ、\ct{+ 20} のような二項メッセージは、引数を一つとります。
-単純なメッセージ・複合的なメッセージ、という分類もできます。\ct{Color yellow} や \ct{100 + 20} は単純です: 一つのメッセージが一つのオブジェクトに送られるだけです。一方、\ct{aPen go: 100 + 20}は、二つのメッセージ送信が複合したものです: \ct{+ 20} が \ct{100} に送られ、その結果を引数として \ct{go:} が \ct{aPen} に送られます。
-オブジェクトを返す式(代入、メッセージ送信およびリテラル)であれば、レシーバになることができます。\ct{Pen new go: 100}では、メッセージ \ct{go: 100}が \ct{Pen new} オブジェクトに送られます。
+単純なメッセージ・複合的なメッセージ、という分類もできます。\ct{Color yellow} や \ct{100 + 20} は単純です: 一つのメッセージが一つのオブジェクトに送信されるだけです。一方、\ct{aPen go: 100 + 20}は、二つのメッセージ送信が複合したものです: \ct{+ 20} が \ct{100} に送信され、その結果を引数として \ct{go:} が \ct{aPen} に送信されます。
+オブジェクトを返す式(代入、メッセージ送信およびリテラル)であれば、レシーバになることができます。\ct{Pen new go: 100}では、メッセージ \ct{go: 100}が \ct{Pen new} オブジェクトに送信されます。
 
 
 %=============================================================
@@ -144,9 +144,9 @@
 
 \st では、メッセージの送信順序を決定するいくつかの単純な規則が定義されています。これらの規則は、以下のような 3 種類のメッセージに基づいています:
 \begin{itemize}
-\item \emph{単項メッセージ}は、あるオブジェクトに他の追加情報無しで送られるようなメッセージです。 例えば、\ct{3 factorial} という式の \ct{factorial} は、単項メッセージです。
-\item  \emph{二項メッセージ}は、演算子(しばしば算術的な)からなるメッセージです。これらは常に、レシーバと引数という二つのオブジェクトが関与しているために二項メッセージと呼ばれています。\ct{10 + 20} の場合は、\ct{+} が二項メッセージで、 引数 \ct{20} と共にレシーバ \ct{10} に送られています。
-\item  \emph{キーワードメッセージ}は、一つあるいはそれ以上のキーワードからなっています。それぞれのキーワードはコロン(\ct{:})がついており、キーワードごとに一つ、引数を取ります。
+\item \emph{単項メッセージ}は、あるオブジェクトに他の追加情報無しで送信されるようなメッセージです。 例えば、\ct{3 factorial} という式の \ct{factorial} は、単項メッセージです。
+\item  \emph{二項メッセージ}は、演算子(しばしば算術的な)からなるメッセージです。これらは常に、レシーバと引数という二つのオブジェクトが関与しているために二項メッセージと呼ばれています。\ct{10 + 20} の場合は、\ct{+} が二項メッセージで、 引数 \ct{20} と共にレシーバ \ct{10} に送信されています。
+\item  \emph{キーワードメッセージ}は、一つあるいはそれ以上のキーワードからなっています。それぞれのキーワードの最後にはコロン (\ct{:}) がついており、キーワードごとに一つ、引数を取ります。
 例えば、\ct{anArray at: 1 put: 10} という式の場合、キーワード \ct{at:} は \ct{1} という引数を取り、キーワード \ct{put:} が引数 \ct{10} を取っています。
 \end{itemize}
 
@@ -210,54 +210,54 @@ nums --> #(6 2 3 4 5)
 
 %=============================================================
 \section{複合したメッセージ}
-これまで述べた3種類のメッセージはそれぞれ異なる優先順位をもっており、それらをエレガントに組み合わせて使えるようになっています。
+これまで述べた 3 種類のメッセージには、それぞれ異なる優先順位があり、それらをエレガントに組み合わせて使えるようになっています。
 
 \begin{enumerate}
-\item 単項メッセージがまず最初に送信され、次に2項、そして最後にキーワードメッセージが送られます。
-\item \ind{かっこ}で囲まれたメッセージは他のものよりも優先して送信されます。
-\item 同じ種類のメッセージは左から右に評価されます。
+\item 単項メッセージがまず最初に送信され、次に二項、そして最後にキーワードメッセージが送信されます。
+\item \ind{括弧}で囲まれたメッセージは、他のものよりも優先して送信されます。
+\item 同じ種類のメッセージは、左から右に評価されます。
 \end{enumerate}
 \index{message!evaluation order}
 
-このルールにより、プログラムを読む際にも自然に読めるようになっています。メッセージが意図した通りの順番で送られることを明示的に示したいのであれば、\figref{uKeyUn}にあるように、かっこを足していくこともできます。この図では、メッセージ\ct{yellow}が単項メッセージであり、\ct{color:}はキーワードメッセージであるため、\ct{Color yellow}がまず先に実行されます。しかし、かっこで囲まれたメッセージがまず実行されるため、(冗長な)かっこを\ct{Color yellow}の周りに書くことにより、ここがまず先に実行されるということを強調することができます。以下では、これらの点について説明します。
+このルールにより、プログラムを読む際にも自然に読めるようになっています。メッセージが意図した通りの順番で送信されることを明示的に示したいのであれば、\figref{uKeyUn}にあるように、括弧を足していくこともできます。この図では、メッセージ \ct{yellow} が単項メッセージであり、\ct{color:} はキーワードメッセージであるため、\ct{Color yellow} がまず先に実行されます。しかし、括弧で囲まれたメッセージがまず実行されるため、(冗長な)括弧を \ct{Color yellow} の周りに書くことにより、ここがまず先に実行されるということを強調することができます。以下では、これらの点について説明します。
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline{\includegraphics[width=0.9\textwidth]{uKeyUn}} }
 	{\centerline{\includegraphics[width=10cm]{uKeyUn}} }
-\caption{単項メッセージが最初に送られるので、\ct{Color yellow}がまず送られ、返されたColorオブジェクトが引数として\ct{aPen color:}に渡されます。\figlabel{uKeyUn}}
+\caption{単項メッセージが最初に送信されるので、\ct{Color yellow} がまず送信され、返された色オブジェクトが、メッセージ \ct{aPen color:} の引数として渡される。\figlabel{uKeyUn}}
 \end{figure}
 
 %---------------------------------------------------------
-\subsection*{単項 > 2項 > キーワード}
-単項メッセージがまず送られ、次に2項、そしてキーワードメッセージが最後に送られます。しばしば、単項が他の種類のメッセージよりも高い優先順位を持つということがあります。
+\subsection*{単項 > 二項 > キーワード}
+単項メッセージがまず送信され、次に二項、そしてキーワードメッセージが最後に送信されます。単項メッセージの優先順位が他の種類のメッセージよりも高い、とも言います。
 
-\important{\textbf{規則1:} 単項メッセージがまず送られ、次に2項、そしてキーワードメッセージが最後に送られます。\\
-\centerline{単項 \ct{>} 2項 \ct{>} キーワード}
+\important{\textbf{規則 1:} 単項メッセージがまず送信され、次に二項、そしてキーワードメッセージが最後に送信されます。\\
+\centerline{単項 \ct{>} 二項 \ct{>} キーワード}
 }
 
-以下の例が示すように、\st の構文では複合したメッセージ式を多くの場合自然な形で読むことができます。
+以下の例が示すように、\st の構文では、多くの場合、複合したメッセージ送信も自然に読むことができます。
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 2 raisedTo: 1 + 3 factorial     --> 128
 \end{code}
 \noindent
 
-ただし、残念ながら、算術演算の場合にはこの規則はやや単純すぎます。そのため、かっこを使って2項演算子を複数組み合わせたときに評価順を強制する必要があります。
+ただし残念ながら、算術演算の場合にはこの規則はやや単純すぎます。そのため、二項演算子を複数組み合わせるときは、場合によって、括弧を使って評価順を強制する必要があります。
 \begin{code}{@TEST}
 1 + 2 * 3   --> 9
 1 + (2 * 3) --> 7
 \end{code}
 
-以下のさらに複雑な(!)例は、さらに混みいった\st の式も自然に読めるということの良い例になっています。
+以下のさらに複雑な(!)例は、さらに込み入った \st の式も、自然に読めるということの良い例になっています。
 \begin{code}{@TEST}
 [:aClass | aClass methodDict keys select: [:aMethod | (aClass>>aMethod) isAbstract ]] value: Boolean --> an IdentitySet(#or: #| #and: #& #ifTrue: #ifTrue:ifFalse: #ifFalse: #not #ifFalse:ifTrue:)
 \end{code}
 \noindent
-ここでは、\ct{Boolean}クラスのどのメソッドが抽象メソッドであるかを調べようとしています\footnote{実をいうと、同等の式はさらに簡単に\ct{Boolean methodDict select: #isAbstract thenCollect: #selector}と書くこともできます。}\damien{I've added this footnote, just remove it if you don't like it :-)}.
-まず、引数として渡されたクラス\ct{aClass}に, そのメソッド辞書のキー集合を問い合わせ、その中から、抽象メソッドに対応しているものを選択(select)するブロックを記述します。
-そのブロックの引数\ct{aClass}にあるクラス\ct{Boolean}を束縛しています。
-この式の中では、かっこはメソッドをクラスから取り出すを2項演算子\ct{>>}を、単項メッセージ\mbox{\ct{isAbstract}}の前に送るところだけに必要でした。全体を評価した結果は、\ct{Boolean}のサブクラスである\ct{True}および\ct{False}で実装しなくてはならないメソッドの集合となっています。
+ここでは、\ct{Boolean} クラスのどのメソッドが抽象メソッドであるかを調べようとしています\footnote{実を言うと、同等の式はさらに簡単に \ct{Boolean methodDict select: #isAbstract thenCollect: #selector} と書くこともできます。}\damien{I've added this footnote, just remove it if you don't like it :-)}。
+このブロックは、引数として渡されたクラス \ct{aClass} に、そのメソッド辞書のキー集合を問い合わせ、その中から抽象メソッドを選択(\ct{select:})するようになっています。
+ここでは、\ct{aClass} に、\ct{Boolean} がバインドされます。
+この式の中で括弧は、二項メッセージ \ct{>>} を、単項メッセージ \mbox{\ct{isAbstract}} より先に送信するためだけに必要でした(\ct{>>} は、メソッドをクラスから取り出す二項演算子です)。全体を評価した結果は、\ct{Boolean} の具象サブクラス (\ct{True} と \ct{False}) で実装しなくてはならないメソッドの集合となっています。
 
 %\begin{code}{}
 %Pen new go: 30 + 50          "create a turtle and moves it forward 80 pixels"
@@ -272,26 +272,26 @@ nums --> #(6 2 3 4 5)
 %with a structure approaching that of natural language.
 % This was one of the initial objectives so that the children can program.
 
-\paragraph{例:}
-式\ct{aPen color: Color yellow}の中には、\ct{Color}に送られる\emph{単項}メッセージ\ct{yellow}と、\ct{aPen}に送られる\emph{keyword}メッセージ\ct{color:}があります。単項メッセージがまず送られるので、\egref{decColor}にあるように\ct{Color yellow}がまず送られ(1)、その結果として返されたColorオブジェクトがメッセージ\ct{aPen color: aColor}の引数となります(2)。
-\figref{uKeyUn} shows graphically how messages are sent. TODO
+\paragraph{例。}
+メッセージ \ct{aPen color: Color yellow} の中には、\ct{Color} に送信される\emph{単項}メッセージ \ct{yellow}と、\ct{aPen} に送信される \emph{キーワード}メッセージ \ct{color:} があります。単項メッセージがまず送信されるので、\egref{decColor} にあるように、\ct{Color yellow} がまず送信され (1)、その結果として返された色オブジェクトがメッセージ \ct{aPen color: aColor} の引数 (\ct{aColor}) となります (2)。
+\figref{uKeyUn} は、これらのメッセージが、どのように送信されるかを、グラフィカルに表しています。
 
 \needlines{5}
 \begin{example}[decColor]{\ct{aPen color: Color yellow}の評価順を分解}{}
         aPen color: Color yellow
-(1)                       Color yellow        "単項メッセージがまず送られる"
+(1)                       Color yellow        "単項メッセージがまず送信される"
                         --> aColor
-(2)   aPen color: aColor                 "キーワードメッセージが次に送られる"
+(2)   aPen color: aColor                 "キーワードメッセージが次に送信される"
 \end{example}
 
-\paragraph{例:} 式\ct{aPen go: 100 + 20}の中には、\emph{2項}メッセージ\ct{+ 20}と\emph{キーワード}メッセージ\ct{go:}があります。2項メッセージはキーワードメッセージの先に送られるので\ct{100 + 20}がまず送信されます(1)。\ct{+ 20}が数値オブジェクト\ct{100}に送信され、数値\ct{120}が返ります。次に、メッセージ\ct{aPen go: 120}が\ct{120}を引数として送信されます(2)。
-\Egref{decGo}にこのメッセージを図示しました。
+\paragraph{例。} メッセージ \ct{aPen go: 100 + 20} の中には、\emph{二項}メッセージ \ct{+ 20} と\emph{キーワード}メッセージ \ct{go:} があります。二項メッセージはキーワードメッセージの先に送信されるので、\ct{100 + 20} がまず評価されます (1): \ct{+ 20} がオブジェクト \ct{100} に送信され、数値 \ct{120} が返ります。次に、\ct{aPen} にメッセージ \ct{go: 120} が送信されます。\ct{120} は、引数です (2)。
+\Egref{decGo}に、このメッセージ送信がどのように実行されるかを示しました。
 
-\begin{example}[decGo]{\ct{aPen go: 100 + 20}の評価順を分解}{}
+\begin{example}[decGo]{\ct{aPen go: 100 + 20}の評価順を分解する}{}
       aPen go: 100 + 20   
-(1)                 100 + 20           "2項メッセージがまず送られる"
+(1)                 100 + 20           "二項メッセージがまず送信される"
                    -->   120
-(2)  aPen go: 120                   "キーワードメッセージが次に送られる"
+(2)  aPen go: 120                   "キーワードメッセージが次に送信される"
 \end{example}
 
 \begin{figure}[htb]
@@ -299,7 +299,7 @@ nums --> #(6 2 3 4 5)
 	\ifluluelse
 		{\centerline{\includegraphics[width=0.9\textwidth]{uKeyBin}}}
 		{\centerline{\includegraphics[width=6cm]{uKeyBin}}}
-	\caption{2項メッセージはキーワードメッセージの前に送られる。\figlabel{uKeyBin}}
+	\caption{二項メッセージは、キーワードメッセージの前に送信される。\figlabel{uKeyBin}}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
@@ -307,7 +307,7 @@ nums --> #(6 2 3 4 5)
 	\ifluluelse
 		{\includegraphics[width=0.9\textwidth]{uunKeyBin}}
 		{\includegraphics[width=6cm]{uunKeyBin}}
-\caption{\ct{Pen new go: 100 + 20}の評価順}\figlabel{unKeyBin}
+\caption{\ct{Pen new go: 100 + 20}の評価順を分解する}\figlabel{unKeyBin}
 \end{center}
 \end{minipage}
 \end{figure}
@@ -334,7 +334,7 @@ nums --> #(6 2 3 4 5)
 %(3)   aPen penSize: anotherNumber           "keyword"      
 %\end{scriptfigwithsize}
 
-\paragraph{例:} 練習として、式\ct{Pen new go: 100 + 20}の評価順を分解してみてください。この式には単項メッセージがひとつ、キーワードメッセージがひとつ、2項メッセージがひとつあります。(\figref{unKeyBin}を参照。).
+\paragraph{例。} 練習として、メッセージ \ct{Pen new go: 100 + 20} の評価順を分解してみてください。このメッセージには、単項メッセージが一つ、キーワードメッセージが一つ、二項メッセージが一つあります (\figref{unKeyBin}) 。
 % The unary message \ct{Pen new} is first sent. It returns a new bot, then the binary message \ct{100 + 20} is sent and returns \ct{120}. Finally the message \ct{go:} is sent to the newly created robot with \ct{120}.
 
 %\begin{figure}[ht]
@@ -345,23 +345,23 @@ nums --> #(6 2 3 4 5)
 %\end{figure}
 
 %-------------------------------------------------------------
-\subsection{かっこ優先}
+\subsection{括弧優先}
 
-\important{\textbf{規則2:} かっこで囲まれたメッセージが他のメッセージよりも優先して送信されます。\\
-\centerline{\ct{(}任意のメッセージ\ct{) >} 単項 \ct{>} 2項 \ct{>} キーワード}}
+\important{\textbf{規則2:} 括弧で囲まれたメッセージが他のメッセージよりも優先して送信されます。\\
+\centerline{\ct{(}任意のメッセージ\ct{) >} 単項 \ct{>} 二項 \ct{>} キーワード}}
 
 \begin{code}{@TEST}
-1.5 tan rounded asString = (((1.5 tan) rounded) asString) --> true    "かっこは不要"
+1.5 tan rounded asString = (((1.5 tan) rounded) asString) --> true    "括弧は不要"
 3 + 4 factorial   --> 27    "(5040ではない)"
 (3 + 4) factorial --> 5040
 \end{code}
 
-以下の例では、\ct{lowMajorScaleOn:}を\ct{play}よりも先に送るために\ind{かっこ}が使われています。
+以下の例では、\ct{lowMajorScaleOn:}を\ct{play}よりも先に送信するために\ind{括弧}が使われています。
 \begin{code}{}
 (FMSound lowMajorScaleOn: FMSound clarinet) play 
-"(1) メッセージclarinetがFMSoundクラスに送られ、クラリネットの音色オブジェクトが作られる。
- (2) このオブジェクトがFMSoundに送られるlowMajorScaleOn:キーワードメッセージの引数として送られる。
- (3) 結果の音オブジェクトにplayが送られ、演奏される。"
+"(1) メッセージclarinetがFMSoundクラスに送信され、クラリネットの音色オブジェクトが作られる。
+ (2) このオブジェクトがFMSoundに送信されるlowMajorScaleOn:キーワードメッセージの引数として送信される。
+ (3) 結果の音オブジェクトにplayが送信され、演奏される。"
 \end{code}
 
 % ON: This has nothing to do with parentheses!
@@ -373,15 +373,15 @@ nums --> #(6 2 3 4 5)
 %   'www.altavista.digital.com/av/pix/default/av-adv.gif') display
 
 \paragraph{例:}
-式\ct{(65@325 extent: 134@100) center}は左上が座標$(65, 325)$で大きさが$134{\times}100$であるような長方形の中央座標を返します。\Egref{decExtent}に評価順を分解したところが図示されています。まず、かっこで囲まれた部分が実行されます。その部分には2つの2項メッセージ\ct{65@325}と\ct{134@100}があるので、それらがまず実行されてそれぞれPointオブジェクトを返します。次に、キーワードメッセージ\ct{extent:}が送られ、Rectangleオブジェクトが得られます。最後に、単項メッセージ\ct{center}がその長方形オブジェクトに送られ、点が返ります。
-もしかっこがなかったとすると、数値\ct{100}はメッセージ\ct{center}を理解できないため、評価時にエラーとなります。
+式\ct{(65@325 extent: 134@100) center}は左上が座標$(65, 325)$で大きさが$134{\times}100$であるような長方形の中央座標を返します。\Egref{decExtent}に評価順を分解したところが図示されています。まず、括弧で囲まれた部分が実行されます。その部分には二つの二項メッセージ\ct{65@325}と\ct{134@100}があるので、それらがまず実行されてそれぞれPointオブジェクトを返します。次に、キーワードメッセージ\ct{extent:}が送信され、Rectangleオブジェクトが得られます。最後に、単項メッセージ\ct{center}がその長方形オブジェクトに送信され、点が返ります。
+もし括弧がなかったとすると、数値\ct{100}はメッセージ\ct{center}を理解できないため、評価時にエラーとなります。
 
 \needlines{9}
-\begin{example}[decExtent]{かっこの例。}{}
+\begin{example}[decExtent]{括弧の例。}{}
       (65@325 extent: 134@100) center
-(1)   65@325                                                    "2項"
+(1)   65@325                                                    "二項"
     --> aPoint
-(2)                                134@100                     "2項"
+(2)                                134@100                     "二項"
                                  --> anotherPoint
 (3)   aPoint extent: anotherPoint                       "キーワード"
       --> aRectangle
@@ -390,7 +390,7 @@ nums --> #(6 2 3 4 5)
 \end{example}
 
 \subsection{左から右への評価}
-ここまでで、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。その答えは、左から右に送られるというものです。このことは、実は\egref{decExtent}の中で、２つのPointオブジェクト生成メッセージ(\ct{@})が送られているときにすでに登場していました。
+ここまでで、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。その答えは、左から右に送信されるというものです。このことは、実は\egref{decExtent}の中で、二つのPointオブジェクト生成メッセージ(\ct{@})が送信されているときにすでに登場していました。
 
 \important{{\textbf{規則3:} 同じ種類のメッセージがある場合は、評価は左から右の順で行われる。}}
 
@@ -399,7 +399,7 @@ nums --> #(6 2 3 4 5)
 %\caption{The message \ct{Pen new east} is composed of two unary messages. Therefore the leftmost one, \ct{new},  is sent and it returns a new robot to which the second message \ct{east} is sent. \figlabel{compoUn}}
 %\end{figure}
 
-\paragraph{例:} 式\ct{Pen new down}では単項メッセージのみが使われているので、左端の\ct{Pen new}がまず送信されます。その結果は新しいペン・オブジェクトで、それに次のメッセージ\ct{down}が送られます。\figref{unaryMessages}を参照してください。
+\paragraph{例:} 式\ct{Pen new down}では単項メッセージのみが使われているので、左端の\ct{Pen new}がまず送信されます。その結果は新しいペン・オブジェクトで、それに次のメッセージ\ct{down}が送信されます。\figref{unaryMessages}を参照してください。
 
 \begin{figure}
 	\centering
@@ -409,11 +409,11 @@ nums --> #(6 2 3 4 5)
 
 %-------------------------------------------------------------
 \subsection{算術演算での非一貫性}
-複合メッセージに関する規則はごく単純なものですが、算術演算が2項メッセージとして記述されている場合には伝統的な記法との非一貫性が問題となります。以下はいくつかよけいなかっこが必要となる例です。
+複合メッセージに関する規則はごく単純なものですが、算術演算が二項メッセージとして記述されている場合には伝統的な記法との非一貫性が問題となります。以下はいくつかよけいな括弧が必要となる例です。
 
 \needlines{6}
 \begin{code}{@TEST}
-3 + 4 * 5      --> 35    "(23ではない)  2項メッセージが左から右に実行されるため"
+3 + 4 * 5      --> 35    "(23ではない)  二項メッセージが左から右に実行されるため"
 3 + (4 * 5)    --> 23
 1 + 1/3         --> (2/3)    "4/3ではない"
 1 + (1/3)       --> (4/3)
@@ -422,10 +422,10 @@ nums --> #(6 2 3 4 5)
 \end{code}
 
 \paragraph{例:}
-式\ct{20 + 2 * 5}では\ct{+}と\ct{*}という2項メッセージだけが使われています。しかしながら、\st では\ct{+}と\ct{*}の間には特に優先順位の違いがありません。どちらも2項メッセージであるだけなので、\ct{*}は\ct{+}よりも優先順位が高い訳ではありません。\egref{binaryMessages1}のように、ここでは左端の\ct{+}がまず送信され(1)、その結果に\ct{*}が送信されます。
+式\ct{20 + 2 * 5}では\ct{+}と\ct{*}という二項メッセージだけが使われています。しかしながら、\st では\ct{+}と\ct{*}の間には特に優先順位の違いがありません。どちらも二項メッセージであるだけなので、\ct{*}は\ct{+}よりも優先順位が高い訳ではありません。\egref{binaryMessages1}のように、ここでは左端の\ct{+}がまず送信され(1)、その結果に\ct{*}が送信されます。
 
 \begin{example}[binaryMessages1]{Decomposing \ct{20 + 2 * 5}}{}
-"2項メッセージ同士には優先順位の違いがないので、算数の約束としては*がまず先に実行されるべきですが、ここでは左端の+がまず評価されます。"
+"二項メッセージ同士には優先順位の違いがないので、算数の約束としては*がまず先に実行されるべきですが、ここでは左端の+がまず評価されます。"
 
       20 + 2 * 5 
 (1)  20 + 2 --> 22
@@ -436,11 +436,11 @@ nums --> #(6 2 3 4 5)
 \begin{center}\includegraphics[width=8cm]{ucompoNoBracketPar}\end{center}
 \end{figure}
 \noindent
-\egref{binaryMessages1}の結果は、\ct{30}ではなく\ct{110}となります。これはもしかすると書かれた意図とは反しているかもしれませんが、メッセージ送信の規則をそのまま適用した結果であり、\st の簡素なモデルに付随する問題ではあります。正しい結果を得るためには、かっこを使う必要があります。かっこで囲まれたメッセージが先に評価されるため、メッセージ式\ct{20 + (2 * 5)}は\egref{mathcorrect}に示されたように評価され、正しい結果を返します。
+\egref{binaryMessages1}の結果は、\ct{30}ではなく\ct{110}となります。これはもしかすると書かれた意図とは反しているかもしれませんが、メッセージ送信の規則をそのまま適用した結果であり、\st の簡素なモデルに付随する問題ではあります。正しい結果を得るためには、括弧を使う必要があります。括弧で囲まれたメッセージが先に評価されるため、メッセージ式\ct{20 + (2 * 5)}は\egref{mathcorrect}に示されたように評価され、正しい結果を返します。
 
 \needlines{4}
 \begin{example}[mathcorrect]{\ct{20 + (2 * 5)}の評価順の分解}{}
-"かっこで囲まれたメッセージが先に評価されるので、*が+の前に実行され、正しく動作します。"
+"括弧で囲まれたメッセージが先に評価されるので、*が+の前に実行され、正しく動作します。"
 
     20 + (2 * 5) 
 (1)        (2 * 5) --> 10
@@ -453,7 +453,7 @@ nums --> #(6 2 3 4 5)
 \end{center}
 \end{figure}
 
-\important{\st では、+ や * のような算術演算にも特別な優先順位はありません。\ct{+}や\ct{*}も単なる2項メッセージであり、\ct{*}は\ct{+}に優先するわけではありません。意図通りの結果を得るためにはかっこを使ってください。}
+\important{\st では、+ や * のような算術演算にも特別な優先順位はありません。\ct{+}や\ct{*}も単なる二項メッセージであり、\ct{*}は\ct{+}に優先するわけではありません。意図通りの結果を得るためには括弧を使ってください。}
 
 %  At the beginning put parenthesis when you have multiple binary messages.}  HUH?  At the beginning of what?!
 
@@ -466,15 +466,15 @@ nums --> #(6 2 3 4 5)
 	{\includegraphics[width=\textwidth]{uunKeyBinPar}}
 	{\includegraphics[width=10cm]{uunKeyBinPar}}
 \end{center}
-\caption{かっこの有無に関わらない等価なメッセージ式の\figlabel{uKeyUnBinPar}}
+\caption{括弧の有無に関わらない等価なメッセージ式の\figlabel{uKeyUnBinPar}}
 \end{figure}
 
-最初の規則は単項メッセージは2項メッセージやキーワードメッセージに優先するということであったので、単項メッセージのまわりにはかっこを書く必要はないということに注目してください。\tabref{expressions}に普通に書いた式と、仮に優先順位規則が存在しなかったとしたらどのようにかっこをつけて等価な式とするかという対応を挙げました。この表では右も左も同じ実行順序となり、同じ結果を返します。
+最初の規則は単項メッセージは二項メッセージやキーワードメッセージに優先するということであったので、単項メッセージのまわりには括弧を書く必要はないということに注目してください。\tabref{expressions}に普通に書いた式と、仮に優先順位規則が存在しなかったとしたらどのように括弧をつけて等価な式とするかという対応を挙げました。この表では右も左も同じ実行順序となり、同じ結果を返します。
 
 \begin{figure}\centering
 	\begin{tabular}{l@{\qquad}l}
 	\toprule
-	規則に基づく評価順 & 明示的にかっこを書いた等価な式 \\
+	規則に基づく評価順 & 明示的に括弧を書いた等価な式 \\
 	\midrule
 	\lct{aPen color: Color yellow}
 		& \lct{aPen color: (Color yellow)}
@@ -490,20 +490,20 @@ nums --> #(6 2 3 4 5)
 		\\
 	\bottomrule
 	\end{tabular}
-	\caption{メッセージ式とかっこを完全につけた等価な式の対応例\tablabel{expressions}}
+	\caption{メッセージ式と括弧を完全につけた等価な式の対応例\tablabel{expressions}}
 \end{figure}
 
 %=============================================================
 \section{キーワードメッセージの切れ目を見つけるためのヒント}
-初心者には、いつかっこを書かなくてはならないのかを理解することがしばしば問題となります。以下で、コンパイラがどのようにキーワードメッセージを認識するのかを紹介しましょう。
+初心者には、いつ括弧を書かなくてはならないのかを理解することがしばしば問題となります。以下で、コンパイラがどのようにキーワードメッセージを認識するのかを紹介しましょう。
 
 %-------------------------------------------------------------
-\subsection{かっこかかっこなしか?}
+\subsection{括弧か括弧なしか?}
 構文的には、文字\ct{[}、\ct{]}、\ct{(}および\ct{)}が領域を区切るために使われます。
 それぞれの領域の中では\ct{.}や\ct{;}で切られておらず、\ct{:}で終端されている語の列がキーワードメッセージを構成します。
 もし、コロンで終端されている語が文字\ct{[}、\ct{]}、\ct{(}、\ct{)}で区切られた領域内にあるのであれば、それらの語はその領域の中で独立した別のメッセージ式を構成することになります。
 
-以下の例では\ct{rotatedBy:magnify:smoothing:}と\ct{at:put:}という２つの独立したキーワードメッセージが使われています。
+以下の例では\ct{rotatedBy:magnify:smoothing:}と\ct{at:put:}という二つの独立したキーワードメッセージが使われています。
 
 \begin{code}{}
 aDict
@@ -521,32 +521,32 @@ aDict
 
 \on{Sounds terribly complicated.  yo-ちげーねーな}
 
-\paragraph{ヒント:} もしまだ優先順位規則がよくわからないのであれば、まずはかっこをなるべくたくさんつけるようにして、同じ優先順位を持つメッセージ同士であっても確実に区別できるようにしてもよいかもしれません。
+\paragraph{ヒント:} もしまだ優先順位規則がよくわからないのであれば、まずは括弧をなるべくたくさんつけるようにして、同じ優先順位を持つメッセージ同士であっても確実に区別できるようにしてもよいかもしれません。
 
-以下の例では\ct{x isNil}は単項でありキーワードメッセージ\ct{ifTrue:}よりも先に送られるため、かっこは本来必要ありません。
+以下の例では\ct{x isNil}は単項でありキーワードメッセージ\ct{ifTrue:}よりも先に送信されるため、括弧は本来必要ありません。
 \begin{code}{}
 (x isNil)
    ifTrue:[...]
 \end{code}
 
-以下の例では、\ct{includes:}と\ct{ifTrue:}はどちらもキーワードメッセージなので、かっこを使う必要があります。
+以下の例では、\ct{includes:}と\ct{ifTrue:}はどちらもキーワードメッセージなので、括弧を使う必要があります。
 \begin{code}{}
 ord := OrderedCollection new.
 (ord includes: $a)
    ifTrue:[...]
 \end{code}
 \noindent
-かっこを付けなかったとしたら、\ct{includes:ifTrue:}という意味不明なメッセージがordコレクションに送られてしまいます!
+括弧を付けなかったとしたら、\ct{includes:ifTrue:}という意味不明なメッセージがordコレクションに送信されてしまいます!
 
 %-------------------------------------------------------------
 \subsection{\lct{[ ]}や\lct{( )}をいつ使うべきか}
-もしかすると、大かっこ(鍵かっこ)をいつかっこの代わりに使うべきかをりかいするのにとまどっているかもしれませんね。
+もしかすると、大括弧(鍵括弧)をいつ括弧の代わりに使うべきかをりかいするのにとまどっているかもしれませんね。
 基本原則としては、もしある式が何回(もしかすると0回かも)評価されるかあらかじめ決定できない時には、その式を\ct{[ ]}で囲めばよいと言えます。
 \lct{[\emph{expression}]}という式は、実行時に\ind{ブロック}クロージャ (\ie 、あるオブジェクト)を\lct{\emph{expression}}から生成します。このクロージャは必要に応じて何度でも(0回の可能性も含めて)評価することできます。\ct{[ ]}の中には、メッセージ式、変数、リテラル、代入、または別のブロックを書くことができます。
 
-\ct{ifTrue:}や\ct{ifTrue:ifFalse:}のような条件分岐がブロックを必要とするのはこのためです。同じ原理に従い、\ct{whileTrue:}メッセージのレシーバと引数も何度評価されるかはあらかじめ決定できないので大かっこが必要です。
+\ct{ifTrue:}や\ct{ifTrue:ifFalse:}のような条件分岐がブロックを必要とするのはこのためです。同じ原理に従い、\ct{whileTrue:}メッセージのレシーバと引数も何度評価されるかはあらかじめ決定できないので大括弧が必要です。
 
-一方、通常のかっこはメッセージ送信の順序のみに影響を与えます。
+一方、通常の括弧はメッセージ送信の順序のみに影響を与えます。
 すなわち、\lct{(\emph{expression})}という式では\lct{\emph{expression}}の部分は\emph{常に}一度だけ評価されます。
 
 \begin{code}{}
@@ -607,16 +607,16 @@ Point new setX: 25 setY: 35; isZero --> false
 \item 単項メッセージは引数をとらないメッセージです。\\
 その構文は\lct{receiver \textbf{selector}}です。
 
-\item 2項メッセージはレシーバと引数という２つのオブジェクトが関与し、\emph{かつ}そのセレクタが文字集合\ct{+}、\ct{-}、\ct{*}、\ct{/}、\ct{|}、\texttt{\&}、\ct{=}、\ct{>}、\ct{<}、\texttt{\~}および\ct{@}の要素の列からなるメッセージです。その構文は\lct{receiver \textbf{selector} argument}です。
+\item 二項メッセージはレシーバと引数という二つのオブジェクトが関与し、\emph{かつ}そのセレクタが文字集合\ct{+}、\ct{-}、\ct{*}、\ct{/}、\ct{|}、\texttt{\&}、\ct{=}、\ct{>}、\ct{<}、\texttt{\~}および\ct{@}の要素の列からなるメッセージです。その構文は\lct{receiver \textbf{selector} argument}です。
 
-\item キーワードメッセージは2つ以上のオブジェクトが関与し、そのセレクタにコロン(\ct{:})が使われているようなメッセージです。\\
+\item キーワードメッセージは二つ以上のオブジェクトが関与し、そのセレクタにコロン(\ct{:})が使われているようなメッセージです。\\
 その構文は
 \lct{receiver \textbf{selectorWordOne:} argumentOne \textbf{wordTwo:} argumentTwo}です。
 
-\item \textbf{規則1:} 単項メッセージがまず送信され、次に2項メッセージ、そして最後にキーワードメッセージが送信されます。
-\item \textbf{規則2:} かっこで囲まれたメッセージが他のメッセージよりも先に送信されます。
+\item \textbf{規則1:} 単項メッセージがまず送信され、次に二項メッセージ、そして最後にキーワードメッセージが送信されます。
+\item \textbf{規則2:} 括弧で囲まれたメッセージが他のメッセージよりも先に送信されます。
 \item \textbf{規則3:} 同じ種類のメッセージが使われている場合は、評価左から右という順序で行われます。
-\item \st では、\ct{+}や\ct{*}のような一般の算術演算もすべて同じ優先順位となっています。\ct{+}や\ct{*}は普通の2項メッセージなので、\ct{*}が\ct{+}よりも高い優先順位を持つということはありません。異なる結果を求めたい場合はかっこを使用してください。
+\item \st では、\ct{+}や\ct{*}のような一般の算術演算もすべて同じ優先順位となっています。\ct{+}や\ct{*}は普通の二項メッセージなので、\ct{*}が\ct{+}よりも高い優先順位を持つということはありません。異なる結果を求めたい場合は括弧を使用してください。
 \end{itemize}
 
 %\end{document}
