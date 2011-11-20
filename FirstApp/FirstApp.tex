@@ -211,7 +211,7 @@ initialize
 \pvindex{self}
 
 \ct{0@0 corner: 16@16}については、恐らくいくつかの説明が必要でしょう。\lct{0@0}は、両方共0に設定された$x$,$y$座標の\clsind{Point}オブジェクトを表しています。実際には、\ct{0@0}は数値\ct{0}に\ct{@}メッセージを引数\ct{0}を付けて送るメッセージ式になっています。
-% Yuck... the following should be \mthind{Number}{@} 
+% Yuck... the following should be \mthind{Number}{@}
 %%% THIS IS BROKEN -- don't do it! (on)
 %\def\atsign{\textsf{@}}%
 %{\makeatletter
@@ -234,7 +234,7 @@ initialize
 
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=\textwidth]{LOCellInspector} 
+   \includegraphics[width=\textwidth]{LOCellInspector}
    \caption{LOCellオブジェクトを調べるために使用したinspector。\figlabel{LOCellInspector}}
 \end{figure}
 
@@ -333,7 +333,7 @@ initialize
 最後に\pharo は最終行で使われている\ct{newCellAt:at:}メッセージについて警告してきます。もちろんこれもスペルミスではないので、先ほどと同様に確認してください。
 
 \index{on the fly variable definition}
-\index{instance variable definition} 
+\index{instance variable definition}
 
 さて、もう一度このクラスの定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。Browser上からインスタンス変数\ct{cells}が修正されていることがわかります。
 
@@ -342,17 +342,17 @@ initialize
 %(意味不明 再翻訳必要)
 。4--7行目でこれらの中身を定義しています。
 
-ゲームボードをどれくらいの大きさにするとよいでしょうか? 必要な数のcellとそれらの境界を表示するために十分な大きさが必要です。cellの数はどれぐらい必要でしょうか? 5? 10? 100? 今はまだどのくらい必要なのかわかりません。今の時点で数を決めてしまうと、後に考えを変えてしまうことになるかもしれません。そこで、その数を知るための責務を、これから1,2分で書き\ct{cellsPerSide}と呼ぶ別のメソッド委譲します。メソッドを定義する前に\ct{cellsPerSide}メッセージを送ることにより、\ct{initialize}のためのメソッド本体をacceptするとき、\pharo から``confirm, correct, or cancel''と警告されます。まだ定義していない他のメソッドを書くという点からは実際に良い練習となるのですが、これを避けてはいけません。そればなぜでしょう? 
+ゲームボードをどれくらいの大きさにするとよいでしょうか? 必要な数のcellとそれらの境界を表示するために十分な大きさが必要です。cellの数はどれぐらい必要でしょうか? 5? 10? 100? 今はまだどのくらい必要なのかわかりません。今の時点で数を決めてしまうと、後に考えを変えてしまうことになるかもしれません。そこで、その数を知るための責務を、これから1,2分で書き\ct{cellsPerSide}と呼ぶ別のメソッド委譲します。メソッドを定義する前に\ct{cellsPerSide}メッセージを送ることにより、\ct{initialize}のためのメソッド本体をacceptするとき、\pharo から``confirm, correct, or cancel''と警告されます。まだ定義していない他のメソッドを書くという点からは実際に良い練習となるのですが、これを避けてはいけません。そればなぜでしょう?
 \ct{initialize}メソッドを書き始めるまでは、それが必要だと認識していませんでした。またその時点において、流れを邪魔するものなしに、それに意味のある名前を与えることや移動すること、ができます。
 %(上3行意味不明 後に再翻訳)
 
- 
+
 4行目においてこのメソッドが使われています。\st 式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージをを\pvind{self}つまりまさにそのObjectに送ります。ゲームボードの一辺に必要なcellの数を決める責務は\ct{n}にあてがわれました。
 
-次の3行で、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。 
+次の3行で、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。
 
 %The eighth line sends the message \ct{bounds:} to \self.
-%\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.  
+%\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.
 %The single colon (\ct{:}) at the end of the name says that \ct{bounds:} expects a single parameter, which should be a rectangle object.
 8行目では新しいオブジェクトの\ct{bounds}を設定します。詳細については今はまだそれほど気にはせず、括弧内の式で原点(\ie 左上隅)、(5,5)と右下隅からなる、適切な数のcellを置くことのに十分な数の長方形がつくられることを理解して下さい。次の行では、 \ct{LOGame}オブジェクトのインスタンス変数の\ct{cells}を、適切な数の行と列をもった、新たに作った\clsind{Matrix}に設定しています。上記のことを\ct{new:tabulate:}メッセージを \ct{Matrix}クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることにより実現しています。\mthind{Matrix class}{new:tabulate:}は2つのコロン(\ct{:})を持つので2つの引数を取ります。引数はコロンの後に書きます。もし今まで引数を全て一緒の括弧内に置く言語を使っている場合、最初のうちはこの書き方が異様に感じるかもしれません。慌てることはありません、単に記法の問題なのですから。この書き方は、メソッド名が引数の役割を説明してくれるので、とてもわかりやすい記法です。例えば次の式、\ct{Matrix rows: 5 columns: 2}により、Matrixは2行5列ではなく、5行2列であることは明白です。
 \cmindex{Matrix class}{rows:columns:}
@@ -363,7 +363,7 @@ initialize
 
 % \on{I think it is silly to copy paste from the pretty-print view to the normal view}
 
-%That's \ct{initialize}.  When you accept this message body, you might want to take the opportunity to pretty-up the formatting.  You don't have to do this by hand: from the \actclick menu select \menu{more \ldots \go prettyprint}, and the browser will do it for you\damien{this didn't do anything to me}.  You have to \menu{accept} again after you have \subind{method}{pretty-print}{}ed a method, or of course you can \subind{keyboard shortcut}{cancel} 
+%That's \ct{initialize}.  When you accept this message body, you might want to take the opportunity to pretty-up the formatting.  You don't have to do this by hand: from the \actclick menu select \menu{more \ldots \go prettyprint}, and the browser will do it for you\damien{this didn't do anything to me}.  You have to \menu{accept} again after you have \subind{method}{pretty-print}{}ed a method, or of course you can \subind{keyboard shortcut}{cancel}
 %(\short{l}\,---\,that's a lower-case letter \emph{L}) if you don't like the result.
 %Alternatively, you can set up the browser to use the pretty-printer automatically whenever it shows you code: use the the right-most button in the button bar to adjust the view.
 %\seeindex{pretty-print}{method}
@@ -381,7 +381,7 @@ initialize
 
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=\textwidth]{Categorize} 
+   \includegraphics[width=\textwidth]{Categorize}
    \caption{すべての未カテゴリー化メソッドを自動的にカテゴリー化します。\figlabel{categorize}}
 \end{figure}
 
@@ -627,7 +627,7 @@ Monticello package Browserを使うことにより、FTPやHTTPなどを含む�
 
 \dothis{\menu{World}メニューからMonticello Browserを開いてください。}
 Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
- 
+
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
 \begin{figure}[hbt]
@@ -651,7 +651,7 @@ Monticello Browserの左側にはイメージ内に読み込まれたバージ�
 
 \dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをMonticello Browserに追加します。}
 
-\subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}} 
+\subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}}
 コードを保存し、また共有する一番良い方法は\sqsrc サーバー上のでアカウントを取りプロジェクトを作ることだと考えます。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。それはHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
 \url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは web browserから見ることができますが、Monticello Browser を使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
 
@@ -660,26 +660,26 @@ Monticello Browserを使いリポジトリに追加するとき、\sqsrc で使�
 
 一度\sqsrc にプロジェクトが作られると、\pharo システムにそれを使うよう伝える必要があります。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。 
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。
 
 \needlines{5}
 \begin{code}{}
-MCHttpRepository 
+MCHttpRepository
     location: 'http://www.squeaksource.com/!\emph{YourProject}!'
-    user: '!\emph{yourInitials}!' 
+    user: '!\emph{yourInitials}!'
     password: '!\emph{yourPassword}!'
-\end{code}   
+\end{code}
 
 \noindent
 もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはでいますが更新することはできません。
 
 \needlines{5}
 \begin{code}{}
-MCHttpRepository 
+MCHttpRepository
     location: 'http://www.squeaksource.com/!\emph{YourProject}!'
-    user: '' 
+    user: ''
     password: ''
-\end{code}   
+\end{code}
 
 %You can then load the code in your image by selecting the version you want. You can browse the code without loading it, using the \button{Browse} button.
 一度このテンプレートを受諾すると新たなリポジトリーがMonticello Browserの右側のリストに表示されます。
