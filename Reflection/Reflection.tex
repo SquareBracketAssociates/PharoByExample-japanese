@@ -246,16 +246,16 @@ Morph linesOfCode.               --> 5968 "総コード行数"
 %======================================
 \section{コードをブラウズする}
 
-\st では、すべてがオブジェクトです。特にクラスオブジェクトは、クラスのインスタンスの世界をナビゲートするための、便利な機能を提供します。
-これから見るメッセージの多くは、\ct{Behavior}で実装されているので、すべてのクラスが(\ct{Class}は、\ct{Behavior}を継承しています)、これらのメッセージを理解できます。
+\st では、すべてがオブジェクトです。特にクラスもまたオブジェクトであり、インスタンスを操作できる便利な機能を提供します。
+これから挙げるメッセージはほとんど\ct{Behavior}で実装されているので、どのクラスも理解できます。
 
-\figref{allInstanceVariables}で見たように、与えられたクラスのインスタンスは、そのクラスに\ct!#someInstance!メッセージを送れば、得られます。
+\figref{allInstanceVariables}で見たように、クラスに\ct!#someInstance!メッセージを送ると何らかのインスタンスを得られます。
 \mthindex{Behavior}{someInstance}
 \begin{code}{@TEST} % Possibly fragile!
 Point someInstance --> 0@0
 \end{code}
 
-また、すべてのインスタンスを集めるのに、\ct!#allInstances!を用いることができます。さらに、メモリ中にあるインスタンスの数は、\ct!#instanceCount!を使えばわかります。
+すべてのインスタンスを集めるなら\ct!#allInstances!を、メモリ中にあるインスタンスの数を得るなら\ct!#instanceCount!を使います。
 
 \alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
@@ -267,12 +267,14 @@ ByteString instanceCount    --> 104565
 String allSubInstances size -->  101675
 \end{code}
 
-以下の機能は、アプリケーションをデバッグするときに、非常に便利なことがあります。なぜなら、クラスに対して、特定の属性を示すメソッドを列挙するよう依頼できるからです。
+次の機能はアプリケーションのデバッグに役立ちます。
+クラスが持つメソッドから、特定の条件を満たすメソッドのみを抽出できます。
+
 \begin{itemize}
-\item \mthind{Behavior}{whichSelectorsAccess:} 引数が指定したインスタンス変数を読み書きするメソッドの、すべてのセレクターを返す
-\item \mthind{Behavior}{whichSelectorsStoreInto:} インスタンス変数の値を変更するメソッドのセレクターを返す
-\item \mthind{Behavior}{whichSelectorsReferTo:} 与えられたメッセージを送るメソッドのセレクターを返す
-\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける
+\item \mthind{Behavior}{whichSelectorsAccess:} は、指定したインスタンス変数を読み書きするすべてのメソッドのセレクタを返します。
+\item \mthind{Behavior}{whichSelectorsStoreInto:} は、指定したインスタンス変数の値を変更するすべてのメソッドのセレクタを返します。
+\item \mthind{Behavior}{whichSelectorsReferTo:} は、指定したメッセージを送るすべてのメソッドのセレクタを返します。
+\item \mthind{Behavior}{crossReference} 各メッセージを、そのメッセージを送るメソッドの集合に関連づける % Pharo にこのメソッドは見当たらない？
 \end{itemize}
 
 \begin{code}{} % TOO FRAGILE TO TEST
