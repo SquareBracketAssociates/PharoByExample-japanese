@@ -356,7 +356,7 @@ initialize
 
 \cmindex{Matrix class}{rows:columns:}
 
-\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}式により\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。 各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は、\ct{self newCellAt: i at: j}式を評価した結果として初期化されます。
+\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}式は\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は\ct{self newCellAt: i at: j}式を評価した結果で初期化されます。
 
 %:===> Pretty-print is broken! (how to pretty-print?)
 
@@ -372,16 +372,18 @@ initialize
 %=================================================================
 \section{メソッドをプロトコルにまとめる}
 
-メソッドを定義する前に、Browserの上部にある3つめのペインを少し見てみましょう。Browserの最初のペインと同様に、クラスをパッケージに分類することで、2つ目のペインにあるクラス名の非常に長いリストに圧倒されることはなく、3つめのペインでメソッドをカテゴリー化することにより4つ目のペインにあるメソッド名の非常に長いリストに圧倒されることもない。これらのメソッドの分類は``プロトコル''とよばれています。
+メソッドの定義を続ける前に、Browserの上部にある3つめのペインを少し見てみましょう。3つめのペインを使うことで、1つめのペインを使ってクラスをパッケージに分類したようにメソッドを分類化することができます。これによって4つめのペインが大量のメソッドで埋もれてしまうのを防ぐことができます。こうしたメソッドの分類は``プロトコル''とよばれています。
+
 \index{protocol}
 
-1つのクラスにわずかのメソッドしかない場合、プロトコルにより提供される余分な階層のレベルは必要ではありません。このことは、Browserが仮想プロトコル\prot{-{}-all-{}-}を提供する理由であり、またクラスの全てのメソッドを含んでいることに驚くことはありません。
+クラスにわずかのメソッドしかない場合、プロトコルによる余分な階層のレベルは必要ありません。そうしたクラスのために、Browserはクラスの全てのメソッドを含む仮想プロトコル\prot{-{}-all-{}-}を提供しています。
+
 \protindex{all}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{Categorize}
-   \caption{すべての未カテゴリー化メソッドを自動的にカテゴリー化します。\figlabel{categorize}}
+   \caption{分類されていないすべてのメソッドを自動的に分類します。\figlabel{categorize}}
 \end{figure}
 
 この例に沿って作業をしている場合は、3つ目のペインには\protind{まだ分類されていない}プロトコルが含まれているかもしれません。
