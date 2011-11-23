@@ -465,18 +465,17 @@ LOCell>>>mouseAction: aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-\Mthref{mouseAction:} では、cellの\ct{mouseAction}変数に引数を設定し、その新たな値を返す以上のことはしていません。このような方法でインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
+\Mthref{mouseAction:} はcellの\ct{mouseAction}変数に引数を設定してその値を返す以上のことはしていません。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
 
-もし他のプログラミング言語においてゲッターとセッターを使うことに慣れていた場合、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし慣習的に\st では違います。ゲッター名は常に、そのメソッドが得る値と同じ名前にします。セッター名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''が付きます。
+もし他のプログラミング言語でゲッターメソッドとセッターメソッドを使うことに慣れていたら、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし\st の習慣では異なります。ゲッターメソッド名は常にそのメソッドで得るインスタンス変数名と同じ名前にします。セッターメソッド名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''を付けます。
 
-セッターとゲッターは合わせて\emphind{アクセサ}メソッドと呼ばれています。また慣習として、これらは\protind{accessing}プロトコルに置かれるべきです。\st において全てのインスタンス変数はそれらを持つオブジェクトに対しプライベートです。そのため他のオブジェクトが\st 言語でそれらの変数を読み書きする唯一の方法は、このようにアクセサメソッドを使うことです。\footnote{実際にインスタンス変数はサブクラスにもアクセスできます。
-}.
+セッターメソッドとゲッターメソッドはあわせて\emphind{アクセサ}メソッドと呼ばれています。また、これらは慣習として\protind{accessing}プロトコルに置かれます。\st では全てのインスタンス変数はそれらを持つオブジェクトのものです。そのため、\st 言語で他のオブジェクトがそれらの変数を読み書きするには、このようにアクセサメソッドを用意して行う他ありません\footnote{実際にはインスタンス変数はサブクラスの中からも参照できます。}。
 
-\dothis{\ct{LOCell}クラスを表示し、\ct{LOCell>>>mouseAction:}を定義し、\prot{accessing}プロトコルに置いてください。}
+\dothis{\ct{LOCell}クラスを表示し、\ct{LOCell>>>mouseAction:}を定義してください。定義が終わったら、そのメソッドを\prot{accessing}プロトコルに置いてください。}
 
-最後に\ct{mouseUp:}メソッドを定義する必要があります。このメソッドはGUIフレームワークにより、マウスがスクリーン上のcellの上にあり、マウスボタンを離されたときに自動的に呼び出されます。
+最後に\ct{mouseUp:}メソッドを定義する必要があります。このメソッドは画面上のcellの上にあるマウスのマウスボタンが離されたときに自動的に呼び出されます。
 
 \begin{method}[sbecellmouseup]{イベントハンドラ}
 LOCell>>>mouseUp: anEvent
@@ -484,23 +483,25 @@ LOCell>>>mouseUp: anEvent
 \end{method}
 \cmindex{LOCell}{mouseUp:}
 
-\dothis{\ct{LOCell>>>mouseUp:}を追加し、\menu{categorize automatically}メソッドを実行してください。}
+\dothis{\ct{LOCell>>>mouseUp:}を追加し、\menu{categorize automatically}を実行してください。}
+
 \index{method!categorize}
 
-このメソッドはメッセージの\lct{値}を、\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。 \ct{LOGame>>>newCellAt: i at: j}を再度呼び出すことにより、以下のコードの断片を\ct{mouseAction}:にあてがっています。
+このメソッドは\lct{value}メッセージを\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。\ct{LOGame>>>newCellAt: i at: j}で以下のコード片を\ct{mouseAction:}に指定したことを思い出してください。
 
 \ct{[self toggleNeighboursOfCellAt: i at: j ]}
 
 \noindent
-\lct{値}のメッセージを送ることにより、このコードの断片は評価されます。その結果としてcellの状態が切り替わります。
+\lct{value}メッセージを送ると、このコード片が評価されてcellの状態が切り替わることになります。
 
 %=================================================================
 \section{コードを実行してみましょう}
 
-以上でLights Outゲームは完成しました！
-全ての手順に従ってきたのならば、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことはできるはずです。
+以上でLights Outゲームは完成です！
 
-\dothis{workspace上で、\ct{LOGame new openInWorld} と打ち込み、\menu{do it}して下さい。}
+手順通りに進んできたのなら、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことができるはずです。
+
+\dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}して下さい。}
 
 ゲームが開き、cellをクリックでき、またそれがどのように動作するかを見ることができるでしょう。
 
