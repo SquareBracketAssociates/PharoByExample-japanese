@@ -386,20 +386,25 @@ initialize
 
 この例に沿って作業をしている場合は、3つ目のペインには\protind{まだ分類されていない}プロトコルが含まれているかもしれません。
 
-\dothis{プロトコルペインを\actclick して下さい。その後\menu{various \go categorize automatically}を選択決定し、その後\ct{initialize}と呼ばれる新しいプロトコルである\protind{initialization}メソッドに作業を移してください。}
-\pharo はどのようにして、このプロトコルが妥当であるかを知るのでしょうか。一般的に、\pharo は知りません。しかしこのケースにおいてはスーパークラスは\ct{initialize}メソッドを持っています。そして\pharo は今回の\ct{initialize}メソッドがオーバーライドすべきメソッドに分類されると判断します。
+\dothis{プロトコルペインを\actclick して下さい。その後\menu{various \go categorize automatically}を選択したら、\ct{initialize}メソッドを新しいプロトコル\protind{initialization}に移動してください。}
+
+\pharo はプロトコルが妥当であるかをどのようにして知るのでしょうか。一般に\pharo はそれを知ることはできません。しかしこのケースでは、スーパークラスにも\ct{initialize}メソッドが定義されているので、\pharo は\ct{initialize}メソッドをオーバーライド元のメソッドと同じプロトコルに分類するべきだと判断します。
+
 \index{method!categorize}
 
 %You may find that \pharo has already put your \ct{initialize} method into the \protind{initialization} protocol.
 %If so, it's probably because you have loaded a package called \ct{AutomaticMethodCategorizer} into your image.
 
-\paragraph{表記規則。} Smalltalkersは、メソッドが属するクラスを識別するため、よく``\verb|>>|''の表記法使用します。例えば\ct{LOGame}クラスのcellsPerSideメソッドでは \ct{LOGame>>cellsPerSide}となります。
-\st 式では\emph{ない}ことを示すため、特殊なシンボル\ct{>>>}を代わりに使います。そのためこの本においては、このメソッドは\ct{LOGame>>>cellsPerSide}と表します。
+\paragraph{表記規則} Smalltalkerは、メソッドが属するクラスを識別するために``\verb|>>|''という表記をよく使用します。例えば\ct{LOGame}クラスのcellsPerSideメソッドは\ct{LOGame>>cellsPerSide}と表します。
+この表記が\st 式では\emph{ない}ことを明示するため、本書ではその代わりに特殊なシンボル\ct{>>>}を使うことにします。さきほどのメソッドであれば、文中では\ct{LOGame>>>cellsPerSide}と表します。
+
 \cmindex{Behavior}{>>}
 
-以後この本においては、この記法でメソッドの名前を表現することとします。もちろん実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。つまりクラスペインで適切なクラスが選択されていることだけ確認すればいいです。
-さあ、これから\ct{LOGame>>>initialize}メソッドで使う他の2つのメソッドを定義しましょう。両方とも\prot{initialization} プロトコルの中に入ります。
-\begin{method}[sbegamecellsperside]{定数メソッド。}
+以後、本書ではこの記法でメソッド名を記述します。もちろん、実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。クラスペインで適切なクラスが選択されていることを確認するだけで十分です。
+
+それでは、これから\ct{LOGame>>>initialize}メソッドで使われている他の2つのメソッドを定義していきます。両方とも\prot{initialization} プロトコルに入れることにします。
+
+\begin{method}[sbegamecellsperside]{定数メソッド}
 LOGame>>>cellsPerSide
    "ゲームの側面にあるcellの数"
    ^ 10
@@ -407,7 +412,7 @@ LOGame>>>cellsPerSide
 \cmindex{LOGame}{cellsPerSide}
 \index{constant methods}
 
-このメソッドは非常にシンプルで、単に定数10を返すだけです。メソッドで定数を表記する利点の1つは、他の要因に依存しているこの定数によってこのプログラムが進化する時、値を計算することでメソッドを変更することができるからです
+このメソッドは非常にシンプルで、単に10という値を返すだけです。このように値をメソッドとして表現しておくと、プログラムが成長してこの値が単純に定まらなくなった場合に、値を計算して返すようにメソッドを変更することで適応できるという利点があります。
 
 \needlines{10}
 \begin{method}[newCellAt:at:]{初期化補助メソッド}
@@ -423,7 +428,8 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 %   ^ c      "omit this final line to create a bug"
 
-\dothis{\ct{LOGame>>>cellsPerSide}メソッドと\ct{LOGame>>>newCellAt:at:}メソッドの追加。}
+\dothis{\ct{LOGame>>>cellsPerSide}メソッドと\ct{LOGame>>>newCellAt:at:}メソッドを追加してください。}
+
 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
 \Mthref{newCellAt:at:} 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
