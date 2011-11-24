@@ -493,10 +493,10 @@ Object subclass: #Behavior
 
 オブジェクトがメッセージを受け取ると、何が起こるのでしょう?
 
-とても単純な過程をたどります。メッセージを受けたレシーバのクラスは、メッセージを処理するのに用いるメソッドを探索します。もしそのクラスがメソッドを持っていなければ、その\ind{スーパークラス}にたずねます。\ind{継承}の連鎖をたどり、メソッドを探していくのです。メソッドが見つかれば、渡した引数の値はそのメソッドの引数に束縛され、\ind{仮想マシン}がメソッドを実行します。
+とても単純な過程をたどります。メッセージを受けたレシーバのクラスは、メッセージを処理するのに必要なメソッドを探索します。もしクラスがそのメソッドを持っていなければ、自身の\ind{スーパークラス}にたずねます。\ind{継承}の連鎖をたどって、メソッドを探していくのです。メソッドが見つかれば、渡した引数の値はそのメソッドの引数に束縛され、\ind{仮想マシン}がメソッドを実行します。
 \index{メソッド!探索}
 
-基本的にはメソッド探索はこんなに簡単なのですが、いくつか注意しなければならない点もあります。
+メソッド探索は基本的には簡単なことなのですが、いくつか注意しなければならない点もあります。
 
 \begin{itemize}
   \item \emph{メソッドが明示的に値を返していない場合は、どうなるのでしょうか?}
@@ -507,7 +507,7 @@ Object subclass: #Behavior
 
 ここでは、メソッド探索の概念的な規則を示します。仮想マシンを実装する人はありとあらゆるトリックや最適化を駆使してメソッド探索を高速化するのですが、それは彼等に任せておきましょう。ここで示す規則から外れているとは判らないように、やっているはずです。
 
-まず、探索の基本戦略から見ていきましょう。その上で、上記の一連の疑問について考察しましょう。
+まず、探索の基本戦略から見ていきましょう。その上で、上記の一連の疑問について考察します。
 
 %---------------------------------------------------------
 \subsection{メソッド探索}
@@ -516,7 +516,7 @@ Object subclass: #Behavior
 anEllipse := EllipseMorph new.
 \end{code}
 \noindent
-ここで、このオブジェクトに\ct{defaultColor}メッセージを送ったら、\ct{Color yellow}という結果が得られます。
+ここで、このオブジェクトに\ct{defaultColor}メッセージを送ると、\ct{Color yellow}という結果が得られます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse defaultColor --> Color yellow
 \end{code}
@@ -530,7 +530,7 @@ EllipseMorph>>>defaultColor
 \end{method}
 \cmindex{EllipseMorph}{defaultColor}
 
-一方、\ct{anEllipse}に\ct{openInWorld}メッセージを送ると、メソッドは直ちには見つかりません。\ct{anEllipse}クラスは\ct{openInWorld}を実装していないからです。したがって、スーパークラスの\lct{BorderedMorph}を探索していきます。探索は\ct{Morph}クラスで\ct{openInWorld}メソッドが見つかるまで続きます。
+一方、\ct{anEllipse}に\ct{openInWorld}メッセージを送ると、メソッドはすぐには見つかりません。\ct{anEllipse}クラスは\ct{openInWorld}を実装していないからです。そのため、スーパークラスの\lct{BorderedMorph}を探索していきます。探索は\ct{openInWorld}メソッドが\ct{Morph}クラスで見つかるまで続きます。
 
 \begin{method}[openInWorld]{継承されたメソッド}
 Morph>>>openInWorld
@@ -550,10 +550,9 @@ Morph>>>openInWorld
 %---------------------------------------------------------
 \subsection{selfを返す} 
 
-\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})は戻り値を示すものがないことに注目してください。
+\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})には戻り値を示すものがないことに注目してください。
 
-実際にはメソッドは\emph{常に}値を返します。もちろん、値というのはオブジェクトです。答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまった場合、それでもなおメソッドは値を返します。その場合、メソッドは、そのメッセージを受け取ったオブジェクトを返すのです。
-そのことを、``\self を返す''と言います。Smalltalkでは疑似変数\self はメッセージを受けたレシーバを指します。\ind{Java}の\ct{this}のようなものです。
+実際にはメソッドは\emph{常に}値を返します。もちろん、値というのはオブジェクトです。答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまったとしての、やはりメソッドは値を返します。その場合、メソッドは、そのメッセージを受け取ったオブジェクト自身を返すのです。これを、``\self を返す''と言います。Smalltalkでは疑似変数\self はメッセージを受けたレシーバそのものを指します。\ind{Java}の\ct{this}のようなものです。
 \index{変数!疑似}
 \index{return}
 \seeindex{caret}{return}
@@ -569,7 +568,7 @@ Morph>>>openInWorld
 	^ self		"不要なので、通常はわざわざ書かないこと！"
 \end{method}
 
-なぜ上記で\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味あるものを返しているということを示すからです。\self を明示的に返す場合、センダがその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
+なぜ上のように\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味あるものを返していることを示すものだからです。\self を明示的に返す場合、センダ側がその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
 
 これは\st では日常的なイディオムで、ケント・ベックは``興味を惹くような戻り値(Interesting return value)'' \cite{Beck97a} と呼んでいます。
 \index{Beck, Kent}
@@ -579,7 +578,7 @@ Morph>>>openInWorld
 %---------------------------------------------------------
 \subsection{オーバーライドと拡張}
 
-\figref{openInWorldLookup}の\ct{EllipseMorph}クラスの階層を見ると、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青いモーフが出ます。楕円の場合にはデフォルトで黄色です。
+\figref{openInWorldLookup}の\ct{EllipseMorph}クラスの階層を見ると、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青い色になっています。楕円の場合には黄色になります。
 \index{メソッド!オーバーライド}
 \index{メソッド!拡張}
 \seeindex{オーバーライド}{メソッド, オーバーライド}
@@ -589,7 +588,7 @@ Morph>>>openInWorld
 
 継承したメソッドをオーバーライドするのではなく、機能を追加して\emph{拡張}したいこともあります。つまり、オーバーライドされるメソッドに、サブクラスで新たな機能を\emph{付け加えて}実行したいということです。\st では、\super に対するメッセージ送信でこれを実現しています。単一継承をサポートする多くのオブジェクト指向言語で典型的な方法です。
 
-\ct{initialize}メソッドは、この仕組みの最も重要な例です。あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。しかし、どうやって初期化するかは、継承の連鎖の中で各スーパークラスの\ct{initialize}メソッドに既に記述されています。サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
+\ct{initialize}メソッドは、この仕組みの最も重要な例です。あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。しかし、その初期の仕方は、継承の連鎖の中で各スーパークラスの\ct{initialize}メソッドに既に記述されています。サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
 
 以上のことから、\ct{initialize}メソッドを実装する時には、まず\ct{super initialize}を送信してから、他の変数の\ind{初期化}を書くようにするのが良いプラクティスです。
 
@@ -608,19 +607,19 @@ BorderedMorph>>>initialize
 %---------------------------------------------------------
 \subsection{self、superへのメッセージ送信}
 
-\super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
+\super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうとなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
 
 \self 送信と\super 送信の違いは何でしょうか? \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、superへの送信を行っているメソッドのクラスのスーパークラスから探索を始めます。
 
-\super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスのことだと思うのは、よく見られる間違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
+\super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスと思うのは、よく見られる勘違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
 
 \ct{constructorString}というメッセージを例にしましょう。これは、任意のモーフに送信することができます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'
 \end{code}
-戻り値は、評価するとモーフを復元できる文字列です。
+戻り値は、評価することでモーフを復元できる文字列です。
 
-\self 送信と\super 送信をどう組み合わせれば、この文字列が得られるでしょうか? まず、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。\figref{constructorStringLookup}を見てください。
+\self 送信と\super 送信をどう組み合わせれば、この文字列が得られるのでしょうか? まず、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。\figref{constructorStringLookup}を見てください。
 
 \begin{figure}[htb]
 \begin{center}
@@ -636,7 +635,7 @@ anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) co
 Morph>>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
 \end{method}
-\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}クラスから、メソッド探索が始まるということです。
+\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}のクラスから、メソッド探索が始まるということです。
 
 \important{\self 送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
 
@@ -648,13 +647,15 @@ BorderedMorph>>>fullPrintOn: aStream
 	aStream nextPutAll: ') setBorderWidth: '; print: borderWidth;
 		nextPutAll: ' borderColor: ' , (self colorString: borderColor)
 \end{method}
-一方、\ct{BorderedMorph>>>fullPrintOn:}では、\super へメッセージ送信をして、スーパークラスから継承した\ct{fullPrintOn:}の振る舞いを拡張しています。\super への送信なので、メソッド探索は\super 送信を行うクラスのスーパークラスである\ct{Morph}クラスから始まります。すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それが評価されす。
+一方、\ct{BorderedMorph>>>fullPrintOn:}では、\super へメッセージ送信をして、スーパークラスから継承した\ct{fullPrintOn:}の振る舞いを拡張しています。\super への送信なので、メソッド探索は\super 送信を行うクラスのスーパークラスである\ct{Morph}クラスから始まります。すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それが評価されます。
 
-\super 送信の探索はレシーバのスーパークラスから開始しているのではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
+\super 送信の探索はレシーバのスーパークラスから開始しているわけではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
 
 \important{\super 送信は、\emph{静的な}メソッド探索を、\super 送信を行なっているメソッドを定義しているクラスのスーパークラスから開始します。}
 
-\super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を開始します。
+\super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を始めます。
+
+%ここまで
 
 %---------------------------------------------------------
 \subsection{理解されないメッセージ}
