@@ -287,10 +287,11 @@ Point crossReference --> an Array(
 		...)
 \end{code}
 
-以下のメッセージは、継承を考慮に入れます:
+次のメッセージは継承階層も含めて調べます:
+
 \begin{itemize}
-\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装するクラス/スーパークラスを返す
-\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバークラスでも、そのどのサブクラスでも使われない、インスタンス変数のリストを返す
+\item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装しているクラスを返します。
+\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバのクラスでもサブクラスでも使われないインスタンス変数をリストにして返します。
 \end{itemize}
 
 \begin{code}{@TEST}
@@ -298,8 +299,8 @@ Rectangle whichClassIncludesSelector: #inspect --> Object
 Rectangle unreferencedInstanceVariables            --> #()
 \end{code}
 
-\clsind{SystemNavigation}は、さまざまな便利なメソッドをサポートするファサードです。ここで言うメソッドとは、システムのソースコードにクエリを送ったり、これをブラウズするのに便利なメソッドのことです。
-\ct{SystemNavigation} \mthind{SystemNavigation class}{default}は、システムをナビゲートするのに使えるファサードのインスタンスを返します。
+\clsind{SystemNavigation}は、システム内のソースコードのブラウズや問い合わせを行うのに便利なメソッドを持つファサードです。
+\ct{SystemNavigation} \mthind{SystemNavigation class}{default}を評価して得られるインスタンスを使ってシステム情報を調べられます。
 例えば:
 
 \mthindex{SystemNavigation}{allClassesImplementing:}
@@ -307,7 +308,7 @@ Rectangle unreferencedInstanceVariables            --> #()
 SystemNavigation default allClassesImplementing: #yourself --> {Object}
 \end{code}
 
-以下のメッセージの意味も、その名の通りでしょう:
+次のメッセージの説明は不要でしょう:
 
 \mthindex{SystemNavigation}{allSentMessages}
 \mthindex{SystemNavigation}{allUnsentMessages}
@@ -318,7 +319,7 @@ SystemNavigation default allUnsentMessages size      --> 6431
 SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
-ここで次のことに注意してください。実装されてはいても送られないメッセージは、必ずしも不要ということではありません。なぜなら、それらは暗黙のうちに送られることもあるからです(\eg \ct{perform:}を使って)。
+中には実装されているのに使われていないメッセージもありますが、必ずしも不要とは限りません。\ct{perform:}を使うなどして、ソースコードに現れない形で送られることもあります。
 送られるのに実装されていないメッセージは、しかし、もっとやっかいです。なぜなら、これらのメッセージを送るメソッドは、いずれ実行時に失敗するからです。
 これらは、完了していない実装、廃止されたAPI、あるいは欠落したライブラリがあることを、示しているのかもしれません。
 
