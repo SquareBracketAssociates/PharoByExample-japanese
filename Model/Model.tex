@@ -484,7 +484,6 @@ Object subclass: #Behavior
 
 \important{自身のデータを他人にいじらせないこと。}
 
-%ここまで
 
 %=========================================================
 \section{メソッド探索は継承の連鎖をたどっていく}
@@ -493,10 +492,10 @@ Object subclass: #Behavior
 
 オブジェクトがメッセージを受け取ると、何が起こるのでしょう?
 
-とても単純な過程をたどります。メッセージを受けたレシーバのクラスは、メッセージを処理するのに用いるメソッドを探索します。もしそのクラスがメソッドを持っていなければ、その\ind{スーパークラス}にたずねます。\ind{継承}の連鎖をたどり、メソッドを探していくのです。メソッドが見つかれば、渡した引数の値はそのメソッドの引数に束縛され、\ind{仮想マシン}がメソッドを実行します。
+とても単純な過程をたどります。メッセージを受けたレシーバのクラスは、メッセージを処理するのに必要なメソッドを探索します。もしクラスがそのメソッドを持っていなければ、自身の\ind{スーパークラス}にたずねます。\ind{継承}の連鎖をたどって、メソッドを探していくのです。メソッドが見つかれば、渡した引数の値はそのメソッドの引数に束縛され、\ind{仮想マシン}がメソッドを実行します。
 \index{メソッド!探索}
 
-基本的にはメソッド探索はこんなに簡単なのですが、いくつか注意しなければならない点もあります。
+メソッド探索は基本的には簡単なことなのですが、いくつか注意しなければならない点もあります。
 
 \begin{itemize}
   \item \emph{メソッドが明示的に値を返していない場合は、どうなるのでしょうか?}
@@ -507,7 +506,7 @@ Object subclass: #Behavior
 
 ここでは、メソッド探索の概念的な規則を示します。仮想マシンを実装する人はありとあらゆるトリックや最適化を駆使してメソッド探索を高速化するのですが、それは彼等に任せておきましょう。ここで示す規則から外れているとは判らないように、やっているはずです。
 
-まず、探索の基本戦略から見ていきましょう。その上で、上記の一連の疑問について考察しましょう。
+まず、探索の基本戦略から見ていきましょう。その上で、上記の一連の疑問について考察します。
 
 %---------------------------------------------------------
 \subsection{メソッド探索}
@@ -516,7 +515,7 @@ Object subclass: #Behavior
 anEllipse := EllipseMorph new.
 \end{code}
 \noindent
-ここで、このオブジェクトに\ct{defaultColor}メッセージを送ったら、\ct{Color yellow}という結果が得られます。
+ここで、このオブジェクトに\ct{defaultColor}メッセージを送ると、\ct{Color yellow}という結果が得られます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse defaultColor --> Color yellow
 \end{code}
@@ -530,7 +529,7 @@ EllipseMorph>>>defaultColor
 \end{method}
 \cmindex{EllipseMorph}{defaultColor}
 
-一方、\ct{anEllipse}に\ct{openInWorld}メッセージを送ると、メソッドは直ちには見つかりません。\ct{anEllipse}クラスは\ct{openInWorld}を実装していないからです。したがって、スーパークラスの\lct{BorderedMorph}を探索していきます。探索は\ct{Morph}クラスで\ct{openInWorld}メソッドが見つかるまで続きます。
+一方、\ct{anEllipse}に\ct{openInWorld}メッセージを送ると、メソッドはすぐには見つかりません。\ct{anEllipse}クラスは\ct{openInWorld}を実装していないからです。そのため、スーパークラスの\lct{BorderedMorph}を探索していきます。探索は\ct{openInWorld}メソッドが\ct{Morph}クラスで見つかるまで続きます。
 
 \begin{method}[openInWorld]{継承されたメソッド}
 Morph>>>openInWorld
@@ -550,10 +549,9 @@ Morph>>>openInWorld
 %---------------------------------------------------------
 \subsection{selfを返す} 
 
-\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})は戻り値を示すものがないことに注目してください。
+\ct{EllipseMorph>>>defaultColor} (\mthref{defaultColor})は\ct{Color yellow}を明示的に返している一方で、\ct{Morph>>>openInWorld} (\mthref{openInWorld})には戻り値を示すものがないことに注目してください。
 
-実際にはメソッドは\emph{常に}値を返します。もちろん、値というのはオブジェクトです。答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまった場合、それでもなおメソッドは値を返します。その場合、メソッドは、そのメッセージを受け取ったオブジェクトを返すのです。
-そのことを、``\self を返す''と言います。Smalltalkでは疑似変数\self はメッセージを受けたレシーバを指します。\ind{Java}の\ct{this}のようなものです。
+実際にはメソッドは\emph{常に}値を返します。もちろん、値というのはオブジェクトです。答える値はメソッド中の\ct{^}で決まることもありますが、\ct{^}を実行することなくメソッドの終わりまで来てしまったとしての、やはりメソッドは値を返します。その場合、メソッドは、そのメッセージを受け取ったオブジェクト自身を返すのです。これを、``\self を返す''と言います。Smalltalkでは疑似変数\self はメッセージを受けたレシーバそのものを指します。\ind{Java}の\ct{this}のようなものです。
 \index{変数!疑似}
 \index{return}
 \seeindex{caret}{return}
@@ -569,7 +567,7 @@ Morph>>>openInWorld
 	^ self		"不要なので、通常はわざわざ書かないこと！"
 \end{method}
 
-なぜ上記で\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味あるものを返しているということを示すからです。\self を明示的に返す場合、センダがその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
+なぜ上のように\ct{^ self}と書かないほうが良いのかというと、明示的に値を返す書き方は、メッセージを送った側に何か意味あるものを返していることを示すものだからです。\self を明示的に返す場合、センダ側がその戻り値を使うことを期待しているといった意味になるのです。上記のコードではそういう意図はないので、\self を返すことを明示しないほうがよいでしょう。
 
 これは\st では日常的なイディオムで、ケント・ベックは``興味を惹くような戻り値(Interesting return value)'' \cite{Beck97a} と呼んでいます。
 \index{Beck, Kent}
@@ -579,7 +577,7 @@ Morph>>>openInWorld
 %---------------------------------------------------------
 \subsection{オーバーライドと拡張}
 
-\figref{openInWorldLookup}の\ct{EllipseMorph}クラスの階層を見ると、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青いモーフが出ます。楕円の場合にはデフォルトで黄色です。
+\figref{openInWorldLookup}の\ct{EllipseMorph}クラスの階層を見ると、\ct{Morph}クラスと\mbox{\ct{EllipseMorph}}クラスのどちらも\ct{defaultColor}を実装しています。実際、\ct{Morph new openInWorld}で新しいモーフを開くと、青い色になっています。楕円の場合には黄色になります。
 \index{メソッド!オーバーライド}
 \index{メソッド!拡張}
 \seeindex{オーバーライド}{メソッド, オーバーライド}
@@ -589,7 +587,7 @@ Morph>>>openInWorld
 
 継承したメソッドをオーバーライドするのではなく、機能を追加して\emph{拡張}したいこともあります。つまり、オーバーライドされるメソッドに、サブクラスで新たな機能を\emph{付け加えて}実行したいということです。\st では、\super に対するメッセージ送信でこれを実現しています。単一継承をサポートする多くのオブジェクト指向言語で典型的な方法です。
 
-\ct{initialize}メソッドは、この仕組みの最も重要な例です。あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。しかし、どうやって初期化するかは、継承の連鎖の中で各スーパークラスの\ct{initialize}メソッドに既に記述されています。サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
+\ct{initialize}メソッドは、この仕組みの最も重要な例です。あるクラスの新しいインスタンスを初期化する時には、スーパークラスから継承したインスタンス変数も必ず初期化しなければなりません。しかし、その初期の仕方は、継承の連鎖の中で各スーパークラスの\ct{initialize}メソッドに既に記述されています。サブクラスは継承したインスタンス変数の初期化には本来関わりがありません。
 
 以上のことから、\ct{initialize}メソッドを実装する時には、まず\ct{super initialize}を送信してから、他の変数の\ind{初期化}を書くようにするのが良いプラクティスです。
 
@@ -608,19 +606,19 @@ BorderedMorph>>>initialize
 %---------------------------------------------------------
 \subsection{self、superへのメッセージ送信}
 
-\super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
+\super\subind{super}{へのメッセージ送信}{}は、オーバーライドされてしまう振る舞いをサブクラス側で組み入れるのに使われます。継承されたものであろうとなかろうと、複数のメソッドを組み合わせるには、通常\self\subind{self}{へのメッセージ送信}{}を用います。
 
 \self 送信と\super 送信の違いは何でしょうか? \self と同様に、\super はメッセージを受けたレシーバ自身を表わします。違うのは、\ind{メソッド探索}だけです。\super 送信があると、レシーバのクラスから探索を始めるのではなく、superへの送信を行っているメソッドのクラスのスーパークラスから探索を始めます。
 
-\super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスのことだと思うのは、よく見られる間違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
+\super はスーパークラス\emph{ではない}ことに注意してください! スーパークラスと思うのは、よく見られる勘違いです。また、レシーバのスーパークラスから探索を始めるというのも、間違いです。どういうことか、以下に例を示します。
 
 \ct{constructorString}というメッセージを例にしましょう。これは、任意のモーフに送信することができます。
 \begin{code}{@TEST | anEllipse | anEllipse := EllipseMorph new.}
 anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) color: Color yellow)'
 \end{code}
-戻り値は、評価するとモーフを復元できる文字列です。
+戻り値は、評価することでモーフを復元できる文字列です。
 
-\self 送信と\super 送信をどう組み合わせれば、この文字列が得られるでしょうか? まず、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。\figref{constructorStringLookup}を見てください。
+\self 送信と\super 送信をどう組み合わせれば、この文字列が得られるのでしょうか? まず、\ct{anEllipse constructorString}が実行されると、\ct{Morph}クラスの\ct{constructorString}が見つかります。\figref{constructorStringLookup}を見てください。
 
 \begin{figure}[htb]
 \begin{center}
@@ -636,7 +634,7 @@ anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) co
 Morph>>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
 \end{method}
-\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}クラスから、メソッド探索が始まるということです。
+\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}のクラスから、メソッド探索が始まるということです。
 
 \important{\self 送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
 
@@ -648,21 +646,21 @@ BorderedMorph>>>fullPrintOn: aStream
 	aStream nextPutAll: ') setBorderWidth: '; print: borderWidth;
 		nextPutAll: ' borderColor: ' , (self colorString: borderColor)
 \end{method}
-一方、\ct{BorderedMorph>>>fullPrintOn:}では、\super へメッセージ送信をして、スーパークラスから継承した\ct{fullPrintOn:}の振る舞いを拡張しています。\super への送信なので、メソッド探索は\super 送信を行うクラスのスーパークラスである\ct{Morph}クラスから始まります。すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それが評価されす。
+一方、\ct{BorderedMorph>>>fullPrintOn:}では、\super へメッセージ送信をして、スーパークラスから継承した\ct{fullPrintOn:}の振る舞いを拡張しています。\super への送信なので、メソッド探索は\super 送信を行うクラスのスーパークラスである\ct{Morph}クラスから始まります。すると、\ct{Morph>>>fullPrintOn:}が即座に見つかるので、それが評価されます。
 
-\super 送信の探索はレシーバのスーパークラスから開始しているのではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
+\super 送信の探索はレシーバのスーパークラスから開始しているわけではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
 
 \important{\super 送信は、\emph{静的な}メソッド探索を、\super 送信を行なっているメソッドを定義しているクラスのスーパークラスから開始します。}
 
-\super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を開始します。
+\super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表わしています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を始めます。
 
 %---------------------------------------------------------
 \subsection{理解されないメッセージ}
 
-探しているメソッドが見つからなかったら、どうなるのでしょうか?
+探索してもメソッドが見つからなかったら、どうなるのでしょうか?
 \index{メッセージ!理解されない}
 
-楕円に\ct{foo}メッセージを送ってみましょう。まず、通常のメソッド探索が開始され、\ct{foo}メソッドを探して\clsind{Object}(正確には\clsind{ProtoObject})まで継承の連鎖を一通り探索します。メソッドが見つからない場合、\ind{仮想マシン}からそのオブジェクトに\ct{self doesNotUnderstand: #foo}メッセージが送信されます。(\figref{fooNotFound}を参照)
+楕円に\ct{foo}メッセージを送ってみましょう。まず、通常の探索が開始され、\ct{foo}メソッドを探して\clsind{Object}(正確には\clsind{ProtoObject})まで継承の連鎖を一通りたどります。メソッドが見つからない場合、\ind{仮想マシン}からそのオブジェクトに\ct{self doesNotUnderstand: #foo}メッセージが送信されます。(\figref{fooNotFound}を参照)
 
 \begin{figure}[htb]
 \begin{center}
@@ -673,19 +671,19 @@ BorderedMorph>>>fullPrintOn: aStream
 \end{center}
 \end{figure}
 
-これも普通の動的なメッセージ送信なので、探索はまた\ct{EllipseMorph}から始まります。ただし、今度は\ct{doesNotUnderstand:}メソッドを探します。結局のところ、\ct{Object}が\ct{doesNotUnderstand:}を実装しています。
+これも通常の動的なメッセージ送信なので、また\ct{EllipseMorph}から探索が始まります。ただし、今度は\ct{doesNotUnderstand:}メソッドを探します。結局のところ、\ct{Object}が\ct{doesNotUnderstand:}を実装しています。
 このメソッドでは、\ct{MessageNotUnderstood}オブジェクトを生成されます。\ct{MessageNotUnderstood}オブジェクトは、現在実行しているコンテキストでデバッガを立ち上げることができます。
 
-なぜ明らかにエラーであるのにこんなに複雑なことをするのかというと、こうすると開発者がエラーを捕まえて別のアクションをすることが簡単になるからです。\mthind{Object}{doesNotUnderstand:}は\ct{Object}の任意のサブクラスでオーバーライドして、エラーを別のやり方で処理することができます。
+なぜ明らかなエラーに対してこんなに複雑なことをするのかというと、こうすると開発者がエラーを捕まえて別のアクションをさせることが容易になるからです。\mthind{Object}{doesNotUnderstand:}を\ct{Object}の任意のサブクラスでオーバーライドして、別のやり方でエラー処理を行うことができます。
 
-実際、あるオブジェクトから別のオブジェクトに自動的にメッセージを移譲することが容易に実装できます。\ct{Delegator}オブジェクトは実装していないメッセージを別のオブジェクトに移譲し、メッセージを改めて処理させたり、エラーを発生させたりすることができます。
+実際、あるオブジェクトから別のオブジェクトに自動的にメッセージを移譲するように簡単に実装できます。\ct{Delegator}オブジェクトとして、実装していないメッセージを別のオブジェクトに移譲して改めてメッセージを処理させたり、エラーを発生させたりすることも可能です。
 
 %=========================================================
 \section{共有変数}
 
 ここでは\st の特徴のなかで、5つの規則ではカバーされていないものを見ていきましょう。\subind{変数}{共有}変数のことです。
 
-\st には3種類の共有変数があります：(1) \empty{グローバル}な共有変数 (2) インスタンスとクラスの間で共有される変数(\emph{クラス変数}) (3) クラスのグループの間で共有される変数(\emph{プール変数}) です。これらの共有変数の名前は大文字で始まります。これは、変数が複数のオブジェクトの間で共有されている警告となっています。
+\st には3種類の共有変数があります：(1) \empty{グローバル}な共有変数 (2) インスタンスとクラスの間で共有される変数(\emph{クラス変数}) (3) クラスのグループの間で共有される変数(\emph{プール変数}) です。これらの共有変数の名前は大文字で始まります。これは、変数が複数のオブジェクトの間で共有されているということの警告となっています。
 \index{変数!グローバル}
 \index{クラス!変数}
 \index{変数!プール}
@@ -694,7 +692,7 @@ BorderedMorph>>>fullPrintOn: aStream
 \subsection{グローバル変数}
 \pharo では、すべてのグローバル変数は\glbind{Smalltalk}という名前空間に格納されます。\glbind{Smalltalk}は\clsind{SystemDictionary}クラスのインスタンスとして実装されています。グローバル変数はどこからでもアクセス可能です。各クラスはグローバル変数で名づけられています。特別なオブジェクトや共通して使われるオブジェクトもグローバル変数で名前がついています。
 
-変数\glbind{Transcript}(トランスクリプト)は\clsind{TranscriptStream}のインスタンスを指しています。\clsind{TranscriptStream}はスクロールつきのウィンドウに書き込むストリームです。以下のコードは、\ct{Transcript}に情報を表示して改行します。
+変数\glbind{Transcript}(トランスクリプト)は\clsind{TranscriptStream}のインスタンスを指しています。clsind{TranscriptStream}はスクロールつきのウィンドウに書き込むストリームです。以下のコードは、\ct{Transcript}に情報を表示して改行します。
 
 \begin{code}{}
 Transcript show: 'Pharoは楽しくてパワフル！' ; cr
@@ -703,14 +701,13 @@ Transcript show: 'Pharoは楽しくてパワフル！' ; cr
 \noindent
 \menu{do it}する前に、\menu{World \go Tools \ldots \go Transcript}でトランスクリプトを開いておいてください。
 
-\hint{トランスクリプトへの書き込みは遅いです。トランスクリプトウィンドウが開いている時はなおさらです。
-トランスクリプトに書き込んでいて遅いと思ったときは最小化してみるのもひとつの手です。}
+\hint{トランスクリプトへの書き込みは遅いです。トランスクリプトウィンドウが開いている時はなおさらです。トランスクリプトに書き込んでいて遅いと思ったときは最小化してみるのもひとつの手です。}
 
 \subsubsection{他の便利なグローバル変数}
 
 \begin{itemize}
 \item
-\ct{Smalltalk}は\ct{SystemDictionary}のインスタンスで、\ct{Smalltalk}自身を含むすべてのグローバル変数を定義してします。この辞書のキーはシンボルで、\st のコード内でグローバル変数を示すのに使われます。例えば、
+\ct{Smalltalk}は\ct{SystemDictionary}のインスタンスです。\ct{Smalltalk}自身を含むすべてのグローバル変数を定義してします。この辞書のキーはシンボルで、\st のコード内でグローバル変数を示すのに使われます。例えば、
 \begin{code}{@TEST}
 Smalltalk at: #Boolean --> Boolean
 \end{code}
@@ -735,7 +732,7 @@ Smalltalk at: #Smalltalk-->a SystemDictionary(lots of globals)}
 \glbind{ActiveHand}は\clsind{HandMorph}の現在のインスタンスで、カーソルのグラフィックを表します。マウスでモーフをドラッグしている間は\ct{ActiveHand}のサブモーフになっています。
 
 \item
-\glbind{Undeclared}も辞書です。宣言されていない変数群を保持しています。宣言されていない変数を参照するメソッドを書くと、通常はブラウザが、グローバル変数やインスタンス変数として宣言するよう促します。それでも、後で変数の宣言を削除してしまった場合には、コードは未宣言の変数を参照することになります。\ct{Undeclared}をインスペクトすることで、奇妙な振舞いの原因がわかることもあるでしょう。
+\glbind{Undeclared}も辞書です。宣言されていない変数群を保持しています。宣言されていない変数を参照するメソッドを書くと、通常はブラウザが、グローバル変数やインスタンス変数として宣言するよう促します。それでも、変数の宣言を後で削除してしまった場合には、コードは未宣言の変数を参照することになります。\ct{Undeclared}をインスペクトすることで、奇妙な振舞いの原因がわかることもあるでしょう。
 
 \item
 \glbind{SystemOrganization}は\clsind{SystemOrganizer}のインスタンスです。クラスの構成情報をまとめて保持しています。より正確に言えば、\emph{クラス名}をカテゴリに分類します。
@@ -754,7 +751,7 @@ SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 \subsection{クラス変数}
 \seclabel{classVars}
 
-クラスとそのクラスのすべてのインスタンスで、データを共有したい時があります。これは\emph{クラス変数}で可能です。クラス\subind{クラス}{変数}という用語は、変数のライフタイムがクラスと同じということを示しています。しかし、その用語の字面からはわかりませんが、クラス変数はクラスの間だけでなく、インスタンスとも共有されます。\figref{privateSharedVar}を見てください。実際のところ、\emph{共有変数}という名称のほうが適切だったでしょう。役割がより明らかになりますし、使う際(特に変更する場合)の危険性も伝わります。
+クラスおよびクラスのすべてのインスタンスで、データを共有したい時があります。これは\emph{クラス変数}で可能です。クラス\subind{クラス}{変数}という用語は、変数のライフタイムがクラスと同じということを示しています。しかし、その用語の字面からは、クラス変数はクラスの間だけでなく、インスタンスとも共有されるということはわかりません。\figref{privateSharedVar}を見てください。実際のところ、\emph{共有変数}という名称のほうが適切だったでしょう。役割がより明らかになりますし、使う際(特に変更する場合)の危険性も伝わります。
 
 \begin{figure}[htb]
 \begin{center}
@@ -767,7 +764,7 @@ SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 
 \figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、そのため、\clsind{Color}のインスタンスからアクセス可能です。また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数なので、\lct{Color}クラスからのみアクセスできます。
 
-新しくでてきたのは\ct{ColorNames}と\ct{CachedColormaps}の\emph{クラス変数}で、\ct{Color}に定義されています。これらの変数が大文字であることが、共有されているというヒントを与えてくれます。実際、\ct{Color}の全インスタンスがこれらの共有変数にアクセスできるだけでなく、\ct{Color}クラス自身と\emph{そのすべてのサブクラスからもアクセス可能です}。インスタンスメソッドとクラスメソッドの両方からこれらの共有変数にアクセスできます。
+新しくでてきたのは\ct{ColorNames}と\ct{CachedColormaps}の\emph{クラス変数}で、\ct{Color}に定義されています。変数が大文字であることが、共有されているというヒントを与えてくれます。実際、\ct{Color}の全インスタンスからこれらの共有変数にアクセスでき、さらに\ct{Color}クラス自身と\emph{そのすべてのサブクラスからもアクセス可能です}。インスタンスメソッドとクラスメソッドの両方からこれらの共有変数にアクセスできるのです。
 
 %\begin{figure}
 %\begin{center}\includegraphics[width=6cm]{dateToday}\caption{A date is an object that  represents only anumber of days; all the information about month names, day names, etc.\ is shared among all the instances \figlabel{dateToday}}\end{center}.
@@ -789,7 +786,7 @@ Object subclass: #Color
 
 \subsubsection{クラスの初期化}
 
-クラス変数があることで、どうやってそれを初期化するかが問題になります。ひとつの解は、\subind{クラス}{初期化}を遅延させることです。これは、クラス変数へのアクセサメソッドを実装して、その中で変数が初期化されていなければ初期化を行うように書くことで実現できます。この方法の場合、常にアクセサを使うようにし、クラス変数には絶対に直接アクセスしてはいけないことになります。また、アクセサの実行の際に初期化する必要をチェックするコストが上乗せされます。さらに言えば、そうするとこの変数は事実上もはや共有されていないので、クラス変数を使う意味は薄れます。
+クラス変数があることで、どうやってそれを初期化するかが問題になります。ひとつの解は、\subind{クラス}{初期化}を遅延させることです。これは、クラス変数へのアクセサメソッドを実装し、その中で変数が初期化されていなければ初期化を行うように書くことで実現できます。この方法の場合、常にアクセサを使い、クラス変数には絶対に直接アクセスしないようにすることになります。また、アクセサ実行の際に、初期化の必要性をチェックするコストが上乗せされます。さらに言えば、アクセサを使った場合、変数は事実上もはや共有されていないことになるので、クラス変数を使う意味も薄れます。
 
 \begin{method}[colorclasscolornames]{Color class>>colorNames}
 Color class>>>colorNames	
@@ -813,7 +810,7 @@ Color class>>>initialize
 
 %---------------------------------------------------------
 \subsection{プール変数}
-プール変数は、直接継承関係にないクラスの間でも共有される変数です。プール変数は元々はプール辞書に格納されていましたが、今ではそれ専用のクラス(SharedPoolのサブクラス)のクラス変数として定義しなければなりません。アドバイスとしては、なるべく使うのを避けてください。プール変数が必要になることはまれであり、特定の状況下だけです。ここでは、\subind{変数}{プール}変数を使ったコードを読むのに必要十分な説明をします。
+プール変数は、直接継承関係にないクラスの間でも共有される変数です。プール変数は元々はプール辞書に格納されていましたが、今では専用のクラス(SharedPoolのサブクラス)のクラス変数として定義しなければなりません。ここで忠告しておきますが、なるべく使うのを避けてください。プール変数が必要になることは非常にまれであり、特定の状況下だけです。以後は、\subind{変数}{プール}変数を使ったコードを読むのに必要十分な説明にとどめておきます。
 
 プール変数にアクセスするにはクラス定義でそのプールを示さなければなりません。例えば、\clsind{Text}クラスではプール辞書\ct{TextConstants}を使うことを示しています。プール辞書\ct{TextConstants}は\glbind{CR}や\glbind{LF}といった、テキストに関するすべての定数を保持しています。\ct{#CR}がキーで、値として\ct{Character cr}、つまり改行文字が結び付けられています。
 \cmindex{Character class}{cr}
@@ -826,7 +823,7 @@ ArrayedCollection subclass: #Text
         category: 'Collections-Text'
 \end{classdef}
    
-こうすることで、\ct{Text}クラスのメソッドは、メソッド本文で\emph{直接}プール辞書のキーにアクセスすることができます。つまり、明示的に辞書を調べずとも、変数を参照する構文でアクセスできます。例えば、以下のようにしてメソッドを書けます。
+こうすることで、\ct{Text}クラスのメソッドは、メソッド本文で\emph{直接}プール辞書のキーにアクセスすることができます。つまり、明示的に辞書に聞かずとも、変数を参照する構文でアクセスできます。例えば、以下のようにしてメソッドを書けます。
   
 \begin{method}[texttestcr]{Text>>testCR}
 Text>>>testCR 	
@@ -857,7 +854,7 @@ Text>>>testCR
   \self 送信は動的で、レシーバのクラスからメソッド探索を始めます。一方、\super 送信は静的で、\super 送信を記述しているクラスのスーパークラスから探索を始めます。
   
   \item 3種類の共有変数がある。
-	グローバル変数は、システムのどこからもアクセス可能です。クラス変数はクラスと、そのサブクラスと、インスタンス間とで共有されます。プール変数は指定したクラス間で共有されます。共有変数の使用は、できるだけ避けるべきです。
+	グローバル変数は、システムのどこからもアクセス可能です。クラス変数はクラスとそのサブクラスとインスタンス間とで共有されます。プール変数は指定したクラス間で共有されます。共有変数の使用は、できるだけ避けるべきです。
 
 \end{itemize}
 
