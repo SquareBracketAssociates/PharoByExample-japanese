@@ -94,7 +94,7 @@
 \end{minipage}
 \end{figure}
 
-ダイアログボックスに新たなパッケージ名(\scat{PBE-LightsOut}とします)を入力し、\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に表示されます。
+ダイアログボックスに新たなパッケージ名(\scat{PBE-LightsOut}とします)を入力し、\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に整列された位置に表示されます。
 
 %=================================================================
 \section{LOCellクラスを定義する}
@@ -150,7 +150,7 @@ SimpleSwitchMorph subclass: #LOCell
 
 \dothis{新しいクラス定義をacceptします}
 action-clickして\menu{accept}を選択、もしくはショートカットの\short{s} (save)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
-クラス定義をacceptすると、すぐさまクラスが作成されてBrowserのクラスペインに表示されます(\figref{LOCell})。編集ペインにはクラス定義が表示され、その下にある小さなペインdでは簡潔にそのクラスの目的を説明することがうながされます。ここへ記述する内容は\emph{クラスコメント}と呼ばれ、他のプログラマーへクラスの大まかな目的を伝えるためのとても重要なものになります。\st プログラマーはコードの読みやすさを重視するため、メソッド内に詳細なコメントが書かれることは稀です。ここでの哲学は、コードの意図はコード自身に語らせよ、ということです(もしそうなっていない場合は、そうなるまでリファクタリングしましょう！)。
+クラス定義をacceptすると、すぐさまクラスが作成されてBrowserのクラスペインに表示されます(\figref{LOCell})。編集ペインにはクラス定義が表示され、その下にある小さなペインdでは簡潔にそのクラスの目的を説明することがうながされます\footnote{訳者が確認した環境(Pharo by Example Image および 1.3環境)ではそのようなペインはありませんでした。代わりに、クラスブラウザ中にある「?」というボタンを押すことでクラスの目的を書くペインが表示されていました。また、クラスコメントが書かれていない場合には、その「?」の箇所が赤くなりクラスの目的を書くことをうながすような挙動となっていました。}。ここへ記述する内容は\emph{クラスコメント}と呼ばれ、他のプログラマーへクラスの大まかな目的を伝えるためのとても重要なものになります。\st プログラマーはコードの読みやすさを重視するため、メソッド内に詳細なコメントが書かれることは稀です。ここでの哲学は、コードの意図はコード自身に語らせよ、ということです(もしそうなっていない場合は、そうなるまでリファクタリングしましょう！)。
 
 \index{keyboard shortcut!accept}
 
@@ -249,7 +249,7 @@ initialize
 inspectorの下側にあるペインはmini-workspaceです。このmini-workspaceは擬似変数\self が選択されたオブジェクトに束縛されているため、とても便利です。
 
 \dothis{
-inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み do it して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
+inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み \menu{do it}して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
 
 画面の左上の端、実際には\ct{bounds}メッセージで表示するよう指示した場所にcellが表示されます。cell上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってcellを移動したり、右下にある黄色のハンドルを使ってcellをリサイズしてみましょう。boundsの値がどのように変化するか、inspectorを使って確認して下さい。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
@@ -540,12 +540,12 @@ debuggerウインドウの下側には2つの小さなinspectorウインドウ�
 
 debuggerを使うことで、workspace上で式を評価するのと同じように、オブジェクトの中のパラメータや局所変数の値を見ながらコードを1行ずつ実行していくことができます。他のデバッガと比べて最も驚くべきことは、デバッグ中にコードを書き換えることができるということです。Browser上よりもdebugger上でほとんどの時間プログラムをしているSmalltalkerもいるくらいです。debugger上でプログラムをする利点は、作成中のメソッドが意図通りに動くかどうかを実際の実行コンテキスト中の引数と一緒に見ることができることにあります。
 
-この場合、パネル上部にある最初の行に\ct{toggleState}メッセージが、明らかに\lct{LOCell}のインスタンスとなっているはずの、\ct{LOGame}インスタンスに送られるのが見えるでしょう。問題は\ct{cells}行列の初期化にあるように思われます。
-\cmind{LOGame}{initialize}のコードをBrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が入力されていることがわかります。しかしそのメソッドを見ると、そこには何も返っていないことがわかります。デフォルトではメソッドは \ct{self}を戻り値として返します。  \ct{newCellAt:at:}の場合は実際に\ct{LOGame}のインスタンスがそれに該当します。
+今回の場合では、\ct{LOGame}インスタンスに送られた\ct{toggleState}メッセージが上部パネルの最初の行に表示されているはずです。これは\lct{LOCell}のインスタンスへ送られるはずのメッセージです。問題は\ct{cells}行列の初期化にあるように思われます。
+\cmind{LOGame}{initialize}のコードをBrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も返していません！メソッドはデフォルトでは\ct{self}を戻り値として返します。\ct{newCellAt:at:}のケースでは\ct{LOGame}のインスタンスが返されることになります。
 \index{method!returning self}
 
 \dothis{debuggerウインドウを閉じで下さい。
-その後\ct{c}を返すために、``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して下さい。
+その後、\ct{c}を返すために``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して下さい。
 % It should now look as shown in \mthref{newCellAt:at:nobug}.}
 (\mthref{newCellAt:at:nobug}参照。)}
 
@@ -564,11 +564,11 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 
 \noindent
-\charef{quick}に戻り、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うこと、そのためには\verb|^|と打ち込むことを思い出してください。
+\charef{quick}でやった、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うこと、そのために\verb|^|と打ち込むことを思い出してください。
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 
-debuggerウインドウ上で直接コードを修正したのち、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合はバグが間違ったメソッドではなく、オブジェクトの初期化処理にあるため、最も簡単な処理方法はdebuggerウインドウを閉じることです。debuggerウインドウを閉じることにより、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成することができます。
+debuggerウインドウ上で直接コードを修正した後で、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合は、バグは実行に失敗したメソッドにではなくオブジェクトの初期化処理にあったので、最も簡単な処理方法は新たにやり直すことです。debuggerウインドウを閉じ、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成します。
 
 %Indeed, even in this case it would be possible to \menu{do} \ct{self initialize} and then \menu{Proceed} the \ct{toggleNeighboursOfCellAt:at:} method.
 %\ab{St\'eph, did you try this?  It seems to me that it ought to work, but when I tried it, it messed up my image.}
@@ -576,7 +576,7 @@ debuggerウインドウ上で直接コードを修正したのち、\menu{Procee
 
 \dothis{もう一度\ct{LOGame new openInWorld} を実行してください。}
 
-これでこのゲームは正常...あるいはそれに近い動作をするはずです。マウスをクリックしリリースする間にマウスを移動させると、マウス上のcellも切り替わります。このことから、この動作は \ct{SimpleSwitchMorph} を継承したクラスの振る舞いによるものであることがわかります。単に\ct{mouseMove:}をオーバーライドすることで、何もしないように修正しましょう。
+これでこのゲームは正常...あるいはそれに近い動作をするはずです。マウスをクリックしてから離すまでの間にマウスを移動させると、マウス上のcellも切り替わってしまいます。この動作は\ct{SimpleSwitchMorph}を継承したことによる振る舞いです。\ct{mouseMove:}をオーバーライドして、何もしないように修正しましょう。
 
 % \needlines{6}
 \begin{method}[mouseMove:]{マウスの動作をオーバーライドする。}
@@ -592,9 +592,10 @@ LOGame>>>mouseMove: anEvent
 \section{\st のコードの保存と共有}
 \seclabel{Monticello}
 
-現在、動作するLights Outゲームが有ります。このゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharo のイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしその友人は自分のコードが入ったイメージファイルを持っていて、あなたのイメージファイルを欲しがらないかもしれません。この場合必要なのは他のプログラマーが自分のイメージファイルに取り込めるよう、\pharo のイメージファイルからソースコードを取り出すことです。
+現在、手元には動作するLights Outゲームがあります。あなたはこのゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharo のイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしもし友人が自分のコードが入ったイメージファイルを持っていたら、あなたのイメージファイルを欲しがらないかもしれません。この場合に必要なのは、他のプログラマーがあなたのソースコードを自分のイメージファイルに取り込めるよう、\pharo のイメージファイルからソースコードを取り出すことです。
 
-そのための最も簡単な方法はコードを\emph{File out}することです。パッケージペインのメニューを\actclick するとオプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go  File out}できます。取り出されたファイルは多かれ少なかれ人の読める形式ですが、本来はコンピュターが読むための形式であり、人のためのものではありません。このファイルを友人にメールで送ることが出来ます。そしてその友人たちはファイルをfile list Browserを使うことで自分の\pharo イメージファイルに組み込むことができます。
+最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、オプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go  File out}できます。取り出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものであり人のためのものではありません。このファイルを友人にメールで送れば、友人たちはfile list Browserを使うことでソースコードを自分の\pharo イメージファイルに組み込むことができます。
+
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
 \seeindex{class!filing out}{file, filing out}
@@ -604,7 +605,7 @@ LOGame>>>mouseMove: anEvent
 \dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go  File out}して下さい。}
 ``PBE-LightsOut.st''という名のファイルがイメージファイルがある同一フォルダ内にあるのを見つけることができます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}して下さい。そしてまっさらなイメージファイル上のゲームが動作することを確認して下さい。}
+\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}して下さい。そしてそのイメージファイル上でゲームが動作することを確認して下さい。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -617,17 +618,17 @@ LOGame>>>mouseMove: anEvent
 \end{figure}
 
 \subsection{Monticelloパッケージ}
-ファイル出力は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
-大部分のオープンソースプロジェクトでは、リポジトリの中のそれらのコードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}を使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージはファイル名の最後に \ct{.mcz}が付いています。これらのファイルの正体は\ind{パッケージ}のコード全てをまとめてZIPで圧縮したものです。
+\emph{File out}は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
+ほとんどのオープンソースプロジェクトでは、コードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}などのリポジトリを使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージにはファイル名の最後に \ct{.mcz}が付いています。このファイルの正体は\ind{パッケージ}のコード全てをまとめてZIPで圧縮したものです。
 
-Monticello package Browserを使うことにより、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際に\ind{Monticello}はリビジョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はリビジョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticello package Browserを使うことで、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
 もちろん\ct{.mcz}ファイルをEメールで送ることも出来ます。
 受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをMonticelloを使い閲覧したりロードしたりすることができます。
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
 \dothis{\menu{World}メニューからMonticello Browserを開いてください。}
-Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含め全てのリポジトリを含んでいます。
+Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含めて全てのリポジトリを含んでいます。
 
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
@@ -639,29 +640,32 @@ Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリ�
 \figlabel{monticello1}}
 \end{figure}
 
-Monticello Browserのリスト上部には \emphind{package cache}と呼ばれるローカルディレクトリがあります。それはネットワーク越しにロードしたり、公開したパッケージのコピーをキャッシュしています。
+Monticello Browserのリストの上部はローカルディレクトリにある \emphind{package cache}と呼ばれるリポジトリです。ここにはネットワーク越しにロードしたり、公開したパッケージのコピーがキャッシュされます。
 ローカルキャッシュは自分のローカル履歴が保存できるため非常に便利です。つまりインターネットに接続できない場所や、回線が遅いために何度も保存したいとは思わないぐらい遠くのリポジトリでも作業することができることを意味します。
 
 
 \subsection{Monticelloを使ったコードの保存と読み込み}
-Monticello Browserの左側にはイメージ内に読み込まれたバージョンのパッケージリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは、選択したパッケージのコピーを含むそれらのリポジトリに制限されます。(意味不明 後に再翻訳)
+Monticello Browserの左側にはイメージ内に読み込まれたバージョンを持つパッケージのリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは選択したパッケージのコピーを含むリポジトリに限定されます。
 \seeindex{*}{package, dirty}
 \seeindex{dirty package}{package, dirty}
 
 %What is a package?  For now, you can think of a package as a group of  class and method categories that share the same prefix.  Since we put all of the code for the Lights Out game into the category called \scat{PBE-LightsOut}, we can refer to it as the \ct{PBE-LightsOut} package.
 
-\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込むことにより、\ct{PBE-LightsOut}パッケージをMonticello Browserに追加します。}
+\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込み、\ct{PBE-LightsOut}パッケージをMonticello Browserに追加します。}
 
 \subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}}
-コードを保存し、また共有する一番良い方法は\sqsrc サーバー上のでアカウントを取りプロジェクトを作ることだと考えます。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。それはHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
-\url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあり、この本に関係したコードのコピーが\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。このプロジェクトは web browserから見ることができますが、Monticello Browser を使うことにより、パッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
+
+コードを保存、共有する一番良い方法は\sqsrc サーバー上のでアカウントを取りプロジェクトを作ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc はHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
+\url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、Monticello Browser を使うことでパッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
 
 \dothis{web browserで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲームのためのプロジェクトを作ってください(つまり登録してください)。}
-Monticello Browserを使いリポジトリに追加するとき、\sqsrc で使うべき情報を見ることでしょう。
 
-一度\sqsrc にプロジェクトが作られると、\pharo システムにそれを使うよう伝える必要があります。
+\sqsrc はリポジトリを追加する際にMonticello Browserを使うことを薦めてくるでしょう。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}  利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるのダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。
+\sqsrc にプロジェクトを作成したら、\pharo システムにそれを使うよう伝える必要があります。
+
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}
+利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。
 
 \needlines{5}
 \begin{code}{}
@@ -672,7 +676,7 @@ MCHttpRepository
 \end{code}
 
 \noindent
-もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはでいますが更新することはできません。
+もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはできますが更新することはできません。
 
 \needlines{5}
 \begin{code}{}
@@ -683,7 +687,7 @@ MCHttpRepository
 \end{code}
 
 %You can then load the code in your image by selecting the version you want. You can browse the code without loading it, using the \button{Browse} button.
-一度このテンプレートを受諾すると新たなリポジトリーがMonticello Browserの右側のリストに表示されます。
+一度このテンプレートを受諾すると新たなリポジトリがMonticello Browserの右側のリストに表示されます。
 
 \begin{figure}[hbt]
 \ifluluelse
@@ -695,29 +699,29 @@ MCHttpRepository
 
 \dothis{\button{Save}ボタンを押し最初のバージョンのLight Outゲームを\sqsrc に保存してください。}
 
-パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。Repository Browserを使うことでこれはできます。そのために\button{Open}ボタンを使うかメニューを\actclick してRepository Browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
+パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。Repository Browserを使うことでにバージョンを特定することができます。\button{Open}ボタンを使うかメニューを\actclick してRepository Browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
 
-\dothis{\ct{PBE-LightsOut}リポジトリを開き、単に保存してください。}
+\dothis{保存した\ct{PBE-LightsOut}リポジトリを開いてください。}
 
-\charef{env}で詳細に述べますがMonticelloは色々なことができます。
-またMonticelloについては\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むことができます。
+詳細は\charef{env}で述べますがMonticelloはとても多くのことができます。
+Monticelloについては\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むこともできます。
 
 %=================================================================
 \section{章のまとめ}
 この章ではカテゴリ、クラス、そしてメソッドの作り方について学びました。
-Browser、inspector、debugger、そしてMonticello Browserの使い方について学びました。
+また、Browser、inspector、debugger、そしてMonticello Browserの使い方について学びました。
 
 \begin{itemize}
-  \item 関連するクラスのグループの分類
-  \item スーパークラスへメッセージを送ることによる新たなクラスの作成
-  \item プロトコルが、関連するメソッドをグループ化すること
-  \item Browser上で定義し変更を\emph{acceptする}ことにより、新たなメソッドが作られたり修正されること
-  \item inspectorは簡単に、任意のオブジェクトの中の値を見たり割り込んだりするための多目的GUIであること。
-  \item Browserは宣言されていないメソッドや変数の使い方を検出し、利用可能なコレクションを提供すること。
-  \item \pharo において\ct{initialize}メソッドはオブジェクトが作られた後自動的に実行される。どんな初期化コードもそこに書くことができる。
-  \item debuggerは動作しているプログラムの状態を見たり修正するための高度なGUIを提供する。
-  \item カテゴリーを\emph{File out}することでソースコードを共有できる。
-  \item コードを共有するより良い方法としては、外部のリポジトリ例えば\sqsrc のプロジェクトとして定義し、Monticelloを使いを管理する。
+  \item カテゴリーは関連するクラスのグループ化したものです。
+  \item スーパークラスへメッセージを送ることで新たにクラスを定義することができます。
+  \item プロトコルは関連するメソッドをグループ化したものです。
+  \item Browser上で定義し編集し\emph{acceptする}ことで新たなメソッドを作ったり修正することができます。
+  \item inspectorは任意のオブジェクトの中の値を簡単に見たり割り込んだりするための多目的GUIです。
+  \item Browserは宣言されたメソッドや変数の使い方を見つたり、可能な訂正を受け入れるためのものです。
+  \item \pharo では\ct{initialize}メソッドはオブジェクトが作られた直後に自動的に実行されます。どんな初期化コードもそこに書くことができます。
+  \item debuggerは動作しているプログラムの状態を見たり修正するための高度なGUIを提供します。
+  \item カテゴリーを\emph{File out}することでソースコードを共有することができます。
+  \item コードを共有するより良い方法は、Monticelloを使って外部のレポジトリ、例えば\sqsrc のプロジェクトとして定義したリポジトリを管理することです。
 \end{itemize}
 
 %=================================================================
