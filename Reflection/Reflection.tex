@@ -350,16 +350,16 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \end{code}
 
 %======================================
-\section{クラス、メソッド辞書、そしてメソッド}
+\section{クラス、メソッド辞書、メソッド}
 
-クラスはオブジェクトなので、他のあらゆるオブジェクトとまったく同様、クラスをインスペクトやエクスプロアできます。
+クラスもオブジェクトですから、他のオブジェクトと同様にインスペクト・エクスプロアできます。
 
 \mthindex{Object}{explore}
 \dothis{\ct{Point explore}を評価してみましょう。}
 
-\figref{CompiledMethod}では、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示しています。
-ここでは、クラスがそのメソッドを辞書に格納しているのが確認できます。そしてメソッドのセレクターが、辞書の見出しになっています。
-セレクター\ct{#*}は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
+\figref{CompiledMethod}では、\ind{エクスプローラ}が\clsind{Point}クラスの構造を示しています。
+クラスがメソッドを辞書で持っているのがわかります。この辞書のキーはメソッドのセレクタです。
+キーがセレクタ \ct{#*} の値は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を示しています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
