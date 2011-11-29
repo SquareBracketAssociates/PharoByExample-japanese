@@ -17,3 +17,7 @@
 259,"bind",,"バインド",
 377,"object \ct{100} does not understand the message \ct{center}","解説が必要?","訳注",
 393,"you already saw this behaviour","変?","訳注?",
+503,"sequence of words terminated  by \ct{:}","セレクタのことを言っているのか?","基本的には 1 訳を残した",
+504,"these words participate in the keyword message","セレクタのことを言っているのか?","基本的には 1 訳を残した",
+519,"longest sequence  of words terminated by \lct{:}","セレクタのことを言っているのか?","基本的には 1 訳を残した",
+520,"some words with colons","セレクタのことを言っているのか?","基本的には 1 訳を残した",
