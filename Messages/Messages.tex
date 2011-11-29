@@ -219,13 +219,13 @@ nums --> #(6 2 3 4 5)
 \end{enumerate}
 \index{message!evaluation order}
 
-このルールにより、\st のプログラムは、非常に自然に読み進められるようになっています。メッセージが意図した通りの順番で送信されることを明示的に示したいのであれば、\figref{uKeyUn}にあるように、括弧を足していくこともできます。この図では、メッセージ \ct{yellow} が単項メッセージであり、\ct{color:} はキーワードメッセージであるため、\ct{Color yellow} がまず先に実行されます。しかし、括弧で囲まれたメッセージがまず実行されるため、(冗長な)括弧を \ct{Color yellow} の周りに書くことにより、ここがまず先に実行されるということを強調することができます。以下では、これらの点について説明します。
+このルールにより、\st のプログラムは、非常に自然に読み進められるようになっています。メッセージが意図した通りの順番で送信されることを明示的に示したいのであれば、\figref{uKeyUn}にあるように、括弧を足していくこともできます。この図では、メッセージ \ct{yellow} が単項メッセージであり、\ct{color:} はキーワードメッセージであるため、\ct{Color yellow} がまず先に送信されます。しかし、括弧で囲まれたメッセージがまず送信されるため、(冗長な)括弧を \ct{Color yellow} の周りに書くことにより、これがまず先に送信されるということを強調することができます。以下では、これらの点について説明します。
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline{\includegraphics[width=0.9\textwidth]{uKeyUn}} }
 	{\centerline{\includegraphics[width=10cm]{uKeyUn}} }
-\caption{単項メッセージが最初に送信されるので、\ct{Color yellow} がまず送信され、返された色オブジェクトが、メッセージ \ct{aPen color:} の引数として渡される。\figlabel{uKeyUn}}
+\caption{単項メッセージが最初に送信されるので、\ct{Color yellow} がまず送信され、返された色オブジェクトがメッセージ \ct{aPen color:} の引数として渡される。\figlabel{uKeyUn}}
 \end{figure}
 
 %---------------------------------------------------------
@@ -236,7 +236,7 @@ nums --> #(6 2 3 4 5)
 \centerline{単項 \ct{>} 二項 \ct{>} キーワード}
 }
 
-以下の例が示すように、\st の構文では、多くの場合、複合したメッセージ送信も自然に読むことができます。
+以下の例が示すように、\st の構文では、多くの場合、メッセージ式の組み合わせも自然に読むことができます。
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 2 raisedTo: 1 + 3 factorial     --> 128
@@ -249,7 +249,7 @@ nums --> #(6 2 3 4 5)
 1 + (2 * 3) --> 7
 \end{code}
 
-以下のさらに複雑な(!) 例は、さらに込み入った \st の式も、自然に読めるということの良い例になっています。
+以下のさらに複雑な(!) 例は、込み入った \st の式も自然に読めるということの良い例になっています。
 \begin{code}{@TEST}
 [:aClass | aClass methodDict keys select: [:aMethod | (aClass>>aMethod) isAbstract ]] value: Boolean --> an IdentitySet(#or: #| #and: #& #ifTrue: #ifTrue:ifFalse: #ifFalse: #not #ifFalse:ifTrue:)
 \end{code}
@@ -257,7 +257,7 @@ nums --> #(6 2 3 4 5)
 ここでは、\ct{Boolean} クラスのどのメソッドが抽象メソッドであるかを調べようとしています\footnote{実を言うと同等の式は、さらに簡単に \ct{Boolean methodDict select: #isAbstract thenCollect: #selector} と書くこともできます。}\damien{I've added this footnote, just remove it if you don't like it :-)}。
 このブロックは、引数として渡されたクラス \ct{aClass} に、そのメソッド辞書のキー集合を問い合わせ、その中から抽象メソッドを選択(\ct{select:})するようになっています。
 ここでは、\ct{aClass} に、\ct{Boolean} がバインドされます。
-この式の中で括弧は、二項メッセージ \ct{>>} を、単項メッセージ \mbox{\ct{isAbstract}} より先に送信するためだけに必要でした(\ct{>>} は、メソッドをクラスから取り出す二項演算子です)。全体を評価した結果はメソッド名の集合です。これらのメソッドは、\ct{Boolean} の具象サブクラス (\ct{True} と \ct{False}) で実装しなくてはなりません。
+この式の中で括弧は、二項メッセージ \ct{>>} を単項メッセージ \mbox{\ct{isAbstract}} より先に送信するためだけに必要でした(\ct{>>} は、メソッドをクラスから取り出す二項演算子です)。全体を評価した結果は、メソッド名の集合です。これらのメソッドは、\ct{Boolean} の具象サブクラス (\ct{True} と \ct{False}) で実装しなくてはなりません。
 
 %\begin{code}{}
 %Pen new go: 30 + 50          "create a turtle and moves it forward 80 pixels"
@@ -273,21 +273,21 @@ nums --> #(6 2 3 4 5)
 % This was one of the initial objectives so that the children can program.
 
 \paragraph{例。}
-メッセージ \ct{aPen color: Color yellow} の中には、\ct{Color} に送信される\emph{単項}メッセージ \ct{yellow}と、\ct{aPen} に送信される \emph{キーワード}メッセージ \ct{color:} があります。単項メッセージがまず送信されるので、\egref{decColor} にあるように、\ct{Color yellow} がまず送信され (1)、その結果として返された色オブジェクトがメッセージ \ct{aPen color: aColor} の引数 (\ct{aColor}) となります (2)。
-\figref{uKeyUn} は、これらのメッセージがどのように送信されるかを、グラフィカルに表しています。
+メッセージ \ct{aPen color: Color yellow} の中には、\ct{Color} に送信される\emph{単項}メッセージ \ct{yellow}と、\ct{aPen} に送信される \emph{キーワード}メッセージ \ct{color:} があります。単項メッセージがまず送信されるので、\egref{decColor} にあるように、\ct{Color yellow} がまず送信(評価)され (1)、その結果として返された色オブジェクトがメッセージ \ct{aPen color: aColor} の引数 (\ct{aColor}) となります (2)。
+\figref{uKeyUn} は、これらのメッセージがどのように送信されるかをグラフィカルに表しています。
 
 \needlines{5}
-\begin{example}[decColor]{\ct{aPen color: Color yellow}の評価順を分解}{}
+\begin{example}[decColor]{\ct{aPen color: Color yellow} の評価順を分解する}{}
         aPen color: Color yellow
 (1)                       Color yellow        "単項メッセージがまず送信される"
                         --> aColor
 (2)   aPen color: aColor                 "キーワードメッセージが次に送信される"
 \end{example}
 
-\paragraph{例。} メッセージ \ct{aPen go: 100 + 20} の中には、\emph{二項}メッセージ \ct{+ 20} と\emph{キーワード}メッセージ \ct{go:} があります。二項メッセージはキーワードメッセージの先に送信されるので、\ct{100 + 20} がまず評価されます (1): \ct{+ 20} がオブジェクト \ct{100} に送信され、数値 \ct{120} が返ります。次に、\ct{aPen} にメッセージ \ct{go: 120} が送信されます。\ct{120} は引数です (2)。
+\paragraph{例。} メッセージ \ct{aPen go: 100 + 20} の中には、\emph{二項}メッセージ \ct{+ 20} と\emph{キーワード}メッセージ \ct{go:} があります。二項メッセージはキーワードメッセージより先に送信されるので、\ct{100 + 20} がまず評価されます (1): \ct{+ 20} がオブジェクト \ct{100} に送信され、数値 \ct{120} が返ります。次に、\ct{aPen} にメッセージ \ct{go: 120} が送信されます。\ct{120} は引数です (2)。
 \Egref{decGo}に、このメッセージ送信がどのように実行されるかを示しました。
 
-\begin{example}[decGo]{\ct{aPen go: 100 + 20}の評価順を分解する}{}
+\begin{example}[decGo]{\ct{aPen go: 100 + 20} を分解する}{}
       aPen go: 100 + 20   
 (1)                 100 + 20           "二項メッセージがまず送信される"
                    -->   120
@@ -299,7 +299,7 @@ nums --> #(6 2 3 4 5)
 	\ifluluelse
 		{\centerline{\includegraphics[width=0.9\textwidth]{uKeyBin}}}
 		{\centerline{\includegraphics[width=6cm]{uKeyBin}}}
-	\caption{二項メッセージは、キーワードメッセージの前に送信される。\figlabel{uKeyBin}}
+	\caption{二項メッセージはキーワードメッセージより先に送信される。\figlabel{uKeyBin}}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
@@ -307,7 +307,7 @@ nums --> #(6 2 3 4 5)
 	\ifluluelse
 		{\includegraphics[width=0.9\textwidth]{uunKeyBin}}
 		{\includegraphics[width=6cm]{uunKeyBin}}
-\caption{\ct{Pen new go: 100 + 20}の評価順を分解する}\figlabel{unKeyBin}
+\caption{\ct{Pen new go: 100 + 20} を分解する}\figlabel{unKeyBin}
 \end{center}
 \end{minipage}
 \end{figure}
@@ -373,8 +373,8 @@ nums --> #(6 2 3 4 5)
 %   'www.altavista.digital.com/av/pix/default/av-adv.gif') display
 
 \paragraph{例。}
-メッセージ \ct{(65@325 extent: 134@100) center} は、左上が座標 $(65, 325)$ で大きさが $134{\times}100$ であるような長方形の、中央の座標を返します。\Egref{decExtent} は、このメッセージがどのように分解されて送信されるかを示しています。まず、括弧で囲まれたメッセージが送信されます: 括弧の内側には、二つの二項メッセージ \ct{65@325} と \ct{134@100} があるので、これらがまず送信されて、二つの点オブジェクトが返ります。次に、最初の点オブジェクトにキーワードメッセージ \ct{extent:} が送信され、長方形オブジェクトが返ります。最後に、単項メッセージ \ct{center} がその長方形オブジェクトに送信され、点が返ります。
-もし括弧がなかったとすると、数値 \ct{100} はメッセージ \ct{center} を理解できないため、評価時にエラーとなります。
+メッセージ \ct{(65@325 extent: 134@100) center} は、左上が座標 $(65, 325)$ で大きさが $134{\times}100$ であるような長方形の、中央の座標を返します。\Egref{decExtent} は、このメッセージがどのように分解されて送信されるかを示しています。まず、括弧で囲まれたメッセージが送信されます: 括弧の内側には、二つの二項メッセージ \ct{65@325} と \ct{134@100} があるので、これらがまず送信(評価)されて、二つの点オブジェクトが返ります。次に、最初の点オブジェクトにキーワードメッセージ \ct{extent:} が送信され、長方形オブジェクトが返ります。最後に、単項メッセージ \ct{center} がその長方形オブジェクトに送信され、点オブジェクトが返ります。
+もし括弧が無かったとすると、数値 \ct{100} はメッセージ \ct{center} を理解できないため、評価時にエラーとなります。
 
 \needlines{9}
 \begin{example}[decExtent]{括弧の例。}{}
@@ -390,7 +390,7 @@ nums --> #(6 2 3 4 5)
 \end{example}
 
 \subsection{左から右への評価}
-ここまでで、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。これらは、左から右に送信されます。この振る舞いは実は、\egref{decExtent} の中で確認しています。ここでは、二つの点オブジェクトの生成メッセージ (\ct{@}) が先に送信されていました。
+ここまでに、異なる種類のメッセージがどのような優先順位で処理されるかを学びました。残る疑問は、同じ優先順位のメッセージがどのような順番で送信されるかということです。これらは、左から右に送信されます。この振る舞いは実は、\egref{decExtent} の中で確認しています。\egref{decExtent} では、二つの点オブジェクトの生成メッセージ (\ct{@}) が先に送信されていました。
 
 \important{{\textbf{規則 3。} 同じ種類のメッセージがある場合は、評価は左から右の順で行われる。}}
 
@@ -404,12 +404,12 @@ nums --> #(6 2 3 4 5)
 \begin{figure}
 	\centering
 	\includegraphics[width=8cm]{ucompoUn}
-	\caption{\ct{Pen new down}の評価順を分解する\figlabel{unaryMessages}}
+	\caption{\ct{Pen new down} を分解する\figlabel{unaryMessages}}
 \end{figure}
 
 %-------------------------------------------------------------
-\subsection{伝統的な算術記法との一貫性についての問題}
-メッセージ式の組み合わせに関する規則はごく単純なものですが、算術演算が二項メッセージとして記述されている場合には、伝統的な記法との一貫性に問題が発生することがあります。以下は、いくつか余計な括弧が必要となる例です。
+\subsection{伝統的な算術記法との食い違いに関する問題}
+メッセージ式の組み合わせに関する規則はごく単純なものですが、算術演算が二項メッセージとして記述されている場合には、伝統的な記法との食い違いが問題になります。以下は、いくつか余計な括弧が必要となる例です。
 
 \needlines{6}
 \begin{code}{@TEST}
@@ -422,10 +422,10 @@ nums --> #(6 2 3 4 5)
 \end{code}
 
 \paragraph{例。}
-メッセージ送信 \ct{20 + 2 * 5} では、\ct{+} と \ct{*} という二項メッセージだけが使われています。しかし、\st では \ct{+} と \ct{*} の間には特に優先順位の違いはありません。どちらも単なる二項メッセージであって、\ct{*} は \ct{+} よりも優先順位が高い訳ではありません。\egref{binaryMessages1} のように、ここでは左端の \ct{+} がまず送信され (1)、その結果に \ct{*} が送信されます (2)。
+メッセージ送信 \ct{20 + 2 * 5} では、\ct{+} と \ct{*} という二項メッセージだけが使われています。しかし、\st では \ct{+} と \ct{*} の間に特に優先順位の違いはありません。どちらも単なる二項メッセージであって、\ct{*} は \ct{+} よりも優先順位が高いわけではありません。\egref{binaryMessages1} のように、ここでは左端の \ct{+} がまず送信され (1)、その結果に \ct{*} が送信されます (2)。
 
-\begin{example}[binaryMessages1]{\ct{20 + 2 * 5} の評価順を分解する}{}
-"二項メッセージ間に優先順位の違いが無いので、算数の約束としては * がまず先に実行されるべきだが、ここでは左端の + がまず評価される。"
+\begin{example}[binaryMessages1]{\ct{20 + 2 * 5} を分解する}{}
+"二項メッセージ間に優先順位の違いが無いので、算数の約束としては * がまず先に送信されるべきだが、ここでは左端の + がまず評価される。"
 
       20 + 2 * 5 
 (1)  20 + 2 --> 22
@@ -436,11 +436,11 @@ nums --> #(6 2 3 4 5)
 \begin{center}\includegraphics[width=8cm]{ucompoNoBracketPar}\end{center}
 \end{figure}
 \noindent
-\egref{binaryMessages1}の結果は、\ct{30} ではなく \ct{110} となります。これはもしかすると、書かれた意図とは反しているかもしれませんが、メッセージ送信の規則をそのまま適用した結果であり、\st の簡素なモデルの代償と言えるかも知れません。正しい(意図した)結果を得るためには、括弧を使う必要があります。括弧で囲まれたメッセージが先に評価されるため、メッセージ送信 \ct{20 + (2 * 5)} は、\egref{mathcorrect} に示されたような結果を返します。
+\egref{binaryMessages1}の結果は、\ct{30} ではなく \ct{110} となります。これはもしかすると、意図したものと違うかも知れませんが、メッセージ送信の規則をそのまま適用した結果であり、\st の簡素なモデルの代償と言えるかも知れません。正しい(意図した)結果を得るためには、括弧を使う必要があります。括弧で囲まれたメッセージが先に評価されるため、メッセージ送信 \ct{20 + (2 * 5)} は、\egref{mathcorrect} に示されたような結果を返します。
 
 \needlines{4}
 \begin{example}[mathcorrect]{\ct{20 + (2 * 5)} を分解する}{}
-"括弧で囲まれたメッセージが先に評価されるので、* が + の前に実行され、正しい振る舞いとなる。"
+"括弧で囲まれたメッセージが先に評価されるので、* が + の前に送信される。これは正しい振る舞いである。"
 
     20 + (2 * 5)
 (1)        (2 * 5) --> 10
@@ -469,7 +469,7 @@ nums --> #(6 2 3 4 5)
 \caption{括弧の有無に関わらない等価なメッセージ。\figlabel{uKeyUnBinPar}}
 \end{figure}
 
-最初の規則は、単項メッセージは二項メッセージやキーワードメッセージに優先する、というものでした。だから、単項メッセージのまわりには括弧を書く必要は無い、ということに注意してください。\tabref{expressions} に、普通に書いたメッセージ送信と、優先順位規則を無視して明示的に括弧を付けて書いた等価なメッセージ送信を並べました。この表では、右も左も同じ実行順序となり、同じ結果を返します。
+最初の規則は、単項メッセージは二項メッセージやキーワードメッセージに優先する、というものでした。だから、単項メッセージの回りに括弧を書く必要はありません。\tabref{expressions} に、普通に書いたメッセージ送信と、優先順位規則を無視して明示的に括弧を付けて書いた等価なメッセージ送信を並べました。この表では、左右どちらのメッセージ送信も同じ実行順序となり、同じ結果を返します。
 
 \begin{figure}\centering
 	\begin{tabular}{l@{\qquad}l}
