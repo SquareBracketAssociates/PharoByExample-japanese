@@ -328,8 +328,8 @@ SystemNavigation default allUnimplementedCalls size --> 270
 
 以上の機能はすべて、 \pharo のプログラミング環境（特にコードブラウザ）に統合されています。
 すでに知っているかもしれませんが、メッセージに関する便利なキーボードショートカットがあります。メッセージの実装者（クラス）を調べるには \short{m} 、メッセージのセンダを調べるには \short{n} が使えます。
-おそらく、それほどよく知られていないのは、このようなパッケージ済みのたくさんのクエリが、\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されていることです。
-例えば、以下を評価すれば、プログラム的に、\ct{ifTrue:}メッセージを実装しているすべてのクラスをブラウズできます:
+このような問い合わせがたくさん\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されていますが、あまり知られていないかもしれません。
+例えば、次の式を評価すると\ct{ifTrue:}メッセージを実装しているすべてのメソッドをプログラム的にブラウズできます:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
@@ -340,7 +340,8 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
-特に便利なのは、\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の2個のメソッドです。以下では、システム中のすべてのメソッドのうち、\super-送信を行うものをブラウズする、ふたつの異った方法を示します(最初の方法は、いくぶん総当たり式の方法です; 2番目の方法は、より優れており、検索結果の中から不必要なものをいくぶん減らすことができます):
+特に便利なメソッドは\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の二つです。次にシステム中のすべてのメソッドのうち \super 送信を行うものをブラウズする方法を示します。最初の方法は総当たりに近くなりますが、二つ目の方法では検索結果から不要なものを多少減らせます。
+
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -349,16 +350,16 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \end{code}
 
 %======================================
-\section{クラス、メソッド辞書、そしてメソッド}
+\section{クラス、メソッド辞書、メソッド}
 
-クラスはオブジェクトなので、他のあらゆるオブジェクトとまったく同様、クラスをインスペクトやエクスプロアできます。
+クラスもオブジェクトですから、他のオブジェクトと同様にインスペクト・エクスプロアできます。
 
 \mthindex{Object}{explore}
 \dothis{\ct{Point explore}を評価してみましょう。}
 
-\figref{CompiledMethod}では、\ind{エクスプローラー}が、\clsind{Point}クラスの構造を示しています。
-ここでは、クラスがそのメソッドを辞書に格納しているのが確認できます。そしてメソッドのセレクターが、辞書の見出しになっています。
-セレクター\ct{#*}は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を指しています。
+\figref{CompiledMethod}では、\ind{エクスプローラ}が\clsind{Point}クラスの構造を示しています。
+クラスがメソッドを辞書で持っているのがわかります。この辞書のキーはメソッドのセレクタです。
+キーがセレクタ \ct{#*} の値は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を示しています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
