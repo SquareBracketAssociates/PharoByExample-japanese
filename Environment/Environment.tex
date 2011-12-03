@@ -73,12 +73,16 @@ I would also suggest to send the message \#at: 1 to the handler \\
 I think a good discussion about when to subclass an exception and when to reuse an exception is valuable. Something to help avoid a class explosion of exceptions... That is an interesting problem... \\
 }
 
-この章の目的は、\pharo のプログラミング環境を使い、どのようにプログラムを開発するかを示すことです。既にBrowserを使いメソッドやクラスをどのように定義するかについて見てきたはずです。この章ではBrowserのその他の機能について示し、他のBrowserのいくつかについて紹介しましょう。
+この章の目的は、\pharo のプログラミング環境を使い、どのようにプログラムを開発するかを示すことです。
+既にブラウザを使ってメソッドやクラスをどのように定義するかについて見てきたわけですが、この章ではブラウザのその他の機能について示し、他のいくつかのブラウザについて紹介していきます。
 
-もちろん作ったプログラムがが期待した動作をしないことを頻繁に見つけるかも知れません。\pharo には優れたdebuggerがあります。もっとも役立つツールではありますが、最初は使うときに悩むかも知れません。デバッグのセッションで練習し、debuggerの幾つかの機能について実演します。
+もちろん作ったプログラムが期待したように動作しないのはよくあることです。\pharo には優れたデバッガがあります。もっとも役立つツールではありますが、最初に使うときは悩むかも知れません。デバッグのセッションで練習し*、デバッガの幾つかの機能について実演します。
 
-\st 固有の特徴の1つにプログラミングをしているとき、静止したプログラムテキストの世界ではなく、生きている物としての世界に住んでいる気持ちになります。このことにより、プログラミング中に非常に素早いフィードバックを得ることが可能で、このフィードバックにより更に生産性が上がります。生きている物を見、実際に変更するために2つのツールがあります。それは\emph{inspector}と\emph{explorer}です。
-ファイルやテキストエディタではなく、生きている物の世界上でのプログラミングの結果、\st イメージファイルからプログラムを取り出すため、何か明示的なことをしなければいけません。それを行うための\emph{fileout}や\emph{change set}といった古い方法も全ての\st の方言でサポートされています。それらの方法は基本的に他のシステムに読み込むことができるコード化されたテキストです。\pharo 上でプログラムを取り出すための新しい方法は、コードをサーバー上でバージョン管理されたリポジトリーにアップロードすることです。Monticelloと呼ばれるツールを使うことでアップロードすることができます。この方法は特にチームで作業する時に、よりパワフルで効果的です。
+\st 固有の特徴の1つは、プログラミングをしているとき、静止したプログラムテキストの世界ではなく、生きているオブジェクトからなる世界にいるということです。このことにより、プログラミングの間に非常に素早いフィードバックを得ることが可能で、このフィードバックによって生産性がより向上します。生きているオブジェクトを見たり、実際に変更するために2つのツールがあります。それは\emph{インスペクタ}と\emph{エクスプロア}です。
+
+ファイルやテキストエディタではなく、生きているオブジェクトからなる世界でのプログラミングの結果、\st イメージファイルからプログラムを取り出すために、何らかの明示的な作業をしなければいけません。
+この作業のための昔からのやり方は、\emph{ファイルアウト}や\emph{チェンジセット}を作ることで、全ての\st の方言でサポートされています。これらは、基本的に他のシステムで読み込めるようにコード化されたテキストファイルです。
+\pharo 上でプログラムを取り出すための新しい方法は、サーバー上のバージョン管理されたリポジトリにコードをアップロードすることです。このために、Monticelloと呼ばれるツールを使い、特にチームで作業する際に、よりパワフルで効果的な手段となります。
 \seeindex{change set}{file, filing out}
 \index{file!filing out}
 
@@ -89,52 +93,58 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \section{概要}
 \seclabel{overview}
 
-\st や現在のグラフィカルインターフェースは一緒に発展してきました。\st の最初の公開リリースである1983年以前でさえ、\st は独自のグラフィカルな開発環境を提供していました。そして全ての\st の発展はその環境上で発展してきました。では今から\pharo の主なツールを見ていきましょう。
+\st と現在のグラフィカルインターフェースは一緒に発展してきました。
+\st の最初の公開リリースである1983年以前でさえ、\st は独自のグラフィカルな開発環境を提供していました。そして全ての\st の開発はその上で行われてきました。
+では、\pharo の主なツールを見ていきましょう。
 
 \begin{itemize}
-	\item{\menu{Browser}}は中心的な開発ルールです。これを使いクラスやメソッドを作成、定義、構築することができます。これを使うことで全てのクラスライブラリーを閲覧することもできます。分割保存されたソースコードを使う他の環境とは違い、\st では全てのクラスやメソッドはイメージファイルに含まれます。
-	\index{Browser}
+	\item{\menu{Browser}(ブラウザ)}は、中心的な開発ツールです。クラスやメソッドの作成、定義、構築を行う際にこのツールを使います。これを使うことで全てのクラスライブラリも閲覧できます。ソースコードを別々のファイルに保存する他の環境とは異なり、\st では全てのクラスやメソッドがイメージファイルに含まれます。
+	\index{browser}
 
-	\item{\menu{Message Names}}ツールを使うことにより、特定のセレクターもしくは部分文字列を含んだセレクターで全てのメソッドを探すことができます。
+	\item{\menu{Message Names}(メッセージネーム)}ツールを使うことにより、特定のセレクタもしくは部分文字列を含んだセレクタを持つ全てのメソッドを探すことができます。(訳注：Pharo 1.3ではFinderツールに統合されており、ドロップダウンメニューでSelectorsを選択することで利用できます)
 	\index{message name finder}
 	
-	\item{\menu{Method Finder}}ツールはメソッドを探すのに役立ちます。ただし何と呼ばれるのかと同様に何を\emph{する}のかによりメソッドを検索します。
+	\item{\menu{Method Finder}(メソッド・ファインダ)}ツールは、メソッドを探すのに役立ちますが、??誤訳??何と呼ばれるのかと同様に何を\emph{する}のかによりメソッドを検索します。(訳注：Pharo 1.3ではFinderツールに統合されており、ドロップダウンメニューでExamplesを選択することで利用できます)
 	\index{method finder}
 	
-	\item{\menu{Monticello Browser}}はMonticelloパッケージからコードを読み込んだり、保存したりする出発点です。
+	\item{\menu{Monticello Browser}(Monticelloブラウザ)}は、Monticelloパッケージからコードを読み込んだり、保存したりするための出発点です。
 	
-	\item{\menu{Process Browser}}は\st 上で実行されている全てのプロセス(スレッド)を見るのに役立ちます。
-	\index{process Browser}
+	\item{\menu{Process Browser}(プロセスブラウザ)}は、\st 上で実行されている全てのプロセス(スレッド)を見るのに役立ちます。
+	\index{process browser}
 	
-	\item{\menu{Test Runner}}はSUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照して下さい。
+	\item{\menu{Test Runner}}は、SUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照して下さい。
 	\index{Test Runner}
 	\index{SUnit}
 	
-	\item{\menu{Transcript}}は\glbind{Transcript}ストリームをそのウィンドウに出力します。これは\secref{transcript}で既に述べた通り、ログメッセージを書くのに役立ちます。
+	\item{\menu{Transcript}(トランスクリプト)}は、\glbind{Transcript}出力ストリームに対するウィンドウで、\secref{transcript}で既に述べた通り、ログメッセージを書くのに役立ちます。
 	
-	\item{\menu{Workspace}}は入力することができるウィンドウです。 これは色々な目的に使えます。最もよく使われるのは\st 式を打ち込み、\menu{do it}で実行することです。\ind{workspace}の使い方は\secref{transcript}にも図解されています。
+	\item{\menu{Workspace}(ワークスペース)}は入力することができるウィンドウです。
+          これは色々な目的に使えますが、最もよく使われるのは\st 式を入力して、\menu{do it}で実行することです。
+          \ind{workspace}の使い方は\secref{transcript}にも図解されています。
 \end{itemize}
 
-\menu{Debugger}は名前から判断できる明白な役目を持っています。しかし他のプログラミング言語のdebuggerと比較し、より重要な役目を担っていることに気づくでしょう。\st では\ind{debugger}上で\emph{プログラム}ができるのです。debuggerはメニュー画面から起動しません。通常、失敗するテストプログラムを実行したり、\short{\textbf{.}}と打ち込むことにより起動しているプロセスを中断したり、コード中に\lct{自己停止}のための式を入れることで、debuggerを起動します。
+\menu{Debugger}(デバッガ)は名前からわかる通り明確な役割を持っています。しかし、他のプログラミング言語のデバッガも比べて、より重要な役割を担っていることに気づくでしょう。\st では\ind{debugger}上で\emph{プログラム}できるのです。デバッガはメニュー画面から起動されるのではなく、たいてい、失敗するテストプログラムを実行したり、\short{\textbf{.}}と入力することにより起動しているプロセスを中断したり、あるいは、コード中に\lct{self halt}式を挿入することで、起動されます。
 \index{process!interrupting}
 
 %=========================================================
-\section{Browser}
+\section{ブラウザ}
 \seclabel{browser}
 
-多くの異なったclass Browserが\st の歴史と共に長年にわたり開発されました。\pharo では様々なビューを1つのBrowserに統合し提供することでこの長年にわたる物語を簡単なものにしました。
-\figref{SystemBrowser0}は最初にBrowserを開いたときに表示されるものです。\footnote{もしBrowserが\figref{classBrowser}のように表示されない場合はデフォルトのBrowserを変更する必要があるかも知れないことを思い出して下さい。\faqref{packagebrowser}参照}
+\st の歴史と共に、長年にわたり多くの異なるクラスブラウザが開発されてきました。
+\pharo では、様々なビューを1つにまとめたブラウザを提供することで、この物語を単純にしました。
+\figref{SystemBrowser0}は最初にブラウザを開いたときに表示されるものです。\footnote{もしブラザウが\figref{classBrowser}のように表示されない場合、デフォルトのブラウザを変更する必要があるかも知れないことを思い出して下さい。\faqref{packagebrowser}参照}\footnote{訳注：\Pharoのデフォルトブラウザは何度も変更されています。バージョン1.3では、OBSystemBrowserが使用されており、この章の説明とは異なる場合があります。}
 
 \begin{figure}[htbp]
    \centering
    \ifluluelse
 	 {\includegraphics[width=\textwidth]{SystemBrowser0} }
 	 {\includegraphics[width=0.7\textwidth]{SystemBrowser0} }
-   \caption{Browser}
+   \caption{ブラウザ}
    \figlabel{SystemBrowser0}
 \end{figure}
 
-Browser上部の4つの小さなペインはシステム内メソッドの階層ビューを表しています。これはディスク上のファイルを見るためのNeXTstepの\textit{File Viewer}やMac OS Xの\textit{Finder}のカラムモードと同様のビューを提供しています。左端のペインはクラスの\emph{パッケージ}リストです。その内の1つ(例えば\scat{Kernel})を選択するとすぐ右隣にあるペインにパッケージ中のすべてのクラスが表示されます。
+ブラウザ上部の4つの小さなペインは、システム内メソッドの階層ビューを表しています。これは、NeXTstepの\textit{File Viewer}やMac OS Xの\textit{Finder}のカラムモードといった、ディスク上のファイルを見るためのビューと同様のものです。
+左端のペインはクラスの\emph{パッケージ}リストです。その内の1つ(例えば\scat{Kernel})を選択すると、すぐ右隣にあるペインにパッケージ中のすべてのクラスが表示されます。
 % \on{I adopted the spelling of NeXTstep recommended by wikipedia}
 
 \begin{figure}[htbp]
@@ -142,12 +152,15 @@ Browser上部の4つの小さなペインはシステム内メソッドの階層
    \ifluluelse
 	   {\includegraphics[width=\textwidth]{SystemBrowser1} }
 	   {\includegraphics[width=.7\textwidth]{SystemBrowser1} }
-   \caption{Browserで\ct{Model}クラスを選択
+   \caption{ブラウザで\ct{Model}クラスを選択
    \figlabel{SystemBrowserModel}}
 \end{figure}
 
-同様に左から2番目のペインでクラスの中の1つ、例えば\menu{Model}(\figref{SystemBrowserModel}参照)を選択すると左から3番目のペインに、そのクラスに対して定義された\emph{プロトコル}が表示されます。すると仮想プロトコル\prot{-{}-all-{}-}がデフォルトで選択されます。プロトコルはメソッドをカテゴリー化するためのもので、概念的に首尾一貫して細分化することにより、クラスを見つけたりその振る舞いを考えたりするのを助けてくれます。
-左から4つめのペイン選択したプロトコルで定義された全てのメソッド名が表示されます。メソッド名を選択すると、そのメソッドのソースコードがBrowser下部にある大きなペインに表示されます。そのペインではソースコードを閲覧したり、編集したり、編集後のソースコードを保存したりすることができます。\menu{Model}クラスから,\protind{dependents}プロトコル、そして\menu{myDependents}へと選択すると、\figref{SystemBrowserMyDependents}のように表示されるはずです。
+同様に、左から2番目のペインでクラスの1つ、例えば\menu{Model}(\figref{SystemBrowserModel}参照)を選ぶと、その右隣の3番目のペインにクラスに対して定義された\emph{プロトコル}が表示され、デフォルトで仮想プロトコル\prot{-{}-all-{}-}が選択されます。
+プロトコルとはメソッドをカテゴリー化するためのもので、クラスの振る舞いを概念的に首尾一貫して細分化することで、それらを探したり考えたりするのに役立ちます。
+左から4つめのペインは、選択したプロトコルで定義されている全てのメソッド名が表示されます。
+ここでメソッド名を選ぶと、そのメソッドのソースコードがブラウザ下部にある大きなペインに表示されます。このペインではソースコードの閲覧や編集、編集後の保存ができます。
+ブラウザで\menu{Model}クラス、\protind{dependents}プロトコル、そして\menu{myDependents}を選択していくと、\figref{SystemBrowserMyDependents}のように表示されるはずです。
 \protindex{all}
 \cmindex{Model}{myDependents}
 
@@ -156,16 +169,16 @@ Browser上部の4つの小さなペインはシステム内メソッドの階層
    \ifluluelse
 	   {\includegraphics[width=\textwidth]{SystemBrowserMyDependents}}
 	   {\includegraphics[width=0.7\textwidth]{SystemBrowserMyDependents}}
-   \caption{\ct{Model}クラスの\ct{myDependents}メソッドをBrowserで表示
+   \caption{\ct{Model}クラスの\ct{myDependents}メソッドをブラウザで表示
    \figlabel{SystemBrowserMyDependents}}
 \end{figure}
 
-Mac OS X の\emph{Finder}とは違い、Browser上部4つのペインはディレクトリではありません。
-クラスやメソッドは\st 言語の一部であるのに対し、パッケージとプロトコルはそうではありません。パッケージとプロトコルはそれぞれのペインに表示する必要がある情報量を制限するのに役立てるために導入されたものです。たとえば、もしプロトコルがなければ、選択したクラスの全てのメソッドのリストをBrowserに表示するでしょう。多くのクラスでは、このリストは大きすぎて効率良く操作できません。 
+Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完全に同じものというわけではありません。
+クラスやメソッドは\st 言語の一部であるのに対し、パッケージとプロトコルはそうではなく、これらはブラウザの各ペインに表示すべき情報量を制限するために導入されたものです。たとえば、もしプロトコルがなければ、ブラウザは選択したクラスの全てのメソッドのリストを表示する必要があります。多くのクラスでは、このようなリストは大きすぎて扱うのが不便になってしまいます。
 \index{Mac OS X Finder}
 
-このことにより、新パッケージや新プロトコルを作る方法は、新クラスや新メソッドを作る方法と異なっています。新パッケージを作るためにはパッケージペインで\actclick し\menu{new package}を選択します。新プロトコルを作るためにはプロトコルペインで\actclick し\menu{new protocol}を選択します。
-ダイアログの中に新パッケージや新プロトコルの名前を入力すれば完了です。その作業後はパッケージやプロトコルの名前とその内容以外何も表示されないはずです。
+このことから、新しいパッケージやプロトコルを作る方法は、新しいクラスやメソッドを作る方法とは異なります。新しいパッケージを作るにはパッケージペインで\actclick し\menu{new package}を選びます。新しいプロトコルを作るにはプロトコルペインで\actclick し\menu{new protocol}を選びます。
+ダイアログの中に新しく作ったものの名前を入力すれば完了です。パッケージやプロトコルについては、名前や内容を入力する以外に必要な作業は何もありません。
 \index{package!creating}
 
 \begin{figure}[htbp]
@@ -173,17 +186,36 @@ Mac OS X の\emph{Finder}とは違い、Browser上部4つのペインはディ�
    \ifluluelse
 	   {\includegraphics[width=\textwidth]{SystemBrowserClassCreation}}
 	   {\includegraphics[width=0.7\textwidth]{SystemBrowserClassCreation}}
-   \caption{クラス作成テンプレートをBrowserに表示
+   \caption{クラス作成テンプレートをブラウザに表示
    \figlabel{SystemBrowserClassCreation}}
 \end{figure}
 
-新クラスや新メソッドを作るのとは対照的に、新パッケージや新プロトコルを作成するときには何らかの\st のコードを書かなくてはいけません。(左端のぺいんにある)現在選択されているパッケージをクリックするとBrowserペインのボタンが、クラス作成テンプレートを表示します(\figref{SystemBrowserClassCreation})。テンプレートを編集し新クラスを作ります。\ct{Object}の箇所を、今すでにありサブクラスを作りたいと思うクラスに置き換えて下さい。\ct{NameOfSubclass}の箇所を、新サブクラスに置き換えて下さい。もし既に決めているのであればインスタンス変数名を入れてください。新クラスのためのカテゴリーは、デフォルトでは現在選択しているパッケージのカテゴリーとなります\footnote{パッケージとカテゴリーが正確には同じものではないことを思い出して下さい。\secref{packages}にてそれらの関係について詳しく見ていきます}。しかしこれはもし望むのであれば変更することはできます。もし作りたいサブクラスの元となる既存のクラスを既にBrowserで見ているのならば、クラスペインを\actclick し\menu{class templates \ldots \go subclass template}を選択することにより、少しだけ初期化処理が違いますが、同じテンプレートを得ることができます。また既存のクラス定義を編集し、クラス名を何か新しいものに変更することでも、テンプレートの替りにすることができます。全てのケースにおいて、新しい定義をacceptしたときに、(\ct{#}から始まる名前の)新クラスが(対応するメタクラスとして)作られます。クラスを作ることは、そのクラスを参照するグローバル変数を作ることでもあります。それは全ての既存のクラスをそれらの名前を参照することができる理由です。
+これとは対照的に、新しいクラスやメソッドを作るには、
+実際に何らかの\st コードを書く必要があります。
+(左端のペインで)現在選択されているパッケージをクリックすると、
+ブラウザ下部のペインにクラス生成のテンプレートが表示されます(\figref{SystemBrowserClassCreation})。
+このテンプレートを編集することで、新しいクラスを作ります。
+\ct{Object}を作りたいサブクラスの親となる既存のクラス名で置き換え、
+\ct{NameOfSubclass}を新しいサブクラス名に置き換えます。
+既にわかっているのであれば、インスタンス変数名を入力します。
+新しいクラスに対するカテゴリーは、デフォルトで現在選択しているパッケージのカテゴリーとなりますが、
+\footnote{パッケージとカテゴリーが正確には同じものではないことを思い出して下さい。\secref{packages}にてそれらの関係について詳しく見ていきます}必要なら変更することもできます。
+既にサブクラス化の元となる既存クラスをブラウザで選択しているのならば、
+クラスペインを\actclick し\menu{class templates \ldots \go subclass template}を選択することにより、
+ほんの少し初期化が異なる同様のテンプレートを得ることができます。
+また、既存のクラス定義でクラス名を新しいものに変えることでもクラス定義を編集できます。
+どの場合でも新しい定義をアクセプトすると、
+(\ct{#}から始まる名前の)新しいクラスが(つまり対応するメタクラスのインスタンスが)作られます。
+クラスを作ることはそのクラスを参照するグローバル変数を作ることでもあるため、
+名前によって既存の全クラスを参照することができるわけです。
+
+
 \index{class!creation}
 \index{browser!defining a class}
 
-新クラス名が(\ie \ct{#}で始まる)\lclsind{シンボル}としてクラスの作ったテンプレートの中に現れる理由や、クラスが作られた後、(\ie \ct{#}のない)識別子としてクラス名を使うことでそのクラスをコードから参照することができます理由が理解できたでしょうか?
+新しいクラス名が、(\ie \ct{#}で始まる)\lclsind{シンボル}としてクラスの作ったテンプレートの中に現れる理由や、クラスが作られた後は(\ie \ct{#}のない)識別子としてクラス名を使えば、そのクラスをコードから参照できるようになる理由が理解できたでしょうか?
 
-新メソッドを作るプロセスも同様です。最初にメソッドを作りたいクラスを選択します、その後プロトコルを選択します。\figref{SystemBrowserMethodTemplate}にあるように、Browserは編集することのできるメソッド作成テンプレートを表示します。
+新しいメソッドを作るプロセスも同様です。最初にメソッドを作りたいクラスを選択し、次にプロトコルを選択します。\figref{SystemBrowserMethodTemplate}のように、ブラウザは編集可能なメソッド作成テンプレートを表示します。
 \index{method!creation}
 \index{browser!defining a method}
 
@@ -192,29 +224,32 @@ Mac OS X の\emph{Finder}とは違い、Browser上部4つのペインはディ�
    \ifluluelse
 	   {\includegraphics [width=\textwidth]{SystemBrowserMethodTemplate}}
 	   {\includegraphics[width=0.7\textwidth]{SystemBrowserMethodTemplate}}
-   \caption{メソッド作成テンプレートをBrowserに表示
+   \caption{メソッド作成テンプレートをブラウザに表示
    \figlabel{SystemBrowserMethodTemplate}}
 \end{figure}
 
 %---------------------------------------------------------
 \subsection{コード空間を渡り歩く}
 
-Browserはコードを探したり分析するためのいくつかのツールを提供します。様々なコンテキストメニューを\actclick することにより、もしくは最も頻繁に使われるツールの場合はキーボードショートカットにより、これらのツールを使うことができます。
+ブラウザはコードを探したり分析するためのいくつかのツールを提供します。
+これらのツールは、様々なコンテキストメニューを\actclick したり、あるいは最も頻繁に使われるツールなどはキーボードショートカットによって利用できます。
 
-\subsubsection{新しいBrowserウインドウを開く}
+\subsubsection{新しいブラウザウインドウを開く}
 \seclabel{browsing}
 
-いくつかのBrowserウインドウを開きたいと思うときがあると思います。コードを書いているときは少なくとも2つ: 1つは打ち込んでいるメソッドのため、もう1つはシステム周りがどのように動いているのかを見るためです。クラス名上で何かテキストを選択し\ind{キーボードショートカット}\short{b}を使うことでBrowserを開くことができます。
+時折、複数のブラウザウインドウを開きたくなる場合があります。
+コードを書いているときは少なくとも2つ必要でしょう。1つは入力中のメソッドのため、もう1つは物事がどう動いているのか調べるのにシステム周りを見るためです。
+テキスト中でクラス名を選択した後に\ind{キーボードショートカット}\short{b}を使えば、そのクラスを表示するブラウザを起動することができます。
 \index{browser!browse button}
 \index{keyboard shortcut!browse it}
 
-\dothis{次のことを試してみてください: workspaceウインドウ内でクラス名(たとえば\ct{Morph})を打ち込み、それを選択し\short{b}を押して下さい。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
+\dothis{次のことを試してみてください: ワークスペースウインドウ内でクラス名(たとえば\ct{Morph})を入力し、それを選択し\short{b}を押して下さい。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
 
-\subsubsection{センダーとメッセージ作成者}
+\subsubsection{メッセージのセンダとインプリメンタ}
 \seclabel{sendersImplementors}
 
 \index{browser!senders}
-メソッドペインで\menu{browse \ldots \go senders (n)}を\actclick すると、選択したメソッドを使用している全てのメソッドのリストが表示されます。Browserを開き\ct{Morph}を選択し、メソッドペインの中の\mthind{Morph}{drawOn:}メソッドをクリックすると、\ct{drawOn:}本体がBrowser下部に表示されます。 \menu{senders (n)} (\figref{SendersOfDrawOn})を選択すると、\ct{drawOn:}を一番上の項目として下に向かって\ct{drawOn:}が送る全てのメッセージ(\figref{SendersOfDrawOn2})のメニューが表示されます。 このメニューの中の項目を選択すると、選択したメッセージ(\figref{CanvasDraw})を送る、イメージファイル内の全メソッドのリストをbrwoserで開きます。
+メソッドペインで\menu{browse \ldots \go senders (n)}を\actclick すると、選択したメソッドを使用している全てのメソッドのリストが表示されます。ブラウザを開いて\ct{Morph}を選択した後、メソッドペインの中の\mthind{Morph}{drawOn:}メソッドをクリックすると、\ct{drawOn:}本体がブラウザ下部に表示されます。 \menu{senders (n)} (\figref{SendersOfDrawOn})を選ぶと、\ct{drawOn:}を一番上の項目としたメニューが現れ、以下\ct{drawOn:}が送る全てのメッセージ(\figref{SendersOfDrawOn2})が順に表示されます。このメニューの項目を選ぶと、選択したメッセージ(\figref{CanvasDraw})を送る仮想イメージ内の全メソッドのリストがブラウザで表示されます。
 
 %\begin{figure}[htb]
 %\begin{minipage}[b]{0.74\textwidth}
@@ -235,12 +270,12 @@ Browserはコードを探したり分析するためのいくつかのツール�
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=0.4\textwidth]{SendersOfDrawOn2}}
-\caption{メッセージのセンダーを選択。\figlabel{SendersOfDrawOn2}}
+\caption{メッセージのセンダを選択。\figlabel{SendersOfDrawOn2}}
 \end{figure}
 
-\menu{senders (n)}の中の``n''はキーボードショートカットがあることを伝えています。メッセージのセンダーを探すためのキーボードショートカットは\short{n}となります。この方法は、\emph{どの}テキストウインドウでも使えます。
+\menu{senders (n)}の中の``n''は、メッセージのセンダを探すためのキーボードショートカットが\short{n}であることを示しています。この方法は、\emph{どの}テキストウインドウでも使えます。
 
-\dothis{コードペインにある``drawOn:''テキストを選択し、\short{n}を押すと、すぐに\ct{drawOn:}のセンダーが表示されます。}
+\dothis{コードペインにあるテキスト``drawOn:''を選択して\short{n}を押せば、直ちに\ct{drawOn:}のセンダが表示されます。}
 
 \begin{figure}[htbp]
 	\begin{center}
@@ -248,54 +283,60 @@ Browserはコードを探したり分析するためのいくつかのツール�
 		{\includegraphics[width=\textwidth]{CanvasDraw}}
 		{\includegraphics[width=0.7\textwidth]{CanvasDraw}}
 	\end{center}
-	\caption{Senders Browserは \ct{Canvas>>>draw}メソッドが\ct{drawOn:}メッセージをその引数としていることを表しています。\figlabel{CanvasDraw}}
+	\caption{センダブラウザは \ct{Canvas>>>draw}メソッドが、引数に対して\ct{drawOn:}メッセージを送っていることを表しています。\figlabel{CanvasDraw}}
 \end{figure}
 
-\ct{AtomMorph>>>drawOn:}にある\ct{drawOn:}センダーを探すとき、これはスーパークラスが\subind{super}{送信}していることがわかるでしょう。そのためこのメソッドは\ct{AtomMorph}のスーパークラスが実行していることがわかります。これは何のクラスなんでしょう? ~ \menu{browse \go hierarchy implementors}を\actclick するとそれが\ct{EllipseMorph}クラスであることがわかります。 
+\ct{AtomMorph>>>drawOn:}にある\ct{drawOn:}のセンダを探せば、それがsuper \subind{super}{send}であることがわかるでしょう。つまり、実行されるメソッドは\ct{AtomMorph}のスーパークラスにあることがわかります。ではいったいどのクラスでしょうか? \menu{browse \go hierarchy implementors}を\actclick すれば、そのメソッドが\ct{EllipseMorph}クラスにあることがわかります。 
 \index{browser!hierarchy button}
 
-\figref{CanvasDraw}に示されている、リストにある6番目のセンダー、\ct{Canvas>>>draw}、を見てみましょう。このメソッドは\ct{drawOn:}を、それが引数として受け渡される全てのオブジェクトや、任意のクラスのインスタンスとなる可能性があるオブジェクトに対し、送信していることがわかります。
-データフロー解析はいくつかのメッセージのレシーバークラスを理解する助けになります。しかし一般的に、Browserを使い、どのメッセージ送信がどのメソッドの実行につながるのかを知る簡単な方法はありません。このような理由から``senders'' Browserは、選択したセレクターと一緒にメッセージの全センダー名を連想させるものを正確に示します。
-senders Browserはそれだけでなく、どのようにメソッドを\emph{使う}のかを理解する必要があるときに、即座にそのメソッドの使用例へ導いたりするなど、非常に役立ちます。
-同じセレクターによる全てのメソッドは同じように使われるべきであるため、定められたメッセージの使い方は似ています。
+\figref{CanvasDraw}のリストの6番目にあるセンダ\ct{Canvas>>>draw}を見てみましょう。
+このメソッドは、引数として渡されたどんなオブジェクトに対しても\ct{drawOn:}を送ることがわかります。つまり、あらゆるクラスのインスタンスが引数となる可能性があります。
+データフロー解析がいくつかのメッセージのレシーバクラスを把握する助けにはなりますが、一般的には、ブラウザを使ってもどのメッセージ送信がどのメソッドの実行につながるのかを知る簡単な方法はありません。
+このような理由から``センダ'' ブラウザは、メッセージが示唆するメソッドだけ、つまり選択されたセレクタを持つ全てのメッセージセンダを表示します。
+それにも関わらず、どのようにメソッドを\emph{使う}のかを理解する必要があるときには、すぐに使用例を導けるのでセンダブラウザが大いに役立ちます。
+同じセレクタを持つ全てのメソッドは同じように使われるはずなので、メッセージの使い方はどれも似ているはずです。
 \index{browser!senders}
 
 \index{browser!implementors}
-implementors Browserも似たような動作をします。しかしメッセージのセンダーリストの替りに、同じセレクターを使ったメソッドによって実装した全クラスのリストを表示します。これを見るためにはメソッドペインにある\lct{drawOn:}を選択し、そして\menu{browse \go implementors (m)}を選択して下さい(もしくはコードペインにある``drawOn:''テキストを選択し、\short{m}を押して下さい)。そうすればメソッドのリストウインドウが表示され、スクロールすると90余りのクラスが\ct{drawOn:}メソッドを実装していることがわかります。非常に多くのクラスがこのメソッドを実装しているということだけが驚くことではありません。\ct{drawOn:}は、それ自身をスクリーン上に描写することができる全てのオブジェクトによって理解されるメッセージなのです。
+インプリメンタブラウザも似たような動作をしますが、メッセージセンダのリストの代わりに、同じセレクターを持つメソッドを実装している全クラスのリストを表示します。
+このことを確かめるために、メソッドペインにある\lct{drawOn:}を選び、\menu{browse \go implementors (m)}を選びます(もしくはコードペイン中のテキスト``drawOn:''を選択し、\short{m}を押します)。すると、\ct{drawOn:}メソッドを実装する90余りのクラスが、スクロール可能なメソッドリストのウインドウとして表示されます。
+これほど多くのクラスがこのメソッドを実装していることに驚く必要はありません。\ct{drawOn:}は、画面上に自分自身を描画することができる全てのオブジェクトによって理解されるメッセージなのです。
+
 \subsubsection{メソッドのバージョン}
 \seclabel{versions}
 
-メソッドの新しい\subind{method}{version}を保存すると、古いものは失われます。\pharo は全ての古いバージョンを保存し、異なるバージョンを比較したり、古いバージョンに戻したり(``復帰'')することができます。
+新しい\subind{method}{バージョン}のメソッドを保存しても、古いものは失われません。\pharo は全ての古いバージョンを保存し、異なるバージョンを比較したり、古いバージョンに戻したり(``復帰'')することができます。
 \begin{figure}[btp]
    \centering
    \includegraphics[width=\textwidth]{Versions}
-   \caption{\ind{Versions Browser}が2つの\ct{TheWorldMenu>>>buildWorldMenu:}メソッドを表示}
+   \caption{\ind{バージョンブラウザ}が2つの\ct{TheWorldMenu>>>buildWorldMenu:}メソッドを表示}
    \figlabel{buildWorldMenuVersions}
 \end{figure}
-\menu{browse \go versions (v)}メニューアイテムにより、選択したメソッドの連続して修正することができます。\figref{buildWorldMenuVersions}では\ct{buildWorldMenu:}メソッドの2つのバージョンを示しています。
+\menu{browse \go versions (v)}メニュー項目により、選択したメソッドに加えられた一連の変更を調べることができます。
+\figref{buildWorldMenuVersions}では、\ct{buildWorldMenu:}メソッドの2つのバージョンを示しています。
 
 \index{browser!versions button}
-表示されている上部のペインには、そのメソッドのそれぞれのバージョンの1行が表示されています。そこではこのメソッドを書いたプログラマーのイニシャル、保存した日付、クラス名とメソッド名、そしてそれらが定義されているプロトコルを尋ねてきます。
-現在の(アクティブな)バージョンはリストの一番上にあります。どちらのバージョンが選択されてもそれは下のペインに表示されます。
+上部のペインには、そのメソッドのバージョン毎に1行ずつ表示されており、このメソッドを書いたプログラマのイニシャル、保存した日時、クラスとメソッドの名前、そして定義されているプロトコルが表示されます。現在の(アクティブな)バージョンはリストの一番上にあります。選択されたバージョンは、下部のペインに表示されます。
 % If the \menu{diffs} checkbox is selected, as it is in \figref{mouseUpVersions}, the display also shows the differences between the selected version and the one immediately older. 
-選択されたメソッドと現在のバージョンの違いを表示したり、選択したバージョンを復帰するためのボタンも用意されています。
+選択されたメソッドと現在のバージョンの違いを表示したり、選択したバージョンに復帰するためのボタンが用意されています。
 % The \menu{prettyDiffs} checkbox is useful if there have been changes to layout: it pretty-prints both versions before differencing, so that the differences that are displayed exclude formatting changes. 
 
-\ind{Versions Browser}があるのはコードを提供するときに、もはや必要ないので削除したほうが良いかどうかを悩まなくても済むようにするためにあります。
-もしそのコードが\emph{本当に}必要だと分かったら、いつでも古いバージョンに復帰することができます。また古いバージョンから必要なコードの断片を得、別のメソッドに貼り付けることもできます。
-今使っているバージョンで、もはや必要のないコードをコメントアウトするのは悪い習慣です。なぜならそれによって現在のコードが読みにくくなるからです。Smalltalkerは読みやすいコードを非常に高く評価します。
+\ind{バージョンブラウザ}の存在は、必要なコードを残すべきか悩む必要がなく、単に削除すれば良いことを意味しています。もしそのコードが\emph{本当に}必要だと分かったら、いつでも古いバージョンに復帰することができますし、古いバージョンから必要なコードの断片を得て別のメソッドに貼り付けることもできます。
+バージョンブラウザを使う癖を付けましょう。もはや必要のなくなったコードをコメントアウトするのは悪い習慣です。なぜなら、そのことで現在のコードが読みにくくなるからです。
+Smalltalkerは読みやすいコードを非常に高く評価します。
 
-\hint{もしメソッド全体を削除した後、それを戻そうと決めた場合はどうすればいいでしょう? change setの中に削除したものを見つけることができます。そこで\actclick することにより以前のバージョンを見るかどうかを確認することができます。
-Change Set Browserは\secref{env:changeSet}に表示されています。}
+\hint{メソッド全体を削除した後で、元に戻したい場合はどうすればいいでしょう? チェンジセットの中に削除したものを見つけることができます。そこで\actclick することにより、以前のバージョンを確認できます。
+チェンジセットブラウザは\secref{env:changeSet}で述べられています。}
 
 \subsubsection{メソッドのオーバーライド}
 \seclabel{overriding}
 
-inheritance Browserは、表示されたメソッドによって全てのオーバーライドされたメソッドを表示します。それらどのように動作するかを見るには、Browserにある\cmind{ImageMorph}{drawOn:}メソッドを選択してください。
-(\figref{OBinheritanceBrowser})メソッドの隣にある三角形のアイコンに注目してください。
-上向きの三角形は\ct{ImageMorph>>>drawOn:}が継承されたメソッドであること(\ie \ct{Morph>>>drawOn:})を教えてくれます。そして下向きの三角形はそれがサブクラスによってオーバーライドされたことを教えてくれます。(アイコンをクリックすることで、これらのメソッドを操作することもできます。)
-では\menu{browse \go inheritance}を選択してください。
-inheritance Browserによりオーバーライドされたメソッドの階層関係を見ることができます。(\figref{OBinheritanceBrowser}参照)
+インヘリタンスブラウザは、表示されたメソッドによってオーバーライドされた全てのメソッドを表示します。
+どのように動作するかを見るために、ブラウザで\cmind{ImageMorph}{drawOn:}メソッドを選択してください。
+(\figref{OBinheritanceBrowser})メソッド名の隣にある三角形のアイコンに注目してください。
+上向きの三角形は、\ct{ImageMorph>>>drawOn:}が継承されたメソッド(\ie \ct{Morph>>>drawOn:})をオーバーライドしていることを示しており、さらに下向きの三角形は、サブクラスによってオーバーライドされていることを示しています。(アイコンをクリックすることで、これらのメソッドに移動することもできます。)
+ここで、\menu{browse \go inheritance}を選択してください。
+インヘリタンスブラウザが、オーバーライドされたメソッドの階層関係を示します。(\figref{OBinheritanceBrowser}参照)
 
 \begin{figure}[btp]
 	\begin{center}
@@ -310,16 +351,16 @@ inheritance Browserによりオーバーライドされたメソッドの階層�
 \subsubsection{階層ビュー}
 \seclabel{hierarchy}
 
-標準では、Browserは左端のペインにパッケージのリストを表示します。
-しかしクラスの階層ビューを入れ替えることは可能です。
-関心のある特定のクラスを選択してください。例えば\ct{ImageMorph}を選択し、\button{hier.}ボタンをクリックしてください。
-選択したクラスの全てのスーパークラスとサブクラスの階層関係が、左端のペインで見ることができます。
-２つ目のペインは選択したクラスで実装されているメソッドのパッケージがリスト表示されています。
+標準では、ブラウザは左端のペインにパッケージのリストを表示します。
+しかしクラスの階層ビューに切り替えることは可能です。
+関心のある特定のクラスを選択してください。例えば\ct{ImageMorph}を選択し、\button{hier.}ボタンをクリックします。
+選択したクラスの全てのスーパークラスとサブクラスを含むクラス階層を、左端のペインで見ることができます。
+２つ目のペインは選択したクラスのメソッドを実装するパッケージのリストが表示されます。\footnote{訳注：バージョン1.3では階層ブラウザが表示されますが、２つ目のペインにパッケージのリストは表示されません}
 %The \button{hierarchy} button opens a \ind{hierarchy browser} on the current class; this
 %browser can also be opened by using the \menu{browse hierarchy} menu item in the class pane.
 %The hierarchy browser is similar to the browser, but instead of displaying the categories and the classes in each category, it shows a single list of classes, indented to represent inheritance.
 %The category of the selected class is displayed in the small annotation pane at the top of the browser.
-\figref{hierarchyBrowser}では、hierarchy Browserが\clsind{ImageMorph}のスーパクラスが \clsind{Morph}であることを示しています。
+\figref{hierarchyBrowser}では、\clsind{ImageMorph}のスーパークラスが \clsind{Morph}であることを階層ブラウザが示しています。
 \index{browser!hierarchy button}
 
 \begin{figure}[btp]
@@ -328,17 +369,16 @@ inheritance Browserによりオーバーライドされたメソッドの階層�
 		{\includegraphics[width=\textwidth]{hierarchyBrowser}}
 		{\includegraphics[width=0.7\textwidth]{hierarchyBrowser}}
 	\end{center}
-	\caption{\ct{ImageMorph}の階層ビュー。}
+	\caption{\ct{ImageMorph}の階層ビュー}
 	\figlabel{hierarchyBrowser}
 \end{figure}
 
-\subsubsection{参照している変数を見つける}
+\subsubsection{変数への参照を見つける}
 \seclabel{variables}
 
 \index{browser!variables}
-クラスペインであるクラスを\actclick し、\menu{browse \go chase variables}を選択することで、インスタンス変数やクラス変数が使われている箇所を見つけることができます。
-
-\emph{chasing Browser}を使うことで、全てのインスタンス変数とクラス変数、次にこれらのアクセサーを送るメソッド、そしてその他と順番にアクセサーを見ることができます(\figref{chasingBrowser})。
+クラスペインにあるクラスを\actclick し、\menu{browse \go chase variables}を選択することで、インスタンス変数やクラス変数が使われている場所を見つけることができます。
+\emph{追跡ブラウザ}を使うことで、全てのインスタンス変数やクラス変数のアクセサ、更にこれらのアクセサを送るメソッドなどを探索することができます(\figref{chasingBrowser})。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -346,7 +386,7 @@ inheritance Browserによりオーバーライドされたメソッドの階層�
 		{\includegraphics[width=\textwidth]{chasingBrowser}}
 		{\includegraphics[width=0.7\textwidth]{chasingBrowser}}
 	\end{center}
-	\caption{\ct{Morph}のためのchasing Browser。}
+	\caption{\ct{Morph}に対する追跡ブラウザ}
 	\figlabel{chasingBrowser}
 \end{figure}
 
@@ -359,19 +399,24 @@ inheritance Browserによりオーバーライドされたメソッドの階層�
 \seclabel{sources}
 
 \index{browser!view}
-メソッドペインを\actclick することで利用可能な\menu{various \go view \ldots}メニューアイテムにより、sourceペインで選択したメソッドをどのように見せるかを可能にする``how to show''メニューを表示します。\menu{source}のソースコード、\menu{prettyPrint}表示されたソースコード、そして\menu{byteCode}とバイトコードから\menu{decompile}されたソースコードといったオプションも選択できます。
+メソッドペインを\actclick することで利用可能となる\menu{various \go view \ldots}メニュー項目は、``how to show''メニューを表示しますが\footnote{訳注：バージョン1.3ではメソッドペインの下にあるViewボタンを押すと``Choose''メニューが表示されます}、これは選択されたメソッドをソースペインでブラウザがどのように表示するかを選ばせるものです。 \menu{source}（ソースコード）、\menu{prettyPrint}（整形されたソースコード）、\menu{byteCode}（バイトコード）および\menu{decompile}（バイトコードから逆コンパイルされたソースコード）といった選択肢があります。
 % The label on the button changes if you select one of the other modes.  There are other options too; if you let the mouse linger over the names, a help balloon will appear.  Try some of them.
 \index{method!pretty-print}
 \index{method!decompile}
 \index{method!byte code}
 
-``how to show''メニューで選択した\menu{prettyPrint}はセーブする前に整形出力したメソッドと同じもの\footnote{\menu{pretty print (r)}はメソッドペインの最初のメニューアイテムもしくはcodeペインの真ん中下側にあります。}ではないことに注意してください。このメニューは、Browserがどのように表示するかを単に操作するだけで、システムに保存されたコードに対しては何の影響も与えません。2つのBrowserを開き、一方のBrowserで\menu{prettyPrint}を選択し、もう一方のBrowserで\menu{source}を選択することにより、このことを確認することができます。実際、2つのBrowserで同じメソッドを一方で\menu{byteCode}を選択し、もう一方で\menu{decompile}選択することで\pharo の仮想マシンのバイトコード化命令セットについて学ぶことができます。
+``how to show''メニューで選択した\menu{prettyPrint}は、ソースを保存する前に整形出力したメソッドと同じもの\footnote{\menu{pretty print (r)}はメソッドペインの最初のメニュー項目もしくはコードペインの真ん中下側にあります。}\footnote{訳注：バージョン1.3では、メソッドペインおよびコードペインでの整形出力機能はありません。}ではないことに注意してください。
+このメニューは、ブラウザの表示方法を制御するだけで、システムに格納されたコードには何の影響も及ぼしません。
+2つのブラウザを開いて一方のブラウザで\menu{prettyPrint}を選び、もう一方のBrowserで\menu{source}を選ぶことで、このことを確認できます。
+実際、2つのブラウザで同じメソッドを表示させた状態で、一方で\menu{byteCode}を選択し、もう一方で\menu{decompile}選択することは、\pharo の仮想マシンのバイトコードの命令セットについて学ぶ良い方法です。
 
 \subsubsection{リファクタリング}
 
-contextualメニューから多くの標準的なリファクタリングができます。4つのうちのどのペインを\actclick しても、現在リファクタリングすることが可能なものを見ることができます。\figref{refactoring}参照。
+コンテキストメニューから多くの標準的なリファクタリングが行えます。
+4つのペインのどれでも\actclick すれば、現在リファクタリング可能な操作を見ることができます。
+\figref{refactoring}を参照してください。
 
-以前は、リファクタリングをするためにはrefactoring Browserと呼ばれる特殊なBrowserを使う必要がありましたが、現在はどのBrowserからもアクセスすることができます。
+以前は、リファクタリングのためにリファクタリングブラウザと呼ばれる特殊なブラウザを使う必要がありましたが、現在はどのブラウザからも利用できます。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -379,70 +424,80 @@ contextualメニューから多くの標準的なリファクタリングがで�
 		{\includegraphics[width=\textwidth]{refactoring}}
 		{\includegraphics[width=0.7\textwidth]{refactoring}}
 	\end{center}
-	\caption{リファクタリング操作。}
+	\caption{リファクタリング操作}
 	\figlabel{refactoring}
 \end{figure}
 
 %---------------------------------------------------------
-\subsection{Browserのメニュー}
+\subsection{ブラウザのメニュー}
 
-Browserペインを\actclick することで多くの追加機能を利用することができます。たとえメニューアイテム上のラベルが同じであっても、その\emph{意味}は文脈に依存します。例えばパッケージペイン、クラスペイン、プロトコルペイン、そしてメソッドペイン全てが\menu{File out}メニューアイテムを持っています。しかしそれらは違う動作をします。パッケージペインの\menu{File out}メニューはパッケージ全てをファイル出力します。クラスペインの\menu{File out}メニューは全てのクラスをファイル出力します。プロトコルペインの\menu{File out}メニューは全てのプロトコルをファイル出力します。そしてメソッドペインの\menu{File out}メニューは表示されたメソッドだけをファイル出力します。このことはすぐに分かることのように見えるかもしてませんが、初心者にとっては混乱の元になりえます。
+ブラウザのペインを\actclick することで多くの追加機能を利用することができます。
+たとえメニュー項目上のラベルが同じであっても、その\emph{意味}は文脈に依存します。
+例えばパッケージペイン、クラスペイン、プロトコルペイン、そしてメソッドペインの全てが\menu{File out}メニュー項目を持っています。しかしそれらは異なる動作をします。パッケージペインの\menu{File out}メニューは、パッケージ全体をファイル出力します。クラスペインの\menu{File out}メニューはクラス全体をファイル出力します。プロトコルペインの\menu{File out}メニューはプロトコル全体をファイル出力します。そしてメソッドペインの\menu{File out}メニューは表示されたメソッドだけをファイル出力します。
+このことは明らかだと思えるかもしれませんが、初心者にとっては混乱の元になります。
 \index{file!filing in}
 \index{file!filing out}
 
-おそらくパッケージペインの中で最も便利なメニューアイテムは\menu{find class\ldots (f)}です。カテゴリは活発に開発しているコードのために役立ちますが、システム全体のカテゴライズ化について、ほとんどの人は知りません。また、探しているクラスがどのパッケージにあるのか推測するために、クラス名の最初の数文字を打ち込んだ後に続けてshort{f}と打ち込んだ方がはるかに速いということもほとんどの人は知りません。\menu{recent classes\ldots}はたとえクラス名を忘れてしまったとしても、最近閲覧したクラスへ素早く戻るのに役立ちます。
+おそらくパッケージペインの中で最も便利なメニュー項目は\menu{find class\ldots (f)}です。カテゴリーは活発に開発しているコードについては役立ちますが、ほとんど誰もシステム全体のカテゴリー化について知りませんし、クラスがどのパッケージにあるか推測するよりも、クラス名の先頭の数文字を入力した後でshort{f}と入力した方がずっと早いのです。\menu{recent classes\ldots}はたとえクラス名を忘れてしまっても、最近ブラウズしたクラスへ素早く戻るのに役立ちます。
 \index{class!finding}
 \index{class!recent}
 
-特定のクラスやメソッドも、Browserの左上にある検索ボックスにその名前を打ち込むことで探すことができます。リターンキーを打ち込むと検索が始まりシステムを一時的に停止し、その後検索結果を表示します。検索語の前に\ct{#}を付けることで、クラスを参照しているものや、メッセージを送信したクラスをさがすことができることに注目してください。
+ブラウザの左上にある検索ボックスに名前を入力することで、特定のクラスやメソッドを探すこともできます。リターンキーを入力するとシステムに問い合わせがなされ、その結果が表示されます。検索語の前に\ct{#}を付けることで、クラスへの参照や、メッセージのセンダを探せることに気をつけてください。
 %To browse to a particular method, you can 
 %In the class pane, there are two menu items \menu{find method} and \menu{find method wildcard\ldots} that can be useful if you want to browse a particular method.  
-もしあるクラスの特定のメソッドを探しているのなら、\prot{-{}-all-{}-}プロトコルで閲覧する方が速い時があります(これはデフォルトです)。メソッドペインにマウスを移動し、探しているメソッド名の最初の文字を打ち込んでください。この方法により探しているメソッド名が表示されるよう、ペインがスクロールします。
+選択したクラスの特定のメソッドを探すのであれば、(デフォルトで表示される)\prot{-{}-all-{}-}プロトコルをブラウズした方が速いでしょう。メソッドペインにマウスを移動し、探そうとしているメソッド名の最初の文字を入力してください。
+メソッドペインがスクロールして、探しているメソッド名が見えるでしょう。
 \index{method!finding}
 \protindex{all}
 
 \dothis{\cmind{OrderedCollection}{removeAt:}で2つの操作方法を試してください。}
 
-その他多くのオプションがメニューにはあります。これを使うことでBrowser上の作業や何がどこにあるのか探すのに費やす時間を減らすことができます。
+メニューには他の多くのオプションがあります。これを使うことで、ブラウザ上の作業やどこに何があるかを探すための時間を数分減らすことができます。？？？？
 
-\dothis{クラスペインメニューの\menu{Browse Protocol}, \menu{Browse Hierarchy}, そして\menu{Show Hierarchy}を実行した結果を比較してください。}
+\dothis{クラスペインメニューの\menu{Browse Protocol}, \menu{Browse Hierarchy}, そして\menu{Show Hierarchy}の結果を比較してください。}
 
 %---------------------------------------------------------
-\subsection{プログラムでBrowserを操作}
+\subsection{プログラムによるブラウズ}
 
-\glbind{SystemNavigation}クラスはシステム周りを操作するために役に立つユーティリティメソッドのいくつかを提供しています。その機能の大半は古典的なBrowserにより提供され、\ct{SystemNavigation}によって実装されます。\index{browsing programmatically}
+\glbind{SystemNavigation}クラスはシステム周りを操作するために役に立つユーティリティメソッドのいくつかを提供しています。
+典型的なブラウザが提供する機能の大半は、\ct{SystemNavigation}によって実装されています。
+\index{browsing programmatically}
 
 \dothis{
-workspaceを開き、\ct{drawOn:}:センダーを見るために以下のコードを評価してください。}
+\ct{drawOn:}:のセンダを見るためには、ワークスペースを開いて以下のコードを評価してください。}
 \begin{code}{}
 SystemNavigation default browseAllCallsOn: #drawOn:
 \end{code}
-特定のクラスのメソッドへのセンダーを検索を制限するためには次のようにコードを評価してください。
+センダの検索を特定のクラスのメソッドに制限するには以下のようにします。
 \begin{code}{}
 SystemNavigation default browseAllCallsOn: #drawOn: from: ImageMorph
 \end{code}
-開発ツールもオブジェクトなので、プログラムからそれらに完全にアクセスすることができます。そのため独自のツールを開発したり、今あるツールを必要に応じて取り込むこともできます。
+開発ツールもオブジェクトなので、プログラムから完全にアクセス可能であり、自分自身のツールを開発することや既存のツールを必要に応じて変更することもできます。
 
-\menu{implementors}メニューアイテムと同じ動作をプログラム上行うには次のように評価してください。
+\menu{implementors}メニュー項目と等価なプログラムは以下のようなものです。
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #drawOn:
 \end{code}
 
-他に何が出来るのかを知るにはBrowserで\ct{SystemNavigation}クラスを探してみてください。もっと多くの操作例についてはFAQ(\appref{faq})で見つけることができます。
+他に何が出来るのかを知るには、ブラウザでで\ct{SystemNavigation}クラスを探してください。
+更なる操作例については、FAQ(\appref{faq})で見つけることができます。
 
 %=========================================================
 \section{Monticello}
 
-\secref{Monticello}において、\pharo のパッケージ作成ツール、\ind{Monticello}の概要についてお見せしました。しかしMonticelloは、その章に書かれていた以上の機能を持っています。Monticelloは\emph{パッケージ}を扱うため、Monticelloについてお伝えする前に、\ind{パッケージ}とは何なのかについて正確に説明する必要があります。
+\secref{Monticello}において、\pharo のパッケージ作成ツールである\ind{Monticello}の概要について説明しました。
+しかし、Monticelloは、その章で述べたこと以上の特徴を備えています。
+Monticelloは\emph{パッケージ}を扱うので、Monticelloについて説明する前に、まず\ind{パッケージ}が何なのかということを正確に説明する必要があります。
 
 %---------------------------------------------------------
-\subsection{\pharo コードを宣言型のカテゴリー化}\seclabel{packages}
+\subsection{パッケージ: \pharo コードの宣言的なカテゴリー化}\seclabel{packages}
 
-\secref{categoriesPackages}において、パッケージとは多かれ少なかれカテゴリーと同等のものであると指摘しました。これからそれらの関係について詳しく見ていきましょう。
-パッケージシステムは、カテゴリーとプロトコルのために開発された単純な命名規則を活用した\st ソースコードを簡単で軽量にまとめる方法の1つです。
+かなり前の\secref{categoriesPackages}において、パッケージとは概ねカテゴリーと同等のものであると指摘しました。ここでは、その関係が実際には何であるか見ていきます。
+パッケージシステムとは、\st ソースコードを組織化するためのシンプルで軽量な方法のことです。これは、カテゴリーとプロトコルに対して簡単な命名規則を利用します。
 
-例を使って説明しましょう。\pharo からリレーショナル型データベースを簡単に使うために命名されたフレームワークを開発していると思ってください。このフレームワークを\ct{PharoLink}と呼ぶことにします。そして作った全てのクラスを含む一連のカテゴリーを作ったとします。
-例えば、\ct{'PharoLink-Connections'}カテゴリーは\ct{OracleConnection MySQLConnection PostgresConnection}を含み、 \ct{'PharoLink-Model'}カテゴリーは\ct{DBTable DBRow DBQuery}等を含みます。ただし、これらのクラスの中に作ったコード全てが含まれていないこととします。例えばSQLが扱いやすい形式にオブジェクトを変換する一連のメソッドがあるかも知れません。
+例を使って説明しましょう。
+あるフレームワークを開発していると仮定しましょう。これは \pharo から関係データベースを簡単に利用するためのものです。あなたはこのフレームワークを\ct{PharoLink}と呼ぶことにしました。そして、作成したクラスを全てを含むような一連のカテゴリーを作ったとします。例えば、
+\ct{'PharoLink-Connections'}カテゴリーは\ct{OracleConnection MySQLConnection PostgresConnection}を含み、\ct{'PharoLink-Model'}カテゴリーは\ct{DBTable DBRow DBQuery}等を含みます。しかし、作成したコードの全てがこれらのクラスの中にあるわけではありません。例えば、オブジェクトをSQL的な形式に変換するための一連のメソッドもあるかもしれません。
 
 \begin{code}{}
 Object>>>asSQL
@@ -451,50 +506,52 @@ Date>>>asSQL
 \end{code}
 
 \noindent
+これらのメソッドは、
 % \damien{don't we say 'belong to'?}
 % \on{no -- belong in = they should be there; belong to = they are there}
-これらのメソッドは、\ct{PharoLink-Connections}や\ct{PharoLink-Model}カテゴリとして同じパッケージに入っています。
-しかし明らかに\ct{Object}クラス全体はパッケージの中に入っていません。そのため、クラスの残りの部分は別のパッケージに入れるとしても、特定の\emph{メソッド}を任意のパッケージに入れる方法が必要になります。
+\ct{PharoLink-Connections}や\ct{PharoLink-Model}カテゴリと同じパッケージに属しています。
+しかし、明らかに\ct{Object}クラス全体がそのパッケージに属するわけではありません。
+つまり、クラスの残りが別のパッケージにあるとしても、特定の\emph{メソッド}をパッケージに含める方法が必要になります。
+
 \index{package!extension}
 \seeindex{extension package}{package, extension}
 
-これらのメソッドを、prot{*PharoLink}(最初のアスタリスクに注意してください)と呼ばれる(\ct{Object}, \ct{String} \ct{Date}等)のプロトコルに置くことで、それは実現できます。\scat{PharoLink-\ldots}カテゴリーと\prot{*PharoLink}プロトコルの組み合わせにより\ct{PharoLink}と呼ばれるパッケージは形作られます。
-正確に言うと以下のようにパッケージに納められるルールの事です。
+それを行う方法は、(\ct{Object}, \ct{String} \ct{Date}等)のメソッドを、prot{*PharoLink}(最初のアスタリスクに注意してください)というプロトコルに置くことです。\scat{PharoLink-\ldots}カテゴリーと\prot{*PharoLink}プロトコルの組み合わせが、\ct{PharoLink}パッケージを形作ります。
+正確には、パッケージに置かれる規則は以下の通りです。
 
 \ct{Foo}と名付けられたパッケージは次のものを含みます。
 
 \begin{enumerate}		\seclabel{packageRules}
-	\item{} \scat{Foo}カテゴリ内もしくは\scat{Foo-}で始まる名前のカテゴリ内にある、クラスの全ての\emph{クラス定義}
-	\item{} \label{env:extensions} \prot{*Foo}や\prot{*foo}\footnote{この比較を行うときには、名前の中にある大文字小文字は無視されます。}という名のプロトコル内もしくは\prot{*Foo-}や\prot{*foo-}で始まる名前のプロトコル内にある、\emph{任意のクラス}内の全ての\emph{メソッド}
-	\item{} \scat{Foo}カテゴリー内もしくは\scat{Foo-}で始まる名前のカテゴリー内にある、クラス内の全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコル内にあるメソッドは\emph{除く}。
+	\item{} \scat{Foo}カテゴリもしくは\scat{Foo-}で始まる名前のカテゴリ内にある、クラスの全ての\emph{クラス定義}
+	\item{} \label{env:extensions} \prot{*Foo}や\prot{*foo}\footnote{比較の際に大文字か小文字かは無視されます。}という名前のプロトコルか、\prot{*Foo-}や\prot{*foo-}で始まる名前のプロトコルにある、\emph{任意のクラス}内の全ての\emph{メソッド}
+	\item{} \scat{Foo}カテゴリーか、\scat{Foo-}で始まる名前のカテゴリーのクラスにある全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコルにあるメソッドは\emph{除外される}。
 	
 \end{enumerate}
 \noindent
-これらのルールの結果、各クラスの定義と各メソッドは、厳密に1つのパッケージに属するということになります。
-最後のルールにある\emph{例外}があることを除き、これらのメソッドは他のパッケージに属している必要があります。ルール\ref{env:extensions}において無視するケースの理由は、慣習的にプロトコル名が通常は(必ずというわけではないですが)小文字(空白ふくまない)であることです。その一方でカテゴリー名はCamelCase(空白を含まない)を使います。
+これらの規則の結果、各クラスの定義と各メソッドが、ちょうど1つのパッケージに属することになります。最後の規則にある\emph{例外}は、それらのメソッドが他のパッケージに属すために必要となります。規則\ref{env:extensions}にある、大文字小文字が無視されるというのは、カテゴリ名がキャメルケース（空白を含まない）のに対して、（必ずという訳ではないが）典型的なプロトコル名が小文字である（空白を含む場合がある）からです。
 \index{camelCase}
 
-\ct{PackageInfo}クラスはこれらのルールに従い実装されています。その結果の感触はこのクラスを試すことで得られます。
+\ct{PackageInfo}クラスがこれらの規則を実装しており、このクラスを試すことで規則の感触をつかむことができます。
 
-\dothis{workspace上で以下の式を評価して下さい。}
+\dothis{ワークスペース上で以下の式を評価して下さい。}
 
 \begin{code}{}
 mc := PackageInfo named: 'Monticello'
 \end{code}
 
-このパッケージについて深く考える事ができるようになりました。例えばworkspaceペイン上で\ct{mc classes}を表示することにより、Monticelloパッケージを構成するクラスの長いリストが返ります。
+さて、このパッケージについて探索できるようになりました。
+例えば、ワークスペース上で\ct{mc classes}を表示することで、Monticelloパッケージを構成するクラスの長いリストが得られます。
+\ct{mc coreMethods}
+は、これらのクラスにある全てのメソッドに対する\ct{MethodReference}のリストが返されます。\ct{mc extensionMethods}は、おそらく最も面白い問い合わせでしょう。この問い合わせは、\ct{Monticello}パッケージに含まれる全てのメソッドのうち、\lct{Monticello}クラスを除いたものを返します。
 
-\ct{mc coreMethods}により、これらのクラスにある全てのメソッドのための\ct{MethodReference}のリストが返されます。
-\ct{mc extensionMethods}はおそらく最も興味深い検索語でしょう。つまり\ct{mc extensionMethods}は\lct{Monticello}クラスを除き、\ct{Monticello}パッケージに含まれる全てのメソッドを返します。
+パッケージは比較的新しく\pharo に加えられたものです。しかし、パッケージの命名規則は、すでに使われていたものをベースとしていたため、パッケージの採用を意識していない古いコードを分析する際にも\ct{PackageInfo}を使うことができます。
 
-パッケージは比較的新しく\pharo に追加されたものです。しかしパッケージの命名規則は、すでに使われているものがベースとなっているため、\ct{PackageInfo}を使用し明らかに命名規則に則っていない古いコードをも分析することができます。
-
-\dothis{\ct{(PackageInfo named: 'Collections') externalSubclasses}を使いを\lct{表示}してください。この式により\ct{Collection}パッケージに含まれ\emph{ない}、\ct{Collections}の全てのサブクラスのリストが返ります。}
+\dothis{\ct{(PackageInfo named: 'Collections') externalSubclasses}を\lct{表示}してください。この式は、\ct{Collection}パッケージに\emph{含まれていない}\ct{Collections}の全てのサブクラスの一覧を返します。}
 
 %---------------------------------------------------------
 \subsection{Monticelloの基礎}
 
-\ind{Monticello}は、合衆国3番目の大統領であり「the Statute of Virginia for Religious Freedom」の著者であるThomas Jeffersonの山頂の家にちなんで名付けられました。この名前の意味はイタリア語で``小さな山''であり、イタリア語の``c''、chairの``ch''の音を使いと一般的にMonticelloと発音されます。
+\ind{Monticello}は、合衆国3番目の大統領であり「信教の自由を求めたバージニアの法」の作者であるトーマス・ジェファーソンの山頂の家にちなんで名付けられました。この名前はイタリア語で``小さな山''を意味し、イタリア語の``c''をchairの``ch''と発音して「モンティチェロ」と言います。
 
 
 \begin{figure}[btp]
@@ -503,19 +560,23 @@ mc := PackageInfo named: 'Monticello'
 		{\includegraphics[width=\textwidth]{freshMonticello}}
 		{\includegraphics[width=0.7\textwidth]{freshMonticello}}
 	\end{center}
-	\caption{Monticello Browser.}
+	\caption{Monticelloブラウザ}
 	\figlabel{freshMonticello}
 \end{figure}
 
-Monticello Browserを開くと、\figref{freshMonticello}に示されるように2つのペインと1列に並ぶボタンが表示されます。左側のペインには、今動かしているイメージファイル内にロードされた全てのパッケージがリスト表示されています。また、名前の後にあるカッコの中にパッケージを特定するバージョンが表示されます。
+Monticelloブラウザを開くと、\figref{freshMonticello}のように、2つのペインと1列に並んだボタンが表示されます。
+左側のペインには、実行中の仮想イメージにロードされた全てのパッケージが表示され、名前の後のカッコの中にはパッケージを特定するバージョンが表示されます。
 
-右側のペインにはMonticelloが知っているソースコードリポジトリ全体のリストが表示されている。通常はそのリストからコードを読み込みます。左側のペインにあるパッケージを選択すると、右側のペインには選択したパッケージのバージョンを含んだリポジトリだけを表示するようフィルタリングされます。
-リポジトリの1つは\emph{package-cache}と呼ばれるディレクトリーで、実行されているイメージファイルのあるディレクトリーの下にあるディレクトリーです。もし遠隔地にあるリポジトリーからコードを読み込んだり、書き込んだりする場合、そのコピーはpackage-cacheにも保存されます。ネットワークが使えないときでパッケージにアクセスする必要がある場合、このpackage-cacheは役立ちます。また、Monticelloファイル(.mcz)をemailの添付などで直接渡された場合、そのファイルをpackage-cacheディレクトリに入れるのが一番手軽な方法です。
+右側のペインには、Monticelloが知っている全てのソースコードリポジトリが表示されており、通常はそれらのリポジトリからコードがロードされます。左側のペインにあるパッケージを選ぶと、右側のペインには、選択したパッケージのバージョンを含むリポジトリのみを表示するようにフィルタリングされます。
+
+リポジトリの1つは\emph{package-cache}と呼ばれるディレクトリで、実行中のイメージファイルのあるディレクトリのサブディレクトリです。
+遠隔地にあるリポジトリからコードを読み込んだり、書き込んだりする場合、コピーがpackage-cacheにも保存されます。ネットワークが利用できない場合にパッケージへアクセスする必要のあるとき、package-cacheが役立ちます。また、例えば電子メールの添付ファイルとしてMonticelloファイル(.mcz)が直接与えられた場合、そのファイルをpackage-cacheディレクトリに置くのが一番手軽なアクセス方法となります。
 \index{package!cache}
 
-リストに新たなリポジトリを追加するには、\button{+Repository}ボタンをクリックし、ポップアップメニューからリポジトリーの種類を選択してください。ではHTTPリポジトリーを追加してみましょう。
+リストに新しいリポジトリを追加するには、\button{+Repository}ボタンをクリックし、ポップアップメニューからリポジトリの種類を選んでください。ではHTTPリポジトリを追加しましょう。
 
-\dothis{Monticelloを開き、\button{+Repository}ボタンをクリック。読むためのダイアログを編集します。}
+\dothis{Monticelloを開き、\button{+Repository}ボタンをクリックし、\menu{HTTP}を選びます。
+以下のようにダイアログ内容を編集してください。}
 %\ab{How does one continue the $\backslash$dothis to include the code?}
 %\on{Don't.  Just close the \dothis{} and follow with the code.}
 \needlines{4}
@@ -532,17 +593,19 @@ MCHttpRepository
 		{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
 		{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
 	\end{center}
-	\caption{Repository Browser.}
+	\caption{リポジトリブラウザ}
 	\figlabel{SqueakSource:PBE}
 \end{figure}
 \noindent
-その後このリポジトリをRepository Browserを上に表示するため\button{Open}ボタンをクリックします。すると\figref{SqueakSource:PBE}のように見えるはずです。左側のペインはリポジトリー内の全てのパッケージのリストです。その内の1つを選択すると右側のペインにこのリポジトリー内にある選択されたパッケージの全てのバージョンが表示されます。
+その後、このリポジトリをリポジトリブラウザで開く為に、\button{Open}ボタンをクリックします。\figref{SqueakSource:PBE}のようなものが見えるでしょう。左側のペインには、リポジトリ内の全てのパッケージのリストがあります。その中の1つを選択すれば、右側のペインにこのリポジトリ内にある選択されたパッケージの全てのバージョンが表示されます。
 
-その内の1つのバージョンを選択すると、\button{Browse}ボタンを押すことで(イメージファイルに読み込むことなしに)閲覧でき、\button{Load}ボタンで読み込むことができ、\button{Changes}ボタンで選択したバージョンを読み込んだことによるイメージファイルの変更点を見ることができます。 また、\button{Copy}ボタンを押すことにより任意のバージョンのパッケージをコピーすることができ、そしてそれを別のリポジトリーに書きこむこともできます。
+その中の1つのバージョンを選択すると、\button{Browse}ボタンでの(イメージファイルに読み込むことなしに)閲覧や\button{Load}ボタンでの読み込み、そして、\button{Changes}ボタンでは、選択したバージョンを読み込んだ場合の変更点を見ることができます。\button{Copy}ボタンでは、任意のバージョンのパッケージのコピーを作成して、他のリポジトリに書きこむこともできます。
 
-ご覧のように、バージョンの名前には、パッケージの名前、バージョンの作成者のイニシャル、およびバージョン番号が含まれています。バージョン名は、リポジトリー内のファイル名でもあります。これらの名前を変更してはいけません、なぜならMonticelloの動作とこれらの名前は依存関係にあるからです! Monticelloのバージョンファイルは単なるzipアーカイブであり、興味があればzipツール使用してファイルを解凍できます。しかしその内容を見る一番の方法は、Monticelloを使用することです。Monticelloでパッケージを作成するには、2つのことを行う必要があります。1つはいくつかのコードを書くこと、もう1つはそれについての情報をMonticelloに伝えることです。
+見ればわかるとおり、バージョン名には、パッケージ名、バージョン作成者のイニシャル、およびバージョン番号が含まれています。バージョン名はリポジトリ内のファイル名でもあります。これらの名前を変更してはいけません。なぜならMonticelloの適切な操作は、これらの名前に依存しているからです! Monticelloのバージョンファイルは単なるzipアーカイブであり、興味があればzipツールを使ってファイルを解凍できますが、その内容を見る最良の方法は、Monticello自体を使うことです。
 
-\dothis{\scat{PBE-Monticello}と呼ばれるパッケージを作成し、\figref{MCnewcategory}に示すように2つのクラスをその中に置いて下さい。もちろん、\ct{Object}などの実在するクラスのメソッドを作成し、\pageref{sec:packageRules}ページにあるルールを用いて独自のクラスとして同じパッケージ内に置いて下さい\,---\,\figref{MCnewmethod}参照。}
+Monticelloでパッケージを作成するには、2つのことを行う必要があります。1つはコードを書くこと、もう1つはそれをMonticelloに伝えることです。
+
+\dothis{\scat{PBE-Monticello}というパッケージを作成し、\figref{MCnewcategory}のように2つのクラスをその中に置いて下さい。もちろん、\ct{Object}などの既存のクラスのメソッドを作り、\pageref{sec:packageRules}ページにある規則を使ってこのクラスと同じパッケージに置いて下さい\,---\,\figref{MCnewmethod}を参照のこと。}
 
 \begin{figure}[btp]
 	\begin{center}
@@ -550,7 +613,7 @@ MCHttpRepository
 		{\includegraphics[width=\textwidth]{MCnewcategory}}
 		{\includegraphics[width=0.7\textwidth]{MCnewcategory}}
 	\end{center}
-	\caption{``PBE''パッケージ中の2つのクラス。}
+	\caption{``PBE''パッケージの2つのクラス。}
 	\figlabel{MCnewcategory}
 \end{figure}
 
@@ -560,22 +623,25 @@ MCHttpRepository
 		{\includegraphics[width=\textwidth]{MCnewmethod}}
 		{\includegraphics[width=0.7\textwidth]{MCnewmethod}}
 	\end{center}
-	\caption{``PBE''パッケージにこれから作成される拡張メソッド。}
+	\caption{``PBE''パッケージに置かれる拡張メソッド。}
 	\figlabel{MCnewmethod}
 \end{figure}
 
-作ったパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックして下さい。そしてパッケージ名、この場合は``PBE''を打ち込んで下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パケージの見出しがアスタリスクでマークされ、イメージ内のバージョンがまだどのリポジトリーにも書き込まれていないことを示しています。Monticelloに2つのパッケージがあることに注目して下さい。1つは\ct{PBE}、もう1つは\ct{PBE-Monticello}と呼ばれています。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含みます。
+作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力して下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージエントリはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに2つのパッケージを持つことに注意して下さい。1つは\ct{PBE}、もう1つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これで良いのです。
 
-最初はこのパッケージに関連している唯一のリポジトリーは\figref{MC+PBE}に示されているようにpackage-cacheだけです。それで問題はないので、コードをセーブして、package-cacheに書きこんで下さい。\button{Save}ボタンをクリックすると、\figref{PBE-on}のように、セーブするパッケージのバージョンのためのログメッセージを入力するよう求められます。このメッセージをAcceptするとMonticelloはパッケージをセーブします。セーブしたことを示すため、Monticelloのパッケージペインにマークされていたアスタリスクがなくなり、バージョン番号が付与されます。
+最初はこのパッケージに関連している唯一のリポジトリは、\figref{MC+PBE}に示されているようにパッケージキャッシュだけです。それで問題なく、コードを保存することができますし、パッケージキャッシュに格納されます。
+\button{Save}ボタンをクリックすると、\figref{PBE-on}のように保存するパッケージのバージョンに対するログメッセージを入力するよう求められます。このメッセージをアクセプトするとMonticelloはパッケージを保存します。
+保存したことを示すため、Monticelloのパッケージペインに付けられていたアスタリスクがなくなり、バージョン番号が付与されます。
 
-もしパッケージに変更を加える\,---\,例えばクラスの1つにメソッドを追加する\,---\,場合、変更がセーブされていないことを示すため、アスタリスクが再度表示されます。package-cache上のRepository Browserを開くと、セーブしたバージョンを選択することや、\button{Changes}ボタンや他のボタンを押すことができます。リポジトリーに新たなバージョンを保存することもできます。\button{Refresh}ボタンを押し、リポジトリービューを一度更新して下さい。すると\figref{package-cache-browser}のようになるはずです。
+もしパッケージに変更を加えた\,---\,例えばクラスの1つにメソッドを追加した\,---\,場合、アスタリスクが再び現れて、変更が保存されていないことを示します。パッケージキャッシュをリポジトリブラウザで開いて保存したバージョンを選べば、\button{Changes}ボタンや他のボタンを使うことができます。
+もちろんリポジトリに新しいバージョンを保存することもできます。\button{Refresh}ボタンを押してリポジトリビューを一度更新すれば、\figref{package-cache-browser}のように表示されるはずです。
 \index{package!cache}
 
 \begin{figure}[tbp]
 	\begin{center}
 		\includegraphics[width=\textwidth]{MC+PBE}
 	\end{center}
-	\caption{Monticello上ではPBEパッケージはまだ保存されていない。}
+	\caption{Monticelloでまだ保存されていないPBEパッケージ。}
 	\figlabel{MC+PBE}
 \end{figure}
 
@@ -583,7 +649,7 @@ MCHttpRepository
 	\begin{center}
 	\includegraphics[width=0.8\textwidth]{PBE-on}
 	\end{center}
-	\caption{パッケージの新バージョンについてのログメッセージを入力する。}
+	\caption{パッケージの新バージョンに対するログメッセージを入力する。}
 	\figlabel{PBE-on}
 \end{figure}
 
@@ -591,26 +657,29 @@ MCHttpRepository
 	\begin{center}
 	\includegraphics[width=\textwidth]{package-cache-browser}
 	\end{center}
-	\caption{package-cacheに今2つのバージョンのパッケージがあります。}
+	\caption{作成したパッケージの２つのバージョンがパッケージキャッシュにあります。}
 	\figlabel{package-cache-browser}
 \end{figure}
 
-新たなパッケージをpackage-cache以外のリポジトリーにセーブするためには、まず最初に、必要に応じてリポジトリーを追加するなどして、Monticelloにそのリポジトリーについて知らせる必要があります。その後package-cache Repository Browser内の\button{Copy}ボタンを使いコピーして下さい。\figref{associateRepository}に示されているように、リポジトリー上で\actclick し、メニューで\menu{add to package \ldots}を選択することで、特定のパッケージとお望みのリポジトリーを関連付けることができます。1度パッケージとリポジトリーを関連付けると、Monticello Browser内のリポジトリーやパッケージを選択し\button{Save}ボタンをクリックすることにより、新しいバージョンをセーブすることができます。もちろん書き込むリポジトリーへのパーミッションは必要です。
-\emphind{\sqsrc}上の\ct{PharoByExample}リポジトリーは世界中いたる所で読むことができますが、書き込むことはできません。そのためそのリポジトリーにセーブしようとしてもエラーメッセージが表示されます。
-ただし、\url{http://www.squeaksource.com}にあるWebのインターフェースから\sqsrc 上に独自のリポジトリーを作り、プログラムをセーブする場所として使うことはできます。
-これは、作ったコードを友人と共有するためのメカニズムとして、特に役立ちます。
+新しいパッケージをパッケージキャッシュ以外のリポジトリに保存するためには、必要に応じてリポジトリを追加するなどして、まずMonticelloにそのリポジトリについて知らせる必要があります。
+その後、パッケージキャッシュ上のリポジトリブラウザで\button{Copy}ボタンを使って、コピー先のリポジトリを選ぶことができます。
+\figref{associateRepository}のようにリポジトリ上で\actclick し、\menu{add to package \ldots}を選ぶことで、お望みのリポジトリをパッケージと関連づけることもできます。
+いったんパッケージがリポジトリに関連付いていれば、Monticelloブラウザでリポジトリとパッケージを選んで\button{Save}ボタンをクリックすることで、新しいバージョンを保存することができます。
+もちろんリポジトリへ書き込むためのパーミッションは必要です。
+\emphind{\sqsrc}上の\ct{PharoByExample}リポジトリは世界から読むことができますが、書き込むことはできません。そこに保存しようとしてもエラーメッセージが表示されるでしょう。
+しかし、\sqsrc にあなた専用のリポジトリを作成することは可能です。\url{http://www.squeaksource.com}にあるWebインターフェースを使って、あなたのパッケージを保存するリポジトリを利用できます。
+これは、友人とコードを共有したり複数のコンピュータを使う場合などの仕組みとして特に有用です。
 
 \begin{figure}[tbp]
 	\begin{center}
 		\includegraphics[width=\textwidth]{MCaddToPackage}
 	\end{center}
-	\caption{パッケージに関連付けられているリポジトリーのセットをリポジトリーに追加。}
+	\caption{パッケージに関連付けられたポジトリのセットにリポジトリに追加する。}
 	\figlabel{associateRepository}
 \end{figure}
 
-もしパーミッションのないリポジトリーに対しセーブをしようとすると、そのバージョンは意に反しpackage-cacheに書き込まれます。
-
-それは、リポジトリの情報を編集したり(Monticello Browserで\actclick )、別のリポジトリを選択し、package-cache browserから\button{Copy}ボタンを押すことで復帰させることができます。
+書き込みパーミッションを持たないリポジトリに対して保存しようとした場合、ともかくそのバージョンはパッケージキャッシュに書き込まれます。
+つまり、リポジトリの情報を編集するか(Monticelloブラウザで\actclick )別のリポジトリを選んで、パッケージキャッシュブラウザから\button{Copy}ボタンを押せば、そのバージョンを復活させることができます。
 
 %=========================================================
 \section{[Inspector]と[Explore]}
@@ -1178,7 +1247,7 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 
 \begin{itemize}
   \item 標準的な \emph{ブラウザ} は、既存のカテゴリ、クラス、メソッド・プロトコル、そしてメソッドを調べたり、新しく定義するための中心となるインタフェースです。
-    ブラウザは、メッセージのセンダーやインプリメンタへ直接ジャンプしたりメソッドのバージョン表示など、いくつかの便利なボタンを提供します。
+    ブラウザは、メッセージのセンダやインプリメンタへ直接ジャンプしたりメソッドのバージョン表示など、いくつかの便利なボタンを提供します。
   \item いくつかの異なるブラウザ(OmniBrowser や Refactoring Browser といった)や特殊用途のブラウザ(階層ブラウザなど)がクラスやメソッドへの異なるビューを提供します
   \item どんなツールでも、クラスやメソッドの名前をハイライトさせてから \short{b} のショートカットを使うとすぐにブラウザへジャンプできます。
   \item \ct{SystemNavigation default} というメッセージを送ることで \st システムをプログラミング的にブラウズしていくこともできます。
