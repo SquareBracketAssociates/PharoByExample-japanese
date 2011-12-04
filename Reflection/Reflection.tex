@@ -386,17 +386,17 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
   --> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 \end{code}
 
-コンパイル済みメソッドは、単に、メソッドのバイトコードを格納しているだけではありません。
-コンパイル済みメソッド自身が、システムにクエリを送るための多くの便利なメソッドを提供するオブジェクトなのです。
-そのようなメソッドのひとつに、\ct{isAbstract}があります(\ct{isAbstract}メソッドは、コンパイル済みメソッドが、\ct{subclassResponsibility}を送るかどうか、教えてくれます)。
-\ct{isAbstract}メソッドを使えば、任意の抽象クラスのすべての抽象メソッドを識別できます。
+コンパイル済みメソッドは、メソッドのバイトコードを表すだけのオブジェクトではありません。
+システムに問い合わせを行う便利なメソッドも多く提供しています。
+そのうちの一つである\ct{isAbstract}メソッドは、メソッドが抽象メソッド（\ct{subclassResponsibility}を送るかどうか）であれば真を返します。
+\ct{isAbstract}メソッドを使うと、任意の抽象クラスのすべての抽象メソッドのみを得られます。
 \needlines{4}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
   (aClass>>aMethod) isAbstract ]] value: Number
   --> #(#storeOn:base: #printOn:base: #+ #- #* #/ ...)
 \end{code}
-このコードでは、クラスに対して、\ct{>>}メッセージが送られ、その結果、与えられたセレクターに対するコンパイル済みメソッドが得られる、ということに注意してください。
+このコードでクラスに送っている\ct{>>}メッセージは、引数に渡したセレクタに対応するコンパイル済みメソッドを得るために使われます。
 
 % As a slightly more complex example, we can browse 
 
