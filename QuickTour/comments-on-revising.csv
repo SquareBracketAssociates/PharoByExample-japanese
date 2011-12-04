@@ -2,7 +2,7 @@
 62,"\begin{figure}","図... と展開されるべきである","#common.texの修正?",
 71,"SqueakV39.sources","Pharo-1.[12].1 でも PBE-1.0 でも、PharoV10.sources である。annotatedDownload-flat.png の内容が不適切である","#common.texの修正?",
 78,"image provided on the \pharo by Example web page","このイメージを使うことは「強く」推奨されるべきな上、このイメージの使い方は、OneClick のように自明ではない。どこかに解説が必要だと思う","#?",
-82,"introductory material","具体的にどこか?","TODO",
+82,"introductory material","具体的にどこか?","...",
 89,"start from a fresh image and reload your code","reload your code の意味が不明瞭?","(それが保存してあれば)あなたのコードを読み込む",
 101,"{...{startup}}","この絵は PBE-1.0/PBE.image のまっさらなイメージと違う","#図の差し替え?",
 109,"You might notice a menu bar","たぶん、Mac OS 固有","#訳注?",
