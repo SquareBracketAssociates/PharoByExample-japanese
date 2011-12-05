@@ -400,7 +400,8 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 % As a slightly more complex example, we can browse 
 
-与えられた階層内の、例えば、Collectionの階層内の\super-送信をブラウズするには、より洗練されたクエリを送れます:
+継承階層での \super 送信をブラウズするには、もっと複雑な問い合わせを行います。
+例えばCollectionクラスのサブクラスで \super 送信を行っているメソッドの一覧をブラウズするなら、次のような問い合わせを行います:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -410,9 +411,10 @@ SystemNavigation default
       thenCollect: [:assoc | MethodReference class: each selector: assoc key]])
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
-関心のあるメソッド(\super-送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、ナビゲートしている様子に注意してください。
-\ct{MethodReference}は、コンパイル済みメソッドのための軽量プロキシーで、たくさんのツールがこのプロキシーを使っています。
-\clsmthind{CompiledMethod}{methodReference}という簡易メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照(\ct{MethodReference})を返します。
+
+目的のメソッドを振り分けるために、クラスからメソッド辞書を経由してコンパイル済みメソッドにたどりつく過程に注目してください。
+\ct{MethodReference}はコンパイル済みメソッドのための軽量プロキシで、多くのツールで使われています。
+\clsmthind{CompiledMethod}{methodReference}はコンパイル済みメソッドへのメソッド参照（\ct{MethodReference}のインスタンス）を返す便利なメソッドです。
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
