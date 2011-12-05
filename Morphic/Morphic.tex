@@ -593,7 +593,7 @@ ReceiverMorph>>>initialize
 	bounds := 0 @ 0 extent: 200 @ 200
 \end{method}
 
-受け入れ側のモーフがドロップを受け入れるか否かは、どのように判断されるのでしょか？
+受け入れ側のモーフがドロップを受け入れるか否かは、どのように判断されるのでしょうか？
 一般的に、モーフの両者がドロップに同意する必要があります。
 受け入れ側は\mthind{Morph}{wantsDroppedMorph:event:}メッセージに反応することで決定します。最初の引数はドロップされるモーフ、２番目の引数はマウスイベントです。例えば、受け入れ側はドロップ時に何らかの修飾キーが押されたかどうかを調べられます。
 ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られた時に、ドロップされる先のモーフが気に入るか調べるチャンスがあります。このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
@@ -603,7 +603,7 @@ ReceiverMorph>>>wantsDroppedMorph: aMorph event: anEvent
 	^ aMorph color = Color blue
 \end{method}
 
-受け入れ側のモーフがドロップを望まない場合には、ドロップされるモーフに何が起こるのでしょうか。デフォルトの動作は、何もしないことです。つまり、ドロップされずに受け入れ側のモーフの上に置かれるだけです。より直感的な動作としては、ドロップされるモーフが元の位置に戻ることでしょう。これは、ドロップされるモーフを拒否する際に、受け入れ側のモーフが\mthind{Morph}{repelsMorph:event:}メッセージに対して\ct{true}を返すことで実現できます。
+受け入れ側のモーフがドロップを望まない場合には、ドロップされるモーフに何が起こるのでしょうか?デフォルトの動作は、何もしないことです。つまり、ドロップされずに受け入れ側のモーフの上に置かれるだけです。より直感的な動作としては、ドロップされるモーフが元の位置に戻ることでしょう。これは、ドロップされるモーフを拒否する際に、受け入れ側のモーフが\mthind{Morph}{repelsMorph:event:}メッセージに対して\ct{true}を返すことで実現できます。
 
 \needlines{4}
 \begin{method}{ドロップ拒否時のモーフの振る舞いを変える。}
@@ -642,7 +642,7 @@ DroppedMorph>>>initialize
 \end{method}
 
 ドロップされるモーフが受け入れ側に拒否された時にすべきことを設定できます。ここでは、モーフをマウスポインタに付いたままにします。
-\begin{method}{ドロップを拒否されたモーフの反応を定義すす。}
+\begin{method}{ドロップを拒否されたモーフの反応を定義する。}
 DroppedMorph>>>rejectDropMorphEvent: anEvent
 	| h |
 	h := anEvent hand.
@@ -651,7 +651,7 @@ DroppedMorph>>>rejectDropMorphEvent: anEvent
 	anEvent wasHandled: true
 \end{method}
 
-イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトは、マウスポインタやマウスポインタに関係する様々なものを管理しています。
+イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトはマウスポインタを表していて、マウスポインタに関係するものはなんでも持っています。
 ここでは、ドロップを拒否されたモーフである\ct{self}をハンドが掴むように\ct{World}に指示しています。
 
 \dothis{\ct{DroppedMorph}の２つのインスタンスを作成し、受け入れ側のモーフにドラッグ＆ドロップします。}
