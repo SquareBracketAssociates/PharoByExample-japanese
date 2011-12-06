@@ -363,22 +363,22 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
-	\caption{\ct!Point!クラスと、その\ct!\#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}}
+	\caption{\ct!Point!クラスと\ct!\#*!メソッドのバイトコードをエクスプロアする。\figlabel{CompiledMethod}}
 \end{figure}
 
 クラスとメソッドの関係について考えてみましょう。
-\figref{MethodsAsObjects}を見ると、クラスとメタクラスには共通のスーパークラス、\ct{Behavior}、があることがわかります。\ct{Behavior}クラスで、\mthind{Behavior}{new}が定義されています。\ct{new}はクラスの他の主要なメソッドのひとつにすぎません。
-どのクラスにもメソッド辞書があって、メソッド辞書は、メソッドセレクターと\ind{コンパイル済みメソッド}を、対応づけます。
-コンパイル済みメソッドはそれぞれ、そのメソッドがインストールされているクラスを知っています。
-\figref{CompiledMethod}を見れば、\ct{Point}クラスが、\ct!#*!に当たるコンパイル済みメソッドの、\ct{literal5}に、アソシエーションとして格納されていることさえわかります。
+\figref{MethodsAsObjects}を見ると、クラスとメタクラスのスーパークラス \ct{Behavior} が共通していることがわかります。\ct{Behavior}クラスで定義されている\mthind{Behavior}{new}は、クラスに関するメソッドの中でも特に重要です。
+どのクラスもメソッドセレクタと\ind{コンパイル済みメソッド}を関連づけるメソッド辞書を持っています。
+コンパイル済みメソッドは自分が所属するクラスを知っており、\figref{CompiledMethod}の\ct{literal5}に所属クラスの情報が含まれています。\ct{literal5}はキーをシンボル\ct{Point}、値を\ct{Point}クラスとするアソシエーションです。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
-	\caption{クラス、メソッド辞書、そしてコンパイル済みメソッド\figlabel{MethodsAsObjects}}
+	\caption{クラス、メソッド辞書、コンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
-クラスとメソッドの関係を活用して、システムについてのクエリを送れます。
-例えば、どのメソッドが、与えられたクラスに新規に導入されたかということ、\ie どのメソッドが、スーパークラスのメソッドをオーバーライドしていないか、ということは、以下のように、クラスから\ind{メソッド辞書}をナビゲートすれば見出せます:
+システムに問い合わせる際にクラスとメソッドの関係を利用できます。
+
+例えば、あるクラスのメソッドのうち新しく定義されたもの、つまりスーパークラスのメソッドをオーバーライドしていないものを見つけるには、次のようにクラスから\ind{メソッド辞書}をたどります:
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
@@ -386,21 +386,22 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
   --> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 \end{code}
 
-コンパイル済みメソッドは、単に、メソッドのバイトコードを格納しているだけではありません。
-コンパイル済みメソッド自身が、システムにクエリを送るための多くの便利なメソッドを提供するオブジェクトなのです。
-そのようなメソッドのひとつに、\ct{isAbstract}があります(\ct{isAbstract}メソッドは、コンパイル済みメソッドが、\ct{subclassResponsibility}を送るかどうか、教えてくれます)。
-\ct{isAbstract}メソッドを使えば、任意の抽象クラスのすべての抽象メソッドを識別できます。
+コンパイル済みメソッドは、メソッドのバイトコードを表すだけのオブジェクトではありません。
+システムに問い合わせを行う便利なメソッドも多く提供しています。
+そのうちの一つである\ct{isAbstract}メソッドは、メソッドが抽象メソッド（\ct{subclassResponsibility}を送るかどうか）であれば真を返します。
+\ct{isAbstract}メソッドを使うと、任意の抽象クラスのすべての抽象メソッドのみを得られます。
 \needlines{4}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
   (aClass>>aMethod) isAbstract ]] value: Number
   --> #(#storeOn:base: #printOn:base: #+ #- #* #/ ...)
 \end{code}
-このコードでは、クラスに対して、\ct{>>}メッセージが送られ、その結果、与えられたセレクターに対するコンパイル済みメソッドが得られる、ということに注意してください。
+このコードでクラスに送っている\ct{>>}メッセージは、引数に渡したセレクタに対応するコンパイル済みメソッドを得るために使われます。
 
 % As a slightly more complex example, we can browse 
 
-与えられた階層内の、例えば、Collectionの階層内の\super-送信をブラウズするには、より洗練されたクエリを送れます:
+継承階層での \super 送信をブラウズするには、もっと複雑な問い合わせを行います。
+例えばCollectionクラスのサブクラスで \super 送信を行っているメソッドの一覧をブラウズするなら、次のような問い合わせを行います:
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -410,9 +411,10 @@ SystemNavigation default
       thenCollect: [:assoc | MethodReference class: each selector: assoc key]])
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
-関心のあるメソッド(\super-送信をするメソッド)を識別するために、クラスからメソッド辞書へと、そしてメソッド辞書からコンパイル済みメソッドへと、ナビゲートしている様子に注意してください。
-\ct{MethodReference}は、コンパイル済みメソッドのための軽量プロキシーで、たくさんのツールがこのプロキシーを使っています。
-\clsmthind{CompiledMethod}{methodReference}という簡易メソッドがあって、これは、コンパイル済みメソッドに対するメソッド参照(\ct{MethodReference})を返します。
+
+目的のメソッドを振り分けるために、クラスからメソッド辞書を経由してコンパイル済みメソッドにたどりつく過程に注目してください。
+\ct{MethodReference}はコンパイル済みメソッドのための軽量プロキシで、多くのツールで使われています。
+\clsmthind{CompiledMethod}{methodReference}はコンパイル済みメソッドへのメソッド参照（\ct{MethodReference}のインスタンス）を返す便利なメソッドです。
 \begin{code}{@TEST}
 (Object>>#=) methodReference methodSymbol --> #=
 \end{code}
