@@ -43,24 +43,23 @@ We should also try to mine more from newbies.}
 %=================================================================
 \section{はじめに}
 \begin{faq}
-最新のPharoはどこで入手出来ますか？
+最新のPharoはどこで入手出来ますか?
 \end{faq}
 \answer
 \url{http://www.pharo-project.org/}
 \index{download}
 
 \begin{faq}
-この本ではどの \pharo のイメージを使うのがいいですか？
+この本ではどの \pharo のイメージを使うべきですか?
 \end{faq}
 \answer
-どのPharoイメージを使っても大丈夫ですが、Pharo by Example のＷＥＢサイト（\url{http://PharoByExample.org}）に置いてあるイメージを使うことをお勧めします。
-また、他のほとんどのイメージも使用可能ですが演習ではあっと驚くくらい動作が異なることがあります。
+どのPharoイメージを使っても大丈夫ですが、Pharo by Example のwebサイト（\url{http://PharoByExample.org}）に置いてあるイメージを使うことをお勧めします。ほとんどの場合、他のイメージも使用できますが、演習によっては驚くほど動作が異なることがあります。
 
 %=================================================================
 \section{コレクション}
 
 \begin{faq}
-\clsind{OrderedCollection} を並べ替えるにはどうすればいいですか？
+\clsind{OrderedCollection} を並べ替えるにはどうすればいいですか?
 \end{faq}
 \answer
 インスタンスに \mthind{Collection}{asSortedCollection} メッセージを送ります。
@@ -70,7 +69,7 @@ We should also try to mine more from newbies.}
 \end{code}
 
 \begin{faq}
-文字の配列（collectionクラス）を文字列（\clsind{String}）に変換するにはどうすればいいですか？
+文字の配列を文字列(\clsind{String})に変換するにはどうすればいいですか?
 \end{faq}
 \answer
 \begin{code}{@TEST}
@@ -78,15 +77,15 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 \end{code}
 
 %=================================================================
-\section{システムブラウザー}
+\section{システムブラウザ}
 
 % See \faqref{packagebrowser}
 
 \begin{faq}\faqlabel{packagebrowser}
-ブラウザーがこの本で使用されているものとは違います。どうしたらいいですか？
+ブラウザがこの本で使用されているものとは違います。どうしたらいいですか?
 \end{faq}
 \answer
-おそらく異なるバージョンの \ind{OmniBrowser} がデフォルトのブラウザーとしてインストールされているイメージを使用しているからです。このチュートリアルでは、デフォルトブラウザーとして OmniBrowser (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザーはブラウザーのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の角丸長方形のバーをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選びます。次回以降開かれるブラウザーはパッケージブラウザーになります。
+おそらくデフォルトのブラウザとして、異なるバージョンの \ind{OmniBrowser} がインストールされているイメージを使用しているからです。この本では、デフォルトとして OmniBrowserの (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザはブラウザのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の角丸長方形のバーをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選んでください。次回以降開かれるブラウザはパッケージブラウザになります。
 
 \begin{figure}[tbh]
 	\centering
@@ -94,20 +93,20 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 		\includegraphics[width=0.45\linewidth]{chooseNewBrowser}}\hfill
 	\subfigure[O2PackageBrowserAdaptor を選択]{\figlabel{O2PackageBrowserAdaptor}
 		\includegraphics[width=0.45\linewidth]{O2PackageBrowserAdaptor}}\hfill
-	\caption{デフォルトブラウザーの変更}
+	\caption{デフォルトブラウザの変更}
 \end{figure}
 \seeindex{morphic halo}{Morphic}
 
 \begin{faq}
-クラスを検索するにはどうしたらいいですか？
+クラスを検索するにはどうしたらいいですか?
 \end{faq}
 \answer
-クラス名の文字列を選択して \short{b} (browse)、または、ブラウザーのカテゴリーペーン上にマウスカーソルがある状態で \short{f}
+クラス名の文字列を選択して \short{b} (browse)、または、ブラウザのカテゴリペイン上にマウスカーソルがある状態で \short{f} です。
 \index{keyboard shortcut!browse it}
 \index{keyboard shortcut!find ...}
 
 \begin{faq}
-スーパークラスにメッセージを送っている全てのメソッド検索したりブラウズするにはどうしたらいいですか？
+superにメッセージを送っているすべてのメソッドを検索したりブラウズするにはどうしたらいいですか?
 \end{faq}
 \answer
 ふたつ目の手法の方が高速です:
@@ -119,7 +118,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \clsindex{SystemNavigation}
 
 \begin{faq}
-特定の階層内でスーパークラスにメッセージを送っている全てのメソッドをブラウズするにはどうしたらいいですか？
+あるクラス階層内で、superにメッセージを送っているメソッドをすべてブラウズするにはどうしたらいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -133,10 +132,10 @@ browseSuperSends value: OrderedCollection.
 \end{code}
 
 \begin{faq}
-サブクラスによって新たに追加されたメソッドを見つけるにはどうしたらいいですか？（すなわち、親クラスのメソッドをオーバーライドしていないメソッドのこと）
+サブクラスで新たに追加されたメソッド(親クラスのメソッドをオーバーライドしていないメソッド)を見つけるには、どうしたらいいですか?
 \end{faq}
 \answer
-\ct{True}クラスによって追加された新しいメソッドを調べるのは次の通りです:
+\ct{True}クラスで追加されたメソッドを調べる例です:
 \begin{code}{@TEST | newMethods |}
 newMethods := [:aClass| aClass methodDict keys select:
 	[:aMethod | (aClass superclass canUnderstand: aMethod) not ]].
@@ -144,7 +143,7 @@ newMethods value: True --> an IdentitySet(#asBit #xor:)
 \end{code}
 
 \begin{faq}
-特定のクラスにおいてどのメソッドが抽象的メソッドであるかわかりますか？
+クラスの抽象メソッドはどうすればわかりますか?
 \end{faq}
 \answer
 \begin{code}{@TEST | abstractMethods |}
@@ -155,18 +154,20 @@ abstractMethods value: Collection --> an IdentitySet(#remove:ifAbsent: #add: #do
 \end{code}
 
 \begin{faq}
-\ind{AST} （抽象構文木）のビューを生成するにはどうしたらいいですか？
+\ind{AST}(抽象構文木)のビューを生成するにはどうしたらいいですか?
 \end{faq}
 \answer
-squeaksource.com からASTをロードし、
+squeaksource.com からASTパッケージをロードし、
 \begin{code}{}
 (RBParser parseExpression: '3+4') explore
 \end{code}
-を実行します。（またはそれを \emph{explore it} します）
+を実行します。（または \emph{explore it} します）
 \clsindex{RBParser}
 
+#ここまで
+
 \begin{faq}
-システムにある全てのトレイトを見つけるにはどうしたらいいですか？
+システムにあるすべてのトレイトを見つけるにはどうしたらいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -174,7 +175,7 @@ Smalltalk allTraits
 \end{code}
 
 \begin{faq}
-トレイトを使用しているクラスを探すにはどうしたらいいですか？
+トレイトを使用しているクラスを探すにはどうしたらいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -188,7 +189,7 @@ Smalltalk allClasses select: [:each | each hasTraitComposition and: [each traitC
 \section{Monticello で SqueakSource を使う}
 
 \begin{faq}
-\ind{SqueakSource} からプロジェクトをロードするにはどうしたらいいですか？
+\ind{SqueakSource} からプロジェクトをロードするにはどうしたらいいですか?
 \index{Monticello}
 \end{faq}
 \answer
@@ -203,11 +204,11 @@ Smalltalk allClasses select: [:each | each hasTraitComposition and: [each traitC
 \end{enumerate}
 
 \begin{faq}
-SqueakSourceプロジェクトを新規作成するにはどうしたらいいですか？
+SqueakSourceプロジェクトを新規作成するにはどうしたらいいですか?
 \end{faq}
 \answer
 \begin{enumerate}
-  \item ウェブブラウザーで \url{http://squeaksource.com} を開きます
+  \item ウェブブラウザで \url{http://squeaksource.com} を開きます
   \item メンバー登録を行います
   \item プロジェクトを登録します（名前＝カテゴリーとなります）
   \item リポジトリー情報をクリップボードにコピーします
@@ -220,7 +221,7 @@ SqueakSourceプロジェクトを新規作成するにはどうしたらいい�
 \end{enumerate}
 
 \begin{faq}
-既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを自分の \ct{Money} プロジェクトのパッケージに入れるにはどうしたらいいですか？
+既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを自分の \ct{Money} プロジェクトのパッケージに入れるにはどうしたらいいですか?
 \end{faq}
 \answer
 そのメソッドのメソッドカテゴリを \ct{*Money} にします。Monticello は‘*package’のような名前で始まるカテゴリのメソッドをまとめてそのパッケージに入れます。
@@ -229,13 +230,13 @@ SqueakSourceプロジェクトを新規作成するにはどうしたらいい�
 \section{ツール}
 
 \begin{faq}
-プログラムソース中から \ind{SUnit} \ind{TestRunner} を開くにはどうしたらいいですか？
+プログラムソース中から \ind{SUnit} \ind{TestRunner} を開くにはどうしたらいいですか?
 \end{faq}
 \answer
  \ct{TestRunner open} を 実行します
 
 \begin{faq}
-\ind{Refactoring Browser} はどこにありますか？ 
+\ind{Refactoring Browser} はどこにありますか? 
 \end{faq}
 \answer
 ASTをロードして、その後、squeaksource.com のリファクタリングエンジンをロードして下さい:
@@ -243,10 +244,10 @@ ASTをロードして、その後、squeaksource.com のリファクタリング
 \url{http://www.squeaksource.com/RefactoringEngine}
 
 \begin{faq}
-デフォルトのブラウザーを設定するにはどうしたらいいですか？
+デフォルトのブラウザを設定するにはどうしたらいいですか?
 \end{faq}
 \answer
-ブラウザーウィンドウの右上隅にある灰色の菱形のバーをクリックします。
+ブラウザウィンドウの右上隅にある灰色の菱形のバーをクリックします。
 
 %=================================================================
 \section{正規表現と構文解析}
@@ -264,13 +265,13 @@ ASTをロードして、その後、squeaksource.com のリファクタリング
 %\index{Bykov, Vassili}
 
 \begin{faq}
-RegEx（正規表現）パッケージに関するドキュメントはどこにありますか？
+RegEx（正規表現）パッケージに関するドキュメントはどこにありますか?
 \end{faq}
 \answer
 \menu{VB-Regex} カテゴリにある \ct{RxParser class} クラスの \menu{DOCUMENTATION} プロトコルを参照して下さい。
 
 \begin{faq}
-パーサーを書くための何かいいツールはありますか？
+パーサーを書くための何かいいツールはありますか?
 \end{faq}
 \answer
 \ind{SmaCC}（the Smalltalk Compiler Compiler）を使って下さい。
@@ -280,7 +281,7 @@ RegEx（正規表現）パッケージに関するドキュメントはどこに
 \url{http://www.refactory.com/Software/SmaCC/Tutorial.html}
 
 \begin{faq}
-パーサーを書くためには SqueakSource の SmaccDevelopment にあるどのパッケージをロードしたらいいですか？
+パーサーを書くためには SqueakSource の SmaccDevelopment にあるどのパッケージをロードしたらいいですか?
 \end{faq}
 \answer
 \ind{SmaCCDev} の最新バージョンをロードして下さい。ランタイムはすでに存在します
