@@ -16,7 +16,7 @@
 206,"\emph{statement} \emphsubind{statement}{separator}","108 行では expression separator","#普通に訳した","どちらが正解かよくわからない"
 240,"top frame","良い訳が思い付かない","トップフレーム",
 242,"continuations","高度な術語","#訳注?",
-315,,"メソッドを定義する式があるような書き方だが、それについてどこにも述べられていない",,
+315,,"メソッドを定義する式があるような書き方だが、それについてどこにも述べられていない","#普通に訳した",
 322,"convention","場面に応じて訳語を選んだ方が良さそう","習慣",
 339,"name (\ie \ct{lineCount}) and any arguments","キーワードは?","#訳注?",
 346,"returning some expression","returning some value では?","値を返",
