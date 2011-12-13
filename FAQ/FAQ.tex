@@ -82,10 +82,10 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 % See \faqref{packagebrowser}
 
 \begin{faq}\faqlabel{packagebrowser}
-ブラウザがこの本で使用されているものとは違います。どうしたらいいですか?
+ブラウザがこの本で使用されているものとは違います。どうすればいいですか?
 \end{faq}
 \answer
-おそらくデフォルトのブラウザとして、異なるバージョンの \ind{OmniBrowser} がインストールされているイメージを使用しているからです。この本では、デフォルトとして OmniBrowserの (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザはブラウザのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の角丸長方形のバーをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選んでください。次回以降開かれるブラウザはパッケージブラウザになります。
+おそらくデフォルトのブラウザとして、異なるバージョンの \ind{OmniBrowser} がインストールされているイメージを使用しているからです。この本では、デフォルトとして OmniBrowserの (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザはブラウザのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の角丸長方形のボタンをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選んでください。次回以降開かれるブラウザはパッケージブラウザになります。
 
 \begin{figure}[tbh]
 	\centering
@@ -98,7 +98,7 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 \seeindex{morphic halo}{Morphic}
 
 \begin{faq}
-クラスを検索するにはどうしたらいいですか?
+クラスを検索するにはどうすればいいですか?
 \end{faq}
 \answer
 クラス名の文字列を選択して \short{b} (browse)、または、ブラウザのカテゴリペイン上にマウスカーソルがある状態で \short{f} です。
@@ -106,7 +106,7 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 \index{keyboard shortcut!find ...}
 
 \begin{faq}
-superにメッセージを送っているすべてのメソッドを検索したりブラウズするにはどうしたらいいですか?
+superにメッセージを送っているすべてのメソッドを検索したりブラウズするにはどうすればいいですか?
 \end{faq}
 \answer
 ふたつ目の手法の方が高速です:
@@ -118,7 +118,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \clsindex{SystemNavigation}
 
 \begin{faq}
-あるクラス階層内で、superにメッセージを送っているメソッドをすべてブラウズするにはどうしたらいいですか?
+あるクラス階層内で、superにメッセージを送っているメソッドをすべてブラウズするにはどうすればいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -132,7 +132,7 @@ browseSuperSends value: OrderedCollection.
 \end{code}
 
 \begin{faq}
-サブクラスで新たに追加されたメソッド(親クラスのメソッドをオーバーライドしていないメソッド)を見つけるには、どうしたらいいですか?
+サブクラスで新たに追加されたメソッド(親クラスのメソッドをオーバーライドしていないメソッド)を見つけるには、どうすればいいですか?
 \end{faq}
 \answer
 \ct{True}クラスで追加されたメソッドを調べる例です:
@@ -154,7 +154,7 @@ abstractMethods value: Collection --> an IdentitySet(#remove:ifAbsent: #add: #do
 \end{code}
 
 \begin{faq}
-\ind{AST}(抽象構文木)のビューを生成するにはどうしたらいいですか?
+\ind{AST}(抽象構文木)のビューを生成するにはどうすればいいですか?
 \end{faq}
 \answer
 squeaksource.com からASTパッケージをロードし、
@@ -164,10 +164,8 @@ squeaksource.com からASTパッケージをロードし、
 を実行します。（または \emph{explore it} します）
 \clsindex{RBParser}
 
-#ここまで
-
 \begin{faq}
-システムにあるすべてのトレイトを見つけるにはどうしたらいいですか?
+システムにあるすべてのトレイトを見つけるにはどうすればいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -175,7 +173,7 @@ Smalltalk allTraits
 \end{code}
 
 \begin{faq}
-トレイトを使用しているクラスを探すにはどうしたらいいですか?
+トレイトを使用しているクラスを探すにはどうすればいいですか?
 \end{faq}
 \answer
 \begin{code}{}
@@ -186,25 +184,25 @@ Smalltalk allClasses select: [:each | each hasTraitComposition and: [each traitC
 % But this is broken for some reason!
 
 %=================================================================
-\section{Monticello で SqueakSource を使う}
+\section{Monticello と SqueakSource を使う}
 
 \begin{faq}
-\ind{SqueakSource} からプロジェクトをロードするにはどうしたらいいですか?
+\ind{SqueakSource} からプロジェクトをロードするにはどうすればいいですか?
 \index{Monticello}
 \end{faq}
 \answer
 \begin{enumerate}
   \item ロードしたいプロジェクトを \url{http://squeaksource.com} から探します
   \item プロジェクトのリポジトリ情報をクリップボードにコピーします
-  \item \menu{open \go Monticello browser} を選択して Monticello browser を開きます
+  \item \menu{open \go Monticello browser} を選択して Monticelloブラウザを開きます
   \item \menu{+Repository \go HTTP} を選択します
   \item リポジトリ情報をペーストし、必要ならパスワードを入力してOKします
   \item いま作ったばかりの新しいリポジトリを選択して \menu{Open} を選択します
-  \item 最新のバージョンのファイル名を選択してLoadします
+  \item 最新のバージョンのファイル名を選択してロードします
 \end{enumerate}
 
 \begin{faq}
-SqueakSourceプロジェクトを新規作成するにはどうしたらいいですか?
+SqueakSourceにプロジェクトを新規作成するにはどうすればいいですか?
 \end{faq}
 \answer
 \begin{enumerate}
@@ -212,16 +210,16 @@ SqueakSourceプロジェクトを新規作成するにはどうしたらいい�
   \item メンバー登録を行います
   \item プロジェクトを登録します（名前＝カテゴリーとなります）
   \item リポジトリー情報をクリップボードにコピーします
-  \item \menu{open \go Monticello browser} を選択して Monticello browser を開きます
+  \item \menu{open \go Monticello browser} を選択して Monticelloブラウザを開きます
   \item \menu{+Package} を選択してカテゴリーを登録します
   \item パッケージを選択します
   \item \menu{+Repository \go HTTP} を選択します
   \item リポジトリ情報をペーストし、必要ならパスワードを入力してOKします
-  \item 最初のバージョンを \menu{Save} します
+  \item \menu{Save}ボタンで最初のバージョンを保存します
 \end{enumerate}
 
 \begin{faq}
-既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを自分の \ct{Money} プロジェクトのパッケージに入れるにはどうしたらいいですか?
+既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを、自分の \ct{Money} プロジェクトのパッケージに入れるにはどうすればいいですか?
 \end{faq}
 \answer
 そのメソッドのメソッドカテゴリを \ct{*Money} にします。Monticello は‘*package’のような名前で始まるカテゴリのメソッドをまとめてそのパッケージに入れます。
@@ -230,7 +228,7 @@ SqueakSourceプロジェクトを新規作成するにはどうしたらいい�
 \section{ツール}
 
 \begin{faq}
-プログラムソース中から \ind{SUnit} \ind{TestRunner} を開くにはどうしたらいいですか?
+プログラムソース中から \ind{SUnit} \ind{TestRunner} を開くにはどうすればいいですか?
 \end{faq}
 \answer
  \ct{TestRunner open} を 実行します
@@ -239,15 +237,15 @@ SqueakSourceプロジェクトを新規作成するにはどうしたらいい�
 \ind{Refactoring Browser} はどこにありますか? 
 \end{faq}
 \answer
-ASTをロードして、その後、squeaksource.com のリファクタリングエンジンをロードして下さい:
+squeaksource.com からASTをロードし、その後リファクタリングエンジンをロードして下さい:
 \url{http://www.squeaksource.com/AST}
 \url{http://www.squeaksource.com/RefactoringEngine}
 
 \begin{faq}
-デフォルトのブラウザを設定するにはどうしたらいいですか?
+デフォルトのブラウザを設定するにはどうすればいいですか?
 \end{faq}
 \answer
-ブラウザウィンドウの右上隅にある灰色の菱形のバーをクリックします。
+ブラウザウィンドウの右上隅にある灰色のボタンをクリックします。
 
 %=================================================================
 \section{正規表現と構文解析}
@@ -271,20 +269,19 @@ RegEx（正規表現）パッケージに関するドキュメントはどこに
 \menu{VB-Regex} カテゴリにある \ct{RxParser class} クラスの \menu{DOCUMENTATION} プロトコルを参照して下さい。
 
 \begin{faq}
-パーサーを書くための何かいいツールはありますか?
+パーサを書くための何かいいツールはありますか?
 \end{faq}
 \answer
-\ind{SmaCC}（the Smalltalk Compiler Compiler）を使って下さい。
-その場合SmaCC-lr.13以降をインストールして下さい。
+\ind{SmaCC}（the Smalltalk Compiler Compiler）を使って下さい。その場合少なくともSmaCC-lr.13以降をインストールして下さい。
 \url{http://www.squeaksource.com/SmaccDevelopment.html} からロード出来ます。
 ここにはとても良く出来たオンラインチュートリアルかあります:
 \url{http://www.refactory.com/Software/SmaCC/Tutorial.html}
 
 \begin{faq}
-パーサーを書くためには SqueakSource の SmaccDevelopment にあるどのパッケージをロードしたらいいですか?
+パーサを書くためには SqueakSource の SmaccDevelopment にあるどのパッケージをロードすればいいですか?
 \end{faq}
 \answer
-\ind{SmaCCDev} の最新バージョンをロードして下さい。ランタイムはすでに存在します
+\ind{SmaCCDev} の最新バージョンをロードして下さい。ランタイムも含まれています
 （SmaCC-Development は \squeak 3.8 用です）
 
 %=================================================================
