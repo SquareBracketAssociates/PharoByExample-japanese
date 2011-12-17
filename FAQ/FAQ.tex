@@ -43,7 +43,7 @@ We should also try to mine more from newbies.}
 %=================================================================
 \section{はじめに}
 \begin{faq}
-最新のPharoはどこで入手出来ますか?
+最新のPharoはどこで入手できますか?
 \end{faq}
 \answer
 \url{http://www.pharo-project.org/}
@@ -53,7 +53,7 @@ We should also try to mine more from newbies.}
 この本ではどの \pharo のイメージを使うべきですか?
 \end{faq}
 \answer
-どのPharoイメージを使っても大丈夫ですが、Pharo by Example のwebサイト（\url{http://PharoByExample.org}）に置いてあるイメージを使うことをお勧めします。ほとんどの場合、他のイメージも使用できますが、演習によっては驚くほど動作が異なることがあります。
+どのPharoイメージを使っても大丈夫ですが、Pharo by Example のwebサイト(\url{http://PharoByExample.org})に置いてあるイメージを使うことをお勧めします。ほとんどの場合、他のイメージも使用できますが、演習によっては驚くほど動作が異なることがあります。
 
 %=================================================================
 \section{コレクション}
@@ -85,7 +85,7 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 ブラウザがこの本で使用されているものとは違います。どうすればいいですか?
 \end{faq}
 \answer
-おそらくデフォルトのブラウザとして、異なるバージョンの \ind{OmniBrowser} がインストールされているイメージを使用しているからです。この本では、デフォルトとして OmniBrowserの (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザはブラウザのメニューバーをクリックして変更することができます。ウィンドウの右上隅にある灰色の角丸長方形のボタンをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選んでください。次回以降開かれるブラウザはパッケージブラウザになります。
+おそらくデフォルトのブラウザとして、異なるバージョンの \ind{OmniBrowser} がインストールされたイメージを使用しているからです。この本では、デフォルトとして OmniBrowserの (\emph{Package Browser})がインストールされていることを前提としています。デフォルトブラウザはブラウザのメニューバーをクリックすると変更できます。ウィンドウの右上隅にある灰色の角丸長方形のボタンをクリックし、“Choose new default Browser”を選択し、O2PackageBrowserAdaptorを選んでください。次回以降開かれるブラウザはパッケージブラウザになります。
 
 \begin{figure}[tbh]
 	\centering
@@ -101,7 +101,7 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 クラスを検索するにはどうすればいいですか?
 \end{faq}
 \answer
-クラス名の文字列を選択して \short{b} (browse)、または、ブラウザのカテゴリペイン上にマウスカーソルがある状態で \short{f} です。
+クラス名の文字列を選択して \short{b} (browse)か、ブラウザのカテゴリペイン上にマウスカーソルがある状態で \short{f} です。
 \index{keyboard shortcut!browse it}
 \index{keyboard shortcut!find ...}
 
@@ -161,7 +161,7 @@ squeaksource.com からASTパッケージをロードし、
 \begin{code}{}
 (RBParser parseExpression: '3+4') explore
 \end{code}
-を実行します。（または \emph{explore it} します）
+を実行します。(または \emph{explore it} します)
 \clsindex{RBParser}
 
 \begin{faq}
@@ -197,7 +197,7 @@ Smalltalk allClasses select: [:each | each hasTraitComposition and: [each traitC
   \item \menu{open \go Monticello browser} を選択して Monticelloブラウザを開きます
   \item \menu{+Repository \go HTTP} を選択します
   \item リポジトリ情報をペーストし、必要ならパスワードを入力してOKします
-  \item いま作ったばかりの新しいリポジトリを選択して \menu{Open} を選択します
+  \item できたリポジトリを選択して \menu{Open} を選択します
   \item 最新のバージョンのファイル名を選択してロードします
 \end{enumerate}
 
@@ -208,7 +208,7 @@ SqueakSourceにプロジェクトを新規作成するにはどうすればい�
 \begin{enumerate}
   \item ウェブブラウザで \url{http://squeaksource.com} を開きます
   \item メンバー登録を行います
-  \item プロジェクトを登録します（名前＝カテゴリーとなります）
+  \item プロジェクトを登録します(名前＝カテゴリーとなります)
   \item リポジトリー情報をクリップボードにコピーします
   \item \menu{open \go Monticello browser} を選択して Monticelloブラウザを開きます
   \item \menu{+Package} を選択してカテゴリーを登録します
@@ -222,7 +222,7 @@ SqueakSourceにプロジェクトを新規作成するにはどうすればい�
 既存の \ct{Number} クラスに追加した \ct{Number>>>chf} メソッドを、自分の \ct{Money} プロジェクトのパッケージに入れるにはどうすればいいですか?
 \end{faq}
 \answer
-そのメソッドのメソッドカテゴリを \ct{*Money} にします。Monticello は‘*package’のような名前で始まるカテゴリのメソッドをまとめてそのパッケージに入れます。
+そのメソッドのメソッドカテゴリを \ct{*Money} にします。Monticello は‘*package’のような名前で始まるカテゴリのメソッドをまとめて、そのパッケージに入れます。
 
 %=================================================================
 \section{ツール}
@@ -231,13 +231,13 @@ SqueakSourceにプロジェクトを新規作成するにはどうすればい�
 プログラムソース中から \ind{SUnit} \ind{TestRunner} を開くにはどうすればいいですか?
 \end{faq}
 \answer
- \ct{TestRunner open} を 実行します
+ \ct{TestRunner open} を実行します
 
 \begin{faq}
 \ind{Refactoring Browser} はどこにありますか? 
 \end{faq}
 \answer
-squeaksource.com からASTをロードし、その後リファクタリングエンジンをロードして下さい:
+squeaksource.com からASTパッケージをロードし、その後リファクタリングエンジンをロードして下さい:
 \url{http://www.squeaksource.com/AST}
 \url{http://www.squeaksource.com/RefactoringEngine}
 
@@ -263,7 +263,7 @@ squeaksource.com からASTをロードし、その後リファクタリングエ
 %\index{Bykov, Vassili}
 
 \begin{faq}
-RegEx（正規表現）パッケージに関するドキュメントはどこにありますか?
+RegEx(正規表現)パッケージに関するドキュメントはどこにありますか?
 \end{faq}
 \answer
 \menu{VB-Regex} カテゴリにある \ct{RxParser class} クラスの \menu{DOCUMENTATION} プロトコルを参照して下さい。
@@ -272,9 +272,9 @@ RegEx（正規表現）パッケージに関するドキュメントはどこに
 パーサを書くための何かいいツールはありますか?
 \end{faq}
 \answer
-\ind{SmaCC}（the Smalltalk Compiler Compiler）を使って下さい。その場合少なくともSmaCC-lr.13以降をインストールして下さい。
-\url{http://www.squeaksource.com/SmaccDevelopment.html} からロード出来ます。
-ここにはとても良く出来たオンラインチュートリアルかあります:
+\ind{SmaCC}(the Smalltalk Compiler Compiler)を使って下さい。その場合少なくともSmaCC-lr.13以降をインストールする必要があります。
+\url{http://www.squeaksource.com/SmaccDevelopment.html} からロードできます。
+ここにはとても良くできたオンラインチュートリアルかあります:
 \url{http://www.refactory.com/Software/SmaCC/Tutorial.html}
 
 \begin{faq}
@@ -282,7 +282,7 @@ RegEx（正規表現）パッケージに関するドキュメントはどこに
 \end{faq}
 \answer
 \ind{SmaCCDev} の最新バージョンをロードして下さい。ランタイムも含まれています
-（SmaCC-Development は \squeak 3.8 用です）
+(SmaCC-Development は \squeak 3.8 用です)。
 
 %=================================================================
 \ifx\wholebook\relax\else\end{document}\fi
