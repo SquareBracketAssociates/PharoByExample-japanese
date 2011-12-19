@@ -427,12 +427,13 @@ SystemNavigation default
 \lct{Collection}クラス階層のメソッドのうち、メソッド自身と異なるメッセージを \super に送っているメソッドに関心があるとしましょう。
 このようなコードは悪いコードの臭いがすると考えられます。 \super 送信を \self 送信に置き換えるべきです（考えてみてください。 \super を使うのはメソッドをオーバーライドするときだけです。継承されたメソッドにアクセスしたいのなら、 \self にメッセージを送れば済みます）
 
-\dothis{ブラウザーを開けて、\ct{Collection}を見てみましょう。
-クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
-こうすると、\ct{Collection}階層に限定されたブラウザー環境が、新規に開きます。
-この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウ環境が開き、\ct{Collection}階層の中で、\super-送信を行っているすべてのメソッドが列挙されます。
-ここで、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
-\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
+リファクタリングブラウザは、問い合わせを関心のあるクラスやメソッドにエレガントな方法で限定してくれます。
+
+\dothis{\ct{Collection}クラスをブラウザで見てみましょう。
+クラス名を\actclick して\menu{refactoring scope>subclasses with}を選択すると、\ct{Collection}クラス階層に限定されたブラウザ環境が開きます。
+この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層のメソッドのうち\super送信を行うすべてのメソッドが列挙された新しいウィンドウが開きます。
+この中から任意のメソッドをクリックして、\menu{refactor>code critics}を選んでください。
+\menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう（\menu{browse}が選択できなければ、そのメソッドにこのバグはありません）。}
 
 \figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
 \begin{figure}[ht]\centering
