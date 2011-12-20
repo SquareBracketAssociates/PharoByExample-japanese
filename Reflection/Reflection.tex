@@ -435,14 +435,14 @@ SystemNavigation default
 この中から任意のメソッドをクリックして、\menu{refactor>code critics}を選んでください。
 \menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう（\menu{browse}が選択できなければ、そのメソッドにこのバグはありません）。}
 
-\figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}では、\ct{Collection}クラス階層にそのようなメソッドが19個あることがわかります。この中には、\ct{super printOn:}を送っている\ct{Collection>>>printNameOn:}も含まれています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{自身のセレクターとは異なるsuperメッセージを送信しているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のセレクタとは異なる\super送信を行うメソッドを探す様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
-ブラウザー環境はまた、プログラム的に作れます。
-例えば、以下のように、\clsind{Collection}とそのサブクラスについての新しい\clsind{BrowserEnvironment}のインスタンスを生成して、\super-送信をしているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示できます。
+このブラウザ環境はプログラムからでも用意できます。
+例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}のインスタンスを生成して、そこから\super送信を行うメソッドのみを抽出した結果を表示します。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -451,9 +451,9 @@ SystemNavigation default
 	open.
 \end{code}{}
 
-この例は、先程の、\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
+このコードは先に挙げた\ct{SystemNavigation}の使用例と同じ意味ですが、よりコンパクトになっています。
 
-最終的に、以下のようにして、自身のメソッドセレクターと異なったsuperメッセージを送っているメソッドだけを、プログラム的に見つけ出せます:
+最終的には次のようにして、自身のメソッドセレクタと異なる\super送信を行うメソッドをプログラム的に探せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -463,8 +463,8 @@ SystemNavigation default
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-ここでは、各コンパイル済みメソッドに、(リファクタリングブラウザによる)解析木について尋ね、superメッセージが、メソッドのセレクターと異なっているかを探り出しています。
-\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が尋ねられるかがわかります。
+ここではメソッドセレクタと異なる\superメッセージを探すために、各コンパイル済みメソッドの構文木（リファクタリングブラウザが解析したもの）を取得しています。
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみれば、構文木に何を尋ねられるかわかります。
 
 %======================================
 \section{実行時コンテクストにアクセスする}
