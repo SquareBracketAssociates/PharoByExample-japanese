@@ -506,24 +506,26 @@ Integer>>>factorial
 ここでエクスプロアされたオブジェクトのクラスをブラウズすると（\ie エクスプローラの下のペインで\ct{self browse}を評価すると）、\ct{thisContext}が\lct{MethodContext}のインスタンスであることがわかるでしょう。\ct{sender}の連鎖においても同様です。
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
-\ct{thisContext}は、日々のプログラミング用として意図されたものではありませんが、デバッガーのようなツールを実装するにも、コールスタックについての情報にアクセスするにも不可欠です。
-以下の式を評価すれば、どのメソッドが\ct{thisContext}を活用しているかを見出せます:
+\ct{thisContext}は一般的なプログラミングで使うものではありませんが、デバッガのようなツールを実装したり、コールスタックにアクセスするには必要不可欠です。
+次の式を評価すると、\ct{thisContext}を使っているメソッドを見つけられます。
 
 \begin{code}{}
 SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
-結局のところ、\ct{thisContext}の最も一般的な応用例のひとつは、メッセージのセンダーを見出すことです。
-以下は典型的なアプリケーションです:
+この結果から、メッセージのセンダの取得が\ct{thisContext}の最も一般的な用途だとわかります。
+次に示すコードは典型的な例です:
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを提唱する。
-	このメッセージがサブクラスで実装済みであるはずだ、と知らせる。"
+	"このメッセージはサブクラスの振る舞いに関する仕組みを支えています。
+	サブクラスはこのメッセージを実装すべきだと忠告します。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
-慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたか、その名前を示すのでしょうか? 非常に単純です。\ct{thisContext}にセンダーを尋ねるのです。
+\st の慣習では、\ct{self subclassResponsibility} を送るメソッドは抽象メソッドとみなされます。
+では、\clsmthind{Object}{subclassResponsibility}メソッドはどうやって抽象メソッドが呼ばれたことを示すエラーメッセージを提供するのでしょうか？
+答えは簡単。\ct{thisContext}にセンダを尋ねるだけです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
