@@ -480,11 +480,11 @@ SystemNavigation default
 
 実は、デバッガには何の仕掛けもありません。
 この秘密は、これまで軽く触れただけだった\pvind{thisContext}という疑似変数にあります。
-実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテキストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
+メソッド中で\ct{thisContext}を参照すると、そのメソッドを実行しているコンテキストが一連の\clsind{MethodContext}オブジェクトとして仮想イメージに登場します。
 
-このメカニズムについて、簡単に、自分で実験できます。
+この仕組みは簡単に実験できます。
 
-\dothis{\ct{Integer>>>factorial}の定義を、下線部の式を挿入して、以下のように変えてみましょう:}
+\dothis{\ct{Integer>>>factorial}の実装に下線部の式を挿入してしてください:}
 
 \mthindex{Object}{halt}
 \begin{code}{}
@@ -495,15 +495,15 @@ Integer>>>factorial
 	self error: 'Not valid for negative integers'
 \end{code}
 
-\dothis{ここで、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
+\dothis{\ct{3 factorial}をワークスペースで評価します。\figref{exploringThisContext}のようにデバッガウィンドウとエクスプローラの両方が表示されはずです。}
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
 	\caption{\lct{thisContext}をエクスプロアしている様子。\figlabel{exploringThisContext}}
 \end{figure}
 
-貧者のデバッガーへようこそ!
-ここで今、エクスプロアされたオブジェクトのクラスをブラウズすると(\ie エクスプローラーの下のペインで\ct{self browse}を評価すると)、\ct{thisContext}が、\lct{MethodContext}のインスタンスであることがわかるでしょう。これは、\ct{sender}の連鎖においても同様です。
+貧相なデバッガへようこそ！
+ここでエクスプロアされたオブジェクトのクラスをブラウズすると（\ie エクスプローラの下のペインで\ct{self browse}を評価すると）、\ct{thisContext}が\lct{MethodContext}のインスタンスであることがわかるでしょう。\ct{sender}の連鎖においても同様です。
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
 \ct{thisContext}は、日々のプログラミング用として意図されたものではありませんが、デバッガーのようなツールを実装するにも、コールスタックについての情報にアクセスするにも不可欠です。
