@@ -549,9 +549,9 @@ OrderedCollection>>>add: newObject
 \end{code}
 
 仮想イメージがデバッガウィンドウすら開かずにフリーズしてしまいます！
-いったん次のことを理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われているので、ブレークポイントは、変更をacceptしたらすぐにヒットします。実際、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
-必要なのは、関心があるコンテキスト内でのみ、\emph{条件つきでhalt}する手段です。
-\clsmthind{Object}{haltIf:}が提供するのがまさに、この手段です。
+次の点を理解すれば、問題がはっきりとわかります。 (i) \ct{OrderedCollection>>>add:}はシステムのあちこちで使われているので、変更をアクセプトした途端にブレークポイントで止まります。 (ii) \emph{デバッガ自身}が\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガの表示が邪魔されてしまいます！
+このような問題を避けるには、デバッグしたい状況でのみ\emph{halt}する方法が必要です。
+その用途にぴったりなのが\clsmthind{Object}{haltIf:}です。
 
 ここで、\ct{add:}を、何らかのコンテキスト、例えば、\ct{OrderedCollectionTest>>>testAdd}のコンテキストから呼ばれたときにだけ、haltさせたいとしましょう。
 
