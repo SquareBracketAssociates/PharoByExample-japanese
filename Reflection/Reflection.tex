@@ -531,16 +531,16 @@ Showing how to use block to build exception and such a kind of point. I think th
 we should have a Reflection applied chapter}
 \lr{I would love to help writing such a chapter}
 %-----------------------------------------------------------------
-\subsection{賢いブレークポイント}
+\subsection{「賢い」ブレークポイント}
 
 \mthindex{Object}{halt}
-ブレークポイントをかけるための\st のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開きます。
-残念なことに、これを、システムで集中的に使われるメソッドに対して行うと、数々の問題を引き起こしす。
+\st でブレークポイントを設定するには、メソッド内の関心のある箇所で \ct{self halt} を評価するコードを書きます。この式が実行されると\ct{thisContext}が具現化され、ブレークポイントで評価を止めた\ind{デバッガ}のウィンドウが開きます。
+残念ですが、システムで集中的に使われるメソッドにブレークポイントを設定すると問題を起きてしまいます。
 
-例えば、\ct{OrderedCollection>>>add:}の実行を解析したかったとしましょう。
-このメソッド内にブレークポイントをかけると、やっかいなことになります。
+例えば、\ct{OrderedCollection>>>add:}の実行を解析したいとしましょう。
+このメソッド内にブレークポイントを設定すると困ったことになります。
 
-\dothis{\emph{フレッシュな}仮想イメージを使って、以下のブレークポイントをセットしてみましょう:}
+\dothis{\emph{新しい}仮想イメージを用意して、次のブレークポイントを設定します:}
 \needlines{3}
 \begin{code}{}
 OrderedCollection>>>add: newObject
@@ -548,7 +548,7 @@ OrderedCollection>>>add: newObject
 	^self addLast: newObject
 \end{code}
 
-この仮想イメージが、ただちにフリーズする様子に注目してください! デバッガーウィンドウを開けることさえできません。
+仮想イメージがデバッガウィンドウすら開かずにフリーズしてしまいます！
 いったん次のことを理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われているので、ブレークポイントは、変更をacceptしたらすぐにヒットします。実際、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
 必要なのは、関心があるコンテキスト内でのみ、\emph{条件つきでhalt}する手段です。
 \clsmthind{Object}{haltIf:}が提供するのがまさに、この手段です。
