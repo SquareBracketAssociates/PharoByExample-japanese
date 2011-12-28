@@ -552,27 +552,27 @@ OrderedCollection>>>add: newObject
 
 仮想イメージがデバッガウィンドウすら開かずにフリーズしてしまいます！
 次の点を理解すれば、問題がはっきりとわかります。 (i) \ct{OrderedCollection>>>add:}はシステムのあちこちで使われているので、変更をアクセプトした途端にブレークポイントで止まります。 (ii) \emph{デバッガ自身}が\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガの表示が邪魔されてしまいます！
-このような問題を避けるには、デバッグしたい状況でのみ\emph{halt}する方法が必要です。
+このような問題を避けるには、デバッグしたい状況でのみ\emph{停止}する方法が必要です。
 その用途にぴったりなのが\clsmthind{Object}{haltIf:}です。
 
-ここで、\ct{add:}を、何らかのコンテキスト、例えば、\ct{OrderedCollectionTest>>>testAdd}のコンテキストから呼ばれたときにだけ、haltさせたいとしましょう。
+では\ct{add:}を、例えば\ct{OrderedCollectionTest>>>testAdd}のコンテキストから呼ばれたときにだけ停止させたいとしましょう。
 
-\dothis{再びフレッシュな仮想イメージを立ち上げ、以下のブレークポイントを設定してみましょう:}
+\dothis{また新しい仮想イメージを用意して、次のブレークポイントを設定してみましょう:}
 \begin{code}{}
 OrderedCollection>>>add: newObject
 	!\underline{self haltIf: \#testAdd.}!
 	^self addLast: newObject
 \end{code}
 
-今回は、仮想イメージはフリーズしません。\ct{OrderedCollectionTest}を走らせてみましょう。
-(\ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリに見つかるでしょう。)
+\ct{OrderedCollectionTest}を実行してみましょう。今度はフリーズしません。
+（\ct{OrderedCollectionTest}は\scat{CollectionsTests-Sequenceable}カテゴリにあります）
 
-これは、どのようにして動くのでしょうか? \clsmthind{Object}{haltIf:}を見てみましょう:
+どう動いているのでしょうか？ \clsmthind{Object}{haltIf:}を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
 	condition isSymbol ifTrue: [
-		"セレクターのシンボルを持つメソッドが、センダーの連鎖内にあったときだけhaltする"
+		"指定されたセレクタ（シンボル）のメソッドがセンダのコールチェーンに含まれる場合のみ停止する"
 		cntxt := thisContext.
 		[cntxt sender isNil] whileFalse: [
 			cntxt := cntxt sender. 
@@ -582,10 +582,10 @@ Object>>>haltIf: condition
 	...
 \end{code}
 
-\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へと遡りながら、呼び出し側のメソッドの名前が、パラメーターと一致するかをチェックします。
-もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
+\ct!haltIf:!は実行時スタックを\ct!thisContext!から遡りながら、呼び出したメソッドの名前が引数と一致するか確認します。
+一致したら例外を発生させます。デフォルトの挙動では、この例外を発生させるとデバッガを表示します。
 
-booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらの場合についての処理は単純で、\lct{thisContext}は活用されません。
+\ct{haltIf:}の引数に真偽値や真偽値を返すブロックを渡してもよいですが、その場合は単純な処理になるので\lct{thisContext}は使われません。
 
 %======================================
 \section{理解されなかったメッセージをインターセプトする}
