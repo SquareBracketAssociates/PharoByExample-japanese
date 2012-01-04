@@ -618,15 +618,15 @@ ProtoObject subclass: #LoggingProxy
 	poolDictionaries: ''
 	category: 'PBE-Reflection'
 \end{code}
-\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。なぜなら、\ct{Object}からこのプロキシーに、400個以上のメソッド(!)を継承したくないからです。
+\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。\ct{Object}からこのプロキシに400個以上のメソッド(!)を継承したくないからです。
 
 \begin{code}{}
 Object methodDict size --> 408
 \end{code}
 
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの数です。
-これらふたつのインスタンス変数を初期化し、インターセプトしたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
-最初は\ct{subject}変数は、プロキシーオブジェクトそれ自身を指しています。
+このプロキシには二つのインスタンス変数があります。 \ct{subject} はプロキシの実体です。\ct{invocationCount}はプロキシがインターセプトしたメッセージの数です。
+二つのインスタンス変数を初期化し、インターセプトしたメッセージの数を返すアクセサを提供します。
+初期化時点では、\ct{subject}変数はプロキシオブジェクト自身を指しています。
 \begin{code}{}
 LoggingProxy>>>initialize
 	invocationCount := 0.
@@ -638,7 +638,8 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、メッセージ数(\ct!invocationCount!)を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
+理解できないすべてのメッセージをインターセプトし、トランスクリプトに表示し、メッセージ数を更新し、メッセージをプロキシの実体へ転送します。
+
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -646,15 +647,15 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 	^ aMessage sendTo: subject
 \end{code}
 
-ここで、ちょっとした魔法がやって来ます。
-\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、「\ct{Point}オブジェクトに\mthind{ProtoObject}{become:}せよ」、と告げます。
+ここでちょっとした魔法の登場です。
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを生成し、プロキシに「\ct{Point}オブジェクトになれ（\mthind{ProtoObject}{become:}）」と伝えます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-\ct!become:!により、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、このプロキシーへのすべての参照を、\ct{Point}オブジェクトへの参照とスワップできます。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照することになります!
+これにより、仮想イメージにある\ct{Point}オブジェクトへのすべての参照をプロキシへの参照とスワップします（逆も同様です）。特にプロキシの\ct{subject}インスタンス変数は\ct{Point}オブジェクトを参照することになります！
 
 \begin{code}{}
 point invocationCount --> 0
@@ -662,12 +663,13 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-これは、多くの場合、うまく働きますが、いくつか欠点もあります:
+この方法でだいたい問題ありませんが、足らない点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
-奇妙なことに、\ct{class}メソッドは、\ct{ProtoObject}で実装されていないばかりか、\ct{Object}で実装されている\ct{class}メソッドとも違います。\ct{LoggingProxy}は、\ct{Object}を継承していません!
-この謎に対する答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されるということです。\footnote{\ct{yourself}もまた、本当は、決して送られません。
+奇妙なことに\ct{class}メソッドは\ct{ProtoObject}で実装されておらず（\ct{Object}で実装されています）、\ct{LoggingProxy}は\ct{Object}を継承していません！
+\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されます。
+\footnote{\ct{yourself}も同様に送られません。
 レシーバーが何であるかによって、直接仮想マシンが解釈することもありうるメッセージには、以下のものがあります:
 \ct{+- < > <= >= = ~= * / \ ==}
 \ct{@ bitShift: // bitAnd: bitOr:}
