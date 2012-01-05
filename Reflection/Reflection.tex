@@ -422,28 +422,27 @@ SystemNavigation default
 %======================================
 \section{ブラウザー環境}
 
-\clsind{SystemNavigation}は、システムコードに対して、プログラム的にこれにクエリを送り、これをブラウズする便利な方法をいくつか提供しますが、もっとよい方法があります。\pharo には\ind{リファクタリングブラウザー}というものが統合されているのですが、これを使えば、複雑なクエリを、会話的にもプログラム的にも送れます。
+\clsind{SystemNavigation}はシステムコードに対してプログラム的に問い合わせたりブラウズする便利な機能を提供しますが、もっとよい方法があります。\pharo に統合されている\ind{リファクタリングブラウザ}を使うと、複雑な問い合わせを対話的にもプログラム的にも送れます。
 
-\lct{Collection}の階層の中の、どのメソッドが、そのメソッドのセレクターと異なるメッセージを\super に送っているかに関心があったとしましょう。
-このように、何かをオーバーライドしているわけではないメソッドが、\super-送信をしているのは、通常は、悪い\ind{コードの臭い}と考えられます。なぜなら、そのような\super-送信は、通常は、\self-送信で置き換えられるべきだからです。(次のことを考えてみてください --- \super は、メソッドをオーバーライドするときにだけ\emph{必要}です; 他のすべての継承されたメソッドにアクセスするには、\self にメッセージを送れば済みます!)
+\lct{Collection}クラス階層のメソッドのうち、メソッド自身と異なるメッセージを \super に送っているメソッドに関心があるとしましょう。
+このようなコードは悪いコードの臭いがすると考えられます。 \super 送信を \self 送信に置き換えるべきです（考えてみてください。 \super を使うのはメソッドをオーバーライドするときだけです。継承されたメソッドにアクセスしたいのなら、 \self にメッセージを送れば済みます）
 
-リファクタリングブラウザーは、クエリの送り先を、関心のあるクラスやメソッドに限定するための、エレガントな方法を提供します。
+リファクタリングブラウザは、問い合わせを関心のあるクラスやメソッドにエレガントな方法で限定してくれます。
 
-\dothis{ブラウザーを開けて、\ct{Collection}を見てみましょう。
-クラス名を\actclick して、\menu{refactoring scope>subclasses with}を選択しましょう。
-こうすると、\ct{Collection}階層に限定されたブラウザー環境が、新規に開きます。
-この限定されたスコープの中で、\menu{refactoring scope>super-sends}を選択しましょう。すると、新しいウィンドウ環境が開き、\ct{Collection}階層の中で、\super-送信を行っているすべてのメソッドが列挙されます。
-ここで、任意のメソッドを\click し、\menu{refactor>code critics}を選んでみましょう。
-\menu{Lint checks>Possible bugs>Sends different super message}とナビゲートして、\menu{browse}を\actclick してみましょう。}
+\dothis{\ct{Collection}クラスをブラウザで見てみましょう。
+クラス名を\actclick して\menu{refactoring scope>subclasses with}を選択すると、\ct{Collection}クラス階層に限定されたブラウザ環境が開きます。
+この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層のメソッドのうち\super送信を行うすべてのメソッドが列挙された新しいウィンドウが開きます。
+この中から任意のメソッドをクリックして、\menu{refactor>code critics}を選んでください。
+\menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう（\menu{browse}が選択できなければ、そのメソッドにこのバグはありません）。}
 
-\figref{sendDifferentSuper}を見れば、そのようなメソッドが19個、\ct{Collection}階層の中に見つかったことがわかります。それらの中には、\ct{Collection>>>printNameOn:} があって、このメソッドは、\ct{super printOn:}を送っています。
+\figref{sendDifferentSuper}では、\ct{Collection}クラス階層にそのようなメソッドが19個あることがわかります。この中には、\ct{super printOn:}を送っている\ct{Collection>>>printNameOn:}も含まれています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{自身のセレクターとは異なるsuperメッセージを送信しているメソッドを、見つけている様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のセレクタとは異なる\super送信を行うメソッドを探す様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
-ブラウザー環境はまた、プログラム的に作れます。
-例えば、以下のように、\clsind{Collection}とそのサブクラスについての新しい\clsind{BrowserEnvironment}のインスタンスを生成して、\super-送信をしているメソッドを抽出し、結果を\ct{SelectorEnvironment}オブジェクトとして表示できます。
+このブラウザ環境はプログラムからでも用意できます。
+例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}のインスタンスを生成して、そこから\super送信を行うメソッドのみを抽出した結果を表示します。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -452,9 +451,9 @@ SystemNavigation default
 	open.
 \end{code}{}
 
-この例は、先程の、\ct{SystemNavigation}を用いたこれと等価な例より、かなりコンパクトになっていることに注意してください。
+このコードは先に挙げた\ct{SystemNavigation}の使用例と同じ意味ですが、よりコンパクトになっています。
 
-最終的に、以下のようにして、自身のメソッドセレクターと異なったsuperメッセージを送っているメソッドだけを、プログラム的に見つけ出せます:
+最終的には次のようにして、自身のメソッドセレクタと異なる\super送信を行うメソッドをプログラム的に探せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -464,28 +463,28 @@ SystemNavigation default
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-ここでは、各コンパイル済みメソッドに、(リファクタリングブラウザによる)解析木について尋ね、superメッセージが、メソッドのセレクターと異なっているかを探り出しています。
-\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみましょう。これを見れば、解析木に対して、何が尋ねられるかがわかります。
+ここではメソッドセレクタと異なる\superメッセージを探すために、各コンパイル済みメソッドの構文木（リファクタリングブラウザが解析したもの）を取得しています。
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみれば、構文木に何を尋ねられるかわかります。
 
 %======================================
-\section{実行時コンテクストにアクセスする}
+\section{実行時コンテキストにアクセスする}
 
-これまで、\st のリフレクティブな機能をどのように用いれば、オブジェクト、クラス、メソッドにクエリを送ったり、これらをエクスプロアしたりできるのかを見てきました。しかし、実行時環境についてはどうでしょう?
+これまで \st のリフレクティブな機能を使ったオブジェクト、クラス、メソッドへの問い合わせやエクスプロアを見てきました。では、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
-\subsection{メソッドコンテクスト}
+\subsection{メソッドコンテキスト}
 
-実際、メソッドの実行時コンテクストは、仮想マシンの中にあります --- 決して、仮想イメージの中にはありません!
-その一方で、\ind{デバッガー}はもちろん、この実行時コンテクストにアクセスできます。そして幸いにも、この実行時コンテクストをエクスプロアできます。それはちょうど、他の任意のオブジェクトをエクスプロアできるのと同様です。
-これは、どのようにして可能になっているのでしょうか?
+メソッドを実行する実行時コンテキストはバーチャルマシンが管理しています --- 仮想イメージの中にはないのです！
+しかし、\ind{デバッガ}が実行時コンテキストにアクセスできるのは明白です。さらに幸いにも、他のオブジェクトと同様に実行時コンテキストをエクスプロアできます。
+どうやっているのでしょう？
 
-実は、デバッガーには何の魔法もありません。
-秘密は、\pvind{thisContext}という疑似変数にあります。これには、以前、少しだけ触れました。
-実行中のメソッドが\ct{thisContext}を参照したとき、そのメソッドの完全な実行時コンテクストが具現化され、\clsind{MethodContext}オブジェクトの一連の連鎖として、仮想イメージから利用できるようになります。
+実は、デバッガには何の仕掛けもありません。
+この秘密は、これまで軽く触れただけだった\pvind{thisContext}という疑似変数にあります。
+メソッド中で\ct{thisContext}を参照すると、そのメソッドを実行しているコンテキストが一連の\clsind{MethodContext}オブジェクトとして仮想イメージに登場します。
 
-このメカニズムについて、簡単に、自分で実験できます。
+この仕組みは簡単に実験できます。
 
-\dothis{\ct{Integer>>>factorial}の定義を、下線部の式を挿入して、以下のように変えてみましょう:}
+\dothis{\ct{Integer>>>factorial}の実装に下線部の式を挿入してしてください:}
 
 \mthindex{Object}{halt}
 \begin{code}{}
@@ -496,35 +495,37 @@ Integer>>>factorial
 	self error: 'Not valid for negative integers'
 \end{code}
 
-\dothis{ここで、\ct{3 factorial}を、ワークスペースで評価してみましょう。\figref{exploringThisContext}が示すように、デバッガーウィンドウとエクスプローラーの両方が表示されるはずです。}
+\dothis{\ct{3 factorial}をワークスペースで評価します。\figref{exploringThisContext}のようにデバッガウィンドウとエクスプローラの両方が表示されはずです。}
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{exploringThisContext}
 	\caption{\lct{thisContext}をエクスプロアしている様子。\figlabel{exploringThisContext}}
 \end{figure}
 
-貧者のデバッガーへようこそ!
-ここで今、エクスプロアされたオブジェクトのクラスをブラウズすると(\ie エクスプローラーの下のペインで\ct{self browse}を評価すると)、\ct{thisContext}が、\lct{MethodContext}のインスタンスであることがわかるでしょう。これは、\ct{sender}の連鎖においても同様です。
+貧相なデバッガへようこそ！
+ここでエクスプロアされたオブジェクトのクラスをブラウズすると（\ie エクスプローラの下のペインで\ct{self browse}を評価すると）、\ct{thisContext}が\lct{MethodContext}のインスタンスであることがわかるでしょう。\ct{sender}の連鎖においても同様です。
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
-\ct{thisContext}は、日々のプログラミング用として意図されたものではありませんが、デバッガーのようなツールを実装するにも、コールスタックについての情報にアクセスするにも不可欠です。
-以下の式を評価すれば、どのメソッドが\ct{thisContext}を活用しているかを見出せます:
+\ct{thisContext}は一般的なプログラミングで使うものではありませんが、デバッガのようなツールを実装したり、コールスタックにアクセスするには必要不可欠です。
+次の式を評価すると、\ct{thisContext}を使っているメソッドを見つけられます。
 
 \begin{code}{}
 SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
-結局のところ、\ct{thisContext}の最も一般的な応用例のひとつは、メッセージのセンダーを見出すことです。
-以下は典型的なアプリケーションです:
+この結果から、メッセージのセンダの取得が\ct{thisContext}の最も一般的な用途だとわかります。
+次に示すコードは典型的な例です:
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージは問題のクラスの一連のサブクラスの振る舞いについてのフレームワークを提唱する。
-	このメッセージがサブクラスで実装済みであるはずだ、と知らせる。"
+	"このメッセージはサブクラスの振る舞いに関する仕組みを支えています。
+	サブクラスはこのメッセージを実装すべきだと忠告します。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
-慣習により、\st のメソッドで\ct{self subclassResponsibility}を送るものは、抽象メソッドであると考えられます。しかし、\clsmthind{Object}{subclassResponsibility}メソッドは、どのようにして有用なエラーメッセージを提供するのでしょうか? つまり、どのようにして、どの抽象メソッドが呼ばれたか、その名前を示すのでしょうか? 非常に単純です。\ct{thisContext}にセンダーを尋ねるのです。
+\st の慣習では、\ct{self subclassResponsibility} を送るメソッドは抽象メソッドとみなされます。
+では、\clsmthind{Object}{subclassResponsibility}メソッドはどうやって抽象メソッドが呼ばれたことを示すエラーメッセージを提供するのでしょうか？
+答えは簡単。\ct{thisContext}にセンダを尋ねるだけです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
 \sd{lukas maybe we should have another chapter showing such kind of beasts. I would love to read it.
@@ -532,16 +533,16 @@ Showing how to use block to build exception and such a kind of point. I think th
 we should have a Reflection applied chapter}
 \lr{I would love to help writing such a chapter}
 %-----------------------------------------------------------------
-\subsection{賢いブレークポイント}
+\subsection{「賢い」ブレークポイント}
 
 \mthindex{Object}{halt}
-ブレークポイントをかけるための\st のやりかたは、メソッド内の要所で、\ct{self halt}を評価することです。こうすると、\ct{thisContext}が具現化され、\ind{デバッガー}ウィンドウが、ブレークポイントの所で開きます。
-残念なことに、これを、システムで集中的に使われるメソッドに対して行うと、数々の問題を引き起こしす。
+\st でブレークポイントを設定するには、メソッド内の関心のある箇所で \ct{self halt} を評価するコードを書きます。この式が実行されると\ct{thisContext}が具現化され、ブレークポイントで評価を止めた\ind{デバッガ}のウィンドウが開きます。
+残念ですが、システムで集中的に使われるメソッドにブレークポイントを設定すると問題を起きてしまいます。
 
-例えば、\ct{OrderedCollection>>>add:}の実行を解析したかったとしましょう。
-このメソッド内にブレークポイントをかけると、やっかいなことになります。
+例えば、\ct{OrderedCollection>>>add:}の実行を解析したいとしましょう。
+このメソッド内にブレークポイントを設定すると困ったことになります。
 
-\dothis{\emph{フレッシュな}仮想イメージを使って、以下のブレークポイントをセットしてみましょう:}
+\dothis{\emph{新しい}仮想イメージを用意して、次のブレークポイントを設定します:}
 \needlines{3}
 \begin{code}{}
 OrderedCollection>>>add: newObject
@@ -549,29 +550,29 @@ OrderedCollection>>>add: newObject
 	^self addLast: newObject
 \end{code}
 
-この仮想イメージが、ただちにフリーズする様子に注目してください! デバッガーウィンドウを開けることさえできません。
-いったん次のことを理解すれば、問題は明確になるでしょう。(i) \ct{OrderedCollection>>>add:}はシステムの多くの場所で使われているので、ブレークポイントは、変更をacceptしたらすぐにヒットします。実際、(ii) \emph{デバッガーそれ自身}が、\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガーを開けられなくなるのです!
-必要なのは、関心があるコンテクスト内でのみ、\emph{条件つきでhalt}する手段です。
-\clsmthind{Object}{haltIf:}が提供するのがまさに、この手段です。
+仮想イメージがデバッガウィンドウすら開かずにフリーズしてしまいます！
+次の点を理解すれば、問題がはっきりとわかります。 (i) \ct{OrderedCollection>>>add:}はシステムのあちこちで使われているので、変更をアクセプトした途端にブレークポイントで止まります。 (ii) \emph{デバッガ自身}が\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガの表示が邪魔されてしまいます！
+このような問題を避けるには、デバッグしたい状況でのみ\emph{停止}する方法が必要です。
+その用途にぴったりなのが\clsmthind{Object}{haltIf:}です。
 
-ここで、\ct{add:}を、何らかのコンテクスト、例えば、\ct{OrderedCollectionTest>>>testAdd}のコンテクストから呼ばれたときにだけ、haltさせたいとしましょう。
+では\ct{add:}を、例えば\ct{OrderedCollectionTest>>>testAdd}のコンテキストから呼ばれたときにだけ停止させたいとしましょう。
 
-\dothis{再びフレッシュな仮想イメージを立ち上げ、以下のブレークポイントを設定してみましょう:}
+\dothis{また新しい仮想イメージを用意して、次のブレークポイントを設定してみましょう:}
 \begin{code}{}
 OrderedCollection>>>add: newObject
 	!\underline{self haltIf: \#testAdd.}!
 	^self addLast: newObject
 \end{code}
 
-今回は、仮想イメージはフリーズしません。\ct{OrderedCollectionTest}を走らせてみましょう。
-(\ct{OrderedCollectionTest}が、\scat{CollectionsTests-Sequenceable}カテゴリに見つかるでしょう。)
+\ct{OrderedCollectionTest}を実行してみましょう。今度はフリーズしません。
+（\ct{OrderedCollectionTest}は\scat{CollectionsTests-Sequenceable}カテゴリにあります）
 
-これは、どのようにして動くのでしょうか? \clsmthind{Object}{haltIf:}を見てみましょう:
+どう動いているのでしょうか？ \clsmthind{Object}{haltIf:}を見てみましょう:
 \begin{code}{}
 Object>>>haltIf: condition
 	| cntxt |
 	condition isSymbol ifTrue: [
-		"セレクターのシンボルを持つメソッドが、センダーの連鎖内にあったときだけhaltする"
+		"指定されたセレクタ（シンボル）のメソッドがセンダのコールチェーンに含まれる場合のみ停止する"
 		cntxt := thisContext.
 		[cntxt sender isNil] whileFalse: [
 			cntxt := cntxt sender. 
@@ -581,35 +582,35 @@ Object>>>haltIf: condition
 	...
 \end{code}
 
-\ct!thisContext!から始めて、\ct!haltIf:!は実行時スタックを上へ上へと遡りながら、呼び出し側のメソッドの名前が、パラメーターと一致するかをチェックします。
-もし一致したら、例外を発生させます。そして例外が発生したときのデフォルトの動作として、デバッガーが呼び出されます。
+\ct!haltIf:!は実行時スタックを\ct!thisContext!から遡りながら、呼び出したメソッドの名前が引数と一致するか確認します。
+一致したら例外を発生させます。デフォルトの挙動では、この例外を発生させるとデバッガを表示します。
 
-booleanやbooleanブロックを引数として、\ct{haltIf:}を呼ぶこともできますが、これらの場合についての処理は単純で、\lct{thisContext}は活用されません。
+\ct{haltIf:}の引数に真偽値や真偽値を返すブロックを渡してもよいですが、その場合は単純な処理になるので\lct{thisContext}は使われません。
 
 %======================================
-\section{理解されなかったメッセージをインターセプトする}
+\section{理解されないメッセージをインターセプトする}
 \seclabel{msgnotunderstood}
 
-これまでのところ、\st のリフレクティブな機能は、主に、オブジェクト、クラス、メソッド、そして実行時スタックにクエリを送ったり、これらをエクスプロアするのに用いてきました。ここからは、\st のシステムの構造に関する知識をどのように使えば、メッセージをインターセプトして、その振る舞いを実行時に変えられるか、見ていきます。
+ここまでは、 \st のリフレクティブな機能をオブジェクト、クラス、メソッド、実行時スタックに主に問い合わせを行ったりエクスプロアするのに使ってきました。ここからは \st システムの構造に関する知識をどう使ってメッセージをインターセプトするのか、振る舞いを実行時に変えるのかを見ていきます。
 
-オブジェクトがメッセージを受け取ったとき、オブジェクトはまず、そのクラスのメソッド辞書を引いて、メッセージに対応するメソッド、つまり、このメッセージに応答するメソッドを探します。
-もし、そのようなメソッドが存在しなければ、クラス階層を上へ上へとたどっていきます。これは場合によっては\ct{Object}にたどりつくまで続けられます。もし、そこでもメッセージに対するメソッドが見つからなかったら、オブジェクトは、\ct{doesNotUnderstand:}を、\emph{自分自身に送ります}。\ct{doesNotUnderstand:}の引数は、理解されなかったメッセージ(\clsind{Message}のインスタンス)です。
-このメソッド検索のプロセスは、振り出しに戻って再開され、\clsmthind{Object}{doesNotUnderstand:}が見つかるまで続けられ、そしてデバッガーが立ち上がります。
+オブジェクトはメッセージを受け取ると、まず自身のクラスのメソッド辞書からメッセージに対応するメソッドを探します。
+対応するメソッドが見つからなければ、\ct{Object}までクラス階層をたどります。それでも見つからなければ、オブジェクトは\ct{doesNotUnderstand:}の引数にメッセージセレクタとメッセージに渡された引数を与えて\emph{自分自身に送ります}。
+\ct{doesNotUnderstand:}の送信に関しても同様にメソッド検索が行われ、\clsmthind{Object}{doesNotUnderstand:}が見つかればデバッガが起動します。
 
-しかし、もし\ct{doesNotUnderstand:}が\ct{Object}のサブクラスでオーバーライドされていて、メソッドの検索パスに入っていたらどうなるでしょう?
-結局のところ、これは、ある種の非常に動的な振る舞いを実現するのに便利な方法です。あるメッセージが理解できないオブジェクトは、\ct{doesNotUnderstand:}をオーバーライドすることで、理解できなかったメッセージに応答するための、代替えの戦略に頼れるのです。
+しかし、もし\ct{doesNotUnderstand:}がメソッド検索パスにある\ct{Object}のサブクラスでオーバーライドされていたらどうなるでしょう？
+これはある種の非常に動的な振る舞いを実現するのに便利です。\ct{doesNotUnderstand:}をオーバーライドすることで、オブジェクトは理解できないメッセージを理解できるようになり、メッセージに応答する代替手段になります。
 
-このテクニックの非常に一般的な応用をふたつ挙げると、(1) オブジェクトの\ind{軽量プロキシー}の実装、そして、(2) 欠けているコードの、動的なコンパイルまたはロード、です。
+このテクニックの最も一般的な応用例は、(1) \ind{軽量プロキシ}の実装と (2) 足りないコードの動的なコンパイルまたはロード、です。
 
 %-----------------------------------------------------------------
-\subsection{軽量プロキシー}
+\subsection{軽量プロキシ}
 
-最初の例として、「\ind{最小限のオブジェクト}」を紹介します。これは、既存のオブジェクトのプロキシーとして振る舞います。
-このプロキシーは実質的には、それ自身のメソッドを何ら持たないので、プロキシーに送られたどのメッセージも、\ct{doesNotUnderstand:}で捕捉されます。この\ct{doesNotUnderstand:}メッセージを実装すれば、プロキシーは、それが代理を務める実体にメッセージを移譲する前に、特別なアクションを取れます。
+最初の例として、既存のオブジェクトのプロキシとして振る舞う「\ind{最小限のオブジェクト}」を紹介します。
+このプロキシは固有のメソッドを実質的に持たないので、どんなメッセージが送られても\ct{doesNotUnderstand:}で捕捉されます。このメッセージを実装すれば、プロキシは主体にメッセージを移譲する前に特別な行動を起こせます。
 
-このプロキシーを、どのように実装できるか、見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
+どのように実装できるのかを見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
 
-\ct{LoggingProxy}を以下のように定義します:
+\ct{LoggingProxy}を次のように定義します:
 \begin{code}{}
 ProtoObject subclass: #LoggingProxy
 	instanceVariableNames: 'subject invocationCount'
@@ -617,15 +618,15 @@ ProtoObject subclass: #LoggingProxy
 	poolDictionaries: ''
 	category: 'PBE-Reflection'
 \end{code}
-\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。なぜなら、\ct{Object}からこのプロキシーに、400個以上のメソッド(!)を継承したくないからです。
+\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。\ct{Object}からこのプロキシに400個以上のメソッド(!)を継承したくないからです。
 
 \begin{code}{}
 Object methodDict size --> 408
 \end{code}
 
-このプロキシーにはふたつのインスタンス変数があります: \ct{subject} これは、このプロキシーが代理を務める実体です。そして\ct{invocationCount}は、このプロキシーがインターセプトしたメッセージの数です。
-これらふたつのインスタンス変数を初期化し、インターセプトしたメッセージの数(\ct!invocationCount!)を返すアクセサーを提供します。
-最初は\ct{subject}変数は、プロキシーオブジェクトそれ自身を指しています。
+このプロキシには二つのインスタンス変数があります。 \ct{subject} はプロキシの実体です。\ct{invocationCount}はプロキシがインターセプトしたメッセージの数です。
+二つのインスタンス変数を初期化し、インターセプトしたメッセージの数を返すアクセサを提供します。
+初期化時点では、\ct{subject}変数はプロキシオブジェクト自身を指しています。
 \begin{code}{}
 LoggingProxy>>>initialize
 	invocationCount := 0.
@@ -637,7 +638,8 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-理解されなかったすべてのメッセージを、単純にインターセプトし、それらをトランスクリプトに表示し、メッセージ数(\ct!invocationCount!)を更新し、そして、そのメッセージをプロキシーの実体へ転送します。
+理解できないすべてのメッセージをインターセプトし、トランスクリプトに表示し、メッセージ数を更新し、メッセージをプロキシの実体へ転送します。
+
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -645,15 +647,15 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 	^ aMessage sendTo: subject
 \end{code}
 
-ここで、ちょっとした魔法がやって来ます。
-\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを新規に生成し、プロキシーに、「\ct{Point}オブジェクトに\mthind{ProtoObject}{become:}せよ」、と告げます。
+ここでちょっとした魔法の登場です。
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを生成し、プロキシに「\ct{Point}オブジェクトになれ（\mthind{ProtoObject}{become:}）」と伝えます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-\ct!become:!により、仮想イメージの中の、この\ct{Point}オブジェクトへのすべての参照を、プロキシーへの参照とスワップし、逆に、このプロキシーへのすべての参照を、\ct{Point}オブジェクトへの参照とスワップできます。最も重要なことですが、プロキシーの\ct{subject}インスタンス変数は、\ct{Point}オブジェクトを参照することになります!
+これにより、仮想イメージにある\ct{Point}オブジェクトへのすべての参照をプロキシへの参照とスワップします（逆も同様です）。特にプロキシの\ct{subject}インスタンス変数は\ct{Point}オブジェクトを参照することになります！
 
 \begin{code}{}
 point invocationCount --> 0
@@ -661,29 +663,31 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-これは、多くの場合、うまく働きますが、いくつか欠点もあります:
+この方法でだいたい問題ありませんが、足らない点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
-奇妙なことに、\ct{class}メソッドは、\ct{ProtoObject}で実装されていないばかりか、\ct{Object}で実装されている\ct{class}メソッドとも違います。\ct{LoggingProxy}は、\ct{Object}を継承していません!
-この謎に対する答えは、\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されるということです。\footnote{\ct{yourself}もまた、本当は、決して送られません。
-レシーバーが何であるかによって、直接仮想マシンが解釈することもありうるメッセージには、以下のものがあります:
+奇妙なことに\ct{class}メソッドは\ct{ProtoObject}で実装されておらず（\ct{Object}で実装されています）、\ct{LoggingProxy}は\ct{Object}を継承していません！
+\ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されます。
+\footnote{\ct{yourself}も同様に、決して送られません。
+レシーバによって仮想マシンが直接解釈する可能性のあるメッセージを次に示します:
 \ct{+- < > <= >= = ~= * / \ ==}
 \ct{@ bitShift: // bitAnd: bitOr:}
 \ct{at: at:put: size}
 \ct{next nextPut: atEnd}
 \ct{blockCopy: value value: do: new new: x y}
-以下のセレクターは、決して送られません。なぜなら、これらはコンパイラーによって、比較とジャンプのバイトコードにインライン展開されるからです:
+次に示すセレクタは決して送られません。コンパイラが比較とジャンプのバイトコードにインライン展開します:
 \ct{ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:}
 \ct{and: or:}
 \ct{whileFalse: whileTrue: whileFalse whileTrue}
 \ct{to:do: to:by:do:}
 \ct{caseOf: caseOf:otherwise:}
 \ct{ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:}
-これらのメッセージを、非論理値オブジェクトに送ろうとしたとき、レシーバーのクラスで、\ct{mustBeBoolean}が定義されていれば、それらのメッセージ送信をインターセプトし、妥当な論理値でもって実行を再開できます。さもなくば、\ct{NonBooleanReceiver}例外をキャッチできます。
+これらのメッセージを論理値ではないオブジェクトに送っても、きちんと解釈されます。
+レシーバが\ct{mustBeBoolean}をオーバーライドするか、\ct{NonBooleanReceiver}例外を捕捉して適切な論理値を返せば実行を継続できます。
 }% NB: Notes by Lukas Renggli
 
-このような特別なメッセージ送信については、これを無視できるとしても、このアプローチでは、まだひとつ克服できない根本的な問題があります: \self-送信は、インターセプトできません:
+このような特別なメッセージ送信を無視するとしても、この方法には克服できない根本的な問題があります。\self送信をインターセプトできません。
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -692,19 +696,20 @@ point rect: (3@4)        --> 1@2 corner: 3@4
 point invocationCount --> 1
 \end{code}
 
-\ct{LoggingProxy}は、\ct{rect:}メソッドの中の、ふたつの\self-送信を、数え損なっています:
+このプロキシは\ct{rect:}メソッド中の二度の\self送信を数え損ねています:
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
 \end{code}
 
-このプロキシーのテクニックを使えば、メッセージをインターセプトできますが、プロキシーを使うときは、それ特有の制限に注意するべきです。\secref{wrapper}では、メッセージをインターセプトするための、他の、より一般的なアプローチを見ていきます。
+このテクニックのプロキシを使えばメッセージをインターセプトできますが、プロキシに起因する制限に気をつけてください。
+\secref{wrapper}では、メッセージをインターセプトするためのより一般的な方法を見ていきます。
 
 %-----------------------------------------------------------------
-\subsection{欠けているメソッドの生成}
+\subsection{欠けているメソッドを生成する}
 
-理解されなかったメッセージをインターセプトすることの応用例として、最も一般的なもうひとつのものは、欠けているメソッドの動的なロードもしくは、動的な生成です。
-多くのメソッドからなる非常に大きなクラスライブラリについて考えてください。ライブラリ全体をロードするかわりに、各クラスのスタブをライブラリにロードできるはずです。スタブは、どこを探せば、これらのすべてのメソッドのソースコードが見つかるか、知っています。スタブは、単に、理解されなかったすべてのメッセージを捕捉し、そして、欠けているメソッドを、オンデマンドで動的にロードします。ある時点で、この振る舞いは解除でき、そしてロードされたコードは、クライアントアプリケーションの必要最小限のサブセットとして保存できます。
+理解されないメッセージのインターセプトの一般的な応用例として、欠けているメソッドの動的なロードまたは生成が挙げられます。
+多数のメソッドを持つ巨大なクラスライブラリを考えてみましょう。ライブラリ全体をロードする代わりに各クラスのスタブをロードしてもよいでしょう。スタブはどこを探せばメソッドのソースコードが見つかるのか知っています。スタブは理解できないメッセージをすべて捕捉し、欠けているメソッドを必要に応じて動的にロードします。この処理はいずれ行われなくなり、ロードされたコードはクライアントアプリケーションに最低限必要な量だけ保存されます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
