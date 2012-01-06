@@ -713,7 +713,7 @@ Point>>>rect: aPoint
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
-このテクニックの単純な一形態を見てみましょう。これは、オンデマンドで、自動的に、インスタンス変数へのアクセサーを追加するクラスです:
+このテクニックのシンプルな応用例を見てみましょう。次に示すクラスは必要に応じてインスタンス変数へのアクセサを自動的に追加します:
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -726,20 +726,20 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 			^ aMessage sendTo: self ].
 	^ super doesNotUnderstand: aMessage
 \end{code}
-理解されなかったメッセージはすべて、ここで捕捉されます。もし、送られたメッセージと同じ名前のインスタンス変数があったら、\ct{DynamicAcccessors}に、動的に生成したその変数へのアクセサーのソースコードをコンパイルするように依頼します。そして、メッセージを再送信します。
+理解できないメッセージはすべてここで捕捉されます。送られたメッセージと同じ名前のインスタンス変数があれば、自身のクラスにアクセサをコンパイルするように依頼します。その後、メッセージをもう一度送信します。
 
-\ct{DynamicAccessors}クラスに、(初期化されていない)インスタンス変数\ct{x}があったにもかかわらず、事前に\ct{x}へのアクセサーが定義されていなかったとしましょう。すると以下のようにして、アクセサーが動的に生成され、そして\ct{x}の値が取り出されます。:
+\ct{DynamicAccessors}クラスに（初期化されていない）インスタンス変数\ct{x}があり、\ct{x}のアクセサが定義されていないとしましょう。次の式を評価すると、アクセサが動的に生成されて\ct{x}の値を取得できます:
 \needlines{2}
 \begin{code}{}
 myDA := DynamicAccessors new.
 myDA x --> nil
 \end{code}
 
-\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたとき、何が起きるか、ひとつずつ見て行きましょう(\figref{DynamicAccessors}参照)。
+\ct{DynamicAccessors}オブジェクトに最初に\ct{x}メッセージが送られたときに何が起きるか、順に見て行きましょう（\figref{DynamicAccessors}を参照）。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{DynamicAccessors}
-	\caption{アクセサーの動的作成。\figlabel{DynamicAccessors}}
+	\caption{アクセサを動的に生成する。\figlabel{DynamicAccessors}}
 	% \alex{not sure whether the figure is highly necessary. The code is rather simple and the figure complete to follow in my opinion.}}
 	% \on{trust me, it is useful to see all the steps.}
 \end{figure}
