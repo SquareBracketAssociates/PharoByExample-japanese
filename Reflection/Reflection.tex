@@ -744,11 +744,11 @@ myDA x --> nil
 	% \on{trust me, it is useful to see all the steps.}
 \end{figure}
 
-(1) \ct{x}を\ct{myDA}に送り、(2) メッセージがクラスの中で検索され、そして、(3) クラス階層の中で見つかりません。(4) これにより、\ct{self doesNotUnderstand: #x}が、\ct{DynamicAccessors}オブジェクトに送り返され、(5) これが引き金になって、新しく検索が行われます。今度は、\ct{doesNotUnderstand:}が、ただちに\ct{DynamicAccessors}内に見つかり、(6) そして、\ct{DynamicAccessors}クラスが、文字列\ct{'x ^ x'}をコンパイルするように要求されます。\ct{compile}メソッドが検索され、(7)、そして(8) 最終的に\ct{Behavior}クラスに\ct{compile}メソッドが見つかり、それが(9-10) コンパイル済みメソッドを\ct{DynamicAccessors}のメソッド辞書に追加します。最後に、(11-13) メッセージが再送され、今度は、対応するメソッドが見つかります。
+(1) \ct{x}を\ct{myDA}に送ると (2) メソッドがクラスのメソッド辞書から探索されますが、(3) クラス階層をたどっても見つかりません。(4) 従って\ct{self doesNotUnderstand: #x}がオブジェクトに送り返され、(5) 改めてメソッド探索が行われます。\ct{DynamicAccessors}ではすぐに\ct{doesNotUnderstand:}が見つかり、(6) 文字列\ct{'x ^ x'}をコンパイルするよう依頼します。 (7) \ct{compile}メソッドが探索され、(8) 最終的に\ct{Behavior}クラスで見つかります。(9-10) コンパイル済みメソッドが\ct{DynamicAccessors}のメソッド辞書に追加されます。(11-13) 最後に再び\ct{x}メッセージが再送されますが、今度は対応するメソッドが見つかります。
 
-同じテクニックは、インスタンス変数のセッターや、他の種類の定型的なコード、Visitorパターンのvisitメソッドなど、を生成するのに使えます。
+この方法はインスタンス変数のセッター、その他の決まりきったコード、Visitorパターンのvisitメソッドなどの生成に使えます。
 
-ステップ(13)での、\clsmthind{Object}{perform:}使い方に注意してください。\ct{perform:}メソッドを使えば、実行時に生成されたシンボルを使って、メッセージを送れます:
+ステップ(13)で使われている\clsmthind{Object}{perform:}に注目してください。このメソッドを使うと、実行時に動的にメッセージを生成して送れます。
 \begin{code}{@TEST}
 5 perform: #factorial                                             --> 120
 6 perform: ('fac', 'torial') asSymbol                       --> 720
