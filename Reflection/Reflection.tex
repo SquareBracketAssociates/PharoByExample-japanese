@@ -759,17 +759,16 @@ myDA x --> nil
 \section{メソッドラッパーとしてのオブジェクト}
 \seclabel{wrapper}
 
-すでに見てきたように、コンパイル済みメソッドも、\st においては、普通のオブジェクトです。そしてコンパイル済みメソッドオブジェクトにも、数々のリフレクティブなメソッドがあって、これらにより、プログラマーは、実行時システムにクエリを送れます。
-少し意外かもしれませんが、\emph{任意のオブジェクト}は、コンパイル済みメソッドの役割を担うことができます。それには、\ct{run:with:in:}メソッドを実装し、他のいくつかの重要なメッセージに応答するだけで済みます。
+これまで見てきたように、\stではコンパイル済みメソッドも通常のオブジェクトです。コンパイル済みメソッドも当然ながら多くのメソッドを持っており、そのメソッドを使って実行時システムに問い合わせを行えます。
+少し意外かもしれませんが、\emph{どんな}オブジェクトでもコンパイル済みメソッド役を演じられます。\ct{run:with:in:}といくつかの重要なメッセージに応答すればいいのです。
 
-\dothis{\ct{Demo}という空のクラスを定義しましょう。そして、\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーが引き起されることを確認しましょう。}
+\dothis{空のクラス\ct{Demo}を定義します。\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーの発生を確認してください。}
 
-ここで、普通の\st のオブジェクトを、この\ct{Demo}クラスのメソッド辞書にインストールしましょう。
+普通のオブジェクトを\ct{Demo}クラスのメソッド辞書にインストールします。
 
-\dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価しましょう。
-ここで、もういちど\ct{Demo new answer42}の結果をprintしてみましょう。今度は、\ct{42}という答えが得られます。}
+\dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価し、再び\ct{Demo new answer42}の結果を表示してください。今度は\ct{42}という回答を得られます。}
 
-\clsind{ObjectsAsMethodsExample}クラスを見ると、以下のメソッドが見つかるはずです:
+\clsind{ObjectsAsMethodsExample}クラス定義を調べると次のメソッドが見つかります:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
 %\on{ObjectsAsMethodsExample is part of the standard pharo image -- it is not in PBE-Reflection}
 \needlines{5}
@@ -781,9 +780,9 @@ run: oldSelector with: arguments in: aReceiver
 	^self perform: oldSelector withArguments: arguments
 \end{code}
 
-この\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取ると、メソッド検索は通常どおりに始まります。しかし、仮想マシンは、コンパイル済みメソッドがあるべき場所に、普通の\st のオブジェクトを検出すると、それがメソッドの代わりを務めようとしている、と判断します。
-仮想マシンは、\ct{ObjectsAsMethodsExample}オブジェクトに、\ct{run:with:in:}というメッセージを送ります。このとき、もともとのメソッドセレクターと、もともとの引数と、もともとのレシーバーが、\ct{run:with:in:}の引数になります。
-\ct{ObjectsAsMethodsExample}は、この\ct{run:with:in:}メソッドを実装しているので、これはメッセージをインターセプトして、自分自身にメッセージを移譲します。
+\ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取るといつも通りにメソッド探索が行われますが、仮想マシンは普通のオブジェクトがコンパイル済みメソッド役を演じようとしていることを検出します。
+仮想マシンは\ct{ObjectsAsMethodsExample}オブジェクトに\ct{run:with:in:}メッセージを送ります。このメッセージの引数は最初に送られたメソッドセレクタ、引数、レシーバです。
+\ct{ObjectsAsMethodsExample}は\ct{run:with:in:}メソッドを実装しており、メッセージをインターセプトして自身に移譲します。
 
 ここで、この偽のメソッドを削除するには、以下のようにします:
 \begin{code}{}
