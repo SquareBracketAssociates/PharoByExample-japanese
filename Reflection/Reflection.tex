@@ -784,12 +784,12 @@ run: oldSelector with: arguments in: aReceiver
 仮想マシンは\ct{ObjectsAsMethodsExample}オブジェクトに\ct{run:with:in:}メッセージを送ります。このメッセージの引数は最初に送られたメソッドセレクタ、引数、レシーバです。
 \ct{ObjectsAsMethodsExample}は\ct{run:with:in:}メソッドを実装しており、メッセージをインターセプトして自身に移譲します。
 
-ここで、この偽のメソッドを削除するには、以下のようにします:
+次のようにすれば、この偽のメソッドを削除できます:
 \begin{code}{}
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-\ct{ObjectsAsMethodsExample}をより詳しく見ると、そのスーパークラスがまた、\ct{flushcache}、\ct{methodClass:}、そして\lct{selector:}といったメソッドを定義しており、しかし、それらはすべて空になっていることがわかります。これらのメッセージは、コンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドを装うオブジェクトは、以上のメソッドを実装していなければいけません。(実装すべき最も重要なメソッドは\ct{flushcache}で; 他のメソッドは、場合によって必要となる可能性があります。つまり、そのメソッドが\clsmthind{Behavior}{addSelector:withMethod:}を使ってインストールされたのか、あるいは、\clsmthind{MethodDictionary}{at:put:}を使って直接インストールされたのかという場合によってです)。
+\ct{ObjectsAsMethodsExample}をさらに詳しく調べると、スーパークラスが\ct{flushcache}、\ct{methodClass:}、\lct{selector:}のメソッドを定義していることがわかりますが、定義だけで何も実装されていません。これらのメッセージはコンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドのふりをするために実装しておく必要があります（\ct{flushcache}はこの中で最も重要なメソッドです。他のメソッドは\clsmthind{Behavior}{addSelector:withMethod:}または\clsmthind{MethodDictionary}{at:put:}でメソッドをインストールする場合に必要になります）。
 
 %-------------------------------------------------------------------------
 \subsection{メソッドラッパーをカバレッジテストに使う}
