@@ -829,13 +829,13 @@ TestRunner>>>collectCoverageFor: methods
 			[ UIManager default inform: 'Congratulations. Your tests cover all code under analysis.' ]
 		ifFalse: ...
 \end{code}
-チェックする各メソッドについて1個ずつラッパーが作られ、そして、各ラッパーがインストールされます。
-テストが実行され、すべてのラッパーはアンインストールされます。
-最後に、テストされなかったメソッドについてのフィードバックが、得られます。
+カバレッジを調べるメソッドごとにラッパーを生成し、インストールします。
+ラッパーはテストの実行後にアンインストールされます。
+最終的にカバーされていないメソッドに関するフィードバックを得られます。
 
-ラッパーそれ自身は、どのように動くのでしょうか?
-次の\ct{TestCoverage}ラッパーには、3個のインスタンス変数: \ct{hasRun}、\ct{reference}、\ct{method}があります。
-これらは以下のように初期化されます。
+ラッパー自身はどのように動くのでしょうか？
+\ct{TestCoverage}ラッパーには3個のインスタンス変数（\ct{hasRun}、\ct{reference}、\ct{method}）があり、次のように初期化されます。
+
 \begin{code}{}
 TestCoverage class>>>on: aMethodReference
 	^ self new initializeOn: aMethodReference
@@ -846,7 +846,7 @@ TestCoverage>>>initializeOn: aMethodReference
 	method := reference compiledMethod
 \end{code}
 
-installメソッドと、uninstallメソッドは、自明な方法で、メソッド辞書を更新します:
+installメソッドとuninstallメソッドはわかりやすい形でメソッド辞書を更新します:
 \begin{code}{}
 TestCoverage>>>install
 	reference actualClass methodDictionary
@@ -859,7 +859,7 @@ TestCoverage>>>uninstall
 		put: method
 \end{code}
 \noindent
-そして、\ct{run:with:in:}メソッドは、単に、\ct{hasRun}インスタンス変数を更新し、ラッパーをアンインストールし(カバレッジが検証されたから)、もともとのメソッドにメッセージを再送します。
+\ct{run:with:in:}メソッドは\ct{hasRun}インスタンス変数を更新し、ラッパーをアンインストールし（カバレッジが検証されたので不要になります）、元のメソッドにメッセージを再送します。
 \begin{code}{}
 run: aSelector with: anArray in: aReceiver
 	self mark; uninstall.
@@ -868,11 +868,11 @@ run: aSelector with: anArray in: aReceiver
 mark
 	hasRun := true
 \end{code}
-(\clsmthind{ProtoObject}{withArgs:executeMethod:}を見てみましょう。そして、メソッド辞書から取り除かれていたメソッドが、どのように呼び出されるか、見てみましょう。)
+（\clsmthind{ProtoObject}{withArgs:executeMethod:}を調べて、メソッド辞書から取り除かれたメソッドがどう起動されるのか確認してください。)
 
-ただそれだけです。
+たったこれだけです！
 
-メソッドラッパーを使えば、あらゆる種類の振る舞いを(それが適切であれば)、通常のメソッドの操作の前かあとに実行させられます。典型的な応用例は、インストゥルメンテーション(メソッドの呼び出しパターンに関する統計を収集すること)、オプションで、事前・事後条件をチェックすること、メモ化(オプションで、メソッドが計算した値をキャッシュすること)です。
+メソッドラッパーを使えば、どんな処理もメソッドの通常処理の前後で実行できます。典型的な応用例は計測（メソッドの呼び出しパターンの統計情報の収集)、事前・事後条件の確認（任意）、メモ化（メソッドの処理結果を任意でキャッシュ）です。
 
 %======================================
 \section{プラグマ}
