@@ -877,19 +877,28 @@ mark
 %======================================
 \section{プラグマ}
 
-\emphind{プラグマ}は、プログラムについてのデータを明記するアノテーション(注釈)ですが、プログラムの実行には関与しません。プラグマは、プラグマがアノテートするメソッドの操作に、直接影響しません。
-プラグマには、いくつもの使い道があります、それらは、例えば以下のようなものです:
+\emphind{プラグマ}とは、実行に影響しないデータをプログラムに付与する注釈です。
+プラグマはメソッドの操作に対して直接的な影響はありません。
+プラグマにはいくつもの使い道があります:
 \begin{itemize}
-\item コンパイラーへの情報: \indmain{プラグマ}は、コンパイラがメソッド呼び出しをプリミティブ関数にするのに用いられます。このプリミティブ関数は、仮想マシンか外部プラグインが定義しなければなりません。
-\item 実行時処理: いくつかのプラグマは、実行時にこれを検査できます。
+\item コンパイラへの情報: \indmain{プラグマ}はコンパイラにメソッド呼び出しをプリミティブ関数として扱うよう指示します。プリミティブ関数は仮想マシンか外部プラグインで定義する必要があります。
+\item 実行時処理: 実行時に注釈の内容を検証します。
 \end{itemize}
 
-プラグマが適用可能なのは、プログラムのメソッド宣言においてのみです。メソッドは、1個かそれ以上のプラグマを宣言でき、そしてプラグマは、どのSmalltalkの文よりも先に宣言されなければなりません。各プラグマは、事実上、リテラル引数をともなった静的メッセージ送信です。
+プラグマはメソッド宣言にのみ適用できます。
+メソッドには複数のプラグマを宣言でき、\st文より前に宣言する必要があります。
+プラグマはリテラルを引数に取る静的なメッセージ送信と言えます。
 
-この章の前の方でプリミティブを紹介したときに、簡単なプラグマの例を見ました。プリミティブは、プラグマ宣言以上の何物でもありません。
-\ct{instVarAt:}メソッドの定義内の\ct{<primitive: 73>}を検討してください。このプラグマのセレクターは、\ct{primitive:}であり、その引数はリテラル値で、\ct{73}です。
+この章の最初でプリミティブを紹介したときにプラグマが出てきました。
+プリミティブはプラグマ宣言でしかありません。
+\ct{instVarAt:}メソッド内の\ct{<primitive: 73>}を見てください。
+このプラグマのセレクタは\ct{primitive:}で、引数はリテラル\ct{73}です。
 
-コンパイラーはおそらく、プラグマの大口ユーザです。SUnitもまた、アノテーションを活用するツールです。SUnitは、テストユニットからアプリケーションのカバレッジを見積れます。SUnitでは、いくつかのメソッドを、カバレッジから除外したいと思うかもしれません。以下は、\ct!SplitJointTest class!の\ct!documentation!メソッドの場合です:
+おそらくコンパイラはプラグマの大口ユーザです。
+SUnitも注釈を活用するツールです。
+SUnitはテスト対象からアプリケーションのカバレッジを評価できます。
+しかし、誰しもカバレッジから一部のメソッドを除外したくなることがあるでしょう。
+次に\ct!SplitJointTest class!の\ct!documentation!メソッドの例を紹介します:
 
 \begin{code}{}
 SplitJointTest class>>>documentation
@@ -899,7 +908,7 @@ SplitJointTest class>>>documentation
 	^ 'This package provides function.... "
 \end{code}
 
-単に、メソッドを\ct!<ignoreForCoverage>!プラグマでアノテートするだけで、カバレッジのスコープをコントロールできます。
+メソッドに\ct!<ignoreForCoverage>!プラグマを加えるだけで、カバレッジの適用範囲を制御できます。
 
 %Beside the compiler, Lint is a heavy user of pragmas. Lint is a static code analyzer that flags suspicious, non-portable constructs and code that is likely to contain bugs. It may happen that a method needs to be excluded from Lint analysis. This is the case here:
 
@@ -915,7 +924,8 @@ SplitJointTest class>>>documentation
 
 %One of the pragmas used by Lint to filter out methods is \ct{lint:rationale:author:}.
 
-プラグマは、\clsind{Pragma}のインスタンスであって、ファーストクラスのオブジェクトです。コンパイル済みメソッドは、\mthind{CompiledMethod}{pragmas}メソッドを実装します。\ct!pragmas!メソッドは、プラグマの配列を返します。
+プラグマは\clsind{Pragma}のインスタンスであるファーストクラスオブジェクトです。
+コンパイル済みメソッドに\mthind{CompiledMethod}{pragmas}メッセージを送ると、プラグマの配列を返します。
 
 \begin{code}{}
 (SplitJoinTest class >> #showDocumentation) pragmas.
@@ -923,15 +933,16 @@ SplitJointTest class>>>documentation
 (Float>>#+) pragmas --> an Array(<primitive: 41>)
 \end{code}
 
-特定のクエリを定義するメソッドが、クラスから取り出されることがあり得ます。\ct!SplitJoinTest!のクラス側には、\ct!<ignoreForCoverage>!とアノテートされた、いくつかのメソッドがあります:
+特定のプラグマを定義しているメソッドをクラスから取得する場合もあります。
+\ct!SplitJoinTest!には\ct!<ignoreForCoverage>!と注釈されたクラスメソッドがあります:
 
 \begin{code}{@TEST}
 Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignoreForCoverage> <ignoreForCoverage> <ignoreForCoverage>)
 \end{code}
 
-\ct{allNamed:in:}の変種が、\ct{Pragma}のクラス側に見付かるでしょう。
+\ct{Pragma}のクラスメソッドには\ct{allNamed:in:}の変種メソッドがあります。
 
-プラグマは、どのメソッドの中で、そのプラグマが定義されたか知っていおり(\ct{method}を使えばわかります)、そのメソッドの名前を(\ct{selector})、そのメソッドを含むクラスを(\ct{methodClass})、プラグマの引数の数を(\ct{numArgs})、プラグマに特定の引数リテラルがあるかどうかを(\ct{hasLiteral:}と\ct{hasLiteralSuchThat:})知っています。
+プラグマは自身が定義されたメソッド（\ct{method}を使います）、そのメソッド名（\ct{selector}）、そのメソッドを持つクラス（\ct{methodClass}）、プラグマの引数の数（\ct{numArgs}）、プラグマが指定されるリテラルを引数として持つかどうかを（\ct{hasLiteral:}と\ct{hasLiteralSuchThat:}）知っています。
 
 \lr{Typically pragmas are performed on an interpreter object that understands the pragma message.}
 
