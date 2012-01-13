@@ -600,7 +600,7 @@ Object>>>haltIf: condition
 しかし、もし\ct{doesNotUnderstand:}がメソッド検索パスにある\ct{Object}のサブクラスでオーバーライドされていたらどうなるでしょう？
 これはある種の非常に動的な振る舞いを実現するのに便利です。\ct{doesNotUnderstand:}をオーバーライドすることで、オブジェクトは理解できないメッセージを理解できるようになり、メッセージに応答する代替手段になります。
 
-このテクニックの最も一般的な応用例は、(1) \ind{軽量プロキシ}の実装と (2) 足りないコードの動的なコンパイルまたはロード、です。
+この方法の最も一般的な応用例は、(1) \ind{軽量プロキシ}の実装と (2) 足りないコードの動的なコンパイルまたはロード、です。
 
 %-----------------------------------------------------------------
 \subsection{軽量プロキシ}
@@ -702,7 +702,7 @@ Point>>>rect: aPoint
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
 \end{code}
 
-このテクニックのプロキシを使えばメッセージをインターセプトできますが、プロキシに起因する制限に気をつけてください。
+この方法のプロキシを使えばメッセージをインターセプトできますが、プロキシに起因する制限に気をつけてください。
 \secref{wrapper}では、メッセージをインターセプトするためのより一般的な方法を見ていきます。
 
 %-----------------------------------------------------------------
@@ -713,7 +713,7 @@ Point>>>rect: aPoint
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
-このテクニックのシンプルな応用例を見てみましょう。次に示すクラスは必要に応じてインスタンス変数へのアクセサを自動的に追加します:
+この方法のシンプルな応用例を見てみましょう。次に示すクラスは必要に応じてインスタンス変数へのアクセサを自動的に追加します:
 % \lr{the last statement should return the result of the message, otherwise you cannot proceed with the debugger} \alex{all redefinition of doesNotUnderstand: includes a return statement. However, I do not see your comment lukas, I tried to insert a 'self halt' in the method, I was able to proceed. I added the return in the function} \lr{Of course it depends on the exact circumstances. If you perform a message on self that returns self it does not matter, but in any other case a forgotten return can introduce strange side effects. There was no return in the listing below, but now there is and the problem is solved.}
 
 \begin{code}{}
@@ -794,7 +794,7 @@ Demo methodDict removeKey: #answer42 ifAbsent: []
 %-------------------------------------------------------------------------
 \subsection{メソッドラッパーをテストカバレッジの評価に使う}
 
-メソッドラッパーはメッセージをインターセプトする有名なテクニックです\cite{Bran98a}。
+メソッドラッパーはメッセージをインターセプトする有名な方法です\cite{Bran98a}。
 オリジナルの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーは\ct{CompiledMethod}のサブクラスのインスタンスです。インストールすると、メソッドラッパーは元のメソッドの起動前後に特別なアクションを実行できます。
 アンインストールすると、元のメソッドはメソッド辞書のあるべき位置に戻されます。
 
