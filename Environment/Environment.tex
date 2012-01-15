@@ -479,7 +479,7 @@ SystemNavigation default browseAllCallsOn: #drawOn: from: ImageMorph
 SystemNavigation default browseAllImplementorsOf: #drawOn:
 \end{code}
 
-他に何が出来るのかを知るには、ブラウザでで\ct{SystemNavigation}クラスを探してください。
+他に何が出来るのかを知るには、ブラウザで\ct{SystemNavigation}クラスを探してください。
 更なる操作例については、FAQ(\appref{faq})で見つけることができます。
 
 %=========================================================
@@ -633,7 +633,7 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 \button{Save}ボタンをクリックすると、\figref{PBE-on}のように保存するパッケージのバージョンに対するログメッセージを入力するよう求められます。このメッセージをアクセプトするとMonticelloはパッケージを保存します。
 保存したことを示すため、Monticelloのパッケージペインに付けられていたアスタリスクがなくなり、バージョン番号が付与されます。
 
-もしパッケージに変更を加えた\,---\,例えばクラスの1つにメソッドを追加した\,---\,場合、アスタリスクが再び現れて、変更が保存されていないことを示します。パッケージキャッシュをリポジトリブラウザで開いて保存したバージョンを選べば、\button{Changes}ボタンや他のボタンを使うことができます。
+もしパッケージに変更を加えた\,---\, 例えばクラスの1つにメソッドを追加した \,---\, 場合、アスタリスクが再び現れて、変更が保存されていないことを示します。パッケージキャッシュをリポジトリブラウザで開いて保存したバージョンを選べば、\button{Changes}ボタンや他のボタンを使うことができます。
 もちろんリポジトリに新しいバージョンを保存することもできます。\button{Refresh}ボタンを押してリポジトリビューを一度更新すれば、\figref{package-cache-browser}のように表示されるはずです。
 \index{package!cache}
 
@@ -682,19 +682,19 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 つまり、リポジトリの情報を編集するか(Monticelloブラウザで\actclick )別のリポジトリを選んで、パッケージキャッシュブラウザから\button{Copy}ボタンを押せば、そのバージョンを復活させることができます。
 
 %=========================================================
-\section{[Inspector]と[Explore]}
+\section{インスペクタと[Explore]}
 \seclabel{inspector} % (fold)
 
-\st が他の多くの言語と異なる特徴の一つは、静的なコードの世界ではなく、生きたオブジェクトの世界への窓を提供していることです。
+\st が他の多くの言語と異なる特徴の一つは、静的なコードの世界ではなく、生きたオブジェクトの世界へ開かれた窓を提供しているということです。
 そこではどのようなオブジェクトでもプログラマーによって調べることが可能です。さらには変更することさえできます。\,---\, ただし、システムを構成している基本的なオブジェクトを変更するような時には注意が必要です。
 もちろん言うまでもなく、まず最初にイメージを保存しておいてください！
 
 %---------------------------------------------------------
-\subsection{[Inspector]}
+\subsection{インスペクタ}
 
-\dothis{\ind{[Inspector]}を使ってどんなことが出来るか、実際に見てみるために[Workspace]で \ct{TimeStamp now} と打ち込んで、\actclick したら \menu{inpect it}  を選択してください。}
-(メニューを使う前にテキストを選択しておく必要はありません。もし、テキストを選択してない場合には、メニュー操作は現在の行全てを対象にするからです。 \menu{\textbf{i}nspect it} を選択する代わりに \short{i} とタイプしても同じです)
-
+\dothis{\ind{インスペクタ}を使ってどんなことが出来るか、実際に見てみるためにワークスペースで \ct{TimeStamp now} と入力し、\actclick で \menu{inpect it} を選んでください。}
+(メニューを使う前にテキストを選択しておく必要はありません。テキストが選択されていない場合には、メニュー操作は現在の行全てを対象にするからです。
+\menu{\textbf{i}nspect it} を選ぶ代わりに \short{i} とタイプしても同じです)
 \clsindex{TimeStamp}
 \index{keyboard shortcut!inspect it}
 
@@ -706,26 +706,39 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 	\figlabel{inspectTimeNow1}
 \end{figure}
 
-\figref{inspectTimeNow1} のようなウィンドウが現れます。これが[Inspector]です。そしてこれはある特定のオブジェクトの内部に向かって開かれた窓と考えることができます。特定のオブジェクトとは、 \,---\, この場合には  \ct{TimeStamp now} という式を評価することによって生成された  \mbox{\ct{TimeStamp}} のインスタンスオブジェクトです。
-ウィンドウのタイトルバーには、インスペクトしているオブジェクトの印字形式の表現が表示されています。左側のペインの先頭の \menu{self} を選択すると、右側のペインにそのオブジェクトが文字列で表示されます。
-左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self がツリーの根になっています。インスタンス変数は名前のそばにある三角形を展開することにより探索することができます。
+\figref{inspectTimeNow1} のようなウィンドウが現れます。
+これがインスペクタで、特定のオブジェクトの内部に向かって開かれた窓と考えることができます。特定のオブジェクトとは、 \,---\, この場合、 \ct{TimeStamp now} という式を評価することによって生成された \mbox{\ct{TimeStamp}} のインスタンスオブジェクトのことです。
+% the \mbox is here because without it, the listings macros puts a space between TimeStamp 
+% and the following word, and that space happens to come out at the start of a line.
 
-[Inspector]の下部にある横長のペインは小さな[Workspace]のウインドウになってます。このウィンドウでは、偽変数の \ct{self} に左側のペインで選択したオブジェクトに束縛されているので便利です。そこで以下の式
+ウィンドウのタイトルバーには、インスペクトしているオブジェクトが印字形式で表示されています。
+左側のペインの先頭の \menu{self} を選択すると、右側のペインにそのオブジェクトが文字列で表示されます。
+% If you select \menu{all inst vars} in the left pane, the right pane will show a list of the instance variables in the object, and the printstring for each one.  
+% The remaining items in the left pane represent the instance variables; this makes it easy to examine them one at a time, and also to change them.
+左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self をツリーの根としています。
+インスタンス変数は、名前の横にある三角形を展開することで探求できます。
+
+インスペクタの下部にある横長のペインは小さなワークスペースウインドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されているので便利です。
+そこで、
 \begin{code}{}
 self - TimeStamp today
 \end{code}
-これをこの[Workspace機能のペイン]で \menu{inspect it} すると結果は \clsind{Duration} オブジェクトになります。
-これは今日の夜中の0時と[Inspector]で見ている TimeStamp オブジェクトを生成した \ct{TimeStamp now} を評価した時点との間の時間を表しています。
-さらに \ct{TimeStamp now - self} を評価するならば、あなたがこのセクションを読むのにどれくらい長い時間費やしたかを教えてくれます！
+上記の式をワークスペースペインで \menu{inspect it} すると、結果は \clsind{Duration} オブジェクトになります。このオブジェクトは、今日の午前０時と \ct{TimeStamp now} を評価して得られた \ct{TimeStamp} オブジェクト（インスペクトしているもの）との、時間間隔を表しています。
+さらに \ct{TimeStamp now - self} を評価すれば、あなたがこのセクションを読むのに費やした時間を教えてくれるでしょう！
 
-\ct{self} だけでなく、オブジェクトの全てのインスタンス変数は[Workspace機能のペイン]のスコープの範囲にあります。そのため式で参照することができるだけでなく代入することもできます。例えば、左のペインのツリーの根のオブジェクトを選択して、[Workspace機能のペイン]で \ct{jdn := jdn - 1} を評価すると、実際にインスタンス変数の \ct{jdn} が変化していることが分かりますし、さらに \ct{TimeStamp now - self} の値は1日分増えていることが分かります。
+\ct{self} だけでなく、オブジェクトの全てのインスタンス変数も、ワークスペースペインの有効範囲にあります。つまり、変数に対して式で参照したり代入することもできます。例えば、左のペインのツリーの根にあるオブジェクトを選んでから、ワークスペースペインで \ct{jdn := jdn - 1} を評価すると、インスタンス変数 \ct{jdn} の値が実際に変化することが分かりますし、\ct{TimeStamp now - self} の値も1日分増えるでしょう。
 
-辞書オブジェクトや順序集合オブジェクトやコンパイルされたメソッドのオブジェクト、さらにいくつかのクラスに対しては、[Inspector]に特別な拡張がなされていて、これによりこれらのオブジェクトの内容をより簡単に検査することができます。
+% ON: Does not work anymore
+%You can change instance variables directly by selecting them, replacing the old value in the right-hand  pane by a \pharo expression, and accepting.  
+%\pharo will evaluate the expression and assign the result to the instance variable.
+
+DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラスに対しては、インスペクタに特別な拡張がなされていて、これらのオブジェクトの内容をより簡単に検査することができます。
 
 %---------------------------------------------------------
-\subsection{[Object Explore]}
+\subsection{オブジェクトエクスプローラ}
 
-\emph{[Object Explore]}は概念的には[Inspector]とよく似ていますが、情報の表現の仕方が異なっています。この相違点を調べるためにさっきまでインスペクトしていたものと同じオブジェクトを\emph{[Explore]}で探検してみましょう。
+\emph{オブジェクトエクスプローラ}は概念的にはインスペクタとよく似ていますが、情報の表し方が異なっています。
+この相違点を調べるために、先ほどまでインスペクトしていたものと同じオブジェクトを\emph{エクスプローラ}で探求してみましょう。
 
 \begin{figure}[tbp]
 \begin{minipage}{0.48\textwidth}
@@ -734,7 +747,7 @@ self - TimeStamp today
 		{\includegraphics[width=\textwidth]{exploreTimeStampNow}}
 		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow}}
 	\end{center}
-	\caption{ \ct{TimeStamp now} を探検する}
+	\caption{ \ct{TimeStamp now} を探求する}
 	\figlabel{exploreTimeStampNow}
 \end{minipage}
 \hfill
@@ -744,32 +757,32 @@ self - TimeStamp today
 		{\includegraphics[width=\textwidth]{exploreTimeStampNow2}}
 		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow2}}
 	\end{center}
-	\caption{インスタンス変数を探検する}
+	\caption{インスタンス変数を探求する}
 	\figlabel{exploreTimeStampNow2}
 \end{minipage}
 \end{figure}
 
-\dothis{[Inspector]の左側のペインで \menu{self} を選択した状態で、\actclick して \menu{explore (I)} を選んでください}
-\ind{[Explore]}のウインドウは \figref{exploreTimeStampNow} のような姿をしています。
-\lct{ツリーの根} の次の小さな三角形をクリックすると、ビューは \figref{exploreTimeStampNow2} のように変化します。このビューは探検対象となっているオブジェクトのインスタンス変数を表示しています。
-\ct{offset} のそばの三角形をクリックすると \emph{それが持つ}インスタンス変数が見えます。
-\,---\,このように複雑な階層構造を探検しなければならない場合、[Explore]はその名の通りにたいへん便利です。
+\dothis{インスペクタの左側のペインで \menu{self} を選び、\actclick で \menu{explore (I)} を選んでください}
+\ind{エクスプローラ}ウインドウは \figref{exploreTimeStampNow} のように表示されます。
+ツリー構造の \lct{根} の隣にある小さな三角形をクリックすると、ビューが \figref{exploreTimeStampNow2} のように変化します。このビューは、エクスプロアの対象とするオブジェクトのインスタンス変数を表示します。
+\ct{offset} の隣の三角形をクリックすると、 \emph{その}インスタンス変数が見えます。
+エクスプローラーは、複雑な階層構造を探求しなければならない場合に便利なため、この名前が付けられています。
 \index{keyboard shortcut!explore it}
 
-[Explore]の[Workspace機能のペイン]の働きは[Inspector]のものとは若干異なります。
-\ct{self} は必ずしもツリーの根のオブジェクトに束縛されておらず、現在選択しているオブジェクトを束縛するようになっており、選択されたオブジェクトのインスタンス変数も同様のスコープに従います。
+オブジェクトエクスプローラのワークスペースペインの働きは、インスペクタのものと若干異なります。
+\ct{self} は必ずしもツリー構造の根にあたるオブジェクトではなく、現在選択されているオブジェクトに束縛されるようになっています。また、選択されたオブジェクトのインスタンス変数も同様のスコープに従っています。
 
-[Explore]の真価を見るために、深い入れ子構造のオブジェクトを探検してみましょう。
+エクスプローラの真価を見るために、深い入れ子構造をもったオブジェクトを調べてみましょう。
 
-\dothis{[Workspace]で \ct{Object explore} を評価してください}
-これは \pharo の \ct{Object} クラスを表現するオブジェクトです。
-メソッド辞書を表現するオブジェクトやこのクラスのコンパイルされたメソッドまでも直接ナビゲートすることが出来ることに注意してください（ \figref{ExploreObject} 参照）。
+\dothis{ワークスペースで \ct{Object explore} を評価してください}
+これは \pharo の \ct{Object} クラスを表すオブジェクトです。
+メソッド辞書を表すオブジェクトに加えて、そのクラスのコンパイル済みメソッドも直接ナビゲート出来ることに注意してください（ \figref{ExploreObject} 参照）。
 
 \begin{figure}[tbp]
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{ExploreObject}
 	\end{center}
-	\caption{\ct{Object} クラスを探検する}
+	\caption{\ct{Object} クラスを探求する}
 	\figlabel{ExploreObject}
 \end{figure}
 
@@ -787,40 +800,41 @@ self - TimeStamp today
 %\end{figure}
 
 %=========================================================
-\section{[Debugger]}
+\section{デバッガ}
 \seclabel{debugger} % (fold)
 
-\ind{[Debugger]} は間違いなく \pharo のツールの内もっとも強力なツールです。デバッグに利用されるだけでなく、新しいコードを書くのにも利用されます。
-[Debugger]のデモンストレーションをするために、バグを作るところから始めましょう！
+\ind{デバッガ} は間違いなく \pharo のツールの中で一番強力なツールです。ただデバッグのためというだけでなく、新しいコードを書くのにも利用されます。
+デバッガのデモンストレーションをするために、バグを作るところから始めましょう！
 
-\dothis{ブラウザを使って以下のメソッドをクラス \ct{String} に追加してください}
+\dothis{ブラウザを使って、以下のメソッドを \ct{String} クラスに追加してください}
 
 \needlines{7}
 \begin{method}[buggy]{バグがあるメソッド}
 suffix
-	"ファイル名と仮定して、最後のドットから後の部分をサフィックスとして返す"
+	"自分自身をファイル名と仮定して、最後のドットから後ろの部分をサフィックスとして返す"
 	| dot dotPosition |
 	dot := FileDirectory dot.
 	dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
 	^ self copyFrom: dotPosition to: self size 
 \end{method}
 
-こんな簡単なメソッドは動くのが当たり前だろうと確信して、SUnit のテストも書かずに、[Workspace]で \ct{'readme.txt' suffix} と打ち込んで \menu{print it(p)} を実行します。
-すると驚いたことに、期待された答え \ct{'txt'} の代わりに、 \figref{PreDebugWindow} のような \clsind{PreDebugWindow} がポップアップしてきました。
+もちろん、こんな簡単なメソッドは動くのが当たり前だろうと確信するので、SUnit のテストも書かずにワークスペースで \ct{'readme.txt' suffix} と入力し、
+\menu{print it(p)} を実行します。
+すると驚くことに、期待した答え \ct{'txt'} の代わりに、 \figref{PreDebugWindow} のような \clsind{PreDebugWindow} がポップアップします。
 
 \begin{figure}[btp]
 	\begin{center}
 	\includegraphics[width=0.8\textwidth]{PreDebugWindow}
 	\end{center}
-	\caption{ \ct{PreDebugWindow} によるバグの報告}
+	\caption{ \ct{PreDebugWindow} によるバグの通知}
 	\figlabel{PreDebugWindow}
 \end{figure}
 
-\ct{PreDebugWindow} はタイトルバーでどのようなエラーが起きたのか分かるようになっています。さらにエラーが起きるまでのメッセージの \emphind{スタックトレース} が表示されています。
-トレースの一番下が始まりですが、 \ct{UndefinedObject>>DoIt} という行はコンパイルされて実行されたコードを表してます。それは、[Workspace]で \ct{'readme.txt' suffix} を選択して、\pharo に \menu{print it} を命令した時のものです。
-もちろん、このコードは \clsind{ByteString} クラスのオブジェクト(\ct{'readme.txt'})にメッセージ \ct{suffix} を送信しています。
-これは \ct{String} クラスから継承している \ct{suffix} メソッドが実行されました。このことはスタックトレースの次の行で \ct{ByteString(String)>>suffix} として表されてます。
-スタックをさらに辿ると、\ct{suffix} メソッドはメッセージ \ct{detect:}\ldots を送信し、更に \ct{detect:ifNone:} メソッドで \ct{errorNotFound} を送信していることが分かります。
+\ct{PreDebugWindow} はどんなエラーが起きたのかタイトルバーで分かるようになっています。さらに、エラーに至るまでのメッセージの \emphind{スタックトレース} が表示されます。
+トレースの一番下を起点とし、 \ct{UndefinedObject>>DoIt} という行が、ワークスペースで \ct{'readme.txt' suffix} を選び、\pharo に \menu{print it} させた時のコンパイルおよび実行されたコードを表しています。
+もちろん、このコードは \clsind{ByteString} クラスのオブジェクト(\ct{'readme.txt'})にメッセージ \ct{suffix} を送ります。
+これは \ct{String} クラスから継承している \ct{suffix} メソッドの実行を引き起こし、このことがスタックトレースの次の行で \ct{ByteString(String)>>suffix} として表されています。
+スタックをさらに辿ると、\ct{suffix} メソッドは \ct{detect:}\ldots メッセージを送信し、更に \ct{detect:ifNone:} メソッドで \ct{errorNotFound} を送信していることが分かります。
 \clsindex{UndefinedObject}
 
 \begin{figure}[btp]
@@ -829,49 +843,52 @@ suffix
 		{\includegraphics[width=\textwidth]{debuggerDetectIfNone}}
 		{\includegraphics[width=0.7\textwidth]{debuggerDetectIfNone}}
 	\end{center}
-	\caption{[Debugger]}
+	\caption{デバッガ}
 	\figlabel{debuggerDetectIfNone}
 \end{figure}
 
-\emph{なぜ}ドットが見つからなかったのかを調べるために、[Debugger]本体が必要ですので、\button{Debug} ボタンをクリックします。
+\emph{なぜ}ドットが見つからなかったのかを調べるために、デバッガ本体が必要なので、\button{Debug} ボタンをクリックします。
 
 %\dothis{You can also open the debugger by clicking on any of the lines on the stack trace.  If you do this, the debugger will open already focussed on the corresponding method.}
 
-\figref{debuggerDetectIfNone} に[Debugger]を示します。最初は無愛想に見えますが、とても使い易いものです。
-タイトルバーと一番上のペインは \lct{PreDebugWindow} とよく似ています。
-しかし、[Debugger]ではスタックトレースはメソッドブラウザと連動しています。そのためスタックトレースの1行を選択すると該当するメソッドが下のペインに表示されます。
-ここで重要な点は、中断した状態で、エラーが発生した実行結果がイメージの中に存在し続けているということを実感してください。
-スタックトレースの各々の行は、実行を継続するのに必要な全ての情報を持っている実行スタック上のフレームを表してます。これには計算に伴う全てのオブジェクトと各々のインスタンス変数や実行中のメソッドの全ての一時変数も含まれています。
+\figref{debuggerDetectIfNone} にデバッガを示します。最初は威嚇的に見えますが、使うのはとても簡単です。
+タイトルバーと一番上のペインは \lct{PreDebugWindow} にあるものととてもよく似ています。
+しかし、デバッガではスタックトレースはメソッドブラウザと合体させており、スタックトレース上の行を選択すると対応するメソッドが下のペインに表示されます。
+エラーを引き起こした実行はまだイメージ内にありますが、中断状態にあることを意識することは重要です。
+スタックトレースの各行は、実行を継続するのに必要な全ての情報を持った実行スタック上のフレームを表しています。これには、計算に伴う全てのオブジェクトと各インスタンス変数、実行中のメソッドの全ての一時変数も含まれています。
 
-\figref{debuggerDetectIfNone} では、一番上のペインから \ct{detect:ifNone:} のメソッドを選択しています。
-メソッドの本体は中央のペインに表示されています。メッセージ \ct{value} が青くハイライトされているのは、このメソッドではメッセージ \ct{value} を送信してその結果を待っている状態であることを示しています。
+\figref{debuggerDetectIfNone} では、一番上のペインで \ct{detect:ifNone:} メソッドが選択されています。
+メソッドの本体は中央のペインに表示されています。\ct{value} メッセージが青くハイライトされているのは、このメソッドではメッセージ \ct{value} を送信し、その結果を待っている状態であることを示しています。
 
-[Debugger]の一番下の4つのペインは実際には([Workspace機能のペイン]を持たない)2つの小さな[Inspector]です。
-左側の[Inspector]は現在のオブジェクトを表示していますが、これは中央のペインで \self に相当するオブジェクトです。違うスタックフレームを選択することで、\self が指し示すものは変わり、\self{}-[Inspector]の内容も変わります。
-左下のペーンの \self をクリックすると、\self は インターバルオブジェクト \ct{(10 to: 1 by -1)} であることが分かります。これは期待通りです。
-[Debugger]の小さな[Inspector]に[Workspace機能のペイン]が必要無い理由は、全ての変数はメソッド・ペインのスコープに存在していることから、このペインの中で自由に式を打ち込んだり選択して評価するべきだからです。
-そうした変更に対してはメニューや \short{\textit{l}} で \menu{cancel(l)} できます。
+デバッガの一番下の4つのペインは、実際には(ワークスペースペインを持たない)2つの小さなインスペクタです。
+左側のインスペクタは現在のオブジェクト、つまり、中央のペインで \self に相当するオブジェクトを表しています。
+別のスタックフレームを選ぶと、\self の示すオブジェクトが変わり、
+\self{}-インスペクタの内容も変わります。
+左下のペインの \self をクリックすると、\self がIntervalオブジェクト \ct{(10 to: 1 by -1)} であることが分かります。これは期待通りのオブジェクトです。
+デバッガの小さなインスペクタにワークスペースペインは必要ありません。というのも、全ての変数がメソッドペインの有効範囲内にあるからです。このペインに対する式の入力や選択、それらの式の評価など自由に行うことができます。
+そうした変更は、いつでも \menu{cancel(l)} メニューや \short{\textit{l}} を使って取り消せます。
 % apb: that lower-case-L is in italics so that it doesn't look like a 1 or a |
 \index{keyboard shortcut!cancel}
 
-右側の[Inspector]は現在のコンテクストにおける一時変数を表示しています。
-\figref{debuggerDetectIfNone} では、\ct{value} は引数 \ct{exceptionBlock} に送られています。
+右側のインスペクタには、現在のコンテクストにおける一時変数が表示されます。
+\figref{debuggerDetectIfNone} では、
+\ct{value} が、引数 \ct{exceptionBlock} に送られています。
 
 %\dothis{To see the current value of this parameter, click on \ct{exceptionBlock} in the context inspector.
 %This will tell you that \ct{exceptionBlock} is \ct{[self errorNotFound: ...]}.
 %\on{no longer true!}
 
-スタックトレースで一つ下のメソッドを見ると、\ct{exceptionBlock} は \ct{[self errorNotFound: ...]} であることが分かります。当然ですけれど、エラーメッセージはこれによるものです。
+スタックトレースで一つ下のメソッドを見ると、\ct{exceptionBlock} は \ct{[self errorNotFound: ...]} です。エラーメッセージが表示されるのは驚くことではありません。
 
-ちなみに、mini-[Inspector]に表示された変数の一つについて完全な[Inspector]や[Explore]を開きたい場合は、変数の名前を単純にダブルクリックするか、変数の名前を選択して \actclick から \menu{inspect(i)} もしくは \menu{explore(I)} を選びます。
-こうしておくと他のコードを実行した時に変数がどのように変化するかを見たい時に便利です。
+ちなみに、ミニインスペクタに表示された変数に対して完全なインスペクタやエクスプローラを開きたい場合は、単に変数名をダブルクリックするか、変数名を選んで \actclick し、\menu{inspect(i)} もしくは \menu{explore(I)} を選びます。
+こうしておくと、他のコードの実行中に変数の変化を見たい場合に便利です。
 \index{keyboard shortcut!inspect it}
 \index{keyboard shortcut!explore it}
 
-メソッドウィンドウに戻って見てみると期待通りに、文字列 \ct{'readme.txt'} から \lct{ドット} を探し出すメソッドの直前の行で、かつ実行は最後の行まで到達していないことが分かります。
-\pharo は逆向きに実行することは出来ません。しかし、メソッドを再実行させることはできます。なお、この機能はオブジェクトを変化させず代わりに新しく生成するようなコードならばうまく動きます。
+メソッドウィンドウに戻って見てみると、メソッドの最後から２番目の行で、文字列 \ct{'readme.txt'} から \lct{ドット} を見つけようとしており、その実行が目的の行に達していないことがわかります。
+\pharo は逆向きに実行させることは出来ませんが、メソッドを再実行させることは可能で、オブジェクト自体を変化させず、新しいオブジェクトを生成するようなコードの場合にうまく働きます。
 
-\dothis{\button{Restart} をクリックしてください、すると実行位置が現在のメソッドの最初の文に戻ります。
+\dothis{\button{Restart} をクリックしてください。すると実行位置が現在のメソッドの最初の文に戻ります。
 次に送信されるメッセージ {\ct{do:}} が青くハイライトして表示されています( \figref{RestartDetectIfNone} 参照)。}
 
 \begin{figure}[btp]
@@ -880,27 +897,27 @@ suffix
 		{\includegraphics[width=\textwidth]{RestartDetectIfNone}}
 		{\includegraphics[width=0.7\textwidth]{RestartDetectIfNone}}
 	\end{center}
-	\caption{\ct{detect: ifNone:} メソッドを再実行した後の[Debugger]}
+	\caption{\ct{detect: ifNone:} メソッドを再実行した後のデバッガ}
 	\figlabel{RestartDetectIfNone}
 \end{figure}
 
-\button{Into} と \button{Over} ボタンは2つの異なった方法でステップ実行します。もし、\button{Over} ボタンを押すと \pharo は現在のメッセージ送信をエラーが起きなければ1ステップで実行します(この場合では \ct{do:})。
-このように \button{Over} ボタンにより現在のメソッドの次のメッセージ送信である \ct{value} に移ります。\,---\, ただし、このメッセージ送信はまさしく出発点であり、デバッグの助けになりません。
-というのも必要なことは、なぜ \ct{do:} メソッドが求めている文字を探し出すことが出来ずにいるのかを解明することだからです。
+\button{Into} と \button{Over} ボタンは2つの異なる方法でステップ実行します。\button{Over} ボタンを押した場合、\pharo は現在のメッセージ送信(この場合では \ct{do:})を、エラーが発生しない限り1ステップだけ実行します。
+つまり \button{Over} ボタンによって、現在のメソッドの次のメッセージ送信へと移ります。この場合は \ct{value} となります。\,---\, これは、まさしく最初にいた場所なので、大した助けにはなりません。
+必要なことは、なぜ \ct{do:} メソッドが求めている文字を見つけられないのかをつきとめることです。
 
 \dothis{\button{Over} ボタンをクリックした後で、\button{Restart} ボタンをクリックして \figref{RestartDetectIfNone} の状態に戻ってください。}
 
-\dothis{\button{Into} ボタンをクリックしてください。\pharo はハイライトされていたメッセージ送信に該当するメソッドの中に入って行きます。今回の場合、\ct{Collection>>do:} です。}
+\dothis{\button{Into} ボタンをクリックしてください。\pharo はハイライトされていたメッセージ送信に対応するメソッドの中に入ります。この場合は、\ct{Collection>>do:} です。}
 
-しかしながら、どちらにしてもこれはあまり助けにならないことが分かります。というのも \ct{Collection>>do:} が壊れていないことはかなり確信を持っていいはずです。よりバグがありそうに思われる \emph{箇所} を \pharo に尋ねるべきです。
-この場合に使うべきなのは、\button{Through} ボタンが適しています。なぜなら、 \ct{do:} メソッド自身の詳細は無視して引数ブロックの実行に焦点を絞りたいからです。
+しかし、どちらにしてもこれはあまり助けにならないことが分かります。というのも \ct{Collection>>do:} が壊れていないことはかなり確信が持てます。\pharo に対して \emph{何かを} させているところにバグがあるはずです。
+この場合、\button{Through} ボタンを用いるのが適しています。\ct{do:} メソッド自身の詳細を無視して、引数ブロックの実行に焦点を当てたいからです。
 
-\dothis{再び \ct{detect:ifNone:} メソッドを選択して、 \button{Restart} ボタンで \figref{RestartDetectIfNone} の状態に戻します。
-今度は \button{Through} ボタンを何回かクリックします。コンテクスト用ウィンドウの \ct{each} 変数を選択しておきます。
-\ct{do:} メソッドの実行に従って \ct{each} の内容が \ct{10} からカウントダウンしていくのが分かるでしょう。}
+\dothis{再度 \ct{detect:ifNone:} メソッドを選び、\button{Restart} ボタンで \figref{RestartDetectIfNone} の状態に戻します。
+今度は \button{Through} ボタンを数回クリックします。このとき、コンテクストウィンドウの \ct{each} 変数を選択しておきます。
+\ct{do:} メソッドの実行に従って、\ct{each} の内容が \ct{10} からカウントダウンしていくことが分かります。}
 
-\ct{each} の値が \ct{7} の時に \ct{ifTrue:} ブロックが実行されることが期待されますが、しかし、そうなりません。
-何が悪いのか見るために、 \figref{steppingIntoValue} に図示したように \ct{value:} の実行に \button{Into} ボタンで潜ります。
+\ct{each} の値が \ct{7} の時、\ct{ifTrue:} ブロックを実行することが期待されますが、しかし、そうなりません。
+何が悪いのかを見るため、\figref{steppingIntoValue} で示すように \ct{value:} を \button{Into} ボタンでステップ実行します。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -908,18 +925,18 @@ suffix
 		{\includegraphics[width=\textwidth]{steppingIntoValue}}
 		{\includegraphics[width=0.7\textwidth]{steppingIntoValue}}
 	\end{center}
-	\caption{\ct{do:} メソッドで数回 \lct{Through} ボタンでステップ実行した後の[Debugger]}
+	\caption{\ct{do:} メソッドを数回 \lct{Through} ボタンでステップ実行した後のデバッガ}
 	\figlabel{steppingIntoValue}
 \end{figure}
 
-\button{Into} ボタンをクリックした後、\figref{dotIsAString} で示される箇所にいることに気付きます。
-一見すると \ct{suffix} メソッドに \emph{戻って} しまったように見えますが、今は \ct{suffix} メソッドが \ct{detect:} メソッドに引数として渡している実行中のブロックの中にいます。
+\button{Into} ボタンをクリックした後、\figref{dotIsAString} で示した位置にいることがわかります。
+一見すると \ct{suffix} メソッドに \emph{戻って} しまったように見えますが、\ct{suffix} メソッドが \ct{detect:} メソッドに引数として渡しているブロックを実行中なのです。
 %\on{does not work any more! the debugger does not know about block variables!}
 %If you select \ct{i} in the context inspector, you can see its current value, which should be \ct{7} if you have been following along.  
 %You can then select the corresponding element of \self from the \self{}-inspector.
-%In  \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is \ctindeed a dot.
-コンテクスト用[Inspector]の \ct{dot} を選択するとその値が \ct{'.'} であることが分かります。
-こうして、\ct{'readme.txt'} の7番目の文字が \ct{Character} である一方、 \ct{dot} は \ct{String} であるために equal: とならないことが分かります。
+%In  \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is indeed a dot.
+コンテクストインスペクタで \ct{dot} を選ぶと、その値が \ct{'.'} であることが分かります。
+ここに至って、なぜイコールとならなかったかわかりました。\ct{'readme.txt'} の7番目の文字は \ct{Character} なのに、\ct{dot} が \ct{String} となっています。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -927,11 +944,11 @@ suffix
 		{\includegraphics[width=\textwidth]{dotIsAString}}
 		{\includegraphics[width=0.7\textwidth]{dotIsAString}}
 	\end{center}
-	\caption{\ct{'readme.txt' at: 7} が \ct{dot} と等しくならない原因を示している[Debugger]}
+	\caption{\ct{'readme.txt' at: 7} が \ct{dot} と等しくならない原因を示しているデバッガ}
 	\figlabel{dotIsAString}
 \end{figure}
 
-さて、バグが分かりましたので、この修正方法も明白です。つまり、探し始める前に \ct{dot} を文字に変換する必要があるのです。
+バグが判明したので修正方法も明白です。\ct{dot}を探す前に、文字へ変換する必要があります。
 
 \begin{figure}[btp]
 	\begin{center}
@@ -939,36 +956,37 @@ suffix
 		{\includegraphics[width=\textwidth]{revertDialog}}
 		{\includegraphics[width=0.7\textwidth]{revertDialog}}
 	\end{center}
-	\caption{[Debugger]の中で \ct{suffix} メソッドを修正する: 内側のブロックから抜けだすかどうかの確認}
+	\caption{デバッガの中で \ct{suffix} メソッドを修正する。内側のブロックから抜けだすかどうかの確認}
 	\figlabel{revertDialog}
 \end{figure}
 
-\dothis{\ct{dot := FileDirectory dot first} と、[Debugger]の中でコードを正しく修正して、変更を \menu{accept} してください。}
+\dothis{\ct{dot := FileDirectory dot first} のように、デバッガの中でコードを正しく修正し、変更を \menu{accept} してください。}
 
-\lct{detect:} の中の実行中のコードにいたために、この修正を行うことでいくつかのスタックフレームが失われることになります。それでいいのかどうか \pharo は確認してきます(  \figref{revertDialog} 参照)、当然のごとく \menu{yes} をクリックし、新しいメソッドを保存(およびコンパイル)します。
+\lct{detect:} の内側にあるブロック内のコードを実行しているため、この修正によっていくつかのスタックフレームが失われることになります。それでよいかどうかを \pharo が確認します( \figref{revertDialog} 参照)、\menu{yes} をクリックして、新しいメソッドを保存(およびコンパイル)します。
 
 %\dothis{Click \button{Restart} and then \button{Proceed}; the debugger window will vanish, and the evaluation of the expression \ct{'readme.txt' suffix} will complete, and print the answer \ct{'.txt'}}
 
-\ct{'readme.txt' suffix} という式の評価は完璧になったはずで、答え \ct{'.txt'} を印字します。
+\ct{'readme.txt' suffix} 式の評価は完了し、\ct{'.txt'} という答えを出力します。
 
-この答えは正しいのでしょうか？不幸なことにはっきりしたことは言えません。サフィックスは \ct{.txt} であるべきか？それとも \ct{txt} であるべきか？ \ct{suffix} メソッドのコメントはあまり明確ではありません。
-こうした問題を回避するために答えの定義を \ind{SUnit} のテストに書くという方法があります。
+この答えは正しいでしょうか？残念ながら、明確には述べられません。サフィックスは \ct{.txt} であるべきでしょうか？それとも \ct{txt} ？
+\ct{suffix} メソッドのコメントが、全然明確ではありません。
+こうした問題を避ける方法は、答えを定義する \ind{SUnit} テストを書くことです。
 
 \begin{method}[testSuffix]{\ct{suffix} メソッドのための簡単なテスト}
 testSuffixFound
 	self assert: 'readme.txt' suffix = 'txt'
 \end{method}
 
-同じテストを[Workspace]で実行するよりは、こちらの努力の方が \sunit を用いることで実行可能な文書になること、また、第三者にとって実行方法を簡単するという点でより優れています。
-さらに \ct{StringTest} クラスに \mthref{testSuffix} を追加して \sunit のテストとするならば、エラー発生時によりすばやくデバッグすることができます。
-\sunit は表明違反があると[Debugger]を開きますので、\figref{fixOffByOne} のように、一つフレームを遡り \button{Restart} ボタンでテストを再実行し、\button{Into} ボタンで ct{suffix} メソッドに入りエラーを修正すればいいのです。
-次にやることは \sunit Test Runner の \button{Run Failures} ボタンをクリックして、今度はテストが通過することを確認するだけです。
+テストの記述に必要な労力は、ワークスペースで同じテストを実行するよりも若干多いですが、\sunit を使うことで、テストを実行可能な文書として保持し、他人が簡単にテストできるようになります。
+さらに、\ct{StringTest} クラスに \mthref{testSuffix} を追加して \sunit でテストを実行すれば、エラーのデバッグに素早く戻ることができます。
+\sunit はアサーション違反があるとデバッガを開きますが、\figref{fixOffByOne} のように、スタックフレームを１つ遡り、\button{Restart} ボタンでテストを再実行し、\button{Into} ボタンで \ct{suffix} メソッドに入ることでエラーを修正できます。
+その後、\sunit Test Runner で \button{Run Failures} ボタンをクリックして、テストが通過することを確認するだけです。
 
 \begin{figure}[btp]
 	\begin{center}
 		\includegraphics[width=\textwidth]{fixOffByOne}
 	\end{center}
-	\caption{[Debugger]の中で \ct{suffix} メソッドを編集する: \sunit の表明違反の後にOff-by-one エラーを修正する}
+	\caption{デバッガの中で \ct{suffix} メソッドを編集する: \sunit のアサーション違反の後にOff-by-one エラーを修正する}
 	\figlabel{fixOffByOne}
 \end{figure}
 
@@ -982,8 +1000,8 @@ testSuffixFound
 \noindent
 どうしてこのテストがより良いものなのでしょう？その理由は、もし対象となる文字列に一つ以上のドットがある場合に、このメソッドがどうすべきであるかを読む人に教えてくれているからです。
 
-なお、エラーを補足したり表明違反の発生以外に、[Debugger]に入るいくつかの方法があります。
-コードを実行したら無限ループに入ってしまった場合、 \short{.} (英語を知ってれば分かりますが、終止符もしくはピリオド)と打ち込むことで割り込みをかけてその計算状況での[Debugger]を開くことができます。\footnote{同様に、どんな時にでも \short{{\sc shift--}.} とタイプすると緊急[Debugger]が起動することを覚えておくと便利です。}
+なお、エラーを補足したり表明違反の発生以外に、デバッガに入るいくつかの方法があります。
+コードを実行したら無限ループに入ってしまった場合、 \short{.} (英語を知ってれば分かりますが、終止符もしくはピリオド)と打ち込むことで割り込みをかけてその計算状況でのデバッガを開くことができます。\footnote{同様に、どんな時にでも \short{{\sc shift--}.} とタイプすると緊急デバッガが起動することを覚えておくと便利です。}
 また、疑わしいコードの箇所に \ct{self halt} と入れておくだけでもいいです。
 例えば、\ct{suffix} メソッドであるならば、次のような感じです。
 \index{process!interrupting}
@@ -999,9 +1017,9 @@ suffix
 	^ self copyFrom: dotPosition to: self size 
 \end{method}
 
-このメソッドを走らせると、 \ct{self halt} の実行により \ind{pre-debugger} が開いてきますので、そこで、実行を続行したり、[Debugger]に入って変数を見たり、ステップ実行したりコードを編集したりすることができます。
+このメソッドを走らせると、 \ct{self halt} の実行により \ind{pre-debugger} が開いてきますので、そこで、実行を続行したり、デバッガに入って変数を見たり、ステップ実行したりコードを編集したりすることができます。
 
-[Debugger]については以上で全てですが、 \ct{suffix} メソッドについてはまだです。
+デバッガについては以上で全てですが、 \ct{suffix} メソッドについてはまだです。
 最初のバグで気付いたかもしれませんが、対象となる文字列にドットがない場合、\ct{suffix} メソッドはエラーを発生します。
 これは望ましい振る舞いではありませんので、こうしたケースでは何が起きるのか特定するために第2のテストを追加してみます。
 
@@ -1013,7 +1031,7 @@ testSuffixNotFound
 
 \needlines{2}
 \dothis{ \mthref{testNoSuffix} を \clsind{StringTest} クラスのテストスイートに追加してテストがエラーを起こすところを見ます。
-\sunit でエラーが起きたテストを選択して[Debugger]に入り、テストをパスするためにコードを編集します。
+\sunit でエラーが起きたテストを選択してデバッガに入り、テストをパスするためにコードを編集します。
 もっとも簡単で明解な方法は \ct{detect:} メッセージの代わりに \ct{detect:ifNone:} を用いて、二番目の引数を単純に文字列の大きさを返すブロックとする方法です。}
 
 SUnitについては \charef{SUnit} でもっと詳しく学びます。
@@ -1036,15 +1054,15 @@ SUnitについては \charef{SUnit} でもっと詳しく学びます。
 	\figlabel{processBrowser}
 \end{figure}
 
-プロセス \subind{プロセス}{ブラウザ} は \pharo の中で稼働している様々なプロセスを見せてくれるという点で[Debugger]のいとこに相当します。
+プロセス \subind{プロセス}{ブラウザ} は \pharo の中で稼働している様々なプロセスを見せてくれるという点でデバッガのいとこに相当します。
 \figref{processBrowser} にスクリーンショットをあげておきます。
 左上のペインは、優先度80の割り込みタイマー監視プロセスから優先度10のアイドルプロセスに至るまで \pharo の中の全てのプロセスの優先度順のリストです。
 もちろん、単一プロセッサ上ですので、見ている時に動いてる唯一のプロセスはUIプロセスです。そのほかの全てのプロセスはなんらかのイベントを待ち続けています。
 デフォルトでは、プロセスの表示は静的ですが、\actclick{ing} から \menu{turn on auto-update(a)} を選ぶことで更新することができます。
 
-左上のペインでプロセスを選択すると、丁度、[Debugger]のように、スタックトレースが右上のペインに表示されます。
+左上のペインでプロセスを選択すると、丁度、デバッガのように、スタックトレースが右上のペインに表示されます。
 スタックトレースを選択すると該当するメソッドが下部のペインに表示されます。
-[Process Browser]は \self や \lct{thisContext} のためのmini-[Inspector]を備えてはいませんが、スタックトレースで \actclick{ing} することにより同様の機能を提供しています。
+[Process Browser]は \self や \lct{thisContext} のためのmini-インスペクタを備えてはいませんが、スタックトレースで \actclick{ing} することにより同様の機能を提供しています。
 
 %=========================================================
 \section{メソッド検索}
@@ -1080,7 +1098,7 @@ SUnitについては \charef{SUnit} でもっと詳しく学びます。
 
 \pharo で仕事をしている間、メソッドやクラスに対するどんな変更も \lct{チェンジセット} に記録されます。
 これには、新しいクラスの作成や、クラス名の変更や、カテゴリの変更や既存のクラスへのメソッドの追加など\,---\,重要なすべてのことが含まれています。
-しかし、気ままな \emph{doits} は含まれません。ですので、たとえば[Workspace]で新しくグローバル変数を定義したとしても変数の作成手続きは\subind{file}{チェンジセット}に残りません。
+しかし、気ままな \emph{doits} は含まれません。ですので、たとえばワークスペースで新しくグローバル変数を定義したとしても変数の作成手続きは\subind{file}{チェンジセット}に残りません。
 \index{change sorter}
 
 どんな時でも、たくさんのチェンジセットが存在している場合でも、その中のたった一つがイメージに対する変更を収集しています。\,---\,それは \lct{カレントチェンジセット} です\,---\, 
@@ -1194,7 +1212,7 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 
 もしクラッシュしてしまって、何時間も前の最後に保存したバージョンにイメージが戻ってしまったとしても、よい知らせがあります。
 それはみなさんがやったことは決して失われないということです。というのも、実行した全てのコードは \emph{.changes} ファイルにすべて保存されているからです。全てです! 
-これには[Workspace]で評価した1行プログラムからクラスを追加するプログラミングのコードまで含まれます。
+これにはワークスペースで評価した1行プログラムからクラスを追加するプログラミングのコードまで含まれます。
 \index{changes}
 
 そこでここからはどのようにコードを回復するかについての手順となります。
@@ -1253,9 +1271,9 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
   \item \ct{SystemNavigation default} というメッセージを送ることで \st システムをプログラミング的にブラウズしていくこともできます。
   \item \emph{Monticello} はクラスやメソッドのパッケージを外部へ出力したり、逆に取り込んだり、バージョン管理や共有するためのツールです。
     Monticello のパッケージはカテゴリとサブカテゴリおよび他のカテゴリに属する関連するメソッドプロトコルから構成されます。
-  \item \emph{[Inspector]} と \emph{[Explore]} の2つのツールは、イメージの中で生きているオブジェクトを調べたり対話するのに便利なツールです。
+  \item \emph{インスペクタ} と \emph{エクスプローラ} の2つのツールは、イメージの中で生きているオブジェクトを調べたり対話するのに便利なツールです。
     \metaclick{ing} によりモーフィックのハロを出してデバッグハンドル \debugHandle を選択するとツールをインスペクトすることさえできます。
-  \item \emph{[Debugger]} はエラーが起きた際にプログラムの実行スタックを見せてくれるだけでなく、ソースコードを初めとして、アプリケーションのすべてのオブジェクトとの対話を可能にするツールです。多くの場合、[Debugger]でソースコードを修正して実行を継続することが可能です。[Debugger]はSUnit(\charef{SUnit})と並んでテストファースト開発を支援する効果的なツールです。
+  \item \emph{デバッガ} はエラーが起きた際にプログラムの実行スタックを見せてくれるだけでなく、ソースコードを初めとして、アプリケーションのすべてのオブジェクトとの対話を可能にするツールです。多くの場合、デバッガでソースコードを修正して実行を継続することが可能です。デバッガはSUnit(\charef{SUnit})と並んでテストファースト開発を支援する効果的なツールです。
   \item \emph{[Process Browser]} はイメージの中で現在実行中のプロセスを監視したり照会したり対話させてくれます。
   \item \emph{[Method Finder]} と \emph{[Message Names Browser]} はメソッドの場所を突き止めるツールです。前者は名前がはっきりしないが期待される振る舞いが分かってる時に便利です。後者は名前の一部しか分からない時に閲覧するためのより優れたインタフェースを提供します。
   \item \emph{チェンジセット} はイメージのソースコードへのすべての変更を記録するために自動的に作成されるログです。ソースコードのバージョン管理や交換という点では全般的に Monticello に取って代われていますが、特にまれに発生しうる壊滅的な故障からの復旧などでは未だに便利です。
