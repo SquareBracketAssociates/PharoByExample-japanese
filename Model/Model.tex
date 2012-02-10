@@ -634,7 +634,7 @@ anEllipse constructorString --> '(EllipseMorph newBounds: (0@0 corner: 50@40) co
 Morph>>>constructorString
 	^ String streamContents: [:s | self printConstructorOn: s indent: 0].
 \end{method}
-\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorphから始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}のクラスから、メソッド探索が始まるということです。
+\cmind{Morph}{constructorString}メソッドは\lct{printConstructorOn:indent:}を\self に送っています。このメッセージもまた探索されますが、探索は\lct{EllipseMorph}から始まって、\ct{Morph}で見つかります。そのメソッドの内部で、さらに\lct{printConstructorOn:indent:nodeDict:}が\self に送られます。それが\ct{fullPrintOn:}を\self に送ります。\ct{fullPrintOn:}は\ct{EllipseMorph}から探索を始め、\mthind{BorderedMorph}{fullPrintOn:}が\ct{BorderedMorph}で見つかります。(もう一度、\figref{constructorStringLookup}を見てください)。重要なのは、\self への送信ではレシーバのクラス、この場合には\ct{anEllipse}のクラスから、メソッド探索が始まるということです。
 
 \important{\self 送信は、\emph{動的な}メソッド探索を、レシーバのクラスから開始します。}
 
