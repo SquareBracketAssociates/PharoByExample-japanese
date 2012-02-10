@@ -127,7 +127,7 @@ Color red --> Color red
 
 \ct{printOn:}メソッドは多くの場合、自己評価型として振舞うように特殊化された実装を持ちます。例えば\cmind{Point}{printOn:}や\cmind{Interval}{printOn:}の実装は自己評価型です。
 
-\begin{method}[Self-evaluating points]{\ct{Point}の自己評価型\footnote{訳注：\pharo 1.3ではコードが変更されています}}
+\begin{method}[Self-evaluating points]{\ct{Point}の自己評価型\protect\footnote{訳注：\pharo 1.3ではコードが変更されています}}
 Point>>>printOn: aStream 
     "レシーバーは中置記法でaStream上に書き込まれます"
     x printOn: aStream.
@@ -367,7 +367,7 @@ Stack>>>pop
 
 Smalltalkでは規約により抽象メソッドをメソッドの本文に\lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}と書くことによって実装します。抽象クラスが間違ってインスタンス化され、抽象メソッドを呼び出されたとしても、\cmind{Object}{subclassResponsibility}が評価されるだけです。
 
-\begin{method}{メソッドが抽象であることを示します\footnote{訳注：この例は\pharo 1.3では変更されています}}
+\begin{method}{メソッドが抽象であることを示します\protect\footnote{訳注：この例は\pharo 1.3では変更されています}}
 Object>>>subclassResponsibility
     "このメソッドは、このクラスのサブクラスの振る舞いの枠組みの為に用意されています。
     サブクラスはこのメソッドを実装すべきであることに注意してください。"

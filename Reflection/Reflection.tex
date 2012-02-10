@@ -103,7 +103,7 @@ w inspect
 インスペクタはどのように動いているのでしょうか？
 \st では、インスタンス変数はすべて保護されています。
 この理屈から言えば、クラスが何らかのアクセサメソッドを定義していない限り、他のオブジェクトからインスタンス変数にアクセスさせることはできません。
-しかし実際には、インスペクタはアクセサメソッドがなくてもインスタンス変数にアクセスできます。これは\stがリフレクション可能だからです。
+しかし実際には、インスペクタはアクセサメソッドがなくてもインスタンス変数にアクセスできます。これは\st がリフレクション可能だからです。
 \st では、クラスはインスタンス変数を名前または数値の添字で定義します。
 インスペクタは、\ct!Object!クラスで定義されているメソッド \lct{instVarAt: \emph{index}} または \lct{instVarNamed: \emph{aString}} を使ってインスタンス変数にアクセスします。数値の添字 \lct{\emph{index}} で位置を指定するか、インスタンス変数名 \lct{\emph{aString}} を指定します。インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:! か \ct!instVarNamed:put:! を使います。
 \mthindex{Object}{instVarAt:}
@@ -218,7 +218,7 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できま
 
 \st のイントロスペクションを使えば、コードメトリクスを簡単に調べられます。使い方を見てみましょう。
 コード\ind{メトリクス}では、次のようなコードの特徴を調べます。継承の階層の深さ、直接的・間接的なサブクラスの数、各クラスのメソッドやインスタンス変数の数、クラスで新しく定義されたメソッドやインスタンス変数の数などです。
-次に\ct!Morph!クラスのメトリクスをいくらか示します。\ct!Morph!クラスは\pharoのすべてのグラフィカルなオブジェクトのスーパークラスであり、巨大なクラスであり、巨大な継承階層のルートクラスだとわかります。リファクタリングが必要かもしれません！
+次に\ct!Morph!クラスのメトリクスをいくらか示します。\ct!Morph!クラスは\pharo のすべてのグラフィカルなオブジェクトのスーパークラスであり、巨大なクラスであり、巨大な継承階層のルートクラスだとわかります。リファクタリングが必要かもしれません！
 
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
@@ -431,18 +431,18 @@ SystemNavigation default
 
 \dothis{\ct{Collection}クラスをブラウザで見てみましょう。
 クラス名を\actclick して\menu{refactoring scope>subclasses with}を選択すると、\ct{Collection}クラス階層に限定されたブラウザ環境が開きます。
-この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層のメソッドのうち\super送信を行うすべてのメソッドが列挙された新しいウィンドウが開きます。
+この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層のメソッドのうち\super 送信を行うすべてのメソッドが列挙された新しいウィンドウが開きます。
 この中から任意のメソッドをクリックして、\menu{refactor>code critics}を選んでください。
 \menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう（\menu{browse}が選択できなければ、そのメソッドにこのバグはありません）。}
 
 \figref{sendDifferentSuper}では、\ct{Collection}クラス階層にそのようなメソッドが19個あることがわかります。この中には、\ct{super printOn:}を送っている\ct{Collection>>>printNameOn:}も含まれています。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
-	\caption{自身のセレクタとは異なる\super送信を行うメソッドを探す様子。\figlabel{sendDifferentSuper}}
+	\caption{自身のセレクタとは異なる\super 送信を行うメソッドを探す様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
 このブラウザ環境はプログラムからでも用意できます。
-例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}のインスタンスを生成して、そこから\super送信を行うメソッドのみを抽出した結果を表示します。
+例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}のインスタンスを生成して、そこから\super 送信を行うメソッドのみを抽出した結果を表示します。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -453,7 +453,7 @@ SystemNavigation default
 
 このコードは先に挙げた\ct{SystemNavigation}の使用例と同じ意味ですが、よりコンパクトになっています。
 
-最終的には次のようにして、自身のメソッドセレクタと異なる\super送信を行うメソッドをプログラム的に探せます:
+最終的には次のようにして、自身のメソッドセレクタと異なる\super 送信を行うメソッドをプログラム的に探せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -463,7 +463,7 @@ SystemNavigation default
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-ここではメソッドセレクタと異なる\superメッセージを探すために、各コンパイル済みメソッドの構文木（リファクタリングブラウザが解析したもの）を取得しています。
+ここではメソッドセレクタと異なる\super メッセージを探すために、各コンパイル済みメソッドの構文木（リファクタリングブラウザが解析したもの）を取得しています。
 \ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみれば、構文木に何を尋ねられるかわかります。
 
 %======================================
@@ -759,7 +759,7 @@ myDA x --> nil
 \section{メソッドラッパーとしてのオブジェクト}
 \seclabel{wrapper}
 
-これまで見てきたように、\stではコンパイル済みメソッドも通常のオブジェクトです。コンパイル済みメソッドも当然ながら多くのメソッドを持っており、そのメソッドを使って実行時システムに問い合わせを行えます。
+これまで見てきたように、\st ではコンパイル済みメソッドも通常のオブジェクトです。コンパイル済みメソッドも当然ながら多くのメソッドを持っており、そのメソッドを使って実行時システムに問い合わせを行えます。
 少し意外かもしれませんが、\emph{どんな}オブジェクトでもコンパイル済みメソッド役を演じられます。\ct{run:with:in:}といくつかの重要なメッセージに応答すればいいのです。
 
 \dothis{空のクラス\ct{Demo}を定義します。\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーの発生を確認してください。}
@@ -886,7 +886,7 @@ mark
 \end{itemize}
 
 プラグマはメソッド宣言にのみ適用できます。
-メソッドには複数のプラグマを宣言でき、\st文より前に宣言する必要があります。
+メソッドには複数のプラグマを宣言でき、\st 文より前に宣言する必要があります。
 プラグマはリテラルを引数に取る静的なメッセージ送信と言えます。
 
 この章の最初でプリミティブを紹介したときにプラグマが出てきました。
