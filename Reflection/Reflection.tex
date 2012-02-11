@@ -687,7 +687,7 @@ point class --> LoggingProxy
 レシーバが\ct{mustBeBoolean}をオーバーライドするか、\ct{NonBooleanReceiver}例外を捕捉して適切な論理値を返せば実行を継続できます。
 }% NB: Notes by Lukas Renggli
 
-このような特別なメッセージ送信を無視するとしても、この方法には克服できない根本的な問題があります。\self送信をインターセプトできません。
+このような特別なメッセージ送信を無視するとしても、この方法には克服できない根本的な問題があります。\self 送信をインターセプトできません。
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -696,7 +696,7 @@ point rect: (3@4)        --> 1@2 corner: 3@4
 point invocationCount --> 1
 \end{code}
 
-このプロキシは\ct{rect:}メソッド中の二度の\self送信を数え損ねています:
+このプロキシは\ct{rect:}メソッド中の二度の\self 送信を数え損ねています:
 \begin{code}{}
 Point>>>rect: aPoint 
 	^ Rectangle  origin: (self min: aPoint) corner: (self max: aPoint)
@@ -965,7 +965,7 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 \item プロキシと主体のような二つのオブジェクトへの参照を交換するには\ct{become:}を使います。
 \item \ct{class}や\ct{yourself}のように、実際には送られず仮想マシンによって解釈されるメッセージに気をつけて下さい。他にも\ct{+}\ct{-}、\ct{ifTrue:}などのメッセージは、レシーバによっては仮想マシンに直接解釈されたり、インライン展開される可能性があります。
 \item 欠けているメソッドの遅延ロードまたは遅延コンパイルのために\ct{doesNotUnderstand:}をオーバーライドすることもよくあります。
-\item \ct{doesNotUnderstand:}は\self送信を捕捉できません。
+\item \ct{doesNotUnderstand:}は\self 送信を捕捉できません。
 \item より正確にメッセージをインターセプトするには、オブジェクトをメソッドラッパーとして使います。メソッドラッパーはコンパイル済みメソッドの代わりにメソッド辞書にインストールされます。メソッドラッパーは\ct{run:with:in:}を実装すべきです。このメッセージは仮想マシンがメソッド辞書からコンパイル済みメソッドの代わりに普通のオブジェクトを検出したときに送られます。この方法はSUnitテストランナーでカバレッジデータを集めるのに使われています。
 \end{itemize}
 
