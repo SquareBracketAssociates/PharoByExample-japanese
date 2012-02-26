@@ -50,7 +50,7 @@
 
 \pharo では、抽象クラスである\ct{Collection} は 101 個のサブクラスを、同じく抽象クラスの \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成上「Collection」カテゴリーとして分類されていません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
 同様に「ストリーム階層」は \ct{Stream} と、そのサブクラス\emph{の中で} \scat{Collections-Streams} としてカテゴライズされたものを指します。
-これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！
+これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！\footnote{訳注：\pharo 1.3では\ct{Collection} は 75個のサブクラス、\ct{Stream} は 39 個のサブクラスを持ちます。また「コレクション階層」と「ストリーム階層」の合計54のクラスは1660のメソッドを持ち、993のメッセージに対応します}
 
 % See test case in PBE-Collections for statistics
 
@@ -449,7 +449,8 @@ colors at: #blue put: Color blue.
 colors at: #red put: Color red.
 colors at: #yellow --> Color yellow
 colors keys          --> a Set(#blue #yellow #red)
-colors values       --> {Color blue. Color yellow. Color red}
+colors values       --> {Color blue. Color yellow. Color red}\footnote{訳注：\pharo 1.3ではrgb値が返ります}
+
 \end{code}
 
 ディクショナリーはキーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグとしては、キーとして使うオブジェクトで \ct{=} を再定義しているにも関わらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドはどちらもディクショナリーの中でオブジェクトの比較に用いられます。
@@ -462,7 +463,7 @@ colors values       --> {Color blue. Color yellow. Color red}
 \begin{code}{@TEST | colors |}
 colors := Dictionary newFrom: { #blue->Color blue . #red->Color red . #yellow->Color yellow }.
 colors removeKey: #blue.
-colors associations --> {#yellow->Color yellow. #red->Color red}
+colors associations --> {#yellow->Color yellow. #red->Color red}\footnote{訳注：\pharo 1.3ではrgb値が返ります}
 \end{code}
 
 \paragraph{IdentityDictionary}
@@ -479,7 +480,7 @@ trouble := IdentityDictionary new.
 trouble at: a put: 'a'; at: b put: 'b'.
 trouble at: a          --> 'a'
 trouble at: b          --> 'b'
-trouble at: 'foobar' --> 'a'
+trouble at: 'foobar' --> 'a'\footnote{訳注：\pharo 1.3ではKeyNotFound:エラーが返ります}
 \end{code}
 
 \noindent
@@ -493,10 +494,10 @@ trouble at: 'foobar' --> 'a'
 特筆すべきはグローバル変数 \glbind{Smalltalk} は \clsind{SystemDictionary} のインスタンスであり、これは \ct{IdentityDictionary} のサブクラスですので、すべてのキーは \ct {Symbol} (実際は 8bit 文字しか格納できない \ct{ByteSymbol}) だということです。
 
 \begin{code}{@TEST}
-Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)
+Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{訳注：\pharo 1.3ではArrayが返ります}
 \end{code}
 \noindent
-\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送ると結果は \ct{Set} となりますが、このクラスについては次に説明します。
+\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送ると結果は \ct{Set} となりますが、このクラスについては次に説明します。\footnote{訳注：\pharo 1.3ではArrayが返ります}
 % Since every key has the same class, the set of classes of keys contains only a single element, \ct{ByteSymbol}.
 
 %---------------------------------------------------------
@@ -892,7 +893,7 @@ factorial value: 10 --> 3628800
 \paragraph{\mthind{Collection}{count:}}  \ct{count:} メッセージは与えられた条件を満たす要素の数を返します。条件は真偽ブロックで表現されます。
 
 \begin{code}{@TEST}
-Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3
+Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3\footnote{訳注：\pharo 1.3では5が返ります}
 \end{code}
 
 \paragraph{\mthind{Collection}{includes:}}  \ct{includes:} メッセージは引数がコレクションの中に含まれているかを調べます。
