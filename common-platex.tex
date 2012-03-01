@@ -11,28 +11,13 @@
 % Allows book to be generated in multiple formats.
 %=============================================================
 %:Packages
-
-\makeatletter
-\ifx\pfmtname\@undefined
-\usepackage{luatexja}
-\fi
-\makeatletter
-
 \usepackage[T1]{fontenc}  %%%%%% really important to get the code directly in the text!
 \usepackage{lmodern}
 %\usepackage[scaled=0.85]{bookmanx} % needs another scale factor if used with \renewcommand{\sfdefault}{cmbr}
 \usepackage{palatino}
 \usepackage[scaled=0.85]{helvet}
 \usepackage[protrusion,expansion=false]{microtype}
-
-\makeatletter
-\ifx\pfmtname\@undefined
-\usepackage{graphicx}
-\else
 \usepackage[dvipdfmx]{graphicx}
-\fi
-\makeatletter
-
 \usepackage{theorem}
 \usepackage[english]{babel}
 % ON: pdfsync breaks the use of p{width} for tabular columns!
@@ -79,16 +64,6 @@
 	authorformat={allreversed,and},
 	titleformat={commasep,italic}
 ]{jurabib} % citations as footnotes
-
-\makeatletter
-\ifx\pfmtname\@undefined
-\usepackage[
-	colorlinks=true,
-	linkcolor=black,
-	urlcolor=black,
-	citecolor=black
-]{hyperref}   % should come last
-\else
 \usepackage{atbegshi}
 \ifnum 42146=\euc"A4A2
   \AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}
@@ -105,18 +80,9 @@
 	bookmarkstype=toc,
 	breaklinks
 ]{hyperref}   % should come last
-\fi
-\makeatletter
-
 %=============================================================
 %:PDF version
-
-\makeatletter
-\ifx\pfmtname\@undefined
-\pdfminorversion=3 % Set PDF to 1.3 for Lulu
-\fi
-\makeatletter
-
+%\pdfminorversion=3 % Set PDF to 1.3 for Lulu
 %=============================================================
 %:URL style
 \makeatletter
@@ -351,33 +317,10 @@
 % \ifx\wholebook\relax\else\end{document}\fi
 
 \DeclareGraphicsExtensions{.pdf, .jpg, .png}
-
-\makeatletter
-\ifx\pfmtname\@undefined \else
 \DeclareGraphicsRule{.pdf}{eps}{.xbb}{}
 \DeclareGraphicsRule{.png}{eps}{.xbb}{}
-\fi
-\makeatletter
-
 %=============================================================
 %:PDF setup
-
-\makeatletter
-\ifx\pfmtname\@undefined
-\hypersetup{
-%   a4paper,
-%   pdfstartview=FitV,
-%   colorlinks,
-%   linkcolor=darkblue,
-%   citecolor=darkblue,
-   pdfencoding=auto,
-   pdftitle={Pharo by Example},
-   pdfauthor={Andrew P. Black, St\'ephane Ducasse,	Oscar Nierstrasz,
-Damien Pollet},
-   pdfkeywords={Smalltalk, Squeak, Object-Oriented Programming, OOP},
-   pdfsubject={Computer Science}
-}
-\else
 \hypersetup{
 %   a4paper,
 %   pdfstartview=FitV,
@@ -390,9 +333,6 @@ Damien Pollet},
    pdfkeywords={Smalltalk, Squeak, Object-Oriented Programming, OOP},
    pdfsubject={Computer Science}
 }
-\fi
-\makeatletter
-
 %=============================================================
 %:Page layout and appearance
 %
@@ -443,12 +383,7 @@ Damien Pollet},
 \newcommand{\caret}{\^\,}
 \newcommand{\escape}{{\sf \textbackslash}}
 \definecolor{source}{gray}{0.95}
-\usepackage{listings}
-
-\makeatletter
-\ifx\pfmtname\@undefined \else \usepackage{jlisting} \fi
-\makeatletter
-
+\usepackage{listings,jlisting}
 \lstdefinelanguage{Smalltalk}{
 %  morekeywords={self,super,true,false,nil,thisContext}, % This is overkill
   morestring=[d]',
