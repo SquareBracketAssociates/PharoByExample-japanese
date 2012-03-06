@@ -408,48 +408,48 @@ Number new + 1 --> !\emph{エラー: \#+はサブクラスでオーバーライ�
 
 \begin{method}{空のフックメソッドとしての\lct{initialize}}
 ProtoObject>>>initialize
-   "サブクラスはこのメソッドを再定義してインスタンス作成時に初期化を実行しなければいけません"
+   "サブクラスはこのメソッドを再定義してインスタンス作成時に初期化を実行しなければいけない"
 \end{method}
 
-これが重要な理由は、\pharo では、デフォルトの\mthind{Behavior}{new}メソッドがシステム内のすべてクラスでインスタンスが新しく作成されたときに\ct{initialize}を送るからです。
+これが重要なのは、\pharo では、システム内のすべてのクラスの\mthind{Behavior}{new}メソッドのデフォルト実装が、新しく作成されたインスタンスに\ct{initialize}を送るように書かれているからです。
 
 \begin{method}{クラス側のテンプレートメソッドとしての\lct{new}}
 Behavior>>>new
-    "添字付けできないレシーバ(クラス)の初期化された新しいインスタンス
-    を返します。クラスが添字付けできる場合は失敗します"
+    "添字付けできないレシーバ(クラス)の初期化された新しいインスタンスを返す。
+    クラスが添字付けできる((indexable))場合は失敗する。"
     ^ self basicNew initialize
 \end{method}
 \cmindex{Behavior}{new}
 
-これは、単に\ct{initialize} \ind{フックメソッド}をオーバーライドすれば、あなたが作成したクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常、\ct{initialize}メソッドでは継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために\ct{super initialize}を実行する必要があります
-(これは他のSmalltalkでは標準の振舞い\emph{ではない}ことに注意して下さい)。
+これは、\ct{initialize} \ind{フックメソッド}をオーバーライドするだけで、あなたが作成したクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常、\ct{initialize}メソッドでは継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために\ct{super initialize}を実行する必要があります
+(これは他のSmalltalkでは標準の振る舞い\emph{ではない}ことに注意して下さい)。
 
 %=================================================================
 \section{Number}
 \seclabel{Number}
-驚くべきことに、Smalltalkで数値はプリミティブなデータの値ではなく本当のオブジェクトです。もちろん、数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number}の階層構造はSmalltalkクラス階層の他の部分と同じく、完全にアクセス可能で拡張可能です。
+驚くべきことに、Smalltalkで数値はプリミティブなデータの値ではなく本当のオブジェクトです。もちろん、数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number}の階層はSmalltalkクラス階層の他の部分と同じく、完全にアクセス可能で拡張可能です。
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=8cm]{NumberHierarchy}}
 \caption{数値のクラス階層 \figlabel{numbers}}
 \end{figure}
 
-数値は\scatind{Kernel-Numbers}カテゴリの中にあります。この階層の抽象最上位クラスは\clsind{Magnitude}です。このクラスは比較演算子をサポートするあらゆるの種類のクラスを表します。\ct{Number}は、ほとんどが抽象メソッドですが、さらに様々な算術演算やその他の演算を追加します。\clsind{Float}と\clsind{Fraction}はそれぞれ浮動小数点数と分数を表します。\clsind{Integer}も抽象クラスで、サブクラス\clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger}に区分されます。ただし、必要に応じて自動的に値が変換されるので、ほとんどのユーザーは3つの\ct{Integer}クラスの違いについて気にする必要はありません。
+数値は\scatind{Kernel-Numbers}カテゴリの中にあります。この階層の抽象最上位クラスは\clsind{Magnitude}です。このクラスは比較演算子をサポートするあらゆるの種類のクラスを表します。\ct{Number}は、様々な算術演算子やその他の演算子を追加します。これらの演算子のほとんどが抽象メソッドです。\clsind{Float}と\clsind{Fraction}はそれぞれ浮動小数点数と分数を表します。\clsind{Integer}も抽象クラスで、サブクラス\clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger}に区分されます。ただし、必要に応じて自動的に値が変換されるので、ほとんどのユーザーは三つの\ct{Integer}クラスの違いについて気にする必要はありません。
 
 %-----------------------------------------------------------------
 \subsection{Magnitude}
 
-\clsindmain{Magnitude}は\clsind{Number}クラス群の親であるだけでなく、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などのような比較演算をサポートするその他のクラスの親クラスでもあります(複素数は比較できません。従って\clsind{Complex}は\clsind{Number}を継承していません\footnote{訳注：\ct{Complex}クラスは\pharo 1.3に存在しません})
+\clsindmain{Magnitude}は\clsind{Number}の親であるだけでなく、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などのような比較演算をサポートするその他のクラスの親クラスでもあります(\clsind{Complex}は比較できません。したがって\clsind{Complex}は\clsind{Number}を継承していません\footnote{訳注：\ct{Complex}クラスは\pharo 1.3に存在しません})
 
-\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子はジェネリックに定義されています。例えば:
+\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子はジェネリックに((もっと良い言葉は無いか))定義されています。例えば:
 
 \begin{method}{比較用の抽象メソッド}
 Magnitude>>> < aMagnitude 
-    "レシーバが引数よりも小さいかどうかを返します"
+    "レシーバが引数よりも小さいかどうかを答える"
     ^self subclassResponsibility
 
 Magnitude>>> > aMagnitude 
-    "レシーバが引数よりも大きいかどうかを返します"
+    "レシーバが引数よりも大きいかどうかを答える"
     ^aMagnitude < self
 \end{method}
 \cmindex{Magnitude}{>}
@@ -457,15 +457,15 @@ Magnitude>>> > aMagnitude
 %-----------------------------------------------------------------
 \subsection{Number}
 
-同様に、\clsindmain{Number}では\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算はジェネリックに定義されています。
+同様に、\clsindmain{Number}では\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算子はジェネリックに定義されています。
 
-\ct{Number}オブジェクトはすべて、\mthind{Number}{asFloat}や\mthind{Number}{asInteger}のような様々な\emph{変換}演算子を備えています。またそれ以外にも、\ct{Number}を実部がゼロの\clsind{Complex}のインスタンスに変換する\mthind{Number}{i}や、\clsindplural{Duration}オブジェクトを生成する\mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week}のようなたくさんの\emphind{ショートカットコンストラクタメソッド}があります。
+すべての\ct{Number}オブジェクトは、\mthind{Number}{asFloat}や\mthind{Number}{asInteger}のような様々な\emph{変換}演算子をサポートします。またそれ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}つまり、\ct{Number}を実部がゼロの\clsind{Complex}のインスタンスに変換する\mthind{Number}{i}や、\ct{Number}から\clsindplural{Duration}オブジェクトを生成する\mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week}などがあります。
 
-\ct{Numbers}は\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt}などのような標準的な\emph{数学関数}を直接サポートしています。
+\ct{Numbers}は\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt}などの良くある\emph{数学関数}を直接サポートしています。
 
-\cmind{Number}{printOn:}は抽象メソッド\ct{Number>>>printOn:base:}(デフォルトの基数は10)を使って実装されています。
+\cmind{Number}{printOn:}は抽象メソッド\ct{Number>>>printOn:base:}(((The default base is 10.)))を使って実装されています。
 
-\emph{testing}メソッドとしては\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative}などがあります。当然\ct{Number}は\lct{is\-Num\-ber}をオーバーライドしています。さらに興味深い点として、\mthind{Number}{isInfinite}が\ct{false}を返すように定義されています。
+\emph{testing}メソッドとしては\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative}などがあります。当然\ct{Number}は\lct{is\-Num\-ber}をオーバーライドしています。さらに興味深い点として、\mthind{Number}{isInfinite}は\ct{false}を返すように定義されています。
 
 \emph{切り捨てと丸め((truncation and round off))}メソッドとしては\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart}などがあります。
 
@@ -473,7 +473,7 @@ Magnitude>>> > aMagnitude
 1 + 2.5     --> 3.5             "二つの数の和"
 3.4 * 5      --> 17.0           "二つの数の積"
 8 / 2         --> 4                 "二つの数の商"
-10 - 8.3   --> 1.7              "二つの数の差\footnote{訳注：\pharo 1.3では表示が異なる場合があります}"
+10 - 8.3   --> 1.7              "二つの数の差\footnote{((listing 内に脚注))訳注：\pharo 1.3では表示が異なる場合があります}"
 12 = 11    --> false           "二つの数の等価性"
 12 ~= 11 --> true            "二つの数が異なるかどうかをテスト"
 12 > 9      --> true            "より大きい"
@@ -487,7 +487,7 @@ Magnitude>>> > aMagnitude
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 \end{code}
-\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注意して下さい。これは自動変換と、数値の正確な処理の非常に良い例になっています。
+\ct{1000 factorial}は他の多くの言語では計算するのが非常に難しいのですが、実際に計算できているという点に注目して下さい。これは自動変換と、数値の正確な処理の非常に良い例になっています。
 \cmindex{Integer}{factorial}
 
 \dothis{\ct{1000 factorial}の結果を表示してみましょう。計算よりも表示に長い時間がかかります!}
@@ -495,9 +495,9 @@ Magnitude>>> > aMagnitude
 %-----------------------------------------------------------------
 \subsection{Float}
 
-\clsindmain{Float}は\ct{Number}の抽象メソッドに浮動小数点数用の実装を与えます。
+\clsindmain{Float}は\ct{Number}の抽象メソッドに浮動小数点数用の実装を与えます((?Float implements the abstract Number methods for floating point numbers.))。
 
-加えて興味深いことに、\ct{Float class}(\ie\ct{Float}のクラスボタン側((いいの?)))は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
+さらに興味深いことに、\ct{Float class}(\ie\ct{Float}のクラスボタン側((いいの?)))は次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
 
 \begin{code}{@TEST}
 Float pi                      --> 3.141592653589793
@@ -671,7 +671,7 @@ Character characterTable size                               --> 256
 \caption{Booleanのクラス階層 \figlabel{booleans}}
 \end{figure}
 
-\ct{Boolean}の振舞いのほとんどは引数として二つの\ct{Block}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
+\ct{Boolean}の振る舞いのほとんどは引数として二つの\ct{Block}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
 
 \begin{code}{@TEST}
 (4 factorial > 20) ifTrue: [ 'bigger' ] ifFalse: [ 'smaller' ] --> 'bigger'
