@@ -508,7 +508,7 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Fraction}
 
-\clsind{Fraction}は、\ct{Integer}である分子と分母を表すインスタンス変数によって表されます。\ct{Fraction}は(\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使用するのではなく)通常は\ct{Integer}の割り算によって生成されます。
+\clsind{Fraction}は、分子と分母に相当するインスタンス変数によって表されます。分子と分母は\ct{Integer}であるべきです。\ct{Fraction}は通常は\ct{Integer}の割り算によって生成されます(\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使用するのではなく)。
 
 \begin{code}{@TEST}
 6/8             --> (3/4)
@@ -526,11 +526,11 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Integer}
 
-\clsindmain{Integer}は三つの具象整数クラスの実装の親に当たる抽象クラスです。多くの抽象的な\ct{Number}のメソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}など、整数独自のメソッドも数多く追加されています。
+\clsindmain{Integer}は三つの具象整数クラスの親に当たる抽象クラス((abstract parent of three concrete integer implementations))です。\ct{Integer}は、多くの\ct{Number}の抽象メソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}など、整数特有のメソッドも数多く追加します((it also adds a few methods ... and many others.))。
 
-\clsindmain{SmallInteger}は、インスタンスがコンパクトに表現できるという点で特殊です。つまり、\ct{SmallInteger}は値を参照として保持する代わりに、他の整数が参照を保持するために使用している領域を直接数値を表すために使用します。オブジェクト参照の最初のビットが、そのオブジェクトが\ct{SmallInteger}かどうかを示しています。
+\clsindmain{SmallInteger}は、インスタンスがコンパクトに表現できるという点で特殊です --- \ct{SmallInteger}は値を参照として保持する代わりに、他の整数が参照を保持するために使用しているビット領域を直接数値を表すために使用します。この領域の最初のビットが、オブジェクトが\ct{SmallInteger}かどうかを示しています。
 
-クラスメソッドである\mthind{SmallInteger}{minVal}と\mthind{SmallInteger}{maxVal}で、\ct{SmallInteger}の範囲が分かります:
+\mthind{SmallInteger}{minVal}と\mthind{SmallInteger}{maxVal}というクラスメソッドで、\ct{SmallInteger}の範囲が分かります:
 
 \begin{code}{@TEST}
 SmallInteger maxVal = ((2 raisedTo: 30) - 1)      --> true
@@ -546,8 +546,8 @@ SmallInteger minVal = (2 raisedTo: 30) negated --> true
 
 大きな整数も同様に、適切なタイミングで小さな整数に変換されます。
 
-多くのプログラミング言語と同じく、整数は繰り返しの振舞いを表すために利用できます。ブロックを繰り返し評価することに特化した\mthind{Integer}{timesRepeat:}というメソッドもあります。
-\charef{syntax}で既に同様の例が出てきました:
+多くのプログラミング言語同様、整数は繰り返し((iterative behaviour))を指定するのに便利なことがあります。ブロックを繰り返し評価することに特化した\mthind{Integer}{timesRepeat:}というメソッドもあります。
+\charef{syntax}で既に同様の例を見ました:
 \begin{code}{@TEST | n |}
 n := 2.
 3 timesRepeat: [ n := n*n ].
@@ -557,19 +557,19 @@ n --> 256
 %=================================================================
 \section{Character}
 
-\clsindmain{Character}は\scatind{Collections-Strings}カテゴリで、\clsind{Magnitude}のサブクラスとして定義されています。\pharo 内で表示可能な文字は\lct{\$$\langle$\emph{char}$\rangle$}で表されます。例えば次のように成ります:
+\clsindmain{Character}は\scatind{Collections-Strings}カテゴリで、\clsind{Magnitude}のサブクラスとして定義されています。表示できる文字は\pharo では\lct{\$$\langle$\emph{char}$\rangle$}と表されます。例えば:
 
 \begin{code}{@TEST}
 $a < $b --> true
 \end{code}
 
-表示できない文字も様々なクラスメソッドを利用して生成できます。\mbox{\cmind{Character class}{value:}}はUnicode(またはASCII)を表す整数値を引数として受け取って、対応する文字を返します。\protind{accessing untypeable characters}プロトコルには、\mthind{Character class}{backspace}、\mthind{Character class}{cr}、\mthind{Character class}{escape}、\mthind{Character class}{euro}、\mthind{Character class}{space}、\mthind{Character class}{tab}などのたくさんの便利なコンストラクタメソッドが含まれています。
+表示できない文字は様々なクラスメソッドを利用して生成できます。\mbox{\cmind{Character class}{value:}}はUnicode(またはASCII)を表す整数値を引数として受け取って、対応する文字を返します。\protind{accessing untypeable characters}プロトコルには、\mthind{Character class}{backspace}、\mthind{Character class}{cr}、\mthind{Character class}{escape}、\mthind{Character class}{euro}、\mthind{Character class}{space}、\mthind{Character class}{tab}などのたくさんの便利なコンストラクタメソッド((convenience constructor methods))が含まれています。
 
 \begin{code}{@TEST}
 Character space = (Character value: Character space asciiValue) --> true
 \end{code}
 
-\mthind{Character}{printOn:}メソッドは優秀なので、文字を生成する三つの方法の内で最も適切な表現がどれかを理解しています:
+\mthind{Character}{printOn:}メソッドは十分に賢く、文字を生成する三つの方法の内どれが最も適切な表現になるか知っています:
 
 \begin{code}{@TEST}
 Character value: 1   --> Character home
@@ -578,9 +578,9 @@ Character value: 32 --> Character space
 Character value: 97 --> $a
 \end{code}\ignoredollar$
 
-次のような便利な\emph{testing}メソッドが数多く組み込まれています: \mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel}など。
+様々な便利な\emph{testing}メソッドが組み込まれています: \mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel}など。
 
-\ct{Character}をその文字だけを含む文字列に変換するには、\mthind{Character}{asString}メッセージを送信します。この場合、\ct{asString}と\mthind{Character}{printString}は異なる結果を生じます。
+\ct{Character}をその文字だけを含む文字列に変換するには、\mthind{Character}{asString}を送信します。この場合、\ct{asString}と\mthind{Character}{printString}とでは結果が異ります。
 
 \begin{code}{@TEST}
 $a asString    --> 'a'
@@ -588,13 +588,13 @@ $a                  --> $a
 $a printString --> '$a'
 \end{code}
 
-ASCIIの\ct{Character}はそれぞれ一意のインスタンスで、クラス変数である\cvind{CharacterTable}の中に保持されています:
+ASCII((8ビット?))の範囲の\ct{Character}はそれぞれ一意のインスタンスで、クラス変数である\cvind{CharacterTable}の中に保持されています:
 
 \begin{code}{@TEST}
 (Character value: 97) == $a --> true
 \end{code}\ignoredollar$
 
-しかし、0から255の範囲の外にある(非ASCIIの)\ct{Character}は一意ではありません:
+しかし、0から255の範囲の外にある\ct{Character}は一意ではありません:
 
 \begin{code}{@TEST}
 Character characterTable size                               --> 256
@@ -604,20 +604,20 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{String}
 
-\clsindmain{String}クラスも\scatind{Collections-Strings}カテゴリで定義されています。\ct{String}は\ct{Character}だけを保持できる添字付きの\ct{Collection}です。
+\clsindmain{String}クラスも\scatind{Collections-Strings}カテゴリで定義されています。\ct{String}は\ct{Character}だけを保持する添字付きの\ct{Collection}です。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.4\textwidth]{StringHierarchy}}}
-\caption{文字列のクラス階層 \figlabel{strings}}
+\caption{文字列((String?))のクラス階層 \figlabel{strings}}
 \end{figure}
 
-実のところ、\ct{String}は抽象クラスで、\pharo の\ct{String}は実際には具象クラスである\clsindmain{ByteString}のインスタンスです。
+実際は、\ct{String}は抽象クラスで、\pharo の\ct{String}は本当は具象クラスである\clsindmain{ByteString}のインスタンスです。
 
 \begin{code}{@TEST}
 'hello world' class --> ByteString
 \end{code}
 
-\ct{String}のもう一つの重要なサブクラスは\clsindmain{Symbol}です。主な違いは、\ct{Symbol}には一つの値につきたった一つのインスタンスしか存在しないということです(これはしばしば「一意インスタンス性」と呼ばれます)。一方、別々に生成されたまたま同じ文字の並びを持つ\ct{String}は異なるオブジェクトであることもよくあります。
+\ct{String}のもう一つの重要なサブクラスは\clsindmain{Symbol}です。主な違いは、\ct{Symbol}のインスタンスは一つの値につきたった一つしか存在しないということです(これはしばしば「一意インスタンス性」と呼ばれます)。一方、別々に生成されたたまたま同じ文字の並びを持つ\ct{String}は異なるオブジェクトであることもよくあります。
 
 \begin{code}{@TEST}
 'hel','lo' == 'hello' --> false
@@ -628,7 +628,7 @@ Character characterTable size                               --> 256
 \end{code}
 
 \noindent
-もう一つの重要な違いは、\ct{String}は変更可能ですが、\ct{Symbol}は変更不能ということです。
+もう一つの重要な違いは、\ct{String}が変更できるのに対して\ct{Symbol}は変更できないということです。
 
 \begin{code}{@TEST}
 'hello' at: 2 put: $u; yourself --> 'hullo'
@@ -638,23 +638,23 @@ Character characterTable size                               --> 256
 #hello at: 2 put: $u --> エラー!
 \end{code}\ignoredollar$
 
-文字列はコレクションなので、他のコレクションと同様のメッセージを理解できるということは見落とされがちです:
+文字列はコレクションなので、他のコレクションと同様のメッセージを理解するということは見落とされがちです:
 
 \begin{code}{@TEST}
 #hello indexOf: $o --> 5
 \end{code}\ignoredollar$
 
-\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}, \ct{=}などの通常の\protind{comparing}メソッドをサポートしています。さらに、\cmind{String}{match:}はいくつかの基本的なglobスタイルのパターンマッチが使用できて便利です。
+\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}, \ct{=}などの通常の\protind{comparing}メソッドをサポートしています。さらに、\cmind{String}{match:}はいくつかの基本的なglobスタイルのパターンマッチを行うのに便利です。
 
 \begin{code}{@TEST}
 '*or*' match: 'zorro' --> true
 \end{code}
 
-さらに進んだ正規表現のサポートが必要なときには、Vassili Bykovによる\pkgind{Regex}パッケージを参照してください。
+さらに進んだ正規表現のサポートが必要なときには、Vassili Bykovによる\pkgind{Regex}パッケージを検討((have a look at))してください。
 \index{Bykov, Vassili}
 \index{正規表現パッケージ}
 
-文字列は比較的多くの変換メソッドをサポートしています。それらの多くは\mthind{String}{asDate}、\mthind{String}{asFileName}などのような、他のクラスの\ind{ショートカットコンストラクタメソッド}です。また、\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
+\ct{String}は比較的多くの変換メソッドをサポートしています。それらの多くは\mthind{String}{asDate}、\mthind{String}{asFileName}などのような、他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また、\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
 文字列とコレクションについて更に進んだ話題は、\charef{collections}を参照して下さい。
 
@@ -664,14 +664,14 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Boolean}
 
-\clsindmain{Boolean}クラスはSmalltalkという言語がどれほど多くのものをクラスライブラリに詰め込んでいるかということについて非常に興味深い洞察を与えてくれます。\ct{Boolean}は\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{クラス}{抽象}スーパークラスです。
+\clsindmain{Boolean}クラスを見れば、Smalltalkという言語のどれほど多くの部分がクラスライブラリ側に押しやられているかということについて非常に興味深い洞察を得ることができます。\ct{Boolean}は\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{クラス}{抽象}スーパークラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}
 \caption{Booleanのクラス階層 \figlabel{booleans}}
 \end{figure}
 
-\ct{Boolean}の振る舞いのほとんどは引数として二つの\ct{Block}を取る\mthind{Boolean}{ifTrue:ifFalse:}を詳しく調べることで理解できるでしょう。
+\ct{Boolean}の振る舞いのほとんどは\mthind{Boolean}{ifTrue:ifFalse:}メソッドを注意深く調べれば理解できるでしょう。このメソッドは、引数として二つの\ct{Block}を取ります。
 
 \begin{code}{@TEST}
 (4 factorial > 20) ifTrue: [ 'bigger' ] ifFalse: [ 'smaller' ] --> 'bigger'
@@ -690,25 +690,25 @@ False>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
 \cmindex{True}{ifTrue:}
 \cmindex{False}{ifTrue:}
 
-実際、これこそがOOPの本質です。メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドで反応するかを決めるのです。今回の場合では、\ct{True}インスタンスは\emph{true}の選択肢を実行し、反対に\ct{False}インスタンスは\emph{false}の選択肢を実行します。\ct{Boolean}のすべての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装されています。例えば:
+実際、これこそがOOPの本質です。メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドを使って反応するかを決めるのです。\ct{ifTrue:ifFalse:}では、\ct{True}のインスタンスは\emph{trueAlternativeBlock}を評価し、反対に\ct{False}のインスタンスは\emph{falseAlternativeBlock}を評価します。\ct{Boolean}のすべての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装(オーバーライド)されています。例えば:
 
-\begin{method}{否定の実装}
+\begin{method}{否定を実装する}
 True>>>not
-    "否定--レシーバがtrueなのでfalseを返します。"
+    "否定--レシーバがtrueなのでfalseと答える。"
     ^false
 \end{method}
 \cmindex{True}{not}
 
-\ct{Boolean}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利メソッドがいくつかあります。また強欲・怠惰な論理積・論理和から好きなものを選ぶことができます。
+\ct{Boolean}には\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのような便利メソッド((useful convenience methods))がいくつかあります。また強欲・怠惰な論理積・論理和から好きなものを選ぶことができます。
 
 \begin{code}{@TEST}
-(1>2) & (3<4)              --> false    "両者を必ず評価します"
-(1>2) and: [ 3<4 ]        --> false    "レシーバだけが評価されます"
-(1>2) and: [ (1/0) > 0 ] --> false    "引数ブロックは評価されないので、例外も発生しません"
+(1>2) & (3<4)              --> false    "両辺を評価しなければならない"
+(1>2) and: [ 3<4 ]        --> false    "左辺(レシーバ)だけを評価する"
+(1>2) and: [ (1/0) > 0 ] --> false    "右辺(引数ブロック)は評価されないので、例外は発生しない"
 \end{code}
 
-最初の例では、\mthind{Boolean}{&}が\ct{Boolean}引数を受け取るので、\ct{Boolean}である部分式は両方とも評価されます。
-二つ目と三つ目の例では、\mthind{Boolean}{and:}が引数として\ct{Block}を取るので、最初の式しか評価されません。\ct{Block}は最初の引数が\pvind{true}のときにだけ評価されるのです。
+最初の例では、\mthind{Boolean}{&}の両辺の\ct{Boolean}の部分式が評価されます。\ct{&}は(評価済みの)\ct{Boolean}引数を受け取ります。
+二つ目と三つ目の例では、\mthind{Boolean}{and:}は引数として\ct{Block}を取り、結果的に左辺(レシーバ)しか評価されません。\ct{Block}はレシーバーが\pvind{true}のときにだけ評価されるからです。
 
 \dothis{\ct{and:}と\ct{or:}がどのように実装されているか想像してみてください。
 そして\ct{Boolean}と\ct{True}と\ct{False}での実装を確認してみましょう。}
@@ -719,30 +719,30 @@ True>>>not
 \begin{itemize}
 %  \item Send \ct{yourself} to get back the receiver at the end of a cascade.
 
-  \item もし\ct{=}をオーバーライドしたら、同時に\ct{hash}もオーバーライドする必要があります。
+  \item もし\ct{=}をオーバーライドしたら、\ct{hash}もオーバーライドすべきです。
 
-  \item 自作オブジェクトのコピーを正しく実装するには\ct{postCopy}をオーバーライドして下さい。
+  \item 自作のオブジェクトのコピーを正しく実装するには\ct{postCopy}をオーバーライドします。
 
   \item ブレークポイントを設定するには\ct{self halt}を送信します。
 
-  \item メソッドを抽象メソッドにするには\ct{self subclassResponsibility}を返します。
+  \item メソッドを抽象メソッドにするには\ct{self subclassResponsibility}を返します((Return ct\{self subclassResponsibility\}))。
 
-  \item オブジェクトの\ct{String}表現を提供するには、\ct{printOn:}をオーバーライドして下さい。
+  \item オブジェクトの\ct{String}表現を提供するには、\ct{printOn:}をオーバーライドすべきです。
 
   \item インスタンスを適切に初期化するにはフックメソッドである\ct{initialize}をオーバーライドします。
 
-  \item \ct{Number}の一連のメソッドは自動的に\ct{Float}、\ct{Fraction}、\ct{Integer}の間で変換されます。
+  \item \ct{Number}の一連のメソッドは自動的に\ct{Float}、\ct{Fraction}、\ct{Integer}間の変換を行います。
 
-  \item \ct{Fraction}は浮動小数点数ではなく本当の有理数を表しています。
+  \item \ct{Fraction}は浮動小数点数ではなく本物の有理数を表します。
 
-  \item \ct{Character}のインスタンスは一意です。
+  \item 0から255の範囲の\ct{Character}のインスタンスは一意です。
 
   \item \ct{String}は変更可能ですが、\ct{Symbol}はそうではありません。
-  しかし文字列リテラルは変更できないということに注意しましょう!
+  しかし文字列リテラルは変更しないように気をつけましょう!
 
   \item \ct{Symbol}は一意ですが、\ct{String}はそうではありません。
 
-  \item \ct{String}と\ct{Symbol}は\ct{Collection}なので、一般的な\ct{Collection}のメソッドをサポートしています。
+  \item \ct{String}と\ct{Symbol}は\ct{Collection}なので、通常の\ct{Collection}のメソッドをサポートします。
 
 \end{itemize}
 
