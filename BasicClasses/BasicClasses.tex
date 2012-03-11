@@ -38,7 +38,7 @@
 \chapter{基本的なクラス}
 \chalabel{basic}
 
-Smalltalkの魔法の大部分は、言語そのものではなくクラスライブラリにあります。Smalltalkで効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリはすべてがSmalltalkで記述されていて、パッケージ(クラス定義を含んでいる必要はありません)を使えば新しい機能をクラスに追加できるので、簡単に拡張することができます。
+\st の魔法の大部分は、言語そのものではなくクラスライブラリにあります。\st で効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリはすべてが \st で記述されていて、パッケージ(クラス定義を含んでいる必要はありません)を使えば新しい機能をクラスに追加できるので、簡単に拡張することができます。
 
 この章の目的は、\pharo のクラスライブラリ全体について詳細で退屈な話をすることではありません。代わりにここでは、プログラムを効率的に利用したり書き換えるのに必要な核となるクラスやメソッド示します。本章では、ほぼすべてのアプリケーションで必要になると思われる次の基本的なクラスを取り上げます: \ct{Object}、\ct{Number}とそのサブクラス、\ct{Character}、\ct{String}、\ct{Symbol}、\ct{Boolean}。
 
@@ -53,39 +53,38 @@ Smalltalkの魔法の大部分は、言語そのものではなくクラスラ�
 
 %=================================================================
 \section{Object}
-あらゆる意味で、\clsindmain{Object}クラスは継承階層のルートです。本当のところ、\pharo では\clsind{ProtoObject}クラスが階層の真のルートです。\ct{ProtoObject}は、オブジェクトとして振舞うことができる最小の実体を定義するために使用されます。しかし、今このことは気にしなくていいでしょう。
+あらゆる意味で、\clsindmain{Object} クラスは継承階層のルートです。本当のところ、\pharo では \clsind{ProtoObject} クラスが階層の真のルートです。\ct{ProtoObject} は、オブジェクトとして振舞うことができる最小の実体を定義するために使用されます。しかし、今このことは気にしなくていいでしょう。
 % (後ほどリフレクションの章で詳しく説明します)。
 
-\ct{Object}クラスは\scatind{Kernel-Objects}カテゴリの中にあります。そこには(拡張((とは?))も含めると)400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、すべてに自動的に400個のメソッドが提供されるということです。ただ、削除されるべき不要なメソッドもいくつかあり、\pharo の新しいバージョンではそれらの不要なメソッドのいくつかはおそらく削除されることになることを覚えておきましょう。
+\ct{Object} クラスは\scatind{Kernel-Objects} カテゴリの中にあります。そこには(拡張((とは?))も含めると) 400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、すべてに自動的に400個のメソッドが提供されるということです。ただ、削除されるべき不要なメソッドもいくつかあり、\pharo の新しいバージョンではそれらの不要なメソッドのいくつかはおそらく削除されることになることを覚えておきましょう。
 
 \sd{変更される可能性のあるものを引用することは好みませんし、簡単に一覧を見つけられるので、今のところはそのままにしておきます。}
-\ct{Object}クラスのクラスコメントには、次のように書かれています:
+\ct{Object} クラスのクラスコメントには、次のように書かれています:
 
 \needlines{4}
 \begin{quote}
-\textit{\ct{Object}クラスは、クラス階層内のほぼすべてのクラスのルートクラスである。例外は\ct{ProtoObject}クラス(\ct{Object}のスーパークラス)とその直接のサブクラスである。
-\ct{Object}クラスは、通常のオブジェクトのアクセス、コピー、比較、エラー処理、メッセージ送信、\ind{リフレクション}などのデフォルトの振る舞いを提供する。また、すべてのオブジェクトが反応する必要があるユーティリティメッセージもここで定義される。
-\ct{Object}はインスタンス変数を持っておらず、追加すべきでもない。これは、\ct{Object}を継承するクラスには特殊な実装を持つもの(例えば\ct{SmallInteger}や\ct{UndefinedObject})がいくつかあって、これらやVMが、ある標準的なクラスの構造とレイアウトを知っていてそれに依存しているためである。}
+\textit{\ct{Object} クラスは、クラス階層内のほぼすべてのクラスのルートクラスである。例外は\ct{ProtoObject} クラス(\ct{Object} のスーパークラス)とその直接のサブクラスである。
+\ct{Object} クラスは、通常のオブジェクトのアクセス、コピー、比較、エラー処理、メッセージ送信、\ind{リフレクション}などのデフォルトの振る舞いを提供する。また、すべてのオブジェクトが反応する必要があるユーティリティメッセージもここで定義される。
+\ct{Object} はインスタンス変数を持っておらず、追加すべきでもない。これは、\ct{Object} を継承するクラスには特殊な実装を持つもの(例えば\ct{SmallInteger} や\ct{UndefinedObject})がいくつかあって、これらやVMが、ある標準的なクラスの構造とレイアウトを知っていてそれに依存しているためである。}
 \end{quote}
 
-\ct{Object}のインスタンスボタン側のメソッドカテゴリをブラウズすると、提供されているいくつかの主だった振る舞いが理解できるようになるでしょう。
+\ct{Object} のインスタンスボタン側のメソッドカテゴリをブラウズすると、提供されているいくつかの主だった振る舞いが理解できるようになるでしょう。
 
 %-----------------------------------------------------------------
 \subsection{表示}
-Smalltalkのすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it}メニューを選択してください: \menu{print it}は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに\ct{printString}メッセージを送信します。\mthind{Object}{printString}は\ind{テンプレートメソッド}で、その中で\mthind{Object}{printOn:}をレシーバに送信します。((適切な訳がわからない。今は。 The message \ct{printOn:} is a hook that can be specialized.))
+\st のすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it} メニューを選択してください: \menu{print it} は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに\ct{printString} メッセージを送信します。\mthind{Object}{printString} は\ind{テンプレートメソッド}で、その中で\mthind{Object}{printOn:} をレシーバに送信します。\ct{printOn:} はフックメソッドで((The message \ct{printOn:} is a hook)、特殊化することができます。
+おそらく\ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream} を受け取り、そこにオブジェクトの\clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルトの実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、引数(\ct{aStream})に書きこまれたものを\ct{String} にして返します。
 
-おそらく\ct{Object>>>printOn:}は、最も頻繁にオーバーライドされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream}を受け取り、そこにオブジェクトの\clsind{String}表現を書き込みます。\ct{printOn:}のデフォルトの実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString}は、引数(\ct{aStream})に書きこまれたものを\ct{String}にして返します。
-
-例えば、\clsind{Browser}クラスは\ct{printOn:}メソッドを再定義していないので、printStringメソッドを\ct{Browser}のインスタンスに送ると、\ct{Object}で定義されたメソッドが実行されます。
+例えば、\clsind{Browser} クラスは\ct{printOn:} メソッドを再定義していないので、\ct{printString} メソッドを\ct{Browser} のインスタンスに送ると、\ct{Object} で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
 Browser new printString --> 'a Browser'
 \end{code}
 
-\ct{Color}では、\mthind{Color}{printOn:}を特殊化した例が見られます。
-\ct{Color>>>printOn:}は、色を表すメッセージ式(\ct{Color 色名})を引数(\ct{aStream})に書き込みます((It prints the name of the class followed the name of the class method used to generate that color.))。
+\ct{Color} では、\mthind{Color}{printOn:} を特殊化した例が見られます。
+\ct{Color>>>printOn:} は、色を表すメッセージ式(\ct{Color 色名})を引数 (\ct{aStream}) に書き込みます((It prints the name of the class followed the name of the class method used to generate that color.))。
 
 \needlines{7}
-\begin{method}[zork]{printOn:の再定義。}
+\begin{method}[zork]{printOn: の再定義。}
 Color>>>printOn: aStream
   | name |
   (name := self name) ifNotNil: 
@@ -102,7 +101,7 @@ Color red printString --> 'Color red'
 \ct{printOn:}メッセージは\mthind{Object}{storeOn:}メッセージとは異なる、ということに注意してください。\ct{storeOn:}メッセージは、レシーバを再生成するのに使える式を、引数(ストリーム)に流します。そしてその式は、ストリームが\ct{readFrom:}メッセージによって読み込まれるときに評価されます。一方\ct{printOn:}は、単にレシーバの文字列バージョンを返すだけです。もちろん、その文字列表現がレシーバの自己評価型の表現ということもありえます。
 
 \paragraph{表現と自己評価型表現という単語について。}
-関数型プログラミングでは、式は実行されると値を返します。一方Smalltalkでは、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値((良くわからない: value))と自分自身((良くわからない: themselves))が同じという好ましい性質を持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ie\ct{true}オブジェクトです。このようなオブジェクトは、\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprint((print it?))すると((良くわからない: print the object in a workspace))、オブジェクト((良くわからない: object value))の\emph{プリント用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
+関数型プログラミングでは、式は実行されると値を返します。一方\st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値((良くわからない: value))と自分自身((良くわからない: themselves))が同じという好ましい性質を持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ie\ct{true}オブジェクトです。このようなオブジェクトは、\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprint((print it?))すると((良くわからない: print the object in a workspace))、オブジェクト((良くわからない: object value))の\emph{プリント用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
 
 \begin{code}{@TEST}
 true         --> true
@@ -151,7 +150,7 @@ Interval>>>printOn: aStream
 %-----------------------------------------------------------------
 \subsection{同一性と同値性}
 
-Smalltalkでは、\ct{=}メッセージは\emphsubindmain{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方\ct{==}は、\emphsubindmain{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)\footnote{訳注：これらのメッセージはcomparingカテゴリにあります}。
+\st では、\ct{=}メッセージは\emphsubindmain{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方\ct{==}は、\emphsubindmain{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)\footnote{訳注：これらのメッセージはcomparingカテゴリにあります}。
 \seeindex{\ct{=}}{Object, 同値性}
 \seeindex{\ct{==}}{Object, 同一性}
 \seeindex{equality}{Object, 同値性}
@@ -201,7 +200,7 @@ Complex>>>hash
 
 \ct{=}と\ct{hash}は同時にオーバーライドすべきですが、\ct{==}は\emph{決して}オーバーライドしてはいけません(オブジェクトの同一性に関する意味論は、すべてのクラスで同じです)。\ct{==}は\clsind{ProtoObject}のプリミティブメソッドです。
 
-\pharo には、他のSmalltalkと比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値と見なされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
+\pharo には、他の\st と比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値と見なされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
 
 \begin{code}{@TEST}
 #'lulu' = 'lulu' --> true
@@ -227,7 +226,7 @@ Complex>>>hash
 1 isMemberOf: Object           --> false
 \end{code}
 
-SmalltalkのクラスライブラリはSmalltalk自身によって記述されているので、スーパークラスとクラスメッセージを正しく組み合わせて、クラスライブラリの構造を自在にたどることができます(\charef{metaclasses}を参照)。
+\st のクラスライブラリは\st 自身によって記述されているので、スーパークラスとクラスメッセージを正しく組み合わせて、クラスライブラリの構造を自在にたどることができます(\charef{metaclasses}を参照)。
 
 \paragraph{\ct{isKindOf:}}
 \cmind{Object}{isKindOf:}は、レシーバのクラスが引数のクラスと等しいか、またはそのサブクラスであるかを答えます。
@@ -363,7 +362,7 @@ Stack>>>pop
 (ただし独自に定義した例外を発生させる方が、一般的には望ましいでしょう。自分のコードとカーネルクラスのどちらで発生したエラーなのかが区別できるからです)。
 \lr{おそらく独自の例外を自分で作成した方がいいということに触れています(p. 208)}
 
-Smalltalkの抽象メソッドは、規約によりメソッドの本文に\lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}と書いて実装します。したがって抽象クラスが間違ってインスタンス化され、抽象メソッドが呼び出されたとしても、\cmind{Object}{subclassResponsibility}が評価されるだけです。
+\st の抽象メソッドは、規約によりメソッドの本文に\lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}と書いて実装します。したがって抽象クラスが間違ってインスタンス化され、抽象メソッドが呼び出されたとしても、\cmind{Object}{subclassResponsibility}が評価されるだけです。
 
 \begin{method}{メソッドが抽象メソッドであることを示す\protect\footnote{訳注：この例は\pharo 1.3では変更されています}}
 Object>>>subclassResponsibility
@@ -422,12 +421,12 @@ Behavior>>>new
 \cmindex{Behavior}{new}
 
 これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常\ct{initialize}メソッドでは、継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために、\ct{super initialize}を実行すべきです
-(これは他のSmalltalkでは標準の振る舞い\emph{ではない}ことに注意して下さい((newのこと?))。
+(これは他の\st では標準の振る舞い\emph{ではない}ことに注意して下さい((newのこと?))。
 
 %=================================================================
 \section{Number}
 \seclabel{Number}
-驚くべきことに、Smalltalkでは数値はプリミティブなデータではなく、本物のオブジェクトです。もちろん数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number}の階層は、Smalltalkのクラス階層の他の部分と同じく完全にアクセス可能で拡張可能です。
+驚くべきことに、\st では数値はプリミティブなデータではなく、本物のオブジェクトです。もちろん数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number}の階層は、\st のクラス階層の他の部分と同じく完全にアクセス可能で拡張可能です。
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=8cm]{NumberHierarchy}}
@@ -664,7 +663,7 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Boolean}
 
-\clsindmain{Boolean}クラスを見れば、Smalltalkの言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean}は、\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{クラス}{抽象}スーパークラスです。
+\clsindmain{Boolean}クラスを見れば、\st の言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean}は、\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{クラス}{抽象}スーパークラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}
