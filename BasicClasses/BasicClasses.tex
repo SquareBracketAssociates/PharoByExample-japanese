@@ -40,7 +40,7 @@
 
 \st の魔法の大部分は、言語そのものではなくクラスライブラリにあります。\st で効率的にプログラミングするには、クラスライブラリがどのように言語や環境を支えているのか学ばなければなりません。クラスライブラリはすべてが \st で記述されていて、パッケージ(クラス定義を含んでいる必要はありません)を使えば新しい機能をクラスに追加できるので、簡単に拡張することができます。
 
-この章の目的は、\pharo のクラスライブラリ全体について詳細で退屈な話をすることではありません。代わりにここでは、プログラムを効率的に利用したり書き換えるのに必要な核となるクラスやメソッド示します。本章では、ほぼすべてのアプリケーションで必要になると思われる次の基本的なクラスを取り上げます: \ct{Object}、\ct{Number}とそのサブクラス、\ct{Character}、\ct{String}、\ct{Symbol}、\ct{Boolean}。
+この章の目的は、\pharo のクラスライブラリ全体について詳細で退屈な話をすることではありません。代わりにここでは、プログラムを効率的に利用したり書き換えるのに必要な核となるクラスやメソッド示します。本章では、ほぼすべてのアプリケーションで必要になると思われる次の基本的なクラスを取り上げます: \ct{Object}、\ct{Number} とそのサブクラス、\ct{Character}、\ct{String}、\ct{Symbol}、\ct{Boolean}。
 
 \md{Here are some comments:\\
 - copying: Good question... the copying in \pharo  is much too complicated... there is for one the "old" smalltalk way of
@@ -56,32 +56,33 @@
 あらゆる意味で、\clsindmain{Object} クラスは継承階層のルートです。本当のところ、\pharo では \clsind{ProtoObject} クラスが階層の真のルートです。\ct{ProtoObject} は、オブジェクトとして振舞うことができる最小の実体を定義するために使用されます。しかし、今このことは気にしなくていいでしょう。
 % (後ほどリフレクションの章で詳しく説明します)。
 
-\ct{Object} クラスは\scatind{Kernel-Objects} カテゴリの中にあります。そこには(拡張((とは?))も含めると) 400ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、すべてに自動的に400個のメソッドが提供されるということです。ただ、削除されるべき不要なメソッドもいくつかあり、\pharo の新しいバージョンではそれらの不要なメソッドのいくつかはおそらく削除されることになることを覚えておきましょう。
+\ct{Object} クラスは \scatind{Kernel-Objects} カテゴリの中にあります。そこには(拡張((とは?))も含めると) 400 ものメソッドがあるということにきっと驚くでしょう。これはつまり、新しいクラスを定義すると、あなたがそれを知っていようといまいと、すべてに自動的に 400 個のメソッドが提供されるということです。ただ、削除されるべき不要なメソッドもいくつかあり、\pharo の新しいバージョンではそれらの不要なメソッドのいくつかはおそらく削除されることになることを覚えておきましょう。
 
 \sd{変更される可能性のあるものを引用することは好みませんし、簡単に一覧を見つけられるので、今のところはそのままにしておきます。}
 \ct{Object} クラスのクラスコメントには、次のように書かれています:
 
 \needlines{4}
 \begin{quote}
-\textit{\ct{Object} クラスは、クラス階層内のほぼすべてのクラスのルートクラスである。例外は\ct{ProtoObject} クラス(\ct{Object} のスーパークラス)とその直接のサブクラスである。
+\textit{\ct{Object} クラスは、クラス階層内のほぼすべてのクラスのルートクラスである。例外は \ct{ProtoObject} クラス (\ct{Object} のスーパークラス)とその直接のサブクラスである。
 \ct{Object} クラスは、通常のオブジェクトのアクセス、コピー、比較、エラー処理、メッセージ送信、\ind{リフレクション}などのデフォルトの振る舞いを提供する。また、すべてのオブジェクトが反応する必要があるユーティリティメッセージもここで定義される。
-\ct{Object} はインスタンス変数を持っておらず、追加すべきでもない。これは、\ct{Object} を継承するクラスには特殊な実装を持つもの(例えば\ct{SmallInteger} や\ct{UndefinedObject})がいくつかあって、これらやVMが、ある標準的なクラスの構造とレイアウトを知っていてそれに依存しているためである。}
+\ct{Object} はインスタンス変数を持っておらず、追加すべきでもない。これは、\ct{Object} を継承するクラスには特殊な実装を持つもの(例えば \ct{SmallInteger} や \ct{UndefinedObject}) がいくつかあって、これらや VM が、ある標準的なクラスの構造とレイアウトを知っていてそれに依存しているためである。}
 \end{quote}
 
 \ct{Object} のインスタンスボタン側のメソッドカテゴリをブラウズすると、提供されているいくつかの主だった振る舞いが理解できるようになるでしょう。
 
 %-----------------------------------------------------------------
 \subsection{表示}
-\st のすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it} メニューを選択してください: \menu{print it} は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに\ct{printString} メッセージを送信します。\mthind{Object}{printString} は\ind{テンプレートメソッド}で、その中で\mthind{Object}{printOn:} をレシーバに送信します。\ct{printOn:} はフックメソッドで((The message \ct{printOn:} is a hook)、特殊化することができます。
-おそらく\ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドのひとつになるでしょう。このメソッドは引数に\clsind{Stream} を受け取り、そこにオブジェクトの\clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルトの実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、引数(\ct{aStream})に書きこまれたものを\ct{String} にして返します。
+\st のすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it} メニューを選択してください: \menu{print it} は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに \ct{printString} メッセージを送信します。\mthind{Object}{printString} は\ind{テンプレートメソッド}で、その中で \mthind{Object}{printOn:} をレシーバに送信します。\ct{printOn:} はフックメソッドで ((The message \ct{printOn:} is a hook)、特殊化することができます。
 
-例えば、\clsind{Browser} クラスは\ct{printOn:} メソッドを再定義していないので、\ct{printString} メソッドを\ct{Browser} のインスタンスに送ると、\ct{Object} で定義されたメソッドが実行されます。
+おそらく \ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドのひとつになるでしょう。このメソッドは引数に \clsind{Stream} を受け取り、そこにオブジェクトの \clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルトの実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、引数 (\ct{aStream}) に書きこまれたものを \ct{String} にして返します。
+
+例えば、\clsind{Browser} クラスは \ct{printOn:} メソッドを再定義していないので、\ct{printString} メソッドを \ct{Browser} のインスタンスに送ると、\ct{Object} で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
 Browser new printString --> 'a Browser'
 \end{code}
 
 \ct{Color} では、\mthind{Color}{printOn:} を特殊化した例が見られます。
-\ct{Color>>>printOn:} は、色を表すメッセージ式(\ct{Color 色名})を引数 (\ct{aStream}) に書き込みます((It prints the name of the class followed the name of the class method used to generate that color.))。
+\ct{Color>>>printOn:} は、色を表すメッセージ式 (\ct{Color 色名})を引数 (\ct{aStream}) に書き込みます ((It prints the name of the class followed the name of the class method used to generate that color.))。
 
 \needlines{7}
 \begin{method}[zork]{printOn: の再定義。}
@@ -98,10 +99,10 @@ Color>>>printOn: aStream
 Color red printString --> 'Color red'
 \end{code}
 
-\ct{printOn:}メッセージは\mthind{Object}{storeOn:}メッセージとは異なる、ということに注意してください。\ct{storeOn:}メッセージは、レシーバを再生成するのに使える式を、引数(ストリーム)に流します。そしてその式は、ストリームが\ct{readFrom:}メッセージによって読み込まれるときに評価されます。一方\ct{printOn:}は、単にレシーバの文字列バージョンを返すだけです。もちろん、その文字列表現がレシーバの自己評価型の表現ということもありえます。
+\ct{printOn:} メッセージは \mthind{Object}{storeOn:} メッセージとは異なる、ということに注意してください。\ct{storeOn:} メッセージは、レシーバを再生成するのに使える式を、引数(ストリーム)に流します。そしてその式は、ストリームが \ct{readFrom:} メッセージによって読み込まれるときに評価されます。一方 \ct{printOn:} は、単にレシーバの文字列バージョンを返すだけです。もちろん、その文字列表現がレシーバの自己評価型の表現ということもありえます。
 
 \paragraph{表現と自己評価型表現という単語について。}
-関数型プログラミングでは、式は実行されると値を返します。一方\st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値((良くわからない: value))と自分自身((良くわからない: themselves))が同じという好ましい性質を持つものがあります。例えば、\ct{true}オブジェクトの値はそれ自身、\ie\ct{true}オブジェクトです。このようなオブジェクトは、\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトをprint((print it?))すると((良くわからない: print the object in a workspace))、オブジェクト((良くわからない: object value))の\emph{プリント用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
+関数型プログラミングでは、式は実行されると値を返します。一方 \st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクト((式?))の中には、値と自分自身が同じという好ましい性質を持つものがあります。例えば、\ct{true} オブジェクトの値はそれ自身、\ie\ct{true} オブジェクトです ((\ct{true printString = 'true'} ということでは?))。このようなオブジェクトは、\emphind{自己評価型オブジェクト}と呼ばれます。ワークスペースでオブジェクトを print ((\menu{print it}?)) すると、オブジェクト((良くわからない: object value)) の\emph{プリント用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
 
 \begin{code}{@TEST}
 true         --> true
@@ -111,29 +112,29 @@ $a           --> $a
 Color red --> Color red
 \end{code}
 
-配列のようなオブジェクトは、そこに含まれるオブジェクトによって自己評価型であったり、そうではなかったりすることに注意して下さい。例えば、真偽値の配列は自己評価型ですが、personオブジェクトの配列はそうではありません。
+配列のようなオブジェクトは、そこに含まれるオブジェクトによって自己評価型であったり、そうではなかったりすることに注意して下さい。例えば、真偽値の配列は自己評価型ですが、person オブジェクトの配列はそうではありません。
 次の例は、\subind{配列}{動的}配列が自己評価型になるのは、要素も自己評価型の場合だけであることを示しています:
 \begin{code}{@TEST}
 {10@10. 100@100}           --> {10@10. 100@100}
 {Browser new . 100@100} --> an Array(a Browser 100@100)
 \end{code}
 
-\subind{Array}{リテラル}配列はリテラルだけを保持できることに注意して下さい。そのため次の配列は、二つの座標を保持するのではなく6個のリテラルを持つことになります。
+\subind{配列}{リテラル}配列はリテラルだけを保持できることに注意して下さい。そのため次の配列は、二つの座標を保持するのではなく 6 個のリテラルを持つことになります。
 \begin{code}{@TEST}
 #(10@10 100@100) --> #(10 #@ 10 100 #@ 100)
 \end{code}
 
-\ct{printOn:}メソッドの多くは、自己評価型としての振る舞いを実装するように特殊化されています。例えば\cmind{Point}{printOn:}や\cmind{Interval}{printOn:}の実装は、自己評価型です。
+\ct{printOn:} メソッドの多くは、自己評価型としての振る舞いを実装するように特殊化されています。例えば \cmind{Point}{printOn:} や \cmind{Interval}{printOn:} の実装は、自己評価型です。
 
-\begin{method}[Self-evaluating points]{\ct{Point}の自己評価\protect\footnote{訳注：\pharo 1.3ではコードが変更されています}}
+\begin{method}[Self-evaluating points]{\ct{Point} の自己評価\protect\footnote{訳注: \pharo 1.3 ではコードが変更されています}}
 Point>>>printOn: aStream 
-    "レシーバ(の表現形式)を中置記法でaStreamに書き込む"
+    "レシーバ(の表現形式)を中置記法で aStream に書き込む"
     x printOn: aStream.
     aStream nextPut: $@.
     y printOn: aStream
 \end{method}\ignoredollar$
 
-\begin{method}[Self-evaluating intervals]{\ct{Interval}の自己評価}
+\begin{method}[Self-evaluating intervals]{\ct{Interval} の自己評価}
 Interval>>>printOn: aStream
     aStream nextPut: $(;
         print: start;
@@ -144,13 +145,13 @@ Interval>>>printOn: aStream
 \end{method}
 
 \begin{code}{@TEST}
-1 to: 10 --> (1 to: 10)    "Intervalオブジェクトは自己評価型"
+1 to: 10 --> (1 to: 10)    "Interval オブジェクトは自己評価型"
 \end{code}
 
 %-----------------------------------------------------------------
 \subsection{同一性と同値性}
 
-\st では、\ct{=}メッセージは\emphsubindmain{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方\ct{==}は、\emphsubindmain{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)\footnote{訳注：これらのメッセージはcomparingカテゴリにあります}。
+\st では、\ct{=} メッセージは \emphsubindmain{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方 \ct{==} は、\emphsubindmain{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)\footnote{訳注: これらのメッセージは comparing カテゴリにあります}。
 \seeindex{\ct{=}}{Object, 同値性}
 \seeindex{\ct{==}}{Object, 同一性}
 \seeindex{equality}{Object, 同値性}
@@ -160,19 +161,19 @@ Interval>>>printOn: aStream
 \begin{method}{オブジェクトの同値性}
 Object>>>= anObject
     "レシーバと引数が同じ値を持つかどうか答える。
-    もし = をサブクラスによって再定義するなら、hashメッセージの再定義も検討すること。"
+    もし = をサブクラスによって再定義するなら、hash メッセージの再定義も検討すること。"
     ^ self == anObject
 \end{method}
 \cmindex{Object}{=}
 
-これは頻繁にオーバーライドされることのあるメソッドです。\ct{Complex}(複素数)の場合を見てみましょう\footnote{訳注：\ct{Complex}クラスは\pharo 1.3に存在しません}:
+これは頻繁にオーバーライドされることのあるメソッドです。\ct{Complex} (複素数)の場合を見てみましょう\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません}:
 
 \begin{code}{@TEST}
 (1 + 2 i) = (1 + 2 i)   --> true     "同じ値"
 (1 + 2 i) == (1 + 2 i) --> false    "だけど違うオブジェクト"
 \end{code}
 
-このように動作するのは、\ct{Complex}が\ct{=}を次のようにオーバーライドしているからです:
+このように動作するのは、\ct{Complex} が \ct{=} を次のようにオーバーライドしているからです:
 \cmindex{Complex}{=}
 \needlines{5}
 \begin{method}{複素数の同値性}
@@ -182,7 +183,7 @@ Complex>>>= anObject
         ifFalse: [^ anObject adaptToComplex: self andSend: #=]
 \end{method}
 
-\ct{Object>>>~=}のデフォルトの実装は、単に\ct{Object>>>=}((?\ct{=}))を反転しているだけですが、通常は変更する必要はありません。
+\ct{Object>>>~=} のデフォルトの実装は、単に \ct{Object>>>=} ((\ct{=} では?))を反転しているだけですが、通常は変更する必要はありません。
 %\cmindex{Object}{\~=}
 \index{Object!~=@\ct{~=}} % needs special treatment due to ~
 
@@ -190,17 +191,17 @@ Complex>>>= anObject
 (1 + 2 i) ~= (1 + 4 i) --> true
 \end{code}
 
-もし\ct{=}をオーバーライドしたなら、\mthind{Object}{hash}をオーバーライドすることを検討すべきです。クラスのインスタンスが\clsind{Dictionary}のキーとして使用された場合に、同値であると見なされるインスタンスはハッシュ値が同じになるようにしておく必要があります:
+もし \ct{=} をオーバーライドしたなら、\mthind{Object}{hash} をオーバーライドすることを検討すべきです。クラスのインスタンスが \clsind{Dictionary} のキーとして使用された場合に、同値であると見なされるインスタンスはハッシュ値が同じになるようにしておく必要があります:
 \cmindex{Complex}{hash}
-\begin{method}{複素数のhashは再実装されなければならない}
+\begin{method}{複素数の hash は再実装されなければならない}
 Complex>>>hash
-    "= を実装したのでhashも再実装する。"
+    "= を実装したので hash も再実装する。"
     ^ real hash bitXor: imaginary hash.
 \end{method}
 
-\ct{=}と\ct{hash}は同時にオーバーライドすべきですが、\ct{==}は\emph{決して}オーバーライドしてはいけません(オブジェクトの同一性に関する意味論は、すべてのクラスで同じです)。\ct{==}は\clsind{ProtoObject}のプリミティブメソッドです。
+\ct{=} と \ct{hash} は同時にオーバーライドすべきですが、\ct{==} は\emph{決して}オーバーライドしてはいけません(オブジェクトの同一性に関する意味論は、すべてのクラスで同じです)。\ct{==} は \clsind{ProtoObject} のプリミティブメソッドです。
 
-\pharo には、他の\st と比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値と見なされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
+\pharo には、他の \st と比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値と見なされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
 
 \begin{code}{@TEST}
 #'lulu' = 'lulu' --> true
@@ -210,9 +211,9 @@ Complex>>>hash
 
 %-----------------------------------------------------------------
 \subsection{クラスのメンバーシップ}
-いくつかのメソッドを使って、オブジェクトのクラスに関する問い合わせをすることができます((query the class of an object))。
+いくつかのメソッドを使って、オブジェクトのクラスに関する問い合わせをすることができます ((query the class of an object))。
 
-\paragraph{\mthind{Object}{class}.} 任意のオブジェクトに\ct{class}メッセージを送信して、それが属するクラスを答えさせることができます。
+\paragraph{\mthind{Object}{class}.} 任意のオブジェクトに \ct{class} メッセージを送信して、それが属するクラスを答えさせることができます。
 \begin{code}{@TEST}
 1 class --> SmallInteger
 \end{code}
@@ -226,10 +227,10 @@ Complex>>>hash
 1 isMemberOf: Object           --> false
 \end{code}
 
-\st のクラスライブラリは\st 自身によって記述されているので、スーパークラスとクラスメッセージを正しく組み合わせて、クラスライブラリの構造を自在にたどることができます(\charef{metaclasses}を参照)。
+\st のクラスライブラリは \st 自身によって記述されているので、スーパークラスとクラスメッセージを正しく組み合わせて、クラスライブラリの構造を自在にたどることができます(\charef{metaclasses}を参照)。
 
 \paragraph{\ct{isKindOf:}}
-\cmind{Object}{isKindOf:}は、レシーバのクラスが引数のクラスと等しいか、またはそのサブクラスであるかを答えます。
+\cmind{Object}{isKindOf:} は、レシーバのクラスが引数のクラスと等しいか、またはそのサブクラスであるかを答えます。
 
 \begin{code}{@TEST}
 1 isKindOf: SmallInteger --> true
@@ -242,10 +243,10 @@ Complex>>>hash
 1/3 isKindOf: Integer        --> false
 \end{code}
 
-\ct{1/3}は\clsind{Fraction}で、\clsind{Number}でもあります。これは、\ct{Number}クラスが\ct{Fraction}クラスのスーパークラスだからです。しかし、\ct{1/3}は\ct{Integer}ではありません。
+\ct{1/3} は \clsind{Fraction} で、\clsind{Number} でもあります。これは、\ct{Number} クラスが \ct{Fraction} クラスのスーパークラスだからです。しかし、\ct{1/3} は \ct{Integer} ではありません。
 
 \paragraph{\ct{respondsTo:}}
-\cmind{Object}{respondsTo:}は、レシーバがメッセージセレクタ(\ct{respondsTo:}のシンボル引数)を理解するかどうか答えます。
+\cmind{Object}{respondsTo:} は、レシーバがメッセージセレクタ (\ct{respondsTo:} のシンボル引数)を理解するかどうか答えます。
 
 \begin{code}{@TEST}
 1 respondsTo: #, --> false
@@ -272,11 +273,11 @@ a1 --> #(#('sally'))
 a2 --> #(#('sally'))    "内側の配列が共有されている!"
 \end{code}
 
-\cmind{Object}{shallowCopy}は、オブジェクトのシャローコピーを作成するためのプリミティブメソッドです。\ct{a2}は\ct{a1}の単なるシャローコピーなので、二つの配列は、中に含まれるネストされた配列((原文: \textbackslash ct\{Array\}))の参照を共有しています。
+\cmind{Object}{shallowCopy} は、オブジェクトのシャローコピーを作成するためのプリミティブメソッドです。\ct{a2} は \ct{a1} の単なるシャローコピーなので、二つの配列は、中に含まれるネストされた配列 ((\textbackslash ct\{Array\})) の参照を共有しています。
 
-\ct{Object>>>shallowCopy}は\cmind{Object}{copy}の「公開インターフェース」で、インスタンスに一意性があればオーバーライドする必要があります。例えば、\clsind{Boolean}、\clsind{Character}、\clsind{SmalInteger}、\clsind{UndefinedObject}などのクラスがそれに当たります。
+\ct{Object>>>shallowCopy} は \cmind{Object}{copy} の「公開インターフェース」で、インスタンスに一意性があればオーバーライドする必要があります。例えば、\clsind{Boolean}、\clsind{Character}、\clsind{SmalInteger}、\clsind{UndefinedObject} などのクラスがそれに当たります。
 
-\cmind{Object}{copyTwoLevel}は、単純なシャローコピーではうまくいかないときに、見たままのことを行ってくれます:
+\cmind{Object}{copyTwoLevel} は、単純なシャローコピーではうまくいかないときに、見たままのことを行ってくれます:
 
 \begin{code}{@TEST | a1 a2 |}
 a1 := { { 'harry' } } .
@@ -286,7 +287,7 @@ a1 --> #(#('sally'))
 a2 --> #(#('harry'))    "状態は完全に独立している"
 \end{code}
 
-\cmind{Object}{deepCopy}は、任意の深さまでオブジェクトをコピーします。
+\cmind{Object}{deepCopy} は、任意の深さまでオブジェクトをコピーします。
 
 \begin{code}{@TEST | a1 a2 |}
 a1 := { { { 'harry' } } } .
@@ -296,7 +297,7 @@ a1 --> #(#('sally'))
 a2 --> #(#(#('harry')))
 \end{code}
 
-\ct{deepCopy}の問題は、相互再帰的な構造に対して使った場合に終了しなくなることです:
+\ct{deepCopy} の問題は、相互再帰的な構造に対して使った場合に終了しなくなることです:
 
 \begin{code}{NB: CANNOT TEST}
 a1 := { 'harry' }.
@@ -306,46 +307,46 @@ a1 deepCopy --> !\emph{... ((Japanese impossible?))does not terminate!}!
 \end{code}
 % NB: Not a test!
 
-正しく動くように\ct{deepCopy}をオーバーライドすることもできますが、\cmind{Object}{copy}がもっと良い解決策を提供してくれます:
+正しく動くように \ct{deepCopy} をオーバーライドすることもできますが、\cmind{Object}{copy} がもっと良い解決策を提供してくれます:
 
 \begin{method}{オブジェクトをコピーするテンプレートメソッド}
 Object>>>copy
     "レシーバと同じようなもう一つのインスタンスを返す。
-    サブクラスは通常、postCopyをオーバーライドする。
-    通常はshallowCopyはオーバーライドしない。"
+    サブクラスは通常、postCopy をオーバーライドする。
+    通常は shallowCopy はオーバーライドしない。"
     ^self shallowCopy postCopy
 \end{method}
 
-共有すべきではないインスタンス変数をコピーするには、\mthind{Object}{postCopy}をオーバーライドしましょう。そして、\ct{postCopy}の中では常に\ct{super postCopy}しましょう。
+共有すべきではないインスタンス変数をコピーするには、\mthind{Object}{postCopy} をオーバーライドしましょう。そして、\ct{postCopy} の中では常に \ct{super postCopy} しましょう。
 
 \on{見てみたけど、システムの中には良い例が見つかりませんでした。}
 
 %-----------------------------------------------------------------
 \subsection{デバッグ}
 
-デバッグする上で最も重要なメソッドは、\mthind{Object}{halt}です\footnote{訳注：実際にはerror handlingカテゴリにhaltは分類されています}。メソッドにブレークポイントを設定するには、メソッド本文の好きな場所に\ct{self halt}というメッセージ送信を挿入するだけで構いません。このメッセージが送信されると、プログラムのその位置で実行が中断され、\ind{デバッガ}が起動します
+デバッグする上で最も重要なメソッドは、\mthind{Object}{halt} です\footnote{訳注: 実際には error handling カテゴリに haltは分類されています}。メソッドにブレークポイントを設定するには、メソッド本文の好きな場所に \ct{self halt} というメッセージ送信を挿入するだけで構いません。このメッセージが送信されると、プログラムのその位置で実行が中断され、\ind{デバッガ}が起動します
 (デバッガの詳細については、\charef{env}を参照してください)。
 
-\sd{他の章ではhaltIf:、haltOnce、inspectOnce、flagging: isThisEverCalledなども紹介されています。}
+\sd{他の章では haltIf:、haltOnce、inspectOnce、flagging: isThisEverCalled なども紹介されています。}
 
-次に重要なメッセージ((メソッド?))は、\mthind{Object}{assert:}です。これは引数として\ind{ブロック}を取ります。ブロックが\ct{true}を返すと実行は継続されます。そうでなければ\ct{AssertionFailure}例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:}は、\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な((non-trivial))事前条件をチェックする、というのが最も良くある利用方法でしょう。\cmind{Stack}{pop}は、次のように簡単に実装できます:
+次に重要なメッセージ((メソッド?))は、\mthind{Object}{assert:} です。これは引数として\ind{ブロック}を取ります。ブロックが \ct{true} を返すと実行は継続されます。そうでなければ \ct{AssertionFailure} 例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:} は、\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な ((non-trivial)) 事前条件をチェックする、というのが最も良くある利用方法でしょう。\cmind{Stack}{pop} は、次のように簡単に実装できます:
 
 \begin{method}{事前条件のチェック}
 Stack>>>pop
-    "最初の要素を返し、スタックからそれを削除します。"
+    "最初の要素を返し、スタックからそれを削除する。"
     self assert: [ self isEmpty not ].
     ^self linkedList removeFirst element
 \end{method}
 
-\ct{Object>>>assert:}と\cmind{TestCase}{assert:}を混同しないでください。後者はSUnitテスティングフレームワーク(\charef{SUnit}を参照)の中で出てきます。前者は引数としてブロックを期待する\footnote{実際には\ct{value}メッセージを解釈できる、\ct{Boolean}を含む、あらゆる引数を受け取れます}のに対し、後者は\clsind{Boolean}を期待します。共にデバッグのために有用ですが、それぞれ目的は大きく異なります。
+\ct{Object>>>assert:} と \cmind{TestCase}{assert:} を混同しないでください。後者は SUnit テスティングフレームワーク(\charef{SUnit}を参照)の中で出てきます。前者は引数としてブロックを期待する\footnote{実際には、\ct{value} メッセージを解釈できる、\ct{Boolean} を含むあらゆる引数を受け取れます}のに対し、後者は \clsind{Boolean} を期待します。共にデバッグのために有用ですが、それぞれ目的は大きく異なります。
 
 %-----------------------------------------------------------------
 \subsection{エラー処理}
 
 このプロトコルには、ランタイムエラーを通知するのに便利なメソッドがいくつか含まれます。
 
-\lct{self deprecated: \emph{anExplanationString}}を送信すると、そのメソッドは今後は奨励されないということが通知できます(\ind{プリファレンスブラウザ}の\protind{debug}プロトコルでdeprecationをオンにしているとき)。
-今後奨励される選択肢を、\ct{String}引数の形で提示します。
+\lct{self deprecated: \emph{anExplanationString}} を送信すると、そのメソッドは今後は奨励されないということが通知できます(\ind{プリファレンスブラウザ}の \protind{debug} プロトコルで deprecation をオンにしているとき)。
+今後奨励される選択肢を、\ct{String} 引数の形で提示します。
 \cmindex{Object}{deprecated:}
 \index{deprecation}
 
@@ -354,93 +355,93 @@ Stack>>>pop
   --> !\emph{SmallInteger(Object)>>doIfNotNil: has been deprecated. use ifNotNilDo:}!
 \end{code}
 
-メソッド探索((message lookup))に失敗すると、\ct{doesNotUnderstand:}が送信されます。デフォルトの実装、\ie\cmind{Object}{doesNotUnderstand:}では、その位置でデバッガが起動します。\lct{does\-Not\-Un\-der\-stand:}をオーバーライドして他の振る舞いをさせると便利かもしれません。
+メソッド探索 ((message lookup)) に失敗すると、\ct{doesNotUnderstand:} が送信されます。デフォルトの実装、\ie\cmind{Object}{doesNotUnderstand:} では、その位置でデバッガが起動します。\lct{does\-Not\-Un\-der\-stand:} をオーバーライドして他の振る舞いをさせると便利かもしれません。
 
 \on{例外についての章を書いたらその章への参照を追加すること。}
 
-\cmind{Object}{error}と\cmind{Object}{error:}は、例外を発生させるために利用できる一般的なメソッドです
+\cmind{Object}{error} と \cmind{Object}{error:} は、例外を発生させるために利用できる一般的なメソッドです
 (ただし独自に定義した例外を発生させる方が、一般的には望ましいでしょう。自分のコードとカーネルクラスのどちらで発生したエラーなのかが区別できるからです)。
-\lr{おそらく独自の例外を自分で作成した方がいいということに触れています(p. 208)}
+\lr{おそらく独自の例外を自分で作成した方がいいということに触れています (p. 208)}
 
-\st の抽象メソッドは、規約によりメソッドの本文に\lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty}と書いて実装します。したがって抽象クラスが間違ってインスタンス化され、抽象メソッドが呼び出されたとしても、\cmind{Object}{subclassResponsibility}が評価されるだけです。
+\st の抽象メソッドは、規約によりメソッドの本文に \lct{self sub\-class\-Res\-pon\-si\-bi\-li\-ty} と書いて実装します。したがって抽象クラスが間違ってインスタンス化され、抽象メソッドが呼び出されたとしても、\cmind{Object}{subclassResponsibility} が評価されるだけです。
 
-\begin{method}{メソッドが抽象メソッドであることを示す\protect\footnote{訳注：この例は\pharo 1.3では変更されています}}
+\begin{method}{メソッドが抽象メソッドであることを示す\protect\footnote{訳注: この例は \pharo 1.3では変更されています}}
 Object>>>subclassResponsibility
     "このメッセージはサブクラスの振る舞いに関する仕組みを支えています。
     サブクラスはこのメッセージを実装すべきだと忠告します。"
     self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{method}
 
-\clsind{Magnitude}と\clsind{Number}と\clsind{Boolean}が、\subind{クラス}{抽象}クラスの古典的な例です。この章の少し先で説明します。
+\clsind{Magnitude} と \clsind{Number} と \clsind{Boolean} が、\subind{クラス}{抽象}クラスの古典的な例です。この章の少し先で説明します。
 
 \begin{code}{NB: CANNOT TEST}
 Number new + 1 --> !\emph{エラー: \#+はサブクラスでオーバーライドしなければならない}!
 \end{code}
 
-規約により、サブクラスが継承すべきではないメソッドを通知するには、サブクラス側で\ct{self shouldNotImplement}を送信します。これは、一般的にはクラス階層の設計が何かうまくいっていないことのサインです。しかし、単一継承の制限があるため、どうしてもこのような回避策を取らざるを得ない場合もあります。
+規約により、サブクラスが継承すべきではないメソッドを通知するには、サブクラス側で \ct{self shouldNotImplement} を送信します。これは、一般的にはクラス階層の設計が何かうまくいっていないことのサインです。しかし、単一継承の制限があるため、どうしてもこのような回避策を取らざるを得ない場合もあります。
 \cmindex{Object}{shouldNotImplement}
 \index{inheritance!canceling}
 
-典型的な例が\clsindex{Dictionary}\ct{Dictionary>>>removeKey:}です。ここでは、\cmind{Collection}{remove:}を継承する代わりに\ct{shouldNotImplement}フラグを立てています(\ct{Dictionary}は代わりに\mthind{Dictionary}{removeKey:}を用意しています)。
+典型的な例が \clsindex{Dictionary}\ct{Dictionary>>>remove:} です。ここでは、\cmind{Collection}{remove:} を継承しないで \ct{shouldNotImplement} フラグを立てています (\ct{Dictionary} は代わりに \mthind{Dictionary}{removeKey:} を用意しています)。
 
 %-----------------------------------------------------------------
 \sd{ subsection{廃止予定} }
 \sd{あとで書く}
 
-\on{既に上にいくつか説明があります!エラー処理の二つ目の段落を参照して下さい。}
+\on{既に上にいくつか説明があります! エラー処理の二つ目の段落を参照して下さい。}
 
 %-----------------------------------------------------------------
-\subsection{testingメソッド((Testing))}
+\subsection{testing メソッド ((Testing))}
 
-\protind{testing} プロトコルに分類されるメソッド(testingメソッド)は、SUnitのテストとは何の関係もありません! testingメソッドは、レシーバの状態を聞かれて\clsind{Boolean}を答えるメソッドです。
+\protind{testing} プロトコルに分類されるメソッド (testing メソッド)は、SUnit のテストとは何の関係もありません! testing メソッドは、レシーバの状態を聞かれて \clsind{Boolean} を答えるメソッドです。
 
-たくさんのtestingメソッドが、\ct{Object}によって提供されています。\mthind{Object}{isComplex}は既に見ました。他にも、\mthind{Object}{isArray}、\mthind{Object}{isBoolean}、\mthind{Object}{isBlock}、\mthind{Object}{isCollection}などがあります。一般的にはこれらのメソッドの使用は避けるべきです。オブジェクトに自身のクラスを問い合わせるのは、カプセル化を破ること((violation of encapsulation. この訳だと少し違和感がある?))だからです。オブジェクトのクラスを調べる代わりに要求だけをオブジェクトに送信し、後の処理はオブジェクトに任せるべきです。
+たくさんの testing メソッドが、\ct{Object} によって提供されています。\mthind{Object}{isComplex} は既に見ました。他にも、\mthind{Object}{isArray}、\mthind{Object}{isBoolean}、\mthind{Object}{isBlock}、\mthind{Object}{isCollection} などがあります。一般的にはこれらのメソッドの使用は避けるべきです。オブジェクトに自身のクラスを問い合わせるのは、カプセル化を破ること ((violation of encapsulation. この訳だと少し違和感がある?))だからです。オブジェクトのクラスを調べる代わりに要求だけをオブジェクトに送信し、後の処理はオブジェクトに任せるべきです。
 
-とは言っても、これらのtestingメソッドのいくつかは間違いなく有用です。最も有用なのは、おそらく\cmind{ProtoObject}{isNil}と\cmind{Object}{notNil}でしょう(\patind{Null Object}\cite{Wool98a}デザインパターンを使ってこれらのメソッドを不要にすることもできますが)。
+とは言っても、これらの testing メソッドのいくつかは間違いなく有用です。最も有用なのは、おそらく \cmind{ProtoObject}{isNil} と \cmind{Object}{notNil} でしょう (\patind{Null Object}\cite{Wool98a} デザインパターンを使ってこれらのメソッドを不要にすることもできますが)。
 
 % \footnote{However the \emph{Null Object} design pattern can obviate the need for even these methods. See, Bobby Woolf, ``Null Object,'' Pattern Languages of Program Design 3, Robert Martin, Dirk Riehle and Frank Buschmann (Eds.), pp. 5-18, Addison Wesley, 1998.}.
 
 %-----------------------------------------------------------------
-\subsection{initialize-releaseプロトコル((Initialize release))}
+\subsection{initialize-release プロトコル ((Initialize release))}
 
-\ct{Object}ではなく\ct{ProtoObject}にある最後のキーメソッドは、\mthind{ProtoObject}{initialize}です。
+\ct{Object} ではなく \ct{ProtoObject} にある最後のキーメソッドは、\mthind{ProtoObject}{initialize} です。
 
-\begin{method}{空のフックメソッドとしての\lct{initialize}}
+\begin{method}{空のフックメソッドとしての \lct{initialize}}
 ProtoObject>>>initialize
    "サブクラスはこのメソッドを再定義して、インスタンス生成時に初期化を実行すべきである"
 \end{method}
 
-これが重要なのは、\pharo ではすべてのクラスの\mthind{Behavior}{new}メソッドのデフォルト実装((the default \mthind{Behavior}{new} method defined for every class in the system))が、新しく生成されたインスタンスに\ct{initialize}を送るように書かれている((will send))からです。
+これが重要なのは、\pharo ではすべてのクラスの \mthind{Behavior}{new} メソッドのデフォルト実装 ((the default \mthind{Behavior}{new} method defined for every class in the system)) が、新しく生成されたインスタンスに \ct{initialize} を送るように書かれている ((will send)) からです。
 
-\begin{method}{クラス側のテンプレートメソッドとしての\lct{new}}
+\begin{method}{クラス側のテンプレートメソッドとしての \lct{new}}
 Behavior>>>new
     "添字付けできないレシーバ(クラス)の初期化された新しいインスタンスを返す。
-    クラスが添字付けできる((indexable))場合は失敗する。"
+    クラスが添字付けできる ((indexable)) 場合は失敗する。"
     ^ self basicNew initialize
 \end{method}
 \cmindex{Behavior}{new}
 
-これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常\ct{initialize}メソッドでは、継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために、\ct{super initialize}を実行すべきです
-(これは他の\st では標準の振る舞い\emph{ではない}ことに注意して下さい((newのこと?))。
+これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常 \ct{initialize} メソッドでは、継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために、\ct{super initialize} を実行すべきです
+(これは他の \st では標準の振る舞い\emph{ではない}ことに注意して下さい ((new のこと?))。
 
 %=================================================================
 \section{Number}
 \seclabel{Number}
-驚くべきことに、\st では数値はプリミティブなデータではなく、本物のオブジェクトです。もちろん数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number}の階層は、\st のクラス階層の他の部分と同じく完全にアクセス可能で拡張可能です。
+驚くべきことに、\st では数値はプリミティブなデータではなく、本物のオブジェクトです。もちろん数値はバーチャルマシンで効率的に実装されていますが、\clsindmain{Number} の階層は、\st のクラス階層の他の部分と同じく完全にアクセス可能で拡張可能です。
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=8cm]{NumberHierarchy}}
-\caption{Numberのクラス階層 \figlabel{numbers}}
+\caption{Number のクラス階層 \figlabel{numbers}}
 \end{figure}
 
-\ct{Number}は、\scatind{Kernel-Numbers}カテゴリの中にあります。この階層の抽象的なルートは、\clsind{Magnitude}です。このクラスは、比較演算子をサポートするあらゆる種類のクラスを表します。\ct{Number}は、様々な算術演算子やその他の演算子を追加します。これらの演算子のほとんどが抽象メソッドです。\clsind{Float}と\clsind{Fraction}は、それぞれ浮動小数点数と分数を表します。\clsind{Integer}も抽象クラスです。抽象クラスの\ct{Integer}は、したがって、具象サブクラスの\clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger}とは区別されます((\clsind{Integer} is also abstract, thus distinguishing between subclasses \clsind{SmallInteger}, \clsind{LargePositiveInteger} and \clsind{LargeNegativeInteger}.))。ただし、必要に応じて自動的に値が変換されるので、ほとんどのユーザーは三つの\ct{Integer}クラスの違いを気にする必要はありません。
+\ct{Number} は、\scatind{Kernel-Numbers} カテゴリの中にあります。この階層の抽象的なルートは、\clsind{Magnitude} です。このクラスは、比較演算子をサポートするあらゆる種類のクラスを表します。\ct{Number} は、様々な算術演算子やその他の演算子を追加します。これらの演算子のほとんどが抽象メソッドです。\clsind{Float} と \clsind{Fraction} は、それぞれ浮動小数点数と分数を表します。\clsind{Integer} も抽象クラスです。抽象クラスの \ct{Integer} は、したがって、具象サブクラスの \clsind{SmallInteger}、\clsind{LargePositiveInteger}、\clsind{LargeNegativeInteger} とは区別されます ((\clsind{Integer} is also abstract, thus distinguishing between subclasses \clsind{SmallInteger}, \clsind{LargePositiveInteger} and \clsind{LargeNegativeInteger}.))。ただし、必要に応じて自動的に値が変換されるので、ほとんどのユーザは三つの \ct{Integer} クラスの違いを気にする必要はありません。
 
 %-----------------------------------------------------------------
 \subsection{Magnitude}
 
-\clsindmain{Magnitude}は、\clsind{Number}の親であるだけでなく、\clsind{Character}、\clsind{Duration}、\clsind{Timespan}などのような比較演算をサポートするその他のクラスの親クラスでもあります(\clsind{Complex}は比較できません。したがって\clsind{Complex}は、\clsind{Number}を継承していません\footnote{訳注：\ct{Complex}クラスは\pharo 1.3に存在しません})。
+\clsindmain{Magnitude} は、\clsind{Number} の親であるだけでなく、\clsind{Character}、\clsind{Duration}、\clsind{Timespan} などのような比較演算をサポートするその他のクラスの親クラスでもあります (\clsind{Complex} は比較できません。したがって \clsind{Complex} は、\clsind{Number} を継承していません\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません})。
 
-\mthind{Magnitude}{<}と\mthind{Magnitude}{=}は抽象メソッドです。それ以外の演算子はジェネリックに((もっと良い訳はないか))定義されています。例えば:
+\mthind{Magnitude}{<} と \mthind{Magnitude}{=} は抽象メソッドです。それ以外の演算子はジェネリックに((もっと良い訳はないか))定義されています。例えば:
 
 \begin{method}{比較用の抽象メソッド}
 Magnitude>>> < aMagnitude 
@@ -456,23 +457,23 @@ Magnitude>>> > aMagnitude
 %-----------------------------------------------------------------
 \subsection{Number}
 
-同様に\clsindmain{Number}では、\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/}などが抽象メソッドとして定義されており、それ以外の算術演算子はジェネリックに定義されています。
+同様に \clsindmain{Number} では、\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/} などが抽象メソッドとして定義されており、それ以外の算術演算子はジェネリックに定義されています。
 
-すべての\ct{Number}オブジェクトは、\mthind{Number}{asFloat}や\mthind{Number}{asInteger}のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}つまり、\ct{Number}を実部がゼロの\clsind{Complex}のインスタンスに変換する\mthind{Number}{i}や、\ct{Number}から\clsind{Duration}オブジェクトを生成する\mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week}などがあります。
+すべての \ct{Number} オブジェクトは、\mthind{Number}{asFloat} や \mthind{Number}{asInteger} のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}つまり、\ct{Number} を実部がゼロの \clsind{Complex} のインスタンスに変換する \mthind{Number}{i} や、\ct{Number} から \clsind{Duration} オブジェクトを生成する \mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week} などがあります。
 
-\ct{Numbers}は、\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt}などの良くある\emph{数学関数}を直接サポートします。
+\ct{Numbers} は、\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt} などの良くある\emph{数学関数}を直接サポートします。
 
-((in terms ofがわからない。default base is 10がわからない: \cmind{Number}{printOn:} is implemented in terms of the abstract method \ct{Number>>>printOn:base:}. (The default base is 10.)))。
+((in terms of がわからない。default base is 10 がわからない: \cmind{Number}{printOn:} is implemented in terms of the abstract method \ct{Number>>>printOn:base:}. (The default base is 10.)))。
 
-testingメソッドとしては、\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative}などがあります。当然\ct{Number}は、\lct{is\-Num\-ber}をオーバーライドしています。さらに興味深い点として、\mthind{Number}{isInfinite}は\ct{false}を返すように定義されています。
+testing メソッドとしては、\mthind{Number}{even}、\mthind{Number}{odd}、\mthind{Number}{positive}、\mthind{Number}{negative} などがあります。当然 \ct{Number} は、\lct{is\-Num\-ber} をオーバーライドしています。さらに興味深い点として、\mthind{Number}{isInfinite} は \ct{false} を返すように定義されています。
 
-\emph{切り捨て}系のメソッドとしては、\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart}などがあります。
+\emph{切り捨て}系のメソッドとしては、\mthind{Number}{floor}、\mthind{Number}{ceiling}、\mthind{Number}{integerPart}、\mthind{Number}{fractionPart} などがあります。
 
 \begin{code}{@TEST}
 1 + 2.5     --> 3.5             "二つの数の和"
 3.4 * 5      --> 17.0           "二つの数の積"
 8 / 2         --> 4                 "二つの数の商"
-10 - 8.3   --> 1.7              "二つの数の差\footnote{((listing 内に脚注))訳注：\pharo 1.3では表示が異なる場合があります}"
+10 - 8.3   --> 1.7              "二つの数の差\footnote{((listing 内に脚注))訳注: \pharo 1.3 では表示が異なる場合があります}"
 12 = 11    --> false           "二つの数の等価性"
 12 ~= 11 --> true            "二つの数が異なるかどうかをテスト"
 12 > 9      --> true            "より大きい"
@@ -480,23 +481,23 @@ testingメソッドとしては、\mthind{Number}{even}、\mthind{Number}{odd}�
 12 < 10    --> false           "より小さい"
 100@10   --> 100@10    "座標の生成"
 \end{code}
-\on{listingパッケージ内でタブがどう動作するかをチェックすること...}
+\on{listing パッケージ内でタブがどう動作するかをチェックすること...}
 
 次の例は、\st では驚くほど正しく動作します:
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 \end{code}
-\ct{1000 factorial}は、他の多くの言語では計算するのが非常に難しいのですが、実際に計算できていることに注目して下さい。これは、数値に関する「自動型変換と正確な演算」の非常に良い例になっています。
+\ct{1000 factorial} は、他の多くの言語では計算するのが非常に難しいのですが、実際に計算できていることに注目して下さい。これは、数値に関する「自動型変換と正確な演算」の非常に良い例になっています。
 \cmindex{Integer}{factorial}
 
-\dothis{\ct{1000 factorial}の結果を表示してみましょう。計算よりも表示に長い時間がかかります!}
+\dothis{\ct{1000 factorial} の結果を表示してみましょう。計算よりも表示に長い時間がかかります!}
 
 %-----------------------------------------------------------------
 \subsection{Float}
 
-\clsindmain{Float}は、\ct{Number}の抽象メソッドを浮動小数点数用に実装します。
+\clsindmain{Float} は、\ct{Number} の抽象メソッドを浮動小数点数用に実装します。
 
-さらに興味深いことに、\ct{Float class}(\ie\ct{Float}のクラスボタン側((ボタン?)))は、次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
+さらに興味深いことに、\ct{Float class} (\ie\ct{Float} のクラスボタン側((ボタン?)))は、次の\emph{定数}を返すメソッドを提供しています: \mthind{Float class}{e}、\mthind{Float class}{infinity}、\mthind{Float class}{nan}、\mthind{Float class}{pi}。
 
 \begin{code}{@TEST}
 Float pi                      --> 3.141592653589793
@@ -507,14 +508,14 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Fraction}
 
-\clsind{Fraction}は、分子と分母に当たるインスタンス変数によって表されます。分子と分母は\ct{Integer}であるべきです。\ct{Fraction}の生成は、通常は\ct{Integer}の割り算によって行います(\cmind{Fraction}{numerator:denominator:}というコンストラクタメソッドを使うのではなく)。
+\clsind{Fraction} は、分子と分母に当たるインスタンス変数によって表されます。分子と分母は \ct{Integer} であるべきです。\ct{Fraction} の生成は、通常は \ct{Integer} の割り算によって行います (\cmind{Fraction}{numerator:denominator:} というコンストラクタメソッドを使うのではなく)。
 
 \begin{code}{@TEST}
 6/8             --> (3/4)
 (6/8) class --> Fraction
 \end{code}
 
-\ct{Fraction}と\ct{Integer}、または\ct{Fraction}と他の\ct{Fraction}を掛け合わせると、\ct{Integer}になることがあります:
+\ct{Fraction} と \ct{Integer}、または \ct{Fraction} と他の \ct{Fraction} を掛け合わせると、\ct{Integer} になることがあります:
 
 \begin{code}{@TEST}
 6/8 * 4 --> 3
@@ -525,28 +526,28 @@ Float infinity isInfinite --> true
 %-----------------------------------------------------------------
 \subsection{Integer}
 
-\clsindmain{Integer}は、三つの具象整数クラスの親に当たる抽象クラスです。\ct{Integer}は、多くの\ct{Number}の抽象メソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:}などの整数特有のメソッドやその他多くのメソッドを追加します。
+\clsindmain{Integer} は、三つの具象整数クラスの親に当たる抽象クラスです。\ct{Integer} は、多くの \ct{Number} の抽象メソッドの具体的な実装を提供するだけでなく、\mthind{Integer}{factorial}、\mthind{Integer}{atRandom}、\mthind{Integer}{isPrime}、\mthind{Integer}{gcd:} などの整数特有のメソッドやその他多くのメソッドを追加します。
 
-\clsindmain{SmallInteger}は、その内部表現がコンパクトである点で特殊です --- \ct{SmallInteger}は、値を参照として格納する代わりに、通常は参照を保持するために使われるビット領域を使って直接値を表現します。この領域の最初のビットが、オブジェクトが\ct{SmallInteger}かどうかを示しています。
+\clsindmain{SmallInteger} は、その内部表現がコンパクトである点で特殊です --- \ct{SmallInteger} は、値を参照として格納する代わりに、通常は参照を保持するために使われるビット領域を使って直接値を表現します。この領域の最初のビットが、オブジェクトが \ct{SmallInteger} かどうかを示しています。
 
-\mthind{SmallInteger}{minVal}と\mthind{SmallInteger}{maxVal}というクラスメソッドで、\ct{SmallInteger}の範囲がわかります:
+\mthind{SmallInteger}{minVal} と \mthind{SmallInteger}{maxVal} というクラスメソッドで、\ct{SmallInteger} の範囲がわかります:
 
 \begin{code}{@TEST}
 SmallInteger maxVal = ((2 raisedTo: 30) - 1)      --> true
 SmallInteger minVal = (2 raisedTo: 30) negated --> true
 \end{code}
 
-\ct{SmallInteger}がその範囲に収まらなくなると、必要に応じて自動的に\clsind{LargePositiveInteger}または\clsind{LargeNegativeInteger}に変換されます:
+\ct{SmallInteger} がその範囲に収まらなくなると、必要に応じて自動的に \clsind{LargePositiveInteger} または \clsind{LargeNegativeInteger} に変換されます:
 
 \begin{code}{@TEST}
 (SmallInteger maxVal + 1) class --> LargePositiveInteger
 (SmallInteger minVal - 1) class  --> LargeNegativeInteger
 \end{code}
 
-大きな整数も同様に((similarly))、適切なタイミングで小さな整数に変換されます。
+大きな整数も同様に ((similarly))、適切なタイミングで小さな整数に変換されます。
 
-多くのプログラミング言語同様((as))、整数は繰り返しを指定するのに便利なことがあります。ブロックを繰り返し評価することに特化した\mthind{Integer}{timesRepeat:}というメソッドもあります。
-\charef{syntax}で既に同様の((similar))例を見ました:
+多くのプログラミング言語同様 ((as))、整数は繰り返しを指定するのに便利なことがあります。ブロックを繰り返し評価することに特化した \mthind{Integer}{timesRepeat:} というメソッドもあります。
+\charef{syntax}で既に同様の ((similar)) 例を見ました:
 \begin{code}{@TEST | n |}
 n := 2.
 3 timesRepeat: [ n := n*n ].
@@ -556,19 +557,19 @@ n --> 256
 %=================================================================
 \section{Character}
 
-\clsindmain{Character}は、\scatind{Collections-Strings}カテゴリ内で\clsind{Magnitude}のサブクラスとして定義されています。表示できる文字は、\pharo では\lct{\$$\langle$\emph{char}$\rangle$}と表されます。例えば:
+\clsindmain{Character} は、\scatind{Collections-Strings} カテゴリ内で \clsind{Magnitude} のサブクラスとして定義されています。表示できる文字は、\pharo では \lct{\$$\langle$\emph{char}$\rangle$} と表されます。例えば:
 
 \begin{code}{@TEST}
 $a < $b --> true
 \end{code}
 
-表示できない文字は、様々なクラスメソッドを使って得ることができます。\mbox{\cmind{Character class}{value:}}は、Unicode(またはASCII)の整数値を引数として受け取って、対応する文字を返します。\protind{accessing untypeable characters}プロトコルには、\mthind{Character class}{backspace}、\mthind{Character class}{cr}、\mthind{Character class}{escape}、\mthind{Character class}{euro}、\mthind{Character class}{space}、\mthind{Character class}{tab}などのたくさんのショートカットコンストラクタメソッドが含まれています。
+表示できない文字は、様々なクラスメソッドを使って得ることができます。\mbox{\cmind{Character class}{value:}} は、Unicode (または ASCII) の整数値を引数として受け取って、対応する文字を返します。\protind{accessing untypeable characters} プロトコルには、\mthind{Character class}{backspace}、\mthind{Character class}{cr}、\mthind{Character class}{escape}、\mthind{Character class}{euro}、\mthind{Character class}{space}、\mthind{Character class}{tab} などのたくさんのショートカットコンストラクタメソッド((これらはコンストラクタではないはず))が含まれています。
 
 \begin{code}{@TEST}
 Character space = (Character value: Character space asciiValue) --> true
 \end{code}
 
-\mthind{Character}{printOn:}メソッドは十分に賢く、文字を生成する三つの方法のうちどれが最も適切な表現になるか知っています:
+\mthind{Character}{printOn:} メソッドは十分に賢く、文字を生成する三つの方法のうちどれが最も適切な表現になるか知っています:
 
 \begin{code}{@TEST}
 Character value: 1   --> Character home
@@ -577,9 +578,9 @@ Character value: 32 --> Character space
 Character value: 97 --> $a
 \end{code}\ignoredollar$
 
-\ct{Character}には、様々な便利な\emph{testing}メソッドが組み込まれています: \mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel}など。
+\ct{Character} には、様々な便利な \emph{testing} メソッドが組み込まれています: \mthind{Character}{isAlphaNumeric}、\mthind{Character}{isCharacter}、\mthind{Character}{isDigit}、\mthind{Character}{isLowercase}、\mthind{Character}{isVowel} など。
 
-\ct{Character}を、その文字だけを含む文字列に変換するには、\mthind{Character}{asString}を送信します。この場合、\ct{asString}と\mthind{Character}{printString}とでは結果が異ります。
+\ct{Character} を、その文字だけを含む文字列に変換するには、\mthind{Character}{asString} を送信します。この場合、\ct{asString} と \mthind{Character}{printString} とでは結果が異ります。
 
 \begin{code}{@TEST}
 $a asString    --> 'a'
@@ -587,13 +588,13 @@ $a                  --> $a
 $a printString --> '$a'
 \end{code}
 
-ASCII((8ビット?))の範囲内の\ct{Character}はそれぞれ一意のインスタンスで、クラス変数である\cvind{CharacterTable}の中に保持されています:
+ASCII ((8ビット?))の範囲内の \ct{Character} はそれぞれ一意のインスタンスで、クラス変数である \cvind{CharacterTable} の中に保持されています:
 
 \begin{code}{@TEST}
 (Character value: 97) == $a --> true
 \end{code}\ignoredollar$
 
-しかし、0から255の範囲外の\ct{Character}は一意ではありません:
+しかし、0 から 255 の範囲外の \ct{Character} は一意ではありません:
 
 \begin{code}{@TEST}
 Character characterTable size                               --> 256
@@ -603,20 +604,20 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{String}
 
-\clsindmain{String}クラスも、\scatind{Collections-Strings}カテゴリで定義されています。\ct{String}は、\ct{Character}だけを保持する添字付きの\ct{Collection}です。
+\clsindmain{String} クラスも、\scatind{Collections-Strings} カテゴリで定義されています。\ct{String} は、\ct{Character} だけを保持する添字付きの \ct{Collection} です。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.4\textwidth]{StringHierarchy}}}
-\caption{Stringのクラス階層 \figlabel{strings}}
+\caption{String のクラス階層 \figlabel{strings}}
 \end{figure}
 
-実際は((In fact))、\ct{String}は抽象クラスです。\pharo の\ct{String}は、本当は((actually))具象クラスである\clsindmain{ByteString}のインスタンスです。
+実際は ((In fact))、\ct{String} は抽象クラスです。\pharo の \ct{String} は、本当は ((actually)) 具象クラスである \clsindmain{ByteString} のインスタンスです。
 
 \begin{code}{@TEST}
 'hello world' class --> ByteString
 \end{code}
 
-\ct{String}のもう一つの重要なサブクラスは、\clsindmain{Symbol}です。主な違いは、\ct{Symbol}のインスタンスは一つの値につきたった一つしか存在しないということです(これはしばしば「一意インスタンス性」と呼ばれます)。一方、別々に生成されたたまたま同じ文字の並びを持つ\ct{String}は、異なるオブジェクトであることもよくあります。
+\ct{String} のもう一つの重要なサブクラスは、\clsindmain{Symbol} です。主な違いは、\ct{Symbol} のインスタンスは一つの値につきたった一つしか存在しないということです(これはしばしば「一意インスタンス性」と呼ばれます)。一方、別々に生成されたたまたま同じ文字の並びを持つ \ct{String} は、異なるオブジェクトであることもよくあります。
 
 \begin{code}{@TEST}
 'hel','lo' == 'hello' --> false
@@ -627,7 +628,7 @@ Character characterTable size                               --> 256
 \end{code}
 
 \noindent
-もう一つの重要な違いは、\ct{String}が変更できるのに対して\ct{Symbol}は変更できないことです。
+もう一つの重要な違いは、\ct{String} が変更できるのに対して \ct{Symbol} は変更できないことです。
 
 \begin{code}{@TEST}
 'hello' at: 2 put: $u; yourself --> 'hullo'
@@ -637,23 +638,23 @@ Character characterTable size                               --> 256
 #hello at: 2 put: $u --> エラー!
 \end{code}\ignoredollar$
 
-文字列はコレクションなので他のコレクションと同様のメッセージを理解する((understand the same messages that other collections do))、ということは見落とされがちです:
+文字列はコレクションなので他のコレクションと同じメッセージを理解する、ということは見落とされがちです:
 
 \begin{code}{@TEST}
 #hello indexOf: $o --> 5
 \end{code}\ignoredollar$
 
-\ct{String}は\clsind{Magnitude}を継承していませんが、\ct{<}、\ct{=}などの通常の\protind{comparing}メソッドをサポートしています。さらに\cmind{String}{match:}は、いくつかの基本的なglobスタイルのパターンマッチを行うのに便利です。
+\ct{String} は \clsind{Magnitude} を継承していませんが、\ct{<}、\ct{=} などの通常の \protind{comparing} メソッドをサポートしています。さらに \cmind{String}{match:} は、いくつかの基本的な glob スタイルのパターンマッチを行うのに便利です。
 
 \begin{code}{@TEST}
 '*or*' match: 'zorro' --> true
 \end{code}
 
-さらに進んだ正規表現のサポートが必要なときは、Vassili Bykovによる\pkgind{Regex}パッケージを検討((have a look at))してください。
+さらに進んだ正規表現のサポートが必要なときは、Vassili Bykov による \pkgind{Regex} パッケージを検討してください。
 \index{Bykov, Vassili}
 \index{正規表現パッケージ}
 
-\ct{String}は、比較的多くの変換メソッドをサポートしています。それらの多くは、\mthind{String}{asDate}、\mthind{String}{asFileName}などのような他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また\mthind{String}{capitalized}や\mthind{String}{translateToLowercase}などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
+\ct{String} は、比較的多くの変換メソッドをサポートしています。それらの多くは、\mthind{String}{asDate}、\mthind{String}{asFileName} などのような他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また \mthind{String}{capitalized} や \mthind{String}{translateToLowercase} などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
 文字列とコレクションについて更に進んだ話題は、\charef{collections}を参照して下さい。
 
@@ -663,23 +664,23 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Boolean}
 
-\clsindmain{Boolean}クラスを見れば、\st の言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean}は、\patind{Singleton}クラスである\clsindmain{True}と\clsindmain{False}の\subind{クラス}{抽象}スーパークラスです。
+\clsindmain{Boolean} クラスを見れば、\st の言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean} は、\patind{Singleton} クラスである \clsindmain{True} と \clsindmain{False} の\subind{クラス}{抽象}スーパークラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}
-\caption{Booleanのクラス階層 \figlabel{booleans}}
+\caption{Boolean のクラス階層 \figlabel{booleans}}
 \end{figure}
 
-\ct{Boolean}の振る舞いのほとんどは、\mthind{Boolean}{ifTrue:ifFalse:}メソッドを注意深く調べれば理解できるでしょう。このメソッドは、引数として二つの\ct{Block}を取ります。
+\ct{Boolean} の振る舞いのほとんどは、\mthind{Boolean}{ifTrue:ifFalse:} メソッドを注意深く調べれば理解できるでしょう。このメソッドは、引数として二つの \ct{Block} を取ります。
 
 \begin{code}{@TEST}
 (4 factorial > 20) ifTrue: [ 'bigger' ] ifFalse: [ 'smaller' ] --> 'bigger'
 \end{code}
 
-このメソッドは、\ct{Boolean}の中では抽象メソッドです。
+このメソッドは、\ct{Boolean} の中では抽象メソッドです。
 具象サブクラスでの実装は、いずれも簡単なものです:
 
-\begin{method}{\lct{ifTrue:ifFalse:}の実装}
+\begin{method}{\lct{ifTrue:ifFalse:} の実装}
 True>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock 
     ^trueAlternativeBlock value
 
@@ -689,16 +690,16 @@ False>>>ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
 \cmindex{True}{ifTrue:}
 \cmindex{False}{ifTrue:}
 
-実際、これこそがOOPの本質です。メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドを使って反応するかを決めるのです。\ct{ifTrue:ifFalse:}では、\ct{True}のインスタンスは\emph{trueAlternativeBlock}を評価し、反対に\ct{False}のインスタンスは\emph{falseAlternativeBlock}を評価します。\ct{Boolean}のすべての抽象メソッドは、\ct{True}と\ct{False}の中でこのような方法で実装(オーバーライド)されています。例えば:
+実際、これこそが OOP の本質です。メッセージがオブジェクトに送られたら、オブジェクト自身がどのメソッドを使って反応するかを決めるのです。\ct{ifTrue:ifFalse:} では、\ct{True} のインスタンスは \emph{trueAlternativeBlock} を評価し、反対に \ct{False} のインスタンスは \emph{falseAlternativeBlock} を評価します。\ct{Boolean} のすべての抽象メソッドは、\ct{True} と \ct{False} の中でこのような方法で実装されています。例えば:
 
 \begin{method}{否定を実装する}
 True>>>not
-    "否定--レシーバがtrueなのでfalseと答える。"
+    "否定--レシーバが true なので false と答える。"
     ^false
 \end{method}
 \cmindex{True}{not}
 
-\ct{Boolean}には、\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue}などのようなショートカットメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から好きなものを選ぶことができます。
+\ct{Boolean} には、\mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:}、\mthind{Boolean}{ifFalse:ifTrue} などのようなショートカットメソッドがいくつかあります。また強欲・怠惰な論理積・論理和から好きなものを選ぶことができます。
 
 \begin{code}{@TEST}
 (1>2) & (3<4)              --> false    "両辺を評価しなければならない"
@@ -706,11 +707,11 @@ True>>>not
 (1>2) and: [ (1/0) > 0 ] --> false    "右辺(引数ブロック)は評価されないので、例外は発生しない"
 \end{code}
 
-最初の例では、\mthind{Boolean}{&}の両辺の\ct{Boolean}の部分式が評価されます。\ct{&}は(評価済みの)\ct{Boolean}引数を受け取ります。
-二つ目と三つ目の例では、\mthind{Boolean}{and:}は引数として\ct{Block}を取り、結果的に左辺(レシーバ)しか評価されません。右辺(\ct{Block})は、レシーバが\pvind{true}のときにだけ評価されるからです。
+最初の例では、\mthind{Boolean}{&} の両辺の \ct{Boolean} の部分式が評価されます。\ct{&} は(評価済みの) \ct{Boolean} 引数を受け取ります。
+二つ目と三つ目の例では、\mthind{Boolean}{and:} は引数として \ct{Block} を取り、結果的に左辺(レシーバ)しか評価されません。右辺 (\ct{Block}) は、レシーバが \pvind{true} のときにだけ評価されるからです。
 
-\dothis{\ct{and:}と\ct{or:}がどのように実装されているか想像してみてください。
-そして\ct{Boolean}と\ct{True}と\ct{False}での実装を確認してみましょう。}
+\dothis{\ct{and:} と \ct{or:} がどのように実装されているか想像してみてください。
+そして \ct{Boolean} と \ct{True} と \ct{False} での実装を確認してみましょう。}
 
 %=================================================================
 \section{まとめ}
@@ -718,30 +719,30 @@ True>>>not
 \begin{itemize}
 %  \item Send \ct{yourself} to get back the receiver at the end of a cascade.
 
-  \item \ct{=}をオーバーライドしたら\ct{hash}もオーバーライドすべきです。
+  \item \ct{=} をオーバーライドしたら \ct{hash} もオーバーライドすべきです。
 
-  \item 自作のオブジェクトのコピーを正しく実装するには、\ct{postCopy}をオーバーライドします。
+  \item 自作のオブジェクトのコピーを正しく実装するには、\ct{postCopy} をオーバーライドします。
 
-  \item ブレークポイントを設定するには\ct{self halt}を送信します。
+  \item ブレークポイントを設定するには \ct{self halt} を送信します。
 
-  \item メソッドを抽象メソッドにするには、本体に\ct{self subclassResponsibility}と書きます。
+  \item メソッドを抽象メソッドにするには、本体に \ct{self subclassResponsibility} と書きます。
 
-  \item オブジェクトの\ct{String}表現を提供するには、\ct{printOn:}をオーバーライドすべきです。
+  \item オブジェクトの \ct{String} 表現を提供するには、\ct{printOn:} をオーバーライドすべきです。
 
-  \item インスタンスを適切に初期化するには、フックメソッドである\ct{initialize}をオーバーライドします。
+  \item インスタンスを適切に初期化するには、フックメソッドである \ct{initialize} をオーバーライドします。
 
-  \item \ct{Number}の一連のメソッドは、自動的に\ct{Float}、\ct{Fraction}、\ct{Integer}間の変換を行います。
+  \item \ct{Number} の一連のメソッドは、自動的に \ct{Float}、\ct{Fraction}、\ct{Integer} 間の変換を行います。
 
-  \item \ct{Fraction}は、浮動小数点数ではなく本物の有理数を表します。
+  \item \ct{Fraction} は、浮動小数点数ではなく本物の有理数を表します。
 
-  \item 0から255の範囲の\ct{Character}のインスタンスは、一意です。
+  \item 0 から 255 の範囲の \ct{Character} のインスタンスは、一意です。
 
-  \item \ct{String}は変更可能ですが、\ct{Symbol}はそうではありません。
+  \item \ct{String} は変更可能ですが、\ct{Symbol} はそうではありません。
   しかし文字列リテラルを変更しないように気をつけましょう!
 
-  \item \ct{Symbol}は一意ですが、\ct{String}はそうではありません。
+  \item \ct{Symbol} は一意ですが、\ct{String} はそうではありません。
 
-  \item \ct{String}と\ct{Symbol}は\ct{Collection}なので、通常の\ct{Collection}のメソッドをサポートします。
+  \item \ct{String} と \ct{Symbol} は \ct{Collection} なので、通常の \ct{Collection} のメソッドをサポートします。
 
 \end{itemize}
 
