@@ -39,7 +39,8 @@
 \chapter{コレクション}
 \chalabel{collections}
 
-% \ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
+\ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
+
 % \ab{ The material here is based on a section that Andrew wrote for the \st Collections refactoring paper. It's not necessarily all appropriate for the book, but much of it is, I think, useful.}
 %\on{recycled some material from \url{https://www.iam.unibe.ch/scg/svn_repos/Lectures/ST-H07/03StandardClasses.ppt}}
 %\sd{Did a first pass: I should have a look at Xavier Briffault's book and at the material mentionned by andrew + lalonde book?}
@@ -81,6 +82,8 @@
 この章ではコレクションクラスのうち \figref{CollClassesTree} に示す一部を主に取り上げます。
 ストリームについては別に \charef{streams} で論じます。
 
+% \sd{should put stream related text in Stream chapter}.
+
 % Note that the stream classes suffer from aging problems since they contain duplicated code and other code smells.
 % ON: We should avoid statements like this!
 
@@ -109,13 +112,17 @@
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-これは角カッコで囲まれた式が \ct{true} を返すような \ct{students} の要素からなる新しいコレクションを返します\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$式だと考えることができます。}。この \st コードにはドメイン特化クエリー言語的なシンプルさとエレガンスがあります。
+これは角カッコで囲まれた式が \ct{true} を返すような \ct{students} の要素からなる新しいコレクションを返します\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$式だと考えることができます。
+\index{lambda 式}}。
+この \st コードにはドメイン特化クエリー言語的なシンプルさとエレガンスがあります。
 
 \st の\emph{すべての}コレクションは \ct{select:}メッセージを理解することができます。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解できます。 \ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければならないループを使うやり方とは、大きく異なるということに注意しましょう。
 
-\st では、特定のコレクションを指定せずに単に「コレクション」といった場合には、ある要素が含まれているかのテストと、要素の数え上げを行うプロトコルが明確に定義されたオブジェクトを指します。\emph{すべての}コレクションは \protind{testing} メッセージである \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解できます。\emph{すべての}コレクションは \prot{enumeration} メッセージである \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解できます。このプロトコルの普遍性とバラエティがコレクションをとても強力なものにしています。
+\st では、特定のコレクションを指定せずに単に「コレクション」といった場合には、ある要素が含まれているかのテストと、要素の数え上げを行うプロトコルが明確に定義されたオブジェクトを指します。\emph{すべての}コレクションは \protind{testing} メッセージである \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解できます。\emph{すべての}コレクションは \prot{enumeration} メッセージである \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解できます。
+このプロトコルの普遍性とバラエティがコレクションをとても強力なものにしています。
 
-\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
+\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。
+それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
 
 \begin{figure*}
 \begin{center}
@@ -156,7 +163,8 @@ students select: [ :each | each gpa < threshold ]
 %\end{figure*}
 %\on{A useless diagram -- refer to the class hierarchy instead!}
 
-このような基本的一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエスト対しての振る舞いが異なるさまざまなコレクションが存在しています。これらの違いの重要なものを見ていきましょう。
+このような基本的一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエスト対しての振る舞いが異なるさまざまなコレクションが存在しています。
+これらの違いの重要なものを見ていきましょう。
 
 \begin{itemize}
   \item {\bf 順序 (Sequenceable):}
@@ -196,6 +204,7 @@ students select: [ :each | each gpa < threshold ]
         一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は \ct{Character} だけしか入れられません。
         \clsind{Array} はさまざまなオブジェクトを混在できますが、\lct{ByteArray} は \lct{Byte} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを格納できます。
 	\clsind{LinkedList} の要素には、必ず \prot{Link \go accessing} プロトコルを受け付けなければならないという制約があります。
+
 \end{itemize}
 
 %  How is the order established? Sorted collections use a supplied total ordering function, intervals are implicitly ordered, while arrays and ordered collections are ordered explicitly when elements are inserted.
@@ -207,9 +216,8 @@ students select: [ :each | each gpa < threshold ]
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{CollectionsByImpl}
-\caption{実装技法によりカテゴリ分けしたコレクション
+\caption{実装技法によりカテゴリ分けしたコレクション% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
     \figlabel{collsByImpl}}
-% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
 \end{center}
 \end{figure*}
 
@@ -218,7 +226,8 @@ students select: [ :each | each gpa < threshold ]
 \begin{enumerate}
   \item Array は要素をコレクションオブジェクト自身の(インデックス参照できる)インスタンス変数に格納します。結果として、サイズは固定され、その代わりに一回のメモリ割り当てで生成できます。
   \clsindex{Array}
-  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
+  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。
+  こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
   \item Set や Dictionary の類もまた、保存領域へのアクセスに補助的な配列を参照しますが、これをハッシュテーブルとして用います。Bag は内部の要素そのものとその出現回数をキーと値のペアとして持つ補助的な \ct{Dictionary} を使います。
   \clsindex{Bag}
   \item LinkedList は一般的な片方向リンクの形式を取ります。
@@ -226,9 +235,7 @@ students select: [ :each | each gpa < threshold ]
   \item Interval は開始点・終了点・ステップサイズの三つの整数を格納します。
   \clsindex{Interval}
 \end{enumerate}
-これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、``\subind{Collection}{weak}'' という変種があります。これらは要素を `弱く' 保持します。\ie 要素のガーベージコレクションを禁止しないということです。
-% 自信ないので原文残す。
-% In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
+これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、``\subind{Collection}{weak}'' という変種があります。これらは要素を `弱く' 保持します。\ie 要素のガーベージコレクションを禁止しないということです。((自信ないので原文残す: In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.))
 \pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
 \index{weak collections}
 
@@ -305,8 +312,7 @@ anArray at: 3 put: 'ssss'.
 anArray at: 1 --> 4
 \end{code}
 
-クラス \clsind{Array} のインスタンスを作るためにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます。
-% and  the constructs \ct{#( )} and \ct|{ }| の the constructs の定訳を探す必要あり。
+クラス \clsind{Array} のインスタンスを作るためにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます。((and  the constructs \ct{#( )} and \ct|{ }| の the constructs の定訳を探す必要あり。))
 
 \paragraph{\mthind{Array class}{new:} による生成} \ct{new: anInteger} はサイズ \ct{anInteger} の配列を生成します。
 \ct{Array new: 5} はサイズ 5 の配列を生成します。
@@ -382,7 +388,8 @@ ordCol remove: 'Monticello'.
 ordCol --> an OrderedCollection('Seaside' 'SqueakSource' 'Monticello')
 \end{code}
 
-\ct{remove:} の変種に \mthind{OrderedCollection}{remove:ifAbsent:} があります。これは削除しようとした要素がコレクションに存在しないときの動作を第二引数としてブロックで渡すことができます。
+\ct{remove:} の変種に \mthind{OrderedCollection}{remove:ifAbsent:} があります。
+これは削除しようとした要素がコレクションに存在しないときの動作を第二引数としてブロックで渡すことができます。
 
 \begin{code}{@TEST | ordCol res | ordCol := OrderedCollection with: 'Seaside' with: 'SqueakSource' with: 'Monticello'.}
 res := ordCol remove: 'zork' ifAbsent: [33].
@@ -450,7 +457,6 @@ colors at: #red put: Color red.
 colors at: #yellow --> Color yellow
 colors keys          --> a Set(#blue #yellow #red)
 colors values       --> {Color blue. Color yellow. Color red}\footnote{訳注：\pharo 1.3ではrgb値が返ります}
-
 \end{code}
 
 ディクショナリーはキーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグとしては、キーとして使うオブジェクトで \ct{=} を再定義しているにも関わらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドはどちらもディクショナリーの中でオブジェクトの比較に用いられます。
@@ -469,8 +475,7 @@ colors associations --> {#yellow->Color yellow. #red->Color red}\footnote{訳注
 \paragraph{IdentityDictionary}
 ディクショナリーが二つのキーが同じであるかを判定するのにメッセージ \ct{=} および \ct{hash} を用いるのに対し、\clsindmain{IdentityDictionary} はキーの値ではなく、その同一性 (メッセージ \mthind{ProtoObject}{==} で判定する) を用います。\ie このクラスは二つのキーが同じオブジェクトであるとき\emph{だけ}これらを等しいとみなします。
 
-しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら \clsind{Symbol} はグローバルに一意であることが保証されているからです。
-% globally unique = グローバルに一意、と訳。
+しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら \clsind{Symbol} はグローバルに一意であることが保証されているからです。((globally unique = グローバルに一意、と訳。))
 一方、キーが \ct{String} の場合は普通の \ct{Dictionary} クラスを使うべきです。そうしないと問題が生じるでしょう。
 
 \begin{code}{@TEST | a b trouble |}
@@ -490,6 +495,7 @@ trouble at: 'foobar' --> 'a'\footnote{訳注：\pharo 1.3ではKeyNotFound:エ�
 普通の \ct{Dictionary} は \ct{'foobar'} と値が等しいキーであれば同じ値を返します。
 
 \ct{IdentityDictionary} ではキーとしてグローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うなら普通の \ct{Dictionary} を使いましょう。
+
 
 特筆すべきはグローバル変数 \glbind{Smalltalk} は \clsind{SystemDictionary} のインスタンスであり、これは \ct{IdentityDictionary} のサブクラスですので、すべてのキーは \ct {Symbol} (実際は 8bit 文字しか格納できない \ct{ByteSymbol}) だということです。
 
@@ -689,10 +695,7 @@ Perl が提供しているようなより高度のパターンマッチングの
 '{1} is {2}' format: {'Pharo' . 'cool'}  --> 'Pharo is cool'
 \end{code}
 
-expandMacros のメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>} も同様、一重引用符で囲われた文字列)、\ct{<1?value1:value2>} による真偽値による値の埋め込み、などをサポートしています。
-
-% 訳ちょっと強引。Sumim さんのブログを参考にしました。 http://d.hatena.ne.jp/sumim/20061130/p1
-% The messages of the expandMacros family offer variable substitution, using \ct{<n>} for carriage return, \ct{<t>} for tabulation, \ct{<1s>}, \ct{<2s>}, \ct{<3s>} for arguments (\ct{<1p>}, \ct{<2p>}, surrounds the string with single quotes), and \ct{<1?value1:value2>} for conditional.
+expandMacros のメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>} も同様、一重引用符で囲われた文字列)、\ct{<1?value1:value2>} による真偽値による値の埋め込み、などをサポートしています。((訳ちょっと強引。Sumim さんのブログを参考にしました。 http://d.hatena.ne.jp/sumim/20061130/p1: The messages of the expandMacros family offer variable substitution, using \ct{<n>} for carriage return, \ct{<t>} for tabulation, \ct{<1s>}, \ct{<2s>}, \ct{<3s>} for arguments (\ct{<1p>}, \ct{<2p>}, surrounds the string with single quotes), and \ct{<1?value1:value2>} for conditional.))
 
 \begin{code}{@TEST}
 'look-<t>-here' expandMacros                                         --> 'look-	-here'
@@ -750,7 +753,8 @@ expandMacros のメッセージは、\ct{<n>} によるキャリッジリター�
 
 順序ありコレクションの \mthind{OrderedCollection}{reverseDo:} はすべての要素を逆順に処理します。
 
-二つの要素の間にだけ二番目のブロックを実行する\mthind{Collection}{do:separatedBy:}という興味深いメッセージの例を次に示します。
+二つの要素の間にだけ二番目のブロックを実行する
+\mthind{Collection}{do:separatedBy:}という興味深いメッセージの例を次に示します。
 \begin{code}{@TEST | res | }
 res := ''.
 #('bob' 'joe' 'toto') do: [:e | res := res, e ] separatedBy: [res := res, '.'].
@@ -862,7 +866,8 @@ result --> #(2 3 4 35 4 11)
 'through' detect: [:each | each isVowel] --> $o
 \end{code}
 
-\mthind{Collection}{detect:ifNone:} メソッドは \ct{detect:} から派生したものです。第二ブロックは一つ目のブロックを満たす要素が存在しないときに評価されます。
+\mthind{Collection}{detect:ifNone:} メソッドは \ct{detect:} から派生したものです。
+第二ブロックは一つ目のブロックを満たす要素が存在しないときに評価されます。
 
 \begin{code}{@TEST}
 Smalltalk allClasses detect: [:each | '*cobol*' match: each asString] ifNone: [ nil ] --> nil
@@ -954,7 +959,8 @@ range --> an OrderedCollection(2 3 5 7 11 13 17 19)
 
 \paragraph{\ct{=} と \ct{hash} 両方の再定義}
 発見が難しいエラーに \ct{=} を再定義して、\ct{hash} を再定義していない場合があります。setに入れた要素がいつの間にかなくなっていたりとか、そういうおかしな挙動が症状として現れます。Kent Beck によって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
-例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、\ct{=} をそのように再定義したくなりますが、そのときは \ct{hash} も次のように再定義すべきなのです：
+例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、
+\ct{=} をそのように再定義したくなりますが、そのときは \ct{hash} も次のように再定義すべきなのです：
 \index{Dictionary!overriding \ct{=} and \ct{hash}}
 
 \begin{method}{\lct{=} と \lct{hash} の再定義}
@@ -966,7 +972,8 @@ Book>>>hash
    ^ title hash xor: authors hash
 \end{method}
 
-また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを\ct{Set}、あるいは \ct{Dictionary} のキーとして用いると、別のやっかいな問題が生じます。デバッグがお好きでなければ、そういうことは止めておきましょう！
+また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを\ct{Set}、あるいは \ct{Dictionary} のキーとして用いると、別のやっかいな問題が生じます。
+デバッグがお好きでなければ、そういうことは止めておきましょう！
 
 %=========================================================
 \section{章のまとめ}
