@@ -184,8 +184,8 @@ students select: [ :each | each gpa < threshold ]
   \item {\bf キー参照:}
 	\clsind{Dictionary} とそのサブクラスのインスタンスは、添字の代わりにキーで要素を参照できます。
 
-  \item {\bf 可変性 (Mutable):}
-        ほとんどのコレクションは、内容が可変 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
+  \item {\bf 変更可能性 (Mutable):}
+        ほとんどのコレクションは、内容が変更可能 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
         \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
@@ -508,7 +508,7 @@ Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{�
 
 %---------------------------------------------------------
 \subsection{Set}
-\clsindmain{Set} (集合) は数学的な「集合」のように振る舞うコレクションです。\ie 重複した要素を持たず、要素間には順序がありません。\ct{Set} に要素を加えるには \mthind{Set}{add:} メッセージ を用いますが、\ct{at:} によってアクセスすることはできません。Set に格納されるオブジェクトはメソッド \ct{hash} と \ct{=} を実装しているべきです。
+\clsindmain{Set} (集合)は、数学的な「集合」のように振る舞うコレクションです。\ie 重複した要素を持たず、要素間には順序がありません。\ct{Set} に要素を加えるには\mthind{Set}{add:} メッセージ を用いますが、\ct{at:} によって要素にアクセスすることはできません。\ct{Set} に格納されるオブジェクトは、メソッド \ct{hash} と \ct{=} を実装していることが期待されます。
 
 \begin{code}{@TEST | s | }
 s := Set new.
@@ -516,13 +516,13 @@ s add: 4/2; add: 4; add:2.
 s size --> 2
 \end{code}
 
-Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \cmind{Collection}{asSet} を用いることができます。
+Set を作るには、\cmind{Set class}{newFrom:} または変換メッセージ \cmind{Collection}{asSet} を用いることができます。
 
 \begin{code}{@TEST}
 (Set newFrom: #( 1 2 3 1 4 )) = #(1 2 3 4 3 2 1) asSet --> true
 \end{code}
 
-\mthind{Collection}{asSet} はコレクションから重複を取り除くのに便利に使えます。
+\mthind{Collection}{asSet} は、コレクションから重複を取り除くのに便利に使えます。
 \begin{code}{@TEST}
 { Color black. Color white. (Color red + Color blue + Color green) } asSet size --> 2
 \end{code}
@@ -534,7 +534,7 @@ Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \
 { Color black. Color white. (Color red + Color blue + Color green) } asBag size --> 3
 \end{code}
 
-集合演算である \emph{union (和集合)}、\emph{intersection (積集合)}、\emph{要素を含むかのテスト} は \ct{Collection} メッセージの \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
+集合演算である \emph{union (和集合演算)}、\emph{intersection (積集合演算)}、\emph{要素を含むかのテスト}は、\ct{Collection} メッセージ((メソッド?))の \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
 レシーバが最初に \ct{Set} に変換されるので、これらの演算はすべてのコレクションでちゃんと動くのです!
 \seeindex{Set!和集合}{Collection, \ct{union:}}
 \seeindex{Set!積集合}{Collection, \ct{intersection:}}
@@ -550,7 +550,7 @@ Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \
 
 %---------------------------------------------------------
 \subsection{SortedCollection}
-\ct{OrderedCollection} とは対照的に、\clsindmain{SortedCollection} は要素をソート順を保って格納します。デフォルトでは、\ct{SortedCollection} はソート順を決めるのに \mthind{Magnitude}{<=} を用いるので、抽象クラス \clsind{Magnitude} のサブクラスのインスタンスをソートできます。\ct{Magnitude} は比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を定義しています
+\ct{OrderedCollection} とは対照的に、\clsindmain{SortedCollection} は、要素をソート順を保って格納します。デフォルトでは、\ct{SortedCollection} はソート順を決めるのに \mthind{Magnitude}{<=} を用いるので、\clsind{Magnitude} (抽象クラスです)のサブクラスのインスタンスをソートできます。\ct{Magnitude} は、比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を定義しています
 (\charef{basic}参照)。
 
 \ct{SortedCollection} を作るにはまず新しいインスタンスを生成し、要素を追加していきます。
@@ -564,7 +564,7 @@ SortedCollection new add: 5; add: 2; add: 50; add: -10; yourself. --> a SortedCo
 #(5 2 50 -10) asSortedCollection --> a SortedCollection(-10 2 5 50)
 \end{code}
 
-この例は次の FAQ に対する答えとなります:
+この例は、次の FAQ に対する答えとなります:
 
 \important{FAQ: コレクションをソートするにはどうすればいいでしょうか?\\
 {\sc 答え}: \ct{asSortedCollection} メッセージを送信します。}
@@ -573,13 +573,13 @@ SortedCollection new add: 5; add: 2; add: 50; add: -10; yourself. --> a SortedCo
 'hello' asSortedCollection --> a SortedCollection($e $h $l $l $o)
 \end{code}
 
-ではソートした結果を \ct{String} に戻すにはどうすれば良いでしょう?
+では、ソートした結果を \ct{String} に戻すにはどうすれば良いでしょう?
 残念なことに \ct{asString} は \ct{printString} 表現を返すので、望む結果は得られません。
 \begin{code}{@TEST}
 'hello' asSortedCollection asString --> 'a SortedCollection($e $h $l $l $o)'
 \end{code}
 \noindent
-正解は \ct{String class>>>newFrom:}、\ct{String class>>>withAll:}、\ct{Object>>>as:} のどれかを用いることです。
+正解は、\ct{String class>>>newFrom:}、\ct{String class>>>withAll:}、\ct{Object>>>as:} のいずれかを用いることです。
 \begin{code}{@TEST}
 'hello' asSortedCollection as: String              --> 'ehllo'
 String newFrom: ('hello' asSortedCollection) --> 'ehllo'
@@ -587,12 +587,12 @@ String withAll: ('hello' asSortedCollection)     --> 'ehllo'
 \end{code}
 \seeindex{Collection!ソート}{Collection, \ct{asSortedCollection}}
 
-すべての要素が比較可能である限り、\ct{SortedCollection} は異なった種類の要素を持つこともできます。例えば整数、浮動小数点数、分数といった異なった種類の数を混ぜることができます。
+すべての要素が比較可能である限り、\ct{SortedCollection} は異なった種類の要素を持つことができます。例えば整数、浮動小数点数、分数といった異なった種類の数を混ぜることができます。
 \begin{code}{@TEST | col |}
 { 5. 2/-3. 5.21 } asSortedCollection --> a SortedCollection((-2/3) 5 5.21)
 \end{code}
 
-もしかしたらメソッド \ct{<=} が定義されていないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合は、\ct{SortedCollection} の生成時に、ソートブロックと呼ばれる二引数のブロックを与えることができます。例えば、\ct{Color} クラスは \ct{Magnitude} ではありませんし、\ct{<=} メソッドも実装していませんが、次のようにソートブロックを指定することで色を明度 (明るさの尺度) によってソートすることができます。
+もしかしたら、\ct{<=} メッセージを理解しないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合は、\ct{SortedCollection} の生成時に、ソートブロックと呼ばれる 2 引数のブロックを与えることができます。例えば、\ct{Color} クラスは \ct{Magnitude} ではありませんし \ct{Color} オブジェクトは \ct{<=} メッセージを理解しませんが、次のようにソートブロックを指定することで、色を明度(明るさの尺度)によってソートすることができます。
 
 \begin{code}{@TEST | col |}
 col := SortedCollection sortBlock: [:c1 :c2 | c1 luminance <= c2 luminance].
@@ -603,9 +603,9 @@ col --> a SortedCollection(Color black Color red Color yellow Color white)
 
 %---------------------------------------------------------
 \subsection{String}
-\st の \clsindmain{String} (文字列) は \ct{Character} のコレクションとして表現されます。
-文字列は順序性があり、添字で参照可能で、変更可能です。また、同じ種類の要素、すなわち \clsind{Character} のインスタンスしか持つことができません。
-\ct{Array} のように\ct{String} は専用の文法を持ち、普通 \ct{String} リテラルを一重引用符で囲むことにより直接生成しますが、通常のコレクション作成メソッドもちゃんと動きます。
+\st の \clsindmain{String} (文字列)は、\ct{Character} のコレクションとして表現されます。
+文字列を表すコレクションは、順序付きで添字付きで変更可能です。また、同じ種類の要素、すなわち \clsind{Character} のインスタンスしか持つことができません。
+\ct{Array} のように、\ct{String} は専用の文法を持ち、普通は \ct{String} リテラルを一重引用符で囲むことにより直接生成しますが、通常のコレクション作成メソッドもちゃんと動きます。
 
 \begin{code}{@TEST | s1 s2 |}
 'Hello'                                             --> 'Hello'
@@ -615,17 +615,17 @@ String newFrom: #($h $e $l $l $o) --> 'hello'
 \end{code}
 
 実際は、\ct{String} は抽象クラスです。
-\ct{String} のインスタンスを作ったときに実際に得られるのは 8 ビット文字の \clsind{ByteString} か 32 ビット文字の \clsind{WideString} です。
+\ct{String} のインスタンスを作ったときに実際に得られるのは、8 ビット文字の \clsind{ByteString} か 32 ビット文字の \clsind{WideString} です。
 話を簡単にするために、その差異は無視して単に \ct{String} のインスタンスについて述べます。
 
-\ct{String} の二つのインスタンスはカンマ((ウィキペディアではコンマ。Google ではカンマが優勢))によって連結できます。
+\ct{String} の二つのインスタンスは、カンマ((ウィキペディアではコンマ。Google ではカンマが優勢))によって連結できます。
 \index{Collection!comma operator}
 \begin{code}{@TEST |s|}
 s := 'no', ' ', 'worries'.
 s -->  'no worries'
 \end{code}
 
-String は可変コレクションなので　\mthind{String}{at:put:} を用いて変更することもできます。
+文字列は可変コレクションなので、\mthind{String}{at:put:} を用いて変更することもできます。
 
 \begin{code}{@TEST |s| s := 'no', ' ', 'worries'.}
 s at: 4 put: $h; at: 5 put: $u.
@@ -640,7 +640,7 @@ s --> 'no hurries'
 \seeindex{String!カンマ}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
-以下に示すように、すでにある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することもできます。後者の文字数と \ct{Interval} オブジェクトは同じサイズでなければならない((should))ことに注意してください。
+以下に示すように、すでにある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することもできます。後者の文字数と \ct{Interval} オブジェクトのサイズが異ると例外が発生するので((should have the same size))注意してください。
 
 \begin{code}{@TEST |s| s := 'no hurries' copy.}
 s replaceAll: $n with: $N.
@@ -664,14 +664,14 @@ s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
 
 \paragraph{文字列のマッチ。}
 \index{String!パターンマッチ}
-\mthind{String}{match:} メッセージを送信することによってパターンと文字列が一致するかを調べることができます。
-パターンでは \ct{*} を任意の長さの文字列にマッチする意味で、また \# を一文字にマッチする意味で使用できます。注意したいのは \ct{match:} はパターンに送信するもので、調べたい文字列に送るメッセージではないということです。
+\mthind{String}{match:} メッセージを送信することによって、パターンと文字列が一致するかどうかを調べることができます。
+パターンでは、\ct{*} を任意の長さの文字列にマッチする意味で、また \# を 1 文字にマッチする意味で使うことできます。注意したいのは、\ct{match:} はパターンに送信するもので、調べたい文字列に送るメッセージではないということです。
 \begin{code}{@TEST}
 'Linux *' match: 'Linux mag'                      --> true
 'GNU/Linux #ag' match: 'GNU/Linux tag' --> true
 \end{code}
 
-もう一つ便利なメソッドは \ct{findString:} です。
+もう一つ便利なメソッドは、\ct{findString:} です。
 \begin{code}{@TEST}
 'GNU/Linux mag' findString: 'Linux'                                                      --> 5
 'GNU/Linux mag' findString: 'linux' startingAt: 1 caseSensitive: false  --> 5
@@ -679,7 +679,7 @@ s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
 
 Perl 互換のより高度のパターンマッチングの機能が必要なら、\pkgind{Regex} パッケージを使うこともできます。
 
-\paragraph{文字列に対するテスト。} 以下の例では \ct{String} だけでなく他の一般的なコレクションにも定義されているメッセージ: \mthind{String}{isEmpty}、\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
+\paragraph{文字列に対するテスト。} 以下の例は、\ct{String} だけでなく他の一般的なコレクションにも定義されているメッセージ: \mthind{String}{isEmpty}、\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
 
 \begin{code}{@TEST}
 'Hello' isEmpty --> false
@@ -695,7 +695,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 '{1} is {2}' format: {'Pharo' . 'cool'}  --> 'Pharo is cool'
 \end{code}
 
-\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:} などのメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>}もほぼ同様ですが、これらは文字列を一重引用符で囲みます)、\ct{<1?value1:value2>} による条件付きの値の埋め込み、などをサポート((offer))しています。
+\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:} などのメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>}もほぼ同様ですが、これらは文字列を一重引用符で囲みます)、\ct{<1?value1:value2>} による条件付きの値の埋め込みなどをサポート((offer))しています。
 
 \begin{code}{@TEST}
 'look-<t>-here' expandMacros                                         --> 'look-	-here'
@@ -707,7 +707,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 \end{code}\mthindex{String}{expandMacrosWith:with:}
 
 \paragraph{その他のユーティリティメソッド。}
-\ct{String} クラスは \mthind{String}{asLowercase}、\mthind{String}{asUppercase}、\mthind{String}{capitalized} などのユーティリティメッセージを受け取ります。
+\ct{String} クラスは、他にもたくさんのユーティリティメソッドを提供しています。例えば、\mthind{String}{asLowercase}、\mthind{String}{asUppercase}、\mthind{String}{capitalized}。
 
 \begin{code}{@TEST}
 'XYZ' asLowercase --> 'xyz'
@@ -717,7 +717,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 'this sentence is without a doubt far too long' contractTo: 20 --> 'this sent...too long'
 \end{code}
 
-\mthind{Object}{printString} を送信してオブジェクトにその文字列表現を問い合わせたときと、\mthind{Object}{asString} を送信してオブジェクトを文字列に変換したときの結果は一般的に異なるということに注意してください。
+\mthind{Object}{printString} を送信してオブジェクトにその文字列表現を問い合わせたときと、\mthind{Object}{asString} を送信してオブジェクトを文字列に変換したときの結果は、一般的に異なるということに注意してください。
 例えば次のとおり。
 
 \begin{code}{@TEST}
@@ -726,7 +726,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 \end{code}
 
 シンボルは文字列と似ていますが、グローバルに一意であることが保証されるという点で異なります。このため辞書の、とりわけ \ct{IdentifyDictionary} のキーとして、シンボルは文字列より適しています。
-\clsind{String} と \clsind{Symbol} については \charef{basic} も参照してください。
+\clsind{String} と \clsind{Symbol} については、\charef{basic} も参照してください。
 
 %=========================================================
 \section{コレクションのイテレータ}
