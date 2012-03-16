@@ -737,7 +737,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 
 %---------------------------------------------------------
 \subsection{繰り返し (\lct{do:})}
-\mthind{Collection}{do:} メソッドは基本となるコレクションイテレータです((中黒を取った))。\ct{do:}は、引数 (一引数のブロック) をレシーバの各要素に順に適用していきます。
+\mthind{Collection}{do:} メソッドは基本となるコレクションイテレータです((中黒を取った))。\ct{do:}は、引数 (1 引数ブロック) をレシーバの各要素に順に適用していきます。
 次の例ではレシーバに含まれるすべての文字列をトランスクリプトにプリントします。
 
 \begin{code}{}
@@ -808,7 +808,7 @@ double --> an OrderedCollection(2 4 6 8 10 12)
 #(1 2 3 4 5 6) collect: [:e | 2 * e] --> #(2 4 6 8 10 12)
 \end{code}
 
-\mthind{Collection}{do:} に比べて \ct{collect:} が優れていることは、次の例のほうがわかりやすいでしょう。整数のコレクションを用意して、その絶対値からなるコレクションを生成するものです。
+\mthind{Collection}{do:} に比べた \ct{collect:} の利点は、次の例でよりいっそう劇的になります。整数のコレクションを用意して、その絶対値からなるコレクションを生成します:
 
 \begin{code}{@TEST |aCol result|}
 aCol :=  #( 2 -3 4 -35 4 -11).
@@ -817,16 +817,16 @@ result := aCol species new: aCol size.
 result --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-上の例とずっとシンプルな以下の式と比べてみてください。
+上の例とずっとシンプルな以下の式と比べてみてくださいL
 \begin{code}{@TEST}
 #( 2 -3 4 -35 4 -11) collect: [:each | each abs ] --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-二つ目の解のもう一つ良い点は set や bag でも同じように動くことです。。
+二つ目の解のもう一つ良い点は \ct{Set} や \ct{Bag} でも同じように動くことです。
 
 コレクションの要素それぞれにメッセージを送信したいのでなければ、一般的に \ct{do:} の利用は避けたほうが良いです。
 
-メッセージ \ct{collect:} を送ると、レシーバと同じ種類のコレクションが返ることに注意しましょう。
+\ct{collect:} メッセージを送ると、レシーバと同じ種類のコレクションが返ることに注意しましょう。
 以下のコードが失敗するのはこれが原因です。
 (\ct{String} は整数を保持できないので)
 \begin{code}{}
@@ -838,13 +838,13 @@ result --> #(2 3 4 35 4 11)
 'abc' asArray collect: [:ea | ea asciiValue ] --> #(97 98 99)
 \end{code}
 
-実は \ct{collect:} はレシーバと完全に同じクラスのコレクションを返すという保証はなく、単に同じ \emph{「種類」} であるということが保証されているだけなのです。\ct{Interval} の例では、実際は \ct{Array} になるのです!((TODO: species))
+実は \ct{collect:} はレシーバと完全に同じクラスのコレクションを返すという保証はなく、単に同じ「\emph{種類 (\ct{species})}」であるということが保証されているだけです。\ct{Interval} の例では、実際は \ct{Array} になるのです!\footnote{訳注: \ct{Interval>>>species} を見てください。}
 \begin{code}{@TEST}
 (1 to: 5) collect: [ :ea | ea * 2 ] --> #(2 4 6 8 10)
 \end{code}
 
 %---------------------------------------------------------
-\subsection{要素の選別 (\lct{select:}と\lct{reject:}}
+\subsection{要素の選別 (\lct{select:}と\lct{reject:})}
 % (\ct{select:}, \ct{reject:}, \ct{detect:})}
 
 \mthind{Collection}{select:} メソッドはレシーバの要素の中で与えられた条件を満たすものを返します:
@@ -875,18 +875,18 @@ Smalltalk allClasses detect: [:each | '*cobol*' match: each asString] ifNone: [ 
 
 %---------------------------------------------------------
 \subsection{\lct{inject:into:} を用いて結果を累積する}
-関数型言語はしばしば \emph{fold} や \emph{reduce} といった、コレクションのすべての要素に二項演算子を繰り返し適用するような高階関数を用意しています((TODO))。
+関数型言語はしばしば \emph{fold} や \emph{reduce} といった高階関数を用意しています。これらはコレクションのすべての要素に二項演算子を繰り返し適用して結果を累積します。
 \pharo でこのようなことをするには \cmind{Collection}{inject:into:} が使えます。
 
-第一引数は初期値です。第二引数はブロックで、これまでの適用された結果と、今回処理する要素を受け取る、二つの引数を持ちます。
+第一引数は初期値です。第二引数は 2 引数ブロックで、これまでの適用された結果と、今回処理する要素を受け取ります。
 
 \ct{inject:into:} の簡単な例として数のコレクションの総和を求めてみましょう。
-ガウス少年のように、\pharo では1から100までの自然数の和を以下のように書けるのです:
+ガウス少年のように、\pharo では 1 から 100 までの自然数の和を以下のように書けるのです:
 \begin{code}{@TEST}
 (1 to: 100) inject: 0 into: [:sum :each | sum + each ] --> 5050
 \end{code}
 
-別の例として、引数を一つ持つ階乗を計算するブロックは以下のように書けます。
+別の例として、階乗を計算する 1 引数ブロックは以下のように書けます。
 \begin{code}{@TEST |factorial|}
 factorial := [:n | (1 to: n) inject: 1 into: [:product :each | product * each ] ].
 factorial value: 10 --> 3628800
@@ -916,7 +916,7 @@ colors anySatisfy: [:c | c red > 0.5] --> true
 %=========================================================
 \section{コレクションを使う時のヒント}
 
-\paragraph{\mthind{OrderedCollection}{add:} を使うときのよくある間違い} 次のエラーは \st で最も頻繁に見られる間違いです。
+\paragraph{\mthind{OrderedCollection}{add:} を使うときのよくある間違い。} 次のエラーは \st で最も頻繁に見られる間違いです。
 \index{Collection!よくある間違いエラー}
 
 \begin{code}{@TEST | collection | }
@@ -934,13 +934,13 @@ collection add: 1; add: 2.
 collection --> an OrderedCollection(1 2)
 \end{code}
 
-また\ind{カスケード}されたメッセージのレシーバを返す \mthind{Object}{yourself} メッセージを用いることもできます。
+また、\mthind{Object}{yourself} メッセージを用いることもできます。\ct{yourself} は \ind{カスケード}されたメッセージのレシーバをします。
 
 \begin{code}{@TEST | collection |}
 collection := OrderedCollection new add: 1; add: 2; yourself --> an OrderedCollection(1 2)
 \end{code}
 
-\paragraph{イテレート処理中のコレクションからの要素削除} もう一つよくある間違いとしては、イテレート中のコレクションから、要素を削除しようとすることがあります。
+\paragraph{繰り返しを行っているコレクションからの要素削除。} もう一つよくある間違いとしては、繰り返しを行っているコレクションから、要素を削除しようとすることがあります。
 \mthind{Collection}{remove:}
 \begin{code}{@TEST |range|}
 range := (2 to: 20) asOrderedCollection.
@@ -957,8 +957,8 @@ range copy do: [:aNumber | aNumber isPrime ifFalse: [ range remove: aNumber ] ].
 range --> an OrderedCollection(2 3 5 7 11 13 17 19)
 \end{code}
 
-\paragraph{\ct{=} と \ct{hash} 両方の再定義}
-発見が難しいエラーに \ct{=} を再定義して、\ct{hash} を再定義していない場合があります。setに入れた要素がいつの間にかなくなっていたりとか、そういうおかしな振る舞いが症状として現れます。ケント・ベックによって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
+\paragraph{\ct{=} と \ct{hash} 両方の再定義。}
+発見が難しいエラーに \ct{=} を再定義して、\ct{hash} を再定義していない場合があります。\ct{Set} に入れた要素がいつの間にかなくなっていたりとか、そういうおかしな振る舞いが症状として現れます。ケント・ベックによって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
 例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、
 \ct{=} をそのように再定義したくなりますが、そのときは \ct{hash} も次のように再定義すべきなのです:
 \index{Dictionary!\ct{=} と \ct{hash} をオーバーライドする}
@@ -972,24 +972,24 @@ Book>>>hash
    ^ title hash xor: authors hash
 \end{method}
 
-また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを\ct{Set} の要素、あるいは \ct{Dictionary} のキーとして用いると、別のたちの悪い問題が生じます。
+また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを \ct{Set} の要素、あるいは \ct{Dictionary} のキーとして用いると、別のたちの悪い問題が生じます。
 デバッグがお好きでなければ、そういうことは止めておきましょう!
 
 %=========================================================
 \section{まとめ}
 
-\st のコレクション階層は異なった種類のコレクションを同じように扱える共通のメッセージを持っています。
+\st のコレクション階層は異なった種類のコレクションを同じように扱える共通の語彙((vocabulary. プロトコルのことか?))を持っています。
 
 \begin{itemize}
-  \item 主な特徴として、\ct{SequenceableCollection}が要素を与えられた順序で保持するのに対し、\ct{Dictionary} とそのサブクラスはキーと値のアソシエーションを保持し、\ct{Set} と \ct{Bag}は順序を持ちません。
+  \item 主な違いは、\ct{SequenceableCollection}が要素を与えられた順序で保持するのに対し、\ct{Dictionary} とそのサブクラスはキーと値のアソシエーションを保持し、\ct{Set} と \ct{Bag}は順序を持つことです。
   \item ほとんどのコレクションは、\ct{asArray}、\ct{asOrderedCollection} \etc のメッセージを送信することで、他のコレクションに変換できます。
   \item コレクションをソートするには、\ct{asSortedCollection} メッセージを送信します。
   \item リテラルの \ct{Array} は \ct{#( ... )} という特別な構文で作ることができます。動的な \ct{Array} は \ct|{ ... }| という構文で作ることができます。
-  \item \ct{Dictionary} はキーを同値性で比較します。この性質はキーとして \ct{String} のインスタンスを用いるときに最も便利です。一方、\ct{IdentifyDictionary} はオブジェクトの同一性でキーを判別します。この性質はキーとして \ct{Symbol} を用いるときか、オブジェクトの参照を値にマップするときなどに適しています。
+  \item \ct{Dictionary} はキーを同値性で比較します。この性質はキーとして \ct{String} のインスタンスを用いるときに最も便利です。一方、\ct{IdentifyDictionary} はオブジェクトの同一性でキーを判別します。この性質はキーとして \ct{Symbol} を用いるときか、オブジェクトの参照を値にマップする((mapping object references to values))ときなどに適しています。
   \item \ct{String} は通常のコレクションメッセージを受け取ることができます。加えて、\ct{String} は簡単な形式のパターンマッチングもサポートしています。より高度な応用には、RegEx パッケージを参照してください。
-  \item 基本となる繰り返し用のメッセージは \ct{do:} です。すべての要素に同じ処理を行うようなコード((imperative code))、例えばコレクションのすべての要素を変更するとか、同じメッセージを送信するといったことをするときに有用です。
-  \item より一般的には((it is more common)) \ct{do:} を用いる代わりに、 \ct{collect:}、\ct{select:}、\ct{reject:}、\ct{includes:}、\ct{inject:into:} またその他の、コレクションを統一的な方法で処理することができる高水準なメッセージを用います。
-  \item イテレート((TODO))中にそのコレクションの要素を削除しないでください。コレクションをイテレーション((TODO))中に変更したいなら、コピーに対してイテレート((TODO))します。
+  \item 基本となる繰り返し用のメッセージは \ct{do:} です。命令ベースの((imperative))コード、例えばコレクションのすべての要素を変更するとか、同じメッセージを送信するコードで有用です。
+  \item \ct{do:} を用いる代わりに、通常は、\ct{collect:}、\ct{select:}、\ct{reject:}、\ct{includes:}、\ct{inject:into:} その他の高水準なメッセージを用います。これらによってコレクションを統一的な方法で処理することができます。
+  \item 繰り返しを行っているコレクションの要素を削除しないでください。繰り返し中にコレクションを変更したいなら、コピーに対して繰り返します。
   \item \ct{=} の定義を上書きしたなら、\ct{hash} の再定義もお忘れなく!
 \end{itemize}
 
