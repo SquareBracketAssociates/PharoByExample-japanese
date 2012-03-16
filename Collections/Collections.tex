@@ -245,17 +245,17 @@ students select: [ :each | each gpa < threshold ]
 \section{主要なクラス}
 よく使う、あるいは重要なコレクションクラスについて、簡単なコード例で説明しましょう。
 コレクションの主なプロトコルは以下のとおりです: \mthind{Collection}{at:}、\mthind{Collection}{at:put:} --- 要素へのアクセス、\mthind{Collection}{add:}、\mthind{Collection}{remove:} --- 要素の追加または削除、\mthind{Collection}{size}、\mthind{Collection}{isEmpty}、\mthind{Collection}{include:} --- コレクションについての情報の取得、\mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:} --- コレクション全体での繰り返し。
-それぞれのコレクションによってこれらのプロトコルはサポートされていたりいなかったりしますし、サポートされているときは、そのコレクションの意味論に沿うように解釈します。それぞれのクラスをブラウズしてみて、具体的でより上級のプロトコルを探してみると良いでしょう。
+それぞれのコレクションによって、これらのプロトコルを実装したりしなかったりしまし、実装しているときは、コレクションの意味論に沿うようにプロトコルを解釈します。それぞれのクラスをブラウズしてみて、具体的でより上級のプロトコルを探してみると良いでしょう。
 \seeindex{do:@\ct{do:}}{Collection, \ct{do:}}
 \seeindex{at:@\ct{at:}}{Collection, \ct{at:}}
 \seeindex{at:put:@\ct{at:put:}}{Collection, \ct{at:put:}}
 
-以下では最も良く使う次のクラスを取り上げます。\clsind{OrderedCollection}、\clsind{Set}、\clsind{SortedCollection}、\clsind{Dictionary}、\clsind{Interval}、\clsind{Array}。
+以下では、最も良く使う次のクラスを取り上げます。\clsind{OrderedCollection}、\clsind{Set}、\clsind{SortedCollection}、\clsind{Dictionary}、\clsind{Interval}、\clsind{Array}。
 
-\paragraph{良く使う生成プロトコル}
-コレクションのインスタンスを作る方法はいくつかあります。\mthind{Collection Class}{new:} メソッドと \mthind{Collection class}{with:} メソッドを使うのが一番汎用的なやり方でしょう。\ct{new: anInteger} はサイズが \ct{anInteger} ですべての要素が \ct{nil} であるコレクションを作ります。\mthind{Collection class}{with:} \ct{anObject} はコレクションを作り、それに \ct{anObject} を追加します。コレクションごとにこの振る舞いの実装は異るでしょう((Different collections will realize this behaviour differently.))。
+\paragraph{良く使う生成プロトコル。}
+コレクションのインスタンスを作る方法は、いくつかあります。\mthind{Collection Class}{new:} メソッドと \mthind{Collection class}{with:} メソッドを使うのが、一番汎用的なやり方でしょう。\ct{new: anInteger} は、サイズが \ct{anInteger} ですべての要素が \ct{nil} であるコレクションを作ります。\mthind{Collection class}{with:} \ct{anObject} はコレクションを作り、それに \ct{anObject} を追加します。コレクションごとに、この振る舞いの実装は異るでしょう((Different collections will realize this behaviour differently.))。
 
-初期要素を持つコレクションを作るには、\mthind{Collection class}{with:}、\mthind{Collection class}{with:with:} \etc のメソッドを使うことができます。\ct{with:with:...} 式では、最大 6 個の要素を持ったコレクションまで作ることができます。
+初期要素を持つコレクションを作るには、\mthind{Collection class}{with:}、\mthind{Collection class}{with:with:} \etc のメソッドを使うことができます。\ct{with:with:...} 方式では、最大 6 個の要素を持ったコレクションまで作ることができます。
 
 \begin{code}{@TEST}
 Array with: 1 --> #(1)
@@ -266,15 +266,15 @@ Array with: 1 with: 2 with: 3 with: 4 with: 5 --> #(1 2 3 4 5)
 Array with: 1 with: 2 with: 3 with: 4 with: 5 with: 6 --> #(1 2 3 4 5 6)
 \end{code}
 
-あるコレクションのすべての要素を別の種類のコレクションに加えるには \ct{addAll:} が使えます:
+あるコレクションのすべての要素を別の種類のコレクションに加えるには、\ct{addAll:} が使えます:
 
 \begin{code}{@TEST}
 (1 to: 5) asOrderedCollection addAll: '678'; yourself --> an OrderedCollection(1 2 3 4 5 $6 $7 $8)
 \end{code}
 \noindent
-\mthind{Collection}{addAll:} も((also))引数を返し、レシーバを返すわけではないのに注意してください!
+\mthind{Collection}{addAll:} は、引数を返します。レシーバを返すわけではないのに注意してください!
 
-\mthind{Collection class}{withAll:} や \mthind{Collection class}{newFrom:} で色々なコレクションを作ることもできます。
+\mthind{Collection class}{withAll:} や \mthind{Collection class}{newFrom:} で、色々なコレクションを作ることもできます。
 
 \begin{code}{@TEST}
 Array withAll: #(7 3 1 3)                      --> #(7 3 1 3)
@@ -299,10 +299,10 @@ Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3} --> a Dictionary(1->7 2->3 
 具体的には、\cmind{Dictionary class}{withAll:} では引数を値のコレクションと解釈しますが、\cmind{Dictionary class}{newFrom:} はアソシエーションのコレクションが与えられることを期待しています。
 
 %---------------------------------------------------------
-\subsection{Array}
-\clsindmain{Array} (配列) はサイズが固定で、整数の添字で要素にアクセスできるコレクションです。
-C の流儀とは異なり、\st の配列の先頭要素は位置 1 であり、0 ではありません。
-配列の要素にアクセスする主なプロトコルは \mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} は添字 \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は \ct{anObject} を添字 \ct{anInteger} に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり削除したりはできません。以下のコードはサイズ 5 の配列をつくり、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
+\subsection{配列}
+配列 (\clsindmain{Array}) は、サイズが固定のコレクションです。また配列の要素には、整数の添字でアクセスできます。
+C の流儀とは異なり、\st の配列の先頭要素は位置 1 です。0 ではありません。
+配列の要素にアクセスする主なプロトコルは、\mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} は、添字 \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は、\ct{anObject} を添字 \ct{anInteger} に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり、末尾の要素を削除したりはできません。以下のコードは、サイズ 5 の配列を作り、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
 
 \begin{code}{@TEST | anArray | }
 anArray := Array new: 5.
@@ -312,20 +312,20 @@ anArray at: 3 put: 'ssss'.
 anArray at: 1 --> 4
 \end{code}
 
-\clsind{Array} クラスのインスタンスを作るにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます。((and  the constructs \ct{#( )} and \ct|{ }| の the constructs の定訳を探す必要あり。))
+\clsind{Array} クラスのインスタンスを作るにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます((constructs))。
 
-\paragraph{\mthind{Array class}{new:} による生成。} \ct{new: anInteger} はサイズ \ct{anInteger} の配列を生成します。
-\ct{Array new: 5} はサイズ 5 の配列を生成します。
+\paragraph{\mthind{Array class}{new:} による生成。} \ct{new: anInteger} は、サイズ \ct{anInteger} の配列を生成します。
+\ct{Array new: 5} は、サイズ 5 の配列を生成します。
 
-\paragraph{\mthind{Array class}{with:} による生成。} \ct{with:} メソッドは要素の値を引数として与えることができます。
-次のコードでは数値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列を生成します。
+\paragraph{\mthind{Array class}{with:} による生成。} \ct{with:} メソッドは、要素の値を引数として与えることができます。
+次のコードでは、数値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列を生成します。
 
 \begin{code}{@TEST | anArray |}
 Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
 \paragraph{\ct|\#()| を用いたリテラル生成。}
-\ct{#()} は静的な (または 「\subind{Array}{リテラル}」) 要素を持つ\ind{リテラル配列}を生成します。静的というのは式がコンパイルされたときに値が分かっているもので、実行時に評価されるものではないということです。以下のコードは最初の要素が (リテラル) 数値 \ct{1} で、次の要素が (リテラル) 文字列 \ct{'here'} である、サイズ 2 の配列を生成します。
+\ct{#()} は、静的な (または 「\subind{Array}{リテラル}」) 要素を持つ\ind{リテラル配列}を生成します。静的というのは、要素の値が実行時ではなく式がコンパイルされた時に分かっていなければならない、ということです。以下のコードは、最初の要素が (リテラル) 数値 \ct{1} で次の要素が (リテラル) 文字列 \ct{'here'} であるサイズ 2 の配列を生成します。
 
 \seeindex{\#@{\textsf{\#( )}}}{Array, リテラル}
 \seeindex{\{@{\textsf{\{ \}}}}{Array, 動的}
@@ -341,10 +341,10 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
 \noindent
-これは \ct{#()} によって、配列に格納されている式がリテラルとしてコンパイラに解釈されるからです。式はスキャンされて結果として得られた要素が新しい配列に格納されます。リテラル配列は数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
+これは、\ct{#()} によって、配列に格納されている式がリテラルとしてコンパイラに解釈されるからです。式はスキャンされて結果として得られた要素が新しい配列に格納されます((The expression is scanned and the resulting elements are fed to a new array.))。リテラル配列は、数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
 
 \paragraph{\ct|\{ \}| を用いた動的生成。}
-\ct|{}| ((construct)) を使うことで動的配列を作ることができます。\ct|{ a . b }| は \lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
+\ct|{}| ((construct)) を使って動的配列を作ることができます。\ct|{ a . b }| は、\lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
 
 \begin{code}{@TEST | anArray |}
 { 1 + 2 } --> #(3)
@@ -353,7 +353,7 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
 \paragraph{要素へのアクセス。}
-順序を持つすべてのコレクションは \mthind{Array}{at:} および \mthind{Array}{at:put:} で要素にアクセスできます((\ct{LinkedList} に \ct{at:put:} するとエラー))。
+すべての順序付きのコレクションは、\mthind{Array}{at:} および \mthind{Array}{at:put:} で要素にアクセスできます。\footnote{訳注: \ct{LinkedList} に \ct{at:put:} するとエラーになります。}
 
 \begin{code}{@TEST | anArray |}
 anArray := #(1 2 3 4 5 6) copy.
@@ -366,13 +366,13 @@ anArray at: 3 --> 33
 \noindent
 リテラル配列を変更するコードには十分注意してください!
 リテラル配列について、コンパイラは領域を最初の一回だけ確保します。
-そのため配列をコピーしない限り、上の例を二回目に評価したとき、「リテラル」 配列は期待通りの結果にならないでしょう。
+そのため配列をコピーしない限り、上の例を二回目に評価したとき、「リテラル」 配列の値は期待通りにはならないでしょう。
 (コピーを取らなければ、二回目の実行時には、リテラル配列 \ct{#(1 2 3 4 5 6)} は実は \ct{#(1 2 33 4 5 6)} になってしまっているのです!)
 動的配列にはこのような問題はありません((?????))。
 
 %---------------------------------------------------------
 \subsection{OrderedCollection}
-\clsindmain{OrderedCollection} は自動でサイズを拡張し、順序を保持して要素を追加できるコレクションです。\ct{OrderedCollection} は \mthind{OrderedCollection}{add:}、\mthind{OrderedCollection}{addFirst:}、\mthind{OrderedCollection}{addLast:}、\mthind{OrderedCollection}{addAll:} などの多様なメソッドを提供しています。
+\clsindmain{OrderedCollection} は、自動でサイズを拡張し、順序を保持して要素を追加できるコレクションです。\ct{OrderedCollection} は、\mthind{OrderedCollection}{add:}、\mthind{OrderedCollection}{addFirst:}、\mthind{OrderedCollection}{addLast:}、\mthind{OrderedCollection}{addAll:} などの多様なメソッドを提供しています。
 
 \begin{code}{@TEST | ordCol |}
 ordCol := OrderedCollection new.
@@ -380,7 +380,7 @@ ordCol add: 'Seaside'; add: 'SqueakSource'; addFirst: 'Monticello'.
 ordCol --> an OrderedCollection('Monticello' 'Seaside' 'SqueakSource')
 \end{code}
 
-\paragraph{要素を削除する。} メソッド \mthind{OrderedCollection}{remove:} \ct{anObject} は \ct{anObject} と一致する最初のオブジェクトをコレクションから削除するものです。もしそのオブジェクトが存在しない場合は、エラーを発生させます。
+\paragraph{要素を削除する。} メソッド \mthind{OrderedCollection}{remove:} \ct{anObject} は、\ct{anObject} と一致する最初のオブジェクトをコレクションから削除します。もしそのオブジェクトが存在しない場合は、エラーを発生させます。
 
 \begin{code}{@TEST | ordCol | ordCol := OrderedCollection with: 'Monticello' with: 'Seaside' with: 'SqueakSource'.}
 ordCol add: 'Monticello'.
@@ -388,7 +388,7 @@ ordCol remove: 'Monticello'.
 ordCol --> an OrderedCollection('Seaside' 'SqueakSource' 'Monticello')
 \end{code}
 
-\ct{remove:} の変種に \mthind{OrderedCollection}{remove:ifAbsent:} があります。
+\ct{remove:} の変種に、\mthind{OrderedCollection}{remove:ifAbsent:} があります。
 \ct{remove:ifAbsent:}の第二引数には、削除しようとした要素がコレクションに存在しないときの動作をブロックとして渡すことができます。
 
 \begin{code}{@TEST | ordCol res | ordCol := OrderedCollection with: 'Seaside' with: 'SqueakSource' with: 'Monticello'.}
@@ -421,14 +421,14 @@ res --> 33
 
 %---------------------------------------------------------
 \subsection{Interval}
-\clsindmain{Interval} クラスは数値の並びを表現します。例えば 1 から 100 までの数の並びは以下のように定義できます:
+\clsindmain{Interval} クラスは、数値の並びを表現します。例えば、1 から 100 までの数の並びは以下のように定義できます:
 \cmindex{Interval class}{from:to:}
 \begin{code}{@TEST}
 Interval from: 1 to: 100 --> (1 to: 100)
 \end{code}
 
 \noindent
-この \ct{Interval} オブジェクトを \mthind{Interval class}{printString} した結果から、\clsind{Number} クラスには \mthind{Number}{to:} という \ct{Interval} オブジェクトを生成するショートカットメソッドがあることが分かります。
+この \ct{Interval} オブジェクトを \mthind{Interval class}{printString} した結果を見ると、\clsind{Number} クラスには \mthind{Number}{to:} という \ct{Interval} オブジェクトを生成するショートカットメソッドがあることが分かります。
 
 \begin{code}{}
 (Interval from: 1 to: 100) = (1 to: 100) --> true
@@ -444,8 +444,8 @@ Interval from: 1 to: 100 --> (1 to: 100)
 
 %---------------------------------------------------------
 \subsection{Dictionary}
-\ct{Dictionary}は要素がキーによってアクセスされる重要なコレクションです。
-\ct{Dictionary}のメッセージの中でよく使うものとしては \mthind{Dictionary}{at:}、\mthind{Dictionary}{at:put:}、\mthind{Dictionary}{at:ifAbsent:}、\mthind{Dictionary}{keys}、\mthind{Dictionary}{values} があります。
+\ct{Dictionary}は、要素がキーによってアクセスされる重要なコレクションです。
+\ct{Dictionary}のメッセージの中でよく使うものとしては、\mthind{Dictionary}{at:}、\mthind{Dictionary}{at:put:}、\mthind{Dictionary}{at:ifAbsent:}、\mthind{Dictionary}{keys}、\mthind{Dictionary}{values} があります。
 \seeindex{keys}{Dictionary, キー}
 \seeindex{values}{Dictionary, 値}
 
@@ -459,10 +459,10 @@ colors keys          --> a Set(#blue #yellow #red)
 colors values       --> {Color blue. Color yellow. Color red}\footnote{訳注: \pharo 1.3ではrgb値が返ります}
 \end{code}
 
-\ct{Dictionary}はキーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグは、キーとして使うオブジェクトで \ct{=}メソッド を再定義しているにもかかわらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドはどちらも\ct{Dictionary}の実装の中でオブジェクトの比較に用いられます。
+\ct{Dictionary}は、キーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグは、キーとして使うオブジェクトで \ct{=}メソッド を再定義しているにもかかわらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドは、どちらも\ct{Dictionary}の実装の中でオブジェクトの比較に用いられます。
 \index{Dictionary!\ct{=} と \ct{hash} をオーバーライドする}
 
-コレクションの階層はサブクラスの考え方に基づいており、サブタイプに基づいているわけではありません。そのことは \clsindmain{Dictionary} のクラス階層に明確に示されています。\ct{Dictionary} は \ct{Set} のサブクラスではありますが、普通は \ct{Dictionary} を \ct{Set} のように使おうとは思わないでしょう。しかし実装においては、\ct{Dictionary} はメッセージ \mthind{Object}{->} により生成されるアソシエーション(キーと値)の集合として明確に表現できるのです。そのため \ct{Dictionary} はアソシエーションのコレクションから作ることもできますし、辞書をアソシエーションの配列に変換することもできます。
+コレクションの階層はサブクラスの考え方に基づいており、サブタイプに基づいているわけではありません。そのことは、\clsindmain{Dictionary} のクラス階層に明確に示されています。\ct{Dictionary} は \ct{Set} のサブクラスではありますが、普通は \ct{Dictionary} を \ct{Set} のように使おうとは思わないでしょう。しかし実装を見ると、\ct{Dictionary} はアソシエーション(キーと値。メッセージ \mthind{Object}{->} により生成される)の集合であることが明確に分かります。そのため、\ct{Dictionary} はアソシエーションのコレクションから作ることもできますし、\ct{Dictionary}をアソシエーションの配列に変換することもできます。
 \seeindex{association}{Object, \ct{->}}
 
 \needlines{5}
@@ -472,11 +472,11 @@ colors removeKey: #blue.
 colors associations --> {#yellow->Color yellow. #red->Color red}\footnote{訳注: \pharo 1.3ではrgb値が返ります}
 \end{code}
 
-\paragraph{IdentityDictionary}
-\ct{Dictionary} が二つのキーが同じであるかを判定するのに \ct{=} メッセージおよび \ct{hash} メッセージを用いるのに対し、\clsindmain{IdentityDictionary} はキーの同一性 (\mthind{ProtoObject}{==} メッセージ)を用います((identity of the key instead of its values))。\ie 二つのキーが同じオブジェクトであるとき\emph{だけ}これらのキーは等しいとみなされます。
+\paragraph{IdentityDictionary。}
+\ct{Dictionary} が二つのキーが同じであるかを判定するのに \ct{=} メッセージおよび \ct{hash} メッセージを用いるのに対し、\clsindmain{IdentityDictionary} は、キーの同一性 (\mthind{ProtoObject}{==} メッセージ)を用います。\ie 二つのキーが同じオブジェクトであるとき\emph{だけ}、これらのキーは等しいとみなされます。
 
-しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら \clsind{Symbol} はグローバルに一意であることが保証されているからです。
-一方、キーが \ct{String} の場合は普通の \ct{Dictionary} クラスを使うべきです。そうしないと問題が生じるでしょう。
+しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら、\clsind{Symbol} はグローバルに一意であることが保証されているからです。
+一方、キーが \ct{String} の場合は、普通の \ct{Dictionary} クラスを使うべきです。そうしないと問題が生じるでしょう。
 
 \begin{code}{@TEST | a b trouble |}
 a := 'foobar'.
@@ -492,18 +492,18 @@ trouble at: 'foobar' --> 'a'\footnote{訳注: \pharo 1.3ではKeyNotFound:エラ
 \ct{a} と \ct{b} はそれぞれ別のオブジェクトなので、異なるオブジェクトとして扱われます。
 興味深いことですが、リテラル \mbox{\ct{'foobar'}} は一度しか確保されないので、\ct{a} と全く同じオブジェクトになります((1 コンパイル単位内に限る?))。
 このような振る舞いに依存したコードを書きたいなんて思わないでしょう!
-普通の \ct{Dictionary} は \ct{'foobar'} と値が等しいキーであれば同じ値を返します。
+普通の \ct{Dictionary} は、\ct{'foobar'} と値が等しいキーに対して同じ値を返します。
 
-\ct{IdentityDictionary} ではキーとしてグローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うなら普通の \ct{Dictionary} を使いましょう。
+\ct{IdentityDictionary} のキーとしては、グローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うなら、普通の \ct{Dictionary} を使いましょう。
 
 
-特筆すべきはグローバル変数 \glbind{Smalltalk} は \clsind{SystemDictionary} のインスタンスであり、これは \ct{IdentityDictionary} のサブクラスですので、すべてのキーは \ct {Symbol} (実際は 8 ビット文字しか格納できない \ct{ByteSymbol}) だということです。
+特筆すべきは、グローバル変数 \glbind{Smalltalk} が \clsind{SystemDictionary} のインスタンスであり、\ct{SystemDictionary}は \ct{IdentityDictionary} のサブクラスなので、\ct{Smalltalk} のすべてのキーは \ct {Symbol} (実際は 8 ビット文字しか格納できない \ct{ByteSymbol}) だということです。
 
 \begin{code}{@TEST}
-Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{訳注: \pharo 1.3ではArrayが返ります}
+Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{訳注: \pharo 1.3 ではArrayが返ります}
 \end{code}
 \noindent
-\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送信すると結果は \ct{Set} となりますが、このクラスについては次に説明します。\footnote{訳注: \pharo 1.3ではArrayが返ります}
+\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送信すると結果は \ct{Set} になりますが、このクラスについては次に説明します。\footnote{訳注: \pharo 1.3ではArrayが返ります}
 % Since every key has the same class, the set of classes of keys contains only a single element, \ct{ByteSymbol}.
 
 %---------------------------------------------------------
