@@ -47,11 +47,11 @@
 %=============================================================
 \section{導入}
 
-コレクションクラスは  \clsindmain{Collection} クラスと \clsind{Stream} クラスの一連の汎用のサブクラスのグループ((←群))で大まかに定義されます。「\ind{ブルーブック}」~\cite{Gold83a} にはこれらのクラスのグループとして \ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが取り上げられています。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラスのグループはしばしばオブジェクト指向設計の模範的な実例としてみなされます。
+コレクションクラスは全体として、大まかに定義されたグループを形成します。このグループは、\clsindmain{Collection} クラスと \clsind{Stream} クラスの汎用のサブクラスからなります。「\ind{ブルーブック}」~\cite{Gold83a} には、このグループのクラスとして \ct{Collection} の 17 個のサブクラスと、\ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが取り上げられています。これらは、\st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラスは、グループとして、しばしばオブジェクト指向設計の模範的な実例とみなされます。
 
-\pharo では、抽象クラスである\ct{Collection} は 101 個のサブクラスを、同じく抽象クラスの \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた専用のクラスなので、システム構成上「Collection」カテゴリ内にはありません。この章では、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラスの中でも\emph{特に}  \scat{Collections-*} というカテゴリ内にあるものを指します。
-同様に「ストリーム階層」は \ct{Stream} と、そのサブクラスの中でも\emph{特に} \scat{Collections-Streams} カテゴリ内にあるものを指します。
-これら 56 個のクラスは 982 のメッセージに反応し、合計 1609 個のメソッドを定義しているのです! \footnote{訳注: \pharo 1.3では\ct{Collection} は 75個のサブクラス、\ct{Stream} は 39 個のサブクラスを持ちます。また「コレクション階層」と「ストリーム階層」の合計54のクラスは1660のメソッドを持ち、993のメッセージに対応します}
+\pharo では、抽象クラスである \ct{Collection} は 101 個のサブクラスを、同じく抽象クラスの \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた専用のクラスなので、システム構成上「Collection」カテゴリ内にはありません。この章では「コレクション階層」という言葉は、\ct{Collection} とそのサブクラスの中でも\emph{特に}  \scat{Collections-*} というカテゴリ内にあるものを指します。
+同様に「ストリーム階層」は、 \ct{Stream} とそのサブクラスの中でも\emph{特に} \scat{Collections-Streams} カテゴリ内にあるものを指します。
+これら 56 個のクラスは、982 個のメッセージに反応し、合計 1609 個のメソッドを定義しているのです! \footnote{訳注: \pharo 1.3 では\ct{Collection} は 75 個のサブクラス、\ct{Stream} は 39 個のサブクラスを持ちます。また「コレクション階層」と「ストリーム階層」の合計 54 のクラスは 1660 個のメソッドを持ち、993 個のメッセージに反応します}
 
 % See test case in PBE-Collections for statistics
 
@@ -79,8 +79,8 @@
 %\end{center}
 %\end{figure}
 
-この章では \figref{CollClassesTree} に示したコレクションクラスのサブセットに焦点を当てます。
-ストリームについては別に \charef{streams} で論じます。
+この章では、\figref{CollClassesTree} に示したコレクションクラスのサブセットに焦点を当てます。
+ストリームについては、別に \charef{streams} で論じます。
 
 % \sd{should put stream related text in Stream chapter}.
 
@@ -101,28 +101,28 @@
 \section{コレクションの種類}
 \seclabel{varieties}
 
-コレクションクラスを上手く使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけでも理解しておかなければなりません。
+コレクションクラスを上手く使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけは理解しておかなければなりません。
 
 個別の要素よりコレクションについてプログラムすることは、プログラムの抽象度を高める上で重要な手法の一つです。
-\ind{Lisp} の \ct{map} 関数はこのようなスタイルを実現した初期の例です。\ct{map} は、関数とリストを引数に取り、リストの各要素に対して関数を適用して、その結果をリストにして返します。\st-80 は、このようなスタイルを推し進め((but))コレクション・ベースのプログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のようなモダンな関数型プログラミング言語は \st の後継者であると言えます。
+\ind{Lisp} の \ct{map} 関数は、このようなスタイルを実現した初期の例です。\ct{map} は、関数とリストを引数に取り、リストの各要素に対して関数を適用してその結果をリストにして返します。\st-80 はこのようなスタイルを推し進め((but))、「コレクションに基づく」プログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のようなモダンな関数型プログラミング言語は、\st の後継者であると言えます。
 
 このアイディアが良いのはなぜでしょう?
-例えば学生についてのデータのコレクションといったデータ構造があったとして、なにかの基準に一致するすべての学生のデータについて同じアクションを取りたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐ思いつくでしょう。でも \st プログラマならこう書くでしょう:
+例えば学生についての((TODO: record))のコレクションといったデータ構造があったとして、何かの基準に一致するすべての学生の((TODO: record))について同じアクションを取りたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐに思いつくでしょう。しかし、\st プログラマならこう書くでしょう:
 \begin{code}{}
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-これは、ある条件を満たす \ct{students} の要素からなる新しいコレクションを返します((which 「evaluates」とあったが、2 訳までを尊重した))。角カッコで囲まれた式が \ct{true} を返すことが条件です\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$式だと考えることができます。
+これは「\ct{students} の要素の中で、ある条件を満たすもの」からなる新しいコレクションを返します((which 「evaluates」とあったが、2 訳までを尊重した))。角カッコで囲まれた式が \ct{true} を返すことが条件です\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$ 式だと考えることができます。
 \index{lambda 式}}。
-この \st コードには「ドメイン特化(問い合わせ)言語」的なシンプルさとエレガンスがあります。
+この \st コードには「ドメイン特化言語(ドメイン特化問い合わせ言語)」的なシンプルさとエレガンスがあります。
 
-\st の\emph{すべての}コレクションは \ct{select:}メッセージを理解します。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解します。 \ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければならないループを使うやり方とは、大きく異なるということに注意しましょう((before the loop can be 「set up」とあったが、2 訳までを尊重した))。
+\ct{select:} メッセージは、\st の\emph{すべての}コレクションが理解します。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解します。 \ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければならないループを使うやり方とは、大きく異なるということに注意しましょう((before the loop can be 「set up」とあったが、2 訳までを尊重した))。
 
-\st では、特定のコレクションを指定せずに単に「コレクション」と言った場合には、要素に関する次のプロトコルが明確に定義されたオブジェクトを指します: ある要素が含まれているかテストするプロトコル、要素の列挙を行うプロトコル。\emph{すべての}コレクションは \protind{testing} メッセージ: \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解します。\emph{すべての}コレクションは \prot{enumeration} メッセージ: \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解します。
-このプロトコルの普遍性とバラエティがコレクションをとても強力なものにしています。
+\st では、特定のコレクションを指定せずに単に「コレクション」と言った場合には、要素に関する次のプロトコルが明確に定義されたオブジェクトを指します: ある要素が含まれているかテストするプロトコル、要素の列挙を行うプロトコル。\emph{すべての}コレクションは、\protind{testing} メッセージ: \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解します。\emph{すべての}コレクションは、\prot{enumeration} メッセージ: \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解します。
+このプロトコルの普遍性とバラエティが、コレクションをとても強力なものにしています。
 
-\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。
-それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
+\figref{protocols} は、コレクション階層内のほとんどのクラスが標準でサポートしているプロトコルをまとめたものです。
+それぞれのメソッドは、\ct{Collection} のサブクラス内で定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
 
 \begin{figure*}
 \begin{center}
@@ -163,21 +163,21 @@ students select: [ :each | each gpa < threshold ]
 %\end{figure*}
 %\on{A useless diagram -- refer to the class hierarchy instead!}
 
-このような基本的一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエストに対しての振る舞いが異なるさまざまなコレクションが存在しています。
-これらの違いの重要なものを見ていきましょう。
+このような基本的な一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエストに対しての振る舞いが異なるさまざまなコレクションが存在しています。
+これらの違いのうち重要なものについて、見ていきましょう。
 
 \begin{itemize}
   \item {\bf 順序付き (Sequenceable):}
-  \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは \mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
-  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序性を持ちません。
+  \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは、\mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
+  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序付きではありません。
 
   \item {\bf ソート済み:}
-  \clsind{SortedCollection} はその要素を常にソートされた状態に保ちます。
+  \clsind{SortedCollection} は、その要素を常にソートされた状態に保ちます。
 
-  \item {\bf 添字参照/添字付:}
-        ほとんどの順序性のあるコレクションは添字で参照できます。つまり \ct{at:} で要素を取り出せるということです。
-        \clsind{Array} は添字付きのデータ構造のなかでもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は \ct{n} 個目の要素の値を \ct{v} に変えます。
-        \ct{LinkedList} と \ct{SkipList} は順序性はありますが添字では参照できません。つまり \ct{first} と \ct{last} は理解しますが、\ct{at:} は理解しません((嘘: \ct{LinkedList>>>at:} はある。\ct{SkipList} はない))。
+  \item {\bf 添字参照/添字付き:}
+        ほとんどの順序付きのコレクションは、添字で参照できます。つまり \ct{at:} で要素を取り出せるということです。
+        \clsind{Array} は添字付きのデータ構造の中でもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は、\ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は、\ct{n} 個目の要素の値を \ct{v} に変えます。
+        \ct{LinkedList} と \ct{SkipList} は順序付きですが、添字では参照できません。つまり \ct{first} と \ct{last} は理解しますが、\ct{at:} は理解しません((嘘: \ct{LinkedList>>>at:} はある。\ct{SkipList} というクラスはない))。
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
 
@@ -185,24 +185,24 @@ students select: [ :each | each gpa < threshold ]
 	\clsind{Dictionary} とそのサブクラスのインスタンスは、添字の代わりにキーで要素を参照できます。
 
   \item {\bf 可変性 (Mutable):}
-        ほとんどのコレクションは内容が可変 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
-        \clsind{Interval} クラスは \clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば、\ct{5 to: 16 by: 2} は要素 5, 7, 9, 11, 13, 15 を含むIntervalです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
+        ほとんどのコレクションは、内容が可変 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
+        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
   \item {\bf 動的拡張:}
-         \ct{Interval} や \ct{Array} のインスタンスは常にサイズが固定されています。他の種類のコレクション (\ct{SortedCollection}、\ct{OrderedCollection}、\ct{LinkedList} ((sorted collections, ordered collections, and linked lists))) は生成後にサイズを拡張することができます。
+         \ct{Interval} や \ct{Array} のインスタンスは、常にサイズが固定されています。他の種類のコレクション (\ct{SortedCollection}、\ct{OrderedCollection}、\ct{LinkedList} ((sorted collections, ordered collections, and linked lists))) は、生成後にサイズを拡張することができます。
 
-         \clsind{OrderedCollection}クラス  は \ct{Array} より汎用的です。\ct{OrderedCollection} は動的にサイズが拡張され、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} といったメソッドが、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} メソッドの他にあります。
+         \clsind{OrderedCollection}クラス は、\ct{Array} より汎用的です。\ct{OrderedCollection} は、動的にサイズが拡張され、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} といったメソッドが、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} メソッドの他にあります。
   
   \item {\bf 重複の許容:}
   	\clsind{Set} は要素の重複を取り除きますが、\clsind{Bag} はそういったことをしません。
-	重複の判定に、\clsind{Dictionary}、\ct{Set}、\ct{Bag} は各要素の \ct{=} メソッドを用います。\ct{Identity} な変種は二つの引数が同じオブジェクトであるかを判定する \ct{==} メソッドを用い、\ct{Pluggable} な変種であればコレクション作成時に与えられた任意の同値関係を用います。
+	重複の判定に、\clsind{Dictionary}、\ct{Set}、\ct{Bag} は、各要素の \ct{=} メソッド((メッセージ?))を用います。コレクションの \ct{Identity} な変種は、二つの引数が同じオブジェクトであるかを判定する \ct{==} メソッド((メッセージ?))を用い、\ct{Pluggable} な変種であれば、コレクションの作成時に与えられた任意の同値関係を用います。
 	\index{Pluggable なコレクション}
 
   \item {\bf 異種性 (Heterogeneous):}
-        ほとんどのコレクションはどんな種類の要素も格納できます。
-        一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は \ct{Character} だけしか入れられません。
-        \clsind{Array} にはさまざまなオブジェクトが混在できますが、\lct{ByteArray} は \lct{Byte} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを格納できます。
+        ほとんどのコレクションは、どんな種類の要素も格納できます。
+        一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は、\ct{Character} だけしか入れられません。
+        \clsind{Array} にはさまざまなオブジェクトが混在できますが、\ct{ByteArray} は \lct{バイト} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを格納できます。
 	\clsind{LinkedList} の要素には、必ず \prot{Link \go accessing} プロトコルを受け付けなければならないという制約があります。
 
 \end{itemize}
@@ -224,22 +224,22 @@ students select: [ :each | each gpa < threshold ]
 機能による分類だけではなく、どうやってコレクションクラスが実装されているかも知っておく必要があります。\figref{collsByImpl} に示すように、主要な実装技法としては五つのものがあります。
 
 \begin{enumerate}
-  \item Array は要素をコレクションオブジェクト自身の(添字で参照できる)インスタンス変数に格納します。結果として、サイズは固定され、その代わりに一回のメモリ割り当てで生成できます。
+  \item 配列は、要素をコレクションオブジェクト自身の(順序付きの)インスタンス変数に格納します。結果として配列のサイズは固定され、その代わりに配列は、一回のメモリ割り当てで生成できます。
   \clsindex{Array}
-  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。
-  こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
-  \item \ct{Set} や \ct{Dictionary} の類もまた、ストレージへのアクセスに補助的な配列を参照しますが、これをハッシュテーブルとして用います。Bag は内部の要素そのものとその出現回数をキーと値のペアとして持つ補助的な \ct{Dictionary} を使います。
-  \clsindex{Bag}
-  \item LinkedList は標準的な片方向リンクの内部形式を取ります。
-  \clsindex{LinkedList}
-  \item \ct{Interval} は開始点・終了点・ステップサイズの三つの整数を格納します。
-  \clsindex{Interval}
+  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は、要素を配列に格納し、インスタンス変数でその配列を参照します。
+  こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい配列と入れ替えることができます。
+  \item \clsind{Set} や \clsind{Dictionary} の類もまた、ストレージへのアクセスに補助的な配列を参照しますが、これをハッシュテーブルとして用います。\ct{Bag} は、内部の要素そのものとその出現回数をキーと値のペアとして持つ補助的な \ct{Dictionary} を使います。
+% \clsindex{Bag}
+  \item \clsind{LinkedList} は標準的な片方向リンクの内部形式を取ります。
+% \clsindex{LinkedList}
+  \item \clsind{Interval} は、開始点、終了点、ステップサイズの三つの整数を格納します。
+% \clsindex{Interval}
 \end{enumerate}
-これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、「\subind{Collection}{weak}」 という変種があります。これらは要素を「弱く」保持します。\ie 要素のガーベージコレクションを禁止しないということです((自信ない))。
-\pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
+これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、「\subind{Collection}{Weak}」 という変種があります。これらは要素を「弱く」保持します。\ie 要素のガーベージコレクションを禁止しないということです。
+\pharo のバーチャルマシンはこれらのクラスを判別し、特別に扱います。
 \index{弱いコレクション}
 
-\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh のすばらしい本\cite{LaLo90a} を参照してください。
+\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh の素晴らしい本\cite{LaLo90a} を参照してください。
 
 %=========================================================
 \section{主要なクラス}
@@ -344,7 +344,7 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 これは \ct{#()} によって、配列に格納されている式がリテラルとしてコンパイラに解釈されるからです。式はスキャンされて結果として得られた要素が新しい配列に格納されます。リテラル配列は数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
 
 \paragraph{\ct|\{ \}| を用いた動的生成。}
-\ct|{}| ((construct)) を使うことで動的配列を作ることができます。\ct|{ a . b }| は \ct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
+\ct|{}| ((construct)) を使うことで動的配列を作ることができます。\ct|{ a . b }| は \lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
 
 \begin{code}{@TEST | anArray |}
 { 1 + 2 } --> #(3)
