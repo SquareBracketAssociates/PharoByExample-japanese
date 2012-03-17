@@ -39,18 +39,19 @@
 \chapter{コレクション}
 \chalabel{collections}
 
-% \ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
+\ew{Stack is a popular construction. How does it fit in the collection hierarchy?}
+
 % \ab{ The material here is based on a section that Andrew wrote for the \st Collections refactoring paper. It's not necessarily all appropriate for the book, but much of it is, I think, useful.}
 %\on{recycled some material from \url{https://www.iam.unibe.ch/scg/svn_repos/Lectures/ST-H07/03StandardClasses.ppt}}
 %\sd{Did a first pass: I should have a look at Xavier Briffault's book and at the material mentionned by andrew + lalonde book?}
 %=============================================================
 \section{導入}
 
-コレクションクラスは \clsindmain{Collection} クラスと \clsind{Stream} クラスのサブクラス群で大まかに定義されます。「\ind{ブルーブック}」~\cite{Gold83a} にはこれらのクラス群として \ct{Collection} の 17 個のサブクラスと  \ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが取り上げられています。これらは \st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラス群はしばしばオブジェクト指向設計の模範的な実例としてみなされます。
+コレクションクラスは全体として、大まかに定義されたグループを形成します。このグループは、\clsindmain{Collection} クラスと \clsind{Stream} クラスの汎用のサブクラスからなります。「\ind{ブルーブック}」~\cite{Gold83a} には、このグループのクラスとして \ct{Collection} の 17 個のサブクラスと、\ct{Stream} の 9 個のサブクラス、合計 28 個のクラスが取り上げられています。これらは、\st-80 システムがリリースされる前に何度か再設計されたものでした。これらのクラスは、グループとして、しばしばオブジェクト指向設計の模範的な実例とみなされます。
 
-\pharo では、抽象クラスである\ct{Collection} は 101 個のサブクラスを、同じく抽象クラスの \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた特別な目的のものなので、システム構成上「Collection」カテゴリーとして分類されていません。この章の目的のために、「コレクション階層」という言葉は \ct{Collection} と、そのサブクラス\emph{の中で} \scat{Collections-*} としてカテゴライズされたものを指します。
-同様に「ストリーム階層」は \ct{Stream} と、そのサブクラス\emph{の中で} \scat{Collections-Streams} としてカテゴライズされたものを指します。
-これら 56 個のクラスは 982 のメッセージに応答でき、合計 1609 個のメソッドを定義しているのです！\footnote{訳注：\pharo 1.3では\ct{Collection} は 75個のサブクラス、\ct{Stream} は 39 個のサブクラスを持ちます。また「コレクション階層」と「ストリーム階層」の合計54のクラスは1660のメソッドを持ち、993のメッセージに対応します}
+\pharo では、抽象クラスである \ct{Collection} は 101 個のサブクラスを、同じく抽象クラスの \ct{Stream} は 50 個のサブクラスを持ちますが、これらのうち多く (\mbox{\clsind{Bitmap}、}\mbox{\clsind{FileStream}、}\clsind{CompiledMethod} など) はシステムやアプリケーションの一部として使われるように作られた専用のクラスなので、システム構成上「Collection」カテゴリ内にはありません。この章では「コレクション階層」という言葉は、\ct{Collection} とそのサブクラスの中でも\emph{特に}  \scat{Collections-*} というカテゴリ内にあるものを指します。
+同様に「ストリーム階層」は、 \ct{Stream} とそのサブクラスの中でも\emph{特に} \scat{Collections-Streams} カテゴリ内にあるものを指します。
+これら 56 個のクラスは、982 個のメッセージに反応し、合計 1609 個のメソッドを定義しているのです! \footnote{訳注: \pharo 1.3 では\ct{Collection} は 75 個のサブクラス、\ct{Stream} は 39 個のサブクラスを持ちます。また「コレクション階層」と「ストリーム階層」の合計 54 のクラスは 1660 個のメソッドを持ち、993 個のメッセージに反応します}
 
 % See test case in PBE-Collections for statistics
 
@@ -78,8 +79,10 @@
 %\end{center}
 %\end{figure}
 
-この章ではコレクションクラスのうち \figref{CollClassesTree} に示す一部を主に取り上げます。
-ストリームについては別に \charef{streams} で論じます。
+この章では、\figref{CollClassesTree} に示したコレクションクラスのサブセットに焦点を当てます。
+ストリームについては、別に \charef{streams} で論じます。
+
+% \sd{should put stream related text in Stream chapter}.
 
 % Note that the stream classes suffer from aging problems since they contain duplicated code and other code smells.
 % ON: We should avoid statements like this!
@@ -98,24 +101,28 @@
 \section{コレクションの種類}
 \seclabel{varieties}
 
-コレクションクラスを上手く使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけでも理解しておかなければなりません。
+コレクションクラスを上手く使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけは理解しておかなければなりません。
 
-コレクションを用いたプログラミングは、個別の要素を扱うより、プログラムの抽象度を高める上でとても役立ちます。
- \ind{Lisp} の \ct{map} 関数はこのようなスタイルを実現した初期の例で、あるリストの各要素に対して引数で与えた関数を適用して、その結果を含む新たなリストを返しますが、 \st-80 はコレクション・ベースのプログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のような現代的な関数型プログラミング言語は Smalltalk の後継者であると言えます。
+個別の要素よりコレクションについてプログラムすることは、プログラムの抽象度を高める上で重要な手法の一つです。
+\ind{Lisp} の \ct{map} 関数は、このようなスタイルを実現した初期の例です。\ct{map} は、関数とリストを引数に取り、リストの各要素に対して関数を適用してその結果をリストにして返します。\st-80 はこのようなスタイルを推し進め((but))、「コレクションに基づく」プログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のようなモダンな関数型プログラミング言語は、\st の後継者であると言えます。
 
-このアイディアがよいのはなぜでしょう？
-例えば学生についてのデータのコレクションといったデータ構造があったとして、なにかの基準に一致するすべての学生のデータについて同じ処理をしたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐ思いつくでしょう。でも Smalltalk プログラマーならこう書くでしょう:
+このアイディアが良いのはなぜでしょう?
+例えば学生についての((TODO: record))のコレクションといったデータ構造があったとして、何かの基準に一致するすべての学生の((TODO: record))について同じアクションを取りたいと考えたとします。命令型言語に慣れたプログラマーなら、ループを使うことをすぐに思いつくでしょう。しかし、\st プログラマならこう書くでしょう:
 \begin{code}{}
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-これは角カッコで囲まれた式が \ct{true} を返すような \ct{students} の要素からなる新しいコレクションを返します\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$式だと考えることができます。}。この \st コードにはドメイン特化クエリー言語的なシンプルさとエレガンスがあります。
+これは「\ct{students} の要素の中で、ある条件を満たすもの」からなる新しいコレクションを返します((which 「evaluates」とあったが、2 訳までを尊重した))。角カッコで囲まれた式が \ct{true} を返すことが条件です\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$ 式だと考えることができます。
+\index{lambda 式}}。
+この \st コードには「ドメイン特化言語(ドメイン特化問い合わせ言語)」的なシンプルさとエレガンスがあります。
 
-\st の\emph{すべての}コレクションは \ct{select:}メッセージを理解することができます。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解できます。 \ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければならないループを使うやり方とは、大きく異なるということに注意しましょう。
+\ct{select:} メッセージは、\st の\emph{すべての}コレクションが理解します。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解します。 \ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければならないループを使うやり方とは、大きく異なるということに注意しましょう((before the loop can be 「set up」とあったが、2 訳までを尊重した))。
 
-\st では、特定のコレクションを指定せずに単に「コレクション」といった場合には、ある要素が含まれているかのテストと、要素の数え上げを行うプロトコルが明確に定義されたオブジェクトを指します。\emph{すべての}コレクションは \protind{testing} メッセージである \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解できます。\emph{すべての}コレクションは \prot{enumeration} メッセージである \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解できます。このプロトコルの普遍性とバラエティがコレクションをとても強力なものにしています。
+\st では、特定のコレクションを指定せずに単に「コレクション」と言った場合には、要素に関する次のプロトコルが明確に定義されたオブジェクトを指します: ある要素が含まれているかテストするプロトコル、要素の列挙を行うプロトコル。\emph{すべての}コレクションは、\protind{testing} メッセージ: \mbox{\mthind{Collection}{includes:}、}\mbox{\mthind{Collection}{isEmpty}、}\mthind{Collection}{occurrencesOf:}を理解します。\emph{すべての}コレクションは、\prot{enumeration} メッセージ: \mthind{Collection}{do:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:} (\ct{select:} の反対)、\mthind{Collection}{collect:} (Lisp の \ct{map}と同じ)、\mthind{Collection}{detect:ifNone:}、\mthind{Collection}{inject:into:} (左畳込みを行う) などを理解します。
+このプロトコルの普遍性とバラエティが、コレクションをとても強力なものにしています。
 
-\figref{protocols} はコレクション階層におけるクラスが標準でサポートしているプロトコルをまとめたものです。それぞれのメソッドは \ct{Collection} のサブクラスで定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
+\figref{protocols} は、コレクション階層内のほとんどのクラスが標準でサポートしているプロトコルをまとめたものです。
+それぞれのメソッドは、\ct{Collection} のサブクラス内で定義または再定義され、最適化され、時にはその使用を禁じられることもあります。
 
 \begin{figure*}
 \begin{center}
@@ -156,46 +163,48 @@ students select: [ :each | each gpa < threshold ]
 %\end{figure*}
 %\on{A useless diagram -- refer to the class hierarchy instead!}
 
-このような基本的一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエスト対しての振る舞いが異なるさまざまなコレクションが存在しています。これらの違いの重要なものを見ていきましょう。
+このような基本的な一貫性を前提として、サポートされるプロトコルが異なったり、同じリクエストに対しての振る舞いが異なるさまざまなコレクションが存在しています。
+これらの違いのうち重要なものについて、見ていきましょう。
 
 \begin{itemize}
-  \item {\bf 順序 (Sequenceable):}
-  \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは \mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
-  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序性を持ちません。
+  \item {\bf 順序付き (Sequenceable):}
+  \clsind{SequenceableCollection} のすべてのサブクラスのインスタンスは、\mthind{SequenceableCollection}{first} 要素から始まり、\mthind{SequenceableCollection}{last} 要素まで明確に決まった順序で並んでいます (sequenceable)。
+  一方で、\mbox{\clsind{Set}、}\mbox{\clsind{Bag}、}\clsind{Dictionary} のインスタンスは順序付きではありません。
 
-  \item {\bf 整列 (Sortable):}
-  \clsind{SortedCollection} はその要素を常に整列された状態に保ちます。
+  \item {\bf ソート済み:}
+  \clsind{SortedCollection} は、その要素を常にソートされた状態に保ちます。
 
-  \item {\bf インデックス参照 (Indexable):}
-        ほとんどの順序性のあるコレクションはインデックスで参照できます (indexable)。つまり \ct{at:} で要素を取り出せるということです。
-        \clsind{Array} はインデックス参照できるデータ構造のなかでもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は \ct{n} 個目の要素の値を \ct{v} に変えます。
-        \ct{LinkedList} と \ct{SkipList} は順序性はありますがインデックスでは参照できません。つまり \ct{first} と \ct{last} は理解できますが、\ct{at:} は理解できません。
+  \item {\bf 添字参照/添字付き:}
+        ほとんどの順序付きのコレクションは、添字で参照できます。つまり \ct{at:} で要素を取り出せるということです。
+        \clsind{Array} は添字付きのデータ構造の中でもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は、\ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は、\ct{n} 個目の要素の値を \ct{v} に変えます。
+        \ct{LinkedList} と \ct{SkipList} は順序付きですが、添字では参照できません。つまり \ct{first} と \ct{last} は理解しますが、\ct{at:} は理解しません((嘘: \ct{LinkedList>>>at:} はある。\ct{SkipList} というクラスはない))。
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
 
-  \item {\bf キー参照 (Keyed):}
-	\clsind{Dictionary} とそのサブクラスのインスタンスは、インデックスの代わりにキーで要素を参照できます。
+  \item {\bf キー参照:}
+	\clsind{Dictionary} とそのサブクラスのインスタンスは、添字の代わりにキーで要素を参照できます。
 
-  \item {\bf 可変性 (Mutable):}
-        ほとんどのコレクションは内容が可変 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
-        \clsind{Interval} クラスは \clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば、\ct{5 to: 16 by: 2} は要素 5, 7, 9, 11, 13, 15 を含むIntervalです。これは \ct{at:} を使ってインデックス参照できますが、\ct{at:put:} で値を変更することはできません。
+  \item {\bf 変更可能性 (Mutable):}
+        ほとんどのコレクションは、内容が変更可能 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
+        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
-  \item {\bf 動的拡張 (Growable):}
-         \ct{Interval} や \ct{Array} のインスタンスは常にサイズが固定されています。他の種類のコレクション (整列コレクション、順序コレクション、連結リスト) は生成後にサイズが増えることがありえます。
+  \item {\bf 動的拡張:}
+         \ct{Interval} や \ct{Array} のインスタンスは、常にサイズが固定されています。他の種類のコレクション (\ct{SortedCollection}、\ct{OrderedCollection}、\ct{LinkedList} ((sorted collections, ordered collections, and linked lists))) は、生成後にサイズを拡張することができます。
 
-         \clsind{OrderedCollection}クラス  は \ct{Array} より汎用的です。\ct{OrderedCollection} は動的にサイズが拡張され、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} といったメソッドが、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} の他にあります。
+         \clsind{OrderedCollection}クラス は、\ct{Array} より汎用的です。\ct{OrderedCollection} は、動的にサイズが拡張され、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} といったメソッドが、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} メソッドの他にあります。
   
-  \item {\bf 重複の許容 (Accepts duplicates):}
+  \item {\bf 重複の許容:}
   	\clsind{Set} は要素の重複を取り除きますが、\clsind{Bag} はそういったことをしません。
-	重複の判定に、\clsind{Dictionary}、\ct{Set}、\ct{Bag} は各要素の \ct{=} メソッドを用います。つまり、\ct{Identity}なクラスは二つのオブジェクトが同一であるかを判定する \ct{==} メソッドを用い、\ct{Pluggable}であればコレクション作成時に与えられた任意の同値関係を用います。
-	\index{Pluggable collections}
+	重複の判定に、\clsind{Dictionary}、\ct{Set}、\ct{Bag} は、各要素の \ct{=} メソッド((メッセージ?))を用います。コレクションの \ct{Identity} な変種は、二つの引数が同じオブジェクトであるかを判定する \ct{==} メソッド((メッセージ?))を用い、\ct{Pluggable} な変種であれば、コレクションの作成時に与えられた任意の同値関係を用います。
+	\index{Pluggable なコレクション}
 
   \item {\bf 異種性 (Heterogeneous):}
-        ほとんどのコレクションはどんな種類の要素も格納できます。
-        一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は \ct{Character} だけしか入れられません。
-        \clsind{Array} はさまざまなオブジェクトを混在できますが、\lct{ByteArray} は \lct{Byte} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを格納できます。
+        ほとんどのコレクションは、どんな種類の要素も格納できます。
+        一方で \clsind{String}、\clsind{CharacterArray}、\clsind{Symbol} は、\ct{Character} だけしか入れられません。
+        \clsind{Array} にはさまざまなオブジェクトが混在できますが、\ct{ByteArray} は \lct{バイト} だけを、\clsind{IntegerArray} は \ct{Integer} だけを、\clsind{FloatArray} は \ct{Float} だけを格納できます。
 	\clsind{LinkedList} の要素には、必ず \prot{Link \go accessing} プロトコルを受け付けなければならないという制約があります。
+
 \end{itemize}
 
 %  How is the order established? Sorted collections use a supplied total ordering function, intervals are implicitly ordered, while arrays and ordered collections are ordered explicitly when elements are inserted.
@@ -207,48 +216,46 @@ students select: [ :each | each gpa < threshold ]
 \begin{figure*}
 \begin{center}
 \includegraphics[width=\textwidth]{CollectionsByImpl}
-\caption{実装技法によりカテゴリ分けしたコレクション
+\caption{実装技法により分類されたコレクション% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
     \figlabel{collsByImpl}}
-% some of collections だから「一部の」とすべきなのかもしれないが、ここは敢えて訳を落とす。
 \end{center}
 \end{figure*}
 
 機能による分類だけではなく、どうやってコレクションクラスが実装されているかも知っておく必要があります。\figref{collsByImpl} に示すように、主要な実装技法としては五つのものがあります。
 
 \begin{enumerate}
-  \item Array は要素をコレクションオブジェクト自身の(インデックス参照できる)インスタンス変数に格納します。結果として、サイズは固定され、その代わりに一回のメモリ割り当てで生成できます。
+  \item 配列は、要素をコレクションオブジェクト自身の(順序付きの)インスタンス変数に格納します。結果として配列のサイズは固定され、その代わりに配列は、一回のメモリ割り当てで生成できます。
   \clsindex{Array}
-  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は要素を配列に格納し、インスタンス変数でその配列を参照します。こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい物と入れ替えることができます。
-  \item Set や Dictionary の類もまた、保存領域へのアクセスに補助的な配列を参照しますが、これをハッシュテーブルとして用います。Bag は内部の要素そのものとその出現回数をキーと値のペアとして持つ補助的な \ct{Dictionary} を使います。
-  \clsindex{Bag}
-  \item LinkedList は一般的な片方向リンクの形式を取ります。
-  \clsindex{LinkedList}
-  \item Interval は開始点・終了点・ステップサイズの三つの整数を格納します。
-  \clsindex{Interval}
+  \item \clsind{OrderedCollections} と \clsind{SortedCollections} は、要素を配列に格納し、インスタンス変数でその配列を参照します。
+  こうすることで、この内部の配列のサイズよりもコレクションが大きくなったら、より大きい配列と入れ替えることができます。
+  \item \clsind{Set} や \clsind{Dictionary} の類もまた、ストレージへのアクセスに補助的な配列を参照しますが、これをハッシュテーブルとして用います。\ct{Bag} は、内部の要素そのものとその出現回数をキーと値のペアとして持つ補助的な \ct{Dictionary} を使います。
+% \clsindex{Bag}
+  \item \clsind{LinkedList} は標準的な片方向リンクの内部形式を取ります。
+% \clsindex{LinkedList}
+  \item \clsind{Interval} は、開始点、終了点、ステップサイズの三つの整数を格納します。
+% \clsindex{Interval}
 \end{enumerate}
-これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、``\subind{Collection}{weak}'' という変種があります。これらは要素を `弱く' 保持します。\ie 要素のガーベージコレクションを禁止しないということです。
-% 自信ないので原文残す。
-% In addition to these classes, there are also ``\subind{Collection}{weak}'' variants of \ct{Array}, \ct{Set} and of the various kinds of dictionary.  These collections hold onto their elements weakly, \ie in a way that does not prevent the elements from being garbage collected.
-\pharo の仮想マシンはこれらのクラスを判別し、特別に扱います。
-\index{weak collections}
+これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから\ct{Dictionary}の多くには、「\subind{Collection}{Weak}」 という変種があります。これらは要素を「弱く」保持します。\ie 要素のガーベージコレクションを禁止しないということです。
+\pharo のバーチャルマシンはこれらのクラスを判別し、特別に扱います。
+\index{弱いコレクション}
 
-\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh のすばらしい本\cite{LaLo90a} を参照してください。
+\st のコレクションについてより詳しく知りたい場合は LaLonde と Pugh の素晴らしい本\cite{LaLo90a} を参照してください。
 
 %=========================================================
 \section{主要なクラス}
-よく使ったり重要だったりするコレクションクラスについて、簡単なコード例で説明しましょう。
-コレクションの主なプロトコルは以下のとおりです：\mthind{Collection}{at:}、\mthind{Collection}{at:put:} --- 要素へのアクセス、\mthind{Collection}{add:}、\mthind{Collection}{remove:} --- 要素の追加または削除、\mthind{Collection}{size}、\mthind{Collection}{isEmpty}、\mthind{Collection}{include:} --- コレクションについての情報の取得、\mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:} --- コレクション全体での繰り返し。
-それぞれのコレクションによってこれらのプロトコルはサポートされていたりしなかったりしますし、サポートされているときは、そのコレクションの意味に沿うように解釈します。それぞれのクラスをブラウズしてみて、特殊だったりより上級向けだったりするプロトコルを探してみるとよいでしょう。
+よく使う、あるいは重要なコレクションクラスについて、簡単なコード例で説明しましょう。
+コレクションの主なプロトコルは以下のとおりです: \mthind{Collection}{at:}、\mthind{Collection}{at:put:} --- 要素へのアクセス、\mthind{Collection}{add:}、\mthind{Collection}{remove:} --- 要素の追加または削除、\mthind{Collection}{size}、\mthind{Collection}{isEmpty}、\mthind{Collection}{include:} --- コレクションについての情報の取得、\mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:} --- コレクション全体での繰り返し。
+それぞれのコレクションによって、これらのプロトコルを実装したりしなかったりしまし、実装しているときは、コレクションの意味論に沿うようにプロトコルを解釈します。それぞれのクラスをブラウズしてみて、具体的でより上級のプロトコルを探してみると良いでしょう。
 \seeindex{do:@\ct{do:}}{Collection, \ct{do:}}
 \seeindex{at:@\ct{at:}}{Collection, \ct{at:}}
 \seeindex{at:put:@\ct{at:put:}}{Collection, \ct{at:put:}}
 
-以下では最も一般的な次のクラスを取り上げます。\clsind{OrderedCollection}、\clsind{Set}、\clsind{SortedCollection}、\clsind{Dictionary}、\clsind{Interval}、\clsind{Array}。
+以下では、最も良く使う次のクラスを取り上げます。\clsind{OrderedCollection}、\clsind{Set}、\clsind{SortedCollection}、\clsind{Dictionary}、\clsind{Interval}、\clsind{Array}。
 
-\paragraph{一般的な生成プロトコル}
-コレクションのインスタンスを作る方法はいくつかあります。\mthind{Collection Class}{new:} メソッドと \mthind{Collection class}{with:} メソッドを使うのが一番汎用的なやり方でしょう。\ct{new: anInteger} はサイズが \ct{anInteger} ですべての要素が \ct{nil} であるコレクションを作ります。\mthind{Collection class}{with:} \ct{anObject} はコレクションを作り、それに \ct{anObject} を追加します。実際の振る舞いはコレクションが異なれば、それぞれ異なって見えるでしょう。
+\paragraph{良く使う生成プロトコル。}
+コレクションのインスタンスを作る方法は、いくつかあります。\mthind{Collection Class}{new:} メソッドと \mthind{Collection class}{with:} メソッドを使うのが、一番汎用的なやり方でしょう。\ct{new: anInteger} は、サイズが \ct{anInteger} ですべての要素が \ct{nil} であるコレクションを作ります。\mthind{Collection class}{with:} \ct{anObject} はコレクションを作り、それに \ct{anObject} を追加します。コレクションごとに、この振る舞いの実装は異るでしょう((Different collections will realize this behaviour differently.))。
 
-初期要素を持つコレクションを作るには、\mthind{Collection class}{with:}、\mthind{Collection class}{with:with:} などのメソッドを使うことで最大6個の要素を持ったコレクションまで作ることができます。
+初期要素を持つコレクションを作るには、\mthind{Collection class}{with:}、\mthind{Collection class}{with:with:} \etc のメソッドを使うことができます。\ct{with:with:...} 方式では、最大 6 個の要素を持ったコレクションまで作ることができます。
 
 \begin{code}{@TEST}
 Array with: 1 --> #(1)
@@ -259,15 +266,15 @@ Array with: 1 with: 2 with: 3 with: 4 with: 5 --> #(1 2 3 4 5)
 Array with: 1 with: 2 with: 3 with: 4 with: 5 with: 6 --> #(1 2 3 4 5 6)
 \end{code}
 
-あるコレクションにあるすべての要素を別の種類のコレクションに加えるには \ct{addAll:} が使えます。
+あるコレクションのすべての要素を別の種類のコレクションに加えるには、\ct{addAll:} が使えます:
 
 \begin{code}{@TEST}
 (1 to: 5) asOrderedCollection addAll: '678'; yourself --> an OrderedCollection(1 2 3 4 5 $6 $7 $8)
 \end{code}
 \noindent
-\mthind{Collection}{addAll:} は引数を返し、レシーバーを返すわけではないのに注意してください！
+\mthind{Collection}{addAll:} は、引数を返します。レシーバを返すわけではないのに注意してください!
 
-\mthind{Collection class}{withAll:} や \mthind{Collection class}{newFrom:} で色々なコレクションを作ることができます。
+\mthind{Collection class}{withAll:} や \mthind{Collection class}{newFrom:} で、色々なコレクションを作ることもできます。
 
 \begin{code}{@TEST}
 Array withAll: #(7 3 1 3)                      --> #(7 3 1 3)
@@ -288,14 +295,14 @@ Bag newFrom: #(7 3 1 3)                                           --> a Bag(7 1 
 Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3} --> a Dictionary(1->7 2->3 3->1 4->3 )
 \end{code}
 \noindent
-この二つのメソッドは同じではないことにご注意ください。
-具体的には、\cmind{Dictionary class}{withAll:} では与えられたコレクションを値と解釈しますが、\cmind{Dictionary class}{newFrom:} はアソシエーションのコレクションが与えられることを期待しています。
+この二つのメソッドは同じではないことに注意してください。
+具体的には、\cmind{Dictionary class}{withAll:} では引数を値のコレクションと解釈しますが、\cmind{Dictionary class}{newFrom:} はアソシエーションのコレクションが与えられることを期待しています。
 
 %---------------------------------------------------------
-\subsection{Array}
-\clsindmain{Array} (配列) はサイズが固定で、整数のインデックスで要素にアクセスできるコレクションです。
-C言語などの流儀とは異なり、\st の配列の先頭要素は位置 1 であり、0 ではありません。
-配列の要素にアクセスする主なプロトコルは \mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} はインデックス \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は \ct{anObject} をインデックス \ct{anInteger} に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり削除したりはできません。以下のコードはサイズ 5 の配列をつくり、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
+\subsection{配列}
+配列 (\clsindmain{Array}) は、サイズが固定のコレクションです。また配列の要素には、整数の添字でアクセスできます。
+C の流儀とは異なり、\st の配列の先頭要素は位置 1 です。0 ではありません。
+配列の要素にアクセスする主なプロトコルは、\mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} は、添字 \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は、\ct{anObject} を添字 \ct{anInteger} に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり、末尾の要素を削除したりはできません。以下のコードは、サイズ 5 の配列を作り、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
 
 \begin{code}{@TEST | anArray | }
 anArray := Array new: 5.
@@ -305,40 +312,39 @@ anArray at: 3 put: 'ssss'.
 anArray at: 1 --> 4
 \end{code}
 
-クラス \clsind{Array} のインスタンスを作るためにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます。
-% and  the constructs \ct{#( )} and \ct|{ }| の the constructs の定訳を探す必要あり。
+\clsind{Array} クラスのインスタンスを作るにはいくつか方法があります。\ct{new:}、\ct{with:}、それから \ct{#( )} と \ct|{ }| を使うこともできます((constructs))。
 
-\paragraph{\mthind{Array class}{new:} による生成} \ct{new: anInteger} はサイズ \ct{anInteger} の配列を生成します。
-\ct{Array new: 5} はサイズ 5 の配列を生成します。
+\paragraph{\mthind{Array class}{new:} による生成。} \ct{new: anInteger} は、サイズ \ct{anInteger} の配列を生成します。
+\ct{Array new: 5} は、サイズ 5 の配列を生成します。
 
-\paragraph{\mthind{Array class}{with:} による生成} \ct{with:} メソッドは要素の値を引数として与えることができます。
-次のコードでは値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列を生成します。
+\paragraph{\mthind{Array class}{with:} による生成。} \ct{with:} メソッドは、要素の値を引数として与えることができます。
+次のコードでは、数値 \ct{4}、分数 \ct{3/2}、文字列 \ct{'lulu'} の三つの要素を持つ配列を生成します。
 
 \begin{code}{@TEST | anArray |}
 Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
-\paragraph{\ct|\#()| を用いたリテラル生成}
-\ct{#()} は静的な (または ``\subind{Array}{リテラル}'') 要素を持つ\ind{リテラル配列}を生成します。静的というのは式がコンパイルされたときに値が分かっているもので、実行時に評価されるものではないということです。以下のコードは最初の要素が (リテラル) 数値 \ct{1} で、次の要素が (リテラル) 文字列である、サイズ2の配列を生成します。
+\paragraph{\ct|\#()| を用いたリテラル生成。}
+\ct{#()} は、静的な (または 「\subind{Array}{リテラル}」) 要素を持つ\ind{リテラル配列}を生成します。静的というのは、要素の値が実行時ではなく式がコンパイルされた時に分かっていなければならない、ということです。以下のコードは、最初の要素が (リテラル) 数値 \ct{1} で次の要素が (リテラル) 文字列 \ct{'here'} であるサイズ 2 の配列を生成します。
 
-\seeindex{\#@{\textsf{\#( )}}}{Array, literal}
-\seeindex{\{@{\textsf{\{ \}}}}{Array, dynamic}
+\seeindex{\#@{\textsf{\#( )}}}{Array, リテラル}
+\seeindex{\{@{\textsf{\{ \}}}}{Array, 動的}
 
 \begin{code}{@TEST | anArray |}
 #(1 'here') size --> 2
 \end{code}
 
-\ct{#(1+2)} を評価した場合、要素 \ct{3} 一つだけを持つ配列ではなく、\ct{#(1 #+ 2)} \ie \ct{1}、シンボル \ct{#+}、数 \ct{2} の三つの要素を持つ配列になります。
+\ct{#(1+2)} を評価した場合、数値 \ct{3} だけを要素として持つ配列ではなく、\ct{#(1 #+ 2)} \ie 数値 \ct{1}、シンボル \ct{#+}、数値 \ct{2} の三つの要素を持つ配列になります。
 
 \begin{code}{@TEST}
 #(1+2) -->  #(1 #+ 2)
 \end{code}
 
 \noindent
-これは \ct{#()} によって、配列に格納されている式がリテラルとしてコンパイラに解釈されるからです。式はスキャンされて結果として得られた要素が新しい配列に格納されます。リテラル配列は数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
+これは、\ct{#()} によって、配列に格納されている式がリテラルとしてコンパイラに解釈されるからです。式はスキャンされて結果として得られた要素が新しい配列に格納されます((The expression is scanned and the resulting elements are fed to a new array.))。リテラル配列は、数値、\ct{nil}、\ct{true}、\ct{false}、シンボル、文字列を格納できます。
 
-\paragraph{\ct|\{ \}| を用いた動的生成}
-\ct|{}| を使うことで動的配列を作ることができます。\ct|{ a . b }| は \lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
+\paragraph{\ct|\{ \}| を用いた動的生成。}
+\ct|{}| ((construct)) を使って動的配列を作ることができます。\ct|{ a . b }| は、\lct{Array with: a with: b} と等価です。つまるところ、\ct|{| と \ct|}| で囲まれた式が実行されるということです。
 
 \begin{code}{@TEST | anArray |}
 { 1 + 2 } --> #(3)
@@ -346,8 +352,8 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 {10 atRandom . 1/3} at: 2 --> (1/3)
 \end{code}
 
-\paragraph{要素へのアクセス}
-順序を持つすべてのコレクションは \mthind{Array}{at:} および \mthind{Array}{at:put:} で要素にアクセスできます。
+\paragraph{要素へのアクセス。}
+すべての順序付きのコレクションは、\mthind{Array}{at:} および \mthind{Array}{at:put:} で要素にアクセスできます。\footnote{訳注: \ct{LinkedList} に \ct{at:put:} するとエラーになります。}
 
 \begin{code}{@TEST | anArray |}
 anArray := #(1 2 3 4 5 6) copy.
@@ -358,15 +364,15 @@ anArray at: 3 --> 33
 \cmindex{Array}{copy}
 
 \noindent
-リテラル配列を変更するコードには十分注意してください！
+リテラル配列を変更するコードには十分注意してください!
 リテラル配列について、コンパイラは領域を最初の一回だけ確保します。
-そのため配列をコピーしない限り、上の例を二回目に評価したとき、``リテラル'' 配列は期待通りの結果にならないでしょう。
-(コピーを取らなければ、二回目の実行時には、リテラル配列 \ct{#(1 2 3 4 5 6)} は実は \ct{#(1 2 33 4 5 6)} になってしまっているのです！)
-動的配列にはこのような問題はありません。
+そのため配列をコピーしない限り、上の例を二回目に評価したとき、「リテラル」 配列の値は期待通りにはならないでしょう。
+(コピーを取らなければ、二回目の実行時には、リテラル配列 \ct{#(1 2 3 4 5 6)} は実は \ct{#(1 2 33 4 5 6)} になってしまっているのです!)
+動的配列にはこのような問題はありません((?????))。
 
 %---------------------------------------------------------
 \subsection{OrderedCollection}
-\clsindmain{OrderedCollection} は自動でサイズを拡張し、順序を保持して要素を追加できるコレクションです。\mthind{OrderedCollection}{add:}、\mthind{OrderedCollection}{addFirst:}、\mthind{OrderedCollection}{addLast:}、\mthind{OrderedCollection}{addAll:} などの多様なメソッドを提供しています。
+\clsindmain{OrderedCollection} は、自動でサイズを拡張し、順序を保持して要素を追加できるコレクションです。\ct{OrderedCollection} は、\mthind{OrderedCollection}{add:}、\mthind{OrderedCollection}{addFirst:}、\mthind{OrderedCollection}{addLast:}、\mthind{OrderedCollection}{addAll:} などの多様なメソッドを提供しています。
 
 \begin{code}{@TEST | ordCol |}
 ordCol := OrderedCollection new.
@@ -374,7 +380,7 @@ ordCol add: 'Seaside'; add: 'SqueakSource'; addFirst: 'Monticello'.
 ordCol --> an OrderedCollection('Monticello' 'Seaside' 'SqueakSource')
 \end{code}
 
-\paragraph{要素の削除} メソッド \mthind{OrderedCollection}{remove:} \ct{anObject} は \ct{anObject} と一致する最初のオブジェクトをコレクションから削除するものです。もしそのオブジェクトが存在しない場合は、エラーを発生します。
+\paragraph{要素を削除する。} メソッド \mthind{OrderedCollection}{remove:} \ct{anObject} は、\ct{anObject} と一致する最初のオブジェクトをコレクションから削除します。もしそのオブジェクトが存在しない場合は、エラーを発生させます。
 
 \begin{code}{@TEST | ordCol | ordCol := OrderedCollection with: 'Monticello' with: 'Seaside' with: 'SqueakSource'.}
 ordCol add: 'Monticello'.
@@ -382,15 +388,16 @@ ordCol remove: 'Monticello'.
 ordCol --> an OrderedCollection('Seaside' 'SqueakSource' 'Monticello')
 \end{code}
 
-\ct{remove:} の変種に \mthind{OrderedCollection}{remove:ifAbsent:} があります。これは削除しようとした要素がコレクションに存在しないときの動作を第二引数としてブロックで渡すことができます。
+\ct{remove:} の変種に、\mthind{OrderedCollection}{remove:ifAbsent:} があります。
+\ct{remove:ifAbsent:}の第二引数には、削除しようとした要素がコレクションに存在しないときの動作をブロックとして渡すことができます。
 
 \begin{code}{@TEST | ordCol res | ordCol := OrderedCollection with: 'Seaside' with: 'SqueakSource' with: 'Monticello'.}
 res := ordCol remove: 'zork' ifAbsent: [33].
 res --> 33
 \end{code}
 
-\paragraph{変換}
-\ct{Array} から (またはその他どんなコレクションからも)、\mthind{Collection}{asOrderedCollection:} を送ることで \ct{OrderedCollection} へ変換することができます。
+\paragraph{変換。}
+\ct{Array} に対して(またはその他どんなコレクションに対しても)、\mthind{Collection}{asOrderedCollection} を送信して、そのコレクションを \ct{OrderedCollection} に変換することができます:
 
 \begin{code}{@TEST}
 #(1 2 3) asOrderedCollection --> an OrderedCollection(1 2 3)
@@ -414,20 +421,20 @@ res --> 33
 
 %---------------------------------------------------------
 \subsection{Interval}
-\clsindmain{Interval} クラスは数値の並びを表現します。例えば 1 から 100 までの数の並びは以下のように表現できます：
+\clsindmain{Interval} クラスは、数値の並びを表現します。例えば、1 から 100 までの数の並びは以下のように定義できます:
 \cmindex{Interval class}{from:to:}
 \begin{code}{@TEST}
 Interval from: 1 to: 100 --> (1 to: 100)
 \end{code}
 
 \noindent
-このインターバルを \mthind{Interval class}{printString} した結果から、\clsind{Number}には \mthind{Number}{to:} というインターバルを生成する便利なメソッドがあることが分かります。
+この \ct{Interval} オブジェクトを \mthind{Interval class}{printString} した結果を見ると、\clsind{Number} クラスには \mthind{Number}{to:} という \ct{Interval} オブジェクトを生成するショートカットメソッドがあることが分かります。
 
 \begin{code}{}
 (Interval from: 1 to: 100) = (1 to: 100) --> true
 \end{code}
 
-\cmind{Interval class}{from:to:by:} または \cmind{Number}{to:by:} によって、以下のように二つの値のステップを与えることができます。
+\cmind{Interval class}{from:to:by:} または \cmind{Number}{to:by:} によって、以下のように二つの値の間のステップを指定することができます。
 
 \begin{code}{@TEST}
 (Interval from: 1 to: 100 by: 0.5) size --> 199
@@ -437,10 +444,10 @@ Interval from: 1 to: 100 --> (1 to: 100)
 
 %---------------------------------------------------------
 \subsection{Dictionary}
-ディクショナリーは要素をキーによってアクセスできる重要なコレクションです。
-ディクショナリーのメッセージの中でよく使うものとしては \mthind{Dictionary}{at:}、\mthind{Dictionary}{at:put:}、\mthind{Dictionary}{at:ifAbsent:}、\mthind{Dictionary}{keys}、\mthind{Dictionary}{values} があります。
-\seeindex{keys}{Dictionary, keys}
-\seeindex{values}{Dictionary, values}
+\ct{Dictionary}は、要素がキーによってアクセスされる重要なコレクションです。
+\ct{Dictionary}のメッセージの中でよく使うものとしては、\mthind{Dictionary}{at:}、\mthind{Dictionary}{at:put:}、\mthind{Dictionary}{at:ifAbsent:}、\mthind{Dictionary}{keys}、\mthind{Dictionary}{values} があります。
+\seeindex{keys}{Dictionary, キー}
+\seeindex{values}{Dictionary, 値}
 
 \begin{code}{@TEST | colors |}
 colors := Dictionary new.
@@ -449,29 +456,27 @@ colors at: #blue put: Color blue.
 colors at: #red put: Color red.
 colors at: #yellow --> Color yellow
 colors keys          --> a Set(#blue #yellow #red)
-colors values       --> {Color blue. Color yellow. Color red}\footnote{訳注：\pharo 1.3ではrgb値が返ります}
-
+colors values       --> {Color blue. Color yellow. Color red}\footnote{訳注: \pharo 1.3ではrgb値が返ります}
 \end{code}
 
-ディクショナリーはキーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグとしては、キーとして使うオブジェクトで \ct{=} を再定義しているにも関わらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドはどちらもディクショナリーの中でオブジェクトの比較に用いられます。
-\index{Dictionary!overriding \ct{=} and \ct{hash}}
+\ct{Dictionary}は、キーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグは、キーとして使うオブジェクトで \ct{=}メソッド を再定義しているにもかかわらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドは、どちらも\ct{Dictionary}の実装の中でオブジェクトの比較に用いられます。
+\index{Dictionary!\ct{=} と \ct{hash} をオーバーライドする}
 
-コレクション階層はサブクラスの考え方に基づいており、サブタイプに基づいているわけではないということが \clsindmain{Dictionary} のクラス階層には明確に示されています。\ct{Dictionary} は \ct{Set} のサブクラスではありますが、普通は \ct{Dictionary} を \ct{Set} のように使おうとは思わないでしょう。しかし実装においては、\ct{Dictionary} はメッセージ \mthind{Object}{->} により生成されるアソシエーション (キーと値) の集合として表現できるのです。そのため \ct{Dictionary} は関連のコレクションから作ることもできますし、ディクショナリーをアソシエーションの配列に変換することもできます。
+コレクションの階層はサブクラスの考え方に基づいており、サブタイプに基づいているわけではありません。そのことは、\clsindmain{Dictionary} のクラス階層に明確に示されています。\ct{Dictionary} は \ct{Set} のサブクラスではありますが、普通は \ct{Dictionary} を \ct{Set} のように使おうとは思わないでしょう。しかし実装を見ると、\ct{Dictionary} はアソシエーション(キーと値。メッセージ \mthind{Object}{->} により生成される)の集合であることが明確に分かります。そのため、\ct{Dictionary} はアソシエーションのコレクションから作ることもできますし、\ct{Dictionary}をアソシエーションの配列に変換することもできます。
 \seeindex{association}{Object, \ct{->}}
 
 \needlines{5}
 \begin{code}{@TEST | colors |}
 colors := Dictionary newFrom: { #blue->Color blue . #red->Color red . #yellow->Color yellow }.
 colors removeKey: #blue.
-colors associations --> {#yellow->Color yellow. #red->Color red}\footnote{訳注：\pharo 1.3ではrgb値が返ります}
+colors associations --> {#yellow->Color yellow. #red->Color red}\footnote{訳注: \pharo 1.3ではrgb値が返ります}
 \end{code}
 
-\paragraph{IdentityDictionary}
-ディクショナリーが二つのキーが同じであるかを判定するのにメッセージ \ct{=} および \ct{hash} を用いるのに対し、\clsindmain{IdentityDictionary} はキーの値ではなく、その同一性 (メッセージ \mthind{ProtoObject}{==} で判定する) を用います。\ie このクラスは二つのキーが同じオブジェクトであるとき\emph{だけ}これらを等しいとみなします。
+\paragraph{IdentityDictionary。}
+\ct{Dictionary} が二つのキーが同じであるかを判定するのに \ct{=} メッセージおよび \ct{hash} メッセージを用いるのに対し、\clsindmain{IdentityDictionary} は、キーの同一性 (\mthind{ProtoObject}{==} メッセージ)を用います。\ie 二つのキーが同じオブジェクトであるとき\emph{だけ}、これらのキーは等しいとみなされます。
 
-しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら \clsind{Symbol} はグローバルに一意であることが保証されているからです。
-% globally unique = グローバルに一意、と訳。
-一方、キーが \ct{String} の場合は普通の \ct{Dictionary} クラスを使うべきです。そうしないと問題が生じるでしょう。
+しばしば \ct{Symbol} はキーとして用いられますが、そのような場合に\ct{IdentityDictionary} を使うのはごく自然なことです。なぜなら、\clsind{Symbol} はグローバルに一意であることが保証されているからです。
+一方、キーが \ct{String} の場合は、普通の \ct{Dictionary} クラスを使うべきです。そうしないと問題が生じるでしょう。
 
 \begin{code}{@TEST | a b trouble |}
 a := 'foobar'.
@@ -480,29 +485,30 @@ trouble := IdentityDictionary new.
 trouble at: a put: 'a'; at: b put: 'b'.
 trouble at: a          --> 'a'
 trouble at: b          --> 'b'
-trouble at: 'foobar' --> 'a'\footnote{訳注：\pharo 1.3ではKeyNotFound:エラーが返ります}
+trouble at: 'foobar' --> 'a'\footnote{訳注: \pharo 1.3ではKeyNotFound:エラーが返ります}
 \end{code}
 
 \noindent
 \ct{a} と \ct{b} はそれぞれ別のオブジェクトなので、異なるオブジェクトとして扱われます。
-興味深いことですが、リテラル \mbox{\ct{'foobar'}} は一度しか確保されないので、\ct{a} と全く同じオブジェクトになります。
-このような振る舞いに依存したコードを書きたいなんて思わないでしょう！
-普通の \ct{Dictionary} は \ct{'foobar'} と値が等しいキーであれば同じ値を返します。
+興味深いことですが、リテラル \mbox{\ct{'foobar'}} は一度しか確保されないので、\ct{a} と全く同じオブジェクトになります((1 コンパイル単位内に限る?))。
+このような振る舞いに依存したコードを書きたいなんて思わないでしょう!
+普通の \ct{Dictionary} は、\ct{'foobar'} と値が等しいキーに対して同じ値を返します。
 
-\ct{IdentityDictionary} ではキーとしてグローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うなら普通の \ct{Dictionary} を使いましょう。
+\ct{IdentityDictionary} のキーとしては、グローバルに一意であるオブジェクト (\ct{Symbol} や \ct{SmallInteger} など) を使ってください。\ct{String} (やその他のオブジェクト) をキーとして使うなら、普通の \ct{Dictionary} を使いましょう。
 
-特筆すべきはグローバル変数 \glbind{Smalltalk} は \clsind{SystemDictionary} のインスタンスであり、これは \ct{IdentityDictionary} のサブクラスですので、すべてのキーは \ct {Symbol} (実際は 8bit 文字しか格納できない \ct{ByteSymbol}) だということです。
+
+特筆すべきは、グローバル変数 \glbind{Smalltalk} が \clsind{SystemDictionary} のインスタンスであり、\ct{SystemDictionary}は \ct{IdentityDictionary} のサブクラスなので、\ct{Smalltalk} のすべてのキーは \ct {Symbol} (実際は 8 ビット文字しか格納できない \ct{ByteSymbol}) だということです。
 
 \begin{code}{@TEST}
-Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{訳注：\pharo 1.3ではArrayが返ります}
+Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)\footnote{訳注: \pharo 1.3 ではArrayが返ります}
 \end{code}
 \noindent
-\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送ると結果は \ct{Set} となりますが、このクラスについては次に説明します。\footnote{訳注：\pharo 1.3ではArrayが返ります}
+\ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送信すると結果は \ct{Set} になりますが、このクラスについては次に説明します。\footnote{訳注: \pharo 1.3ではArrayが返ります}
 % Since every key has the same class, the set of classes of keys contains only a single element, \ct{ByteSymbol}.
 
 %---------------------------------------------------------
 \subsection{Set}
-\clsindmain{Set} (集合) は数学的な「集合」のように振る舞うコレクションです。\ie 重複した要素を持たず、要素間には順序がありません。\ct{Set} に要素を加えるには \mthind{Set}{add:} メッセージ を用いますが、\ct{at:} によってアクセスすることはできません。Set に格納されるオブジェクトはメソッド \ct{hash} と \ct{=} が実装されていなければなりません。
+\clsindmain{Set} (集合)は、数学的な「集合」のように振る舞うコレクションです。\ie 重複した要素を持たず、要素間には順序がありません。\ct{Set} に要素を加えるには\mthind{Set}{add:} メッセージ を用いますが、\ct{at:} によって要素にアクセスすることはできません。\ct{Set} に格納されるオブジェクトは、メソッド \ct{hash} と \ct{=} を実装していることが期待されます。
 
 \begin{code}{@TEST | s | }
 s := Set new.
@@ -510,29 +516,29 @@ s add: 4/2; add: 4; add:2.
 s size --> 2
 \end{code}
 
-Set を作るには \cmind{Set class}{newFrom:} または変換メッセージ \cmind{Collection}{asSet} を用いることができます。
+Set を作るには、\cmind{Set class}{newFrom:} または変換メッセージ \cmind{Collection}{asSet} を用いることができます。
 
 \begin{code}{@TEST}
 (Set newFrom: #( 1 2 3 1 4 )) = #(1 2 3 4 3 2 1) asSet --> true
 \end{code}
 
-\mthind{Collection}{asSet} はコレクションから重複を取り除くのに便利に使えます。
+\mthind{Collection}{asSet} は、コレクションから重複を取り除くのに便利に使えます。
 \begin{code}{@TEST}
 { Color black. Color white. (Color red + Color blue + Color green) } asSet size --> 2
 \end{code}
 \noindent
-red + blue + green = white になることに注意してください。
+\ct{Color red + Color blue + Color green = Color white} であることに注意してください。
 
 \clsindmain{Bag} は \ct{Set} ととても似ていますが、重複を許すという違いがあります。
 \begin{code}{@TEST}
 { Color black. Color white. (Color red + Color blue + Color green) } asBag size --> 3
 \end{code}
 
-集合演算である \emph{union (集合和)}、\emph{intersection (集合積)}、\emph{要素テスト} は \ct{Collection} メッセージの \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
-これらの操作ではレシーバーは最初に \ct{Set} に変換されるので、すべてのコレクションでちゃんと動くのです！
-\seeindex{Set!union}{Collection, \ct{union:}}
-\seeindex{Set!intersection}{Collection, \ct{intersection:}}
-\seeindex{Set!membership}{Collection, \ct{includes:}}
+集合演算である \emph{union (和集合演算)}、\emph{intersection (積集合演算)}、\emph{要素を含むかのテスト}は、\ct{Collection} メッセージ((メソッド?))の \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
+レシーバが最初に \ct{Set} に変換されるので、これらの演算はすべてのコレクションでちゃんと動くのです!
+\seeindex{Set!和集合}{Collection, \ct{union:}}
+\seeindex{Set!積集合}{Collection, \ct{intersection:}}
+\seeindex{Set!要素を含むか}{Collection, \ct{includes:}}
 
 \begin{code}{@TEST}
 (1 to: 6) union: (4 to: 10)  --> a Set(1 2 3 4 5 6 7 8 9 10)
@@ -540,12 +546,12 @@ red + blue + green = white になることに注意してください。
 #Smalltalk includes: $k     --> true
 \end{code}
 
-あとで説明するように、Set の各要素はイテレータでアクセスできます (\secref{iterators} 参照)。
+後で説明するように、\ct{Set} の各要素はイテレータでアクセスできます(\secref{iterators}参照)。
 
 %---------------------------------------------------------
 \subsection{SortedCollection}
-\ct{OrderedCollection} とは対照的に、\clsindmain{SortedCollection} は要素をソート順を保って格納します。デフォルトでは、SortedCollection はソート順を決めるのに \mthind{Magnitude}{<=} を用いるので、比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を提供する抽象クラス \clsind{Magnitude} のサブクラスのインスタンスをソートできます。
-(See \charef{basic}.)
+\ct{OrderedCollection} とは対照的に、\clsindmain{SortedCollection} は、要素をソート順を保って格納します。デフォルトでは、\ct{SortedCollection} はソート順を決めるのに \mthind{Magnitude}{<=} を用いるので、\clsind{Magnitude} (抽象クラスです)のサブクラスのインスタンスをソートできます。\ct{Magnitude} は、比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を定義しています
+(\charef{basic}参照)。
 
 \ct{SortedCollection} を作るにはまず新しいインスタンスを生成し、要素を追加していきます。
 \begin{code}{@TEST}
@@ -553,40 +559,40 @@ SortedCollection new add: 5; add: 2; add: 50; add: -10; yourself. --> a SortedCo
 \end{code}
 
 \noindent
-しかし、もっと一般的なやり方は、すでにあるコレクションに変換メッセージ \mthind{Collection}{asSortedCollection} を送ることでしょう：
+しかし、普通は、すでにあるコレクションに変換メッセージ \mthind{Collection}{asSortedCollection} を送信して \ct{SortedCollection} を作ります:
 \begin{code}{@TEST}
 #(5 2 50 -10) asSortedCollection --> a SortedCollection(-10 2 5 50)
 \end{code}
 
-この例は次の FAQ に対する答えとなります:
+この例は、次の FAQ に対する答えとなります:
 
-\important{FAQ: コレクションをソートするにはどうすればいいでしょうか？\\
-{\sc Answer}: \ct{asSortedCollection} メッセージを送りなさい。}
+\important{FAQ: コレクションをソートするにはどうすればいいでしょうか?\\
+{\sc 答え}: \ct{asSortedCollection} メッセージを送信します。}
 
 \begin{code}{@TEST}
 'hello' asSortedCollection --> a SortedCollection($e $h $l $l $o)
 \end{code}
 
-ではソートした結果を \ct{String} へもどすにはどうすれば良いでしょう？
+では、ソートした結果を \ct{String} に戻すにはどうすれば良いでしょう?
 残念なことに \ct{asString} は \ct{printString} 表現を返すので、望む結果は得られません。
 \begin{code}{@TEST}
 'hello' asSortedCollection asString --> 'a SortedCollection($e $h $l $l $o)'
 \end{code}
 \noindent
-正解は \ct{String class>>>newFrom:}、\ct{String class>>>withAll:}、\ct{Object>>>as:} のどれかを用いることです。
+正解は、\ct{String class>>>newFrom:}、\ct{String class>>>withAll:}、\ct{Object>>>as:} のいずれかを用いることです。
 \begin{code}{@TEST}
 'hello' asSortedCollection as: String              --> 'ehllo'
 String newFrom: ('hello' asSortedCollection) --> 'ehllo'
 String withAll: ('hello' asSortedCollection)     --> 'ehllo'
 \end{code}
-\seeindex{Collection!sorting}{Collection, \ct{asSortedCollection}}
+\seeindex{Collection!ソート}{Collection, \ct{asSortedCollection}}
 
-すべての要素が比較可能であれば、\ct{SortedCollection} は異なった種類の要素を持つこともできます。例えば整数、浮動小数点数、分数といった異なった種類の数を混ぜることができます。
+すべての要素が比較可能である限り、\ct{SortedCollection} は異なった種類の要素を持つことができます。例えば整数、浮動小数点数、分数といった異なった種類の数を混ぜることができます。
 \begin{code}{@TEST | col |}
 { 5. 2/-3. 5.21 } asSortedCollection --> a SortedCollection((-2/3) 5 5.21)
 \end{code}
 
-もしかしたらメソッド \ct{<=} が定義されていないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合、ソートブロックと呼ばれる、二つの引数を持つブロックを与えればよいのです。例えば、 \ct{Color} クラスは大小関係を持ちません (Magnitude ではない) し、\ct{<=} メソッドも実装していませんが、次のようにブロックを指定することで色を明度 (明るさの尺度) によってソートすることができます。
+もしかしたら、\ct{<=} メッセージを理解しないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合は、\ct{SortedCollection} の生成時に、ソートブロックと呼ばれる 2 引数のブロックを与えることができます。例えば、\ct{Color} クラスは \ct{Magnitude} ではありませんし \ct{Color} オブジェクトは \ct{<=} メッセージを理解しませんが、次のようにソートブロックを指定することで、色を明度(明るさの尺度)によってソートすることができます。
 
 \begin{code}{@TEST | col |}
 col := SortedCollection sortBlock: [:c1 :c2 | c1 luminance <= c2 luminance].
@@ -597,9 +603,9 @@ col --> a SortedCollection(Color black Color red Color yellow Color white)
 
 %---------------------------------------------------------
 \subsection{String}
-\st の \clsindmain{String}(文字列) は \ct{Character} のコレクションとして表現されます。
-文字列は順序性があり、インデックス参照可能で、変更可能です。また、同じ種類の要素、すなわち \clsind{Character} のインスタンスしか持つことができません。
-\ct{Array} のように\ct{String} は専用の文法を持ち、普通 \ct{String} リテラルを一重引用符で囲むことにより直接生成しますが、通常のコレクション作成メソッドもちゃんと動きます。
+\st の \clsindmain{String} (文字列)は、\ct{Character} のコレクションとして表現されます。
+文字列を表すコレクションは、順序付きで添字付きで変更可能です。また、同じ種類の要素、すなわち \clsind{Character} のインスタンスしか持つことができません。
+\ct{Array} のように、\ct{String} は専用の文法を持ち、普通は \ct{String} リテラルを一重引用符で囲むことにより直接生成しますが、通常のコレクション作成メソッドもちゃんと動きます。
 
 \begin{code}{@TEST | s1 s2 |}
 'Hello'                                             --> 'Hello'
@@ -609,32 +615,32 @@ String newFrom: #($h $e $l $l $o) --> 'hello'
 \end{code}
 
 実際は、\ct{String} は抽象クラスです。
-\ct{String} のインスタンスを作ったときに実際に得られるのは8ビット文字の \clsind{ByteString} か32ビット文字の \clsind{WideString} です。
+\ct{String} のインスタンスを作ったときに実際に得られるのは、8 ビット文字の \clsind{ByteString} か 32 ビット文字の \clsind{WideString} です。
 話を簡単にするために、その差異は無視して単に \ct{String} のインスタンスについて述べます。
 
-\ct{String} の二つのインスタンスはコンマによって結合できます。
+\ct{String} の二つのインスタンスは、カンマ((ウィキペディアではコンマ。Google ではカンマが優勢))によって連結できます。
 \index{Collection!comma operator}
 \begin{code}{@TEST |s|}
 s := 'no', ' ', 'worries'.
 s -->  'no worries'
 \end{code}
 
-String は可変コレクションなので　\mthind{String}{at:put:} を用いて変更することもできます。
+文字列は可変コレクションなので、\mthind{String}{at:put:} を用いて変更することもできます。
 
 \begin{code}{@TEST |s| s := 'no', ' ', 'worries'.}
 s at: 4 put: $h; at: 5 put: $u.
 s --> 'no hurries'
 \end{code}
 
-コンマメソッドは \ct{Collection} で定義されているので、どんな種類のコレクションでも使えることに注意してください！
+カンマメソッドは \ct{Collection} で定義されているので、どんな種類のコレクションでも使えることに注意してください!
 \begin{code}{@TEST}
 (1 to: 3) , '45' --> #(1 2 3 $4 $5)
 \end{code}
-\seeindex{String!concatenation}{Collection, comma operator}
-\seeindex{String!comma}{Collection, comma operator}
-\index{Collection!comma operator}
+\seeindex{String!連結}{Collection, カンマ演算子}
+\seeindex{String!カンマ}{Collection, カンマ演算子}
+\index{Collection!カンマ演算子}
 
-以下に示すように、すでにある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することもできます。後者の文字数とインターバルは同じサイズでなければならないことに注意してください。
+以下に示すように、すでにある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することもできます。後者の文字数と \ct{Interval} オブジェクトのサイズが異ると例外が発生するので((should have the same size))注意してください。
 
 \begin{code}{@TEST |s| s := 'no hurries' copy.}
 s replaceAll: $n with: $N.
@@ -643,8 +649,8 @@ s replaceFrom: 4 to: 5 with: 'wo'.
 s --> 'No worries'
 \end{code}
 
-上のメソッドと異なり、\mthind{String}{copyReplaceAll:} は新たな文字列を生成します。
-(興味深いことに、引数は個別の文字というよりも部分文字列なので、サイズが一致している必要はありません。)
+上のメソッドと異なり、\mthind{String}{copyReplaceAll:} は新たな文字列を生成します
+(興味深いことに、引数は個別の文字というよりも部分文字列なので、サイズが一致している必要はありません)。
 
 \begin{code}{@TEST |s| s:= 'No worries' copy.}
 s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
@@ -656,24 +662,24 @@ s copyReplaceAll: 'rries' with: 'mbats' --> 'No wombats'
 (1 to: 6) copyReplaceAll: (3 to: 5) with: { 'three'. 'etc.' } --> #(1 2 'three' 'etc.' 6)
 \end{code}
 
-\paragraph{文字列のマッチング}
-\index{String!pattern matching}
-\mthind{String}{match:} メッセージによってパターンと文字列が一致するかを調べることができます。
-パターンでは \ct{*} を任意の長さの文字列にマッチする意味で、また \# を一文字にマッチする意味で使用できます。注意したいのは \ct{match:} はパターンに送るもので、調べたい文字列に送るメッセージではないということです。
+\paragraph{文字列のマッチ。}
+\index{String!パターンマッチ}
+\mthind{String}{match:} メッセージを送信することによって、パターンと文字列が一致するかどうかを調べることができます。
+パターンでは、\ct{*} を任意の長さの文字列にマッチする意味で、また \# を 1 文字にマッチする意味で使うことできます。注意したいのは、\ct{match:} はパターンに送信するもので、調べたい文字列に送るメッセージではないということです。
 \begin{code}{@TEST}
 'Linux *' match: 'Linux mag'                      --> true
 'GNU/Linux #ag' match: 'GNU/Linux tag' --> true
 \end{code}
 
-もう一つ便利なメソッドは \ct{findString:} です。
+もう一つ便利なメソッドは、\ct{findString:} です。
 \begin{code}{@TEST}
 'GNU/Linux mag' findString: 'Linux'                                                      --> 5
 'GNU/Linux mag' findString: 'linux' startingAt: 1 caseSensitive: false  --> 5
 \end{code}
 
-Perl が提供しているようなより高度のパターンマッチングの機能も、\pkgind{Regex} パッケージによって提供されています。
+Perl 互換のより高度のパターンマッチングの機能が必要なら、\pkgind{Regex} パッケージを使うこともできます。
 
-\paragraph{文字列に対するテスト} 以下の例では文字列だけでなく他の一般的なコレクションにも定義されているメッセージ \mthind{String}{isEmpty}、\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
+\paragraph{文字列に対するテスト。} 以下の例は、\ct{String} だけでなく他の一般的なコレクションにも定義されているメッセージ: \mthind{String}{isEmpty}、\mthind{String}{includes:}、\mthind{String}{anySatisfy:} を文字列に使ったときの動作を示しています。
 
 \begin{code}{@TEST}
 'Hello' isEmpty --> false
@@ -682,17 +688,14 @@ Perl が提供しているようなより高度のパターンマッチングの
 'Joe' anySatisfy: [:c | c isLowercase] --> true
 \end{code}
 
-\paragraph{文字列のテンプレート化}
-文字列のテンプレート化に便利なメッセージが三つあります。\mthind{String}{format:}、\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:} です。\index{String templating}
+\paragraph{文字列のテンプレート化。}
+文字列の\subind{String}{テンプレート化}に便利なメッセージが三つあります: \mthind{String}{format:}、\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:}。\index{文字列のテンプレート化}
 
 \begin{code}{@TEST}
 '{1} is {2}' format: {'Pharo' . 'cool'}  --> 'Pharo is cool'
 \end{code}
 
-expandMacros のメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>} も同様、一重引用符で囲われた文字列)、\ct{<1?value1:value2>} による真偽値による値の埋め込み、などをサポートしています。
-
-% 訳ちょっと強引。Sumim さんのブログを参考にしました。 http://d.hatena.ne.jp/sumim/20061130/p1
-% The messages of the expandMacros family offer variable substitution, using \ct{<n>} for carriage return, \ct{<t>} for tabulation, \ct{<1s>}, \ct{<2s>}, \ct{<3s>} for arguments (\ct{<1p>}, \ct{<2p>}, surrounds the string with single quotes), and \ct{<1?value1:value2>} for conditional.
+\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:} などのメッセージは、\ct{<n>} によるキャリッジリターン、\ct{<t>} によるタブ、\ct{<1s>}、\ct{<2s>}、\ct{<3s>} による引数の展開 (\ct{<1p>}、\ct{<2p>}もほぼ同様ですが、これらは文字列を一重引用符で囲みます)、\ct{<1?value1:value2>} による条件付きの値の埋め込みなどをサポート((offer))しています。
 
 \begin{code}{@TEST}
 'look-<t>-here' expandMacros                                         --> 'look-	-here'
@@ -701,10 +704,10 @@ expandMacros のメッセージは、\ct{<n>} によるキャリッジリター�
 '<1p> or <1s>' expandMacrosWith: 'Pharo' with: 'cool'  --> '''Pharo'' or Pharo'
 '<1?Quentin:Thibaut> plays' expandMacrosWith: true     --> 'Quentin plays'
 '<1?Quentin:Thibaut> plays' expandMacrosWith: false    --> 'Thibaut plays'
-\end{code}
+\end{code}\mthindex{String}{expandMacrosWith:with:}
 
-\paragraph{その他のユーティリティメソッド}
-\ct{String} クラスは \mthind{String}{asLowercase}、\mthind{String}{asUppercase}、\mthind{String}{capitalized} などのユーティリティメッセージを受け取ります。
+\paragraph{その他のユーティリティメソッド。}
+\ct{String} クラスは、他にもたくさんのユーティリティメソッドを提供しています。例えば、\mthind{String}{asLowercase}、\mthind{String}{asUppercase}、\mthind{String}{capitalized}。
 
 \begin{code}{@TEST}
 'XYZ' asLowercase --> 'xyz'
@@ -714,50 +717,51 @@ expandMacros のメッセージは、\ct{<n>} によるキャリッジリター�
 'this sentence is without a doubt far too long' contractTo: 20 --> 'this sent...too long'
 \end{code}
 
-\mthind{Object}{printString} によってオブジェクトにその文字列表現を問い合わせたときと、\mthind{Object}{asString} によってオブジェクトを文字列に変換したときの結果は一般的に異なるということに注意してください。
-違いの例は次のとおりです。
+\mthind{Object}{printString} を送信してオブジェクトにその文字列表現を問い合わせたときと、\mthind{Object}{asString} を送信してオブジェクトを文字列に変換したときの結果は、一般的に異なるということに注意してください。
+例えば次のとおり。
 
 \begin{code}{@TEST}
 #ASymbol printString --> '#ASymbol'
 #ASymbol asString    --> 'ASymbol'
 \end{code}
 
-シンボルは文字列と似ていますが、グローバルに一意であることが保証されるという点で異なります。このためディクショナリーの、とりわけ \ct{IdentifyDictionary} のインスタンスのキーとして、シンボルは文字列より適しています。
-\clsind{String} と \clsind{Symbol} については \charef{basic} も参照してください。
+シンボルは文字列と似ていますが、グローバルに一意であることが保証されるという点で異なります。このため辞書の、とりわけ \ct{IdentifyDictionary} のキーとして、シンボルは文字列より適しています。
+\clsind{String} と \clsind{Symbol} については、\charef{basic} も参照してください。
 
 %=========================================================
-\section{コレクションのイテレータ}
+\section{コレクションイテレータ}
 \seclabel{iterators}
 
-\st では、ループや条件分岐は、コレクションや、整数やブロックのようなオブジェクトへの単なるメッセージ送信です (\charef{syntax} も参照のこと)。先頭要素から最後の要素に対して引数付きのブロックを評価する \ct{to:do:} のような低水準のメッセージに加え、\st のコレクション階層はさまざまなイテレータを提供しています。イテレータを使うことでコードがより堅牢に、コンパクトになります。
-\index{Collection!iteration}
+\st では、ループや条件分岐は、コレクションや整数やブロックのようなオブジェクトへの単なるメッセージ送信です(\charef{syntax}も参照のこと)。\ct{to:do:} のような低水準のメッセージ --- 先頭要素から最後の要素に対して引数付きのブロックを評価する --- に加え、\st のコレクション階層はさまざまな高水準のイテレータを提供しています。イテレータを使うことで、コードがより堅牢でコンパクトになります。
+\index{Collection!繰り返し}
 
 %---------------------------------------------------------
-\subsection{イテレーション (\lct{do:})}
-\mthind{Collection}{do:} メソッドは基本となるコレクション・イテレータです。引数 (一つの引数を持つブロック) をレシーバーの各要素に順に適用していきます。
-次の例ではレシーバーに含まれるすべての文字列をトランスクリプトにプリントします。
+\subsection{繰り返し (\lct{do:})}
+\mthind{Collection}{do:} メソッドは、基本的なコレクションイテレータです。\ct{do:}は、引数 (1 引数ブロック)をレシーバの各要素に順に適用していきます。
+次の例では、レシーバに含まれるすべての文字列をトランスクリプトにプリントします。
 
 \begin{code}{}
 #('bob' 'joe' 'toto') do: [:each | Transcript show: each; cr].
 \end{code}
 
-\paragraph{変種} \ct{do:} には沢山の変種が存在します。例えば \mthind{Collection}{do:without:}、 \mthind{SequenceableCollection}{doWithIndex:}、 \mthind{OrderedCollection}{reverseDo:} などです：
-インデックスされたコレクション (\ct{Array}、\ct{OrderedCollection}、\ct{SortedCollection}) には現在のインデックスへのアクセスを与える \mthind{SequenceableCollection}{doWithIndex:} があります。このクラスは \ct{Number} クラスで定義されている \ct{to:do:} に関係しています。
+\paragraph{変種。} \ct{do:} には沢山の変種が存在します。例えば \mthind{Collection}{do:without:}、 \mthind{SequenceableCollection}{doWithIndex:}、 \mthind{OrderedCollection}{reverseDo:} などです:
+添字付けきのコレクション (\ct{Array}、\ct{OrderedCollection}、\ct{SortedCollection}) には \mthind{SequenceableCollection}{doWithIndex:} メソッドがあって、これを使うとブロック内から現在の添字にもアクセスできます。このメソッドは、\ct{Number} クラスで定義されている \ct{to:do:} に関係しています。
 
 \begin{code}{@TEST}
 #('bob' 'joe' 'toto') doWithIndex: [:each :i | (each = 'joe') ifTrue: [ ^ i ] ] --> 2
 \end{code}
 
-順序ありコレクションの \mthind{OrderedCollection}{reverseDo:} はすべての要素を逆順に処理します。
+\ct{OrderedCollectionの} \mthind{OrderedCollection}{reverseDo:} は、すべての要素を逆順に処理します。
 
-二つの要素の間にだけ二番目のブロックを実行する\mthind{Collection}{do:separatedBy:}という興味深いメッセージの例を次に示します。
+以下のコードは、\mthind{Collection}{do:separatedBy:} という興味深いメッセージについて示しています。
+\ct{do:separatedBy:} は、二つの要素の間においてだけ、二番目のブロックを実行します。
 \begin{code}{@TEST | res | }
 res := ''.
 #('bob' 'joe' 'toto') do: [:e | res := res, e ] separatedBy: [res := res, '.'].
 res --> 'bob.joe.toto'
 \end{code}
 \noindent
-このコードは一時文字列を作っているという点でできが良いとはとても言いがたく、結果をバッファする書き込みストリームを用いたほうがいいということに注意しましょう (\charef{streams} 参照):
+このコードは、とても効率的とは言えません。このように一時文字列を作る代わりに、書き込みストリームを用いて結果をバッファした方が良いということに注意しましょう(\charef{streams}参照):
 \begin{code}{@TEST}
 String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delimiter: '.' ] --> 'bob.joe.toto'
 \end{code}
@@ -774,22 +778,22 @@ String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delim
 %res --> 'bob.joe.toto'
 
 
-\paragraph{ディクショナリー}
-\mthind{Dictionary}{do:} がディクショナリーに送られると、要素のうち影響を受けるのは値だけで、アソシエーションは無視されます。\mthind{Dictionary}{keysDo:}、\mthind{Dictionary}{valuesDo:}、 \mthind{Dictionary}{associationsDo:} を使う方がより適当です。それぞれキー、値、アソシエーションがイテレートされます。
+\paragraph{Dictionary。}
+\mthind{Dictionary}{do:} が辞書に送信されたときにチェックされる要素は、「値」であって「アソシエーション」ではありません。\mthind{Dictionary}{keysDo:}、\mthind{Dictionary}{valuesDo:}、 \mthind{Dictionary}{associationsDo:} を使う方がより適当です。それぞれキー、値、アソシエーションについて繰り返します。
 
 \begin{code}{}
 colors := Dictionary newFrom: { #yellow -> Color yellow. #blue -> Color blue. #red -> Color red }.
-colors keysDo: [:key | Transcript show: key; cr].                    "displays the keys"
-colors valuesDo: [:value | Transcript show: value;cr].            "displays the values"
-colors associationsDo: [:value | Transcript show: value;cr].  "displays the associations"
+colors keysDo: [:key | Transcript show: key; cr].                    "キーの一覧を表示する"
+colors valuesDo: [:value | Transcript show: value;cr].            "値の一覧を表示する"
+colors associationsDo: [:value | Transcript show: value;cr].  "アソシエーションの一覧を表示する"
 \end{code}
 
 %---------------------------------------------------------
-\subsection{結果の集積 (\lct{collect:})}
-コレクションの要素に何かの処理を行い、その結果を新たなコレクションとしたい場合、\ct{do:} を用いるより、\ct{collect:} またはその他のイテレータメソッドを用いたほうが良いでしょう。
-これらのメソッドのほとんどは \ct{Collection} およびそのサブクラスの \protind{enumerating} プロトコルに分類されています。
+\subsection{結果を集める (\lct{collect:})}
+コレクションの要素に何かの処理を行い、その結果を新たなコレクションにしたい場合、\ct{do:} を用いるより\ct{collect:} またはその他のイテレータメソッドを用いた方が良いでしょう。
+これらのメソッドのほとんどは、\ct{Collection} やそのサブクラスの、\protind{enumerating} プロトコルに分類されています。
 
-例えば各要素を倍にしたコレクションを新たに作る場合を考えてみましょう。メソッド \ct{do:} を使うなら次のように書くことになります：
+例えば、各要素を倍にしたコレクションを新たに作る場合を考えてみましょう。\ct{do:} メソッドを使うと、次のように書かなければなりません:
 
 \begin{code}{@TEST | double |}
 double := OrderedCollection new.
@@ -798,13 +802,13 @@ double --> an OrderedCollection(2 4 6 8 10 12)
 \end{code}
 
 \noindent
-\mthind{Collection}{collect:} メソッドは引数で渡されたブロックを各要素に対し実行し、その結果を格納した新たなコレクションを返します。
+\mthind{Collection}{collect:} メソッドは、引数で渡されたブロックを各要素に対し実行し、その結果を格納した新たなコレクションを返します。
 \ct{collect:} を用いることで、コードはとてもシンプルになります。
 \begin{code}{@TEST}
 #(1 2 3 4 5 6) collect: [:e | 2 * e] --> #(2 4 6 8 10 12)
 \end{code}
 
-\mthind{Collection}{do:} に比べて \ct{collect:} が優れていることは、次の例のほうがわかりやすいでしょう。整数のコレクションを用意して、その絶対値からなるコレクションを生成するものです。
+\mthind{Collection}{do:} に比べた \ct{collect:} の利点は、次の例でよりいっそう劇的になります。整数のコレクションを用意して、その絶対値からなるコレクションを生成します:
 
 \begin{code}{@TEST |aCol result|}
 aCol :=  #( 2 -3 4 -35 4 -11).
@@ -813,75 +817,76 @@ result := aCol species new: aCol size.
 result --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-上の例とずっとシンプルな以下の式と比べてみてください。
+上の例と、ずっとシンプルな以下の式を比べてみてください。
 \begin{code}{@TEST}
 #( 2 -3 4 -35 4 -11) collect: [:each | each abs ] --> #(2 3 4 35 4 11)
 \end{code}
 \noindent
-二つ目の解のもう一つ良い点は set や bag でも同じように動くことです。。
+二つ目の解のさらに良い点は、\ct{Set} や \ct{Bag} でも同じように動くことです。
 
-コレクションの要素それぞれにメッセージを送りたいのでなければ、一般的に \ct{do:} の利用は避けたほうが良いです。
+一般的に、コレクションの要素それぞれにメッセージを送信したいのでなければ、\ct{do:} の利用は避けるべきです。
 
-メッセージ \ct{collect:} を送ると、レシーバーと同じ種類のコレクションが返ることに注意しましょう。
-以下のコードが失敗するのはこれが原因です。
-(\ct{String} は整数を保持できないので)
+\ct{collect:} メッセージを送ると、レシーバと同じ種類のコレクションが返ることに注意しましょう。
+以下のコードが失敗するのは、これが原因です
+(\ct{String} は整数を保持できません)。
 \begin{code}{}
-'abc' collect: [:ea | ea asciiValue ]      "エラー発生"
+'abc' collect: [:ea | ea asciiValue ]      "エラーBANG"
 \end{code}
 \noindent
-最初に文字列を \ct{Array} または \ct{OrderedCollection} に変換しておく必要があります：
+こうする代わりに、最初に文字列を \ct{Array} または \ct{OrderedCollection} に変換しておかなければなりません:
 \begin{code}{@TEST}
 'abc' asArray collect: [:ea | ea asciiValue ] --> #(97 98 99)
 \end{code}
 
-実は \ct{collect:} はレシーバーと完全に同じクラスのコレクションを返すという保証はなく、単に同じ \emph{``種類''} であるということが保証されているだけなのです。\ct{Interval} の例では、実際は \ct{Array} になるのです！
+実は、\ct{collect:} がレシーバと完全に同じクラスのコレクションを返すという保証はなく、単に同じ「\emph{種類 (\ct{species})}」を返すだけです。例えば、\ct{Interval} オブジェクトに \ct{collect:} を送信すると、\ct{Array} が返ります!\footnote{訳注: \ct{Collection>>>collect:}、\ct{Interval>>>species} の定義を見てください。}
 \begin{code}{@TEST}
 (1 to: 5) collect: [ :ea | ea * 2 ] --> #(2 4 6 8 10)
 \end{code}
 
 %---------------------------------------------------------
-\subsection{要素の選別 (\lct{select:}と\lct{reject:}}
+\subsection{要素の選別 (\lct{select:}と\lct{reject:})}
 % (\ct{select:}, \ct{reject:}, \ct{detect:})}
 
-\mthind{Collection}{select:} メソッドはレシーバーの要素の中で与えられた条件を満たすものを返します：
+\mthind{Collection}{select:} メソッドは、レシーバの要素の中で与えられた条件を満たすものを返します:
 
 \begin{code}{@TEST}
 (2 to: 20) select: [:each | each isPrime] --> #(2 3 5 7 11 13 17 19)
 \end{code}
 
-\mthind{Collection}{reject:} はその反対です：
+\mthind{Collection}{reject:} は、その反対です:
 \begin{code}{@TEST}
 (2 to: 20) reject: [:each | each isPrime] --> #(4 6 8 9 10 12 14 15 16 18 20)
 \end{code}
 
 %---------------------------------------------------------
 \subsection{\lct{detect:} による要素の特定}
-\mthind{OrderedCollection}{detect:} メソッドはレシーバーの要素のなかで、与えられたブロック引数を満たす最初のものを返します。
+\mthind{OrderedCollection}{detect:} メソッドは、レシーバの要素の中で与えられたブロック引数を満たす最初のものを返します。
 
 \begin{code}{@TEST}
 'through' detect: [:each | each isVowel] --> $o
 \end{code}
 
-\mthind{Collection}{detect:ifNone:} メソッドは \ct{detect:} から派生したものです。第二ブロックは一つ目のブロックを満たす要素が存在しないときに評価されます。
+\mthind{Collection}{detect:ifNone:} メソッドは、\ct{detect:} の変種です。
+\ct{detect:ifNone:} の二つ目のブロックは、最初のブロックを満たす要素が存在しないときに評価されます。
 
 \begin{code}{@TEST}
 Smalltalk allClasses detect: [:each | '*cobol*' match: each asString] ifNone: [ nil ] --> nil
 \end{code}
 
 %---------------------------------------------------------
-\subsection{\lct{inject:into:} による結果の累算}
-関数型言語はしばしば \emph{fold} や \emph{reduce} といった、コレクションのすべての要素に二項演算子を繰り返し適用するような高階関数を用意しています。
-\pharo でこのようなことをするには \cmind{Collection}{inject:into:} が使えます。
+\subsection{\lct{inject:into:} を用いて結果を累積する}
+関数型言語はしばしば、\emph{fold} や \emph{reduce} といった高階関数を用意しています。これらは、コレクションのすべての要素に二項演算子を繰り返し適用して結果を累積します。
+\pharo でこのようなことをするには、\cmind{Collection}{inject:into:} が使えます。
 
-第一引数は初期値です。第二引数はブロックで、これまでの適用された結果と、今回処理する要素を受け取る、二つの引数を持ちます。
+第一引数は初期値です。第二引数は 2 引数ブロックで、これまでの累積結果と今回処理する要素を受け取ります。
 
-\ct{inject:into:} の簡単な例として数のコレクションの総和を求めてみましょう。
-ガウス少年のように、\pharo では1から100までの自然数の和を以下のように書けるのです：
+\ct{inject:into:} の簡単な例として、数のコレクションの総和を求めてみましょう。
+ガウス少年のように、\pharo では 1 から 100 までの自然数の和を以下のように書けるのです:
 \begin{code}{@TEST}
 (1 to: 100) inject: 0 into: [:sum :each | sum + each ] --> 5050
 \end{code}
 
-別の例として、引数を一つ持つ階乗を計算するブロックは以下のように書けます。
+別の例として、階乗を計算する 1 引数ブロックは以下のように書けます。
 \begin{code}{@TEST |factorial|}
 factorial := [:n | (1 to: n) inject: 1 into: [:product :each | product * each ] ].
 factorial value: 10 --> 3628800
@@ -890,20 +895,20 @@ factorial value: 10 --> 3628800
 %---------------------------------------------------------
 \subsection{その他のメッセージ}
 
-\paragraph{\mthind{Collection}{count:}}  \ct{count:} メッセージは与えられた条件を満たす要素の数を返します。条件は真偽ブロックで表現されます。
+\paragraph{\mthind{Collection}{count:}}  \ct{count:} メッセージは、与えられた条件を満たす要素の数を返します。条件は、真偽値を返すブロックで表現します。
 
 \begin{code}{@TEST}
-Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3\footnote{訳注：\pharo 1.3では5が返ります}
+Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3\footnote{訳注: \pharo 1.3 では 5 が返ります}
 \end{code}
 
-\paragraph{\mthind{Collection}{includes:}}  \ct{includes:} メッセージは引数がコレクションの中に含まれているかを調べます。
+\paragraph{\mthind{Collection}{includes:}}  \ct{includes:} メッセージは、引数がコレクションの中に含まれているかどうかを調べます。
 
 \begin{code}{@TEST | colors |}
 colors := {Color white . Color yellow. Color red . Color blue . Color orange}.
 colors includes: Color blue. --> true
 \end{code}
 
-\paragraph{\mthind{OrderedCollection}{anySatisfy:}}  \ct{anySatisfy:} メッセージは引数で渡された条件を満足する要素がコレクション中に一つでもあれば true を返します。
+\paragraph{\mthind{OrderedCollection}{anySatisfy:}}  \ct{anySatisfy:} メッセージは、引数で渡された条件を満足する要素がコレクション中に一つでもあれば、\ct{true} を返します。
 
 \begin{code}{@TEST | colors | colors := {Color white . Color yellow. Color red . Color blue . Color orange}.}
 colors anySatisfy: [:c | c red > 0.5] --> true
@@ -911,53 +916,54 @@ colors anySatisfy: [:c | c red > 0.5] --> true
 %=========================================================
 \section{コレクションを使う時のヒント}
 
-\paragraph{\mthind{OrderedCollection}{add:} を使うときのよくある間違い} 次のエラーは \st で最も頻繁に見られる失敗です。
-\index{Collection!common errors}
+\paragraph{\mthind{OrderedCollection}{add:} を使うときのよくある間違い。} 次のエラーは、\st で最も頻繁に見られる間違いです。
+\index{Collection!よくある間違いエラー}
 
 \begin{code}{@TEST | collection | }
 collection := OrderedCollection new add: 1; add: 2.
 collection --> 2
 \end{code}
 \noindent
-変数 \ct{collection} は新たに作られたコレクションではなく、最後に追加された値を保持しています。
-これは\ct{add:} メソッドが追加された要素を返し、レシーバーを返すわけではないことによるものです。
+変数 \ct{collection} は、新たに作られたコレクションではなく最後に追加された値を保持しています。
+これは、\ct{add:} メソッドが追加された要素を返し、レシーバを返すわけではないことによるものです。
 
-次のコードで期待した結果を得ることができます。
+次のコードによって、期待した結果を得ることができます。
 \begin{code}{@TEST | collection |}
 collection := OrderedCollection new.
 collection add: 1; add: 2.
 collection --> an OrderedCollection(1 2)
 \end{code}
 
-また\ind{カスケード}されたメッセージのレシーバーを返す \mthind{Object}{yourself} メッセージを用いることもできます。
+また、\mthind{Object}{yourself} メッセージを用いることもできます。\ct{yourself} は、\ind{カスケード}されたメッセージのレシーバを返します。
 
 \begin{code}{@TEST | collection |}
 collection := OrderedCollection new add: 1; add: 2; yourself --> an OrderedCollection(1 2)
 \end{code}
 
-\paragraph{イテレート処理中のコレクションからの要素削除} もう一つよくある間違いとしては、イテレート中のコレクションから、要素を削除しようとすることがあります。
-\mthind{Collection}{remove:}
+\paragraph{繰り返しを行っているコレクションからの要素削除。} もう一つよくある間違いは、繰り返しを行っているコレクションから要素を削除しようとすることです。
+\mthindex{Collection}{remove:}
 \begin{code}{@TEST |range|}
 range := (2 to: 20) asOrderedCollection.
 range do: [:aNumber | aNumber isPrime ifFalse: [ range remove: aNumber ] ].
 range --> an OrderedCollection(2 3 5 7 9 11 13 15 17 19)
 \end{code}
 \noindent
-9 と 15 が除外されなければいけないので、この結果は明らかに間違っています！
+9 と 15 が除外されなければいけないので、この結果は明らかに間違っています!
 
-解決策は処理の前にコレクションをコピーしておくことです。
+解決策は、処理の前にコレクションをコピーしておくことです。
 \begin{code}{@TEST |range|}
 range := (2 to: 20) asOrderedCollection.
 range copy do: [:aNumber | aNumber isPrime ifFalse: [ range remove: aNumber ] ].
 range --> an OrderedCollection(2 3 5 7 11 13 17 19)
 \end{code}
 
-\paragraph{\ct{=} と \ct{hash} 両方の再定義}
-発見が難しいエラーに \ct{=} を再定義して、\ct{hash} を再定義していない場合があります。setに入れた要素がいつの間にかなくなっていたりとか、そういうおかしな挙動が症状として現れます。Kent Beck によって提案された一つの解決策は \ct{hash} の再定義に \ct{xor:} を用いることです。
-例えば著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、\ct{=} をそのように再定義したくなりますが、そのときは \ct{hash} も次のように再定義すべきなのです：
-\index{Dictionary!overriding \ct{=} and \ct{hash}}
+\paragraph{\ct{=} と \ct{hash} 両方の再定義。}
+発見が難しいのは、\ct{=} を再定義して\ct{hash} を再定義していない、というエラーです。\ct{Set} に入れたはずの要素がいつの間にかなくなっていたりとか、そういうおかしな振る舞いが症状として現れます。ケント・ベックが提案した一つの解決策は、\ct{xor:} を用いて \ct{hash} を再定義することです。
+例えば、著者もタイトルも同じ二つの本は「等しい」と考えたくなるでしょうから、
+\ct{=} をそのように再定義したくなりますが、そのときは次のように、\ct{hash} も再定義すべきなのです:
+\index{Dictionary!\ct{=} と \ct{hash} をオーバーライドする}
 
-\begin{method}{\lct{=} と \lct{hash} の再定義}
+\begin{method}{\lct{=} と \lct{hash} を再定義する}
 Book>>>= aBook
    self class = aBook class ifFalse: [^ false].
    ^ title = aBook title and: [ authors = aBook authors]
@@ -966,24 +972,25 @@ Book>>>hash
    ^ title hash xor: authors hash
 \end{method}
 
-また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを\ct{Set}、あるいは \ct{Dictionary} のキーとして用いると、別のやっかいな問題が生じます。デバッグがお好きでなければ、そういうことは止めておきましょう！
+また、可変なオブジェクト \ie ハッシュ値が時間と共に変わっていくようなオブジェクトを \ct{Set} の要素、あるいは \ct{Dictionary} のキーとして用いると、別のたちの悪い問題が生じます。
+デバッグがお好きでなければ、そういうことは止めておきましょう!
 
 %=========================================================
-\section{章のまとめ}
+\section{まとめ}
 
-\st のコレクション階層は異なった種類のコレクションを同じように扱える共通のメッセージを持っています。
+\st のコレクション階層は、異なった種類のコレクションを同じように扱える共通の語彙((vocabulary. プロトコルのことか?))を持っています。
 
 \begin{itemize}
-  \item 主な特徴として、\ct{SequenceableCollection}が要素を与えられた順序で保持するのに対し、\ct{Dictionary} とそのサブクラスはキーと値のアソシエーションを保持し、\ct{Set} と \ct{Bag}は順序を持ちません。
-  \item ほとんどのコレクションは、\ct{asArray}、\ct{asOrderedCollection} \etc のメッセージを送ることで、他のコレクションに変換できます。
-  \item コレクションをソートするには、\ct{asSortedCollection} メッセージを送ります。
-  \item リテラルの \ct{Array} は \ct{#( ... )} で作ることができます。動的な \ct{Array} は \ct|{ ... }| で作ることができます。
-  \item \ct{Dictionary} はキーを同値性で比較します。この性質はキーとして \ct{String} のインスタンスを用いるときに最も便利です。一方、\ct{IdentifyDictionary} はオブジェクトの同一性でキーを判別します。この性質はキーとして \ct{Symbol} を用いるときか、オブジェクトの参照を値にマップするときなどに適しています。
-  \item \ct{String} は一般的なコレクションメッセージを受け取ることができます。加えて、\ct{String} は簡単な形式のパターンマッチングもサポートしています。より高度な応用には、RegEx パッケージを参照してください。
-  \item 基本となるイテレーションメッセージは \ct{do:} です。すべての要素に同じ処理を行うようなコード、例えばコレクションのすべての要素を変更するとか、同じメッセージを送るといったことをするときに有用です。
-  \item より一般的には \ct{do:} を用いる代わりに、 \ct{collect:}、\ct{select:}、\ct{reject:}、\ct{includes:}、\ct{inject:into:} またその他の、コレクションを統一的な方法で処理することができる高水準なメッセージを用います。
-  \item イテレート中にそのコレクションの要素を削除しないでください。コレクションをイテレーション中に変更したいなら、コピーに対してイテレートします。
-  \item \ct{=} の定義を上書きしたなら、\ct{hash} の再定義もお忘れなく！
+  \item 主な違いは、\ct{SequenceableCollection}が要素を与えられた順序で保持するのに対し、\ct{Dictionary} とそのサブクラスはキーと値のアソシエーションを保持し、\ct{Set} と \ct{Bag}は順序を持たないことです。
+  \item ほとんどのコレクションは、\ct{asArray}、\ct{asOrderedCollection} \etc のメッセージを送信することで、他のコレクションに変換できます。
+  \item コレクションをソートするには、\ct{asSortedCollection} メッセージを送信します。
+  \item リテラルの \ct{Array} は、\ct{#( ... )} という特別な構文で作ることができます。動的な \ct{Array} は、\ct|{ ... }| という構文で作ることができます。
+  \item \ct{Dictionary} は、キーを同値性で比較します。この性質は、キーとして \ct{String} のインスタンスを用いるときに最も便利です。一方\ct{IdentifyDictionary} は、オブジェクトの同一性でキーを判別します。この性質は、キーとして \ct{Symbol} を用いるときか、オブジェクトの参照を値にマップする((mapping object references to values))ときなどに適しています。
+  \item \ct{String} は、通常のコレクションメッセージを受け取ることができます。加えて\ct{String} は、簡単な形式のパターンマッチングもサポートしています。より高度なパターンマッチングが必要な場合は、RegEx パッケージを参照してください。
+  \item 繰り返し用の基本的なメッセージは、\ct{do:} です。\ct{do:} は命令調のコード、例えばコレクションのすべての要素を変更するとか、すべての要素に同じメッセージを送信するようなコードで有用です。
+  \item \st では、\ct{do:} より \ct{collect:}、\ct{select:}、\ct{reject:}、\ct{includes:}、\ct{inject:into:} その他の高水準なメッセージを用いる方が普通です。これらによって、コレクションを統一的な方法で処理することができます。
+  \item 繰り返しを行っているコレクションの要素を削除しないでください。繰り返し中にコレクションを変更したいなら、コピーに対して繰り返します。
+  \item \ct{=} の定義を上書きしたなら、\ct{hash} の再定義もお忘れなく!
 \end{itemize}
 
 %=========================================================
