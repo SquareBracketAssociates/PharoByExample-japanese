@@ -185,8 +185,8 @@ students select: [ :each | each gpa < threshold ]
 	\clsind{Dictionary} とそのサブクラスのインスタンスは、添字の代わりにキーで要素を参照できます。
 
   \item {\bf 変更可能性 (Mutable):}
-        ほとんどのコレクションは、内容が変更可能 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
-        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ、内容が不変 (immutable) のコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
+        ほとんどのコレクションは、変更可能 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
+        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ、変更不能 (immutable) なコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \ct{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
   \item {\bf 動的拡張:}
