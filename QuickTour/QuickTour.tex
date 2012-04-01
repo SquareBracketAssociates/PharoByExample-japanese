@@ -405,17 +405,15 @@ Transcript show: 'hello world'; cr.
 この例では、見ているオブジェクトは \ct{Object} クラスです。
 ここではこのクラスに格納されている要素を直に見ることができますし、さらに要素の内部構造をたどって行くことも容易にできます。
 
-%ここまで%
-
 %=================================================================
 \section{クラスブラウザ}
 
-クラス\ind{ブラウザ}\footnote{紛らわしいことに「システムブラウザ」や「コードブラウザ」など呼ばれることがあります。\pharo では \ind{OmniBrowser} というブラウザの実装が使われています。OmniBrowser は「OB」または「パッケージブラウザ」としても知られています。
-この本では単に「ブラウザ」という用語を用いますが、曖昧さが問題になるケースでは「クラスブラウザ」を用います。}はプログラミングにおいて重要なツールの一つです。
-後で見るように \pharo にはいくつかの興味深いブラウザがありますが、どの仮想イメージを使う場合でもクラスブラウザは最も基本的なブラウザです。
+クラス\ind{ブラウザ}\footnote{紛らわしいことに「システムブラウザ」や「コードブラウザ」などと呼ばれることがあります。\pharo では \ind{OmniBrowser} というブラウザの実装が使われています。OmniBrowser は「OB」または「パッケージブラウザ」としても知られています。
+この本では単に「ブラウザ」としますが、曖昧さを避けるために「クラスブラウザ」も用います。}はプログラミングにとって重要なツールです。
+後で見るように \pharo にはいくつかの興味深いブラウザがありますが、どの仮想イメージを使う場合でも、クラスブラウザは最も基本的なブラウザです。
 \seeindex{クラスブラウザ}{ブラウザ}
 
-\dothis{\menu{World \go Class browser} を選択してブラウザを開きましょう。\footnote{もしブラウザが \figref{classBrowser} に似ていなければ、デフォルトのブラウザを変更する必要があるでしょう。\faqref{packagebrowser} を見てください。}}
+\dothis{\menu{World \go Class browser} を選択してブラウザを開きましょう。\footnote{もしブラウザが \figref{classBrowser} のようでなければ、デフォルトのブラウザを変える必要があるでしょう。\faqref{packagebrowser} を見てください。}}
 
 \begin{figure}[htb]
 \ifluluelse
@@ -425,16 +423,18 @@ Transcript show: 'hello world'; cr.
 \figlabel{classBrowser}}
 \end{figure}
 
-\figref{classBrowser} にあるのがブラウザです。
+\figref{classBrowser} がブラウザです。
 タイトルバーは \clsind{Object} クラスをブラウズしていることを示しています。
 %\footnote{If the browser you have seems to differ from the one described in this book, you may be using an image with a different default browser. See \faqref{omnibrowser}.}
 
-ブラウザを最初に開くと、一番左のペイン以外はすべて空欄です。
-この最初のペインはすべての \emph{パッケージ}をリストしています。各パッケージには関連するクラスのグループが入っています。
+ブラウザを開くと、一番左のペイン以外、すべて空欄となっています。
+このペインで全 \emph{パッケージ}を一覧できます。各パッケージには関連するクラスがグループ化されて入っています。
 \index{パッケージ}
 
 \dothis{\scatind{Kernel} パッケージをクリックしましょう。}
 選択されたパッケージに含まれるクラスが 2 番目のペインにリストされます。
+
+%ここまで%
 
 \dothis{\clsind{Object} クラスを選択しましょう。}
 今度は残りの二つのペインにテキストが表示されます。
