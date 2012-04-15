@@ -599,8 +599,6 @@ testShout
 \ct{shout} というメソッドはまだ無いので、ブラウザはこれが本当に意図した名前であるか確認します。そして他の可能性のある名前についても提案してきます (\figref{testShoutConfirm})。
 単にミスタイプした時にはこの機能は非常に助かりますが、今回は 今から作ろうとするメソッドは \ct{shout} で\emph{間違いない}ので、確認用メニューの一番上の項目を選択します (\figref{testShoutConfirm})。
 
-%ここまで(p21)%
-
 %\begin{figure}[htb]
 %\begin{minipage}[b]{0.48\textwidth}
 %\centerline {\includegraphics[width=0.9\textwidth]{name}}
@@ -615,7 +613,7 @@ testShout
 
 \begin{figure}[htb]
 \centerline {\includegraphics[width=0.6\textwidth]{name}}
-\caption{あなたの名前を入力する。\figlabel{name}}
+\caption{名前を入力する。\figlabel{name}}
 \end{figure}
 
 \begin{figure}[htb]
@@ -632,11 +630,11 @@ testShout
 %\figlabel{testShoutConfirm}}
 %\end{figure}
 
-\dothis{今作ったテストを実行しましょう: \menu{World} から \ind{SUnit} \emphind{TestRunner} を開けましょう。}
+\dothis{今作ったテストを実行しましょう。\menu{World} から \ind{SUnit} \emphind{TestRunner} を開いてください。}
 
-一番左に二つ並んだペインは、ブラウザの上部のペインに少し似ています。左側のペインにはカテゴリのリストが表示されますが、テストクラスを含んだカテゴリに限られます。
+一番左に二つ並んだペインは、ブラウザの上部のペインに少し似ています。左側のペインにはクラスカテゴリのリストが表示されますが、テストクラスを含んだものに限られます。
 
-\dothis{\scat{CollectionsTests-Text} を選択しましょう。右側のペインにはそのカテゴリのすべてのテストクラスが表示されます。その中に \ct{StringTest} もあります。テストクラスの名前は既に選択されているので、\menu{Run Selected} を \click してこれらを実行しましょう。}
+\dothis{\scat{CollectionsTests-Text} を選択しましょう。右側のペインにはそのカテゴリのすべてのテストクラスが表示されます。その中に \ct{StringTest} もあります。テストクラスの名前はもう選択されているので、\menu{Run Selected} を \click するとテストが実行されます。}
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{testRunnerOnStringTest}}
@@ -644,8 +642,8 @@ testShout
 \figlabel{testRunnerTestShout}}
 \end{figure}
 
-テストを実行した結果が \figref{testRunnerTestShout} のように表示され、テストの実行時にエラーがあったことがわかります。エラーを起こしたテストのリストは右下のペインに表示されます; ご覧の通り \ct{StringTest>>>#testShout} が犯人です
-(\st では \ct{StringTest} クラスの \mthind{StringTest}{testShout} メソッドを \ct{StringTest>>>#testShout} と表記して識別します)。
+テストを実行した結果が \figref{testRunnerTestShout} のように表示され、テストの実行時にエラーがあったことがわかります。エラーを起こしたテストのリストは右下のペインに表示されます。 見てわかるように、\ct{StringTest>>>#testShout} が原因です
+(\st では \ct{StringTest} クラスの \mthind{StringTest}{testShout} メソッドを \ct{StringTest>>>#testShout} と表記します)。
 \ct{StringTest>>>#testShout} を \click すると再度そのテストだけが実行され、「\ct{MessageNotUnderstood: ByteString>>>shout}」というウィンドウが開きます。
 \seeindex{\ct{>>}}{Behavior, \ct{>>}}
 \cmindex{Behavior}{>>}
@@ -660,26 +658,28 @@ testShout
 \figlabel{predebugger}
 \end{figure}
 
-このエラーは、もちろん期待した通りのものです: 文字列が \ct{shout} するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生します。
-それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テスト装置が正しく設置され新しいテストが実際に実行されたことが確認できるからです。
+このエラーは、もちろん期待した通りのものです。文字列が \ct{shout} するためのメソッドをまだ書いていないので、テストを実行するとエラーが発生するのは当然です。
+それでもなお、テストが失敗することを確認するのは良い習慣です。それによって、テストの仕組みが正しく設定され新しいテストが実行されたことを確認できるからです。
 いったんエラーを確認したら、テストの実行をやめて (\button{Abandon}) デバッガウィンドウを閉じることができます。
-ちなみに \st では、しばしば、まだ無いメソッドを \button{Create} を使ってその場で書いてしまうことができます。つまりデバッガの中で新しく作成されたメソッドを編集し、テストを続行 (\button{Proceed}) できます。
+ちなみにたいていの \st では、まだ無いメソッドを \button{Create} を使ってその場で書いてしまうこともできます。デバッガの中で新しく作成されたメソッドを編集し、テストを継続実行 (\button{Proceed}) できます。
 
-ではテストを成功させるメソッドを作成しましょう!
+ではテストが成功するようにメソッドを作成しましょう!
 
-\dothis{ブラウザで \clsind{String} クラスを選択し、\protind{converting} プロトコルを選択し、\mthref{shout} のテキストでメソッド作成テンプレートを上書きし、そして \menu{accept} しましょう
+\dothis{ブラウザで \clsind{String} クラスを選択し、\protind{converting} プロトコルを選択し、\mthref{shout} のテキストでメソッド作成テンプレートを上書きし \menu{accept} しましょう
 (注: \mbox{\ct{^}} のところには \caret を入力します)。}
 \begin{method}[shout]{shout メソッド}
 shout
 	^ self asUppercase, 'BANG'
 \end{method}
 
-カンマはこの場合、文字列連結演算子になります。つまりこのメソッドの本体は、\ct{shout} を受け取った任意の \ct{String} オブジェクトを大文字化して末尾に感嘆符を付け足します。
+カンマは、文字列連結を意味します。つまりこのメソッドでは、\ct{shout} を受け取った任意の \ct{String} オブジェクトを大文字化し、末尾に感嘆符をつけ足します。
 \pharo では $\uparrow$ 以下の式がメソッドの戻り値になります。ここでは戻り値は、大文字化され感嘆符が連結された\emph{新しい}文字列です。
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
-このメソッドは思いどおり動くでしょうか? もう一度テストを実行してどうなるか見てみましょう。
+このメソッドは思いどおり動くでしょうか? もう一度テストを実行してどうなるか確認しましょう。
+
+%ここまで(p23)%
 
 \dothis{テストランナーで \menu{Run Selected} を再びクリックしましょう。今度は緑のバーが出て、すべてのテストが失敗もエラーもなく実行されたことを示すテキストが表示されます。}
 緑のバーに辿り着いた時は、仕事の成果を保存して一休みするのが良い考えです。
