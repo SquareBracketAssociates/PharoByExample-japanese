@@ -485,7 +485,7 @@ CrossMorph>>>handleKeystroke: anEvent
 
 矢印キーを使ってモーフを動かすことができるようなメソッドを書きました。
 マウスがモーフの上にない時には、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
-キーの値を知りたいときは、Transcriptウィンドウを出し、\glbind{Transcript} \ct{show: anEvent keyValue}を\mthref{handleKeystroke}に加えてください。
+キーの値を知りたいときは、トランスクリプトウィンドウを出し、\glbind{Transcript} \ct{show: anEvent keyValue}を\mthref{handleKeystroke}に加えてください。
 \ct{handleKeystroke:}の引数の\ct{anEvent}は、\clsind{KeyboardEvent}のインスタンスで、\clsind{MorphicEvent}クラスのサブクラスです。このクラスをブラウズすれば、キーボードイベントについて更に学習できます。
 
 \subsection{Morphicアニメーション}
@@ -664,7 +664,7 @@ ReceiverMorph new openInWorld.
 緑色のモーフはドロップを拒否されるため、マウスポインタに付いたままになります。
 
 %=================================================================
-\section{完全な例}
+\section{例題}
 
 サイコロを転がすモーフを作りましょう。\footnote{}モーフをクリックすると全ての面が高速に表示され、再度クリックするとアニメーションが止まります。
 
@@ -706,7 +706,7 @@ DieMorph>>>initialize
 	isStopped := false
 \end{method}
 
-サイコロの見た目をカッコ良くするために、\ct{BorderedMorph}クラスのメソッドをいくつか使います。浮き出る効果を得るための太い枠線や、丸まった角、表示面のグラデーションなどです。
+サイコロの見た目をカッコ良くするために、\ct{BorderedMorph}クラスのメソッドをいくつか使います。浮き出る効果を得るために枠線を太くしたり、角を丸めたり、表示面にグラデーションをかける等をします。
 インスタンス側の\ct{faces:}メソッドでは、正しい引数が与えられているかをチェックするように定義します。
 \begin{method}{サイコロの面の個数を設定する。}
 DieMorph>>>faces: aNumber
@@ -753,7 +753,7 @@ DieMorph >>>face9
 
 上記のメソッドは、サイコロの各面の目の座標をコレクションの形で定義しています。それぞれの座標は$1\times1$の範囲に収めているので、拡大して実際の目の場所を求めます。
 
-\ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}-sendと、目を描くという２つの仕事を行います。
+\ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}送信と、目を描くという２つの仕事を行います。
 \begin{method}{サイコロモーフを描く。}
 DieMorph>>>drawOn: aCanvas
 	super drawOn: aCanvas.
@@ -822,7 +822,7 @@ DieMorph>>>mouseDown: anEvent
 % Most of the work on \ct{DieMorph} was done with an instance of it living in the environment; this is quite nice when to tweak programs.
 
 %=================================================================
-\section{キャンバスの追加情報}
+\section{キャンバスに関する追加情報}
 
 \ct{drawOn:}メソッドは、\clsindmain{Canvas}クラスのインスタンスを引数として１つだけ取ります。
 このキャンバスとは、モーフ自身を描く領域のことです。
