@@ -43,8 +43,8 @@
 \chapter{最初のアプリケーション}
 \chalabel{firstApp}
 
-この章では、簡単なゲーム：\ind{Lights Out}\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}を作成します。ゲームの作成を通じて、\pharo プログラマーがプログラミングやデバックに使用している多くのツールや、他の開発者とプログラムをやりとりする方法について体験していきます。
-この章では、\ind{Browser}、オブジェクトinspector、debugger、\ind{Monticello} \ind{package} Browser を扱います。\st での開発はとても効率的です。\st はとても簡潔なプログラミング言語です。また、開発ツールが言語にとてもうまく統合されています。そのため、あなたは開発の手間に時間をかけることなく、コードを書くことに多くの時間を使うことができるでしょう。
+この章では、簡単なゲーム：\ind{Lights Out}\footnote{\url{http://en.wikipedia.org/wiki/Lights_Out_(game)}}を作成します。ゲームの作成を通じて、プログラミングやデバックに\pharo プログラマーが使用するツール群や、プログラムを他の開発者とやりとりする方法について体験していきます。
+この章では、\ind{Browser}、オブジェクト・インスペクタ、デバッガ、\ind{Monticello} \ind{package} ブラウザ を扱います。\st による開発はとても効率的です。\st はとても簡潔なプログラミング言語です。また、開発ツールが言語に非常によく統合されています。そのため、あなたは開発の手間に時間をかけることなく、コードを書くことに多くの時間を使うことができるでしょう。
 
 %=================================================================
 \section{Lights Outゲーム}
@@ -60,21 +60,22 @@
 \begin{figure}[ht]
 	\vskip -\baselineskip
 	\centerline{\includegraphics[width=.3\linewidth]{GameBoard}}
-	\caption{Lights Outゲームボード。ユーザーは単にボード上のcellをマウスでクリックするだけです。
+	\caption{Lights Outゲームボード。ユーザーはボード上のセルをマウスでクリックするだけです。
 	\figlabel{gameBoard}}
 \end{figure}
 
-\pharo の開発ツールの使い方を体験するために、これから\emph{Lights Out}と呼ばれる簡単なゲームを作っていきます。ゲームボードは\figref{gameBoard}のように淡黄色の\emph{cell}の長方形配列で構成されます。いずれかのcellをマウスでクリックすると、周囲の4つのcellが青色に変わります。もう一度クリックすると、それらはまた淡黄色に戻ります。このゲームの目的は、できるだけ多くのcellを青色に変えることです。
-\figref{gameBoard}に示されているゲームはゲームボード本体と100個からなるcellの2種類のオブジェクトで構成されています。このゲームを実装するための\pharo のコードは2つのクラスから成ります。1つはゲームを表すクラス、もう1つはcellを表すクラスです。それでは、\pharo の開発ツールを使って、どのようにこれらのクラスを定義していくかを見ていくことにしましょう。
+\pharo の開発ツールの使い方を体験するために、これから\emph{Lights Out}と呼ばれる簡単なゲームを作っていきます。ゲームボードは\figref{gameBoard}のように淡黄色の\emph{セル}の長方形配列で構成されます。セルのどれかをマウスでクリックすると、周囲の4つのセルが青色に変わります。もう一度クリックすると、それらはまた淡黄色に戻ります。このゲームの目的は、できるだけ多くのセルを青色に変えることです。
+\figref{gameBoard}に示されているゲームはゲームボード本体と、100個のセルといった2種類のオブジェクトで構成されています。\pharo のコードとしては、2つのクラスでゲームを実装しています。1つはゲームを表すクラス、もう1つはセルを表すクラスです。それでは、\pharo の開発ツールを使い、どのようにこれらのクラスを定義していくかを見ていくことにしましょう。
 
 %=================================================================
 \section{パッケージを作成する}
 
-\charef{quick}のBrowserの使い方において、クラスやメソッドを見る方法や新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
+\charef{quick}のブラウザの紹介で、クラスやメソッドのブラウザの仕方や、新たなメソッドを定義する方法を学びました。ここではパッケージ、カテゴリ、クラスの作り方を学びます。
 \index{category!creating}
 \index{package!creating}
 
-\dothis{Browserを開きパッケージペインで\actclick 。その後\menu{create package}を選択します。\footnote{パッケージBrowserが標準Browserとしてインストールされているものとします。もし\figref{addPackage}で示されているようなBrowserを使っていない場合はデフォルトのBrowserを変更する必要があります。\faqref{packagebrowser}参照。}}
+\dothis{ブラウザを開きパッケージペインで\actclick し、\menu{create package}を選択します。
+\footnote{パッケージ・ブラウザが標準ブラウザとしてインストールされているものとします。もし\figref{addPackage}で示されているようなブラウザでない場合は、デフォルトのブラウザを変更する必要があります。\faqref{packagebrowser}参照。}}
 
 \begin{figure}[htb]
 \begin{minipage}[b]{0.48\textwidth}
@@ -94,7 +95,9 @@
 \end{minipage}
 \end{figure}
 
-ダイアログボックスに新たなパッケージ名(\scat{PBE-LightsOut}とします)を入力し、\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に整列された位置に表示されます。
+ダイアログボックスに新たなパッケージ名(\scat{PBE-LightsOut}とします)を入力し、\menu{accept}をクリックしてください(または単にリターンキーを押してください)。すると新たなパッケージが作成され、パッケージ一覧にアルファベット順に整列されて表示されます。
+
+%ここまで%
 
 %=================================================================
 \section{LOCellクラスを定義する}
@@ -136,7 +139,7 @@ SimpleSwitchMorph subclass: #LOCell
 \index{Morphic}
 
 この新しい定義は、\ct{SimpleSwitchMorph}という既存のクラスに対して\ct{LOCell}という名のサブクラスを作るようメッセージを送る\st 式になっています(実際には\ct{LOCell}クラスはまだ存在していないため、クラス名を表す\emphind{シンボル} \ct{#LOCell}を引数として渡しています)。
-また、このメッセージには新しいクラスのインスタンスが\ct{mouseAction}インスタンス変数を持つことも含まれています。\ct{mouseAction}は、cell上でマウスがクリックされた際の振る舞いを定義するために使用するインスタンス変数になります。
+また、このメッセージには新しいクラスのインスタンスが\ct{mouseAction}インスタンス変数を持つことも含まれています。\ct{mouseAction}は、セル上でマウスがクリックされた際の振る舞いを定義するために使用するインスタンス変数になります。
 
 \emph{この時点ではまだ何も作られてはいません。}クラステンプレートペインの境界線が赤に変わっていることに注目してください(\figref{acceptClassDef})。これはまだ\emph{変更が保存されていないこと}を意味しています。実際にこのメッセージを送るためには、この変更を\menu{accept}する必要があります。
 
@@ -251,17 +254,17 @@ inspectorの下側にあるペインはmini-workspaceです。このmini-workspa
 \dothis{
 inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み \menu{do it}して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
 
-画面の左上の端、実際には\ct{bounds}メッセージで表示するよう指示した場所にcellが表示されます。cell上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってcellを移動したり、右下にある黄色のハンドルを使ってcellをリサイズしてみましょう。boundsの値がどのように変化するか、inspectorを使って確認して下さい。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
+画面の左上の端、実際には\ct{bounds}メッセージで表示するよう指示した場所にセルが表示されます。セル上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってセルを移動したり、右下にある黄色のハンドルを使ってセルをリサイズしてみましょう。boundsの値がどのように変化するか、inspectorを使って確認して下さい。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
 \ifluluelse
 	{\includegraphics[width=\textwidth]{LOCellResize} }
 	{\includegraphics[scale=0.7]{LOCellResize} }
-\caption{cellのリサイズ。\figlabel{cellresize}}
+\caption{セルのリサイズ。\figlabel{cellresize}}
 \end{figure}
 
-\dothis{ピンク色のハンドル\ct{x}をクリックしてcellを消してください。}
+\dothis{ピンク色のハンドル\ct{x}をクリックしてセルを消してください。}
 
 %=================================================================
 \section{LOGameクラスを定義する}
@@ -340,17 +343,17 @@ initialize
 それでは、この\ct{initialize}メソッドの中身を見ていきましょう。
 \ct{| sampleCell width height n |}と書かれている行では、4つの一時変数を宣言しています。ここで宣言された変数は、スコープがこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うことで、コードをより読みやすくすることができます。\st では定数と変数を区別するための特別な構文はありません。また、ここで宣言された4つの"変数"は、実際には定数と変わりありません。4〜7行目で一度だけ値が設定されています。
 
-ゲームボードには必要な数のcellとそれらの境界を表示するために十分な大きさが必要ですが、cellの数がどれぐらい必要になるかは今はまだ判断できません。そこで、\ct{cellsPerSide}というメソッドをこの後で別に定義して、cellの数を決定する責務をそちらに委譲することにします。メソッドを定義する前に\ct{cellsPerSide}をメッセージ送信するようにしたため、\ct{initialize}メソッドをacceptするときに\pharo から``confirm, correct, or cancel''と警告されることになってしまいましたが、これを避けてはいけません。
+ゲームボードには必要な数のセルとそれらの境界を表示するために十分な大きさが必要ですが、セルの数がどれぐらい必要になるかは今はまだ判断できません。そこで、\ct{cellsPerSide}というメソッドをこの後で別に定義して、セルの数を決定する責務をそちらに委譲することにします。メソッドを定義する前に\ct{cellsPerSide}をメッセージ送信するようにしたため、\ct{initialize}メソッドをacceptするときに\pharo から``confirm, correct, or cancel''と警告されることになってしまいましたが、これを避けてはいけません。
 こうしたやり方は、まだ定義していない他のメソッドを書くという観点でとても良い習慣です。なぜなら、\ct{initialize}メソッドを書き始めるまで私たちはそのメソッドが必要かどうかを認識することはできませんし、その時点にならないと意味のある名前や流れを邪魔しないインターフェイスを与えることはできないからです。
 
-4行目でこのメソッドが使われています。\st 式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージを\pvind{self}、つまりオブジェクト自身に送ります。この結果、ゲームボードの一辺に必要なcellの数が\ct{n}に割り当てられました。
+4行目でこのメソッドが使われています。\st 式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージを\pvind{self}、つまりオブジェクト自身に送ります。この結果、ゲームボードの一辺に必要なセルの数が\ct{n}に割り当てられました。
 
 次の3行では、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。
 
 %The eighth line sends the message \ct{bounds:} to \self.
 %\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.
 %The single colon (\ct{:}) at the end of the name says that \ct{bounds:} expects a single parameter, which should be a rectangle object.
-8行目では新しいオブジェクトの\ct{bounds}を設定しています。詳細は今は気にせず、括弧内の式で原点(\ie 左上隅)、(5,5)と右下隅からなる、適切な数のcellを置くのに十分な長方形がつくられると理解してください。
+8行目では新しいオブジェクトの\ct{bounds}を設定しています。詳細は今は気にせず、括弧内の式で原点(\ie 左上隅)、(5,5)と右下隅からなる、適切な数のセルを置くのに十分な長方形がつくられると理解してください。
 
 最後の行では、\ct{LOGame}オブジェクトのインスタンス変数\ct{cells}に、新しく作った適切な数の行と列をもつ\clsind{Matrix}オブジェクトを設定しています。\clsind{Matrix}オブジェクトの作成は、\ct{new:tabulate:}メッセージを\ct{Matrix}クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることで実現しています。\mthind{Matrix class}{new:tabulate:}は、2つのコロン(\ct{:})を持つことから2つの引数を取ることがわかります。引数はコロンの後に書きます。もし、引数を括弧内に一緒に書く言語しか使ったことがなければ、最初はこの書き方に戸惑うかもしれません。しかし、これはただの構文です。慌てることはありません。慣れれば、メソッド名が引数の役割を説明してくれる、とてもわかりやすい構文だとわかるでしょう。例えば次の式、\ct{Matrix rows: 5 columns: 2}なら、Matrixは2行5列ではなく5行2列であることは明白です。
 
@@ -408,7 +411,7 @@ initialize
 
 \begin{method}[sbegamecellsperside]{定数メソッド}
 LOGame>>>cellsPerSide
-   "ゲームの側面にあるcellの数"
+   "ゲームの側面にあるセルの数"
    ^ 10
 \end{method}
 \cmindex{LOGame}{cellsPerSide}
@@ -419,7 +422,7 @@ LOGame>>>cellsPerSide
 \needlines{10}
 \begin{method}[newCellAt:at:]{初期化補助メソッド}
 LOGame>>>newCellAt: i at: j
-   "位置(i,j)にあるcellを作成し、適切な画面の位置に追加。新しいcellを返す"
+   "位置(i,j)にあるセルを作成し、適切な画面の位置に追加。新しいセルを返す"
    | c origin |
    c := LOCell new.
    origin := self innerBounds origin.
@@ -434,7 +437,7 @@ LOGame>>>newCellAt: i at: j
 
 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} において新しいLOCellは、cell\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによってマウスをクリックしたときに呼び出される振る舞いを定義しています。あわせて、対応するメソッドも定義する必要があります。
+\Mthref{newCellAt:at:} において新しいLOCellは、セル\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによってマウスをクリックしたときに呼び出される振る舞いを定義しています。あわせて、対応するメソッドも定義する必要があります。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{呼び出されるメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
