@@ -12,17 +12,25 @@
 %=============================================================
 %:Packages
 
+\usepackage[usenames,dvipsnames]{color}
+
 \makeatletter
 \ifx\pfmtname\@undefined
-\usepackage{luatexja}
-\fi
-\makeatletter
-
+\usepackage{luatexja-fontspec}
+\let\super\relax
+\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
+\setsansfont[Ligatures=TeX,Scale=0.85]{TeX Gyre Heros}
+\setmainjfont[BoldFont=IPAexGothic]{IPAexMincho}
+\setsansjfont{IPAexGothic}
+\else
 \usepackage[T1]{fontenc}  %%%%%% really important to get the code directly in the text!
 \usepackage{lmodern}
 %\usepackage[scaled=0.85]{bookmanx} % needs another scale factor if used with \renewcommand{\sfdefault}{cmbr}
 \usepackage{palatino}
 \usepackage[scaled=0.85]{helvet}
+\fi
+\makeatletter
+
 \usepackage[protrusion,expansion=false]{microtype}
 
 \makeatletter
@@ -189,9 +197,9 @@
 \newcommand{\hw}[1]{\nnbb{Hernan}{#1}} % Wilkinson
 %=============================================================
 %:Abbreviation macros
-\newcommand{\ie}{\emph{すなわち}、}
-\newcommand{\eg}{\emph{例えば}、}
-\newcommand{\etc}{などなど。}
+\newcommand{\ie}{\emph{すなわち}}
+\newcommand{\eg}{\emph{例えば}}
+\newcommand{\etc}{など}
 %=============================================================
 %:Cross reference macros
 \newcommand{\charef}[1]{第~\ref{cha:#1}~章}
@@ -493,8 +501,7 @@ Damien Pollet},
 % In-line code (latex enabled)
 % Use this only in special situations where \ct does not work
 % (within section headings ...):
-%\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
-\newcommand{\lct}[1]{{\gtfamily{#1}}}
+\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
 % Use these for system categories and protocols:
 \newcommand{\scat}[1]{\emph{\textsf{#1}}\xspace}
 \newcommand{\pkg}[1]{\emph{\textsf{#1}}\xspace}
