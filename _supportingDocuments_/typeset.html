@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC
+	"-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+<link rev="made" href="."/>
+<style type="text/css">
+:target { background-color: #DEF; }
+</style>
+<link rel="contents" href="."/>
+<title>組版メモ | PBE-ja</title>
+</head>
+<body
+><h1>組版メモ</h1
+><ul
+><li><a href="#thanks">LuaTeX-ja に感謝しよう</a
+><ul
+><li><a href="#texworks">TeXworks</a></li
+><li><a href="#welcome-luatexja">LuaTeX-ja 登場</a></li
+></ul></li
+><li><a href="#installing">組版環境のインストール</a
+><ul
+><li><a href="#installing-luatex.ja">LuaTeX、LuaTeX-ja のインストール</a></li
+><li><a href="#installing-texworks">TeXworks のインストール</a></li
+></ul></li
+><li><a href="#using">LuaLaTeX、TeXworks の使い方</a
+><ul
+><li><a href="#using-lualatex">LuaLaTeX の使い方</a></li
+><li><a href="#using-texworks">TeXworks の使い方</a></li
+></ul
+></li
+></ul
+><h2 id="thanks">LuaTeX-ja に感謝しよう</h2
+><h3 id="texworks">TeXworks</h3
+><p
+>このプロジェクト (PBE-ja) 開始当初と比べ、TeX による日本語タイプセットのための敷居が下がってきています。
+大きいのは、TeXworks が日本語でも実用的になってきたことだと思っています。
+これは、実際に個人的に TeXworks を利用してきた感想です。</p
+><p
+>TeXworks は *TeX の GUI フロントエンドで、これを使えば TeX 原稿から PDF の該当個所へのジャンプやその逆が行えます。
+つまり、赤入れの類の作業が原理的に不要になり、翻訳者自らが簡易的なタイプセットを行えるようになります。</p
+><p
+>ただ、TeXworks と組み合わせて使える *TeX は、-synctex オプションを理解する必要があります。
+この条件を pTeX は満たしていませんでした。
+これは、つい最近まで、TeXworks では日本語は実用にならないということを意味しました。
+実用になる日本語 *TeX は、その時点では pTeX だけだったからです。</p
+><h3 id="welcome-luatexja">LuaTeX-ja 登場</h3
+><p
+>LuaTeX-ja は、LuaTeX でも実用レベルの日本語タイプセットができることを目指して、今も有志によって開発が続けられているパッケージです。
+LuaTeX-ja が Google にひっかかるようになってきたのは、おそらく PBE-ja の発足より後です。
+LuaTeX は -synctex オプションを理解するので、TeXworks が日本語で実用にならない問題が、たぶん解決されます。
+また LuaTeX-ja には、PBE-ja の過程で発見されていた <a href="#jlisting">listings パッケージの不具合</a>をフィードバックしてあり、修正もしてもらってあります。</p
+><h2 id="installing">組版環境のインストール</h2
+><h3 id="installing-luatex.ja">LuaTeX、LuaTeX-ja のインストール</h3
+><p
+><a href="http://www.tug.org/texlive/acquire-netinstall.html">http://www.tug.org/texlive/acquire-netinstall.html</a></p
+><p
+>最新の TeXLive には、LuaTeX もちろん LuaTeX-ja も含まれます。
+ネットワークインストールしてください。
+国内のミラーが選択されるはずです。
+光ネクストで 30 分くらいかかりました。
+もし回線が細くてネットワークインストールできない人がいたらメディアの郵送を検討します。
+DVD イメージをダウンロードしてオフラインインストールという手も過去にはあったのですが、結局ネット経由でアップデートしなければならず、今ではあまり意味がありません。</p
+><p
+>また本当は Windows の場合、TeXLive でなく W32TeX という選択肢もあって、こちらの方が短時間でインストールできるのですが、今のところ堀内はこの方法で日本語版 PBE のタイプセットに成功していません。</p
+><h3 id="installing-texworks">TeXworks のインストール (Windows、Mac OS X、Linux など)</h3
+><p
+><a href="http://www.tug.org/texworks/">http://www.tug.org/texworks/</a></p
+><p
+>注意点は特にありません。</p
+><h2 id="using">LuaLaTeX、TeXworks の使い方</h2
+><h3 id="using-lualatex">LuaLaTeX の使い方</h3
+><h4>章ごとのタイプセット</h4
+><p
+>PBE は、章ごとに個別にタイプセットできるようになっています。
+他の章への参照などが未解決になりますが、我慢してください。</p
+><p
+><code>Collections\Collections.tex</code> をタイプセットする場合は、</p
+><pre>
+C:\PharoByExample-japanese&gt;cd Collections
+C:\PharoByExample-japanese\Collections&gt;lualatex Collections.tex
+</pre
+><p
+>とします。同じディレクトリに <code>Collecions.pdf</code> ができます。</p
+><h4>PBE 全体のタイプセット</h4
+><pre>
+C:\PharoByExample-japanese&gt;lualatex PBE1.tex
+</pre
+><p
+>とします。同じディレクトリに <code>PBE1.pdf</code> ができます。時間がかかります。</p
+><h3 id="using-texworks">TeXworks の使い方</h3
+><h4>TeXworks の初期設定</h4
+><p
+>何tex をどういう引数で呼ぶか、設定する必要があります。</p
+><p
+>編集 → 設定 → タイプセット →  タイプセットの方法: →  +</p
+><ul
+><li>名前: LuaLaTeX (など)</li
+><li>プログラム: C:/texlive/2011/bin/win32/lualatex.exe</li
+><li>引数: --synctex=1</li
+><li>$fullname</li
+></ul
+><p
+>とします。</p
+><p><img alt="" width="480" height="316" src="typeset-imgs/a.png"/></p
+><p><img alt="" width="692" height="571" src="typeset-imgs/b.png"/></p
+><h4>TeXworks の起動の方法</h4
+><p
+><code>lualatex</code> の起動と同様にすると良いでしょう。</p
+><h4>リロードのようなものは?</h4
+><p
+>TeXworks にも TeX エディターは付属しますが、使い慣れたもので編集したい場合もあるでしょう。
+TeXworks のエディターは、対象ファイルの更新をリアルタイムで監視しているようです。</p
+><hr
+/><dl
+><dt id="jlisting">listings パッケージの不具合</dt><dd><p
+>正しくはその非公式パッチ: jlisting の不具合です。jlisting にしても pTeX にしても既にメンテナンスされなくなっており、不具合をフィードバックすることができません。問題はそこにあります。</p></dd
+></dl
+></body
+></html>
