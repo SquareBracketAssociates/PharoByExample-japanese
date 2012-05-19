@@ -150,14 +150,14 @@ SimpleSwitchMorph subclass: #LOCell
 \end{figure}
 
 \dothis{新しいクラス定義を「了解(accept)」します}
-action-clickして\menu{accept}を選択、もしくはショートカットの\short{s} (save)を実行して下さい。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
+action-clickして\menu{accept}を選択、もしくはショートカットの\short{s} (save)を実行してください。\ct{SimpleSwitchMorph}にメッセージが送られ、新しいクラスがコンパイルされます。
 クラス定義をacceptすると、クラスが作成されてBrowserのクラスペインに表示されます(\figref{LOCell})。編集ペインにはクラス定義が表示され、その下にある小さなペインでクラスの目的を説明するようにうながされます\footnote{訳者が確認した環境(Pharo by Example Image および 1.3環境)ではそのようなペインはありません。代わりに、クラスブラウザ中にある「?」というボタンを押すことでクラスの目的を書くペインが表示されていました。また、クラスコメントが書かれていない場合には、その「?」の箇所が赤くなりクラスの目的を書くことをうながすような挙動となっています。}。ここへ記述する内容は\emph{クラスコメント}と呼ばれ、他のプログラマーへクラスの大まかな目的を伝えるための重要なものになります。\st プログラマーはコードの読みやすさを重視するため、メソッドに詳細なコメントが書くことは稀です。ここでの哲学は、コードの意図はコード自身に語らせよ、ということです(もしそうなっていない場合は、そうなるまでリファクタリングしましょう！)。
 
 \index{keyboard shortcut!accept}
 
 \subind{クラス}{コメント}には、クラスの詳細すぎる説明ではなく、後でプログラマーがこのクラスを調査する際に必要となる全体としての目的を簡潔に記述するようにしましょう。
 
-\dothis{LOCellクラスのコメントを入力し、acceptして下さい。これは後に変更することができます。}
+\dothis{LOCellクラスのコメントを入力し、acceptしてください。これは後に変更することができます。}
 
 \begin{figure}[h!t]
 \ifluluelse
@@ -226,12 +226,10 @@ initialize
 
 メソッドの残りの部分について説明の必要はないでしょう。良い\st を書くコツの1つは、コードが英語のように読めるような良いメソッド名をつけることです。オブジェクトが自分自身に語りかけ、``\lct{自分は直角の角を使う!}'', ``\lct{自分はスィッチを切る!}''と言っているイメージを持つことができるはずです。
 
-%ここまで(p32)%
-
 %=================================================================
 \section{オブジェクトをインスペクトする}
 
-新しく\ct{LOCell}オブジェクトを作ってインスペクトすることによって、さきほど書いたコードの効果を確認することができます。
+\ct{LOCell}オブジェクトを作ってインスペクトすることで、さきほど書いたコードの効果を確認できます。
 
 \dothis{workspaceを開いて、\ct{LOCell new}と打ち込み\menu{inspect it}してください。}
 
@@ -241,7 +239,7 @@ initialize
    \caption{LOCellオブジェクトを調べるために使用したinspector。\figlabel{LOCellInspector}}
 \end{figure}
 
-\ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds}})を選んで見てください。すると、右側のペインにその\ind{インスタンス変数}の値が表示されます。
+\ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds}})を選んでみてください。右側のペインにその\ind{インスタンス変数}の値が表示されます。
 
 %  You can also use the inspector to change the value of an instance variable.
 %\dothis{Change the value of \ct{bounds} to \ct{0@0 corner: 50@50} and \menu{accept} it.}
@@ -249,12 +247,12 @@ initialize
 %\ct{OTNamedVariableNode(Object)>>doesNotUnderstand: #selectedClass}
 %\on{should use the mini workspace instead to send bounds: ?}
 
-inspectorの下側にあるペインはmini-workspaceです。このmini-workspaceは擬似変数\self が選択されたオブジェクトに束縛されているため、とても便利です。
+インスペクタの下側にあるペインは小さなワークスペースです。このワークスペースは擬似変数\self が選択されたオブジェクトとなっているため、とても便利です。
 
 \dothis{
-inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み \menu{do it}して下さい。inspector上で\ct{bounds}の値が変化します。次にmini-workspaceに\ct{self openInWorld}と打ち込み \menu{do it}して下さい。}
+inspectorウィンドウのルートにあるLOCellを選択してください。下部にあるペインに、\ct{self bounds: (200@200 corner: 250@250)}と打ち込み \menu{do it}しましょう。インスペクタ上で\ct{bounds}の値が変化します。次にワークスペース部分に\ct{self openInWorld}と打ち込み \menu{do it}してください。}
 
-画面の左上の端、実際には\ct{bounds}メッセージで表示するよう指示した場所にセルが表示されます。セル上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってセルを移動したり、右下にある黄色のハンドルを使ってセルをリサイズしてみましょう。boundsの値がどのように変化するか、inspectorを使って確認して下さい。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
+画面の左上の端、つまり\ct{bounds}メッセージで表示するよう指示した場所にセルが表示されます。セル上で\metaclick をすると\subind{Morphic}{halo}が現れます。右上の左隣にある茶色いハンドルを使ってセルを移動したり、右下にある黄色のハンドルを使ってセルをリサイズしたりしてみましょう。boundsの値の変化を、インスペクタを使って確認してください。(新たな boundsの値を見るために \menu{refresh} \actclick が必要かもしれません。)
 
 \begin{figure}[htbp]
 \centering
@@ -269,14 +267,14 @@ inspectorウィンドウのルートにあるLOCellを選択してください�
 %=================================================================
 \section{LOGameクラスを定義する}
 
-ゲームを行うために必要なもう一つのクラスを作っていきます。クラス名は\clsind{LOGame}とします。
+ゲームに必要なもう一つのクラスを作っていきます。クラス名は\clsind{LOGame}とします。
 
-\dothis{Browserのメインウインドウで、クラス定義テンプレートを表示させてください。}
+\dothis{ブラウザのメインウインドウで、クラス定義テンプレートを表示させてください。}
 
-パッケージ名をクリックすることで、クラス定義テンプレートを表示させることができます。以下のようにコードを書いたら、それを\menu{accept}して下さい。
+パッケージ名をクリックすることで、クラス定義テンプレートを表示させることができます。以下のようにコードを書いたら、それを\menu{accept}してください。
 
 \needlines{6}
-\begin{classdef}[sbegame]{LOGameクラスを定義します。}
+\begin{classdef}[sbegame]{LOGameクラスの定義}
 BorderedMorph subclass: #LOGame
    instanceVariableNames: ''
    classVariableNames: ''
@@ -288,9 +286,9 @@ BorderedMorph subclass: #LOGame
 
 \ct{LOGame}の\mthind{LOGame}{initialize}メソッドを定義しましょう。
 
-\dothis{以下の内容を\ct{LOGame}のメソッドとしてBrowserに書き込んで、\menu{accept}して下さい。}
+\dothis{以下の内容を\ct{LOGame}のメソッドとしてBrowserに書き込み、\menu{accept}してください。}
 
-\begin{numMethod}[sbegameinitialize]{ゲームを初期化する}
+\begin{numMethod}[sbegameinitialize]{ゲームの初期化}
 initialize
    | sampleCell width height n |
    super initialize.
@@ -325,41 +323,43 @@ initialize
 \end{minipage}
 \end{figure}
 
-しかし、\ct{cellsPerSide}はスペルミスではありません。単にまだこのメソッドを定義していないだけです。これから1,2分の間にはこのメソッドを定義することにしましょう。
+しかし、\ct{cellsPerSide}はスペルミスではありません。単にまだこのメソッドを定義していないだけです。このメソッドはすぐ後で定義することにしましょう。
 
-\dothis{メニューから最初のアイテムを選択し、\ct{cellsPerSide}がスペルミスなどではないことを確認します。}
+\dothis{メニューから最初のアイテムを選択し、\ct{cellsPerSide}がスペルミスではないことを確認します。}
 
 次に\pharo は\ct{cells}が認識できないと警告してきます。\pharo はこの問題を解消するための案をいくつか提示してきます。
 
 \dothis{\ct{cell}をインスタンス変数として扱いたいので、\menu{declare instance}を選択します。}
 
-最後に\pharo は最終行で使われている\ct{newCellAt:at:}メッセージについて警告してきます。もちろんこれもスペルミスではないので、先ほどと同様に確認してください。
+最後に\pharo は、最終行で使われている\ct{newCellAt:at:}メッセージについて警告してきます。もちろんこれもスペルミスではないので、先ほどと同様に確認してください。
 
 \index{on the fly variable definition}
 \index{instance variable definition}
 
-さて、もう一度\ct{LOGame}のクラス定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。クラス定義が更新され、インスタンス変数\ct{cells}が含まれるようになっていることがBrowser上から確認できるはずです。
+さて、もう一度\ct{LOGame}のクラス定義を見てみましょう(\button{instance}ボタンをクリックすることでできます)。クラス定義が更新され、インスタンス変数\ct{cells}が含まれるようになったことがブラウザ上から確認できるはずです。
 
 それでは、この\ct{initialize}メソッドの中身を見ていきましょう。
 \ct{| sampleCell width height n |}と書かれている行では、4つの一時変数を宣言しています。ここで宣言された変数は、スコープがこのメソッドに限定されてしまうため、一時変数と呼ばれています。説明的な名前を持った一時変数を使うことで、コードをより読みやすくすることができます。\st では定数と変数を区別するための特別な構文はありません。また、ここで宣言された4つの"変数"は、実際には定数と変わりありません。4〜7行目で一度だけ値が設定されています。
 
 ゲームボードには必要な数のセルとそれらの境界を表示するために十分な大きさが必要ですが、セルの数がどれぐらい必要になるかは今はまだ判断できません。そこで、\ct{cellsPerSide}というメソッドをこの後で別に定義して、セルの数を決定する責務をそちらに委譲することにします。メソッドを定義する前に\ct{cellsPerSide}をメッセージ送信するようにしたため、\ct{initialize}メソッドをacceptするときに\pharo から``confirm, correct, or cancel''と警告されることになってしまいましたが、これを避けてはいけません。
-こうしたやり方は、まだ定義していない他のメソッドを書くという観点でとても良い習慣です。なぜなら、\ct{initialize}メソッドを書き始めるまで私たちはそのメソッドが必要かどうかを認識することはできませんし、その時点にならないと意味のある名前や流れを邪魔しないインターフェイスを与えることはできないからです。
+こうしたやり方は、まだ定義していない他のメソッドを書くという点でとても良い習慣です。なぜなら、\ct{initialize}メソッドを書くまで私たちはそのメソッドが必要かどうかわかりませんでしたし、その時点になってはじめて意味のある名前をつけ、思考を中断せずに先に進むことができるのです。
 
 4行目でこのメソッドが使われています。\st 式\ct{self cellsPerSide}は\ct{cellsPerSide}メッセージを\pvind{self}、つまりオブジェクト自身に送ります。この結果、ゲームボードの一辺に必要なセルの数が\ct{n}に割り当てられました。
 
-次の3行では、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に割り当てています。
+次の3行では、新たな\ct{LOCell}オブジェクトを作成し、ゲームボードの幅と高さを適切な一時変数に代入しています。
 
 %The eighth line sends the message \ct{bounds:} to \self.
 %\ct{bounds:} is a method that we inherit from our superclass; it is used to define the space on the screen that this Morph will occupy.
 %The single colon (\ct{:}) at the end of the name says that \ct{bounds:} expects a single parameter, which should be a rectangle object.
-8行目では新しいオブジェクトの\ct{bounds}を設定しています。詳細は今は気にせず、括弧内の式で原点(\ie 左上隅)、(5,5)と右下隅からなる、適切な数のセルを置くのに十分な長方形がつくられると理解してください。
+8行目では自身の\ct{bounds}を設定しています。詳細は今は気にせず、括弧内の式で原点(\ie 左上隅(5,5))と、右下隅からなる、適切な数のセルを置くのに十分な長方形がつくられると理解してください。
 
-最後の行では、\ct{LOGame}オブジェクトのインスタンス変数\ct{cells}に、新しく作った適切な数の行と列をもつ\clsind{Matrix}オブジェクトを設定しています。\clsind{Matrix}オブジェクトの作成は、\ct{new:tabulate:}メッセージを\ct{Matrix}クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることで実現しています。\mthind{Matrix class}{new:tabulate:}は、2つのコロン(\ct{:})を持つことから2つの引数を取ることがわかります。引数はコロンの後に書きます。もし、引数を括弧内に一緒に書く言語しか使ったことがなければ、最初はこの書き方に戸惑うかもしれません。しかし、これはただの構文です。慌てることはありません。慣れれば、メソッド名が引数の役割を説明してくれる、とてもわかりやすい構文だとわかるでしょう。例えば次の式、\ct{Matrix rows: 5 columns: 2}なら、Matrixは2行5列ではなく5行2列であることは明白です。
+最後の行では、\ct{LOGame}オブジェクトのインスタンス変数\ct{cells}に、新しく作った適切な数の行と列をもつ\clsind{Matrix}オブジェクトを代入しています。\clsind{Matrix}オブジェクトの作成は、\ct{new:tabulate:}メッセージを\ct{Matrix}クラス(このクラスももちろんオブジェクトです。そのためメッセージを送ることができます。)に送ることで実現しています。\mthind{Matrix class}{new:tabulate:}は、2つのコロン(\ct{:})を持つことから2つの引数を取ることがわかります。引数はコロンの後に書きます。もし、引数を括弧内に一緒に書く言語しか使ったことがなければ、最初はこの書き方に戸惑うかもしれません。しかし、これはただの構文です。あわてることはありません。慣れれば、メソッド名が引数の役割を説明してくれる、とてもわかりやすい構文だとわかるでしょう。例えば次の式、\ct{Matrix rows: 5 columns: 2}なら、Matrixは2行5列ではなく5行2列であることは明白です。
 
 \cmindex{Matrix class}{rows:columns:}
 
-\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}式は\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は\ct{self newCellAt: i at: j}式を評価した結果で初期化されます。
+\ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}によって\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は\ct{self newCellAt: i at: j}式を評価した結果で初期化されます。
+
+%ここまで%
 
 %:===> Pretty-print is broken! (how to pretty-print?)
 
@@ -391,7 +391,7 @@ initialize
 
 この例に沿って作業をしている場合は、3つ目のペインには\protind{まだ分類されていない}プロトコルが含まれているかもしれません。
 
-\dothis{プロトコルペインを\actclick して下さい。その後\menu{various \go categorize automatically}を選択したら、\ct{initialize}メソッドを新しいプロトコル\protind{initialization}に移動してください。}
+\dothis{プロトコルペインを\actclick してください。その後\menu{various \go categorize automatically}を選択したら、\ct{initialize}メソッドを新しいプロトコル\protind{initialization}に移動してください。}
 
 \pharo はプロトコルが妥当であるかをどのようにして知るのでしょうか。一般に\pharo はそれを知ることはできません。しかしこのケースでは、スーパークラスにも\ct{initialize}メソッドが定義されているので、\pharo は\ct{initialize}メソッドをオーバーライド元のメソッドと同じプロトコルに分類するべきだと判断します。
 
@@ -450,7 +450,7 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
 
 \Mthref{toggleNeighboursOfCellAt:at:} はcell(\ct{i}, \ct{j})の東西南北の位置にある4つのセルの状態を切り替えます。唯一の難点はボードが有限であることです。そのため、隣接するcellが存在することを状態を切り替える前に確認しなければなりません。
 
-\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\actclick して下さい)}
+\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\actclick してください)}
 
 メソッドを移動するには、単にその名前をクリックして新たに作ったプロトコルまでドラッグするだけです(\figref{dragMethod})。
 
@@ -506,7 +506,7 @@ LOCell>>>mouseUp: anEvent
 
 手順通りに進んできたのなら、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことができるはずです。
 
-\dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}して下さい。}
+\dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}してください。}
 
 ゲームが始まって、cellをクリックでき、またそれがどの動作するかを見ることができるでしょう。
 
@@ -547,8 +547,8 @@ debuggerを使うことで、workspace上で式を評価するのと同じよう
 \cmind{LOGame}{initialize}のコードをBrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も返していません！メソッドはデフォルトでは\ct{self}を戻り値として返します。\ct{newCellAt:at:}のケースでは\ct{LOGame}のインスタンスが返されることになります。
 \index{method!returning self}
 
-\dothis{debuggerウインドウを閉じで下さい。
-その後、\ct{c}を返すために``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して下さい。
+\dothis{debuggerウインドウを閉じでください。
+その後、\ct{c}を返すために``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加してください。
 % It should now look as shown in \mthref{newCellAt:at:nobug}.}
 (\mthref{newCellAt:at:nobug}参照。)}
 
@@ -605,10 +605,10 @@ LOGame>>>mouseMove: anEvent
 \seeindex{method!filing out}{file, filing out}
 \index{file!filing out}
 
-\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go  File out}して下さい。}
+\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go  File out}してください。}
 ``PBE-LightsOut.st''という名のファイルがイメージファイルがある同一フォルダ内にあるのを見つけることができます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}して下さい。そしてそのイメージファイル上でゲームが動作することを確認して下さい。}
+\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}してください。そしてそのイメージファイル上でゲームが動作することを確認してください。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -667,7 +667,7 @@ Monticello Browserの左側にはイメージ内に読み込まれたバージ�
 
 \sqsrc にプロジェクトを作成したら、\pharo システムにそれを使うよう伝える必要があります。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックして下さい。}
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックしてください。}
 利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。
 
 \needlines{5}
