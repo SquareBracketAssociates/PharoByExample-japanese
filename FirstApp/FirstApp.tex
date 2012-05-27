@@ -236,7 +236,7 @@ initialize
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{LOCellInspector}
-   \caption{LOCellオブジェクトを調べるために使用したinspector。\figlabel{LOCellInspector}}
+   \caption{LOCellオブジェクトを調べるために使用したインスペクタ。\figlabel{LOCellInspector}}
 \end{figure}
 
 \ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。その中の1つ(例えば\mbox{\ct{bounds}})を選んでみてください。右側のペインにその\ind{インスタンス変数}の値が表示されます。
@@ -359,8 +359,6 @@ initialize
 
 \ct{Matrix new: n tabulate: [ :i :j | self newCellAt: i at: j ]}によって\ct{n}{$\times$}\ct{n}の行列とその要素を初期化しています。各要素の初期値はその座標に依存します。\ct{(i,j)}\textsuperscript{th}の位置にある要素は\ct{self newCellAt: i at: j}式を評価した結果で初期化されます。
 
-%ここまで%
-
 %:===> Pretty-print is broken! (how to pretty-print?)
 
 % \on{I think it is silly to copy paste from the pretty-print view to the normal view}
@@ -375,25 +373,25 @@ initialize
 %=================================================================
 \section{メソッドをプロトコルにまとめる}
 
-メソッドの定義を続ける前に、Browserの上部にある3つめのペインを少し見てみましょう。3つめのペインを使うことで、1つめのペインを使ってクラスをパッケージに分類したようにメソッドを分類化することができます。これによって4つめのペインが大量のメソッドで埋もれてしまうのを防ぐことができます。こうしたメソッドの分類は``プロトコル''とよばれています。
+メソッドの定義を続ける前に、ブラウザ上部にある3つめのペインを見てみましょう。1つめのペインでクラスをパッケージに分類したように、3つめのペインではメソッドを分類化することができます。これにより4つめのペインが大量のメソッドで埋もれてしまうのを防ぐことができます。こうしたメソッドの分類は「プロトコル」とよばれています。
 
 \index{protocol}
 
-クラスにわずかのメソッドしかない場合、プロトコルによる余分な階層のレベルは必要ありません。そうしたクラスのために、Browserはクラスの全てのメソッドを含む仮想プロトコル\prot{-{}-all-{}-}を提供しています。
+クラスにわずかのメソッドしかない場合、プロトコルによる階層は必要ありません。そうしたクラスのために、Browserはクラスのすべてのメソッドを含む仮想プロトコル\prot{-{}-all-{}-}を提供しています。
 
 \protindex{all}
 
 \begin{figure}[htbp]
    \centering
    \includegraphics[width=\textwidth]{Categorize}
-   \caption{分類されていないすべてのメソッドを自動的に分類します。\figlabel{categorize}}
+   \caption{分類されていないメソッドを自動的に分類。 \figlabel{categorize}}
 \end{figure}
 
-この例に沿って作業をしている場合は、3つ目のペインには\protind{まだ分類されていない}プロトコルが含まれているかもしれません。
+この例に沿って作業をしている場合、3つ目のペインには\protind{as yet unclassified(まだ分類されていない)}プロトコルが含まれているかもしれません。
 
-\dothis{プロトコルペインを\actclick してください。その後\menu{various \go categorize automatically}を選択したら、\ct{initialize}メソッドを新しいプロトコル\protind{initialization}に移動してください。}
+\dothis{プロトコルペインを\actclick してください。\menu{various \go categorize automatically}を選択すると、\ct{initialize}メソッドが新しくできた\protind{initialization}プロトコルに移ります。}
 
-\pharo はプロトコルが妥当であるかをどのようにして知るのでしょうか。一般に\pharo はそれを知ることはできません。しかしこのケースでは、スーパークラスにも\ct{initialize}メソッドが定義されているので、\pharo は\ct{initialize}メソッドをオーバーライド元のメソッドと同じプロトコルに分類するべきだと判断します。
+\pharo はどうやってプロトコルを判断するのでしょうか。一般的に\pharo はそれを知ることはできません。しかしこのケースでは、スーパークラスにも\ct{initialize}メソッドが定義されているので、\pharo は\ct{initialize}メソッドをオーバーライド元のメソッドと同じプロトコルに分類するように判断します。
 
 \index{method!categorize}
 
@@ -407,22 +405,22 @@ initialize
 
 以後、本書ではこの記法でメソッド名を記述します。もちろん、実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。クラスペインで適切なクラスが選択されていることを確認するだけで十分です。
 
-それでは、これから\ct{LOGame>>>initialize}メソッドで使われている他の2つのメソッドを定義していきます。両方とも\prot{initialization} プロトコルに入れることにします。
+それでは、\ct{LOGame>>>initialize}メソッドで使われている他の2つのメソッドを定義していきます。両方とも\prot{initialization} プロトコルに入れることにします。
 
 \begin{method}[sbegamecellsperside]{定数メソッド}
 LOGame>>>cellsPerSide
-   "ゲームの側面にあるセルの数"
+   "ゲーム盤の辺に並ぶセルの数"
    ^ 10
 \end{method}
 \cmindex{LOGame}{cellsPerSide}
 \index{constant methods}
 
-このメソッドは非常にシンプルで、単に10という値を返すだけです。このように値をメソッドとして表現しておくと、プログラムが成長してこの値が単純に定まらなくなった場合に、値を計算して返すようにメソッドを変更することで適応できるという利点があります。
+このメソッドは非常にシンプルで、単に10という値を返すだけです。このように値をメソッドとして表現しておくと、プログラムが成長してこの値が単純に定まらなくなった場合に、値を計算して返すようにメソッドを変更して対処できるという利点があります。
 
 \needlines{10}
 \begin{method}[newCellAt:at:]{初期化補助メソッド}
 LOGame>>>newCellAt: i at: j
-   "位置(i,j)にあるセルを作成し、適切な画面の位置に追加。新しいセルを返す"
+   "位置(i,j)にセルを作成し、適切な画面の位置に追加。新しいセルを返す"
    | c origin |
    c := LOCell new.
    origin := self innerBounds origin.
@@ -437,9 +435,9 @@ LOGame>>>newCellAt: i at: j
 
 新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} において新しいLOCellは、セル\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置を特定しています。最後の行では新たにcellの\ct{mouseAction}に\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を定義しています。これによってマウスをクリックしたときに呼び出される振る舞いを定義しています。あわせて、対応するメソッドも定義する必要があります。
+\Mthref{newCellAt:at:} では、\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドも定義しましょう。
 
-\begin{method}[toggleNeighboursOfCellAt:at:]{呼び出されるメソッド}
+\begin{method}[toggleNeighboursOfCellAt:at:]{コールバックメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
    (i > 1) ifTrue: [ (cells at: i - 1 at: j ) toggleState].
    (i < self cellsPerSide) ifTrue: [ (cells at: i + 1 at: j) toggleState].
@@ -448,11 +446,11 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
 \end{method}
 \cmindex{LOGame}{toggleNeighboursOfCellAt:at:}
 
-\Mthref{toggleNeighboursOfCellAt:at:} はcell(\ct{i}, \ct{j})の東西南北の位置にある4つのセルの状態を切り替えます。唯一の難点はボードが有限であることです。そのため、隣接するcellが存在することを状態を切り替える前に確認しなければなりません。
+\Mthref{toggleNeighboursOfCellAt:at:} では、セルの(\ct{i}, \ct{j})の東西南北の位置に隣接する4つのセルの状態を切り替えます。唯一難しいのはボードが有限ということです。そのため、隣接するセルが存在することを状態を切り替える前に確認しなければなりません。
 
-\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で新たなプロトコルを\actclick してください)}
+\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で、\actclick して新たなプロトコルを作ってください)}
 
-メソッドを移動するには、単にその名前をクリックして新たに作ったプロトコルまでドラッグするだけです(\figref{dragMethod})。
+メソッドを移動するには、単にその名前の上でクリックして新たに作ったプロトコルまでドラッグするだけです(\figref{dragMethod})。
 
 \begin{figure}[htbp]
    \centering
@@ -462,7 +460,7 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
    \caption{メソッドをプロトコルへ持って行く。\figlabel{dragMethod}}
 \end{figure}
 
-Lights Outゲームを完成させるには、マウスのイベントを操作するためのメソッドを\ct{LOCell}クラスにあと2つ\ct{LOCell}定義する必要があります。
+Lights Outゲームを完成させるには、さらにマウスイベントを操作するための2つのメソッドを、\ct{LOCell}クラスに\ct{LOCell}定義する必要があります。
 
 \begin{method}[mouseAction:]{典型的なセッターメソッド}
 LOCell>>>mouseAction: aBlock
@@ -470,17 +468,19 @@ LOCell>>>mouseAction: aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-\Mthref{mouseAction:} はcellの\ct{mouseAction}変数に引数を設定してその値を返す以上のことはしていません。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
+%ここまで%
+
+\Mthref{mouseAction:} はセルの\ct{mouseAction}変数に引数を設定してその値を返す以上のことはしていません。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
 
-もし他のプログラミング言語でゲッターメソッドとセッターメソッドを使うことに慣れていたら、これらのメソッドを\ct{setmouseAction}や\ct{getmouseAction}と呼びたくなるかもしれません。しかし\st の習慣では異なります。ゲッターメソッド名は常にそのメソッドで得るインスタンス変数名と同じ名前にします。セッターメソッド名も同様ですが、\ct{mouseAction}と\ct{mouseAction:}のように後端に``\ct{:}''を付けます。
+もし他のプログラミング言語でゲッターメソッドとセッターメソッドを使うことに慣れていたら、メソッド名を\ct{setmouseAction}や\ct{getmouseAction}としたくなるかもしれません。しかし\st の習慣では異なります。ゲッターメソッドの名前は常に取得するインスタンス変数と同じ名前にします。セッターメソッド名も同様ですが、\ct{mouseAction}に対して\ct{mouseAction:}のように末尾を``\ct{:}''とします。
 
-セッターメソッドとゲッターメソッドはあわせて\emphind{アクセサ}メソッドと呼ばれています。また、これらは慣習として\protind{accessing}プロトコルに置かれます。\st では全てのインスタンス変数はそれらを持つオブジェクトのものです。そのため、\st 言語で他のオブジェクトがそれらの変数を読み書きするには、このようにアクセサメソッドを用意して行う他ありません\footnote{実際にはインスタンス変数はサブクラスの中からも参照できます。}。
+セッターメソッドとゲッターメソッドをあわせて\emphind{アクセサ}メソッドと呼びます。また、これらは慣習として\protind{accessing}プロトコルに置かれます。\st ではすべてのインスタンス変数はプライベートなものとしてオブジェクトが保持します。そのため、\st で、他のオブジェクトの変数を読み書きするには、アクセサメソッドを介するしかありません\footnote{厳密にはインスタンス変数はサブクラスからもアクセスできます。}。
 
-\dothis{\ct{LOCell}クラスを表示し、\ct{LOCell>>>mouseAction:}を定義してください。定義が終わったら、そのメソッドを\prot{accessing}プロトコルに置いてください。}
+\dothis{\ct{LOCell}クラスに移動し、\ct{LOCell>>>mouseAction:}を定義してください。定義が終わったら、そのメソッドを\prot{accessing}プロトコルに置いてください。}
 
-最後に\ct{mouseUp:}メソッドを定義する必要があります。このメソッドは画面上のcellの上にあるマウスのマウスボタンが離されたときに自動的に呼び出されます。
+最後に\ct{mouseUp:}メソッドを定義する必要があります。このメソッドは画面のセル上でマウスボタンを離したときに、GUIフレームワークから自動的に呼び出されます。
 
 \begin{method}[sbecellmouseup]{イベントハンドラ}
 LOCell>>>mouseUp: anEvent
@@ -492,21 +492,23 @@ LOCell>>>mouseUp: anEvent
 
 \index{method!categorize}
 
-このメソッドは\lct{value}メッセージを\ct{mouseAction}インスタンス変数に保存されているオブジェクトに送ります。\ct{LOGame>>>newCellAt: i at: j}で以下のコード片を\ct{mouseAction:}に指定したことを思い出してください。
+このメソッドは\lct{value}メッセージを\ct{mouseAction}インスタンス変数にバインドされたオブジェクトに送ります。\ct{LOGame>>>newCellAt: i at: j}で以下のコードを\ct{mouseAction:}に指定したことを思い出してください。
 
 \ct{[self toggleNeighboursOfCellAt: i at: j ]}
 
 \noindent
-\lct{value}メッセージを送ると、このコード片が評価されてcellの状態が切り替わることになります。
+\lct{value}メッセージを送ると、この部分が評価されてセルの状態が切り替わることになります。
 
 %=================================================================
 \section{コードを実行してみましょう}
 
-以上でLights Outゲームは完成です！
+これでLights Outゲームができあがりました！
 
-手順通りに進んできたのなら、2つのクラスと7つのメソッドから構成されているこのゲームで遊ぶことができるはずです。
+手順に沿って進んできたのなら、2つのクラスと7つのメソッドで構成された、このゲームで遊ぶことができるはずです。
 
 \dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}してください。}
+
+%ここまで(p40)%
 
 ゲームが始まって、cellをクリックでき、またそれがどの動作するかを見ることができるでしょう。
 
@@ -521,11 +523,11 @@ cellをクリックするとエラーメッセージと共に\clsind{PreDebugWin
 \end{figure}
 
 \noindent
-一体何が起こったのでしょうか? 原因を見つけるために、\st のとても役に立つツールの一つ、\ind{debugger}を使いましょう。
+一体何が起こったのでしょうか? 原因を探るために、\st のとても役に立つツールの一つ、\ind{debugger}を使いましょう。
 
 \dothis{通知ウインドウにある\menu{debug}ボタンをクリックしてください。}
 
-debuggerが表示されるはずです。debuggerウインドウの上部には実行スタックが表示されます。実行スタックには全ての有効なメソッドが表示されています。そのなかの1つを選ぶと、真ん中のペインにメソッド中の実行された\st コードが表示され、エラーを引き起こした部分がハイライトされます。
+debuggerが表示されるはずです。debuggerウインドウの上部には実行スタックが表示されます。実行スタックにはすべての有効なメソッドが表示されています。そのなかの1つを選ぶと、真ん中のペインにメソッド中の実行された\st コードが表示され、エラーを引き起こした部分がハイライトされます。
 
 \dothis{(上部付近の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
 
@@ -597,7 +599,7 @@ LOGame>>>mouseMove: anEvent
 
 現在、手元には動作するLights Outゲームがあります。あなたはこのゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharo のイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしもし友人が自分のコードが入ったイメージファイルを持っていたら、あなたのイメージファイルを欲しがらないかもしれません。この場合に必要なのは、他のプログラマーがあなたのソースコードを自分のイメージファイルに取り込めるよう、\pharo のイメージファイルからソースコードを取り出すことです。
 
-最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、オプションで\scat{PBE-LightsOut}パッケージ全てを\menu{various \go  File out}できます。取り出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものであり人のためのものではありません。このファイルを友人にメールで送れば、友人たちはfile list Browserを使うことでソースコードを自分の\pharo イメージファイルに組み込むことができます。
+最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、オプションで\scat{PBE-LightsOut}パッケージすべてを\menu{various \go  File out}できます。取り出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものであり人のためのものではありません。このファイルを友人にメールで送れば、友人たちはfile list Browserを使うことでソースコードを自分の\pharo イメージファイルに組み込むことができます。
 
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
@@ -622,7 +624,7 @@ LOGame>>>mouseMove: anEvent
 
 \subsection{Monticelloパッケージ}
 \emph{File out}は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
-ほとんどのオープンソースプロジェクトでは、コードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}などのリポジトリを使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージにはファイル名の最後に \ct{.mcz}が付いています。このファイルの正体は\ind{パッケージ}のコード全てをまとめてZIPで圧縮したものです。
+ほとんどのオープンソースプロジェクトでは、コードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}などのリポジトリを使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージにはファイル名の最後に \ct{.mcz}が付いています。このファイルの正体は\ind{パッケージ}のコードすべてをまとめてZIPで圧縮したものです。
 
 Monticello package Browserを使うことで、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
@@ -631,7 +633,7 @@ Monticello package Browserを使うことで、FTPやHTTPなどを含む色々�
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
 \dothis{\menu{World}メニューからMonticello Browserを開いてください。}
-Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含めて全てのリポジトリを含んでいます。
+Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含めてすべてのリポジトリを含んでいます。
 
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
