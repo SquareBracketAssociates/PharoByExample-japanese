@@ -468,8 +468,6 @@ LOCell>>>mouseAction: aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-%ここまで%
-
 \Mthref{mouseAction:} はセルの\ct{mouseAction}変数に引数を設定してその値を返す以上のことはしていません。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
@@ -508,11 +506,9 @@ LOCell>>>mouseUp: anEvent
 
 \dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}してください。}
 
-%ここまで(p40)%
+ゲームが始まります。セルをクリックすると動作を確認できるでしょう。
 
-ゲームが始まって、cellをクリックでき、またそれがどの動作するかを見ることができるでしょう。
-
-cellをクリックするとエラーメッセージと共に\clsind{PreDebugWindow}と呼ばれる\emphind{つうち@通知}ウインドウが表示されました。理論上は動くはずなのですが\ldots{}。\figref{lightsOutError}に描かれているように、このウインドウは\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
+ところがクリックすると、\clsind{PreDebugWindow}と呼ばれる\emphind{つうち@通知}ノーティファイアが、エラーメッセージと共に表示されました。理論上は動くはずなのですが\ldots{}... \figref{lightsOutError}のように、このウインドウは\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
 
 \begin{figure}[ht]
 \ifluluelse
@@ -523,41 +519,41 @@ cellをクリックするとエラーメッセージと共に\clsind{PreDebugWin
 \end{figure}
 
 \noindent
-一体何が起こったのでしょうか? 原因を探るために、\st のとても役に立つツールの一つ、\ind{debugger}を使いましょう。
+何が起こったのでしょうか? 原因を探るために、\st のとても役に立つツール、\ind{debugger}を使いましょう。
 
 \dothis{通知ウインドウにある\menu{debug}ボタンをクリックしてください。}
 
-debuggerが表示されるはずです。debuggerウインドウの上部には実行スタックが表示されます。実行スタックにはすべての有効なメソッドが表示されています。そのなかの1つを選ぶと、真ん中のペインにメソッド中の実行された\st コードが表示され、エラーを引き起こした部分がハイライトされます。
+デバッガが表示されるはずです。ウインドウの上部には実行スタックが表示されます。実行スタックには実行されたメソッドが表示されています。そのなかの一つを選ぶと、真ん中のペインにメソッド中の\st コードが表示され、エラーを引き起こした部分がハイライトされます。
 
-\dothis{(上部付近の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
+\dothis{(上部の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
 
-debugger上でメソッド中のエラーが発生した実行コンテキストを確認することができます(\figref{debugToggle})。
+デバッガ上でエラーが発生したメソッド中の実行コンテキストを確認することができます(\figref{debugToggle})。
 
 \begin{figure}[ht]
 \ifluluelse
 	{\centerline {\includegraphics[width=\textwidth]{Debugger}}}
 	{\centerline {\includegraphics[scale=0.7]{Debugger}}}
-\caption{debugger上で\ct{toggleNeighboursOfCell:at:}メソッドを選択する。
+\caption{デバッガ上で\ct{toggleNeighboursOfCell:at:}メソッドを選択する。
 \figlabel{debugToggle}}
 \end{figure}
 
-debuggerウインドウの下側には2つの小さなinspectorウインドウが表示されています。左側のウインドウでは、メッセージのレシーバーである、選択されたメソッドを実行しているオブジェクトの中身をインスペクトすることができます。つまりインスタンス変数の値などをここで確認することができます。右側のウインドウではメソッドの実行状態を表すオブジェクトの中身をインスペクトすることができます。つまりメソッドの引数や一時変数の値などを確認することができます。
+デバッガの下側には二つの小さなインスペクタが表示されています。左側のペインでは、メッセージのレシーバである、選択中のメソッドを実行しているオブジェクトの中身をインスペクトできます。インスタンス変数の値は、ここで確認できます。右側のペインでは現在のメソッドの実行状態を示すオブジェクトをインスペクトできます。メソッドの引数や一時変数の値などはこちらで確認します。
 
-debuggerを使うことで、workspace上で式を評価するのと同じように、オブジェクトの中のパラメータや局所変数の値を見ながらコードを1行ずつ実行していくことができます。他のデバッガと比べて最も驚くべきことは、デバッグ中にコードを書き換えることができるということです。Browser上よりもdebugger上でほとんどの時間プログラムをしているSmalltalkerもいるくらいです。debugger上でプログラムをする利点は、作成中のメソッドが意図通りに動くかどうかを実際の実行コンテキスト中の引数と一緒に見ることができることにあります。
+デバッガを使うことで、コードを1行ずつ実行していくことができます。また、引数や一時変数にバインドされたオブジェクを見たり、ワークスペース同様に式を評価したりすることも可能です。他のデバッガと比べて最も驚くのは、デバッグ中にコードを書き換えられることです。ほとんどの時間をブラウザよりもデバッガ上でプログラミングするSmalltalkerもいるくらいです。デバッガ上でプログラムをする利点は、作成中のメソッドが意図通りに動くかを、実行コンテキストの中で、実際の引数値を使って確認できることにあります。
 
-今回の場合では、\ct{LOGame}インスタンスに送られた\ct{toggleState}メッセージが上部パネルの最初の行に表示されているはずです。これは\lct{LOCell}のインスタンスへ送られるはずのメッセージです。問題は\ct{cells}行列の初期化にあるように思われます。
-\cmind{LOGame}{initialize}のコードをBrowserで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も返していません！メソッドはデフォルトでは\ct{self}を戻り値として返します。\ct{newCellAt:at:}のケースでは\ct{LOGame}のインスタンスが返されることになります。
+今回の場合、\ct{toggleState}メッセージが、\ct{LOGame}インスタンスに送られたと、上部パネルの最初の行に表示されています。これは\lct{LOCell}のインスタンスへ送るべきメッセージです。問題は\ct{cells}の初期化にあるように思われます。
+\cmind{LOGame}{initialize}のコードをブラウザで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も指定していません！ メソッドはデフォルトでは\ct{self}を戻り値として返します。\ct{newCellAt:at:}のケースでは\ct{LOGame}のインスタンスが返ることになります。
 \index{method!returning self}
 
-\dothis{debuggerウインドウを閉じでください。
-その後、\ct{c}を返すために``\ct{^ c}''式を \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加してください。
+\dothis{デバッガウインドウを閉じてください。
+その後で、``\ct{^ c}''と \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して、\ct{c}を返すようにします。
 % It should now look as shown in \mthref{newCellAt:at:nobug}.}
 (\mthref{newCellAt:at:nobug}参照。)}
 
 % \needlines{6}
 \begin{method}[newCellAt:at:nobug]{バグの修正。}
 LOGame>>>newCellAt: i at: j
-   "位置(i,j)にあるcellを作成し、適切な画面の位置に追加。新しいcellを返す"
+   "位置(i,j)にセルを作成し、適切な画面の位置に追加。新しいセルを返す"
    | c origin |
    c := LOCell new.
    origin := self innerBounds origin.
@@ -569,11 +565,11 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 
 \noindent
-\charef{quick}でやった、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うこと、そのために\verb|^|と打ち込むことを思い出してください。
+\charef{quick}で、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うと習ったのを思い出して下さい。\verb|^|をタイプします。
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 
-debuggerウインドウ上で直接コードを修正した後で、\menu{Proceed}をクリックしアプリケーションを継続して実行することがしばしばあります。今回の場合は、バグは実行に失敗したメソッドにではなくオブジェクトの初期化処理にあったので、最も簡単な処理方法は新たにやり直すことです。debuggerウインドウを閉じ、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成します。
+デバッガ上で直接コードを修正した後、\menu{Proceed}をクリックして、アプリケーションを継続実行することもよくあります。今回の場合は、バグは、失敗したメソッド中というより、オブジェクトの初期化処理にあったので、最も簡単なのは、単に初めからやり直すことです。デバッガウインドウを閉じ、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成します。
 
 %Indeed, even in this case it would be possible to \menu{do} \ct{self initialize} and then \menu{Proceed} the \ct{toggleNeighboursOfCellAt:at:} method.
 %\ab{St\'eph, did you try this?  It seems to me that it ought to work, but when I tried it, it messed up my image.}
@@ -581,7 +577,7 @@ debuggerウインドウ上で直接コードを修正した後で、\menu{Procee
 
 \dothis{もう一度\ct{LOGame new openInWorld} を実行してください。}
 
-これでこのゲームは正常...あるいはそれに近い動作をするはずです。マウスをクリックしてから離すまでの間にマウスを移動させると、マウス上のcellも切り替わってしまいます。この動作は\ct{SimpleSwitchMorph}を継承したことによる振る舞いです。\ct{mouseMove:}をオーバーライドして、何もしないように修正しましょう。
+これでこのゲームはほぼ正常動作をするはずです。ただしマウスをクリックしてから離すまでの間にマウスを移動させると、マウス上のセルも切り替わってしまいます。この動作は\ct{SimpleSwitchMorph}を継承したことによる振る舞いです。\ct{mouseMove:}をオーバーライドして、何もしないように修正しましょう。
 
 % \needlines{6}
 \begin{method}[mouseMove:]{マウスの動作をオーバーライドする。}
@@ -594,12 +590,12 @@ LOGame>>>mouseMove: anEvent
 %\on{I think that is too much for this chapter. It will come soon enough.}
 
 %=================================================================
-\section{\st のコードの保存と共有}
+\section{\st コードの保存と共有}
 \seclabel{Monticello}
 
-現在、手元には動作するLights Outゲームがあります。あなたはこのゲームを友人と共有するためにどこかに保存したいと思うかもしれません。もちろん、\pharo のイメージファイル全体を保存し、最初のプログラムを走って見せて回ることもできます。しかしもし友人が自分のコードが入ったイメージファイルを持っていたら、あなたのイメージファイルを欲しがらないかもしれません。この場合に必要なのは、他のプログラマーがあなたのソースコードを自分のイメージファイルに取り込めるよう、\pharo のイメージファイルからソースコードを取り出すことです。
+現在、手元には動作するLights Outゲームがあります。このゲームを友人と共有するため、どこかに保存したいと思ったとします。もちろん、\pharo のイメージファイル全体を保存し、初のプログラムとして動かしてみせることもできます。しかしもし友人が既に自分でコーディングしているイメージファイルを持っていたら、あなたのイメージファイルを欲しがらないかもしれません。こうした場合に必要なのは、\pharo のイメージファイルからソースコードを取り出し、他のプログラマーが自身のイメージファイル内に取り込めるようにすることです。
 
-最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、オプションで\scat{PBE-LightsOut}パッケージすべてを\menu{various \go  File out}できます。取り出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものであり人のためのものではありません。このファイルを友人にメールで送れば、友人たちはfile list Browserを使うことでソースコードを自分の\pharo イメージファイルに組み込むことができます。
+最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、\scat{PBE-LightsOut}全体をファイルアウトするメニュー項目\menu{various \go  File out}が出てきます。書き出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものです。このファイルを友人にメールで送れば、ファイルブラウザを使うことでソースコードを自分の\pharo イメージファイルに取り込むことができます。
 
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
@@ -607,10 +603,10 @@ LOGame>>>mouseMove: anEvent
 \seeindex{method!filing out}{file, filing out}
 \index{file!filing out}
 
-\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、内容を\menu{various \go  File out}してください。}
-``PBE-LightsOut.st''という名のファイルがイメージファイルがある同一フォルダ内にあるのを見つけることができます。テキストエディタでこのファイルを見てみてください。
+\dothis{\scat{PBE-LightsOut}パッケージを\actclick し、\menu{various \go  File out}でファイルアウトしてください。}
+``PBE-LightsOut.st''という名のファイルがイメージファイルと同じフォルダ内にできます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharo のイメージファイルを開き、File Browserツールを使い、先ほど取り出したPBE-LightsOut.stを(\menu{Tools \ldots {\go} File Browser})から\menu{File in}してください。そしてそのイメージファイル上でゲームが動作することを確認してください。}
+\dothis{まっさらな\pharo のイメージファイルを開き、ファイルブラウザを使い先ほど出力したPBE-LightsOut.stを、(\menu{Tools \ldots {\go} File Browser})からファイル員 \menu{File in}してください。そしてこのイメージ上でゲームが動作することを確認してください。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -618,15 +614,18 @@ LOGame>>>mouseMove: anEvent
 
 \begin{figure}[ht]
 \centerline {\includegraphics[width=\textwidth]{FileIn}}
-\caption{\pharo にソースコードをFile inする。
+\caption{\pharo にソースコードをファイルインする。
 \figlabel{filein}}
 \end{figure}
 
 \subsection{Monticelloパッケージ}
-\emph{File out}は書いたコードを保存するのには便利な方法ですが、これは明らかに古い方法です。
-ほとんどのオープンソースプロジェクトでは、コードを保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}などのリポジトリを使っています。\pharo プログラマーにはコードを管理するのにもっと役に立つ\ind{Monticello}パッケージがあります。これらのパッケージにはファイル名の最後に \ct{.mcz}が付いています。このファイルの正体は\ind{パッケージ}のコードすべてをまとめてZIPで圧縮したものです。
+\emph{ファイルアウト}はコードを保存するのに便利な方法ですが、これは明らかに古い方法です。
+ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。同じように\pharo プログラマーは、\ind{Monticello}パッケージを使ってコードをより便利に管理できます。Monticellono
+パッケージではファイル名の末尾に \ct{.mcz}がつきます。このファイルの正体は\ind{パッケージ}内のコードをZIPで圧縮したものです。
 
-Monticello package Browserを使うことで、FTPやHTTPなどを含む色々な種類のサーバーのリポジトリにパッケージを保存することができます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルハードディスクの\emph{package-cache}フォルダにキャッシュされています。Monticelloにより複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを閲覧することができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticelloパッケージブラウザを使うことで、FTPやHTTPなどの色々なサーバー上のリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされています。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+
+%ここまで(p44)%
 
 もちろん\ct{.mcz}ファイルをEメールで送ることも出来ます。
 受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをMonticelloを使い閲覧したりロードしたりすることができます。
