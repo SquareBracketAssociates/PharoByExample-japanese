@@ -779,7 +779,7 @@ run: oldSelector with: arguments in: aReceiver
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-\ct{ObjectsAsMethodsExample}をさらに詳しく調べると、スーパークラスが\ct{flushcache}、\ct{methodClass:}、\lct{selector:}のメソッドを定義していることがわかりますが、定義だけで何も実装されていません。これらのメッセージはコンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドのふりをするために実装しておく必要があります（\ct{flushcache}はこの中で最も重要なメソッドです。他のメソッドは\clsmthind{Behavior}{addSelector:withMethod:}または\clsmthind{MethodDictionary}{at:put:}でメソッドをインストールする場合に必要になります）。
+\ct{ObjectsAsMethodsExample}をさらに詳しく調べると、スーパークラスが\ct{flushCache}、\ct{methodClass:}、\lct{selector:}のメソッドを定義していることがわかりますが、定義だけで何も実装されていません。これらのメッセージはコンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドのふりをするために実装しておく必要があります（\ct{flushCache}はこの中で最も重要なメソッドです。他のメソッドは\clsmthind{Behavior}{addSelector:withMethod:}または\clsmthind{MethodDictionary}{at:put:}でメソッドをインストールする場合に必要になります）。
 
 %-------------------------------------------------------------------------
 \subsection{メソッドラッパーをテストカバレッジの評価に使う}
