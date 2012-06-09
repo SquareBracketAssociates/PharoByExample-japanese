@@ -623,16 +623,14 @@ LOGame>>>mouseMove: anEvent
 ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。同じように\pharo プログラマーは、\ind{Monticello}パッケージを使ってコードをより便利に管理できます。Monticellono
 パッケージではファイル名の末尾に \ct{.mcz}がつきます。このファイルの正体は\ind{パッケージ}内のコードをZIPで圧縮したものです。
 
-Monticelloパッケージブラウザを使うことで、FTPやHTTPなどの色々なサーバー上のリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされています。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticelloブラウザを使うことで、FTPやHTTPなどの色々なサーバー上のリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされています。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
-%ここまで(p44)%
-
-もちろん\ct{.mcz}ファイルをEメールで送ることも出来ます。
-受け取った人はそれを\emph{package-cache}フォルダーに置くことにより。そのファイルをMonticelloを使い閲覧したりロードしたりすることができます。
+もちろん\ct{.mcz}ファイルをEメールで送ることもできます。
+受け取った人はそれを\emph{package-cache}フォルダーに置くことで、Monticelloで閲覧したりロードしたりすることができます。
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
-\dothis{\menu{World}メニューからMonticello Browserを開いてください。}
-Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリポジトリのリストがあります。このリストには、今使っているイメージにロードしたコードを含めてすべてのリポジトリを含んでいます。
+\dothis{\menu{World}メニューからMonticelloブラウザを開いてください。}
+右側のペイン(\figref{monticello1}参照)はMonticelloのリポジトリのリストです。イメージ内にロードしたコードについてのリポジトリが、すべて並びます。
 
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
@@ -644,32 +642,31 @@ Browserの右側のペイン(\figref{monticello1}参照)にはMonticelloのリ�
 \figlabel{monticello1}}
 \end{figure}
 
-Monticello Browserのリストの上部はローカルディレクトリにある \emphind{package cache}と呼ばれるリポジトリです。ここにはネットワーク越しにロードしたり、公開したパッケージのコピーがキャッシュされます。
-ローカルキャッシュは自分のローカル履歴が保存できるため非常に便利です。つまりインターネットに接続できない場所や、回線が遅いために何度も保存したいとは思わないぐらい遠くのリポジトリでも作業することができることを意味します。
-
+Monticelloブラウザのリポジトリリストの一番上にはローカルディレクトリ上の \emphind{package cache}と呼ばれるリポジトリが表示されます。ここにはネットワーク上にロード・公開したパッケージのコピーがキャッシュされます。
+ローカルキャッシュには自分のローカルでの履歴が保存できるので非常に便利です。つまりインターネットに接続できない場所や、回線が遅く頻繁にリモートに保存したくない状況でも作業できるということです。
 
 \subsection{Monticelloを使ったコードの保存と読み込み}
-Monticello Browserの左側にはイメージ内に読み込まれたバージョンを持つパッケージのリストが表示されます。そして読み込まれた後に修正されたパッケージにはアスタリスクで印がつけられています。(これらは時に\subind{package}{dirty}と呼ばれています。) パッケージを選択すると、リポジトリのリストは選択したパッケージのコピーを含むリポジトリに限定されます。
+Monticelloブラウザの左側にはイメージ内にロードしたパッケージのバージョンリストが表示されます。ロード後に修正されたパッケージには、アスタリスクで印がついています。(これらは時にダーティパッケージ\subind{package}{dirty}と呼ばれます。) パッケージを選択すると、リポジトリリストは選択したパッケージのコピーを含むリポジトリに絞り込まれます。
 \seeindex{*}{package, dirty}
 \seeindex{dirty package}{package, dirty}
 
 %What is a package?  For now, you can think of a package as a group of  class and method categories that share the same prefix.  Since we put all of the code for the Lights Out game into the category called \scat{PBE-LightsOut}, we can refer to it as the \ct{PBE-LightsOut} package.
 
-\dothis{\button{+Package}ボタンと\ct{PBE-LightsOut}と打ち込み、\ct{PBE-LightsOut}パッケージをMonticello Browserに追加します。}
+Monticelloブラウザの\dothis{\button{+Package}ボタンを押して、\ct{PBE-LightsOut}と打ち、\ct{PBE-LightsOut}パッケージを追加します。}
 
 \subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}}
 
-コードを保存、共有する一番良い方法は\sqsrc サーバー上のでアカウントを取りプロジェクトを作ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc はHTTPの\ind{Monticello}サーバーのwebフロントエンドでプロジェクトを管理するることができます。
-\url{http://www.squeaksource.com}に公開されている\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、Monticello Browser を使うことでパッケージを管理するためにより多くの生産的な作業が\pharo から行えます。
+コードを保存、共有する一番良い方法は\sqsrc サーバーのアカウントを取りプロジェクトを作ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc は\ind{Monticello}のHTTPリポジトリのwebフロントエンドであり、各種プロジェクトを管理できます。
+\url{http://www.squeaksource.com}に、公開\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、\pharo からMonticelloブラウザを使ってパッケージを管理するほうが効率よく作業が行えます。
 
-\dothis{web browserで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲームのためのプロジェクトを作ってください(つまり登録してください)。}
+\dothis{ウェブブラウザで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲーム用のプロジェクトを作ってください(つまり登録してください)。}
 
-\sqsrc はリポジトリを追加する際にMonticello Browserを使うことを薦めてくるでしょう。
+\sqsrc は、Monticelloブラウザ上にリポジトリを追加するための情報を表示します。
 
-\sqsrc にプロジェクトを作成したら、\pharo システムにそれを使うよう伝える必要があります。
+\sqsrc にプロジェクトを作成したら、\pharo にそれを使うよう伝える必要があるのです。
 
-\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticello Browserの\button{+Repository}ボタンをクリックしてください。}
-利用可能なさまざまなタイプのリポジトリのリストが表示されます。\sqsrc リポジトリに追加するためには\menu{HTTP}を選択してください。サーバに関する必要な情報を提供できるダイアログが表示されます。\sqsrc プロジェクトを識別するため、提示されたテンプレートをコピーし、Monticelloに貼り付け、自分のイニシャルとパスワードを提供する必要があります。
+\dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticelloブラウザの\button{+Repository}ボタンをクリックしてください。}
+利用可能なさまざまなリポジトリタイプが表示されます。\sqsrc のリポジトリを追加するには\menu{HTTP}を選択してください。サーバ情報を入力するためのダイアログが表示されます。\sqsrc プロジェクトを識別するため、サーバから提示されたテンプレートをコピーし、Monticelloのダイアログに貼りつけ、自分のイニシャルとパスワードを記入する必要があります。
 
 \needlines{5}
 \begin{code}{}
@@ -680,7 +677,7 @@ MCHttpRepository
 \end{code}
 
 \noindent
-もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはできますが更新することはできません。
+もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはできても更新はできません。
 
 \needlines{5}
 \begin{code}{}
@@ -691,7 +688,7 @@ MCHttpRepository
 \end{code}
 
 %You can then load the code in your image by selecting the version you want. You can browse the code without loading it, using the \button{Browse} button.
-一度このテンプレートを受諾すると新たなリポジトリがMonticello Browserの右側のリストに表示されます。
+このテンプレートを入力すると新たなリポジトリがMonticelloブラウザの右側のリストに表示されます。
 
 \begin{figure}[hbt]
 \ifluluelse
@@ -701,31 +698,31 @@ MCHttpRepository
 \figlabel{monticello3}}
 \end{figure}
 
-\dothis{\button{Save}ボタンを押し最初のバージョンのLight Outゲームを\sqsrc に保存してください。}
+\dothis{\button{Save}ボタンを押して、Light Outゲームの最初のバージョンを\sqsrc に保存してください。}
 
-パッケージを自分のイメージファイルに読み込むためには、最初にバージョンを特定しなければいけません。Repository Browserを使うことでにバージョンを特定することができます。\button{Open}ボタンを使うかメニューを\actclick してRepository Browserを開いてください。一度バージョンを選択すると、イメージファイルにパッケージを読み込むことができます。
+パッケージを自分のイメージファイルにロードするには、まずバージョンを特定しなければいけません。リポジトリブラウザを使うことで、特定のバージョンを選ぶことができます。\button{Open}ボタンかメニューの\actclick でリポジトリブラウザを開いてください。バージョンを選択して、イメージファイルにパッケージを読み込むことができます。
 
-\dothis{保存した\ct{PBE-LightsOut}リポジトリを開いてください。}
+\dothis{先ほど保存した\ct{PBE-LightsOut}リポジトリを開いてください。}
 
-詳細は\charef{env}で述べますがMonticelloはとても多くのことができます。
-Monticelloについては\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むこともできます。
+Monticelloではとても多くのことができますが、詳細は\charef{env}で述べます。
+\url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むこともできます。
 
 %=================================================================
 \section{章のまとめ}
 この章ではカテゴリ、クラス、そしてメソッドの作り方について学びました。
-また、Browser、inspector、debugger、そしてMonticello Browserの使い方について学びました。
+また、ブラウザ、インスペクタ、デバッガ、そしてMonticelloブラウザの使い方についても学びました。
 
 \begin{itemize}
-  \item カテゴリは関連するクラスのグループ化したものです。
-  \item スーパークラスへメッセージを送ることで新たにクラスを定義することができます。
+  \item カテゴリは関連するクラスをグループ化したものです。
+  \item 既存のスーパークラスへメッセージを送ることで新たにクラスを定義できます。
   \item プロトコルは関連するメソッドをグループ化したものです。
-  \item Browser上で定義し編集し\emph{acceptする}ことで新たなメソッドを作ったり修正することができます。
-  \item inspectorは任意のオブジェクトの中の値を簡単に見たり割り込んだりするための多目的GUIです。
-  \item Browserは宣言されたメソッドや変数の使い方を見つたり、可能な訂正を受け入れるためのものです。
-  \item \pharo では\ct{initialize}メソッドはオブジェクトが作られた直後に自動的に実行されます。どんな初期化コードもそこに書くことができます。
-  \item debuggerは動作しているプログラムの状態を見たり修正するための高度なGUIを提供します。
+  \item ブラウザでメソッド定義を編集して\emph{accept}することで、新たなメソッドを作ったり修正できます。
+  \item インスペクタは、シンプルで汎用的なUIを提供し、ユーザは任意のオブジェクトの値を見てやりとりすることができます。
+  \item ブラウザは定義されていないメソッドや変数をチェックし、修正候補を出してきます。
+  \item \pharo では\ct{initialize}メソッドはオブジェクトが作られた直後に自動的に実行されます。初期化コードはそこに書きます。
+  \item デバッガは動作中のプログラムの状態を見たり修正するための高度なGUIを提供します。
   \item カテゴリを\emph{File out}することでソースコードを共有することができます。
-  \item コードを共有するより良い方法は、Monticelloを使って外部のレポジトリ、例えば\sqsrc のプロジェクトとして定義したリポジトリを管理することです。
+  \item 良い望ましいのは、Monticelloを使って、\sqsrc のような外部のレポジトリ上で、コードを共有することです。
 \end{itemize}
 
 %=================================================================
