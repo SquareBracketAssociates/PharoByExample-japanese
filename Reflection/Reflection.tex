@@ -48,10 +48,10 @@
 %\alex{I addressed lukas comments using editorial macros. Please, if you read this, remove this comment and remove the editorial macros, else their purpose is diminished}
 
 \indexmain{リフレクション}
-\st はリフレクション可能なプログラミング言語です。
-つまり、プログラムは自分自身の実行や構造を「（ランタイムシステムに）反映する」ことができます。
+\st はリフレクティブなプログラミング言語です。
+つまり、プログラムは自分自身の実行や構造を「（ランタイムシステムに）反映する(リフレクトする)」ことができます。
 % \lr{not only on execution, also on the static model}
-ランタイムシステムの\emphind{メタオブジェクト}が通常のオブジェクトのように\emph{具現化}されているので、メタオブジェクトに問い合わせを行ったり、インスペクトして内容を見られます。
+ランタイムシステムの\emphind{メタオブジェクト}を通常のオブジェクトとして\emph{具現化(reify))}することができるので、メタオブジェクトに問い合わせを行ったり、インスペクトして内容を見るたりすることができます。
 \st のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 このようなリフレクションは\emphind{イントロスペクション}とも呼ばれ、多くのモダンなプログラミング言語でサポートされています。
 
@@ -61,21 +61,21 @@
 \end{figure}
 
 \st では逆の操作も可能で、具現化されたメタオブジェクトを変更して、ランタイムシステムに\emph{反映}させることもできます(\figref{reflect}参照)。
-このようなリフレクションは\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語でサポートされていますが、静的な言語での機能は極めて限られます。
+このようなリフレクションは\emph{インターセッション}とも呼ばれ、主に動的なプログラミング言語でサポートされていますが、静的な言語では極めて限られています。
 
-他のプログラム（またはプログラム自身）を操作するプログラムを\emphind{メタプログラム}と呼びます。
-リフレクション可能なプログラミング言語は、\ind{イントロスペクション}と\ind{インターセッション}の両方をサポートするべきです。
-イントロスペクションとは、言語自身を定義するデータ構造（オブジェクト、クラス、メソッド、実行時スタック）を\emph{検査}できる機能です。
-インターセッションとは、そのようなデータ構造を\emph{変更}できる機能です。言い換えると、言語の意味論やプログラムの振る舞いを、プログラム自身が変更できる機能です。
-ランタイムシステムのデータ構造を検査・変更することを\emph{構造的リフレクション}と呼び、データ構造の解釈の仕方を変更することを\emphind{振る舞い的リフレクション}と呼びます。
+他のプログラム（または自分自身）を操作するようなプログラムを\emphind{メタプログラム}と呼びます。
+レフレクティブなプログラミング言語では、\ind{イントロスペクション}と\ind{インターセッション}がどちらもサポートされているべきです。
+イントロスペクションとは、言語自身を定義するデータ構造（オブジェクト、クラス、メソッド、実行時スタックなど）を\emph{検査}する機能です。
+インターセッションとは、そのようなデータ構造を\emph{変更}できること、言い換えれば、言語の意味論やプログラムの振る舞いを、プログラム自身から変更できる機能です。
+ランタイムシステムの構造を検査・変更することを\emph{構造的リフレクション}と呼び、それらの構造の解釈を変更することを\emphind{振る舞い的リフレクション}と呼びます。
 
 この章では、主にind{構造的リフレクション}を扱います。
-例と多数挙げながら、 \st がどのようにイントロスペクションとメタプログラミングをサポートしているのかを探っていきます。
+実用的な例を多数挙げながら、 \st がどのようにイントロスペクションとメタプログラミングをサポートしているのかを探っていきます。
 
 %======================================
 \section{イントロスペクション}
 
-インスペクタを使うと、オブジェクトの内容を見たり、インスタンス変数の値を変更したり、オブジェクトにメッセージを送ることもできます。
+インスペクタを使うと、オブジェクトの内容を見たり、インスタンス変数の値を変更したり、オブジェクトにメッセージを送ったりすることができます。
 
 \dothis{次のコードをワークスペースで評価してみましょう:}
 \begin{code}{| w |}
@@ -86,7 +86,7 @@ w inspect
 
 このコードを評価すると、インスペクタとワークスペースがもう一つ開きます。
 このインスペクタは新しく開いたワークスペースの内部状態を示しており、左ペインにはインスタンス変数（\ct!dependents!, \ct!contents!, \ct!bindings! など）、右ペインには選択したインスタンス変数の値が表示されます。
-\ct!contents!インスタンス変数は、ワークスペースのテキストエリアに表示されている内容を表します。\ct!contents!を選択すると、インスペクタの右ペインには空文字列が表示されます。
+\ct!contents!インスタンス変数は、ワークスペースのテキストエリアに表示されている内容を表しますので、この時点で\ct!contents!を選択すると、インスペクタの右ペインには空文字列が表示されます。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{workspaceInspector}
@@ -102,8 +102,8 @@ w inspect
 
 インスペクタはどのように動いているのでしょうか？
 \st では、インスタンス変数はすべて保護されています。
-この理屈から言えば、クラスが何らかのアクセサメソッドを定義していない限り、他のオブジェクトからインスタンス変数にアクセスさせることはできません。
-しかし実際には、インスペクタはアクセサメソッドがなくてもインスタンス変数にアクセスできます。これは\st がリフレクション可能だからです。
+理論上は、アクセサメソッドがそのクラスに定義されていない限り、他のオブジェクトからインスタンス変数にアクセスすることはできません。
+しかし、実際にはインスペクタはアクセサがなくてもインスタンス変数にアクセスできます。これは\st がリフレクションの機能を持っているからです。
 \st では、クラスはインスタンス変数を名前または数値の添字で定義します。
 インスペクタは、\ct!Object!クラスで定義されているメソッド \lct{instVarAt: \emph{index}} または \lct{instVarNamed: \emph{aString}} を使ってインスタンス変数にアクセスします。数値の添字 \lct{\emph{index}} で位置を指定するか、インスタンス変数名 \lct{\emph{aString}} を指定します。インスタンス変数に新しい値を代入するには、\ct!instVarAt:put:! か \ct!instVarNamed:put:! を使います。
 \mthindex{Object}{instVarAt:}
@@ -117,11 +117,11 @@ w inspect
 w instVarNamed: 'contents' put: 'howdy!'; contentsChanged
 \end{code}
 
-\important{\emph{注意:} これらのメソッドは開発ツールを作る分には便利ですが、通常のアプリケーションの開発にはよくありません。リフレクション可能なメソッドはオブジェクトのカプセル化の境界を壊すので、理解も保守も難しいコードを生んでしまいます。}
+\important{\emph{注意:} これらのメソッドは開発ツールを作る分には便利ですが、通常のアプリケーション記述には使わない方が良いでしょう。リフレクティブなメソッドはオブジェクトのカプセル化境界をまたいでしまうので、理解も保守も難しいコードの原因となってしまいます。}
 % \lr{Why? The access does not show up when looking for all readers/writers in the code browser.}
 
-\ct!instVarAt:!と\ct!instVarAt:put:!は\ind{プリミティブメソッド}です。プリミティブメソッドは、バーチャルマシンのプリミティブな操作として実装されています。
-これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! （\ct!N!は整数）が見つかるでしょう。
+\ct!instVarAt:!と\ct!instVarAt:put:!はどちらも\ind{プリミティブメソッド}です。プリミティブメソッドは、バーチャルマシンの原始的操作として実装されています。
+これらのメソッドのコードを調べれば、特殊な\ind{プラグマ}構文 \ct!<primitive: N>! （\ct!N!は整数）が使われていることがわかるでしょう。
 % \lr{actually this is the syntax of pragmas (method annotations), \ct!primitive:! is just a special kind of pragma}
 
 \needlines{5}
@@ -133,17 +133,17 @@ Object>>>instVarAt: index
 	^self basicAt: index - self class instSize		
 \end{code}
 
-プリミティブに続くコードは、プリミティブが失敗した場合にのみ実行されます。
-\ct!instVarAt:!では、存在しないインスタンス変数にアクセスしようとすると、プリミティブに続くコードが実行されます。
-こうすれば、プリミティブメソッドが失敗したときにデバッガを起動できます。
+通常はプリミティブ呼び出しの行以降のコードは実行されません。
+その部分はプリミティブが失敗した場合にのみ実行されます。この例の場合では、存在しないインスタンス変数にアクセスしようとすると、プリミティブに続くコードがバックアップとして試みられます。
+この仕組みにより、プリミティブメソッドが失敗したときにデバッガを起動することもできます。
 プリミティブメソッドのコードは変更できますが、\pharo システムの安定性を脅かしかねないため注意してください。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{allInstanceVariables}
-	\caption{\ct!Workspace!のすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
+	\caption{ある\ct!Workspace!オブジェクトのすべてのインスタンス変数を表示している様子。\figlabel{allInstanceVariables}}
 \end{figure}
 
-\figref{allInstanceVariables}は、\ct!Workspace!クラスのインスタンス（\ct!w!）の任意のインスタンス変数を表示する方法を示しています。
+\figref{allInstanceVariables}は、\ct!Workspace!クラスのあるインスタンス（\ct!w!）のすべてのインスタンス変数を表示する方法を示しています。
 \ct!allInstVarNames!メソッドは、与えられたクラスのすべてのインスタンス変数の名前を返します。
 
 同様の方法で、同じ特徴を持つインスタンスを集めることもできます。
@@ -154,10 +154,10 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \end{code}
 
 %-----------------------------------------------------------------
-\subsection{インスタンス変数について繰り返し処理する}
+\subsection{インスタンス変数に対する繰り返し処理}
 
 \mthindex{Object}{instanceVariableValues}
-\ct!instanceVariableValues!メッセージについて調べてみましょう。このメソッドは、すべてのインスタンス変数（継承したものは除く）の値のコレクションを返します。
+\ct!instanceVariableValues!メッセージについて調べてみましょう。このメソッドは、継承したものを除くすべてのインスタンス変数の値をコレクションとして返します。
 次に例を示します:
 \begin{code}{@TEST}
 (1@2) instanceVariableValues --> an OrderedCollection(1 2)
@@ -167,7 +167,7 @@ SketchMorph allInstances select: [:c | (c instVarNamed: 'owner') isWorldMorph]
 \needlines{9}
 \begin{code}{}
 Object>>>instanceVariableValues
-	"レシーバのクラスが定義したインスタンス変数の値を集めたコレクションを返す。"	
+	"レシーバのクラスで追加されたインスタンス変数の値を集めたコレクションを返す。"	
 	| c |
 	c := OrderedCollection new.
 	self class superclass instSize + 1
@@ -176,18 +176,17 @@ Object>>>instanceVariableValues
 	^ c
 \end{code}
 
-このメソッドは、レシーバのクラスが定義しているインスタンス変数の添字に基づいて、インスタンス変数の値を集めます。この添字は、スーパークラスで使われている最後の添字の直後の値から始まります。
-（\ct!instSize! メソッドは、クラスが定義している名前付きのインスタンス変数の数を返します）。
+このメソッドは、スーパークラスで使われている最後のインスタンス変数の添字の直後から開始して、レシーバのクラスが定義しているインスタンス変数の添字に対して繰り返し処理をしています。
+（\ct!instSize! メソッドは、クラスが定義している名前付きインスタンス変数の数を返します）。
 
 %-----------------------------------------------------------------
 \subsection{クラスやインターフェースへの問い合わせ}
 
-\pharo の開発ツール（コードブラウザ、デバッガ, インスペクタなど）はすべて、これまでに見て来たリフレクション可能な機能を使っています。
+\pharo の開発ツール（コードブラウザ、デバッガ, インスペクタなど）はすべて、これまでに見て来たリフレクティブな機能を使っています。
 
-もういくつか、開発ツールにとって役立つメッセージを挙げましょう:
+もういくつか、開発ツールを作る際に役立つメッセージを挙げましょう:
 
-\lct{isKindOf: \emph{aClass}}は、レシーバが\lct{\emph{aClass}}や、そのスーパークラスのいずれかのインスタンスであれば真を返します。例:
-
+\lct{isKindOf: \emph{aClass}}は、レシーバが\lct{\emph{aClass}}そのいずれかのスーパークラスのインスタンスであれば真を返します。例えば:
 \begin{code}{@TEST}
 1.5 class                     --> Float
 1.5 isKindOf: Number --> true
@@ -196,8 +195,7 @@ Object>>>instanceVariableValues
 \mthindex{Object}{class}
 \mthindex{Object}{isKindOf:}
 
-\lct{respondsTo: \emph{aSymbol}}は、セレクタが\lct{\emph{aSymbol}}であるメソッドをレシーバが持っていれば真を返します。例:
-
+\lct{respondsTo: \emph{aSymbol}}は、セレクタが\lct{\emph{aSymbol}}であるメソッドをレシーバが持っていれば真を返します。例えば:
 \needlines{3}
 \begin{code}{@TEST}
 1.5 respondsTo: #floor      --> true    "Numberクラスはfloorを実装しています"
@@ -206,19 +204,19 @@ Exception respondsTo: #, --> true    "例外クラスはグループ化できま
 \end{code}
 \mthindex{Object}{respondsTo:}
 
-\important{\emph{警告:}ここで紹介した機能は、開発ツールにとっては便利ですが、普通のアプリケーションには適していません。
-オブジェクトが属するクラスや理解できるメッセージを調べようとするのは、設計に問題がある兆候です。カプセル化の原則に反しています。
-ただし、開発ツールは普通のアプリケーションではありません。開発ツールはソフトウェアそのものを扱うので、コードの内部を詳細に調べる権利があります。}
+\important{\emph{警告:}ここで紹介した機能は、開発ツールの記述には大変便利ですが、通常のアプリケーション作成には適していません。
+オブジェクトが属するクラスや理解できるメッセージを調べようとするのは、カプセル化の原則に反しており、設計に問題がある兆候です。
+しかしながら、開発ツールは普通のアプリケーションではありません。開発ツールの対象はソフトウェアそのものなので、コードの内部を詳細に調べる権利があると言えます。}
 
 %There also exist mechanisms for introspecting on various parts of the run-time system, such as  the process scheduler, the memory manager and so on. For now we will focus on navigating through objects, classes and methods, and we will look more closely at rest of the runtime system in an other chapter.
 %\on{let's not mention this if we don't actually write such a chapter!}
 
 %-----------------------------------------------------------------
-\subsection{コードメトリクス}
+\subsection{コード・メトリクス}
 
-\st のイントロスペクションを使えば、コードメトリクスを簡単に調べられます。使い方を見てみましょう。
-コード\ind{メトリクス}では、次のようなコードの特徴を調べます。継承の階層の深さ、直接的・間接的なサブクラスの数、各クラスのメソッドやインスタンス変数の数、クラスで新しく定義されたメソッドやインスタンス変数の数などです。
-次に\ct!Morph!クラスのメトリクスをいくらか示します。\ct!Morph!クラスは\pharo のすべてのグラフィカルなオブジェクトのスーパークラスであり、巨大なクラスであり、巨大な継承階層のルートクラスだとわかります。リファクタリングが必要かもしれません！
+\st のイントロスペクションを使って、いろいろなコード・メトリクスが簡単に調べられるという例を見てみましょう。
+コード・\ind{メトリクス}とは、継承の階層の深さ、直接的・間接的なサブクラスの数、各クラスのメソッドやインスタンス変数の数、クラスで新しく定義されたメソッドやインスタンス変数の数などを計測することです。
+以下に\ct!Morph!クラスのメトリクスをいくらか示します。\ct!Morph!クラスは\pharo のすべてのグラフィカル・オブジェクトのスーパークラスなので、それ自身が巨大で、かつ巨大な継承階層の根となっていることがわかります。もしかするとリファクタリングが必要かも！
 
 \mthindex{Behavior}{allSuperclasses}
 \mthindex{Behavior}{allSelectors}
@@ -239,23 +237,23 @@ Morph allSubclasses size.      -->  326 "サブクラスの総数"
 Morph linesOfCode.               --> 5968 "総コード行数"
 \end{code}
 
-オブジェクト指向言語において最も興味深いメトリクスの一つは、スーパークラスから継承し、拡張したメソッドの数です。
-このメトリクスにより、クラスとそのスーパークラスの関係がわかります。
-次の節以降では、このような疑問をどう調べていくのかを見ていきます。
+オブジェクト指向言語において最も興味深いメトリクスの一つは、スーパークラスから継承したメソッドに拡張を加えているメソッドの数です。
+このメトリクスから、クラスとそのスーパークラスの関係に関する情報が得られます。
+次の節以降では、このような疑問に対する答えを見つけるために、ランタイムの情報に関する知識をどのように使えば良いのかを見ていきます。
 
 %======================================
 \section{コードをブラウズする}
 
-\st では、すべてがオブジェクトです。特にクラスもまたオブジェクトであり、インスタンスを操作できる便利な機能を提供します。
+\st では、すべてがオブジェクトです。特にクラスもまたオブジェクトであり、そのインスタンスを探索するための便利な機能を提供しています。
 これから挙げるメッセージはほとんど\ct{Behavior}で実装されているので、どのクラスも理解できます。
 
-\figref{allInstanceVariables}で見たように、クラスに\ct!#someInstance!メッセージを送ると何らかのインスタンスを得られます。
+前に挙げたように、クラスに\ct!#someInstance!メッセージを送ると、そのクラスのあるインスタンスが得られます。
 \mthindex{Behavior}{someInstance}
 \begin{code}{@TEST} % Possibly fragile!
 Point someInstance --> 0@0
 \end{code}
 
-すべてのインスタンスを集めるなら\ct!#allInstances!を、メモリ中にあるインスタンスの数を得るなら\ct!#instanceCount!を使います。
+すべてのインスタンスを集めるには\ct!#allInstances!を、メモリ中にあるインスタンスの数を得るには\ct!#instanceCount!を使うことができます。
 
 \alex{In a Pharo0.1-10342dev09.96.3, I have "ByteString instanceCount --> 63607"}
 \mthindex{Behavior}{allInstances}
@@ -267,9 +265,7 @@ ByteString instanceCount    --> 104565
 String allSubInstances size -->  101675
 \end{code}
 
-次の機能はアプリケーションのデバッグに役立ちます。
-クラスが持つメソッドから、特定の条件を満たすメソッドのみを抽出できます。
-
+以下の機能は、クラスから特定の条件を満たすメソッドを抽出できるので、アプリケーションをデバッグする時に役立ちます。
 \begin{itemize}
 \item \mthind{Behavior}{whichSelectorsAccess:} は、指定したインスタンス変数を読み書きするすべてのメソッドのセレクタを返します。
 \item \mthind{Behavior}{whichSelectorsStoreInto:} は、指定したインスタンス変数の値を変更するすべてのメソッドのセレクタを返します。
@@ -287,11 +283,10 @@ Point crossReference --> an Array(
 		...)
 \end{code}
 
-次のメッセージは継承階層も含めて調べます:
-
+次のメッセージは継承階層も考慮した結果を返します:
 \begin{itemize}
 \item \mthind{Behavior}{whichClassIncludesSelector:} 与えられたメッセージを実装しているクラスを返します。
-\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバのクラスでもサブクラスでも使われないインスタンス変数をリストにして返します。
+\item \mthind{Behavior}{unreferencedInstanceVariables} レシーバのクラスでもサブクラスでも使われていないインスタンス変数をリストにして返します。
 \end{itemize}
 
 \begin{code}{@TEST}
@@ -319,17 +314,17 @@ SystemNavigation default allUnsentMessages size      --> 6431
 SystemNavigation default allUnimplementedCalls size --> 270
 \end{code}
 
-中には実装されているのに使われていないメッセージもありますが、必ずしも不要とは限りません。\ct{perform:}を使うなどして、ソースコードに現れない形で送られることもあります。
-ただし、送られているのに実装されていないメッセージには問題があります。そのままではメッセージ送信に失敗します。
+中には実装されているのに使われていないメッセージもありますが、\ct{perform:}を使うなどして、ソースコードに現れない形で送られることもあるので、必ずしも不要とは限りません。
+ただし、送られているのに実装されていないメッセージは、送信したときに失敗することになるので、問題がある可能性が高いと言えます。
 このようなメッセージは、不完全な実装、廃止されたAPI、ライブラリ不足を示している可能性があります。
 
 \mthindex{SystemNavigation}{allCallsOn:}
-\ct!SystemNavigation default allCallsOn: #Point! は、ソースコード中で\ct!Point!をレシーバとして扱っているすべてのメッセージを返します。
+\ct!SystemNavigation default allCallsOn: #Point! は、ソースコード中で\ct!Point!を明示的にレシーバとしているすべてのメッセージを返します。
 
 以上の機能はすべて、 \pharo のプログラミング環境（特にコードブラウザ）に統合されています。
-すでに知っているかもしれませんが、メッセージに関する便利なキーボードショートカットがあります。メッセージの実装者（クラス）を調べるには \short{m} 、メッセージのセンダを調べるには \short{n} が使えます。
-このような問い合わせがたくさん\ct{SystemNavigation}クラスの\prot{browsing}プロトコルのメソッドとして実装されていますが、あまり知られていないかもしれません。
-例えば、次の式を評価すると\ct{ifTrue:}メッセージを実装しているすべてのメソッドをプログラム的にブラウズできます:
+すでにご存知だとは思いますが、メッセージをブラウズする際に使える便利なキーボードショートカットがあります。それらは、メッセージの実装を取得するための \short{m} 、メッセージの送信者を取得するための \short{n} などです。
+一方で、このような問い合わせ機能が多数 \ct{SystemNavigation}クラスの\prot{browsing}プロトコルに属するメソッドとして実装されていることは、それほど知られていないかもしれません。
+例えば、次の式を評価すると\ct{ifTrue:}メッセージのすべての実装をプログラム的にブラウズできます:
 \mthindex{SystemNavigation}{browseAllImplementorsOf:}
 \begin{code}{}
 SystemNavigation default browseAllImplementorsOf: #ifTrue:
@@ -340,8 +335,7 @@ SystemNavigation default browseAllImplementorsOf: #ifTrue:
 	\caption{すべての\ct!\#ifTrue:!の実装をブラウズしている様子。\figlabel{implementors}}
 \end{figure}
 
-特に便利なメソッドは\ct{browseAllSelect:}と、\lct{browseMethodsWithSourceString:}の二つです。次にシステム中のすべてのメソッドのうち \super 送信を行うものをブラウズする方法を示します。最初の方法は総当たりに近くなりますが、二つ目の方法では検索結果から不要なものを多少減らせます。
-
+特に便利なメソッドは\ct{browseAllSelect:}と\lct{browseMethodsWithSourceString:}の二つです。以下にシステム中のすべてのメソッドのうち \super 送信を行うものをブラウズする方法を示します。最初の方法は総当たり的ですが、二つ目の方法ではより正確で、検索結果から不要なものを多少減らすことができます。
 \mthindex{SystemNavigation}{browseMethodsWithSourceString:}
 \mthindex{SystemNavigation}{browseAllSelect:}
 \begin{code}{}
@@ -352,14 +346,14 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 %======================================
 \section{クラス、メソッド辞書、メソッド}
 
-クラスもオブジェクトですから、他のオブジェクトと同様にインスペクト・エクスプロアできます。
+クラスもオブジェクトなので、他のオブジェクトと同様にインスペクト・エクスプロアできます。
 
 \mthindex{Object}{explore}
 \dothis{\ct{Point explore}を評価してみましょう。}
 
-\figref{CompiledMethod}では、\ind{エクスプローラ}が\clsind{Point}クラスの構造を示しています。
-クラスがメソッドを辞書で持っているのがわかります。この辞書のキーはメソッドのセレクタです。
-キーがセレクタ \ct{#*} の値は、逆コンパイルされた\ct!Point>>>*!の\ind{バイトコード}を示しています。
+\figref{CompiledMethod}では、\ind{エクスプローラ}が\clsind{Point}クラスの構造を表示しています。
+このクラスがメソッドを辞書として保持しており、この辞書のキーがメソッドのセレクタとなっていることがわかります。
+セレクタ \ct{#*} をキーとしている要素として、\ct!Point>>>*!が逆コンパイルされた\ind{バイトコード}として表示されています。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=.5\linewidth]{CompiledMethod}
@@ -367,17 +361,16 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 \end{figure}
 
 クラスとメソッドの関係について考えてみましょう。
-\figref{MethodsAsObjects}を見ると、クラスとメタクラスのスーパークラス \ct{Behavior} が共通していることがわかります。\ct{Behavior}クラスで定義されている\mthind{Behavior}{new}は、クラスに関するメソッドの中でも特に重要です。
+\figref{MethodsAsObjects}を見ると、クラスとメタクラスは共通するスーパークラスとして \ct{Behavior} を持っていることがわかります。\ct{Behavior}が、\mthind{Behavior}{new}などのようにクラスに関するメソッドとして重要なものが定義されている場所となっています。
 どのクラスもメソッドセレクタと\ind{コンパイル済みメソッド}を関連づけるメソッド辞書を持っています。
-コンパイル済みメソッドは自分が所属するクラスを知っており、\figref{CompiledMethod}の\ct{literal5}に所属クラスの情報が含まれています。\ct{literal5}はキーをシンボル\ct{Point}、値を\ct{Point}クラスとするアソシエーションです。
+コンパイル済みメソッドは自分が所属するクラスを知っています。\figref{CompiledMethod}から、\ct{literal5}\ct{literal5}にキーをシンボル\ct{Point}、値を\ct{Point}クラスとするアソシエーションとして所属クラスの情報が含まれていることがわかります。
 
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{MethodsAsObjects}
 	\caption{クラス、メソッド辞書、コンパイル済みメソッド\figlabel{MethodsAsObjects}}
 \end{figure}
 
-システムに問い合わせる際にクラスとメソッドの関係を利用できます。
-
+システムに関する情報を問い合わせる際にクラスとメソッドの関係を利用することができます。
 例えば、あるクラスのメソッドのうち新しく定義されたもの、つまりスーパークラスのメソッドをオーバーライドしていないものを見つけるには、次のようにクラスから\ind{メソッド辞書}をたどります:
 \mthindex{Behavior}{methodDict}
 \begin{code}{}
@@ -386,22 +379,21 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
   --> an IdentitySet(#threeDigitName #printStringBase:nDigits: ...)
 \end{code}
 
-コンパイル済みメソッドは、メソッドのバイトコードを表すだけのオブジェクトではありません。
-システムに問い合わせを行う便利なメソッドも多く提供しています。
-そのうちの一つである\ct{isAbstract}メソッドは、メソッドが抽象メソッド（\ct{subclassResponsibility}を送るかどうか）であれば真を返します。
-\ct{isAbstract}メソッドを使うと、任意の抽象クラスのすべての抽象メソッドのみを得られます。
+コンパイル済みメソッドは、メソッドのバイトコードを保持しているだけではなく、
+システムに問い合わせを行う便利なメソッドも数多く提供しています。
+\ct{isAbstract}メソッド（\ct{subclassResponsibility}を送るかどうか）はそのようなメソッドのひとつです。
+\ct{isAbstract}メソッドを使って、抽象クラスのすべての抽象メソッドを同定することができます。
 \needlines{4}
 \begin{code}{}
 [:aClass| aClass methodDict keys select: [:aMethod |
   (aClass>>aMethod) isAbstract ]] value: Number
   --> #(#storeOn:base: #printOn:base: #+ #- #* #/ ...)
 \end{code}
-このコードでクラスに送っている\ct{>>}メッセージは、引数に渡したセレクタに対応するコンパイル済みメソッドを得るために使われます。
+このコードでは、セレクタに対応するコンパイル済みメソッドを取得するための\ct{>>}メッセージが使われています。
 
 % As a slightly more complex example, we can browse 
 
-継承階層での \super 送信をブラウズするには、もっと複雑な問い合わせを行います。
-例えばCollectionクラスのサブクラスで \super 送信を行っているメソッドの一覧をブラウズするなら、次のような問い合わせを行います:
+ある継承階層内で使われている \super 送信、例えばCollectionクラスのサブクラスで \super 送信を行っているメソッドの一覧をブラウズするには、以下のようにいくらか高度な問い合わせを行います。
 \begin{code}{}
 class := Collection.
 SystemNavigation default
@@ -411,8 +403,7 @@ SystemNavigation default
       thenCollect: [:assoc | MethodReference class: each selector: assoc key]])
   name: 'Supersends of ' , class name , ' and its subclasses'
 \end{code}
-
-目的のメソッドを振り分けるために、クラスからメソッド辞書を経由してコンパイル済みメソッドにたどりつく過程に注目してください。
+目的のメソッドを同定するため、クラスからメソッド辞書を経由してコンパイル済みメソッドへと探索している過程に注目してください。
 \ct{MethodReference}はコンパイル済みメソッドのための軽量プロキシで、多くのツールで使われています。
 \clsmthind{CompiledMethod}{methodReference}はコンパイル済みメソッドへのメソッド参照（\ct{MethodReference}のインスタンス）を返す便利なメソッドです。
 \begin{code}{@TEST}
@@ -420,29 +411,29 @@ SystemNavigation default
 \end{code}
 
 %======================================
-\section{ブラウザー環境}
+\section{ブラウザ環境}
 
-\clsind{SystemNavigation}はシステムコードに対してプログラム的に問い合わせたりブラウズする便利な機能を提供しますが、もっとよい方法があります。\pharo に統合されている\ind{リファクタリングブラウザ}を使うと、複雑な問い合わせを対話的にもプログラム的にも送れます。
+\clsind{SystemNavigation}はシステムコードに対してプログラム的に問い合わせを行ったりブラウズしたりする便利な機能を提供しますが、もっとよい方法もあります。\pharo に統合されている\ind{リファクタリングブラウザ}を使うと、複雑な問い合わせを対話的にもプログラム的にも行うことができます。
 
-\lct{Collection}クラス階層のメソッドのうち、メソッド自身と異なるメッセージを \super に送っているメソッドに関心があるとしましょう。
-このようなコードは悪いコードの臭いがすると考えられます。 \super 送信を \self 送信に置き換えるべきです（考えてみてください。 \super を使うのはメソッドをオーバーライドするときだけです。継承されたメソッドにアクセスしたいのなら、 \self にメッセージを送れば済みます）
+例えば、\lct{Collection}クラス階層のメソッドで、メソッド自身と異なるメッセージを \super に送っているメソッドに興味があるとしましょう。
+このようなコードは、普通であれば \super 送信を \self 送信に置き換えるべきなので、悪い \ind{コードの臭い} がすると考えられます。 （考えてみてください。 \super を使う必要があるのは、メソッドをオーバーライドして拡張するときだけです。継承されたメソッドにアクセスするのであれば、 \self にメッセージを送れば済みます。）
 
-リファクタリングブラウザは、問い合わせを関心のあるクラスやメソッドにエレガントな方法で限定してくれます。
+リファクタリングブラウザは、問い合わせを関心のあるクラスやメソッドに限定するエレガントな方法を提供しています。
 
-\dothis{\ct{Collection}クラスをブラウザで見てみましょう。
+\dothis{ブラウザを開いて\ct{Collection}クラスを見てみましょう。
 クラス名を\actclick して\menu{refactoring scope>subclasses with}を選択すると、\ct{Collection}クラス階層に限定されたブラウザ環境が開きます。
-この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層のメソッドのうち\super 送信を行うすべてのメソッドが列挙された新しいウィンドウが開きます。
-この中から任意のメソッドをクリックして、\menu{refactor>code critics}を選んでください。
-\menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう（\menu{browse}が選択できなければ、そのメソッドにこのバグはありません）。}
+この限定されたスコープの中で\menu{refactoring scope>super-sends}を選択すると、\ct{Collection}クラス階層にある \super 送信を行うすべてのメソッドを列挙した新しいウィンドウが開きます。
+この中からあるメソッドをクリックして、\menu{refactor>code critics}を選んでください。
+\menu{Lint checks>Possible bugs>Sends different super message}と選んでゆき、\menu{browse}を\actclick してみましょう。}
 
-\figref{sendDifferentSuper}では、\ct{Collection}クラス階層にそのようなメソッドが19個あることがわかります。この中には、\ct{super printOn:}を送っている\ct{Collection>>>printNameOn:}も含まれています。
+\figref{sendDifferentSuper}にあるように、\ct{Collection}クラス階層にはそのようなメソッドが19個あって、その中には \ct{super printOn:}を送っている\ct{Collection>>>printNameOn:}も含まれていることがわかります。
 \begin{figure}[ht]\centering
 	\includegraphics[width=\linewidth]{sendDifferentSuper}
 	\caption{自身のセレクタとは異なる\super 送信を行うメソッドを探す様子。\figlabel{sendDifferentSuper}}
 \end{figure}
 
 このブラウザ環境はプログラムからでも用意できます。
-例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}のインスタンスを生成して、そこから\super 送信を行うメソッドのみを抽出した結果を表示します。
+例えば、次のコードでは\clsind{Collection}とそのサブクラスを扱う\clsind{BrowserEnvironment}を生成し、そこから\super 送信を行うメソッドのみを抽出して、その結果を表示するウィンドウを開きます。
 \needlines{4}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -451,9 +442,9 @@ SystemNavigation default
 	open.
 \end{code}{}
 
-このコードは先に挙げた\ct{SystemNavigation}の使用例と同じ意味ですが、よりコンパクトになっています。
+このコードは先に挙げた\ct{SystemNavigation}を使った例と同等ですが、よりコンパクトになっていることに注目してください。
 
-最終的には次のようにして、自身のメソッドセレクタと異なる\super 送信を行うメソッドをプログラム的に探せます:
+最終的には次のようにして、自身のメソッドセレクタと異なる \super 送信を行うメソッドをプログラム的に探せます:
 \needlines{6}
 \begin{code}{}
 ((BrowserEnvironment new forClasses: (Collection withAllSubclasses))
@@ -463,24 +454,24 @@ SystemNavigation default
 	label: 'Collection methods sending different super';
 	open
 \end{code}
-ここではメソッドセレクタと異なる\super メッセージを探すために、各コンパイル済みメソッドの構文木（リファクタリングブラウザが解析したもの）を取得しています。
-\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見てみれば、構文木に何を尋ねられるかわかります。
+ここではメソッドセレクタと異なる \super メッセージを探すために、コンパイル済みメソッドのそれぞれから、（リファクタリングブラウザが使用する）構文木を取得しています。
+\ct{RBProgramNode}クラスの\prot{querying}プロトコルを見て、構文木に何を尋ねることができるのかを確認してください。
 
 %======================================
 \section{実行時コンテキストにアクセスする}
 
-これまで \st のリフレクティブな機能を使ったオブジェクト、クラス、メソッドへの問い合わせやエクスプロアを見てきました。では、実行時環境についてはどうでしょう?
+これまで \st のリフレクティブな機能を使ったオブジェクト、クラス、メソッドへの問い合わせの仕方やエクスプロアの方法を見てきました。では、実行時環境についてはどうでしょう?
 
 %-----------------------------------------------------------------
 \subsection{メソッドコンテキスト}
 
-メソッドを実行する実行時コンテキストはバーチャルマシンが管理しています --- 仮想イメージの中にはないのです！
-しかし、\ind{デバッガ}が実行時コンテキストにアクセスできるのは明白です。さらに幸いにも、他のオブジェクトと同様に実行時コンテキストをエクスプロアできます。
-どうやっているのでしょう？
+実際のところ、実行中のメソッドに対応する実行時コンテキストはバーチャルマシンが管理しています --- 仮想イメージの中にはないのです！
+しかし、\ind{デバッガ}は明らかにが実行時コンテキストにアクセスして動作しています。さらには、実行時コンテキストを探ることも、他のオブジェクトと同様に何の問題もありません。
+どうなっているいるのでしょうか？
 
-実は、デバッガには何の仕掛けもありません。
+実は、デバッガには何の不思議なこともありません。
 この秘密は、これまで軽く触れただけだった\pvind{thisContext}という疑似変数にあります。
-メソッド中で\ct{thisContext}を参照すると、そのメソッドを実行しているコンテキストが一連の\clsind{MethodContext}オブジェクトとして仮想イメージに登場します。
+メソッド中で\ct{thisContext}が参照された時にはいつでも、そのメソッドのコンテキストが具現化され、リンクした一連の\clsind{MethodContext}オブジェクトとしてイメージから操作できるようになります。
 
 この仕組みは簡単に実験できます。
 
@@ -503,28 +494,28 @@ Integer>>>factorial
 \end{figure}
 
 貧相なデバッガへようこそ！
-ここでエクスプロアされたオブジェクトのクラスをブラウズすると（\ie エクスプローラの下のペインで\ct{self browse}を評価すると）、\ct{thisContext}が\lct{MethodContext}のインスタンスであることがわかるでしょう。\ct{sender}の連鎖においても同様です。
+ここでエクスプロアされたオブジェクトのクラスをブラウズすると（\ie エクスプローラの下のペインで\ct{self browse}を評価すると）、\ct{thisContext}が、\lct{MethodContext}のインスタンスであることがわかるでしょう。\ct{sender}の連鎖からたどれるすべてのオブジェクトも同様です。
 % All of these objects have been created dynamically in the image by the \st virtual machine at the point where \ct{thisContext} was referred to in the \ct{factorial} method. \lr{Not actually. In all the currently available VMs the context objects are created with every method activation, no matter if they are accessed using \ct{thisContext} or not.}
 
-\ct{thisContext}は一般的なプログラミングで使うものではありませんが、デバッガのようなツールを実装したり、コールスタックにアクセスするには必要不可欠です。
+\ct{thisContext}は日常的なプログラミングで使うものではありませんが、デバッガのようなツールを実装したり、コールスタックの情報にアクセスしたりする際には必要不可欠です。
 次の式を評価すると、\ct{thisContext}を使っているメソッドを見つけられます。
 
 \begin{code}{}
 SystemNavigation default browseMethodsWithSourceString: 'thisContext'
 \end{code}
 
-この結果から、メッセージのセンダの取得が\ct{thisContext}の最も一般的な用途だとわかります。
+実は、メッセージのセンダを取得することが\ct{thisContext}の最も一般的な用途となっています。
 次に示すコードは典型的な例です:
 \begin{code}{}
 Object>>>subclassResponsibility
-	"このメッセージはサブクラスの振る舞いに関する仕組みを支えています。
-	サブクラスはこのメッセージを実装すべきだと忠告します。"
+	"このメッセージにより、サブクラスの挙動に関するをフレームワークを設定します。
+	サブクラスがこのメッセージを実装すべきであると宣言します。"
 
 	self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{code}
 
 \st の慣習では、\ct{self subclassResponsibility} を送るメソッドは抽象メソッドとみなされます。
-では、\clsmthind{Object}{subclassResponsibility}メソッドはどうやって抽象メソッドが呼ばれたことを示すエラーメッセージを提供するのでしょうか？
+しかし、\clsmthind{Object}{subclassResponsibility} はどの抽象メソッドが呼ばれたのかという情報を含むエラーメッセージをどうやって提供するのでしょうか？
 答えは簡単。\ct{thisContext}にセンダを尋ねるだけです。
 
 \lr{I think co-routines and continuations should at least mentioned here. Another very practical application that is simple and could be shown here is the ``escaper''. Store the current context into a temp or inst-var \ct{target := thisContext} and jump back to that stack frame at a later point in time using \ct{target return: 123}.}
@@ -533,11 +524,11 @@ Showing how to use block to build exception and such a kind of point. I think th
 we should have a Reflection applied chapter}
 \lr{I would love to help writing such a chapter}
 %-----------------------------------------------------------------
-\subsection{「賢い」ブレークポイント}
+\subsection{賢いブレークポイント}
 
 \mthindex{Object}{halt}
-\st でブレークポイントを設定するには、メソッド内の関心のある箇所で \ct{self halt} を評価するコードを書きます。この式が実行されると\ct{thisContext}が具現化され、ブレークポイントで評価を止めた\ind{デバッガ}のウィンドウが開きます。
-残念ですが、システムで集中的に使われるメソッドにブレークポイントを設定すると問題を起きてしまいます。
+\st でブレークポイントを設定するには、メソッド内の関心のある箇所で \ct{self halt} を評価するコードを書きます。この式が実行されると\ct{thisContext}が具現化され、そのブレークポイントにおける\ind{デバッガ}のウィンドウが開きます。
+しかしながら、システムで集中的に使われるメソッドにブレークポイントを設定すると問題が起きてしまいます。
 
 例えば、\ct{OrderedCollection>>>add:}の実行を解析したいとしましょう。
 このメソッド内にブレークポイントを設定すると困ったことになります。
@@ -550,9 +541,9 @@ OrderedCollection>>>add: newObject
 	^self addLast: newObject
 \end{code}
 
-仮想イメージがデバッガウィンドウすら開かずにフリーズしてしまいます！
-次の点を理解すれば、問題がはっきりとわかります。 (i) \ct{OrderedCollection>>>add:}はシステムのあちこちで使われているので、変更をアクセプトした途端にブレークポイントで止まります。 (ii) \emph{デバッガ自身}が\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、デバッガの表示が邪魔されてしまいます！
-このような問題を避けるには、デバッグしたい状況でのみ\emph{停止}する方法が必要です。
+仮想イメージがデバッガウィンドウすら開かずに直ちにフリーズしてしまいます！
+次の点を理解すれば、問題がはっきりとわかります。 (i) \ct{OrderedCollection>>>add:}はシステムのあちこちで使われているので、変更をアクセプトしてごく間もない時点でブレークポイントが起動します。 (ii) しかし、起動した\emph{デバッガ自身}が\ct{add:}メッセージを\ct{OrderedCollection}のインスタンスに送るので、そのデバッガが邪魔されてしまいます！
+このような問題を避けるには、デバッグしたい状況でのみ\emph{条件的に停止}する方法が必要です。
 その用途にぴったりなのが\clsmthind{Object}{haltIf:}です。
 
 では\ct{add:}を、例えば\ct{OrderedCollectionTest>>>testAdd}のコンテキストから呼ばれたときにだけ停止させたいとしましょう。
@@ -572,7 +563,7 @@ OrderedCollection>>>add: newObject
 Object>>>haltIf: condition
 	| cntxt |
 	condition isSymbol ifTrue: [
-		"指定されたセレクタ（シンボル）のメソッドがセンダのコールチェーンに含まれる場合のみ停止する"
+		"指定されたセレクタ・シンボルのメソッドがセンダの呼び出しチェーンに含まれている場合のみ停止する"
 		cntxt := thisContext.
 		[cntxt sender isNil] whileFalse: [
 			cntxt := cntxt sender. 
@@ -582,35 +573,35 @@ Object>>>haltIf: condition
 	...
 \end{code}
 
-\ct!haltIf:!は実行時スタックを\ct!thisContext!から遡りながら、呼び出したメソッドの名前が引数と一致するか確認します。
-一致したら例外を発生させます。デフォルトの挙動では、この例外を発生させるとデバッガを表示します。
+\ct!haltIf:!は実行時スタックを\ct!thisContext!から遡りながら、呼び出し側のメソッドの名前が引数と一致するか確認します。
+一致したら例外を発生させます。この例外はデフォルトの挙動として、デバッガを起動します。
 
-\ct{haltIf:}の引数に真偽値や真偽値を返すブロックを渡してもよいですが、その場合は単純な処理になるので\lct{thisContext}は使われません。
+\ct{haltIf:}の引数に真偽値や真偽値を返すブロックを渡してもよいですが、それらの場合は単純な処理になるので\lct{thisContext}は使わずにすみます。
 
 %======================================
 \section{理解されないメッセージをインターセプトする}
 \seclabel{msgnotunderstood}
 
-ここまでは、 \st のリフレクティブな機能をオブジェクト、クラス、メソッド、実行時スタックに主に問い合わせを行ったりエクスプロアするのに使ってきました。ここからは \st システムの構造に関する知識をどう使ってメッセージをインターセプトするのか、振る舞いを実行時に変えるのかを見ていきます。
+ここまで、 \st のリフレクティブな機能をオブジェクト、クラス、メソッド、実行時スタックに問い合わせを行ったりエクスプロアするのに主に使ってきました。ここからは \st システムの構造に関する知識を、メッセージをインターセプトしたり振る舞いを実行時に変えるためにどう使っていけるのかを見ていきます。
 
 オブジェクトはメッセージを受け取ると、まず自身のクラスのメソッド辞書からメッセージに対応するメソッドを探します。
-対応するメソッドが見つからなければ、\ct{Object}までクラス階層をたどります。それでも見つからなければ、オブジェクトは\ct{doesNotUnderstand:}の引数にメッセージセレクタとメッセージに渡された引数を与えて\emph{自分自身に送ります}。
-\ct{doesNotUnderstand:}の送信に関しても同様にメソッド検索が行われ、\clsmthind{Object}{doesNotUnderstand:}が見つかればデバッガが起動します。
+対応するメソッドが見つからなければ、\ct{Object}にたどり着くまでクラス階層を遡りつつ探します。それでも見つからなければ、オブジェクトは\ct{doesNotUnderstand:}メッセージを、元々のメッセージセレクタとメッセージへの引数を引数として\emph{自分自身に送ります}。
+メソッド探索の処理が\ct{doesNotUnderstand:}の送信に対しても\clsmthind{Object}{doesNotUnderstand:}が見つかるまで繰り返され、その結果としてデバッガが起動します。
 
 しかし、もし\ct{doesNotUnderstand:}がメソッド検索パスにある\ct{Object}のサブクラスでオーバーライドされていたらどうなるでしょう？
-これはある種の非常に動的な振る舞いを実現するのに便利です。\ct{doesNotUnderstand:}をオーバーライドすることで、オブジェクトは理解できないメッセージを理解できるようになり、メッセージに応答する代替手段になります。
+これはある種の非常に動的な振る舞いを実現するのに便利な方法でです。\ct{doesNotUnderstand:}をオーバーライドすることで、オブジェクトは理解できないメッセージに応答するための代替的な戦略を持つことができます。
 
-この方法の最も一般的な応用例は、(1) \ind{軽量プロキシ}の実装と (2) 足りないコードの動的なコンパイルまたはロード、です。
+この手法の最も一般的な応用例は、(1) \ind{軽量プロキシ}の実装と (2) 足りないコードの動的なコンパイルまたはロード、です。
 
 %-----------------------------------------------------------------
 \subsection{軽量プロキシ}
 
 最初の例として、既存のオブジェクトのプロキシとして振る舞う「\ind{最小限のオブジェクト}」を紹介します。
-このプロキシは固有のメソッドを実質的に持たないので、どんなメッセージが送られても\ct{doesNotUnderstand:}で捕捉されます。このメッセージを実装すれば、プロキシは主体にメッセージを移譲する前に特別な行動を起こせます。
+このプロキシは固有のメソッドを実質的にひとつも持たないので、どんなメッセージも\ct{doesNotUnderstand:}で捕捉されることになります。このメッセージを実装すれば、プロキシは実体のオブジェクトにメッセージを移譲する前に特別な動作を行うことができます。
 
-どのように実装できるのかを見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
+これがどのように実装できるのかを見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
 
-\ct{LoggingProxy}を次のように定義します:
+まず、\ct{LoggingProxy}を次のように定義します:
 \begin{code}{}
 ProtoObject subclass: #LoggingProxy
 	instanceVariableNames: 'subject invocationCount'
@@ -618,13 +609,13 @@ ProtoObject subclass: #LoggingProxy
 	poolDictionaries: ''
 	category: 'PBE-Reflection'
 \end{code}
-\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。\ct{Object}からこのプロキシに400個以上のメソッド(!)を継承したくないからです。
+\ct{Object}ではなく\ct{ProtoObject}のサブクラスとして定義していることに注意してください。\ct{Object}が持つ400個以上のメソッド(!)を継承したくないからです。
 
 \begin{code}{}
 Object methodDict size --> 408
 \end{code}
 
-このプロキシには二つのインスタンス変数があります。 \ct{subject} はプロキシの実体です。\ct{invocationCount}はプロキシがインターセプトしたメッセージの数です。
+このプロキシには二つのインスタンス変数があります。 \ct{subject} はプロキシの実体であり、\ct{invocationCount}はプロキシがインターセプトしたメッセージの数です。
 二つのインスタンス変数を初期化し、インターセプトしたメッセージの数を返すアクセサを提供します。
 初期化時点では、\ct{subject}変数はプロキシオブジェクト自身を指しています。
 \begin{code}{}
@@ -638,8 +629,7 @@ LoggingProxy>>>invocationCount
 	^ invocationCount
 \end{code}
 
-理解できないすべてのメッセージをインターセプトし、トランスクリプトに表示し、メッセージ数を更新し、メッセージをプロキシの実体へ転送します。
-
+この例では、理解できないすべてのメッセージをインターセプトし、トランスクリプトに表示し、メッセージ受信回数を更新し、メッセージを実体へ転送します。
 \begin{code}{}
 LoggingProxy>>>doesNotUnderstand: aMessage 
 	Transcript show: 'performing ', aMessage printString; cr.
@@ -648,14 +638,14 @@ LoggingProxy>>>doesNotUnderstand: aMessage
 \end{code}
 
 ここでちょっとした魔法の登場です。
-\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを生成し、プロキシに「\ct{Point}オブジェクトになれ（\mthind{ProtoObject}{become:}）」と伝えます。
+\ct{Point}オブジェクトと\ct{LoggingProxy}オブジェクトを生成し、プロキシに「その\ct{Point}オブジェクトになれ（\mthind{ProtoObject}{become:}）」と伝えます。
 \seeindex{\ct{become:}}{\ct{ProtoObject>>>become:}}
 \begin{code}{}
 point := 1@2.
 LoggingProxy new !\underline{become:}! point.
 \end{code}
 
-これにより、仮想イメージにある\ct{Point}オブジェクトへのすべての参照をプロキシへの参照とスワップします（逆も同様です）。特にプロキシの\ct{subject}インスタンス変数は\ct{Point}オブジェクトを参照することになります！
+これにより、イメージ内にある、この\ct{Point}オブジェクトへのすべての参照をプロキシへの参照へと入れ替えます（逆も同様です）。重要なのは、これによってプロキシの\ct{subject}インスタンス変数もこの\ct{Point}オブジェクトを参照するようになることです！
 
 \begin{code}{}
 point invocationCount --> 0
@@ -663,11 +653,11 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-この方法でだいたい問題ありませんが、足らない点もあります:
+これはたいていの場合うまく動作するのですが、足らない点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
-奇妙なことに\ct{class}メソッドは\ct{ProtoObject}で実装されておらず（\ct{Object}で実装されています）、\ct{LoggingProxy}は\ct{Object}を継承していません！
+興味深いことに、\ct{class}メソッドは\ct{ProtoObject}で実装されておらず（\ct{Object}で実装されています）、\ct{LoggingProxy}は\ct{Object}を継承していません！
 \ct{class}はメッセージとして送られるのではなく、仮想マシンによって直接処理されます。
 \footnote{\ct{yourself}も同様に、決して送られません。
 レシーバによって仮想マシンが直接解釈する可能性のあるメッセージを次に示します:
@@ -683,11 +673,11 @@ point class --> LoggingProxy
 \ct{to:do: to:by:do:}
 \ct{caseOf: caseOf:otherwise:}
 \ct{ifNil: ifNotNil:  ifNil:ifNotNil: ifNotNil:ifNil:}
-これらのメッセージを論理値ではないオブジェクトに送っても、きちんと解釈されます。
+これらのメッセージを論理値ではないオブジェクトに送ろうとした場合も、
 レシーバが\ct{mustBeBoolean}をオーバーライドするか、\ct{NonBooleanReceiver}例外を捕捉して適切な論理値を返せば実行を継続できます。
 }% NB: Notes by Lukas Renggli
 
-このような特別なメッセージ送信を無視するとしても、この方法には克服できない根本的な問題があります。\self 送信をインターセプトできません。
+このような特別なメッセージ送信を無視するとしても、この手法では克服不可能な、\self 送信をインターセプトできないという根本的な問題があります。
 \begin{code}{}
 point := 1@2.
 LoggingProxy new become: point.
@@ -708,8 +698,8 @@ Point>>>rect: aPoint
 %-----------------------------------------------------------------
 \subsection{欠けているメソッドを生成する}
 
-理解されないメッセージのインターセプトの一般的な応用例として、欠けているメソッドの動的なロードまたは生成が挙げられます。
-多数のメソッドを持つ巨大なクラスライブラリを考えてみましょう。ライブラリ全体をロードする代わりに各クラスのスタブをロードしてもよいでしょう。スタブはどこを探せばメソッドのソースコードが見つかるのか知っています。スタブは理解できないメッセージをすべて捕捉し、欠けているメソッドを必要に応じて動的にロードします。この処理はいずれ行われなくなり、ロードされたコードはクライアントアプリケーションに最低限必要な量だけ保存されます。
+理解されないメッセージをインターセプトする手法の一般的な応用例として、未実装のメソッドの動的なロードまたは生成が挙げられます。
+多数のメソッドを持つ巨大なクラスライブラリを考えてみましょう。ライブラリ全体をロードする代わりに各クラスのスタブをロードしてもよいでしょう。このスタブは、そのクラスで定義されたすべてのメソッドのソースコードがどこにあるかを知っています。スタブは理解できないメッセージをすべて捕捉し、欠けているメソッドを必要に応じて動的にロードします。この処理をある時点で無効化すれば、それまでにロードされたコードが特定のクライアントアプリケーションに最低限必要なものとして保存することができます。
 
 %\on{Stef sez: check ObjectOut -- I looked, but this seems to be very old. Depends on SqueakPage.}
 
@@ -726,7 +716,7 @@ DynamicAcccessors>>>doesNotUnderstand: aMessage
 			^ aMessage sendTo: self ].
 	^ super doesNotUnderstand: aMessage
 \end{code}
-理解できないメッセージはすべてここで捕捉されます。送られたメッセージと同じ名前のインスタンス変数があれば、自身のクラスにアクセサをコンパイルするように依頼します。その後、メッセージをもう一度送信します。
+理解できないメッセージはすべてここで捕捉されます。送られたメッセージと同名のインスタンス変数があれば、自身のクラスにアクセサをコンパイルするように依頼します。その後、メッセージをもう一度送信します。
 
 \ct{DynamicAccessors}クラスに（初期化されていない）インスタンス変数\ct{x}があり、\ct{x}のアクセサが定義されていないとしましょう。次の式を評価すると、アクセサが動的に生成されて\ct{x}の値を取得できます:
 \needlines{2}
@@ -746,7 +736,7 @@ myDA x --> nil
 
 (1) \ct{x}を\ct{myDA}に送ると (2) メソッドがクラスのメソッド辞書から探索されますが、(3) クラス階層をたどっても見つかりません。(4) 従って\ct{self doesNotUnderstand: #x}がオブジェクトに送り返され、(5) 改めてメソッド探索が行われます。\ct{DynamicAccessors}ではすぐに\ct{doesNotUnderstand:}が見つかり、(6) 文字列\ct{'x ^ x'}をコンパイルするよう依頼します。 (7) \ct{compile}メソッドが探索され、(8) 最終的に\ct{Behavior}クラスで見つかります。(9-10) コンパイル済みメソッドが\ct{DynamicAccessors}のメソッド辞書に追加されます。(11-13) 最後に再び\ct{x}メッセージが再送されますが、今度は対応するメソッドが見つかります。
 
-この方法はインスタンス変数のセッター、その他の決まりきったコード、Visitorパターンのvisitメソッドなどの生成に使えます。
+この方法はインスタンス変数のセッターや、その他のお約束コード、例えばVisitorパターンでつかうメソッドの生成などに使えます。
 
 ステップ(13)で使われている\clsmthind{Object}{perform:}に注目してください。このメソッドを使うと、実行時に動的にメッセージを生成して送れます。
 \begin{code}{@TEST}
@@ -759,16 +749,16 @@ myDA x --> nil
 \section{メソッドラッパーとしてのオブジェクト}
 \seclabel{wrapper}
 
-これまで見てきたように、\st ではコンパイル済みメソッドも通常のオブジェクトです。コンパイル済みメソッドも当然ながら多くのメソッドを持っており、そのメソッドを使って実行時システムに問い合わせを行えます。
-少し意外かもしれませんが、\emph{どんな}オブジェクトでもコンパイル済みメソッド役を演じられます。\ct{run:with:in:}といくつかの重要なメッセージに応答すればいいのです。
+これまで見てきたように、\st ではコンパイル済みメソッドも通常のオブジェクトであり、プログラマが使うことのできる多くの問い合わせ用のメソッドを用意しています。
+ただし、\emph{どんな}オブジェクトでもコンパイル済みメソッドの役を演じることができるということはちょっと意外かもしれません。そのオブジェクトは、\ct{run:with:in:}およびその他いくつかの重要なメッセージに応答しさえすればいいのです。
 
 \dothis{空のクラス\ct{Demo}を定義します。\ct{Demo new answer42}を評価して、いつもの``Message Not Understood''エラーの発生を確認してください。}
 
-普通のオブジェクトを\ct{Demo}クラスのメソッド辞書にインストールします。
+ここで、普通のオブジェクトを\ct{Demo}クラスのメソッド辞書にインストールします。
 
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価し、再び\ct{Demo new answer42}の結果を表示してください。今度は\ct{42}という回答を得られます。}
 
-\clsind{ObjectsAsMethodsExample}クラス定義を調べると次のメソッドが見つかります:
+\clsind{ObjectsAsMethodsExample}クラス定義を調べると次の２つのメソッドが見つかります:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
 %\on{ObjectsAsMethodsExample is part of the standard pharo image -- it is not in PBE-Reflection}
 \needlines{5}
@@ -781,28 +771,26 @@ run: oldSelector with: arguments in: aReceiver
 \end{code}
 
 \ct{Demo}のインスタンスが\ct{answer42}メッセージを受け取るといつも通りにメソッド探索が行われますが、仮想マシンは普通のオブジェクトがコンパイル済みメソッド役を演じようとしていることを検出します。
-仮想マシンは\ct{ObjectsAsMethodsExample}オブジェクトに\ct{run:with:in:}メッセージを送ります。このメッセージの引数は最初に送られたメソッドセレクタ、引数、レシーバです。
-\ct{ObjectsAsMethodsExample}は\ct{run:with:in:}メソッドを実装しており、メッセージをインターセプトして自身に移譲します。
+そこで、仮想マシンは\ct{ObjectsAsMethodsExample}オブジェクトに\ct{run:with:in:}メッセージを送ります。このメッセージの引数は最初に送られたメソッドセレクタ、引数、レシーバです。
+\ct{ObjectsAsMethodsExample}は\ct{run:with:in:}メソッドを実装しているので、メッセージをインターセプトして自身に移譲します。
 
 次のようにすれば、この偽のメソッドを削除できます:
 \begin{code}{}
 Demo methodDict removeKey: #answer42 ifAbsent: []
 \end{code}
 
-\ct{ObjectsAsMethodsExample}をさらに詳しく調べると、スーパークラスが\ct{flushcache}、\ct{methodClass:}、\lct{selector:}のメソッドを定義していることがわかりますが、定義だけで何も実装されていません。これらのメッセージはコンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドのふりをするために実装しておく必要があります（\ct{flushcache}はこの中で最も重要なメソッドです。他のメソッドは\clsmthind{Behavior}{addSelector:withMethod:}または\clsmthind{MethodDictionary}{at:put:}でメソッドをインストールする場合に必要になります）。
+\ct{ObjectsAsMethodsExample}をさらに詳しく調べると、スーパークラスが\ct{flushCache}、\ct{methodClass:}、\lct{selector:}のメソッドを定義していることがわかりますが、定義だけで何も実装されていません。これらのメッセージはコンパイル済みメソッドに送られる可能性があるので、コンパイル済みメソッドのふりをするために実装しておく必要があります（\ct{flushCache}はこの中で最も重要なメソッドです。他のメソッドは\clsmthind{Behavior}{addSelector:withMethod:}または\clsmthind{MethodDictionary}{at:put:}でメソッドをインストールする場合に必要になります）。
 
 %-------------------------------------------------------------------------
 \subsection{メソッドラッパーをテストカバレッジの評価に使う}
 
 メソッドラッパーはメッセージをインターセプトする有名な方法です\cite{Bran98a}。
-オリジナルの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーは\ct{CompiledMethod}のサブクラスのインスタンスです。インストールすると、メソッドラッパーは元のメソッドの起動前後に特別なアクションを実行できます。
-アンインストールすると、元のメソッドはメソッド辞書のあるべき位置に戻されます。
+オリジナルの実装\footnote{http://www.squeaksource.com/MethodWrappers.html}では、メソッドラッパーは\ct{CompiledMethod}のサブクラスのインスタンスです。インストールされると、メソッドラッパーは元のメソッドの起動前後に特別な動作を実行できます。
+アンインストールすると、元のメソッドがメソッド辞書の然るべき位置に戻されます。
 
-Pharoでは\ind{メソッドラッパー}を簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに\ct{run:with:in:}を実装します。実際、オブジェクトによるメソッドラッパーの、軽量の実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は、標準のPharoの一部ではありません。
+Pharoでは\ind{メソッドラッパー}を簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに\ct{run:with:in:}を実装します。実際、メソッドラッパーとしてのオブジェクトの、軽量の実装\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が存在します。しかし、これを書いている時点では、この実装は標準のPharoには組み込まれていません。
 
-Pharoでは、\ind{メソッドラッパー}は、より簡単に実装できます。\ct{CompiledMethod}のサブクラスを作る代わりに、\ct{run:with:in:}を実装すればいいのです。実際に軽量のメソッドラッパー\footnote{http://www.squeaksource.com/ObjectsAsMethodsWrap.html}が書かれていますが、これを書いている時点ではPharoに組み込まれていません。
-
-ただし、Pharoのテストランナーはこの方法を使ってテストカバレッジを評価しています。
+いずれにせよ、Pharoのテストランナーはまさにこの手法を使ってテストカバレッジを評価しています。
 テストランナーがどのように動作するのか見てみましょう。
 
 テストカバレッジの開始点は\clsmthind{TestRunner}{runCoverage}です:
@@ -813,7 +801,7 @@ TestRunner>>>runCoverage
 	self collectCoverageFor: methods
 \end{code}
 
-\clsmthind{TestRunner}{collectCoverageFor:}メソッドはカバレッジを調べるアルゴリズムをわかりやすく示しています:
+\clsmthind{TestRunner}{collectCoverageFor:}メソッドに、カバレッジを調べるアルゴリズムがわかりやすく書かれています:
 \begin{code}{}
 TestRunner>>>collectCoverageFor: methods
 	| wrappers suite |
@@ -829,8 +817,8 @@ TestRunner>>>collectCoverageFor: methods
 			[ UIManager default inform: 'Congratulations. Your tests cover all code under analysis.' ]
 		ifFalse: ...
 \end{code}
-カバレッジを調べるメソッドごとにラッパーを生成し、インストールします。
-ラッパーはテストの実行後にアンインストールされます。
+カバレッジを調べたい各メソッドごとにラッパーが生成され、それらがインストールされます。
+ここでテストが実行され、テスト実行後にラッパーがアンインストールされます。
 最終的にカバーされていないメソッドに関するフィードバックを得られます。
 
 ラッパー自身はどのように動くのでしょうか？
@@ -846,7 +834,7 @@ TestCoverage>>>initializeOn: aMethodReference
 	method := reference compiledMethod
 \end{code}
 
-installメソッドとuninstallメソッドはわかりやすい形でメソッド辞書を更新します:
+installメソッドとuninstallメソッドは単純な方法でメソッド辞書を更新します:
 \begin{code}{}
 TestCoverage>>>install
 	reference actualClass methodDictionary
@@ -872,17 +860,17 @@ mark
 
 たったこれだけです！
 
-メソッドラッパーを使えば、どんな処理もメソッドの通常処理の前後で実行できます。典型的な応用例は計測（メソッドの呼び出しパターンの統計情報の収集)、事前・事後条件の確認（任意）、メモ化（メソッドの処理結果を任意でキャッシュ）です。
+メソッドラッパーを使えば、あらゆる種類の動作をメソッドの通常処理の前後で実行することができます。典型的な応用例は計測（メソッドの呼び出しパターンの統計情報の収集)、選択的な事前・事後条件の確認、メモ化（メソッドの処理結果を選択的にキャッシュすること）です。
 
 %======================================
 \section{プラグマ}
 
-\emphind{プラグマ}とは、実行に影響しないデータをプログラムに付与する注釈です。
-プラグマはメソッドの操作に対して直接的な影響はありません。
-プラグマにはいくつもの使い道があります:
+\emphind{プラグマ}とはプログラムに付与する注釈の一種で、プログラムに関連するデータを追加することができます。
+プラグマはメソッド実行に対して直接的な影響は及ぼしません。
+プラグマには以下のような物を含むいくつもの使い道があります:
 \begin{itemize}
 \item コンパイラへの情報: \indmain{プラグマ}はコンパイラにメソッド呼び出しをプリミティブ関数として扱うよう指示します。プリミティブ関数は仮想マシンか外部プラグインで定義する必要があります。
-\item 実行時処理: 実行時に注釈の内容を検証します。
+\item 実行時処理: プラグマによって付加された情報を実行時に検証することができます。
 \end{itemize}
 
 プラグマはメソッド宣言にのみ適用できます。
@@ -890,15 +878,15 @@ mark
 プラグマはリテラルを引数に取る静的なメッセージ送信と言えます。
 
 この章の最初でプリミティブを紹介したときにプラグマが出てきました。
-プリミティブはプラグマ宣言でしかありません。
+プリミティブはプラグマ宣言以上の物ではありません。
 \ct{instVarAt:}メソッド内の\ct{<primitive: 73>}を見てください。
 このプラグマのセレクタは\ct{primitive:}で、引数はリテラル\ct{73}です。
 
 おそらくコンパイラはプラグマの大口ユーザです。
 SUnitも注釈を活用するツールです。
-SUnitはテスト対象からアプリケーションのカバレッジを評価できます。
-しかし、誰しもカバレッジから一部のメソッドを除外したくなることがあるでしょう。
-次に\ct!SplitJointTest class!の\ct!documentation!メソッドの例を紹介します:
+SUnitはテスト単体からアプリケーションのカバレッジを推定することができます。
+しかし、カバレッジから一部のメソッドを除外したくなることもあるでしょう。
+\ct!SplitJointTest class!の\ct!documentation!メソッドはそのような例となっています:
 
 \begin{code}{}
 SplitJointTest class>>>documentation
@@ -924,7 +912,7 @@ SplitJointTest class>>>documentation
 
 %One of the pragmas used by Lint to filter out methods is \ct{lint:rationale:author:}.
 
-プラグマは\clsind{Pragma}のインスタンスであるファーストクラスオブジェクトです。
+プラグマは\clsind{Pragma}のインスタンスであり、1級のオブジェクトです。
 コンパイル済みメソッドに\mthind{CompiledMethod}{pragmas}メッセージを送ると、プラグマの配列を返します。
 
 \begin{code}{}
@@ -933,16 +921,16 @@ SplitJointTest class>>>documentation
 (Float>>#+) pragmas --> an Array(<primitive: 41>)
 \end{code}
 
-特定のプラグマを定義しているメソッドをクラスから取得する場合もあります。
+(以下の\ct+allNamed:in:+メソッドにより)特定のプラグマを定義しているメソッドをクラスから取得することもできます。
 \ct!SplitJoinTest!には\ct!<ignoreForCoverage>!と注釈されたクラスメソッドがあります:
 
 \begin{code}{@TEST}
 Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignoreForCoverage> <ignoreForCoverage> <ignoreForCoverage>)
 \end{code}
 
-\ct{Pragma}のクラスメソッドには\ct{allNamed:in:}の変種メソッドがあります。
+\ct{allNamed:in:}の変種が、\ct{Pragma}のクラスメソッドとして定義されています。
 
-プラグマは自身が定義されたメソッド（\ct{method}を使います）、そのメソッド名（\ct{selector}）、そのメソッドを持つクラス（\ct{methodClass}）、プラグマの引数の数（\ct{numArgs}）、プラグマが指定されるリテラルを引数として持つかどうかを（\ct{hasLiteral:}と\ct{hasLiteralSuchThat:}）知っています。
+プラグマは自身が定義されたメソッド（\ct{method}を使います）、そのメソッド名（\ct{selector}）、そのメソッドを持つクラス（\ct{methodClass}）、引数の数（\ct{numArgs}）、リテラルを引数として持つかどうか（\ct{hasLiteral:}と\ct{hasLiteralSuchThat:}）を知っています。
 
 \lr{Typically pragmas are performed on an interpreter object that understands the pragma message.}
 
@@ -953,8 +941,8 @@ Pragma allNamed: #ignoreForCoverage in: SplitJoinTest class  --> an Array(<ignor
 
 \begin{itemize}
 \item インスペクタは\ct{instVarAt:}や関連するメソッドを使って、オブジェクトの「プライベートな」インスタンス変数に問い合わせたり、変数の内容を変更します。
-\item クラスのインスタンスに問い合わせたければ、\ct{Behavior>>>allInstances}を送ります。
-\item \ct{class}、\ct{isKindOf:}、\ct{respondsTo:}\etc メソッドはメトリクスの収集や開発ツールの実装には便利ですが、通常のアプリケーションでは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反しており、コードの理解や保守の邪魔になります。
+\item クラスの全インスタンスを取得したいときは、\ct{Behavior>>>allInstances}を送ります。
+\item \ct{class}、\ct{isKindOf:}、\ct{respondsTo:}などのメソッドはメトリクスの収集や開発ツールの実装には便利ですが、通常のアプリケーションでは避けるべきです: これらのメソッドはオブジェクトのカプセル化の原則に反しており、コードの理解や保守の邪魔になります。
 \item \ct{SystemNavigation}はクラス階層の探索や閲覧に便利な多くの問い合わせ方法を持つユーティリティクラスです。例えば、ある文字列をソースコードに含むメソッドをすべて見つけ出すには\ct{SystemNavigation default browseMethodsWithSourceString: 'pharo'.}を使います（遅いですが、完璧です！）。
 \item どのクラスも\ct{MethodDictionary}のインスタンスを参照しています。メソッド辞書はセレクタとコンパイル済みメソッドのインスタンスを結び付けています。コンパイル済みメソッドは自身が所属するクラスを知っており、お互いの参照が循環しています。
 \item \ct{MethodReference}はコンパイル済みメソッドのための軽量プロキシです。便利なメソッドを提供しており、多くの\st のツールに使われています。
