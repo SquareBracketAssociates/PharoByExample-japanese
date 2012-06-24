@@ -60,7 +60,7 @@
 \begin{figure}[ht]
 	\vskip -\baselineskip
 	\centerline{\includegraphics[width=.3\linewidth]{GameBoard}}
-	\caption{Lights Outゲームボード。ユーザーはボード上のセルをマウスでクリックするだけです。
+	\caption{Lights Outのゲーム盤。ユーザーは盤上のセルをマウスでクリックするだけです。
 	\figlabel{gameBoard}}
 \end{figure}
 
@@ -373,13 +373,11 @@ initialize
 %=================================================================
 \section{メソッドをプロトコルにまとめる}
 
-%ここまで(p37)
-
-メソッドの定義を続ける前に、ブラウザ上部にある3つめのペインを見てみましょう。1つめのペインでクラスをパッケージに分類したように、3つめのペインではメソッドを分類化することができます。これにより4つめのペインが大量のメソッドで埋もれてしまうのを防ぐことができます。こうしたメソッドの分類は「プロトコル」とよばれています。
+メソッドの定義を続ける前に、ブラウザ上部にある3つめのペインを見てみましょう。1つめのペインでクラスをパッケージに分類したように、3つめのペインではメソッドの分類ができます。これにより4つめのペインが大量のメソッドで埋もれてしまうのを防ぐことができます。こうしたメソッドの分類は「プロトコル」と呼ばれます。
 
 \index{protocol}
 
-クラスにわずかのメソッドしかない場合、プロトコルによる階層は必要ありません。そうしたクラスのために、Browserはクラスのすべてのメソッドを含む仮想プロトコル\prot{-{}-all-{}-}を提供しています。
+クラスにメソッドが少ししかない時は、プロトコルによる階層は必要ありません。そうしたクラスのために、ブラウザにはすべてのメソッドが含まれる仮想プロトコル\prot{-{}-all-{}-}が用意されています。
 
 \protindex{all}
 
@@ -389,11 +387,11 @@ initialize
    \caption{分類されていないメソッドを自動的に分類。 \figlabel{categorize}}
 \end{figure}
 
-この例に沿って作業をしている場合、3つ目のペインには\protind{as yet unclassified(まだ分類されていない)}プロトコルが含まれているかもしれません。
+本書の例に従って作業をしているなら、3つ目のペインには\protind{as yet unclassified(まだ分類されていない)}というプロトコルが含まれているかもしれません。
 
-\dothis{プロトコルペインを\actclick してください。\menu{various \go categorize automatically}を選択すると、\ct{initialize}メソッドが新しくできた\protind{initialization}プロトコルに移ります。}
+\dothis{プロトコルペインを\actclick してください。\menu{various \go categorize automatically}を選択すると、\protind{initialization}プロトコルが新しくでき、\ct{initialize}メソッドが移ります。}
 
-\pharo はどうやってプロトコルを判断するのでしょうか。一般的に\pharo はそれを知ることはできません。しかしこのケースでは、スーパークラスにも\ct{initialize}メソッドが定義されているので、\pharo は\ct{initialize}メソッドをオーバーライド元のメソッドと同じプロトコルに分類するように判断します。
+\pharo はどうやってプロトコルを定めるのでしょうか。一般的には\pharo 側で判断することはできません。しかしこの例では、スーパークラスにも\ct{initialize}メソッドが定義されているため、\pharo は\ct{initialize}メソッドを、オーバーライド元のメソッドと同じプロトコルに分類します。
 
 \index{method!categorize}
 
@@ -401,13 +399,13 @@ initialize
 %If so, it's probably because you have loaded a package called \ct{AutomaticMethodCategorizer} into your image.
 
 \paragraph{表記規則} Smalltalkerは、メソッドが属するクラスを識別するために``\verb|>>|''という表記をよく使用します。例えば\ct{LOGame}クラスのcellsPerSideメソッドは\ct{LOGame>>cellsPerSide}と表します。
-この表記が\st 式では\emph{ない}ことを明示するため、本書ではその代わりに特殊なシンボル\ct{>>>}を使うことにします。さきほどのメソッドであれば、文中では\ct{LOGame>>>cellsPerSide}と表します。
+この表記が\st 式では\emph{ない}ことを明示するため、本書では代わりに特殊なシンボル\ct{>>>}を使うことにします。先ほどのメソッドであれば、文中では\ct{LOGame>>>cellsPerSide}と表します。
 
 \cmindex{Behavior}{>>}
 
-以後、本書ではこの記法でメソッド名を記述します。もちろん、実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打ち込む必要はありません。クラスペインで適切なクラスが選択されていることを確認するだけで十分です。
+以後、本書ではこの記法でメソッド名を記述します。もちろん、実際にBrowser上でコードを打ち込むときはクラス名や\ct{>>>}を打つ必要はありません。クラスペインで適切なクラスが選択されていることを確認するだけで十分です。
 
-それでは、\ct{LOGame>>>initialize}メソッドで使われている他の2つのメソッドを定義していきます。両方とも\prot{initialization} プロトコルに入れることにします。
+それでは、\ct{LOGame>>>initialize}メソッドで使われている他の2つのメソッドを定義していきましょう。両方とも\prot{initialization} プロトコルに入れることにします。
 
 \begin{method}[sbegamecellsperside]{定数メソッド}
 LOGame>>>cellsPerSide
@@ -435,9 +433,9 @@ LOGame>>>newCellAt: i at: j
 
 \dothis{\ct{LOGame>>>cellsPerSide}メソッドと\ct{LOGame>>>newCellAt:at:}メソッドを追加してください。}
 
-新しい\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
+新たに出てきた\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} では、\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドも定義しましょう。
+\Mthref{newCellAt:at:} では、\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドを定義しましょう。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{コールバックメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
@@ -448,11 +446,11 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
 \end{method}
 \cmindex{LOGame}{toggleNeighboursOfCellAt:at:}
 
-\Mthref{toggleNeighboursOfCellAt:at:} では、セルの(\ct{i}, \ct{j})の東西南北の位置に隣接する4つのセルの状態を切り替えます。唯一難しいのはボードが有限ということです。そのため、隣接するセルが存在することを状態を切り替える前に確認しなければなりません。
+\Mthref{toggleNeighboursOfCellAt:at:} では、セルの(\ct{i}, \ct{j})の東西南北の位置に隣接する4つのセルの状態を切り替えます。ここで唯一難しいのはゲーム盤が有限ということです。そのため、隣接するセルが存在するかどうかを、状態を切り替える前に確認しなければなりません。
 
-\dothis{このメソッドを\prot{game logic}と呼ばれる新たなプロトコルに置きます。(プロトコルペイン上で、\actclick して新たなプロトコルを作ってください)}
+\dothis{このメソッドを\prot{game logic}という新たなプロトコルに置きます。(プロトコルペイン上で、\actclick して新たなプロトコルを作ってください)}
 
-メソッドを移動するには、単にその名前の上でクリックして新たに作ったプロトコルまでドラッグするだけです(\figref{dragMethod})。
+メソッドを移動するには、名前の上でクリックし、新たに作成したプロトコルまでドラッグします(\figref{dragMethod})。
 
 \begin{figure}[htbp]
    \centering
@@ -462,7 +460,7 @@ LOGame>>>toggleNeighboursOfCellAt: i at: j
    \caption{メソッドをプロトコルへ持って行く。\figlabel{dragMethod}}
 \end{figure}
 
-Lights Outゲームを完成させるには、さらにマウスイベントを操作するための2つのメソッドを、\ct{LOCell}クラスに\ct{LOCell}定義する必要があります。
+Lights Outゲームを完成させるには、さらにマウスイベントを操作するための2つのメソッドを、\ct{LOCell}クラスに定義する必要があります。
 
 \begin{method}[mouseAction:]{典型的なセッターメソッド}
 LOCell>>>mouseAction: aBlock
@@ -470,11 +468,11 @@ LOCell>>>mouseAction: aBlock
 \end{method}
 \cmindex{LOCell}{mouseAction:}
 
-\Mthref{mouseAction:} はセルの\ct{mouseAction}変数に引数を設定してその値を返す以上のことはしていません。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれています。
+\Mthref{mouseAction:} ではセルの\ct{mouseAction}変数に引数の値を設定して、値を返しているだけです。このようにインスタンス変数の値を\emph{変更する}メソッドは\emph{セッターメソッド}と呼ばれています。また、インスタンス変数の現在の値を返すメソッドは\emph{ゲッターメソッド}と呼ばれます。
 \seeindex{setter method}{accessor}
 \seeindex{getter method}{accessor}
 
-もし他のプログラミング言語でゲッターメソッドとセッターメソッドを使うことに慣れていたら、メソッド名を\ct{setmouseAction}や\ct{getmouseAction}としたくなるかもしれません。しかし\st の習慣では異なります。ゲッターメソッドの名前は常に取得するインスタンス変数と同じ名前にします。セッターメソッド名も同様ですが、\ct{mouseAction}に対して\ct{mouseAction:}のように末尾を``\ct{:}''とします。
+もし他のプログラミング言語でゲッターメソッドとセッターメソッドを使うことに慣れていたら、メソッド名を\ct{setmouseAction}や\ct{getmouseAction}としたくなるかもしれません。しかし\st では違い流儀です。ゲッターメソッドの名前は常に取得するインスタンス変数と同じ名前にします。セッターメソッド名も同じですが、\ct{mouseAction}に対して\ct{mouseAction:}のように末尾を``\ct{:}''とします。
 
 セッターメソッドとゲッターメソッドをあわせて\emphind{アクセサ}メソッドと呼びます。また、これらは慣習として\protind{accessing}プロトコルに置かれます。\st ではすべてのインスタンス変数はプライベートなものとしてオブジェクトが保持します。そのため、\st で、他のオブジェクトの変数を読み書きするには、アクセサメソッドを介するしかありません\footnote{厳密にはインスタンス変数はサブクラスからもアクセスできます。}。
 
@@ -506,11 +504,11 @@ LOCell>>>mouseUp: anEvent
 
 手順に沿って進んできたのなら、2つのクラスと7つのメソッドで構成された、このゲームで遊ぶことができるはずです。
 
-\dothis{workspace上で\ct{LOGame new openInWorld}と打ち込み、\menu{do it}してください。}
+\dothis{workspace上で\ct{LOGame new openInWorld}と打ち、\menu{do it}してください。}
 
 ゲームが始まります。セルをクリックすると動作を確認できるでしょう。
 
-ところがクリックすると、\clsind{PreDebugWindow}と呼ばれる\emphind{つうち@通知}ノーティファイアが、エラーメッセージと共に表示されました。理論上は動くはずなのですが\ldots{}... \figref{lightsOutError}のように、このウインドウは\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
+ところがクリックすると、\clsind{PreDebugWindow}と呼ばれる\emphind{ノーティファイア}が、エラーメッセージと共に表示されました。理論上は動くはずなのですが\ldots{}... \figref{lightsOutError}のように、このウインドウは\ct{MessageNotUnderstood: LOGame>>>toggleState} と言ってきています。
 
 \begin{figure}[ht]
 \ifluluelse
@@ -521,15 +519,15 @@ LOCell>>>mouseUp: anEvent
 \end{figure}
 
 \noindent
-何が起こったのでしょうか? 原因を探るために、\st のとても役に立つツール、\ind{debugger}を使いましょう。
+何が起こったのでしょうか? 原因を探るため、\st ではさらに強力なツールとなっている、\ind{debugger}を使いましょう。
 
 \dothis{通知ウインドウにある\menu{debug}ボタンをクリックしてください。}
 
-デバッガが表示されるはずです。ウインドウの上部には実行スタックが表示されます。実行スタックには実行されたメソッドが表示されています。そのなかの一つを選ぶと、真ん中のペインにメソッド中の\st コードが表示され、エラーを引き起こした部分がハイライトされます。
+デバッガが表示されるはずです。ウインドウの上部には実行スタックが表示されます。実行スタックには実行されたメソッドが表示されています。その中の一つを選ぶと、真ん中のペインにメソッド内の\st コードが表示され、エラーを引き起こした部分がハイライトされます。
 
 \dothis{(上部の)\ct{LOGame>>>toggleNeighboursOfCellAt:at:}と表示されている行をクリックしてください。}
 
-デバッガ上でエラーが発生したメソッド中の実行コンテキストを確認することができます(\figref{debugToggle})。
+デバッガ上で、エラーが発生したメソッドの実行コンテキストを確認することができます(\figref{debugToggle})。
 
 \begin{figure}[ht]
 \ifluluelse
@@ -539,15 +537,15 @@ LOCell>>>mouseUp: anEvent
 \figlabel{debugToggle}}
 \end{figure}
 
-デバッガの下側には二つの小さなインスペクタが表示されています。左側のペインでは、メッセージのレシーバである、選択中のメソッドを実行しているオブジェクトの中身をインスペクトできます。インスタンス変数の値は、ここで確認できます。右側のペインでは現在のメソッドの実行状態を示すオブジェクトをインスペクトできます。メソッドの引数や一時変数の値などはこちらで確認します。
+デバッガの下側には二つの小さなインスペクタが表示されています。左側のペインでは、レシーバ、つまり選択中のメソッドを実行するためのメッセージを受けとったオブジェクトの中身をインスペクトできます。インスタンス変数の値は、ここで確認できます。右側のペインでは現在のメソッドの実行状態を示すオブジェクトをインスペクトできます。メソッドの引数や一時変数の値などはこちらで確認します。
 
-デバッガを使うことで、コードを1行ずつ実行していくことができます。また、引数や一時変数にバインドされたオブジェクを見たり、ワークスペース同様に式を評価したりすることも可能です。他のデバッガと比べて最も驚くのは、デバッグ中にコードを書き換えられることです。ほとんどの時間をブラウザよりもデバッガ上でプログラミングするSmalltalkerもいるくらいです。デバッガ上でプログラムをする利点は、作成中のメソッドが意図通りに動くかを、実行コンテキストの中で、実際の引数値を使って確認できることにあります。
+デバッガを使うことで、コードを1行ずつ実行していくことができます。また、引数や一時変数にバインドされたオブジェクを見たり、ワークスペース同様に式を評価したりすることも可能です。通常のデバッガと比べて最も驚くのは、デバッグ中にコードを書き換えられることです。ほとんどの時間をブラウザよりもデバッガ上でプログラミングするSmalltalkerもいるくらいです。デバッガ上でプログラミングをする利点は、作成中のメソッドが意図通りに動くかを、実行コンテキストの中で、実際の引数値を使って確認できることにあります。
 
-今回の場合、\ct{toggleState}メッセージが、\ct{LOGame}インスタンスに送られたと、上部パネルの最初の行に表示されています。これは\lct{LOCell}のインスタンスへ送るべきメッセージです。問題は\ct{cells}の初期化にあるように思われます。
-\cmind{LOGame}{initialize}のコードをブラウザで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も指定していません！ メソッドはデフォルトでは\ct{self}を戻り値として返します。\ct{newCellAt:at:}のケースでは\ct{LOGame}のインスタンスが返ることになります。
+今回の場合、\ct{toggleState}メッセージが、\ct{LOGame}インスタンスに送られたと、上部パネルの最初の行に表示されています。これは本来は\lct{LOCell}のインスタンスへ送るべきメッセージです。問題は\ct{cells}の初期化にあるように思われます。
+\cmind{LOGame}{initialize}のコードをブラウザで見ると\ct{cells}には\ct{newCellAt:at:}の戻り値が設定されていることがわかります。しかしメソッドの中身を確認すると、戻り値として何も指定していません！ メソッドはデフォルトでは\ct{self}を戻り値として返します。従って\ct{newCellAt:at:}の場合は、\ct{LOGame}のインスタンスが返ることになります。
 \index{method!returning self}
 
-\dothis{デバッガウインドウを閉じてください。
+\dothis{デバッガウィンドウを閉じてください。
 その後で、``\ct{^ c}''と \ct{LOGame>>>newCellAt:at:}メソッドの最後に追加して、\ct{c}を返すようにします。
 % It should now look as shown in \mthref{newCellAt:at:nobug}.}
 (\mthref{newCellAt:at:nobug}参照。)}
@@ -571,7 +569,7 @@ LOGame>>>newCellAt: i at: j
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 
-デバッガ上で直接コードを修正した後、\menu{Proceed}をクリックして、アプリケーションを継続実行することもよくあります。今回の場合は、バグは、失敗したメソッド中というより、オブジェクトの初期化処理にあったので、最も簡単なのは、単に初めからやり直すことです。デバッガウインドウを閉じ、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを作成します。
+デバッガ上で直接コードを修正した後、\menu{Proceed}をクリックして、アプリケーションを継続実行することもよくあります。今回の場合は、バグは、失敗したメソッド中というより、オブジェクトの初期化処理にあったので、最も簡単なのは、単に初めからやり直すことです。デバッガウインドウを閉じ、(\subind{Morphic}{halo})で実行中のゲームのインスタンスを破棄し、新たにインスタンスを生成します。
 
 %Indeed, even in this case it would be possible to \menu{do} \ct{self initialize} and then \menu{Proceed} the \ct{toggleNeighboursOfCellAt:at:} method.
 %\ab{St\'eph, did you try this?  It seems to me that it ought to work, but when I tried it, it messed up my image.}
@@ -579,7 +577,7 @@ LOGame>>>newCellAt: i at: j
 
 \dothis{もう一度\ct{LOGame new openInWorld} を実行してください。}
 
-これでこのゲームはほぼ正常動作をするはずです。ただしマウスをクリックしてから離すまでの間にマウスを移動させると、マウス上のセルも切り替わってしまいます。この動作は\ct{SimpleSwitchMorph}を継承したことによる振る舞いです。\ct{mouseMove:}をオーバーライドして、何もしないように修正しましょう。
+これでこのゲームはほぼ正常動作をするはずです。ただしマウスをクリックしてから離すまでの間にマウスを移動させると、マウス上のセルも切り替わってしまいます。これは\ct{SimpleSwitchMorph}を継承したことによる振る舞いです。\ct{mouseMove:}をオーバーライドして、何もしないように修正しましょう。
 
 % \needlines{6}
 \begin{method}[mouseMove:]{マウスの動作をオーバーライドする。}
@@ -595,9 +593,9 @@ LOGame>>>mouseMove: anEvent
 \section{\st コードの保存と共有}
 \seclabel{Monticello}
 
-現在、手元には動作するLights Outゲームがあります。このゲームを友人と共有するため、どこかに保存したいと思ったとします。もちろん、\pharo のイメージファイル全体を保存し、初のプログラムとして動かしてみせることもできます。しかしもし友人が既に自分でコーディングしているイメージファイルを持っていたら、あなたのイメージファイルを欲しがらないかもしれません。こうした場合に必要なのは、\pharo のイメージファイルからソースコードを取り出し、他のプログラマーが自身のイメージファイル内に取り込めるようにすることです。
+現在、手元には動作するLights Outゲームがあります。このゲームを友人と共有するため、どこかに保存したいと思ったとします。もちろん、\pharo のイメージファイルを丸ごと保存し、初めてのプログラムとして動かしてみせることもできます。しかしもし友人が既に自分でコーディングしているイメージファイルを持っていたとしたらら、イメージファイル全体は欲しがらないかもしれません。そうした時に必要なのは、\pharo のイメージファイルからソースコードを取り出し、他のプログラマーが自身のイメージファイル内に取り込めるようにすることです。
 
-最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、\scat{PBE-LightsOut}全体をファイルアウトするメニュー項目\menu{various \go  File out}が出てきます。書き出されたファイルはいちおう読むことも可能ですが、本来はコンピュターが読むためのものです。このファイルを友人にメールで送れば、ファイルブラウザを使うことでソースコードを自分の\pharo イメージファイルに取り込むことができます。
+最も簡単なやり方はコードを\emph{File out}することです。パッケージペインのメニューを\actclick すると、\scat{PBE-LightsOut}全体をファイルアウトするメニュー項目\menu{various \go  File out}が出てきます。書き出されたファイルは人間が読むことも可能ですが、本来はコンピュターが読むためのものです。このファイルを友人にメールで送れば、ファイルブラウザを使って、ソースコードを自分の\pharo イメージに取り込むことができます。
 
 \seeindex{saving code}{categories}
 \seeindex{category!filing out}{file, filing out}
@@ -608,7 +606,7 @@ LOGame>>>mouseMove: anEvent
 \dothis{\scat{PBE-LightsOut}パッケージを\actclick し、\menu{various \go  File out}でファイルアウトしてください。}
 ``PBE-LightsOut.st''という名のファイルがイメージファイルと同じフォルダ内にできます。テキストエディタでこのファイルを見てみてください。
 
-\dothis{まっさらな\pharo のイメージファイルを開き、ファイルブラウザを使い先ほど出力したPBE-LightsOut.stを、(\menu{Tools \ldots {\go} File Browser})からファイル員 \menu{File in}してください。そしてこのイメージ上でゲームが動作することを確認してください。}
+\dothis{まっさらな\pharo のイメージファイルを開き、先ほど出力したPBE-LightsOut.stを、ファイルブラウザを使って(\menu{Tools \ldots {\go} File Browser})、ファイルイン \menu{File in}します。そしてそのイメージ上でゲームが動作することを確認してください。}
 \seeindex{category!filing in}{file, filing in}
 \seeindex{class!filing in}{file, filing in}
 \seeindex{method!filing in}{file, filing in}
@@ -621,18 +619,17 @@ LOGame>>>mouseMove: anEvent
 \end{figure}
 
 \subsection{Monticelloパッケージ}
-\emph{ファイルアウト}はコードを保存するのに便利な方法ですが、これは明らかに古い方法です。
-ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守するために役立つ\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。同じように\pharo プログラマーは、\ind{Monticello}パッケージを使ってコードをより便利に管理できます。Monticellono
-パッケージではファイル名の末尾に \ct{.mcz}がつきます。このファイルの正体は\ind{パッケージ}内のコードをZIPで圧縮したものです。
+\emph{ファイルアウト}はコードを保存するには便利ですが、これは明らかに古いやり方です。
+ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守することができる\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。\pharo プログラマーも同様に、\ind{Monticello}パッケージによるコードの管理のほうが、より便利だと思うことでしょう。Monticellonoパッケージではファイル名の末尾に \ct{.mcz}がつきます。このファイルは\ind{パッケージ}内のコードを単にZIPで圧縮したものです。
 
-Monticelloブラウザを使うことで、FTPやHTTPなどの色々なサーバー上のリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリにパッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされています。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際、\ind{Monticello}は分散バージョン管理システムとして広まりました。このことは開発者の成果物をCVSやSubversionのように一箇所のリポジトリにではなく、いつくかの異なった場所に保管することができることを意味します。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
+Monticelloブラウザを使うことで、FTPやHTTPなどのさまざまなサーバーのリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリに、パッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされます。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際のところ、\ind{Monticello}は分散バージョン管理システムです。つまり開発者の成果物は、CVSやSubversionのように一箇所のリポジトリに置かれるのではなく、複数の異なった場所に保管されます。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
 もちろん\ct{.mcz}ファイルをEメールで送ることもできます。
 受け取った人はそれを\emph{package-cache}フォルダーに置くことで、Monticelloで閲覧したりロードしたりすることができます。
 %(It is also possible to load it using the file list, but there is a difference between loading a \ct{.mcz} file using a file list and using Monticello \sd{check}.)
 
 \dothis{\menu{World}メニューからMonticelloブラウザを開いてください。}
-右側のペイン(\figref{monticello1}参照)はMonticelloのリポジトリのリストです。イメージ内にロードしたコードについてのリポジトリが、すべて並びます。
+右側のペイン(\figref{monticello1}参照)はMonticelloリポジトリのリストです。イメージ内にロードしたコードについてのリポジトリが、すべて並びます。
 
 %In addition to \sqsrc servers, Monticello repositories can live in a variety of other places, the simplest being a directory on your local disk.
 
@@ -644,11 +641,11 @@ Monticelloブラウザを使うことで、FTPやHTTPなどの色々なサーバ
 \figlabel{monticello1}}
 \end{figure}
 
-Monticelloブラウザのリポジトリリストの一番上にはローカルディレクトリ上の \emphind{package cache}と呼ばれるリポジトリが表示されます。ここにはネットワーク上にロード・公開したパッケージのコピーがキャッシュされます。
-ローカルキャッシュには自分のローカルでの履歴が保存できるので非常に便利です。つまりインターネットに接続できない場所や、回線が遅く頻繁にリモートに保存したくない状況でも作業できるということです。
+Monticelloブラウザのリポジトリリストの一番上には、ローカルディレクトリの \emphind{package cache}というリポジトリが表示されます。ここにはネットワークを使ってロード・公開したパッケージのコピーがキャッシュされます。
+ローカルキャッシュにはローカルでの自分の履歴が保存できるので非常に便利です。つまりインターネットに接続できない場所や、回線が遅くて頻繁にリモートに保存したくない状況でも作業できるということです。
 
 \subsection{Monticelloを使ったコードの保存と読み込み}
-Monticelloブラウザの左側にはイメージ内にロードしたパッケージのバージョンリストが表示されます。ロード後に修正されたパッケージには、アスタリスクで印がついています。(これらは時にダーティパッケージ\subind{package}{dirty}と呼ばれます。) パッケージを選択すると、リポジトリリストは選択したパッケージのコピーを含むリポジトリに絞り込まれます。
+Monticelloブラウザの左側には、イメージ内にロードしたパッケージ一覧が、バージョンと共に表示されます。ロード後に修正されたパッケージには、アスタリスクで印がつきます。(これらは時にダーティパッケージ\subind{package}{dirty}と呼ばれます。) パッケージを選択すると、リポジトリリストは、選択したパッケージのコピーを含むリポジトリのみを表示します。
 \seeindex{*}{package, dirty}
 \seeindex{dirty package}{package, dirty}
 
@@ -658,14 +655,14 @@ Monticelloブラウザの\dothis{\button{+Package}ボタンを押して、\ct{PB
 
 \subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}}
 
-コードを保存、共有する一番良い方法は\sqsrc サーバーのアカウントを取りプロジェクトを作ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc は\ind{Monticello}のHTTPリポジトリのwebフロントエンドであり、各種プロジェクトを管理できます。
-\url{http://www.squeaksource.com}に、公開\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、\pharo からMonticelloブラウザを使ってパッケージを管理するほうが効率よく作業が行えます。
+コードを保存、共有するのに一番良い方法は、プロジェクト用に\sqsrc サーバーのアカウントを取ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc は\ind{Monticello}のHTTPリポジトリのwebフロントエンドであり、各種のプロジェクトを管理できます。
+\url{http://www.squeaksource.com}に、公開\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、\pharo からMonticelloブラウザを使ってパッケージを管理するほうが効率よく作業できるでしょう。
 
 \dothis{ウェブブラウザで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲーム用のプロジェクトを作ってください(つまり登録してください)。}
 
 \sqsrc は、Monticelloブラウザ上にリポジトリを追加するための情報を表示します。
 
-\sqsrc にプロジェクトを作成したら、\pharo にそれを使うよう伝える必要があるのです。
+\sqsrc にプロジェクトを作成したら、\pharo にその設定情報を伝える必要があるのです。
 
 \dothis{\ct{PBE-LightsOut}パッケージを選択し、Monticelloブラウザの\button{+Repository}ボタンをクリックしてください。}
 利用可能なさまざまなリポジトリタイプが表示されます。\sqsrc のリポジトリを追加するには\menu{HTTP}を選択してください。サーバ情報を入力するためのダイアログが表示されます。\sqsrc プロジェクトを識別するため、サーバから提示されたテンプレートをコピーし、Monticelloのダイアログに貼りつけ、自分のイニシャルとパスワードを記入する必要があります。
@@ -679,7 +676,7 @@ MCHttpRepository
 \end{code}
 
 \noindent
-もしイニシャルとパスワードを空にした場合、プロジェクトを読み込むことはできても更新はできません。
+イニシャルとパスワードを空にした場合、プロジェクトを読むことはできても更新はできません。
 
 \needlines{5}
 \begin{code}{}
@@ -702,21 +699,21 @@ MCHttpRepository
 
 \dothis{\button{Save}ボタンを押して、Light Outゲームの最初のバージョンを\sqsrc に保存してください。}
 
-パッケージを自分のイメージファイルにロードするには、まずバージョンを特定しなければいけません。リポジトリブラウザを使うことで、特定のバージョンを選ぶことができます。\button{Open}ボタンかメニューの\actclick でリポジトリブラウザを開いてください。バージョンを選択して、イメージファイルにパッケージを読み込むことができます。
+パッケージを自分のイメージファイルにロードするには、まずバージョンを指定しなければいけません。リポジトリブラウザを使うことで、特定のバージョンを選ぶことができます。\button{Open}ボタンかメニューの\actclick でリポジトリブラウザを開いてください。バージョン選択後、イメージファイルにパッケージを読み込むことができます。
 
 \dothis{先ほど保存した\ct{PBE-LightsOut}リポジトリを開いてください。}
 
-Monticelloではとても多くのことができますが、詳細は\charef{env}で述べます。
+Monticelloでは非常に多くのことができますが、詳細は\charef{env}で述べます。
 \url{http://www.wiresong.ca/Monticello/}でオンラインドキュメントを読むこともできます。
 
 %=================================================================
 \section{章のまとめ}
-この章ではカテゴリ、クラス、そしてメソッドの作り方について学びました。
+この章ではカテゴリ、クラス、そしてメソッドの作成方法について学びました。
 また、ブラウザ、インスペクタ、デバッガ、そしてMonticelloブラウザの使い方についても学びました。
 
 \begin{itemize}
   \item カテゴリは関連するクラスをグループ化したものです。
-  \item 既存のスーパークラスへメッセージを送ることで新たにクラスを定義できます。
+  \item 既存のスーパークラスへメッセージを送ることで、新たなクラスを定義できます。
   \item プロトコルは関連するメソッドをグループ化したものです。
   \item ブラウザでメソッド定義を編集して\emph{accept}することで、新たなメソッドを作ったり修正できます。
   \item インスペクタは、シンプルで汎用的なUIを提供し、ユーザは任意のオブジェクトの値を見てやりとりすることができます。
@@ -724,7 +721,7 @@ Monticelloではとても多くのことができますが、詳細は\charef{en
   \item \pharo では\ct{initialize}メソッドはオブジェクトが作られた直後に自動的に実行されます。初期化コードはそこに書きます。
   \item デバッガは動作中のプログラムの状態を見たり修正するための高度なGUIを提供します。
   \item カテゴリを\emph{File out}することでソースコードを共有することができます。
-  \item 良い望ましいのは、Monticelloを使って、\sqsrc のような外部のレポジトリ上で、コードを共有することです。
+  \item Monticelloを使って、\sqsrc のような外部のレポジトリ上でコードを共有するのが、より望ましい方法です。
 \end{itemize}
 
 %=================================================================
