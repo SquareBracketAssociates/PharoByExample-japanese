@@ -36,7 +36,7 @@
 	\sloppy
 \fi
 %=================================================================
-\chapter{文法の要点}
+\chapter{文法早わかり}
 \chalabel{syntax}
 
 \sd{We should add pragmas.}
@@ -45,33 +45,30 @@
 % \sd{It would be good to add link to the chapter where the reader can learn about conditional, exceptions and loops.}
 % \on{There are links already.}
 
-\pharo の文法は、他のモダンな \st の方言と同様 \st-80 にとてもよく似ています。
-つまり、プログラムをピジン英語のように声に出して読めるように設計されています:
+\pharo の文法は、他のモダンな \st の方言と同様 \st-80 にとても近いものです。プログラムをピジン英語のように声に出して読めるように設計されています。
 
 \begin{code}{}
 (Smalltalk includes: Class) ifTrue: [ Transcript show: Class superclass ]
 \end{code}
 
 \noindent
-\pharo の文法規則は必要最小限に抑えられています。
-本質的には、\emph{メッセージを送信する} (\ie 式)ための文法しかありません。\damien{I don't think there is a syntax for declaring methods; in my opinion, this is just a feature of our browsers. That's why I'm commenting: and \emph{declaring methods}}
+\pharo の文法規則は必要最小限に抑えられています。本質的には、\emph{メッセージを送信する} (\ie 式)ための文法しかありません。\damien{I don't think there is a syntax for declaring methods; in my opinion, this is just a feature of our browsers. That's why I'm commenting: and \emph{declaring methods}}
 式は非常に少数の基本要素をから組み立てられます。
 キーワードは 6 個しかありません。さらに、制御構造のための文法も新しいクラスを宣言するための文法もありません。
 代わりにオブジェクトにメッセージを送信することによりほとんどのことが達成されます。
-例えば if-then-else 制御構造の代わりに、\st は \clsind{Boolean} オブジェクトに \ct{ifTrue:} のようなメッセージを送信します。
+例えば if-then-else 制御構造の代わりに、\st では \clsind{Boolean} オブジェクトに \ct{ifTrue:} のようなメッセージを送信します。
 新しい\mbox{(サブ)クラス}を作成するには、作成したいクラスのスーパークラスにメッセージを送信します。
 
 %=================================================================
 \section{文法要素}
 
-式は以下の構成要素からなります:
-(i) 6 個の予約済みのキーワードもしくは\emph{擬似変数}:
-\pvind{self}、\pvind{super}、\pvind{nil}、\pvind{true}、\pvind{false}、および \pvind{thisContext}、
-(ii) 数、文字、文字列、シンボルおよび配列を含む\emphind{リテラルオブジェクト}用定数式、
-(iii) 変数宣言、
-(iv) 代入、
-(v) \ind{ブロック}クロージャー、および
-(vi) メッセージ送信。
+式は以下の構成要素でできています。
+(i) 6 個の予約語、すなわち \pvind{self}、\pvind{super}、\pvind{nil}、\pvind{true}、\pvind{false}、\pvind{thisContext}の\emph{擬似変数}
+(ii) 数値、文字、文字列、シンボル、配列のための\emphind{リテラルオブジェクト}定数式
+(iii) 変数宣言
+(iv) 代入
+(v) \ind{ブロック}クロージャー
+(vi) メッセージ送信
 \seeindex{擬似変数}{変数, 擬似}
 
 \begin{table}\centering
@@ -83,12 +80,12 @@
 		\lct{Transcript}			&	グローバル変数名 \\
 		\lct{self}				&	擬似変数 \\
 		\midrule
-		\lct{1}				 	&	10 進整数 \\
-		\lct{2r101}				&	2 進整数 \\
+		\lct{1}				 	&	10進整数 \\
+		\lct{2r101}				&	2進整数 \\
 		\lct{1.5}					&	浮動小数点数 \\
 		\lct{2.4e7}				&	指数表記 \\
-		\lct{\$a}					&	文字『a』 \\
-		\lct{'Hello'}				&	文字列「Hello」 \\
+		\lct{\$a}					&	文字 a \\
+		\lct{'Hello'}				&	文字列 Hello \\
 		\lct{\#Hello}				&	シンボル \lct{\#Hello} \\
 		\lct{\#(1 2 3)}			&	リテラル配列 \\
 		\lct{\{1. 2. 1+2\}}		&	動的配列 \\
@@ -114,59 +111,59 @@
 
 \tabref{syntax} は様々な文法要素の例です。
 \begin{description}
-\item[ローカル変数] \ct{startPoint} は変数名もしくは識別子です。
-		規約により、識別子は「\ind{キャメルケース}」 (\ie 最初の単語以外の先頭が大文字)の単語を連結したものです。
-		インスタンス変数、メソッドとブロックのパラメータ、あるいは一時変数の先頭の文字は小文字でなければいけません。
-		これにより変数の有効範囲がプライベートであることが読み手に伝わります。
+\item[ローカル変数] \ct{startPoint} は変数名、つまり識別子です。
+		規約により、識別子は「\ind{キャメルケース}」 (\ie 最初を除き単語の先頭を大文字にして連結)で表します。
+		インスタンス変数、メソッドとブロックの引数、一時変数の先頭の文字は小文字でなければいけません。
+		これにより変数の有効範囲がプライベートということが読み手に伝わります。
 
-\item[共有変数] 大文字で始まる識別子は\subind{変数}{グローバル}変数、クラス\subind{クラス}{変数}{}、\subind{変数}{プール}辞書もしくはクラス名です。
+\item[共有変数] 大文字で始まる識別子は\subind{変数}{グローバル}変数、クラス\subind{クラス}{変数}{}、\subind{変数}{プール}辞書、クラス名です。
 		\ct{Transcript} はグローバル変数であり、\ct{TranscriptStream} クラスのインスタンスです。
 		\seeindex{グローバル変数}{変数, グローバル}
 		\seeindex{プール辞書}{変数, プール}
 		\seeindex{変数!クラス}{クラス, 変数}
 
-\item[レシーバ。] \pvind{self} は、現在のメソッドを実行しているオブジェクトを参照するキーワードです。\self は「レシーバ」とも呼ばれます。なぜならこのオブジェクトは、普通はメソッドを実行するきっかけになったメッセージを受け取っているからです。
+\item[レシーバ] \pvind{self} は、現在のメソッドを実行しているオブジェクト自身を指す予約語です。\self は「レシーバ」とも呼ばれます。なぜならこのオブジェクトは、メソッドを実行するきっかけになったメッセージを受け取っているからです。
 		\self は「\subind{変数}{疑似}変数」と呼ばれます。\self には代入できないからです。
 
-\item[整数。] \ct{42} のような通常の 10 進整数に加えて、\pharo では基数表記も使えます。
-	\ct{2r101} は基数 2 (\ie バイナリ)の \ct{101} であり、10 進数の 5 と同じです。
+\item[整数] \ct{42} のような通常の 10進整数に加えて、\pharo では基数表記も使えます。
+	\ct{2r101} は基数 2 (\ie バイナリ)の \ct{101} であり、10進数の 5 と同じです。
 	\index{リテラル}
 	\index{リテラル!数}
 
-\item[浮動小数点数] は 10 を基数とした\ind{指数}で指定することができます: \mbox{\ct{2.4e7}} は $2.4 \times 10^7$ です。
+\item[浮動小数点数] は 10を基数とした\ind{指数}で指定することが可能です。 \mbox{\ct{2.4e7}} は $2.4 \times 10^7$ です。
  	\index{浮動小数点数}
 
-\item[文字。] \subind{リテラル}{文字}リテラルにはドル記号を付けます: \ct{$a}\ignoredollar$ は『a』のリテラルです。
-		非印字文字のインスタンスは、\ct{Character space} や \ct{Character tab} のように \clsind{Character} クラスに適切なメッセージ(文字の名前)を送信することにより得ることができます。
+\item[文字] \subind{リテラル}{文字}リテラルにはドル記号を付けます: \ct{$a}\ignoredollar$ はaのリテラルです。
+		非印字文字のインスタンスは、\ct{Character space} や \ct{Character tab} のように \clsind{Character} クラスに適切なメッセージを送信することにより得ることができます。
 		
-\item[文字列。] シングルクォートは\subind{リテラル}{文字列}を定義するために使います。
+\item[文字列] シングルクォートは\subind{リテラル}{文字列}を定義するために使います。
 		クォートを含んだ文字列を表現したい場合は、\ct{'G''day'} のようにクォートを重ねます。
 
 \item[シンボル] は文字の並びでできている点で文字列に似ています。
-	しかし、文字列と異り、\subind{リテラル}{シンボル}はグローバルに一意であることが保証されます。
+	しかし、文字列と異なり、\subind{リテラル}{シンボル}はグローバルに一意であることが保証されます。
 		\ct{#Hello} というシンボルオブジェクトは一つだけしか存在しません。しかし \ct{'Hello'} という値の文字列オブジェクトは複数あるかもしれません。
 		\seeindex{\#@{\textsf{\#}}}{literal symbol}
 
 \item[コンパイル時配列] はスペースで区切ったリテラルを \ct{#( )} で囲んで定義します。
 		括弧内のすべての要素はコンパイル時に定数でなければなりません。
-		例えば、\ct{#(27 (true false) abc)} は要素が 3 個の\subind{配列}{リテラル}\subind{リテラル}{配列}です: 整数 \ct{27}、真偽値が 2 個入ったコンパイル時配列、そしてシンボル \ct{#abc} が要素になります(これが \ct{#(27 #(true false) #abc)} と同じであることに注意してください)。
+		例えば、\ct{#(27 (true false) abc)} は要素が 3個の\subind{配列}{リテラル}\subind{リテラル}{配列}です。 整数 \ct{27}、真偽値が 2 個入ったコンパイル時配列、そしてシンボル \ct{#abc} が要素になります(これが \ct{#(27 #(true false) #abc)} と同じということに注意してください)。
 
-\item[実行時配列。] 中括弧 \ct|{ }|は実行時に(\subind{配列}{動的})配列を定義します。
-		実行時配列の要素は、ピリオドで区切った式です。
-		したがって、\ct|{ 1. 2. 1+2 }| は 1、 2、そして 1+2 を評価した結果、を要素とする配列を定義します
-		(動的配列の中括弧表記は、\st の方言の中でも \pharo と \squeak に特有です!
+\item[動的配列] 中括弧 \ct|{ }|は実行時に(\subind{配列}{動的})配列を定義します。
+		動的配列の要素は、ピリオドで区切った式です。
+		したがって、\ct|{ 1. 2. 1+2 }| は 1、 2、そして 1+2 を評価した結果を要素とする配列を定義します。
+		(中括弧による表記は、\st の方言でも \pharo と \squeak に特有のものです!
 		他の \st では、動的配列は明示的に組み立てなければなりません)。
 
 \item[コメント] はダブルクォートで囲みます。
 		\ct{"hello"} は文字列ではなく\ind{コメント}なので、\pharo コンパイラによって無視されます。
 		コメントは複数行にまたがっても構いません。
 		
-\item[ローカル変数宣言。] ローカル変数を\subind{変数}{宣言}するには、メソッド(およびブロック)内で一つ以上のローカル変数を縦棒 \ct{| |} で囲みます。
+\item[ローカル変数宣言] ローカル変数を\subind{変数}{宣言}するには、メソッド(およびブロック)内で、ローカル変数群を縦棒 \ct{| |} で囲みます。
 		% \seeindex{\|@{\textsf{\|\|}}}{assignment}
 		% Can't seem to index or-bars! (special char for index macro)
 		\seeindex{宣言}{変数宣言}
 
-\item[代入。] \ct{:=} は変数にオブジェクトを代入します。
+\item[代入] \ct{:=} は変数にオブジェクトを代入します。
 %		Sometimes you will see $\leftarrow$ used instead.
 %		Unfortunately, since this is not an \textsc{ascii} character, it will appear as an underscore unless
 %		you are using a special font.
@@ -176,39 +173,38 @@
 		\seeindex{\_@{\textsf{\_}}}{代入}
 		\seeindex{<-@{$\leftarrow$}}{代入}
 
-\item[ブロック。] 角括弧 \ct{[ ]} はブロッククロージャーあるいは静的クロージャーとも呼ばれる\ind{ブロック}を定義します。ブロックは関数を表す第一級のオブジェクトです。
+\item[ブロック] 角括弧 \ct{[ ]} はブロッククロージャーあるいはレキシカルクロージャーとも呼ばれる\ind{ブロック}を定義します。ブロックは関数を表す第一級のオブジェクトです。
 		後で見るように、ブロックは引き数を取ることもローカル変数を持つこともできます。
 	\seeindex{[ ]@{\textsf{[ ]}}}{ブロック}
 	\seeindex{クロージャー}{ブロック}
-	\seeindex{静的クロージャー}{ブロック}
+	\seeindex{レキシカルクロージャー}{ブロック}
 
-\item[プリミティブ。] \ct{<primitive: ...>}は\ind{バーチャルマシン}\ind{プリミティブ}の呼び出しを表します
+\item[プリミティブ] \ct{<primitive: ...>}は\ind{バーチャルマシン}\ind{プリミティブ}の呼び出しを表します。
 	(\ct{<primitive: 1>} は \ct{SmallInteger>>>+} のバーチャルマシンプリミティブです)。
 	プリミティブの後ろにあるコードは、プリミティブが失敗した場合にだけ実行されます。
 	同じ文法はメソッドアノテーションにも使われます。
 
-\item[単項メッセージ] は単一の単語(例えば \ct{factorial})からなり、レシーバ(例えば \ct{3})に送信されます。
+\item[単項メッセージ] は単一の単語(例えば \ct{factorial})から成り、レシーバ(例えば \ct{3})に送信されます。
 	\index{メッセージ!単項}
 	\seeindex{単項メッセージ}{メッセージ, 単項}
 
-\item[二項メッセージ] は演算子(例えば \ct{+})で、レシーバに単一の引数とともに送信されます。\ct{3+4}の場合、レシーバは \ct{3} で引数は \ct{4} です。
+\item[二項メッセージ] は演算子(例えば \ct{+})のようなもので、単一の引数とともにレシーバに送信されます。\ct{3+4}の場合、レシーバは \ct{3} で引数は \ct{4} です。
 	\index{メッセージ!二項}
 	\seeindex{二項メッセージ}{メッセージ, 二項}
 
-\item[キーワードメッセージ] ではキーワードと引数を 1 個ずつ交互に並べます。キーワードはコロンで終わります。キーワードを連結した\emphind{メッセージセレクタ}と引数(キーワードの数だけ)が、メッセージとして送信されます。
-式 \ct{2 raisedTo: 6 modulo: 10} では、メッセージセレクタは \ct{raisedTo:modulo:} で引数は \ct{6} と \ct{10} です。
+\item[キーワードメッセージ] はraisedTo:modulo:のように、複数のキーワードから成るメッセージです。キーワードはコロンで終わり、それぞれ引数を取ります。 \ct{2 raisedTo: 6 modulo: 10} の式では、\ct{raisedTo:modulo:} がメッセージセレクタで、 コロンの後の\ct{6} と \ct{10} が引数です。メッセージは2に送られています。
 	\index{メッセージ!キーワード}
 	\seeindex{キーワードメッセージ}{メッセージ, キーワード}
 
-\item[メソッドリターン。] \ct{^}はメソッドから値を\emphind{リターン}するために使われます(\ct{^} を入力するには \verb|^| とタイプしなければなりません)。
+\item[メソッドリターン] \ct{^}はメソッドから値を\emphind{リターン}するために使われます(\ct{^} を入力するには \verb|^| とタイプしなければなりません)。
 \md{\ct{^} always returns from the method, even if used in a block, it returns from the enclosing method.}
 
-\item[文の並び。] ピリオド(\ct{.})は文の\emphsubind{文}{区切り}です。二つの式の間にピリオドを置くと、それらは独立した文として扱われます。
+\item[文の並び] 文の\emphsubind{文}{区切り}はピリオド(\ct{.})です。二つの式の間にピリオドを置くと、それらは独立した文として扱われます。
 %	\seeindex{full stop}{statement separator}
 	\seeindex{ピリオド}{文セパレータ}
 	\seeindex{\ct{.}}{文セパレータ}
 
-\item[カスケード。] セミコロンは、一つのレシーバにメッセージの\emphind{カスケード}(列)を送信するのに使うことができます。\ct{Transcript show: 'hello'; cr} では、最初に \ct{Transcript} にキーワードメッセージ \ct{show: 'hello'} を送信し、次に同じレシーバ(\ct{Transcript})に単項メッセージ \ct{cr} を送信します。
+\item[カスケード] セミコロンは、一つのレシーバにメッセージを\emphind{カスケード}送信するために使うことができます。\ct{Transcript show: 'hello'; cr} では、まず \ct{Transcript} にキーワードメッセージ \ct{show: 'hello'} を送り、次に同じレシーバ(\ct{Transcript})に単項メッセージ \ct{cr} を送っています。
 	\seeindex{;}{カスケード}
 
 \end{description}
@@ -220,26 +216,28 @@
 %=================================================================
 \section{擬似変数}
 
-\st には次の 6 個の予約済みのキーワード、あるいは\emph{疑似変数}があります:
-\pvind{nil}、\pvind{true}、\pvind{false}、\pvind{self}、\pvind{super}、および \pvind{thisContext}。
-これらは事前に定義され代入することができないので、\subind{変数}{擬似}変数と呼ばれます。
-\ct{true}、\ct{false}、および \ct{nil} は定数です。一方 \ct{self}、\ct{super}、および \ct{thisContext} の値は、コードの実行中に動的に変化します。
+\st には 6個の予約語として、\emph{疑似変数}があります。
+\pvind{nil}、\pvind{true}、\pvind{false}、\pvind{self}、\pvind{super}、 \pvind{thisContext}です。
+これらは事前に定義され代入することができないため、\subind{変数}{擬似}変数と呼ばれます。
+\ct{true}、\ct{false}、\ct{nil} は定数です。一方 \ct{self}、\ct{super}、および \ct{thisContext} の値は、コードの実行中に動的に変化します。
 
 \ct{true} と \ct{false} は、\clsind{Boolean} クラスである \clsind{True} および \clsind{False} の唯一のインスタンスです。
-より詳細については \charef{basic} を参照してください。
+詳細については \charef{basic} を参照してください。
 
-\pvind{self} は、常に現在実行しているメソッドのレシーバを指します。
+\pvind{self} は、現在実行しているメソッドのレシーバを指します。
 
 \ct{super} も現在実行しているメソッドのレシーバを指します。しかし \super にメッセージを送信する場合、メソッド探索はそのメソッドを定義しているクラスのスーパークラスから始まります。
-より詳細については \charef{model} を参照してください。
+詳細については \charef{model} を参照してください。
 
-\ct{nil} は未定義のオブジェクトです。
-\ct{nil} はクラス \clsind{UndefinedObject} の唯一のインスタンスです。
-インスタンス変数、クラス変数およびローカル変数は、\ct{nil} に初期化されます。
+\ct{nil} は未定義を表すオブジェクトです。
+クラス \clsind{UndefinedObject} の唯一のインスタンスです。
+インスタンス変数、クラス変数およびローカル変数は、\ct{nil} で初期化されます。
 
 \ct{thisContext} は、実行時スタックのトップフレームを表す擬似変数です。
-言い換えれば、 \ct{thisContext} は現在実行している \clsind{MethodContext} あるいは \clsind{BlockClosure} を表します。
-\ct{thisContext} は通常のプログラミングに必要ありませが、デバッガのような開発ツールを実装するには不可欠です。また、\ct{thisContext} は例外処理と継続を実装するためにも使われます。
+言い換えれば、 \ct{thisContext} は現在実行している \clsind{MethodContext} あるいは \clsind{BlockClosure} を指します。
+ほとんどのプログラマにとって、\ct{thisContext} は意識する必要がないものですが、デバッガのような開発ツールを実装するには不可欠です。また、例外処理と継続を実装するためにも使われます。
+
+%ここまで(p52)%
 
 %=================================================================
 \section{メッセージ送信}
