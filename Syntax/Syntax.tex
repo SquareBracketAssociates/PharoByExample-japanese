@@ -237,26 +237,24 @@
 言い換えれば、 \ct{thisContext} は現在実行している \clsind{MethodContext} あるいは \clsind{BlockClosure} を指します。
 ほとんどのプログラマにとって、\ct{thisContext} は意識する必要がないものですが、デバッガのような開発ツールを実装するには不可欠です。また、例外処理と継続を実装するためにも使われます。
 
-%ここまで(p52)%
-
 %=================================================================
 \section{メッセージ送信}
 
-\pharo には 3 種類のメッセージ(メッセージ送信)があります。
+\pharo には 3種類のメッセージ(メッセージ送信)があります。
 \begin{enumerate}
   \item \emph{単項}メッセージは引数を取りません。
   \ct{1 factorial}は、オブジェクト \ct{1} にメッセージ \ct{factorial} を送信します。
-  \item \emph{二項}メッセージは引き数を 1 個だけ取ります。
+  \item \emph{二項}メッセージは引き数を 1つだけ取ります。
   	\ct{1 + 2} は、オブジェクト \ct{1} にメッセージ \ct{+} を送信します。引数は \ct{2} です。
-  \item \emph{キーワード}メッセージは 1 個以上任意個の引数を取ります。
-  	\ct{2 raisedTo: 6 modulo: 10} は、オブジェクト \ct{2} にメッセージセレクタ
+  \item \emph{キーワード}メッセージは 1つ以上の引数を取ります。
+  	\ct{2 raisedTo: 6 modulo: 10} は、オブジェクト \ct{2} に、メッセージセレクタ
 	\ct{raisedTo:modulo:}、引数 \ct{6}、引数 \ct{10} からなるメッセージを送信します。
 \end{enumerate}
 
-単項メッセージのメッセージセレクタは、英小文字から始まる英数字で記述します。
+単項メッセージのメッセージセレクタは、英数字で記述します。先頭は小文字になります。
 \index{メッセージ!単項}
 
-二項メッセージのメッセージセレクタは、次の文字セットを使って 1 文字以上で記述します:
+二項メッセージのメッセージセレクタは、1文字以上で記述します。以下の文字を組み合わせることができます。
 \index{メッセージ!二項}
 \begin{code}{}
 + - / \ * ~ < > = @ % | & ! ? ,
@@ -265,22 +263,25 @@
 % [\~\!\@\%\&\*\-\+\=\\\|\?\/\>\<\,]
 \on{It seems that 3 or more chars work fine, but it is not possible to have more than one ``-'' in a binary selector. Perhaps due to a conflict with parsing negative numbers?}
 \ab{That's right; $-$ is weird.}
-キーワードメッセージのメッセージセレクタは、一連のキーワードを連結したものです。キーワードはそれぞれ英小文字で始まりコロンで終わる英数字で記述します。
+キーワードメッセージのメッセージセレクタは、一連のキーワードを連結したものです。キーワードはそれぞれ小文字で始まりコロンで終わります。
 \index{メッセージ!キーワード}
 
-単項メッセージの優先順位が最も高くなります。次に二項メッセージ、最後にキーワードメッセージの順になります。つまり:
+単項メッセージの優先順位が最も高くなります。次に二項メッセージ、最後にキーワードメッセージが評価されます。
+
+つまり、
 \begin{code}{@TEST}
 2 raisedTo: 1 + 3 factorial --> 128
 \end{code}
-となります(最初に \ct{3} に \ct{factorial} を送信します。次に \ct{1} に \ct{+ 6} を送信します。最後に \ct{2} に \ct{raisedTo: 7} を送信します)。
-式を評価した結果を示すのに\lct{\emph{式}}\ct{-->}\lct{\emph{結果}}という表記を使うことを思い出してください。
+となります。
+(最初に \ct{3} に \ct{factorial} が送られます。次に \ct{1} に \ct{+ 6} が送られます。最後に \ct{2} に \ct{raisedTo: 7} が送られます)。
+式を評価した結果を示すのに\lct{\emph{式}}\ct{-->}\lct{\emph{結果}}という記法を使うことにしているのを思い出してください。
 
-優先度を別にすると、評価順は厳密に左から右です。つまり、
+優先度を別にすると、評価順は厳密に左から右となります。つまり、
 \begin{code}{@TEST}
 1 + 2 * 3 --> 9
 \end{code}
-となります。\ct{7} ではありません。
-評価順を変更するためには括弧を使わなければなりません:
+です。\ct{7} ではありません。
+評価順を変えるには括弧を使わなければなりません。
 \begin{code}{@TEST}
 1 + (2 * 3) --> 7
 \end{code}
@@ -295,10 +296,10 @@ Transcript cr
 \end{code}
 
 \noindent
-これは、\glbind{Transcript} オブジェクトに \ct{cr} を送信し、次に \ct{Transcript} に \ct{show: 'hello world'} を送信し、最後に \ct{Transcript} にもう一つの \ct{cr} を送信します。
+これは、\glbind{Transcript} オブジェクトに \ct{cr} を送信し、次に \ct{Transcript} に \ct{show: 'hello world'} を送り、最後に \ct{Transcript} に再び \ct{cr} を送っています。
 
 一連のメッセージを\emph{同じ}レシーバに送信する場合、\emphind{カスケード}としてより簡潔に表現することができます。
-レシーバを一度だけ指定し、メッセージの並びをセミコロンで区切ります:
+レシーバを一度だけ指定し、メッセージの並びをセミコロンで区切ります。
 
 \begin{code}{}
 Transcript cr;
@@ -308,22 +309,22 @@ Transcript cr;
 これは前の例とまったく同じ意味になります。
 
 %=================================================================
-\section{メソッド文法}
+\section{メソッドのシンタックス}
 
-式は \pharo のあらゆる場所(例えばデバッガ、ワークスペース、あるいはブラウザ)で評価することができますが、通常、メソッドはブラウザウィンドウかデバッガで定義します
-(メソッドは外部メディアからファイルインすることもできますが、これは \pharo でプログラムする普通の方法ではありません)。
+式は \pharo のあらゆる場所(例えばデバッガ、ワークスペース、ブラウザなど)で評価することができますが、通常、メソッドはブラウザかデバッガで定義します。
+(メソッドは外部からファイルインすることもできますが、これは \pharo でプログラムするには普通の方法ではありません)。
 
-プログラムは、クラスのコンテキストの中で一度に 1 メソッドずつ開発していきます
-(クラスは、既存のクラスにサブクラスを作成するようにメッセージを送信して定義します。したがってクラスを定義する特別の文法は必要ありません)。
+プログラムは、あるクラスに属するメソッド単位で開発していきます。
+(クラスは、既存のクラスに、サブクラスを作成するためのメッセージを送信して定義します。クラスを定義するための特別な文法はありません)。
 
-以下は \clsind{String} クラスの \mthind{String}{lineCount} メソッドです
-(習慣により、メソッドを \ct{ClassName>>>methodName} と表します。したがってこのメソッドは \ct{String>>>lineCount} と表します)。
+以下は \clsind{String} クラスの \mthind{String}{lineCount} メソッドです。
+(慣習により、メソッドは \ct{ClassName>>>methodName} と表記します。そのため \ct{String>>>lineCount} と書き表せます)。
 
 \needlines{9}
 \begin{method}[lineCount]{Line count}
 String>>>lineCount
    "レシーバの行数を答える。
-   crに出会うたび 1 行増やす。"
+   crに出会うたびに1行増やす。"
    | cr count |
    cr := Character cr.
    count := 1 min: self size.
@@ -332,57 +333,57 @@ String>>>lineCount
    ^ count
 \end{method}
 
-文法上、メソッドは以下のものからなります:
+文法上、メソッドは以下のものから構成されます。
 \begin{enumerate}
-  \item 名前 (\ie \ct{lineCount}) と引数(あれば。この例では一つも無い)からなるメソッドのパターン;
-  \item コメント(どこに書いても構いませんが、メソッドが何を行うかの説明を一番上に書く習慣があります);
-  \item ローカル変数 (\ie \ct{cr} と \ct{count}) の宣言; そして
-  \item ドットで区切った任意個の式; ここでは式は 4 個。
+  \item 名前 (\ie \ct{lineCount}) と引数(この例では一つも無い)からなるメッセージパターン
+  \item コメント(どこに書いても構いませんが、メソッドが何を行うかの説明を一番上に書く慣習があります)
+  \item ローカル変数 (\ie \ct{cr} と \ct{count}) の宣言
+  \item ドットで区切られたメッセージ式。(ここでは式は 4個)。
 \end{enumerate}
 
-\ct{^}(\verb|^|とタイプした)が先行した任意の式は、評価するとその時点でメソッドを終了してその式の値を返します。
-明示的に値を返さずに終了するメソッドは、暗黙的に \pvind{self} を \ind{リターン}します。
+\ct{^}(\verb|^|とタイプする)が先頭に書いてある式は、評価されるとメソッドを終了してその式の値を返します。
+明示的に値を返さずに終了するメソッドの場合、暗黙的に \pvind{self} を \ind{リターン}します。
 \index{リターン!暗黙}
 
-パラメータとローカル変数は常に英小文字で始めなければなりません。
-英大文字で始まる名前はグローバル変数とみなされます。
-例えば \ct{Character} のようなクラス名は、単にそのクラスを表すオブジェクトを参照するグローバル変数です。
+引数とローカル変数は常に小文字で始めなければなりません。
+大文字で始まる名前はグローバル変数とみなされます。
+例えば クラス名(例: \ct{Character})は、そのクラスを表すオブジェクトを参照するためのグローバル変数です。
 
 %=================================================================
-\section{ブロック文法}
+\section{ブロックのシンタックス}
 
-\ind{ブロック}は、式の評価を遅らせるためのメカニズムを提供します。
-ブロックは本質的には無名の関数です。ブロックを評価するには、これにメッセージ \mthind{BlockClosure}{value} を送信します。
-ブロックは、明示的なリターン(\ct{^} で示す)が無ければその最後の式の値を返します。
+\ind{ブロック}は、遅延評価のためのメカニズムを提供します。
+ブロックは本質的には無名の関数です。ブロックを評価するには、メッセージ \mthind{BlockClosure}{value} を送信します。
+ブロックは、明示的なリターン(\ct{^} で示す)が無ければ、最後の式の値を返します。
 \seeindex{value}{BlockClosure}
 
 \begin{code}{@TEST}
 [ 1 + 2 ] value --> 3
 \end{code}
 
-ブロックはパラメータを持つことができます。パラメータは先頭にコロンをつけて宣言します。
-縦棒でブロックの本体とパラメータ宣言を区切ります。
-パラメータが 1 個のブロックを評価するには、ブロックにメッセージ \mthind{BlockClosure}{value:} と引数 1 個を送信しなければなりません。
-パラメータが 2 個のブロックを評価するには、ブロックに \mthind{BlockClosure}{value:value:}を送信しなければなりません。同様にして 4 個までの引数を渡すことができます。
+ブロックは引数を持つことができます。引数は先頭にコロンをつけて宣言します。
+縦棒でブロック本体と引数の宣言とを区切ります。
+引数が 1個のブロックを評価するには、ブロックに、引数1つのメッセージ \mthind{BlockClosure}{value:} を送信しなければなりません。
+引数が 2個のブロックを評価するには、ブロックに \mthind{BlockClosure}{value:value:}を送信しなければなりません。同様にして 4 個までの引数を渡すことができます。
 
 \begin{code}{@TEST}
 [ :x | 1 + x ] value: 2 --> 3
 [ :x :y | x + y ] value: 1 value: 2 --> 3
 \end{code}
 
-パラメータの数が 4 個より多いブロックには \mthind{BlockClosure}{valueWithArguments:} を用い、引数を配列にして渡さなければなりません
-(パラメータが多いブロックは、しばしば設計上の問題の兆候です)。
+引数の数が 4 個より多いブロックには \mthind{BlockClosure}{valueWithArguments:} を使って、引数を配列にして渡さなければなりません。
+(引数が多いブロックは、しばしば設計上の問題がある兆候です)。
 
-ブロック内でもローカル変数を宣言することができます。メソッドのローカル変数宣言とまったく同様、縦棒で囲んで宣言します。
-ローカル変数はパラメータの後ろに宣言します。
+ブロック内でもローカル変数を宣言することができます。メソッドのローカル変数宣言と同様、縦棒で囲みます。
+ローカル変数は引数リストの後ろに宣言します。
 \index{変数!宣言}
 
 \begin{code}{@TEST}
 [ :x :y | | z | z := x+ y. z ] value: 1 value: 2 --> 3
 \end{code}
 
-ブロックはそれを取り囲む環境の変数を参照することができるので、事実上静的\emph{クロージャー}です。
-次のブロックは、それを取り囲む環境の変数 \ct{x} を参照します:
+ブロックはそれを取り囲む環境の変数を参照することができるので、レキシカル\emph{クロージャー}です。
+次のブロックは、取り囲んでいる環境の変数 \ct{x} を参照しています。
 
 \begin{code}{@TEST}
 | x |
@@ -390,8 +391,8 @@ x := 1.
 [ :y | x + y ] value: 2 --> 3
 \end{code}
 
-ブロックはクラス \clsind{BlockClosure} のインスタンスです。
-これは、ブロックはオブジェクトなので、他の普通のオブジェクトとまったく同様変数に代入したり引数として渡すことができる、という意味です。
+ブロックはクラス \clsind{BlockClosure} のインスタンスです。つまりブロックはオブジェクトなので、他の普通のオブジェクトと同様、変数に代入したり引数として渡すことができます。
+。
 % For both understandability and performance, it is better for blocks to refer only to their parameters and local variables; blocks that do not refer external variables are optimized by the compiler.
 % MARCUS sez: I would just delete the sentence. There is nothing optimized, accessign outer temps is as fast as inner, so the only reason to avoid accessing outer temps would be that the code is easier to understand. But that's a relatively weak argument, I think.
 % However, the ability to refer (``capture'') non-local variables can be very powerful when it is needed. 
@@ -416,9 +417,9 @@ x := 1.
 \section{条件式とループの要点}
 
 \st には制御構造のための特別の文法はありません。
-代わりに真偽値、数およびコレクションに、ブロックを引数とするメッセージを送信することで制御構造を表します。
+代わりに、真偽値や数、コレクションに対し、ブロックを引数とするメッセージを送ることで制御構造を表します。
 
-条件式は、真偽値を返す式(の値)にメッセージ \mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:} あるいは \mthind{Boolean}{ifTrue:ifFalse:} を送信することにより表します。真偽値に関する詳細については \charef{basic}を参照してください。
+条件式は、真偽値を返す式の値に、メッセージ \mthind{Boolean}{ifTrue:}、\mthind{Boolean}{ifFalse:} \mthind{Boolean}{ifTrue:ifFalse:} などを送ることにより表現します。真偽値について、詳しくは \charef{basic}を参照してください。
 
 \begin{code}{}
 (17 * 13 > 220)
@@ -428,9 +429,10 @@ x := 1.
 % ON: Not a test.
 % My regex approach cannot handle multi-line expressions :-(
 
-ループは、ブロック、整数あるいはコレクションにメッセージを送信することで表します。
+ループは、ブロック、整数、コレクションなどにメッセージを送ることで表します。
 ループの終了条件は、繰り返し評価されるかもしれないので、真偽値そのものではなく真偽値を返すブロックでなければなりません。
-以下は非常に手続き的なループの例です:
+以下は非常に手続き的なループの例です。
+
 \index{繰り返し}
 \index{繰り返し|seealso{Collection, iteration}}
 \seeindex{ループ}{繰り返し}
@@ -445,7 +447,7 @@ n --> 1024
 \cmindex{BlockClosure}{whileTrue:}
 
 \noindent
-\mthind{BlockClosure}{whileFalse:} は終了条件を逆にします。
+\mthind{BlockClosure}{whileFalse:} では終了条件が逆になります。
 \begin{code}{@TEST | n |}
 n := 1.
 [ n > 1000 ] whileFalse: [ n := n*2 ].
@@ -453,7 +455,7 @@ n --> 1024
 \end{code}
 
 \noindent
-\mthind{Integere}{timesRepeat:} により単純な固定回数の繰り返しが実装できます。
+\mthind{Integere}{timesRepeat:} により単純な固定回数の繰り返しができます。
 
 \begin{code}{@TEST | n |}
 n := 1.
@@ -462,7 +464,9 @@ n --> 1024
 \end{code}
 
 数にメッセージ \mthind{Number}{to:do:} を送信することができます。するとその数(レシーバ)がループカウンタの初期値になります。
-\ct{to:} の引数はループカウンタの上限です。また \ct{do:} の引数はブロックで、これ自体ループカウンタの現在の値を引数として取ります。
+\ct{to:} の引数はループカウンタの上限です。また \ct{do:} の引数はブロックで、ループカウンタの現在の値を引数として取ります。
+
+%ここまで(p56)%
 
 \needlines{4}
 \begin{code}{@TEST | result |}
