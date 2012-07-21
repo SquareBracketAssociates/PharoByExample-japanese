@@ -466,8 +466,6 @@ n --> 1024
 数にメッセージ \mthind{Number}{to:do:} を送信することができます。するとその数(レシーバ)がループカウンタの初期値になります。
 \ct{to:} の引数はループカウンタの上限です。また \ct{do:} の引数はブロックで、ループカウンタの現在の値を引数として取ります。
 
-%ここまで(p56)%
-
 \needlines{4}
 \begin{code}{@TEST | result |}
 result := String new.
@@ -482,16 +480,16 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 % n --> 55
 % \end{code}
 
-\paragraph{高階イテレータ。}
-コレクションには多くの異ったクラスがあります。それらの多くは同じプロトコルをサポートします。
+\paragraph{高階イテレータ}
+コレクションはさまざまなクラスで実装されています。多くは同じプロトコルをサポートします。
 コレクションの要素を繰り返し処理するための最も重要メッセージには、
 \mthind{Collection}{do:}、\mthind{Collection}{collect:}、\mthind{Collection}{select:}、\mthind{Collection}{reject:}、\mthind{collection}{detect:} および \mthind{Collection}{inject:into:} があります。
-これらのメッセージは高レベルのイテレータを定義しており、それによって非常にコンパクトなコードを書くことができます。
+これらは高レベルのイテレータを定義しているメッセージであり、それによって非常にコンパクトなコードを書くことができます。
 
-\clsind{Interval} は、数の並びを始点から終点まで繰り返し処理するためのコレクションです。
+\clsind{Interval} は、開始、終了を指定した数の並びを繰り返し処理できるコレクションです。
 \ct{1 to: 10}は 1 から 10 までの \ct{Interval} を表します。
 \ct{Interval} はコレクションなので、これにメッセージ \ct{do:} を送信することができます。
-\ct{do:} の引数はブロックで、ブロックのパラメータがコレクションの要素にバインドされ繰り返し評価されます。
+\ct{do:} の引数はブロックであり、コレクションの要素に対して繰り返し評価されます。
 
 \begin{code}{@TEST | result |}
 result := String new.
@@ -511,7 +509,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 (1 to: 10) collect: [ :each | each * each ] --> #(1 4 9 16 25 36 49 64 81 100)
 \end{code}
 
-\ct{select:} と \ct{reject:} は、真偽値を返すブロックを満たす(あるいは満たさない)要素からなる新しいコレクション(部分集合)を作ります。
+\ct{select:} と \ct{reject:} は、真偽値の条件を満たす(あるいは満たさない)ブロックを満たす要素からなる新しいコレクション(部分集合)を作ります。
 \ct{detect:} は条件を満たす最初の要素を返します。
 文字列が文字のコレクションであることを覚えておいてください。つまり文字列内の文字は繰り返し処理することができます。
 
@@ -521,8 +519,8 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 'hello there' detect: [ :char | char isVowel ] --> $e
 \end{code}
 
-最後に、コレクションが \ct{inject:into:} メソッドにより関数型の(高階の)\emph{畳み込み}演算もサポートすることに留意してください。
-これを使うと、シード値で始まる式にコレクションの各要素を注入 (inject) して累積的な値を得ることができます。
+最後に、コレクションは \ct{inject:into:} メソッドにより、関数型の\emph{畳み込み}演算もサポートします。
+これを使うと、シードとなる値から開始し、コレクションの各要素を注入 (inject) していった累積的な値を得ることができます。
 和や積の累積は \ct{inject:into:} の典型的な応用例です。
 \seeindex{fold}{\ct{Collection>>>inject:into}}
 
@@ -540,17 +538,17 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 
 \st ではすべてがオブジェクトです。そしてあらゆることがメッセージ送信により起こります。
 しかしある地点で底に当たります。
-ある種のオブジェクトは\ind{バーチャルマシン}\ind{プリミティブ}を呼ばないと動作できません。
+ある種のオブジェクトは\ind{バーチャルマシン}\ind{プリミティブ}を呼びださないと動作できません。
 
-例えば、次のメソッドはすべてプリミティブとして実装されています。
+例えば、以下のメソッドはすべてプリミティブとして実装されています。
 メモリ割り当て (\mthind{Behavior}{new}、\mthind{Behavior}{new:})、
 ビット操作 (\mthind{Integer}{bitAnd:}、\mthind{Integer}{bitOr:}、\mthind{Integer}{bitShift:})、
-ポインターおよび整数演算 (\ct{+}、\ct{-}、\ct{<}、\ct{>}、\ct{*}、\ct{/ }、\ct{=}、\ct{==}...)、
+ポインタおよび整数演算 (\ct{+}、\ct{-}、\ct{<}、\ct{>}、\ct{*}、\ct{/ }、\ct{=}、\ct{==}...)、
 および配列のアクセス (\mthind{Object}{at:}、\mthind{Object}{at:put:})。
 \seeindex{new@{\ct{new}}}{\ct{Behavior>>>new}}
 
 プリミティブは、文法 \ct{<primitive: aNumber>} で呼び出します。
-プリミティブを呼び出すメソッドはさらに \st コードを含んでいることがあります。そのようなコードは、プリミティブが失敗した場合に\emph{だけ}評価されます。
+プリミティブを呼び出すメソッドで、通常の \st コードがさらに続くことがあります。そうしたコードは、プリミティブが失敗した場合に\emph{のみ}評価されます。
 
 \cmind{SmallInteger}{+}のコードを見てみましょう。
 プリミティブが失敗した場合、式 \ct{super + aNumber} が評価され値が返されます。
@@ -558,9 +556,9 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 \needlines{6}
 \begin{method}[primitive]{プリミティブメソッド}
 + aNumber 
-  "プリミティブ。レシーバを引数に加え、結果が SmallInteger ならそれを返す。
+  "プリミティブ。レシーバと引数で加算し、結果が SmallInteger ならそれを返す。
   引数か結果が SmallInteger でなければ失敗する。
-  必須。探索無し。Object のドキュメント whatIsAPrimitive を参照のこと。"
+  必須。メソッド探索無し。Object のドキュメント whatIsAPrimitive を参照のこと。"
 
   <primitive: 1>
   ^ super + aNumber
@@ -580,7 +578,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 %\end{method}
 
 
-\pharo では、山括弧文法はメソッドアノテーションにも使われます。これをプラグマと呼びます。
+\pharo では、山括弧を使った記法はメソッドのアノテーションにも使われます。これはプラグマと呼ばれます。
 \sd{we should give an example}\ab{Please do!  Is don't know about these.}\damien{it's the third time we talk about pragmas without saying what they are and how to use them.}
 
 %=================================================================
@@ -588,9 +586,9 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 
 \begin{itemize}
 
-\item	\pharo には予約語が 6 個(だけ)あります。これらは\textit{擬似変数}とも呼ばれます: \ct{true}、\ct{false}、\ct{nil}、\ct{self}、\ct{super}、および \ct{thisContext}。
+\item	\pharo には予約語が 6個(だけ)あります。これらは\textit{擬似変数}とも呼ばれます。 \ct{true}、\ct{false}、\ct{nil}、\ct{self}、\ct{super}、そして \ct{thisContext}です。
 
-\item	5 種類のリテラルオブジェクトがあります: 数(\ct{5}、\ct{2.5}、\ct{1.9e15}、\ct{2r111})、文字 (\ct{$a})、文字列 (\ct{'hello'})、シンボル (\ct{#hello})、および配列 (\ct{#('hello' #hi)})。
+\item	5種類のリテラルオブジェクトがあります: 数(\ct{5}、\ct{2.5}、\ct{1.9e15}、\ct{2r111})、文字 (\ct{$a})、文字列 (\ct{'hello'})、シンボル (\ct{#hello})、配列 (\ct{#('hello' #hi)})です。
 
 \item	文字列はシングルクォートで、コメントはダブルクォートで囲みます。
 		文字列内にクォートを書くには、クォートを重ねます。
@@ -603,28 +601,28 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 		\ct|{ 1 + 2 } size --> 1|
 		なので注意してください。
 
-\item	3 種類のメッセージがあります:
+\item	3種類のメッセージがあります:
 		\emph{単項} (\eg \ct{1 asString}、\ct{Array new})、
-		\emph{二項} (\eg \ct{3 + 4}、\ct{'hi' , ' there'})、および
-		\emph{キーワード} (\eg \ct{'hi' at: 2 put: $o})。
+		\emph{二項} (\eg \ct{3 + 4}、\ct{'hi' , ' there'})、
+		\emph{キーワード} (\eg \ct{'hi' at: 2 put: $o})です。
 
-\item	\emph{カスケード}メッセージ送信では、同じターゲットにメッセージの並びを送信します。各メッセージはセミコロンで区切ります:
+\item	\emph{カスケード}によるメッセージ送信では、同じターゲットに連続してメッセージを送れます。各メッセージはセミコロンで区切ります。
 \ct{OrderedCollection new add: #calvin; add: #hobbes; size --> 2}。
 
 \item	ローカル変数は縦棒で囲んで宣言します。
 		代入には \ct{:=} を使います。
 		\ct{|x| x:=1}。
 
-\item	式は、メッセージ送信、カスケードおよび代入からなります。これらは括弧でグループ化されることもあります。
+\item	式は、メッセージ送信、カスケード、代入からなります。これらは括弧でグループ化されることもあります。
 		\emph{文}はピリオドによって区切られた式です。
 
 \item	ブロッククロージャーは角括弧で囲まれた式です。
 		ブロックは引数を取ってもよく、一時変数を使うこともできます。
-		ブロック内の式は、ブロックに \ct{value...} メッセージと正しい個数の引数を送信するまで
-		評価されません。\\
+		ブロック内の式は、ブロックに、\ct{value...} メッセージを、適切な個数の引数で送るとはじめて
+		評価されます。\\
 		\ct{[:x | x + 2] value: 4 --> 6}。
 
-\item	制御構造専用の文法はありません。条件付きでブロックを評価するメッセージがあるだけです。\\
+\item	制御構造用の文法はありません。ある条件でブロックを評価させるメッセージ送信で実現します。\\
  		\ct{(\st includes: Class) ifTrue: [ Transcript show: Class superclass ]}。
 
 \end{itemize}
