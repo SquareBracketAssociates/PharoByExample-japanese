@@ -86,12 +86,14 @@ This file is offered as-is,　without any warranty.
 		<h2 id="compiling">3. コマンドラインからのコンパイル方法</h2>
 		<div>
 			<p>使うコマンドは、たぶん lualatex だけです。</p>
-			<p>PBE のディレクトリのトップレベルで</p>
+			<p>ディレクトリのトップレベルで</p>
 			<pre>C:\PharoByExample-japanese&gt;lualatex.exe PBE1.tex</pre>
-			<p>とすると、PBE1.pdf などが導出されます。目次や索引を作成するには、これを 2 回行います。</p>
+			<p>とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います。</p>
 			<p>サブディレクトリ、たとえば Streams で</p>
 			<pre>C:\PharoByExample-japanese\Streams&gt;lualatex.exe Streams.tex</pre>
-			<p>とすると、Streams.pdf などが導出されます。これをトップレベルで</p>
+			<p>
+				とすると、Streams.pdf などが作成されます(<a href="#unresolved">注</a>)。これをトップレベルで
+			</p>
 			<pre>C:\PharoByExample-japanese&gt;lualatex.exe Streams\Streams.tex</pre>
 			<p>
 				としても
@@ -99,6 +101,11 @@ This file is offered as-is,　without any warranty.
 				の処理でエラーになります。
 			</p>
 			<p>なお、引数の末尾の .tex は省略可能です。</p>
+			<hr />
+			<dl>
+				<dt id="unresolved">注</dt>
+				<dd>章単体でコンパイルすると他の章への参照が未解決になりますが、これは仕方ありません。</dd>
+			</dl>
 		</div>
 	</div>
 	<div>
