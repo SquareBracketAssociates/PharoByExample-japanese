@@ -68,7 +68,7 @@ This file is offered as-is,　without any warranty.
 			<p>
 				<a href="https://github.com/x19290/install-tl-guide">https://github.com/x19290/install-tl-guide</a>
 				を読んでインストールしてください。 今まで TeXLive
-				のインストール方法について何度か違うことを書いてきましたが、今後は原則としてこのプログラムの出力を参考に、ネットワークインストールしてください。
+				のインストール方法について何度か違うことを書いてきましたが、今後はこのプログラムの出力を参考に、ネットワークインストールするといいでしょう。
 				条件がいいと、10 分くらいで終わります。
 			</p>
 		</div>
@@ -85,14 +85,17 @@ This file is offered as-is,　without any warranty.
 	<div>
 		<h2 id="compiling">3. コマンドラインからのコンパイル方法</h2>
 		<div>
-			<p>使うコマンドは、たぶん lualatex だけです。</p>
+			<p>使うコマンドは lualatex と makeindex です。</p>
 			<p>ディレクトリのトップレベルで</p>
 			<pre>C:\PharoByExample-japanese&gt;lualatex.exe PBE1.tex</pre>
-			<p>とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います。</p>
+			<p>
+				とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います(<a
+					href="#makeindex">注 1</a>)。
+			</p>
 			<p>サブディレクトリ、たとえば Streams で</p>
 			<pre>C:\PharoByExample-japanese\Streams&gt;lualatex.exe Streams.tex</pre>
 			<p>
-				とすると、Streams.pdf などが作成されます(<a href="#unresolved">注</a>)。これをトップレベルで
+				とすると、Streams.pdf などが作成されます(<a href="#unresolved">注 2</a>)。これをトップレベルで
 			</p>
 			<pre>C:\PharoByExample-japanese&gt;lualatex.exe Streams\Streams.tex</pre>
 			<p>
@@ -103,7 +106,13 @@ This file is offered as-is,　without any warranty.
 			<p>なお、引数の末尾の .tex は省略可能です。</p>
 			<hr />
 			<dl>
-				<dt id="unresolved">注</dt>
+				<dt id="makeindex">注 1</dt>
+				<dd>
+					索引を作る場合は、
+					<code>lualatex PBE1; makeindex PBE1; lualatex PBE1</code>
+					の順になります。
+				</dd>
+				<dt id="unresolved">注 2</dt>
 				<dd>章単体でコンパイルすると他の章への参照が未解決になりますが、これは仕方ありません。</dd>
 			</dl>
 		</div>
@@ -118,7 +127,7 @@ This file is offered as-is,　without any warranty.
 		<h2 id="gui-latex">5. LaTeX の GUI フロントエンド</h2>
 		<p>
 			古株の TeXworksと、新興の TeXlipse/Pdf4Eclipse があります。
-			堀内は、TeXlipse/Pdf4Eclipse の利用を強く推奨します(参考: <a
+			堀内は、TeXlipse/Pdf4Eclipse の利用を推奨します(参考: <a
 				href="http://x19290.appspot.com/using-eclipse/main.html">Eclipse
 				を使おう</a>)。
 		</p>
