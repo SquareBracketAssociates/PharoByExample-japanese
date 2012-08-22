@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC
+	"-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+>
+<!--
+[GNU APL (all-permissive license)]
+
+Copyright © 2012 Hiroki Horiuchi &lt;x19290@gmail.com&gt;
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+This file is offered as-is,　without any warranty.
+!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+<link rev="made" href="." />
+<style type="text/css">
+:target {
+	background-color: #DEF;
+}
+</style>
+<link rel="contents" href="." />
+<title>組版メモ 2</title>
+</head>
+<body>
+	<h1>組版メモ 2</h1>
+	<div>
+		<h2>目次</h2>
+		<ol>
+			<li><a href="#installing-texlive">TeXLive のインストール</a></li>
+			<li><a href="#polution">TeXLive の PATH</a></li>
+			<li><a href="#compiling">コマンドラインからのコンパイル方法</a></li>
+			<li><a href="#broken-temp-file">壊れた一時ファイル問題</a></li>
+			<li><a href="#gui-latex">LaTeX の GUI フロントエンド</a></li>
+			<li><a href="#texlipse-pitfall">TeXlipse の癖</a></li>
+			<li><a href="#undesirable-chars">原稿中の好ましくない文字</a></li>
+			<li><a href="#jindex">日本語の索引</a></li>
+		</ol>
+	</div>
+	<div>
+		<h2 id="installing-texlive">1. TeXLive のインストール</h2>
+		<div>
+			<h3>インストーラーのインストール</h3>
+			<dl>
+				<dt>Windows の場合</dt>
+				<dd>
+					<a
+						href="http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz">install-tl.zip</a>
+				</dd>
+				<dt>Unix の場合</dt>
+				<dd>
+					<a
+						href="http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz">install-tl-unx.tar.gz</a>
+				</dd>
+			</dl>
+			<p>
+				を任意のディレクトリに展開します。その中に
+				<code>install.bat</code>
+				、
+				<code>install-tl</code>
+				(Perl のプログラム) が入っています。
+			</p>
+		</div>
+		<div>
+			<h3>インストール本番</h3>
+			<p>
+				<a href="https://github.com/x19290/install-tl-guide">https://github.com/x19290/install-tl-guide</a>
+				を読んでインストールしてください。 今まで TeXLive
+				のインストール方法について何度か違うことを書いてきましたが、今後はこのプログラムの出力を参考に、ネットワークインストールするといいでしょう。
+				条件がいいと、10 分くらいで終わります。
+			</p>
+		</div>
+	</div>
+	<div>
+		<h2 id="polution">2. TeXLive の PATH</h2>
+		<p>デフォルトインストールで、 Unix では /usr/local/texlive/2012/bin/i386-linux
+			など、Windows では C:\texlive\2012\bin\win32 などに コマンドがインストールされます。これを PATH
+			に追加することがおそらく推奨されているのでしょうが、堀内はそういうのは「環境汚染」だと言って好みません。Unix
+			なら、環境汚染を避ける方法はいくらでもあります。Windows でも後述の GUI フロントエンドだけを使うなら、PATH
+			の編集は必須ではありません。</p>
+		<p>堀内は、Windows の PATH に対する TeXLive 用の広域的な設定はしていません。</p>
+	</div>
+	<div>
+		<h2 id="compiling">3. コマンドラインからのコンパイル方法</h2>
+		<div>
+			<p>使うコマンドは lualatex と makeindex です。</p>
+			<p>ディレクトリのトップレベルで</p>
+			<pre>C:\PharoByExample-japanese&gt;lualatex.exe PBE1.tex</pre>
+			<p>
+				とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います(<a
+					href="#makeindex">注 1</a>)。
+			</p>
+			<p>サブディレクトリ、たとえば Streams で</p>
+			<pre>C:\PharoByExample-japanese\Streams&gt;lualatex.exe Streams.tex</pre>
+			<p>
+				とすると、Streams.pdf などが作成されます(<a href="#unresolved">注 2</a>)。これをトップレベルで
+			</p>
+			<pre>C:\PharoByExample-japanese&gt;lualatex.exe Streams\Streams.tex</pre>
+			<p>
+				としても
+				<code>\input</code>
+				の処理でエラーになります。
+			</p>
+			<p>なお、引数の末尾の .tex は省略可能です。</p>
+			<hr />
+			<dl>
+				<dt id="makeindex">注 1</dt>
+				<dd>
+					索引を作る場合は、
+					<code>lualatex PBE1; makeindex PBE1; lualatex PBE1</code>
+					の順になります。
+				</dd>
+				<dt id="unresolved">注 2</dt>
+				<dd>章単体でコンパイルすると他の章への参照が未解決になりますが、これは仕方ありません。</dd>
+			</dl>
+		</div>
+	</div>
+	<div>
+		<h2 id="broken-temp-file">4. 壊れた一時ファイル問題</h2>
+		<p>原稿は改悪していないはずなのに、ある日を境に LaTeX が奇妙なエラーを吐き続けるようになることがあります。
+			このような時は、一時ファイル(具体的には .aux ファイル)が壊れている可能性があります。 試しに .aux
+			ファイルを消してからコンパイルしなおしてみてください。</p>
+	</div>
+	<div>
+		<h2 id="gui-latex">5. LaTeX の GUI フロントエンド</h2>
+		<p>
+			古株の TeXworksと、新興の TeXlipse/Pdf4Eclipse があります。
+			堀内は、TeXlipse/Pdf4Eclipse の利用を推奨します(参考: <a
+				href="http://x19290.appspot.com/using-eclipse/main.html">Eclipse
+				を使おう</a>)。
+		</p>
+		<div>
+			<h3>TeXworks</h3>
+			<p>シンタクスハイライト付き .tex エディターと、-synctex 対応の PDF ビュワーがセットになったものです。
+				-synctex 機能により、.tex &harr; .pdf 相互の行き来が可能になります。</p>
+		</div>
+		<div>
+			<h3>TeXlipse/Pdf4Eclipse</h3>
+			<p>Eclipse のプラグインです。 TeXlipse がシンタクスハイライト付きエディターで、Pdf4Eclipse が
+				-synctex 対応の PDF ビュワーです。</p>
+		</div>
+	</div>
+	<div>
+		<h2 id="texlipse-pitfall">6. TeXlipse の癖</h2>
+		<p>Smalltalk のコメントが書きたくて &lsquo;"&rsquo; と入力しようとすると自動的に
+			&lsquo;``&rsquo; に変換されてしまう、などの問題があります。適当なテキストエリアに書いてコピペするしかなさそうです。</p>
+	</div>
+	<div>
+		<h2 id="undesirable-chars">7. 原稿中の好ましくない文字</h2>
+		<p>ASCII に対応する文字があるのに全角で書かれている文字は、ASCII
+			に置換するべきだと思います。半角カナも紛れ込んでいるかも知れません。そういう文字をリストアップすることは簡単にできます。リストアップが終了すれば、個々の文字について丹念に
+			query-replace するまでです。</p>
+	</div>
+	<div>
+		<h2 id="jindex">8. 日本語の索引</h2>
+		<p>ひらがなの見出し語以外は、ひらがなで読みを補ってやる必要があります。この作業は、正規表現による横断的で会話的な検索機能のあるエディター
+			(Eclipse など)を使えば、比較的少いストレスで行うことができます。</p>
+	</div>
+</body>
+</html>
