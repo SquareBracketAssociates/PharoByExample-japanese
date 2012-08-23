@@ -69,9 +69,25 @@ This file is offered as-is,　without any warranty.
 				<a href="https://github.com/x19290/install-tl-guide">https://github.com/x19290/install-tl-guide</a>
 				を読んでインストールしてください。 今まで TeXLive
 				のインストール方法について何度か違うことを書いてきましたが、今後はこのプログラムの出力を参考に、ネットワークインストールするといいでしょう。
-				条件がいいと、10 分くらいで終わります。
+				条件がいいと、10 分くらいで終わります(<a href="#luatexja-needs-update">お詫びと補足</a>)。
 			</p>
 		</div>
+		<dl>
+			<dt id="luatexja-needs-update">お詫びと補足</dt>
+			<dd>
+				現状で、PBE1.tex 全体をエラー無くコンパイルするには、<a href="#update-luatexja">LuaTeX-ja
+					を最新にしておく</a>必要があります。これを書いた時点では、TeXLive をネットワークインストールすれば LuaTeX-ja
+				もほぼ最新になると勘違いしていました。すみません。
+			</dd>
+			<dt id="update-luatexja">LuaTeX-ja を最新にする</dt>
+			<dd>
+				<a
+					href="http://git.sourceforge.jp/view?p=luatex-ja/luatexja.git;a=snapshot;h=HEAD;sf=tgz">master
+					ブランチのスナップショット (tgz)</a>をダウンロード/展開し、その中のsrc\.
+				を、C:\texlive\2012\texmf-dist\tex\luatex\luatexja\.
+				に再帰コピーしてください。.tar.gz ですが、展開に困る人はここにはいないと思います。
+			</dd>
+		</dl>
 	</div>
 	<div>
 		<h2 id="polution">2. TeXLive の PATH</h2>
@@ -84,38 +100,36 @@ This file is offered as-is,　without any warranty.
 	</div>
 	<div>
 		<h2 id="compiling">3. コマンドラインからのコンパイル方法</h2>
-		<div>
-			<p>使うコマンドは lualatex と makeindex です。</p>
-			<p>ディレクトリのトップレベルで</p>
-			<pre>C:\PharoByExample-japanese&gt;lualatex.exe PBE1.tex</pre>
-			<p>
-				とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います(<a
-					href="#makeindex">注 1</a>)。
-			</p>
-			<p>サブディレクトリ、たとえば Streams で</p>
-			<pre>C:\PharoByExample-japanese\Streams&gt;lualatex.exe Streams.tex</pre>
-			<p>
-				とすると、Streams.pdf などが作成されます(<a href="#unresolved">注 2</a>)。これをトップレベルで
-			</p>
-			<pre>C:\PharoByExample-japanese&gt;lualatex.exe Streams\Streams.tex</pre>
-			<p>
-				としても
-				<code>\input</code>
-				の処理でエラーになります。
-			</p>
-			<p>なお、引数の末尾の .tex は省略可能です。</p>
-			<hr />
-			<dl>
-				<dt id="makeindex">注 1</dt>
-				<dd>
-					索引を作る場合は、
-					<code>lualatex PBE1; makeindex PBE1; lualatex PBE1</code>
-					の順になります。
-				</dd>
-				<dt id="unresolved">注 2</dt>
-				<dd>章単体でコンパイルすると他の章への参照が未解決になりますが、これは仕方ありません。</dd>
-			</dl>
-		</div>
+		<p>使うコマンドは lualatex と makeindex です。</p>
+		<p>ディレクトリのトップレベルで</p>
+		<pre>C:\PharoByExample-japanese&gt;lualatex.exe PBE1.tex</pre>
+		<p>
+			とすると、PBE1.pdf などが作成されます。目次や索引を作成するには、これを 2 回行います(<a href="#makeindex">注
+				1</a>)。
+		</p>
+		<p>サブディレクトリ、たとえば Streams で</p>
+		<pre>C:\PharoByExample-japanese\Streams&gt;lualatex.exe Streams.tex</pre>
+		<p>
+			とすると、Streams.pdf などが作成されます(<a href="#unresolved">注 2</a>)。これをトップレベルで
+		</p>
+		<pre>C:\PharoByExample-japanese&gt;lualatex.exe Streams\Streams.tex</pre>
+		<p>
+			としても
+			<code>\input</code>
+			の処理でエラーになります。
+		</p>
+		<p>なお、引数の末尾の .tex は省略可能です。</p>
+		<hr />
+		<dl>
+			<dt id="makeindex">注 1</dt>
+			<dd>
+				索引を作る場合は、
+				<code>lualatex PBE1; makeindex PBE1; lualatex PBE1</code>
+				の順になります。
+			</dd>
+			<dt id="unresolved">注 2</dt>
+			<dd>章単体でコンパイルすると他の章への参照が未解決になりますが、これは仕方ありません。</dd>
+		</dl>
 	</div>
 	<div>
 		<h2 id="broken-temp-file">4. 壊れた一時ファイル問題</h2>
