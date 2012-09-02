@@ -68,7 +68,7 @@
 \ct{Object} はインスタンス変数を持っておらず、追加すべきでもない。これは、\ct{Object} を継承するクラスには特殊な実装を持つもの(例えば \ct{SmallInteger} や \ct{UndefinedObject}) がいくつかあって、これらや VM が、ある標準的なクラスの構造とレイアウトを知っていてそれに依存しているためである。}
 \end{quote}
 
-本節では、\ct{Object} のインスタンスボタン側のメソッドカテゴリ(プロトコル)をブラウズして行きます。それにともない、\ct{Object} が提供するいくつかの主だった振る舞いが理解できるようになって行くでしょう。
+本節では、\ct{Object} のインスタンスボタン側のメソッドカテゴリ(プロトコル)をブラウズしていきます。それにともない、\ct{Object} が提供するいくつかの主だった振る舞いが理解できるようになっていくでしょう。
 
 %-----------------------------------------------------------------
 \subsection{printing プロトコル}
@@ -329,7 +329,7 @@ Object>>>copy
 
 \sd{他の章では haltIf:、haltOnce、inspectOnce、flagging: isThisEverCalled なども紹介されています。}
 
-次に重要なメソッドは \mthind{Object}{assert:} です\footnote{訳注: \ct{assert:} は、実際には error handling プロトコルに分類されています。}。これは引数として\ind{ブロック}を取ります。ブロックが \ct{true} を返すと実行は継続されます。そうでなければ \ct{AssertionFailure} 例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:} は、\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な事前条件をチェックする、というのが最も良くある利用方法でしょう。\cmind{Stack}{pop} は、次のように簡単に実装できます:%@ non-trivial ?= 重要な
+次に重要なメソッドは \mthind{Object}{assert:} です\footnote{訳注: \ct{assert:} は、実際には error handling プロトコルに分類されています。}。これは引数として\ind{ブロック}を取ります。ブロックが \ct{true} を返すと実行は継続されます。そうでなければ \ct{AssertionFailure} 例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:} は、\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な事前条件をチェックする、というのが最もよくある利用方法でしょう。\cmind{Stack}{pop} は、次のように簡単に実装できます:%@ non-trivial ?= 重要な
 
 \begin{method}{事前条件のチェック}
 Stack>>>pop
@@ -386,7 +386,7 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 
 %-----------------------------------------------------------------
 \sd{ subsection{廃止予定} }
-\sd{あとで書く}
+\sd{後で書く}
 
 \on{既に上にいくつか説明があります! エラー処理の二つ目の段落を参照して下さい。}
 
@@ -459,9 +459,9 @@ Magnitude>>> > aMagnitude
 
 同様に \clsindmain{Number} では、\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/} などが抽象メソッドとして定義されており、それ以外のすべての算術演算子は汎用的な形で定義されています。
 
-すべての \ct{Number} オブジェクトは、\mthind{Number}{asFloat} や \mthind{Number}{asInteger} のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}\index{便利コンストラクタ}\footnote{訳注: 便利コンストラクタとも言う。}つまり、\ct{Number} を実部がゼロの \clsind{Complex}\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません。} のインスタンスに変換する \mthind{Number}{i} や、\ct{Number} から \clsind{Duration} オブジェクトを生成する \mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week} などがあります。
+すべての \ct{Number} オブジェクトは、\mthind{Number}{asFloat} や \mthind{Number}{asInteger} のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}\index{便利コンストラクタ}\footnote{訳注: 便利コンストラクタともいう。}つまり、\ct{Number} を実部がゼロの \clsind{Complex}\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません。} のインスタンスに変換する \mthind{Number}{i} や、\ct{Number} から \clsind{Duration} オブジェクトを生成する \mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week} などがあります。
 
-\ct{Numbers} は、\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt} などの良くある\emph{数学関数}を直接サポートします。
+\ct{Numbers} は、\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt} などのよくある\emph{数学関数}を直接サポートします。
 
 \cmind{Number}{printOn:} は、抽象メソッドの \ct{Number>>>printOn:base:} を使って基数 10 の場合として実装されています。
 
@@ -656,7 +656,7 @@ Character characterTable size                               --> 256
 
 \ct{String} は比較的多くの変換メソッドをサポートしています。それらの多くは、\mthind{String}{asDate}、\mthind{String}{asFileName} などのような他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また \mthind{String}{capitalized} や \mthind{String}{translateToLowercase} などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
-文字列とコレクションに関する更に進んだ話題については、\charef{collections}を参照して下さい。
+文字列とコレクションに関するさらに進んだ話題については、\charef{collections}を参照して下さい。
 
 \on{さらに利用できる資料がこちらにあります:
 \url{http://www.dmu.com/crb/crb7.html}.}
