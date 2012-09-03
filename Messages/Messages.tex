@@ -542,7 +542,7 @@ ord := OrderedCollection new.
 \subsection{\lct{[ ]} と \lct{( )} のどちらを使うか}
 もしかすると、いつ鍵括弧を括弧の代わりに使うべきか良く分からないかもしれませんね。
 基本原則としては、もしある式が何回(もしかすると 0 回かも)評価されるかあらかじめ分からない時にはその式を \ct{[ ]} で囲みます。
-\lct{[\emph{expression}]} は実行時に \ind{ブロック} クロージャ (\ie オブジェクト)を \lct{\emph{expression}} から生成します。このクロージャは必要に応じて何回でも (0 回の可能性も含めて)評価することできます。\ct{[ ]} の中にはメッセージ送信、変数、リテラル、代入あるいは別のブロックを書くことができます。
+\lct{[\emph{expression}]} は \lct{\emph{expression}} から\ind{ブロック} クロージャ (\ie オブジェクト)を生成します。クロージャは、必要に応じて何回でも (0 回の可能性も含めて)評価することできるオブジェクトです。\ct{[ ]} の中にはメッセージ送信、変数、リテラル、代入あるいは別のブロックを書くことができます。
 
 \ct{ifTrue:} や \ct{ifTrue:ifFalse:} のような条件分岐がブロックを必要とするのはこのためです。同じ原則に従い、\ct{whileTrue:} メッセージのレシーバと引数も、何回評価されるかはあらかじめ決定できないので、これらを鍵括弧で囲む必要があります。
 
@@ -581,7 +581,13 @@ Transcript show: 'fun '.
 Transcript cr.
 \end{code}
 \end{minipage}
-\emph{is equivalent to:}
+\begin{minipage}{0.15\textwidth}
+\begin{center}
+$\Longleftrightarrow$
+
+\emph{等価}
+\end{center}
+\end{minipage}
 \begin{minipage}{0.35\textwidth}
 \begin{code}{}
 Transcript        
@@ -591,8 +597,8 @@ Transcript
 \end{code}
 \end{minipage}
 
-カスケードメッセージを受け取るオブジェクト自身がメッセージ送信の結果であっても良いということに注意してください。
-実際、すべてのカスケードメッセージのレシーバは、一連のカスケードの中で最初のメッセージを受け取ったオブジェクトになります。以下の例では、最初のカスケードメッセージは \ct{setX:setY:} です(後にカスケードが続いているため)。カスケードメッセージ \ct{setX:setY:} のレシーバは \ct{Point new} によって新たに作られた点オブジェクトであり、\ct{Point} \emph{ではありません}。引き続き、同じレシーバ(点オブジェクト)にメッセージ \ct{isZero} が送信されます。
+カスケードメッセージのレシーバは、別のメッセージ送信の結果であるかもしれないということに注意してください。
+具体的に説明すると、一連のカスケードの中で最初のカスケードメッセージを受け取ったオブジェクトが、カスケードされた全てのメッセージのレシーバになります。以下の例では、カスケードの最初のメッセージは \ct{setX:setY:} です。なぜなら、次にカスケードが続いているのは \ct{setX:setY:} だからです。カスケードメッセージ \ct{setX:setY:} のレシーバは \ct{Point new} によって新たに作られた点オブジェクトであり、\ct{Point} \emph{ではありません}。次のメッセージ \ct{isZero} は、 \ct{setX:setY:} と同じレシーバである点オブジェクトに送信されます。
 
 \begin{code}{}
 Point new setX: 25 setY: 35; isZero --> false
