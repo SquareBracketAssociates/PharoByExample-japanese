@@ -40,10 +40,10 @@
 
 \on{The section on responsibilities of Class, Behavior and Metaclass are weak, and need to be fleshed out with convincing examples. Marcus, can you help?}
 
-\charef{model}で見てきたように、\st ではすべてがオブジェクトで、それらはいずれもあるクラスのインスタンスです。
+\charef{model}で見てきたように、\st ではすべてがオブジェクトであり、いずれも何らかのクラスのインスタンスです。
 クラスも例外ではありません。つまり、クラスはオブジェクトであり、クラスオブジェクトは他のクラスのインスタンスとなっています。
 このオブジェクトモデルは、簡潔で、シンプルかつエレガントに統一されており、オブジェクト指向プログラミングの本質を捉えています。
-しかしながら、慣れていないうちは、この一貫性のために混乱してしまうかもしれません。この章では、それが複雑ではなく、``魔法''でも特別なものでもない、ただシンプルな規則が一貫して適用されている、ということを示します。
+しかし、不慣れなうちはこの一貫性のために混乱してしまうかもしれません。この章では、それが複雑ではなく、``魔法''でも特別なものでもない、ただシンプルな規則が一貫して適用されているということを示します。
 これらの規則を追えば、システムがなぜこのように成り立っているのかがわかるでしょう。
 
 %=================================================================
@@ -78,7 +78,7 @@ Smalltalkの設計者は、オッカムの剃刀と呼ばれる規則を使っ�
 \seclabel{metaclassIntro}
 あるクラスの\indmain{メタクラス}は、そのクラスを定義した際に自動的に作られます。
 普段はメタクラスのことを気にする必要はないでしょう。
-しかしながら、ブラウザで``\subind{browser}{クラス側}''を選んだときには、実は異なるクラスを見ているということを思い返してください。
+しかし、ブラウザで``\subind{browser}{クラス側}''を選んだときには、実は異なるクラスを見ているということを思い返してください。
 クラスとそのメタクラスは、前者が後者のインスタンスであるということを除けば、それぞれ別々のクラスであるということです。
 
 クラスとメタクラスを正確に説明するには、\charef{model}のルールに付け足す必要があります。
@@ -153,7 +153,7 @@ Color superclass                   --> Object
 \end{code}
 
 \ref{rule:message}「すべての出来事は、\ind{メッセージを送ること}{}で生じる」より、以下のことが導きだせます。\mthind{Color class}{blue}は\ct{Color}へのメッセージ、\mthind{Object}{class}と\mthind{Color}{alpha:}は青色オブジェクトへのメッセージ、\mthind{Morph}{openInWorld}は楕円Morphへのメッセージ、そして、\mthind{Behavior}{superclass}は\ct{TranslucentColor}と\ct{Color}へのメッセージです。
-どのケースでも、メッセージのレシーバはオブジェクトです。すべてがオブジェクトであることから、いくつかのケースではレシーバがクラスとなっています。
+すべてがオブジェクトなので、どのケースでもメッセージのレシーバはオブジェクトです。ただし、いくつかのケースではレシーバがクラスとなっています。
 
 \ref{rule:lookup}「メソッド探索は継承チェーンに沿って行われる」より、\ct{Color blue alpha: 0.4}で得られたオブジェクトに\ct{class}メッセージを送ると、\figref{classmessage}で示すように、メッセージは対応するメソッドが見つかる\ct{Object}で取り扱われます。
 
@@ -181,10 +181,10 @@ translucentBlue isKindOf: Object                  --> true
 
 % \ruleref{metaclass}
 
-\secref{metaclassIntro}で述べたように、インスタンスとしてクラスを持つようなクラスは\ind{メタクラス}{}と呼ばれます。
+\secref{metaclassIntro}で述べたように、そのインスタンスがクラスであるようなクラスは\ind{メタクラス}{}と呼ばれます。
 
 \paragraph{メタクラスは暗黙的な存在である}
-メタクラスはクラスを定義すると自動的に作成されます。これはプログラマが気にする必要はないので、\emph{暗黙的}であると言います。作成されるクラスごとに、そのクラスを唯一のインスタンスとして持つ\subind{metaclass}{暗黙的}なメタクラスが作成されます。
+メタクラスはクラスを定義すると自動的に作成されます。これはプログラマが気にする必要はないので、\emph{暗黙的}であると言えます。作成されるクラスごとに、そのクラスを唯一のインスタンスとして持つ\subind{metaclass}{暗黙的}なメタクラスが作成されます。
 % At a more advanced level, this implies that sharing between metaclasses is difficult except by subclassing. 
 
 通常のクラスはグローバル変数によって参照できますが、メタクラスは匿名の存在です。
@@ -207,7 +207,7 @@ Object class --> Object class
 \end{figure}
 \end{center}
 
-クラスもまたオブジェクトであることより、それらにメッセージを送って情報を得ることも簡単にできます。以下を見てみましょう。
+クラスもまたオブジェクトであることから、メッセージを送って情報を得ることも簡単にできます。以下を見てみましょう。
 
 \begin{code}{@TEST}
 Color subclasses                           --> {TranslucentColor}
@@ -253,7 +253,7 @@ TranslucentColor class superclass superclass --> Object class
 \end{code}
 
 \paragraph{クラスとオブジェクトの一貫性}
-ここで一息入れて考え直してみると、オブジェクトでもクラスでもメッセージを送る場合に区別がないということは、興味深いことです。
+ここで一息入れて考え直してみると、オブジェクトであろうとクラスであろうとメッセージを送るのに違いがないことは興味深いことです。
 どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンを辿っていきます。
 
 従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンを辿らなければなりません。
@@ -405,7 +405,7 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 
 残る質問は１つだけです。\clsind{Metaclass class}のクラスは何でしょうか？
 
-答えは簡単でメタクラスです。メタクラスは、システム内の他のすべてのメタクラスと同様に、\ct{Metaclass}のインスタンスであるべきです。(\figref{metaclassclassclass}を参照)
+答えは簡単でメタクラスです。もちろんシステム内の他のすべてのメタクラスと同様に、\ct{Metaclass}のインスタンスであるべきです。(\figref{metaclassclassclass}を参照)
 
 \begin{center}
 \begin{figure}
