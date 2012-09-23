@@ -15,26 +15,26 @@
 \ifx\wholebook\relax\else
 % --------------------------------------------
 % Lulu:
-	\documentclass[a4paper,10pt,twoside]{book}
-	\usepackage[
-		papersize={6.13in,9.21in},
-		hmargin={.75in,.75in},
-		vmargin={.75in,1in},
-		ignoreheadfoot
-	]{geometry}
-	\input{../common.tex}
-	\pagestyle{headings}
-	\setboolean{lulu}{true}
+\documentclass[a4paper,10pt,twoside]{book}
+\usepackage[
+papersize={6.13in,9.21in},
+hmargin={.75in,.75in},
+vmargin={.75in,1in},
+ignoreheadfoot
+]{geometry}
+\input{../common.tex}
+\pagestyle{headings}
+\setboolean{lulu}{true}
 % --------------------------------------------
 % A4:
-%	\documentclass[a4paper,11pt,twoside]{book}
-%	\input{../common.tex}
-%	\usepackage{a4wide}
+% \documentclass[a4paper,11pt,twoside]{book}
+% \input{../common.tex}
+% \usepackage{a4wide}
 % --------------------------------------------
     \graphicspath{{figures/} {../figures/}}
-	\begin{document}
-	% \renewcommand{\nnbb}[2]{} % Disable editorial comments
-	\sloppy
+\begin{document}
+% \renewcommand{\nnbb}[2]{} % Disable editorial comments
+\sloppy
 \fi
 %=================================================================
 \chapter{\pharo のプログラミング環境}
@@ -51,8 +51,8 @@ Section 1.7 sounded to me a little out of order... because you need to talk abou
 - Section Nested Exceptions: "Exception handlers are outside of their own scope" For me is confusing... maybe "Exception handlers do not handle exceptions signaled during its evaluation" or something like that?
 The first example of Nested Exceptions does:
 \ct{result := [[ Error signal ....]}\\
-But nowhere before is said what \#on:do: returns...  \\
-- Section 1.9: Does it make sense to talk about abandon? It is the same as return... 
+But nowhere before is said what \#on:do: returns... \\
+- Section 1.9: Does it make sense to talk about abandon? It is the same as return...
 Section 1.10: I would put section 1.10 as part of 1.9. I mean, it is the same from the organization point of view as Retry Execution, etc. \\
 - Page 16, second example: ResumableLoader>>readOptionsFrom:aStrem. A the end of the method does "aStream close". I think it should not close the stream, that is responsibility of the one that opened it and passed it as parameter.
 Page 16, third example, the "stream close" should be inside an \#ensure: :-) \\
@@ -63,7 +63,7 @@ Section 1.12: Same as section 1.11. I would put Resending exceptions as part of 
 Section 1.13: Same as section 1.11 (does it make sense to have outer? I think it only adds confusion... just a coment) \\
 - Page 23: It seems to me that the second example is not doing what it is expected. The handler variable references the doit closure, not the handler. I think it should be:
 \ct{| exception handler |
-[ exception := thisContext sender at: 1. 
+[ exception := thisContext sender at: 1.
 1/0 ]
 on: Error
 do: [ :ex | handler := thisContext ].
@@ -76,54 +76,54 @@ I think a good discussion about when to subclass an exception and when to reuse 
 この章の目的は、\pharo のプログラミング環境を使い、どのようにプログラムを開発するかを示すことです。
 既にブラウザを使ってメソッドやクラスをどのように定義するかについて見てきたわけですが、この章ではブラウザのその他の機能について示し、他のいくつかのブラウザについて紹介していきます。
 
-もちろん作ったプログラムが期待したように動作しないのはよくあることです。\pharo には優れたデバッガがあります。もっとも役立つツールではありますが、最初に使うときは悩むかも知れません。デバッグのセッションで練習し*、デバッガの幾つかの機能について実演します。
+もちろん作ったプログラムが期待したように動作しないのはよくあることです。\pharo には優れたデバッガがあります。もっとも役立つツールではありますが、最初に使うときは悩むかも知れません。デバッグの手順について説明し、幾つかのデバッガの機能について実演します。
 
-\st 固有の特徴の1つは、プログラミングをしているとき、静止したプログラムテキストの世界ではなく、生きているオブジェクトからなる世界にいるということです。このことにより、プログラミングの間に非常に素早いフィードバックを得ることが可能で、このフィードバックによって生産性がより向上します。生きているオブジェクトを見たり、実際に変更するために2つのツールがあります。それは\emph{インスペクタ}と\emph{エクスプロア}です。
+\st 固有の特徴の1つは、プログラミングをしているとき、静止したプログラムテキストの世界ではなく、動いているオブジェクトからなる世界にいるということです。このことにより、プログラミング中に非常に素早いフィードバックを得ることが可能で、このフィードバックによって生産性がより向上します。動いているオブジェクトを見たり、実際に変更するために2つのツールがあります。それは\emph{インスペクタ}と\emph{エクスプローラ}です。
 
-ファイルやテキストエディタではなく、生きているオブジェクトからなる世界でのプログラミングの結果、\st イメージファイルからプログラムを取り出すために、何らかの明示的な作業をしなければいけません。
+ファイルやテキストエディタではなく、動いているオブジェクトからなる世界でプログラミングを行っているため、\st イメージファイルからプログラムを取り出すために、何らかの明示的な作業をしなければいけません。
 この作業のための昔からのやり方は、\emph{ファイルアウト}や\emph{チェンジセット}を作ることで、全ての\st の方言でサポートされています。これらは、基本的に他のシステムで読み込めるようにコード化されたテキストファイルです。
-\pharo 上でプログラムを取り出すための新しい方法は、サーバー上のバージョン管理されたリポジトリにコードをアップロードすることです。このために、Monticelloと呼ばれるツールを使い、特にチームで作業する際に、よりパワフルで効果的な手段となります。
+\pharo 上でプログラムを取り出すための新しい方法は、サーバー上のバージョン管理されたリポジトリにコードをアップロードすることです。このために、Monticelloと呼ばれるツールを使います。これは特にチームで作業する際に、よりパワフルで効果的な手段となります。
 \seeindex{change set}{file, filing out}
 \index{file!filing out}
 
 %Finally, you may find a bug in \pharo as you work; we explain how to report bugs, and how to submit bug fixes.
-%\ab{Or I would, if I knew how.   We should do this, or remove the paragraph.}
+%\ab{Or I would, if I knew how. We should do this, or remove the paragraph.}
 
 %=========================================================
 \section{概要}
 \seclabel{overview}
 
 \st と現在のグラフィカルインターフェースは一緒に発展してきました。
-\st の最初の公開リリースである1983年以前でさえ、\st は独自のグラフィカルな開発環境を提供していました。そして全ての\st の開発はその上で行われてきました。
+\st の最初の公開リリースである1983年以前でさえ、\st は独自のグラフィカルな開発環境を備え、全ての\st の開発はその上で行われてきました。
 では、\pharo の主なツールを見ていきましょう。
 
 \begin{itemize}
-	\item{\menu{Browser}(ブラウザ)}は、中心的な開発ツールです。クラスやメソッドの作成、定義、構築を行う際にこのツールを使います。これを使うことで全てのクラスライブラリもブラウズできます。ソースコードを別々のファイルに保存する他の環境とは異なり、\st では全てのクラスやメソッドがイメージファイルに含まれます。
-	\index{browser}
+\item{\menu{Browser}(ブラウザ)}は、中心的な開発ツールです。クラスやメソッドの作成、定義、構築を行う際にこのツールを使います。これを使うことで全てのクラスライブラリもブラウズできます。ソースコードを別々のファイルに保存する他の環境とは異なり、\st では全てのクラスやメソッドがイメージファイルに含まれます。
+\index{browser}
 
-	\item{\menu{Message Names}(メッセージネーム)}ツールを使うことにより、特定のセレクタもしくは部分文字列を含んだセレクタを持つ全てのメソッドを探すことができます。(訳注：Pharo 1.3ではFinderツールに統合されており、ドロップダウンメニューでSelectorsを選択することで利用できます)
-	\index{message name finder}
-	
-	\item{\menu{Method Finder}(メソッド・ファインダ)}ツールは、メソッドを探すのに役立ちますが、??誤訳??何と呼ばれるのかと同様に何を\emph{する}のかによりメソッドを検索します。(訳注：Pharo 1.3ではFinderツールに統合されており、ドロップダウンメニューでExamplesを選択することで利用できます)
-	\index{method finder}
-	
-	\item{\menu{Monticello Browser}(Monticelloブラウザ)}は、Monticelloパッケージからコードを読み込んだり、保存したりするための出発点です。
-	
-	\item{\menu{Process Browser}(プロセスブラウザ)}は、\st 上で実行されている全てのプロセス(スレッド)を見るのに役立ちます。
-	\index{process browser}
-	
-	\item{\menu{Test Runner}}は、SUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照して下さい。
-	\index{Test Runner}
-	\index{SUnit}
-	
-	\item{\menu{Transcript}(トランスクリプト)}は、\glbind{Transcript}出力ストリームに対するウィンドウで、\secref{transcript}で既に述べた通り、ログメッセージを書くのに役立ちます。
-	
-	\item{\menu{Workspace}(ワークスペース)}は入力することができるウィンドウです。
+\item{\menu{Message Names}(メッセージネーム)}ツールを使うことにより、特定のセレクタもしくは部分文字列を含んだセレクタを持つ全てのメソッドを探すことができます。(訳注：Pharo 1.4ではFinderツールに統合されており、ドロップダウンメニューでSelectorsを選択することで利用できます)
+\index{message name finder}
+
+\item{\menu{Method Finder}(メソッド・ファインダ)}ツールは、メソッドを探すのに役立ちますが、メソッド名と同様に、何を\emph{する}のかによりメソッドを検索します。(訳注：Pharo 1.4ではFinderツールに統合されており、ドロップダウンメニューでExamplesを選択することで利用できます)
+\index{method finder}
+
+\item{\menu{Monticello Browser}(Monticelloブラウザ)}は、Monticelloパッケージからコードを読み込んだり、保存したりするための出発点です。
+
+\item{\menu{Process Browser}(プロセスブラウザ)}は、\st 上で実行されている全てのプロセス(スレッド)を見るのに役立ちます。
+\index{process browser}
+
+\item{\menu{Test Runner}}は、SUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照して下さい。
+\index{Test Runner}
+\index{SUnit}
+
+\item{\menu{Transcript}(トランスクリプト)}は、\glbind{Transcript}出力ストリームに対するウィンドウで、\secref{transcript}で既に述べた通り、ログメッセージを書くのに役立ちます。
+
+\item{\menu{Workspace}(ワークスペース)}は入力することができるウィンドウです。
           これは色々な目的に使えますが、最もよく使われるのは\st 式を入力して、\menu{do it}で実行することです。
           \ind{workspace}の使い方は\secref{transcript}にも図解されています。
 \end{itemize}
 
-\menu{Debugger}(デバッガ)は名前からわかる通り明確な役割を持っています。しかし、他のプログラミング言語のデバッガも比べて、より重要な役割を担っていることに気づくでしょう。\st では\ind{debugger}上で\emph{プログラム}できるのです。デバッガはメニュー画面から起動されるのではなく、たいてい、失敗するテストプログラムを実行したり、\short{\textbf{.}}と入力することにより起動しているプロセスを中断したり、あるいは、コード中に\lct{self halt}式を挿入することで、起動されます。
+\menu{Debugger}(デバッガ)は名前からわかる通り明確な役割を持っています。しかし、他のプログラミング言語のデバッガと比べて、より重要な役割を担っていることに気づくでしょう。\st では\ind{debugger}上で\emph{プログラム}できるのです。デバッガはメニュー画面から起動されるのではなく、たいてい、失敗するテストプログラムを実行したり、\short{\textbf{.}}と入力することにより起動しているプロセスを中断したり、あるいは、コード中に\lct{self halt}式を挿入することで、起動されます。
 \index{process!interrupting}
 
 %=========================================================
@@ -132,13 +132,13 @@ I think a good discussion about when to subclass an exception and when to reuse 
 
 \st の歴史と共に、長年にわたり多くの異なるクラスブラウザが開発されてきました。
 \pharo では、様々なビューを1つにまとめたブラウザを提供することで、この物語を単純にしました。
-\figref{SystemBrowser0}は最初にブラウザを開いたときに表示されるものです。\footnote{もしブラザウが\figref{classBrowser}のように表示されない場合、デフォルトのブラウザを変更する必要があるかも知れないことを思い出して下さい。\faqref{packagebrowser}参照}\footnote{訳注：\pharo のデフォルトブラウザは何度も変更されています。バージョン1.3では、OBSystemBrowserが使用されており、この章の説明とは異なる場合があります。}
+\figref{SystemBrowser0}は最初にブラウザを開いたときに表示されるものです。\footnote{もしブラザウが\figref{classBrowser}のように表示されない場合、デフォルトのブラウザを変更する必要があるかも知れないことを思い出して下さい。\faqref{packagebrowser}参照}\footnote{訳注：\pharo のデフォルトブラウザは何度も変更されています。バージョン1.3では、OBSystemBrowserが使用されており、この章の説明とは異なる場合があります。バージョン1.4ではデフォルトブラウザはSystemBrowserであり、OBSystemBrowserは別途インストールする必要がありました。バージョン1.4 SummerではOBSystemBrowserがデフォルトブラウザになっています}
 
 \begin{figure}[htbp]
    \centering
    \ifluluelse
-	 {\includegraphics[width=\textwidth]{SystemBrowser0} }
-	 {\includegraphics[width=0.7\textwidth]{SystemBrowser0} }
+{\includegraphics[width=\textwidth]{SystemBrowser0} }
+{\includegraphics[width=0.7\textwidth]{SystemBrowser0} }
    \caption{ブラウザ}
    \figlabel{SystemBrowser0}
 \end{figure}
@@ -150,8 +150,8 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \begin{figure}[htbp]
    \centering
    \ifluluelse
-	   {\includegraphics[width=\textwidth]{SystemBrowser1} }
-	   {\includegraphics[width=.7\textwidth]{SystemBrowser1} }
+{\includegraphics[width=\textwidth]{SystemBrowser1} }
+{\includegraphics[width=.7\textwidth]{SystemBrowser1} }
    \caption{ブラウザで\ct{Model}クラスを選択
    \figlabel{SystemBrowserModel}}
 \end{figure}
@@ -167,8 +167,8 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \begin{figure}[htbp]
    \centering
    \ifluluelse
-	   {\includegraphics[width=\textwidth]{SystemBrowserMyDependents}}
-	   {\includegraphics[width=0.7\textwidth]{SystemBrowserMyDependents}}
+{\includegraphics[width=\textwidth]{SystemBrowserMyDependents}}
+{\includegraphics[width=0.7\textwidth]{SystemBrowserMyDependents}}
    \caption{\ct{Model}クラスの\ct{myDependents}メソッドをブラウザで表示
    \figlabel{SystemBrowserMyDependents}}
 \end{figure}
@@ -184,8 +184,8 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \begin{figure}[htbp]
    \centering
    \ifluluelse
-	   {\includegraphics[width=\textwidth]{SystemBrowserClassCreation}}
-	   {\includegraphics[width=0.7\textwidth]{SystemBrowserClassCreation}}
+{\includegraphics[width=\textwidth]{SystemBrowserClassCreation}}
+{\includegraphics[width=0.7\textwidth]{SystemBrowserClassCreation}}
    \caption{クラス作成テンプレートをブラウザに表示
    \figlabel{SystemBrowserClassCreation}}
 \end{figure}
@@ -205,7 +205,7 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 ほんの少し初期化が異なる同様のテンプレートを得ることができます。
 また、既存のクラス定義でクラス名を新しいものに変えることでもクラス定義を編集できます。
 どの場合でも新しい定義をアクセプトすると、
-(\ct{#}から始まる名前の)新しいクラスが(つまり対応するメタクラスのインスタンスが)作られます。
+(\ct{#}から始まる名前の)新しいクラスが(つまり対応するメタクラスのインスタンスとして)作られます。
 クラスを作ることはそのクラスを参照するグローバル変数を作ることでもあるため、
 名前によって既存の全クラスを参照することができるわけです。
 
@@ -222,8 +222,8 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \begin{figure}[htbp]
    \centering
    \ifluluelse
-	   {\includegraphics [width=\textwidth]{SystemBrowserMethodTemplate}}
-	   {\includegraphics[width=0.7\textwidth]{SystemBrowserMethodTemplate}}
+{\includegraphics [width=\textwidth]{SystemBrowserMethodTemplate}}
+{\includegraphics[width=0.7\textwidth]{SystemBrowserMethodTemplate}}
    \caption{メソッド作成テンプレートをブラウザに表示
    \figlabel{SystemBrowserMethodTemplate}}
 \end{figure}
@@ -278,15 +278,15 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \dothis{コードペインにあるテキスト``drawOn:''を選択して\short{n}を押せば、直ちに\ct{drawOn:}のセンダが表示されます。}
 
 \begin{figure}[htbp]
-	\begin{center}
+\begin{center}
    \ifluluelse
-		{\includegraphics[width=\textwidth]{CanvasDraw}}
-		{\includegraphics[width=0.7\textwidth]{CanvasDraw}}
-	\end{center}
-	\caption{センダブラウザは \ct{Canvas>>>draw}メソッドが、引数に対して\ct{drawOn:}メッセージを送っていることを表しています。\figlabel{CanvasDraw}}
+{\includegraphics[width=\textwidth]{CanvasDraw}}
+{\includegraphics[width=0.7\textwidth]{CanvasDraw}}
+\end{center}
+\caption{センダブラウザは \ct{Canvas>>>draw}メソッドが、引数に対して\ct{drawOn:}メッセージを送っていることを表しています。\figlabel{CanvasDraw}}
 \end{figure}
 
-\ct{AtomMorph>>>drawOn:}にある\ct{drawOn:}のセンダを探せば、それがsuper \subind{super}{send}であることがわかるでしょう。つまり、実行されるメソッドは\ct{AtomMorph}のスーパークラスにあることがわかります。ではいったいどのクラスでしょうか? \menu{browse \go hierarchy implementors}を\actclick すれば、そのメソッドが\ct{EllipseMorph}クラスにあることがわかります。 
+\ct{AtomMorph>>>drawOn:}にある\ct{drawOn:}のセンダを探せば、それがsuper \subind{super}{send}であることがわかるでしょう。つまり、実行されるメソッドは\ct{AtomMorph}のスーパークラスにあることがわかります。ではいったいどのクラスでしょうか? \menu{browse \go hierarchy implementors}を\actclick すれば、そのメソッドが\ct{EllipseMorph}クラスにあることがわかります。
 \index{browser!hierarchy button}
 
 \figref{CanvasDraw}のリストの6番目にあるセンダ\ct{Canvas>>>draw}を見てみましょう。
@@ -317,9 +317,9 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 
 \index{browser!versions button}
 上部のペインには、そのメソッドのバージョン毎に1行ずつ表示されており、このメソッドを書いたプログラマのイニシャル、保存した日時、クラスとメソッドの名前、そして定義されているプロトコルが表示されます。現在の(アクティブな)バージョンはリストの一番上にあります。選択されたバージョンは、下部のペインに表示されます。
-% If the \menu{diffs} checkbox is selected, as it is in \figref{mouseUpVersions}, the display also shows the differences between the selected version and the one immediately older. 
+% If the \menu{diffs} checkbox is selected, as it is in \figref{mouseUpVersions}, the display also shows the differences between the selected version and the one immediately older.
 選択されたメソッドと現在のバージョンの違いを表示したり、選択したバージョンに復帰するためのボタンが用意されています。
-% The \menu{prettyDiffs} checkbox is useful if there have been changes to layout: it pretty-prints both versions before differencing, so that the differences that are displayed exclude formatting changes. 
+% The \menu{prettyDiffs} checkbox is useful if there have been changes to layout: it pretty-prints both versions before differencing, so that the differences that are displayed exclude formatting changes.
 
 \ind{バージョンブラウザ}の存在は、必要なコードを残すべきか悩む必要がなく、単に削除すれば良いことを意味しています。もしそのコードが\emph{本当に}必要だと分かったら、いつでも古いバージョンに復帰することができますし、古いバージョンから必要なコードの断片を得て別のメソッドに貼り付けることもできます。
 バージョンブラウザを使う癖を付けましょう。もはや必要のなくなったコードをコメントアウトするのは悪い習慣です。なぜなら、そのことで現在のコードが読みにくくなるからです。
@@ -333,19 +333,19 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 
 インヘリタンスブラウザは、表示されたメソッドによってオーバーライドされた全てのメソッドを表示します。
 どのように動作するかを見るために、ブラウザで\cmind{ImageMorph}{drawOn:}メソッドを選択してください。
-(\figref{OBinheritanceBrowser})メソッド名の隣にある三角形のアイコンに注目してください。
+メソッド名の隣にある三角形のアイコンに注目してください。(\figref{OBinheritanceBrowser})
 上向きの三角形は、\ct{ImageMorph>>>drawOn:}が継承されたメソッド(\ie \ct{Morph>>>drawOn:})をオーバーライドしていることを示しており、さらに下向きの三角形は、サブクラスによってオーバーライドされていることを示しています。(アイコンをクリックすることで、これらのメソッドに移動することもできます。)
 ここで、\menu{browse \go inheritance}を選択してください。
 インヘリタンスブラウザが、オーバーライドされたメソッドの階層関係を示します。(\figref{OBinheritanceBrowser}参照)
 
 \begin{figure}[btp]
-	\begin{center}
+\begin{center}
    \ifluluelse
-		{\includegraphics[width=\textwidth]{OBInheritanceOverriding}}
-		{\includegraphics[width=0.7\textwidth]{OBInheritanceOverriding}}
-	\end{center}
-	\caption{\ct{ImageMorph>>>drawOn:} とそれがオーバーライドしたメソッド。選択したメソッドの兄弟関係がリストに表示されている。}
-	\figlabel{OBinheritanceBrowser}
+{\includegraphics[width=\textwidth]{OBInheritanceOverriding}}
+{\includegraphics[width=0.7\textwidth]{OBInheritanceOverriding}}
+\end{center}
+\caption{\ct{ImageMorph>>>drawOn:} とそれがオーバーライドしたメソッド。選択したメソッドの兄弟関係がリストに表示されている。}
+\figlabel{OBinheritanceBrowser}
 \end{figure}
 
 \subsubsection{階層ビュー}
@@ -355,7 +355,7 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 しかしクラスの階層ビューに切り替えることは可能です。
 関心のある特定のクラスを選択してください。例えば\ct{ImageMorph}を選択し、\button{hier.}ボタンをクリックします。
 選択したクラスの全てのスーパークラスとサブクラスを含むクラス階層を、左端のペインで見ることができます。
-２つ目のペインは選択したクラスのメソッドを実装するパッケージのリストが表示されます。\footnote{訳注：バージョン1.3では階層ブラウザが表示されますが、２つ目のペインにパッケージのリストは表示されません}
+２つ目のペインは選択したクラスのメソッドを実装するパッケージのリストが表示されます。\footnote{訳注：バージョン1.4では階層ブラウザが表示されますが、２つ目のペインにパッケージのリストは表示されません}
 %The \button{hierarchy} button opens a \ind{hierarchy browser} on the current class; this
 %browser can also be opened by using the \menu{browse hierarchy} menu item in the class pane.
 %The hierarchy browser is similar to the browser, but instead of displaying the categories and the classes in each category, it shows a single list of classes, indented to represent inheritance.
@@ -364,13 +364,13 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 \index{browser!hierarchy button}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{hierarchyBrowser}}
-		{\includegraphics[width=0.7\textwidth]{hierarchyBrowser}}
-	\end{center}
-	\caption{\ct{ImageMorph}の階層ビュー}
-	\figlabel{hierarchyBrowser}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{hierarchyBrowser}}
+{\includegraphics[width=0.7\textwidth]{hierarchyBrowser}}
+\end{center}
+\caption{\ct{ImageMorph}の階層ビュー}
+\figlabel{hierarchyBrowser}
 \end{figure}
 
 \subsubsection{変数への参照を見つける}
@@ -381,17 +381,17 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 \emph{追跡ブラウザ}を使うことで、全てのインスタンス変数やクラス変数のアクセサ、更にこれらのアクセサを送るメソッドなどを探索することができます(\figref{chasingBrowser})。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{chasingBrowser}}
-		{\includegraphics[width=0.7\textwidth]{chasingBrowser}}
-	\end{center}
-	\caption{\ct{Morph}に対する追跡ブラウザ}
-	\figlabel{chasingBrowser}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{chasingBrowser}}
+{\includegraphics[width=0.7\textwidth]{chasingBrowser}}
+\end{center}
+\caption{\ct{Morph}に対する追跡ブラウザ}
+\figlabel{chasingBrowser}
 \end{figure}
 
-% The menu also includes \menu{inst var defs}, which shows the subset of the instance variable references that assign to the variable. 
-%Once you click on the button or select the menu item, you will be presented with a dialog that invites you to choose a variable from all of the variables defined in the current class, and all of the variables that it inherits.  The list is in inheritance order; it can often be useful to bring up this list just to remind yourself of the name of an instance variable.  If you click outside the list, it will go away and no variable browser will be created.
+% The menu also includes \menu{inst var defs}, which shows the subset of the instance variable references that assign to the variable.
+%Once you click on the button or select the menu item, you will be presented with a dialog that invites you to choose a variable from all of the variables defined in the current class, and all of the variables that it inherits. The list is in inheritance order; it can often be useful to bring up this list just to remind yourself of the name of an instance variable. If you click outside the list, it will go away and no variable browser will be created.
 
 %Also available by \actclick{ing} the class pane is \menu{class vars}, which opens an inspector showing the class variables of the current class \emph{and their values}, and \menu{class refs (N)} which displays a list of all of the methods that directly reference the current class.
 
@@ -399,16 +399,16 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 \seclabel{sources}
 
 \index{browser!view}
-メソッドペインを\actclick することで利用可能となる\menu{various \go view \ldots}メニュー項目は、``how to show''メニューを表示しますが\footnote{訳注：バージョン1.3ではメソッドペインの下にあるViewボタンを押すと``Choose''メニューが表示されます}、これは選択されたメソッドをソースペインでブラウザがどのように表示するかを選ばせるものです。 \menu{source}（ソースコード）、\menu{prettyPrint}（整形されたソースコード）、\menu{byteCode}（バイトコード）および\menu{decompile}（バイトコードから逆コンパイルされたソースコード）といった選択肢があります。
-% The label on the button changes if you select one of the other modes.  There are other options too; if you let the mouse linger over the names, a help balloon will appear.  Try some of them.
+メソッドペインを\actclick することで利用可能となる\menu{various \go view \ldots}メニュー項目は、``how to show''メニューを表示しますが\footnote{訳注：バージョン1.4ではメソッドペインの下にあるViewボタンを押すと``Choose''メニューが表示されます}、これは選択されたメソッドをソースペインでブラウザがどのように表示するかを選ばせるものです。 \menu{source}（ソースコード）、\menu{prettyPrint}（整形されたソースコード）、\menu{byteCode}（バイトコード）および\menu{decompile}（バイトコードから逆コンパイルされたソースコード）といった選択肢があります。
+% The label on the button changes if you select one of the other modes. There are other options too; if you let the mouse linger over the names, a help balloon will appear. Try some of them.
 \index{method!pretty-print}
 \index{method!decompile}
 \index{method!byte code}
 
-``how to show''メニューで選択した\menu{prettyPrint}は、ソースを保存する前に整形出力したメソッドと同じもの\footnote{\menu{pretty print (r)}はメソッドペインの最初のメニュー項目もしくはコードペインの真ん中下側にあります。}\footnote{訳注：バージョン1.3では、メソッドペインおよびコードペインでの整形出力機能はありません。}ではないことに注意してください。
+``how to show''メニューで選択した\menu{prettyPrint}は、ソースを保存する前に整形出力したメソッドと同じもの\footnote{\menu{pretty print (r)}はメソッドペインの最初のメニュー項目もしくはコードペインの真ん中下側にあります。}\footnote{訳注：バージョン1.4では、メソッドペインおよびコードペインでの整形出力機能はありません。}ではないことに注意してください。
 このメニューは、ブラウザの表示方法を制御するだけで、システムに格納されたコードには何の影響も及ぼしません。
 2つのブラウザを開いて一方のブラウザで\menu{prettyPrint}を選び、もう一方のBrowserで\menu{source}を選ぶことで、このことを確認できます。
-実際、2つのブラウザで同じメソッドを表示させた状態で、一方で\menu{byteCode}を選択し、もう一方で\menu{decompile}選択することは、\pharo の仮想マシンのバイトコードの命令セットについて学ぶ良い方法です。
+同じようにして、2つのブラウザで同じメソッドを表示させた状態で、一方で\menu{byteCode}を選択し、もう一方で\menu{decompile}選択することは、\pharo の仮想マシンのバイトコードの命令セットについて学ぶ良い方法です。
 
 \subsubsection{リファクタリング}
 
@@ -419,13 +419,13 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 以前は、リファクタリングのためにリファクタリングブラウザと呼ばれる特殊なブラウザを使う必要がありましたが、現在はどのブラウザからも利用できます。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{refactoring}}
-		{\includegraphics[width=0.7\textwidth]{refactoring}}
-	\end{center}
-	\caption{リファクタリング操作}
-	\figlabel{refactoring}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{refactoring}}
+{\includegraphics[width=0.7\textwidth]{refactoring}}
+\end{center}
+\caption{リファクタリング操作}
+\figlabel{refactoring}
 \end{figure}
 
 %---------------------------------------------------------
@@ -443,8 +443,8 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 \index{class!recent}
 
 ブラウザの左上にある検索ボックスに名前を入力することで、特定のクラスやメソッドを探すこともできます。リターンキーを入力するとシステムに問い合わせがなされ、その結果が表示されます。検索語の前に\ct{#}を付けることで、クラスへの参照や、メッセージのセンダを探せることに気をつけてください。
-%To browse to a particular method, you can 
-%In the class pane, there are two menu items \menu{find method} and \menu{find method wildcard\ldots} that can be useful if you want to browse a particular method.  
+%To browse to a particular method, you can
+%In the class pane, there are two menu items \menu{find method} and \menu{find method wildcard\ldots} that can be useful if you want to browse a particular method.
 選択したクラスの特定のメソッドを探すのであれば、(デフォルトで表示される)\prot{-{}-all-{}-}プロトコルをブラウズした方が速いでしょう。メソッドペインにマウスを移動し、探そうとしているメソッド名の最初の文字を入力してください。
 メソッドペインがスクロールして、探しているメソッド名が見えるでしょう。
 \index{method!finding}
@@ -452,7 +452,7 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 
 \dothis{\cmind{OrderedCollection}{removeAt:}で2つの操作方法を試してください。}
 
-メニューには他の多くのオプションがあります。これを使うことで、ブラウザ上の作業やどこに何があるかを探すための時間を数分減らすことができます。？？？？
+メニューには他の多くのオプションがあります。少々の時間をとって、ブラウザ上のどこにどのような機能があるかを探しておくと、後ほど報われることでしょう。
 
 \dothis{クラスペインメニューの\menu{Browse Protocol}, \menu{Browse Hierarchy}, そして\menu{Show Hierarchy}の結果を比較してください。}
 
@@ -521,11 +521,11 @@ Date>>>asSQL
 
 \ct{Foo}と名付けられたパッケージは次のものを含みます。
 
-\begin{enumerate}		\seclabel{packageRules}
-	\item{} \scat{Foo}カテゴリもしくは\scat{Foo-}で始まる名前のカテゴリ内にある、クラスの全ての\emph{クラス定義}
-	\item{} \label{env:extensions} \prot{*Foo}や\prot{*foo}\footnote{比較の際に大文字か小文字かは無視されます。}という名前のプロトコルか、\prot{*Foo-}や\prot{*foo-}で始まる名前のプロトコルにある、\emph{任意のクラス}内の全ての\emph{メソッド}
-	\item{} \scat{Foo}カテゴリーか、\scat{Foo-}で始まる名前のカテゴリーのクラスにある全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコルにあるメソッドは\emph{除外される}。
-	
+\begin{enumerate} \seclabel{packageRules}
+\item{} \scat{Foo}カテゴリもしくは\scat{Foo-}で始まる名前のカテゴリ内にある、クラスの全ての\emph{クラス定義}
+\item{} \label{env:extensions} \prot{*Foo}や\prot{*foo}\footnote{比較の際に大文字か小文字かは無視されます。}という名前のプロトコルか、\prot{*Foo-}や\prot{*foo-}で始まる名前のプロトコルにある、\emph{任意のクラス}内の全ての\emph{メソッド}
+\item{} \scat{Foo}カテゴリーか、\scat{Foo-}で始まる名前のカテゴリーのクラスにある全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコルにあるメソッドは\emph{除外される}。
+
 \end{enumerate}
 \noindent
 これらの規則の結果、各クラスの定義と各メソッドが、ちょうど1つのパッケージに属することになります。最後の規則にある\emph{例外}は、それらのメソッドが他のパッケージに属すために必要となります。規則\ref{env:extensions}にある、大文字小文字が無視されるというのは、カテゴリ名がキャメルケース（空白を含まない）のに対して、（必ずという訳ではないが）典型的なプロトコル名が小文字である（空白を含む場合がある）からです。
@@ -551,17 +551,17 @@ mc := PackageInfo named: 'Monticello'
 %---------------------------------------------------------
 \subsection{Monticelloの基礎}
 
-\ind{Monticello}は、合衆国3番目の大統領であり「信教の自由を求めたバージニアの法」の作者であるトーマス・ジェファーソンの山頂の家にちなんで名付けられました。この名前はイタリア語で``小さな山''を意味し、イタリア語の``c''をchairの``ch''と発音して「モンティチェロ」と言います。
+\ind{Monticello}は、合衆国3番目の大統領であり「バージニア信教自由法」の起草者であるトーマス・ジェファーソンの山頂の家にちなんで名付けられました。この名前はイタリア語で``小さな山''を意味し、イタリア語の発音に従い``c''をchairの``ch''と発音して「モンティチェロ」と言います。
 
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{freshMonticello}}
-		{\includegraphics[width=0.7\textwidth]{freshMonticello}}
-	\end{center}
-	\caption{Monticelloブラウザ}
-	\figlabel{freshMonticello}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{freshMonticello}}
+{\includegraphics[width=0.7\textwidth]{freshMonticello}}
+\end{center}
+\caption{Monticelloブラウザ}
+\figlabel{freshMonticello}
 \end{figure}
 
 Monticelloブラウザを開くと、\figref{freshMonticello}のように、2つのペインと1列に並んだボタンが表示されます。
@@ -578,23 +578,23 @@ Monticelloブラウザを開くと、\figref{freshMonticello}のように、2つ
 \dothis{Monticelloを開き、\button{+Repository}ボタンをクリックし、\menu{HTTP}を選びます。
 以下のようにダイアログ内容を編集してください。}
 %\ab{How does one continue the $\backslash$dothis to include the code?}
-%\on{Don't.  Just close the \dothis{} and follow with the code.}
+%\on{Don't. Just close the \dothis{} and follow with the code.}
 \needlines{4}
 \begin{code}{}
 MCHttpRepository
-	location: 'http://squeaksource.com/PharoByExample'
-	user: ''
-	password: ''
+location: 'http://squeaksource.com/PharoByExample'
+user: ''
+password: ''
 \end{code}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
-		{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
-	\end{center}
-	\caption{リポジトリブラウザ}
-	\figlabel{SqueakSource:PBE}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
+{\includegraphics[width=0.7\textwidth]{SqueakSource-PBE}}
+\end{center}
+\caption{リポジトリブラウザ}
+\figlabel{SqueakSource:PBE}
 \end{figure}
 \noindent
 その後、このリポジトリをリポジトリブラウザで開く為に、\button{Open}ボタンをクリックします。\figref{SqueakSource:PBE}のようなものが見えるでしょう。左側のペインには、リポジトリ内の全てのパッケージのリストがあります。その中の1つを選択すれば、右側のペインにこのリポジトリ内にある選択されたパッケージの全てのバージョンが表示されます。
@@ -608,23 +608,23 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 \dothis{\scat{PBE-Monticello}というパッケージを作成し、\figref{MCnewcategory}のように2つのクラスをその中に置いて下さい。もちろん、\ct{Object}などの既存のクラスのメソッドを作り、\pageref{sec:packageRules}ページにある規則を使ってこのクラスと同じパッケージに置いて下さい\,---\,\figref{MCnewmethod}を参照のこと。}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{MCnewcategory}}
-		{\includegraphics[width=0.7\textwidth]{MCnewcategory}}
-	\end{center}
-	\caption{``PBE''パッケージの2つのクラス。}
-	\figlabel{MCnewcategory}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{MCnewcategory}}
+{\includegraphics[width=0.7\textwidth]{MCnewcategory}}
+\end{center}
+\caption{``PBE''パッケージの2つのクラス。}
+\figlabel{MCnewcategory}
 \end{figure}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{MCnewmethod}}
-		{\includegraphics[width=0.7\textwidth]{MCnewmethod}}
-	\end{center}
-	\caption{``PBE''パッケージに置かれる拡張メソッド。}
-	\figlabel{MCnewmethod}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{MCnewmethod}}
+{\includegraphics[width=0.7\textwidth]{MCnewmethod}}
+\end{center}
+\caption{``PBE''パッケージに置かれる拡張メソッド。}
+\figlabel{MCnewmethod}
 \end{figure}
 
 作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力して下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージエントリはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに2つのパッケージを持つことに注意して下さい。1つは\ct{PBE}、もう1つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これで良いのです。
@@ -638,27 +638,27 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 \index{package!cache}
 
 \begin{figure}[tbp]
-	\begin{center}
-		\includegraphics[width=\textwidth]{MC+PBE}
-	\end{center}
-	\caption{Monticelloでまだ保存されていないPBEパッケージ。}
-	\figlabel{MC+PBE}
+\begin{center}
+\includegraphics[width=\textwidth]{MC+PBE}
+\end{center}
+\caption{Monticelloでまだ保存されていないPBEパッケージ。}
+\figlabel{MC+PBE}
 \end{figure}
 
 \begin{figure}[tbp]
-	\begin{center}
-	\includegraphics[width=0.8\textwidth]{PBE-on}
-	\end{center}
-	\caption{パッケージの新バージョンに対するログメッセージを入力する。}
-	\figlabel{PBE-on}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{PBE-on}
+\end{center}
+\caption{パッケージの新バージョンに対するログメッセージを入力する。}
+\figlabel{PBE-on}
 \end{figure}
 
 \begin{figure}[tbp]
-	\begin{center}
-	\includegraphics[width=\textwidth]{package-cache-browser}
-	\end{center}
-	\caption{作成したパッケージの２つのバージョンがパッケージキャッシュにあります。}
-	\figlabel{package-cache-browser}
+\begin{center}
+\includegraphics[width=\textwidth]{package-cache-browser}
+\end{center}
+\caption{作成したパッケージの２つのバージョンがパッケージキャッシュにあります。}
+\figlabel{package-cache-browser}
 \end{figure}
 
 新しいパッケージをパッケージキャッシュ以外のリポジトリに保存するためには、必要に応じてリポジトリを追加するなどして、まずMonticelloにそのリポジトリについて知らせる必要があります。
@@ -671,11 +671,11 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 これは、友人とコードを共有したり複数のコンピュータを使う場合などの仕組みとして特に有用です。
 
 \begin{figure}[tbp]
-	\begin{center}
-		\includegraphics[width=\textwidth]{MCaddToPackage}
-	\end{center}
-	\caption{パッケージに関連付けられたポジトリのセットにリポジトリに追加する。}
-	\figlabel{associateRepository}
+\begin{center}
+\includegraphics[width=\textwidth]{MCaddToPackage}
+\end{center}
+\caption{パッケージに関連付けられたポジトリのセットにリポジトリに追加する。}
+\figlabel{associateRepository}
 \end{figure}
 
 書き込みパーミッションを持たないリポジトリに対して保存しようとした場合、ともかくそのバージョンはパッケージキャッシュに書き込まれます。
@@ -699,26 +699,26 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 \index{keyboard shortcut!inspect it}
 
 \begin{figure}[btp]
-	\begin{center}
-		\includegraphics[width=\textwidth]{inspectTimeNow1}
-	\end{center}
-	\caption{ \ct{TimeStamp now} をインスペクトする}
-	\figlabel{inspectTimeNow1}
+\begin{center}
+\includegraphics[width=\textwidth]{inspectTimeNow1}
+\end{center}
+\caption{ \ct{TimeStamp now} をインスペクトする}
+\figlabel{inspectTimeNow1}
 \end{figure}
 
 \figref{inspectTimeNow1} のようなウィンドウが現れます。
-これがインスペクタで、特定のオブジェクトの内部に向かって開かれた窓と考えることができます。特定のオブジェクトとは、 \,---\, この場合、 \ct{TimeStamp now} という式を評価することによって生成された \mbox{\ct{TimeStamp}} のインスタンスオブジェクトのことです。
-% the \mbox is here because without it, the listings macros puts a space between TimeStamp 
+これがインスペクタで、特定のオブジェクトの内部に向かって開かれた窓と考えることができます。特定のオブジェクトとはこの場合、 \ct{TimeStamp now} という式を評価することによって生成された \mbox{\ct{TimeStamp}} のインスタンスオブジェクトのことです。
+% the \mbox is here because without it, the listings macros puts a space between TimeStamp
 % and the following word, and that space happens to come out at the start of a line.
 
 ウィンドウのタイトルバーには、インスペクトしているオブジェクトが印字形式で表示されています。
 左側のペインの先頭の \menu{self} を選択すると、右側のペインにそのオブジェクトが文字列で表示されます。
-% If you select \menu{all inst vars} in the left pane, the right pane will show a list of the instance variables in the object, and the printstring for each one.  
+% If you select \menu{all inst vars} in the left pane, the right pane will show a list of the instance variables in the object, and the printstring for each one.
 % The remaining items in the left pane represent the instance variables; this makes it easy to examine them one at a time, and also to change them.
 左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self をツリーの根としています。
-インスタンス変数は、名前の横にある三角形を展開することで探求できます。
+インスタンス変数は、名前の横にある三角形を展開することで探求できます。\footnote{訳注：Pharo 1.2以降ツリーではなく一覧表示に変更されています}
 
-インスペクタの下部にある横長のペインは小さなワークスペースウインドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されているので便利です。
+インスペクタの下部にある横長のペインは小さなワークスペースウインドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されている\footnote{訳注：Pharo 1.2以降でselfは常にインスペクトしているオブジェクトを束縛しています}ので便利です。
 そこで、
 \begin{code}{}
 self - TimeStamp today
@@ -729,7 +729,7 @@ self - TimeStamp today
 \ct{self} だけでなく、オブジェクトの全てのインスタンス変数も、ワークスペースペインの有効範囲にあります。つまり、変数に対して式で参照したり代入することもできます。例えば、左のペインのツリーの根にあるオブジェクトを選んでから、ワークスペースペインで \ct{jdn := jdn - 1} を評価すると、インスタンス変数 \ct{jdn} の値が実際に変化することが分かりますし、\ct{TimeStamp now - self} の値も1日分増えるでしょう。
 
 % ON: Does not work anymore
-%You can change instance variables directly by selecting them, replacing the old value in the right-hand  pane by a \pharo expression, and accepting.  
+%You can change instance variables directly by selecting them, replacing the old value in the right-hand pane by a \pharo expression, and accepting.
 %\pharo will evaluate the expression and assign the result to the instance variable.
 
 DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラスに対しては、インスペクタに特別な拡張がなされていて、これらのオブジェクトの内容をより簡単に検査することができます。
@@ -742,23 +742,23 @@ DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラ
 
 \begin{figure}[tbp]
 \begin{minipage}{0.48\textwidth}
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{exploreTimeStampNow}}
-		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow}}
-	\end{center}
-	\caption{ \ct{TimeStamp now} を探求する}
-	\figlabel{exploreTimeStampNow}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{exploreTimeStampNow}}
+{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow}}
+\end{center}
+\caption{ \ct{TimeStamp now} を探求する}
+\figlabel{exploreTimeStampNow}
 \end{minipage}
 \hfill
 \begin{minipage}{0.48\textwidth}
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{exploreTimeStampNow2}}
-		{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow2}}
-	\end{center}
-	\caption{インスタンス変数を探求する}
-	\figlabel{exploreTimeStampNow2}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{exploreTimeStampNow2}}
+{\includegraphics[width=0.7\textwidth]{exploreTimeStampNow2}}
+\end{center}
+\caption{インスタンス変数を探求する}
+\figlabel{exploreTimeStampNow2}
 \end{minipage}
 \end{figure}
 
@@ -779,24 +779,24 @@ DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラ
 メソッド辞書を表すオブジェクトに加えて、そのクラスのコンパイル済みメソッドも直接ナビゲート出来ることに注意してください（ \figref{ExploreObject} 参照）。
 
 \begin{figure}[tbp]
-	\begin{center}
-		\includegraphics[width=0.5\textwidth]{ExploreObject}
-	\end{center}
-	\caption{\ct{Object} クラスを探求する}
-	\figlabel{ExploreObject}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{ExploreObject}
+\end{center}
+\caption{\ct{Object} クラスを探求する}
+\figlabel{ExploreObject}
 \end{figure}
 
-%\dothis{Open a browser, and \metaclick five times on the method pane to bring-up the Morphic halo on the \ct{OBPluggableListMorph} that is used to represent the list of messages. 
+%\dothis{Open a browser, and \metaclick five times on the method pane to bring-up the Morphic halo on the \ct{OBPluggableListMorph} that is used to represent the list of messages.
 %Click on the \emph{debug} handle \debugHandle{} and select \menu{explore morph}
-%from the menu that appears.  This will open an Explorer on the \clsind{OBPluggableListMorph} object that represents the method list on the screen.  
+%from the menu that appears. This will open an Explorer on the \clsind{OBPluggableListMorph} object that represents the method list on the screen.
 %Open the root object (by clicking in its triangle), open its \ct{submorphs}, and continue exploring the structure of the objects that underlie this Morph, as shown in \figref{explorePluggableListMorph}.}
 %
 %\begin{figure}[tbp]
-%	\begin{center}
-%		\includegraphics[width=0.7\textwidth]{explorePluggableListMorph}
-%	\end{center}
-%	\caption{Exploring a \ct{PluggableListMorph}}
-%	\figlabel{explorePluggableListMorph}
+% \begin{center}
+% \includegraphics[width=0.7\textwidth]{explorePluggableListMorph}
+% \end{center}
+% \caption{Exploring a \ct{PluggableListMorph}}
+% \figlabel{explorePluggableListMorph}
 %\end{figure}
 
 %=========================================================
@@ -811,11 +811,11 @@ DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラ
 \needlines{7}
 \begin{method}[buggy]{バグがあるメソッド}
 suffix
-	"自分自身をファイル名と仮定して、最後のドットから後ろの部分をサフィックスとして返す"
-	| dot dotPosition |
-	dot := FileDirectory dot.
-	dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
-	^ self copyFrom: dotPosition to: self size 
+"自分自身をファイル名と仮定して、最後のドットから後ろの部分をサフィックスとして返す"
+| dot dotPosition |
+dot := FileDirectory dot.
+dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
+^ self copyFrom: dotPosition to: self size
 \end{method}
 
 もちろん、こんな簡単なメソッドは動くのが当たり前だろうと確信するので、SUnit のテストも書かずにワークスペースで \ct{'readme.txt' suffix} と入力し、
@@ -823,33 +823,33 @@ suffix
 すると驚くことに、期待した答え \ct{'txt'} の代わりに、 \figref{PreDebugWindow} のような \clsind{PreDebugWindow} がポップアップします。
 
 \begin{figure}[btp]
-	\begin{center}
-	\includegraphics[width=0.8\textwidth]{PreDebugWindow}
-	\end{center}
-	\caption{ \ct{PreDebugWindow} によるバグの通知}
-	\figlabel{PreDebugWindow}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{PreDebugWindow}
+\end{center}
+\caption{ \ct{PreDebugWindow} によるバグの通知}
+\figlabel{PreDebugWindow}
 \end{figure}
 
 \ct{PreDebugWindow} はどんなエラーが起きたのかタイトルバーで分かるようになっています。さらに、エラーに至るまでのメッセージの \emphind{スタックトレース} が表示されます。
 トレースの一番下を起点とし、 \ct{UndefinedObject>>DoIt} という行が、ワークスペースで \ct{'readme.txt' suffix} を選び、\pharo に \menu{print it} させた時のコンパイルおよび実行されたコードを表しています。
 もちろん、このコードは \clsind{ByteString} クラスのオブジェクト(\ct{'readme.txt'})にメッセージ \ct{suffix} を送ります。
 これは \ct{String} クラスから継承している \ct{suffix} メソッドの実行を引き起こし、このことがスタックトレースの次の行で \ct{ByteString(String)>>suffix} として表されています。
-スタックをさらに辿ると、\ct{suffix} メソッドは \ct{detect:}\ldots メッセージを送信し、更に \ct{detect:ifNone:} メソッドで \ct{errorNotFound} を送信していることが分かります。
+スタックをさらに辿ると、\ct{suffix} メソッドは \ct{detect:} メッセージを送信し、\ldotsそして \ct{detect:ifNone:} メソッドが \ct{errorNotFound} を送信していることが分かります。
 \clsindex{UndefinedObject}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{debuggerDetectIfNone}}
-		{\includegraphics[width=0.7\textwidth]{debuggerDetectIfNone}}
-	\end{center}
-	\caption{デバッガ}
-	\figlabel{debuggerDetectIfNone}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{debuggerDetectIfNone}}
+{\includegraphics[width=0.7\textwidth]{debuggerDetectIfNone}}
+\end{center}
+\caption{デバッガ}
+\figlabel{debuggerDetectIfNone}
 \end{figure}
 
 \emph{なぜ}ドットが見つからなかったのかを調べるために、デバッガ本体が必要なので、\button{Debug} ボタンをクリックします。
 
-%\dothis{You can also open the debugger by clicking on any of the lines on the stack trace.  If you do this, the debugger will open already focussed on the corresponding method.}
+%\dothis{You can also open the debugger by clicking on any of the lines on the stack trace. If you do this, the debugger will open already focussed on the corresponding method.}
 
 \figref{debuggerDetectIfNone} にデバッガを示します。最初は威嚇的に見えますが、使うのはとても簡単です。
 タイトルバーと一番上のペインは \lct{PreDebugWindow} にあるものととてもよく似ています。
@@ -892,13 +892,13 @@ suffix
 次に送信されるメッセージ {\ct{do:}} が青くハイライトして表示されています( \figref{RestartDetectIfNone} 参照)。}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{RestartDetectIfNone}}
-		{\includegraphics[width=0.7\textwidth]{RestartDetectIfNone}}
-	\end{center}
-	\caption{\ct{detect: ifNone:} メソッドを再実行した後のデバッガ}
-	\figlabel{RestartDetectIfNone}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{RestartDetectIfNone}}
+{\includegraphics[width=0.7\textwidth]{RestartDetectIfNone}}
+\end{center}
+\caption{\ct{detect: ifNone:} メソッドを再実行した後のデバッガ}
+\figlabel{RestartDetectIfNone}
 \end{figure}
 
 \button{Into} と \button{Over} ボタンは2つの異なる方法でステップ実行します。\button{Over} ボタンを押した場合、\pharo は現在のメッセージ送信(この場合では \ct{do:})を、エラーが発生しない限り1ステップだけ実行します。
@@ -916,48 +916,48 @@ suffix
 今度は \button{Through} ボタンを数回クリックします。このとき、コンテクストウィンドウの \ct{each} 変数を選択しておきます。
 \ct{do:} メソッドの実行に従って、\ct{each} の内容が \ct{10} からカウントダウンしていくことが分かります。}
 
-\ct{each} の値が \ct{7} の時、\ct{ifTrue:} ブロックを実行することが期待されますが、しかし、そうなりません。
+\ct{each} の値が \ct{7} の時、\ct{ifTrue:} ブロックが実行されることを期待しているのですが、そうなっていません。
 何が悪いのかを見るため、\figref{steppingIntoValue} で示すように \ct{value:} を \button{Into} ボタンでステップ実行します。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{steppingIntoValue}}
-		{\includegraphics[width=0.7\textwidth]{steppingIntoValue}}
-	\end{center}
-	\caption{\ct{do:} メソッドを数回 \lct{Through} ボタンでステップ実行した後のデバッガ}
-	\figlabel{steppingIntoValue}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{steppingIntoValue}}
+{\includegraphics[width=0.7\textwidth]{steppingIntoValue}}
+\end{center}
+\caption{\ct{do:} メソッドを数回 \lct{Through} ボタンでステップ実行した後のデバッガ}
+\figlabel{steppingIntoValue}
 \end{figure}
 
 \button{Into} ボタンをクリックした後、\figref{dotIsAString} で示した位置にいることがわかります。
 一見すると \ct{suffix} メソッドに \emph{戻って} しまったように見えますが、\ct{suffix} メソッドが \ct{detect:} メソッドに引数として渡しているブロックを実行中なのです。
 %\on{does not work any more! the debugger does not know about block variables!}
-%If you select \ct{i} in the context inspector, you can see its current value, which should be \ct{7} if you have been following along.  
+%If you select \ct{i} in the context inspector, you can see its current value, which should be \ct{7} if you have been following along.
 %You can then select the corresponding element of \self from the \self{}-inspector.
-%In  \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is indeed a dot.
+%In \figref{dotIsAString} you can see that element \ct{7} of the string is character 46, which is indeed a dot.
 コンテクストインスペクタで \ct{dot} を選ぶと、その値が \ct{'.'} であることが分かります。
 ここに至って、なぜイコールとならなかったかわかりました。\ct{'readme.txt'} の7番目の文字は \ct{Character} なのに、\ct{dot} が \ct{String} となっています。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{dotIsAString}}
-		{\includegraphics[width=0.7\textwidth]{dotIsAString}}
-	\end{center}
-	\caption{\ct{'readme.txt' at: 7} が \ct{dot} と等しくならない原因を示しているデバッガ}
-	\figlabel{dotIsAString}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{dotIsAString}}
+{\includegraphics[width=0.7\textwidth]{dotIsAString}}
+\end{center}
+\caption{\ct{'readme.txt' at: 7} が \ct{dot} と等しくならない原因を示しているデバッガ}
+\figlabel{dotIsAString}
 \end{figure}
 
 バグが判明したので修正方法も明白です。\ct{dot}を探す前に、文字へ変換する必要があります。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{revertDialog}}
-		{\includegraphics[width=0.7\textwidth]{revertDialog}}
-	\end{center}
-	\caption{デバッガの中で \ct{suffix} メソッドを修正する。内側のブロックから抜けだすかどうかの確認}
-	\figlabel{revertDialog}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{revertDialog}}
+{\includegraphics[width=0.7\textwidth]{revertDialog}}
+\end{center}
+\caption{デバッガの中で \ct{suffix} メソッドを修正する。内側のブロックから抜けだすかどうかの確認}
+\figlabel{revertDialog}
 \end{figure}
 
 \dothis{\ct{dot := FileDirectory dot first} のように、デバッガの中でコードを正しく修正し、変更を \menu{accept} してください。}
@@ -974,7 +974,7 @@ suffix
 
 \begin{method}[testSuffix]{\ct{suffix} メソッドのための簡単なテスト}
 testSuffixFound
-	self assert: 'readme.txt' suffix = 'txt'
+self assert: 'readme.txt' suffix = 'txt'
 \end{method}
 
 テストの記述に必要な労力は、同じテストをワークスペースで実行するよりも若干多くなりますが、\sunit を使うことで、テストを実行可能な文書として保持し、他人が簡単にテストできるようになります。
@@ -983,22 +983,22 @@ testSuffixFound
 その後、\sunit Test Runner で \button{Run Failures} ボタンをクリックして、テストが通過することを確認するだけです。
 
 \begin{figure}[btp]
-	\begin{center}
-		\includegraphics[width=\textwidth]{fixOffByOne}
-	\end{center}
-	\caption{デバッガの中で \ct{suffix} メソッドを編集する: \sunit のアサーション違反の後にOff-by-one エラーを修正する}
-	\figlabel{fixOffByOne}
+\begin{center}
+\includegraphics[width=\textwidth]{fixOffByOne}
+\end{center}
+\caption{デバッガの中で \ct{suffix} メソッドを編集する: \sunit のアサーション違反の後にOff-by-one エラーを修正する}
+\figlabel{fixOffByOne}
 \end{figure}
 
 以下はより良いテストコードです。
 
 \begin{method}[testSuffix2]{\ct{suffix} メソッドのためのより良いテスト}
 testSuffixFound
-	self assert: 'readme.txt' suffix = 'txt'.
-	self assert: 'read.me.txt' suffix = 'txt'
+self assert: 'readme.txt' suffix = 'txt'.
+self assert: 'read.me.txt' suffix = 'txt'
 \end{method}
 \noindent
-なぜこのテストがより良いものなのでしょう？その理由は、対象となる文字列に一つ以上のドットがある場合に、このメソッドが行うことを読む人に教えてくれているからです。
+なぜこのテストがより良いものなのでしょう？その理由は、対象となる文字列に一つ以上のドットがある場合に、このメソッドがどのように振る舞うかを読む人に教えてくれているからです。
 
 エラーやアサーション違反の捕捉以外にも、デバッガに入るいくつかの方法があります。
 コードの実行によって無限ループに陥ってしまった場合、 \short{.} (あなたが英語を学んだ場所によりますが、終止符またはピリオドと呼ばれるもの)を入力することで、割り込みをかけてその計算状況におけるデバッガを開くことができます。\footnote{同様に、どんな時でも \short{{\sc shift--}.} の入力によって、緊急デバッガが起動することを覚えておくと便利です。}
@@ -1009,12 +1009,12 @@ testSuffixFound
 \needspace{11ex}
 \begin{method}[suffix]{\ct{suffix} メソッドに \ct{halt} を入れる}
 suffix
-	"自分自身をファイル名と仮定して、最後のドットから後の部分をサフィックスとして返す。"
-	| dot dotPosition |
-	dot := FileDirectory dot first.
-	dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
-	self halt.
-	^ self copyFrom: dotPosition to: self size 
+"自分自身をファイル名と仮定して、最後のドットから後の部分をサフィックスとして返す。"
+| dot dotPosition |
+dot := FileDirectory dot first.
+dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
+self halt.
+^ self copyFrom: dotPosition to: self size
 \end{method}
 
 このメソッドを走らせると、 \ct{self halt} の実行により \ind{pre-debugger} が開きますので、そこから、実行を続行させたり、デバッガに入って変数を見たり、ステップ実行したり、コードを編集したりすることができます。
@@ -1026,7 +1026,7 @@ suffix
 \needlines{3}
 \begin{method}[testNoSuffix]{\ct{suffix} メソッドのための２つ目のテスト: 対象がサフィックスを持たない}
 testSuffixNotFound
-	self assert: 'readme' suffix = ''
+self assert: 'readme' suffix = ''
 \end{method}
 
 \needlines{2}
@@ -1045,16 +1045,16 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 将来的には \pharo の仮想機械は可能ならばマルチプロセッサを利用するようになるかもしれませんが、現時点では、平行性は時分割処理で実装されています。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{processBrowser}}
-		{\includegraphics[width=0.7\textwidth]{processBrowser}}
-	\end{center}
-	\caption{プロセスブラウザ}
-	\figlabel{processBrowser}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{processBrowser}}
+{\includegraphics[width=0.7\textwidth]{processBrowser}}
+\end{center}
+\caption{プロセスブラウザ}
+\figlabel{processBrowser}
 \end{figure}
 
-プロセス \subind{プロセス}{ブラウザ} は、デバッガのいとこで、\pharo の中で稼働している様々なプロセスを見せてくれます。
+プロセス \subind{プロセス}{ブラウザ} は、デバッガの親類で、\pharo の中で稼働している様々なプロセスを見せてくれます。
 \figref{processBrowser} にスクリーンショットを示します。
 左上のペインは \pharo の中の全てのプロセスのリストで、優先度80の割り込みタイマー監視のプロセスから、優先度10のアイドルプロセスに至るまでが優先度順に並んでいます。
 もちろん、単一プロセッサ上ですので、見ている時に動いている唯一のプロセスはUIプロセスです。他の全てのプロセスは、なんらかのイベントを待っています。
@@ -1068,7 +1068,7 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 
 %=========================================================
 \section{メソッド検索}
-\seclabel{methodFinder} 
+\seclabel{methodFinder}
 
 \pharo にはメソッド検索のための2つのツールがあります。
 両者はインタフェースも機能性も異なっています。
@@ -1078,13 +1078,13 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 これではすぐにウィンドウで溢れてしまいます。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{methodNamesRandom}}
-		{\includegraphics[width=0.7\textwidth]{methodNamesRandom}}
-	\end{center}
-	\caption{\ct{random} を部分文字列としてセレクタ名に持つ全てのメソッドを表示しているメッセージネームブラウザ}
-	\figlabel{methodNamesRandom} % should be *message* names!
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{methodNamesRandom}}
+{\includegraphics[width=0.7\textwidth]{methodNamesRandom}}
+\end{center}
+\caption{\ct{random} を部分文字列としてセレクタ名に持つ全てのメソッドを表示しているメッセージネームブラウザ}
+\figlabel{methodNamesRandom} % should be *message* names!
 \end{figure}
 
 \index{message names browser}
@@ -1105,15 +1105,15 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 しかし、きままな \emph{doit} は含まれないので、たとえばワークスペースで新しくグローバル変数を定義した場合には、変数の作成は\subind{file}{チェンジセット}に記録されません。
 \index{change sorter}
 
-どんな時でも、多くのチェンジセットが存在していますが、その中の一つだけがイメージに対する変更を収集します。\,---\,これを \lct{カレントチェンジセット} といいます\,---\, 
+どんな時でも、多くのチェンジセットが存在していますが、その中の一つだけがイメージに対する変更を収集します。\,---\,これを \lct{カレントチェンジセット} といいます\,---\,
 \menu{World \go Tools \ldots \go Change Sorter}を選ぶと現れるチェンジソーターを使えば、どれがカレントチェンジセットなのか確認したり、すべてのチェンジセットについて調べることができます。
 
 \begin{figure}[btp]
-	\begin{center}
-		\includegraphics[width=\linewidth]{changeSorter}
-	\end{center}
-	\caption{チェンジソーター}
-	\figlabel{changeSorter}
+\begin{center}
+\includegraphics[width=\linewidth]{changeSorter}
+\end{center}
+\caption{チェンジソーター}
+\figlabel{changeSorter}
 \end{figure}
 
 \figref{changeSorter} にチェンジソーターを示します。タイトルバーは、どのチェンジセットがカレントチェンジセットなのかを表すとともに、カレントチェンジセットが選択された状態でチェンジソーターが開きます。
@@ -1124,7 +1124,7 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 チェンジソーターは、クラスの生成自体がチェンジセットの一部であるかどうかを\emph{示さない}ことに注意してください。なお、クラス生成に関する情報は、チェンジセットを表現するためのオブジェクト構造には格納されています。
 
 チェンジソーターでは、クラスやメソッドの上で \actclick メニューを使うことで、チェンジセットから削除することができます。
-%  However, for more elaborate editing of change sets, you should use a second tool, the \textit{change sorter}, available by selecting \menu{World\go{}open \ldots \go{}dual change sorter}, which is shown in \figref{changeSorter}.
+% However, for more elaborate editing of change sets, you should use a second tool, the \textit{change sorter}, available by selecting \menu{World\go{}open \ldots \go{}dual change sorter}, which is shown in \figref{changeSorter}.
 % The change sorter is essentially two change set browsers side by side; each side can focus on a different change set, class, or method.
 
 チェンジソーターは、同時に二つのチェンジセットを扱え、一つは左側でもう一つは右側に表示されます。
@@ -1166,13 +1166,13 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 \section{ファイルリストブラウザ}
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{fileList}}
-		{\includegraphics[width=0.7\textwidth]{fileList}}
-	\end{center}
-	\caption{ファイルリストブラウザ}
-	\figlabel{fileList}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{fileList}}
+{\includegraphics[width=0.7\textwidth]{fileList}}
+\end{center}
+\caption{ファイルリストブラウザ}
+\figlabel{fileList}
 \end{figure}
 
 \ind{ファイルリストブラウザ} は、実際のところ \pharo からファイルシステム(FTPサーバーも含む)をブラウズするための汎用的なツールです。
@@ -1190,18 +1190,18 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 \figref{fileList} では、ファイル名のサフィックスが \ct{.cs} であると、ブラウザがチェンジセットだと推測し、\button{install} する（この場合、そのファイル名に基づいた名前のチェンジセットに \textit{ファイルイン} されます）ためのボタンや、ファイルの変更点を見るための \button{changes} ボタン、ファイル内のコードを調べるための \button{code} ボタン、
 \emph{カレントチェンジセット} にコードを取り込むための\button{filein} ボタンを提供します。
 \button{conflicts} ボタンは、イメージにすでにあるコードとコンフリクトするようなチェンジセットの変更を教えてくれるものと推測されるかもしれませんが、それは違います。
-\ab{Does anyone know what it does do?  I've never found it useful.}
+\ab{Does anyone know what it does do? I've never found it useful.}
 \on{I tried it and found that it complained about linefeeds.}
 その代わりに（改行の有無など）ファイルが正しく読み込まれるかといった潜在的な問題をチェックします。
 
 \begin{figure}[btp]
-	\begin{center}
-	\ifluluelse
-		{\includegraphics[width=\textwidth]{fileContentsBrowser}}
-		{\includegraphics[width=0.7\textwidth]{fileContentsBrowser}}
-	\end{center}
-	\caption{ファイルコンテンツブラウザ}
-	\figlabel{fileContentsBrowser}
+\begin{center}
+\ifluluelse
+{\includegraphics[width=\textwidth]{fileContentsBrowser}}
+{\includegraphics[width=0.7\textwidth]{fileContentsBrowser}}
+\end{center}
+\caption{ファイルコンテンツブラウザ}
+\figlabel{fileContentsBrowser}
 \end{figure}
 
 ボタン表示の選択はファイル内容ではなくファイルの \emph{名前} に依存していることから、時折期待するボタンが画面に現れないことがあります。
@@ -1210,7 +1210,7 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 
 \button{code} ボタンは、おそらくチェンジセットを扱う上でもっとも便利なもので、チェンジセットファイルの内容をブラウザで開きます。例を \figref{fileContentsBrowser} に示します。
 このファイルコンテンツブラウザはブラウザによく似ていますが、クラスとプロトコルとメソッドだけを表示し、カテゴリを表示しません。
-個々のクラスごとに、そのクラスがすでにシステムに存在しているかどうか、ファイルで定義されているかどうか（定義が \emph{同一か否か}）が分かるようになっています。
+個々のクラスごとに、そのクラスがすでにシステムに存在しているかどうか、ファイルで定義されているかどうか（定義が \emph{同一か否か}は示しません）が分かるようになっています。
 個々のクラスのメソッドを表示した上で、さらに（\figref{fileContentsBrowser} のように）現在のバージョンとファイルのバージョンとの差分を表示します。
 上部の4つのペインのコンテキストメニューでは、チェンジセット全体をファイルインするのか、それとも対応するクラスや、プロトコル、メソッドごとにファイルインするかどうかを指示できます。
 
@@ -1224,7 +1224,7 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 
 クラッシュしてイメージが何時間も前に保存したバージョンに戻ってしまったとしても、よい知らせがあります。それはみなさんがやったことは決して失われないということです。
 というのも、実行したあらゆるコードが \emph{.changes} ファイルに保存されているからです。
-あらゆるコード!
+あらゆるコードです!
 これにはワークスペースで評価した1行プログラムから、プログラミング中にクラスへ追加したコードまで含まれます。
 \index{changes}
 
@@ -1249,7 +1249,7 @@ Monticello の出現以前、チェンジセットは Smalltalker の間でコ�
 %\noindent
 %are most useful for recovery.
 
-% If you execute \ct{ChangeList browseRecentLog}, you will be given 
+% If you execute \ct{ChangeList browseRecentLog}, you will be given
 
 すると、履歴をどれくらい遡ってブラウズしたいかを選ぶことができます。
 通常、最後のスナップショットまで遡って変更をブラウズすることで十分です。（同様の効果を \ct{ChangeList browseRecent: 2000} というコードを編集することで得ることができます。ただし \ct{2000} という数値は試行錯誤で決めることになります）
