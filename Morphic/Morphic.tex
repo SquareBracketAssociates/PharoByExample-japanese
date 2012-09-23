@@ -248,7 +248,7 @@ containsPoint: aPoint
 \ct{Rectangle}クラスの\mthind{Rectangle}{containsPoint:}を活用すれば、この面倒な仕事をやりとげることができます。
 
 メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには２つの問題点があります。
-あきらかな点は、コードが重複していることです。
+明らかな点は、コードが重複していることです。
 これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、２カ所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
 解決方法は、これらの計算を新たな２つのメソッドに抽出することです。どちらも\ct{private}プロトコルに格納します。
 
@@ -774,7 +774,7 @@ DieMorph>>>drawDotOn: aCanvas at: aPoint
 \end{method}
 \ew{I would not use reflection to call faceX on p.234. A statically filled Dictionary would be more appropriate. Get the point set with "MyDict at: X".}
 
-座標が$[0{:}1]$の範囲で正規化されているため、サイコロの大きさにあわせるために、\ct{self extent * aPoint}で拡大します。
+座標が$[0{:}1]$の範囲で正規化されているため、サイコロの大きさに合わせるために、\ct{self extent * aPoint}で拡大します。
 
 \dothis{ワークスペースでサイコロのインスタンスを作ることができます。}
 \begin{code}{}

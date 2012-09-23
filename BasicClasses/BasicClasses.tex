@@ -82,7 +82,7 @@ Browser new printString --> 'a Browser'
 \end{code}
 
 \ct{Color} クラスでは \mthind{Color}{printOn:} を特殊化した例が見られます。
-\ct{Color>>>printOn:} は、「クラス名 色名 (\eg \ct{Color red})」と言った色を表わすメッセージ式をプリントします。%@ いつも色を生成するとは限らない。%@ メソッド名よりメッセージの方が好ましい? It prints the name of the class followed the name of the class method used to generate that color.
+\ct{Color>>>printOn:} は、「クラス名 色名 (\eg \ct{Color red})」と言った色を表すメッセージ式をプリントします。%@ いつも色を生成するとは限らない。%@ メソッド名よりメッセージの方が好ましい? It prints the name of the class followed the name of the class method used to generate that color.
 
 \needlines{7}
 \begin{method}[zork]{printOn: の再定義。}
@@ -99,7 +99,7 @@ Color>>>printOn: aStream
 Color red printString --> 'Color red'
 \end{code}
 
-\ct{printOn:} メッセージは \mthind{Object}{storeOn:} とは異なる、ということに注意してください。\ct{storeOn:} メッセージは、レシーバを再生成するのに使える式を引数(ストリーム)に流します。そしてその式は、ストリームが \ct{readFrom:} メッセージによって読み込まれるときに評価されます。一方 \ct{printOn:} は、単にレシーバのテキストバージョンを返すだけです。もちろんそのテキスト表現が、レシーバを表す自己評価型の式になっていることもありえます。
+\ct{printOn:} メッセージは \mthind{Object}{storeOn:} とは異なる、ということに注意してください。\ct{storeOn:} メッセージは、レシーバを再生成するのに使える式を引数(ストリーム)に流します。そしてその式は、ストリームが \ct{readFrom:} メッセージによって読み込まれるときに評価されます。一方 \ct{printOn:} は、単にレシーバのテキストバージョンを返すだけです。もちろんそのテキスト表現が、レシーバを表す自己評価型の式になっていることもあり得ます。
 
 \paragraph{表現と自己評価型表現という単語について。}
 関数型プログラミングでは、式は実行されると値を返します。一方 \st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値と自分自身が同じという好ましい性質を持つものがあります。例えば、\ct{true} オブジェクトの値はそれ自身、\ie\ct{true} オブジェクトです。このようなオブジェクトを\emphind{自己評価型オブジェクト}と呼びます。ワークスペースでオブジェクトを \menu{print it} すると、オブジェクトの値の\emph{表示用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
