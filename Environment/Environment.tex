@@ -834,7 +834,7 @@ dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
 トレースの一番下を起点とし、 \ct{UndefinedObject>>DoIt} という行が、ワークスペースで \ct{'readme.txt' suffix} を選び、\pharo に \menu{print it} させた時のコンパイルおよび実行されたコードを表しています。
 もちろん、このコードは \clsind{ByteString} クラスのオブジェクト(\ct{'readme.txt'})にメッセージ \ct{suffix} を送ります。
 これは \ct{String} クラスから継承している \ct{suffix} メソッドの実行を引き起こし、このことがスタックトレースの次の行で \ct{ByteString(String)>>suffix} として表されています。
-スタックをさらに辿ると、\ct{suffix} メソッドは \ct{detect:} メッセージを送信し、\ldotsそして \ct{detect:ifNone:} メソッドが \ct{errorNotFound} を送信していることが分かります。
+スタックをさらに辿ると、\ct{suffix} メソッドは \ct{detect:} メッセージを送信し、\ldots そして \ct{detect:ifNone:} メソッドが \ct{errorNotFound} を送信していることが分かります。
 \clsindex{UndefinedObject}
 
 \begin{figure}[btp]
