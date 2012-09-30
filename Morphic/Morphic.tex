@@ -43,7 +43,7 @@
 
 \indmain{Morphic}は、\pharo のGUIに付けられた名前です。
 Morphicは\st で書かれており、さまざまなOSの間で完全な互換性があります。その結果、\pharo はUnix, MacOS, Windowsのいずれにおいても全く同じ見た目となっています。
-Morphicと他の多くのユーザー・インタフェース・ツールキットとの違いは、インタフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザーが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
+Morphicと他の多くのユーザー・インターフェース・ツールキットとの違いは、インターフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザーが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
 
 \ab{After the first printing, I took an editing pass, correcting some errors and grammatical infelicities.}
 
@@ -86,7 +86,7 @@ Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self
 % ON: openViewerForArgument is gone in pharo!
 
 これは、\ct{'Morph'}という文字列を表すモーフを作り、「ワールド」上で開きます。（つまり、表示します）「ワールド」とは、\pharo の画面のことです。
-これで\metaclick で操作できるグラフィック要素 — モーフ — が得られます。
+これで\metaclick で操作できるグラフィック要素 ? モーフ ? が得られます。
 %The second line opens a ``viewer'' that shows you attributes of this Morph, such as its \ct{x} and \ct{y}  coordinates on the screen.  Clicking on one of the yellow exclamation marks sends a message to the Morph, which responds appropriately.
 
 もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
@@ -706,7 +706,7 @@ DieMorph>>>initialize
 	isStopped := false
 \end{method}
 
-サイコロの見た目をカッコ良くするために、\ct{BorderedMorph}クラスのメソッドをいくつか使います。浮き出る効果を得るために枠線を太くしたり、角を丸めたり、表示面にグラデーションをかける等をします。
+サイコロの見た目を良くするために、\ct{BorderedMorph}クラスのメソッドをいくつか使います。浮き出る効果を得るために枠線を太くしたり、角を丸めたり、表示面にグラデーションをかける等をします。
 インスタンス側の\ct{faces:}メソッドでは、正しい引数が与えられているかをチェックするように定義します。
 \begin{method}{サイコロの面の個数を設定する。}
 DieMorph>>>faces: aNumber
@@ -721,15 +721,15 @@ DieMorph>>>faces: aNumber
 サイコロが生成された時にメッセージが送られる順序を知るのは良いことです。
 例えば、\ct{DieMorph faces: 9}を評価したと仮定します。
 \begin{enumerate}
-	\item クラスメソッドの\ct{DieMorph class>>>faces:}は、\ct{DieMorph class}クラスに\ct{new}メッセージを送ります。
-	\item （\ct{Behavior}クラスから継承された\ct{DieMorph class}クラスの）\ct{new}メソッドが、新しいインスタンスを生成し、そのインスタンスに\ct{initialize}メッセージを送ります。
+	\item クラスメソッドの\ct{DieMorph class>>>faces:}では、\ct{DieMorph class}クラスに\ct{new}メッセージを送ります。
+	\item （\ct{Behavior}クラスから継承された\ct{DieMorph class}クラスの）\ct{new}メソッドで、新しいインスタンスが生成され、そのインスタンスに\ct{initialize}メッセージが送られます。
 	\item \ct{DieMorph}の\ct{initialize}メソッドが、\ct{faces}インスタンス変数に初期値6を設定します。
-	\item \ct{DieMorph class>>>new}メソッドが、クラスメソッドの\ct{DieMorph class>>>faces:}に返り、そのあと新しいインスタンスに\ct{faces: 9}メッセージを送ります。 
+	\item \ct{DieMorph class>>>new}メソッドの結果できたインスタンスが、クラスメソッドの\ct{DieMorph class>>>faces:}に返り、その新しいインスタンスに\ct{faces: 9}メッセージが送られます。 
 	\item インスタンスメソッドの\ct{DieMorph>>>faces:}が実行され、\ct{faces}インスタンス変数を9に設定します。
 \end{enumerate}
 
 \ct{drawOn:}を定義する前に、表示面に描く目の位置を求めるメソッドをいくつか定義します。
-\begin{methods}{サイコロの面の目の位置を求める９つのメソッドを定義する。}
+\begin{methods}{サイコロの面の目の位置を求める9つのメソッドを定義する。}
 DieMorph>>>face1
 	^{0.5@0.5}
 DieMorph>>>face2
