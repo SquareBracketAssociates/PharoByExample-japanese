@@ -92,7 +92,7 @@ Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self
 もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
 class \ct{Object}クラスにある\mthind{Object}{asMorph}メソッドのデフォルトの実装では、単にStringMorphを作るだけです。
 例えば、\ct{Color tan asMorph}は、単に\clsind{Color} \ct{tan printString}の実行結果をラベルに持つStringMorphを返します。
-それでは、これを変更して色のついた長方形を代わりに返すようにしましょう。
+それでは、これを変更して色の付いた長方形を代わりに返すようにしましょう。
 
 \dothis{ブラウザーを開き\ct{Color}クラスに以下のメソッドを追加します。}
 \needlines{3}
@@ -285,7 +285,7 @@ containsPoint: aPoint
 		or: [self verticalBar containsPoint: aPoint]
 \end{method}
 
-プライベートメソッドに意味のある名前をつけたおかげで、このコードはより簡単に理解できるようになりました。
+プライベートメソッドに意味のある名前を付けたおかげで、このコードはより簡単に理解できるようになりました。
 実際、すぐに２番目の問題が明らかになります。それは、十字の中央の部分がhorizontalBarとverticalBarの両者の下になっており、２度描かれてしまうという問題です。
 不透明な色を塗る場合には問題になりませんが、\figref{overdrawBug}に示すような半透明な色で描くとすぐにこのバグが露見します。
 

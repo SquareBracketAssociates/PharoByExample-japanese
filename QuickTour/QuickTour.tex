@@ -49,7 +49,7 @@
 この章では、\pharo 環境に親しんでもらうために、その概要を解説します。
 \pharo を実際に試してみる場面がたくさんあるので、この章はコンピュータを手元に置いて読むと良いでしょう。
 
-\pharo を動かして試してもらいたい箇所にはこのアイコン: \dothisicon{} で印をつけておきます。
+\pharo を動かして試してもらいたい箇所にはこのアイコン: \dothisicon{} で印を付けておきます。
 \pharo の起動方法、システムとやりとりする様々なやり方、基本的なツールについて知ることになるでしょう。
 また、新しいメソッドの定義の仕方や、オブジェクトを作成し、それにメッセージを送る方法についても学びます。
 
@@ -155,7 +155,7 @@
 %\figlabel{colouredMouse}
 %\end{wrapfigure}
 
-\st はもともと \ind{3 ボタンマウス}のコンピュータを想定して設計されています。マウスのボタンが足りないときは、修飾キーを押しながらマウスを \click しなければなりません。2 ボタンマウスでも十分 \pharo を使うことはできますが、もし 1 ボタンマウスしか持っていなら、クリックできるスクロールホイールがついた 2 ボタンマウスを買うことを考えたほうがいいでしょう。 そうすれば \pharo をいっそう楽しく使えるようになります。
+\st はもともと \ind{3 ボタンマウス}のコンピュータを想定して設計されています。マウスのボタンが足りないときは、修飾キーを押しながらマウスを \click しなければなりません。2 ボタンマウスでも十分 \pharo を使うことはできますが、もし 1 ボタンマウスしか持っていなら、クリックできるスクロールホイールが付いた 2 ボタンマウスを買うことを考えたほうがいいでしょう。 そうすれば \pharo をいっそう楽しく使えるようになります。
 
 様々なコンピュータ、マウス、キーボードそして個人設定があるため、\pharo では「マウスの左ボタンをクリック」という表現は避けています。
 もともと \st ではそれぞれのマウスボタンを色で表していました。\footnote{マウスボタンの色は\emph{赤}、\emph{黄}そして\emph{青}です。著者はどの色がどのボタンを指していたのかさっぱり思い出せません。}
@@ -193,7 +193,7 @@
 右利きの人なら \click は左ボタンに、\actclick は右ボタンに、\metaclick はクリックできるスクロールホイール(あれば)に、それぞれ設定することをお勧めします。
 % If you don't have a clickable scroll wheel, then you can get the Morphic halo by holding down the \ct{alt} or \ct{option} key while \click{ing}. 
 % \ab{This doesn't work any more.  This sentence either repeats or contradicts the meta-click item above; neither is a good idea.}
-Macintoshで 1 ボタンのマウスを使っているのなら、\clover{} を押しながらマウスを \click することで \actclick か \metaclick をシミュレートすることもできます。とはいえ、これから \pharo を頻繁に使うのなら、最低でも二つ以上のボタンのついたマウスに投資することをお勧めします。
+Macintoshで 1 ボタンのマウスを使っているのなら、\clover{} を押しながらマウスを \click することで \actclick か \metaclick をシミュレートすることもできます。とはいえ、これから \pharo を頻繁に使うのなら、最低でも二つ以上のボタンの付いたマウスに投資することをお勧めします。
 
 オペレーティングシステムやマウスドライバの設定を変えることで、マウスの動作を望み通りにできます。
 %\ab{How can I get meta-click without a three-finger salute?  Is this a secret?}
@@ -353,7 +353,7 @@ Transcript show: 'hello world'; cr.
 
 \dothis{\ct{3 + 4} とワークスペースに入力しましょう。そしてキーボードショートカットを使って \menu{do it} します。}
 
-何も起きなかったとしても驚かないでください! ここでは \ct{3} という数に \ct{+} というメッセージを \ct{4} という引数つきで送ったことになります。普通に \ct{7} が計算されて返されたのですが、ワークスペースはこの答えをどうすべきかわからないので答えを捨ててしまいます。結果を見たければ、代わりに \menu{print it} を使う必要があります。\menu{print it} は式をコンパイル、実行して、その結果に \ct{printString} を送ってできた文字列を表示します。
+何も起きなかったとしても驚かないでください! ここでは \ct{3} という数に \ct{+} というメッセージを \ct{4} という引数付きで送ったことになります。普通に \ct{7} が計算されて返されたのですが、ワークスペースはこの答えをどうすべきかわからないので答えを捨ててしまいます。結果を見たければ、代わりに \menu{print it} を使う必要があります。\menu{print it} は式をコンパイル、実行して、その結果に \ct{printString} を送ってできた文字列を表示します。
 
 \dothis{\ct{3+4} を選択して \menu{print it} しましょう(\short{p})。}
 今度は期待通りの結果になります (\figref{printit})。
@@ -392,7 +392,7 @@ Transcript show: 'hello world'; cr.
 \index{キーボードショートカット!explore it}
 \index{エクスプローラ}
 
-今度は \clsind{Object} のタイトルがついたウィンドウ(オブジェクト・エクスプローラ)が現れるはずです。
+今度は \clsind{Object} のタイトルが付いたウィンドウ(オブジェクト・エクスプローラ)が現れるはずです。
 このウィンドウの中には \mbox{$\triangleright$ \ct{root: Object}} というテキストがあります。
 三角をクリックして中身を開いてください (\figref{exploreit})。
 
@@ -534,7 +534,7 @@ Boolean クラスのブラウザが開きます (\figref{browseBoolean})。
 メソッド・ファインダはお望みのメソッドを勧めてくれます。\footnote{もしウィンドウが開いて推奨されないメソッドと警告されても、あわてないでください。 メソッド・ファインダは候補すべてを表示しようとするので、推奨されないメソッドが含まれることもあります。落ち着いて ~\button{Proceed} を \click してください。}
 
 メソッド・ファインダの右側ペインの行頭のアスタリスクは、望んだ結果を得るのに、そのメソッドが実際に使われたことを示します。
-今回 \ct{String asUppercase} の先頭にアスタリスクがついているので、クラス \clsind{String} で定義された \mthind{String}{asUppercase} が \ct{'eureka' . 'EUREKA'} の変換に使われたとわかります。アスタリスクがついていないメソッドは、単に名前が同じということで挙げられたものです。\cmind{Character}{asUppercase} は実行されていません。\ct{'eureka'} は \clsind{Character} オブジェクトではないからです。
+今回 \ct{String asUppercase} の先頭にアスタリスクが付いているので、クラス \clsind{String} で定義された \mthind{String}{asUppercase} が \ct{'eureka' . 'EUREKA'} の変換に使われたとわかります。アスタリスクが付いていないメソッドは、単に名前が同じということで挙げられたものです。\cmind{Character}{asUppercase} は実行されていません。\ct{'eureka'} は \clsind{Character} オブジェクトではないからです。
 
 \begin{figure}[hbt]
 \centerline {\includegraphics[width=\textwidth]{MethodFinder-example1}}
@@ -672,8 +672,8 @@ shout
 	^ self asUppercase, 'BANG'
 \end{method}
 
-カンマは、文字列連結を意味します。つまりこのメソッドでは、\ct{shout} を受け取った \ct{String} オブジェクトを大文字にし、末尾に感嘆符をつけたします。
-\pharo では $\uparrow$ 以下の式がメソッドの戻り値になります。ここでは戻り値は、大文字化になり感嘆符がついた\emph{新しい}文字列です。
+カンマは、文字列連結を意味します。つまりこのメソッドでは、\ct{shout} を受け取った \ct{String} オブジェクトを大文字にし、末尾に感嘆符を付け足します。
+\pharo では $\uparrow$ 以下の式がメソッドの戻り値になります。ここでは戻り値は、大文字化になり感嘆符が付いた\emph{新しい}文字列です。
 \seeindex{comma}{Collection, カンマ演算子}
 \index{Collection!カンマ演算子}
 
