@@ -254,12 +254,12 @@ TranslucentColor class superclass superclass --> Object class
 
 \paragraph{クラスとオブジェクトの一貫性}
 ここで一息入れて考え直してみると、オブジェクトであろうとクラスであろうとメッセージを送るのに違いがないことは興味深いことです。
-どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンを辿っていきます。
+どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンをたどっていきます。
 
-従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンを辿らなければなりません。
+従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンをたどらなければなりません。
 例えば、\mthind{Color class}{blue}メソッドは\ct{Color}の\subind{browser}{クラス側}に定義されています。
 \ct{TranslucentColor}に\ct{blue}メッセージを送信した場合は、他のメッセージとまったく同様にメソッドを探索します。
-すなわち、探索は\ct{TranslucentColor class}でまず行われ、対応するメソッドが見つかるまでメタクラス階層を\ct{Color class}まで辿っていきます。(\figref{metaclasslookup}を参照)
+すなわち、探索は\ct{TranslucentColor class}でまず行われ、対応するメソッドが見つかるまでメタクラス階層を\ct{Color class}までたどっていきます。(\figref{metaclasslookup}を参照)
 
 \begin{code}{@TEST}
 TranslucentColor blue --> Color blue
@@ -319,9 +319,9 @@ TranslucentColor blue --> Color blue
 \end{center}
 
 \paragraph{\lct{new}はどこで定義されているのか？}
-\ct{new}がどこで定義されており、どのように探索されるのかについて考えてみることが、メタクラスが\ct{Class}と\ct{Behavior}を継承しているということの重要性を理解する手助けになります。\ct{new}メッセージがクラスに送られるとき、\figref{sendingnew}のように、メタクラスの継承チェインを辿って、スーパークラスである\ct{Class}、\ct{ClassDescription}、そして\ct{Behavior}の順にメソッド探索が行われます。
+\ct{new}がどこで定義されており、どのように探索されるのかについて考えてみることが、メタクラスが\ct{Class}と\ct{Behavior}を継承しているということの重要性を理解する手助けになります。\ct{new}メッセージがクラスに送られるとき、\figref{sendingnew}のように、メタクラスの継承チェインをたどって、スーパークラスである\ct{Class}、\ct{ClassDescription}、そして\ct{Behavior}の順にメソッド探索が行われます。
 
-\emph{「どこに\ct{new}が定義されているのか」}という問いは決定的に重要です。\mthind{Behavior}{new}は、まず\ct{Behavior}で定義され、必要に応じてそのサブクラスで再定義されます。これには、プログラマが定義したクラスのメタクラスも含まれます。\ct{new}メッセージをクラスに送った場合、まずは通常通りそのクラスのメタクラスから探索が開始され、そこで見つからなければ、\ct{new}を再定義しているクラスまたは最終的には\ct{Behavior}まで、順にスーパークラスを辿って探索されます。
+\emph{「どこに\ct{new}が定義されているのか」}という問いは決定的に重要です。\mthind{Behavior}{new}は、まず\ct{Behavior}で定義され、必要に応じてそのサブクラスで再定義されます。これには、プログラマが定義したクラスのメタクラスも含まれます。\ct{new}メッセージをクラスに送った場合、まずは通常通りそのクラスのメタクラスから探索が開始され、そこで見つからなければ、\ct{new}を再定義しているクラスまたは最終的には\ct{Behavior}まで、順にスーパークラスをたどって探索されます。
 
 \ct{TranslucentColor new}を評価した結果は\clsind{TranslucentColor}のインスタンスであり、たとえメソッドが\ct{Behavior}で見つかったとしても\ct{Behavior}のインスタンスになるわけでは\emph{ない}ことに注意してください。\ct{new}は常にそのメッセージを受け取ったクラスである \self のインスタンスを返します。これは\ct{new}が他のクラスで実装されている場合でも同じです。
 
@@ -334,12 +334,12 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 \ifluluelse
 	{\centerline{\includegraphics[width=\textwidth]{TranslucentSendingNew}}}
 	{\centerline{\includegraphics[width=0.8\textwidth]{TranslucentSendingNew}}}
-\caption{\lct{new}は普通のメッセージで、メタクラスチェインを辿って探索される。\figlabel{sendingnew}}
+\caption{\lct{new}は普通のメッセージで、メタクラスチェインをたどって探索される。\figlabel{sendingnew}}
 \end{figure}
 \end{center}
 
 よくある間違いは、レシーバとなっているクラスのスーパークラスで\ct{new}を探すことです。同じことは、指定された大きさのオブジェクトを生成するための標準的なメッセージである、\ct{new:}についても言えます。
-たとえば、\lct{Array new: 4}は、4つの要素を持つ配列を生成します。
+例えば、\lct{Array new: 4}は、4つの要素を持つ配列を生成します。
 \ct{Array}やそのスーパークラスで、このメソッドの定義を見つけることは出来ないでしょう。
 代わりに、実際のメソッド探索が行われる\ct{Array class}とそのスーパークラスの階層に目を向ける必要があります。
 
