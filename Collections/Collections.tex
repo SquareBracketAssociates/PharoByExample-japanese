@@ -592,7 +592,7 @@ String withAll: ('hello' asSortedCollection)     --> 'ehllo'
 { 5. 2/-3. 5.21 } asSortedCollection --> a SortedCollection((-2/3) 5 5.21)
 \end{code}
 
-もしかしたら、\ct{<=} メッセージを理解しないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合は、\ct{SortedCollection} の生成時にソートブロックと呼ばれる 2 引数のブロックを与えることがで、ソートが可能になります。例えば、\ct{Color} クラスは \ct{Magnitude} ではありませんし \ct{<=} メソッドも実装していませんが、次のようにソートブロックを指定することで、色を明度(明るさの尺度)によってソートすることができます。
+もしかしたら、\ct{<=} メッセージを理解しないオブジェクトをソートしたかったり、\ct{<=} 以外の基準でソートしたかったりするかもしれません。この場合は、\ct{SortedCollection} の生成時にソートブロックと呼ばれる 2 引数のブロックを与えることで、ソートが可能になります。例えば、\ct{Color} クラスは \ct{Magnitude} ではありませんし \ct{<=} メソッドも実装していませんが、次のようにソートブロックを指定することで、色を明度(明るさの尺度)によってソートすることができます。
 
 \begin{code}{@TEST | col |}
 col := SortedCollection sortBlock: [:c1 :c2 | c1 luminance <= c2 luminance].

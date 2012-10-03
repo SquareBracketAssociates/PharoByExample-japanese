@@ -764,7 +764,7 @@ SystemOrganization categoryOfElement: #Magnitude --> #'Kernel-Numbers'
 
 \figref{privateSharedVar}では、\ct{rgb}と\ct{cachedDepth}は\ct{Color}のインスタンス変数であり、そのため、\clsind{Color}のインスタンスからアクセス可能です。また、\lct{superclass}や\lct{subclass}、\lct{methodDict}等はクラスインスタンス変数なので、\lct{Color}クラスからのみアクセスできます。
 
-新しくでてきたのは\ct{ColorNames}と\ct{CachedColormaps}の\emph{クラス変数}で、\ct{Color}に定義されています。変数が大文字であることが、共有されているというヒントを与えてくれます。実際、\ct{Color}の全インスタンスからこれらの共有変数にアクセスでき、さらに\ct{Color}クラス自身と\emph{そのすべてのサブクラスからもアクセス可能です}。インスタンスメソッドとクラスメソッドの両方からこれらの共有変数にアクセスできるのです。
+新しく出てきたのは\ct{ColorNames}と\ct{CachedColormaps}の\emph{クラス変数}で、\ct{Color}に定義されています。変数が大文字であることが、共有されているというヒントを与えてくれます。実際、\ct{Color}の全インスタンスからこれらの共有変数にアクセスでき、さらに\ct{Color}クラス自身と\emph{そのすべてのサブクラスからもアクセス可能です}。インスタンスメソッドとクラスメソッドの両方からこれらの共有変数にアクセスできるのです。
 
 %\begin{figure}
 %\begin{center}\includegraphics[width=6cm]{dateToday}\caption{A date is an object that  represents only anumber of days; all the information about month names, day names, etc.\ is shared among all the instances \figlabel{dateToday}}\end{center}.

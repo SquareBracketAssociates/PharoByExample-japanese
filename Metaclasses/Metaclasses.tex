@@ -73,7 +73,7 @@ Smalltalkの設計者は、オッカムの剃刀と呼ばれる規則を使っ�
 
 \end{enumerate}
 
-この章の冒頭で述べたように、\ref{rule:everything}の規則より\emph{クラスもオブジェクトである}が成り立ちます。そして、\ref{rule:instance}より、クラスもなんらかのクラスのインスタンスでることがわかります。
+この章の冒頭で述べたように、\ref{rule:everything}の規則より\emph{クラスもオブジェクトである}が成り立ちます。そして、\ref{rule:instance}より、クラスもなんらかのクラスのインスタンスであることがわかります。
 このクラスのクラスを\emph{メタクラス}といいます。
 \seclabel{metaclassIntro}
 あるクラスの\indmain{メタクラス}は、そのクラスを定義した際に自動的に作られます。
@@ -340,7 +340,7 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 
 よくある間違いは、レシーバとなっているクラスのスーパークラスで\ct{new}を探すことです。同じことは、指定された大きさのオブジェクトを生成するための標準的なメッセージである、\ct{new:}についても言えます。
 例えば、\lct{Array new: 4}は、4つの要素を持つ配列を生成します。
-\ct{Array}やそのスーパークラスで、このメソッドの定義を見つけることは出来ないでしょう。
+\ct{Array}やそのスーパークラスで、このメソッドの定義を見つけることはできないでしょう。
 代わりに、実際のメソッド探索が行われる\ct{Array class}とそのスーパークラスの階層に目を向ける必要があります。
 
 \on{The text below needs more details and convincing examples ...}

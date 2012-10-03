@@ -479,7 +479,7 @@ SystemNavigation default browseAllCallsOn: #drawOn: from: ImageMorph
 SystemNavigation default browseAllImplementorsOf: #drawOn:
 \end{code}
 
-他に何が出来るのかを知るには、ブラウザで\ct{SystemNavigation}クラスを探してください。
+他に何ができるのかを知るには、ブラウザで\ct{SystemNavigation}クラスを探してください。
 更なる操作例については、FAQ(\appref{faq})で見つけることができます。
 
 %=========================================================
@@ -692,7 +692,7 @@ Monticelloでパッケージを作成するには、2つのことを行う必要
 %---------------------------------------------------------
 \subsection{インスペクタ}
 
-\dothis{\ind{インスペクタ}を使ってどんなことが出来るか、実際に見てみるためにワークスペースで \ct{TimeStamp now} と入力し、\actclick で \menu{inpect it} を選んでください。}
+\dothis{\ind{インスペクタ}を使ってどんなことができるか、実際に見てみるためにワークスペースで \ct{TimeStamp now} と入力し、\actclick で \menu{inpect it} を選んでください。}
 (メニューを使う前にテキストを選択しておく必要はありません。テキストが選択されていない場合には、メニュー操作は現在の行全てを対象にするからです。
 \menu{\textbf{i}nspect it} を選ぶ代わりに \short{i} とタイプしても同じです)
 \clsindex{TimeStamp}
@@ -776,7 +776,7 @@ DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラ
 
 \dothis{ワークスペースで \ct{Object explore} を評価してください}
 これは \pharo の \ct{Object} クラスを表すオブジェクトです。
-メソッド辞書を表すオブジェクトに加えて、そのクラスのコンパイル済みメソッドも直接ナビゲート出来ることに注意してください（ \figref{ExploreObject} 参照）。
+メソッド辞書を表すオブジェクトに加えて、そのクラスのコンパイル済みメソッドも直接ナビゲートできることに注意してください（ \figref{ExploreObject} 参照）。
 
 \begin{figure}[tbp]
 \begin{center}
@@ -886,7 +886,7 @@ dotPosition := (self size to: 1 by: -1) detect: [ :i | (self at: i) = dot ].
 \index{keyboard shortcut!explore it}
 
 メソッドウィンドウに戻って見てみると、メソッドの最後から2番目の行で、文字列 \ct{'readme.txt'} から \lct{ドット} を見つけようとしており、その実行が目的の行に達していないことがわかります。
-\pharo は逆向きに実行させることは出来ませんが、メソッドを再実行させることは可能で、オブジェクト自体を変化させず、新しいオブジェクトを生成するようなコードの場合にうまく働きます。
+\pharo は逆向きに実行させることはできませんが、メソッドを再実行させることは可能で、オブジェクト自体を変化させず、新しいオブジェクトを生成するようなコードの場合にうまく働きます。
 
 \dothis{\button{Restart} をクリックしてください。すると実行位置が現在のメソッドの最初の文に戻ります。
 次に送信されるメッセージ {\ct{do:}} が青くハイライトして表示されています( \figref{RestartDetectIfNone} 参照)。}
