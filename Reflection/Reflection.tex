@@ -265,7 +265,7 @@ ByteString instanceCount    --> 104565
 String allSubInstances size -->  101675
 \end{code}
 
-以下の機能は、クラスから特定の条件を満たすメソッドを抽出できるので、アプリケーションをデバッグする時に役立ちます。
+以下の機能は、クラスから特定の条件を満たすメソッドを抽出できるので、アプリケーションをデバッグするときに役立ちます。
 \begin{itemize}
 \item \mthind{Behavior}{whichSelectorsAccess:} は、指定したインスタンス変数を読み書きするすべてのメソッドのセレクタを返します。
 \item \mthind{Behavior}{whichSelectorsStoreInto:} は、指定したインスタンス変数の値を変更するすべてのメソッドのセレクタを返します。
@@ -471,7 +471,7 @@ SystemNavigation default
 
 実は、デバッガには何の不思議なこともありません。
 この秘密は、これまで軽く触れただけだった\pvind{thisContext}という疑似変数にあります。
-メソッド中で\ct{thisContext}が参照された時にはいつでも、そのメソッドのコンテキストが具現化され、リンクした一連の\clsind{MethodContext}オブジェクトとしてイメージから操作できるようになります。
+メソッド中で\ct{thisContext}が参照されたときにはいつでも、そのメソッドのコンテキストが具現化され、リンクした一連の\clsind{MethodContext}オブジェクトとしてイメージから操作できるようになります。
 
 この仕組みは簡単に実験できます。
 

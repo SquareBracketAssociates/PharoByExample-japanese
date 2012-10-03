@@ -329,8 +329,8 @@ drawOn: aCanvas
 	topAndBottom do: [ :each | aCanvas fillRectangle: each color: self color]
 \end{method}
 
-このコードは正しく動作するように見えますが、何回か十字の大きさを変更しようとすると、\figref{bug}のように、ある大きさの時に１ピクセル分の幅の線が十字の下側と残りの部分を分けてしまうことに気づきます。
-これは丸め誤差のせいです。塗りつぶそうとする四角形の大きさが整数でない時に、\ct{fillRectangle: color:}
+このコードは正しく動作するように見えますが、何回か十字の大きさを変更しようとすると、\figref{bug}のように、ある大きさのときに１ピクセル分の幅の線が十字の下側と残りの部分を分けてしまうことに気づきます。
+これは丸め誤差のせいです。塗りつぶそうとする四角形の大きさが整数でないときに、\ct{fillRectangle: color:}
 が不適切に数値を丸めてしまい、１ピクセル分だけ塗りつぶされなくなるからです。
 このバグは、四角形の大きさを計算する際に明示的に四捨五入することで解決できます。
 
@@ -441,14 +441,14 @@ CrossMorph>>>mouseDown: anEvent
 \begin{enumerate}
 	\item 「キーボードフォーカス」を特定のモーフに与えます。例えば、マウスがモーフの上にあるときに、フォーカスを与えることができます。
 	\item \mthind{Morph}{handleKeystroke:}メソッドを使って、モーフがキーボードイベントを処理するようにします。このメッセージは、ユーザーがキーを押した際に、キーボードフォーカスを持っているモーフへ送られます。
-	\item マウスがモーフの上にない時に、キーボードフォーカスを解放します。
+	\item マウスがモーフの上にないときに、キーボードフォーカスを解放します。
 \end{enumerate}
 
 キー入力に反応するように\ct{CrossMorph}クラスを拡張します。
 まず、マウスがモーフ上にあることを通知するように変更します。
 これは、\mthind{Morph}{handlesMouseOver:}メッセージに\ct{true}を返すことで実現できます。
 
-\dothis{モーフがマウスポインタの下にある時に、\ct{CrossMorph}が対応できるよう宣言します。}
+\dothis{モーフがマウスポインタの下にあるときに、\ct{CrossMorph}が対応できるよう宣言します。}
 \begin{method}{「マウスオーバー」イベントを扱えるようにする。} 
 CrossMorph>>>handlesMouseOver: anEvent
 	^true
@@ -464,7 +464,7 @@ CrossMorph>>>mouseEnter: anEvent
 	anEvent hand newKeyboardFocus: self
 \end{method}
 
-\begin{method}{マウスポインタがモーフから離れた時に、キーボードフォーカスを解放する。}
+\begin{method}{マウスポインタがモーフから離れたときに、キーボードフォーカスを解放する。}
 CrossMorph>>>mouseLeave: anEvent
 	anEvent hand newKeyboardFocus: nil
 \end{method}
@@ -484,7 +484,7 @@ CrossMorph>>>handleKeystroke: anEvent
 \end{method}
 
 矢印キーを使ってモーフを動かすことができるようなメソッドを書きました。
-マウスがモーフの上にない時には、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
+マウスがモーフの上にないときには、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
 キーの値を知りたいときは、トランスクリプトウィンドウを出し、\glbind{Transcript} \ct{show: anEvent keyValue}を\mthref{handleKeystroke}に加えてください。
 \ct{handleKeystroke:}の引数の\ct{anEvent}は、\clsind{KeyboardEvent}のインスタンスで、\clsind{MorphicEvent}クラスのサブクラスです。このクラスをブラウズすれば、キーボードイベントについて更に学習できます。
 
@@ -596,7 +596,7 @@ ReceiverMorph>>>initialize
 受け入れ側のモーフがドロップを受け入れるか否かは、どのように判断されるのでしょうか？
 一般的に、モーフの両者がドロップに同意する必要があります。
 受け入れ側は\mthind{Morph}{wantsDroppedMorph:event:}メッセージに反応することで決定します。最初の引数はドロップされるモーフ、２番目の引数はマウスイベントです。例えば、受け入れ側はドロップ時に何らかの修飾キーが押されたかどうかを調べられます。
-ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られた時に、ドロップされる先のモーフが気に入るか調べるチャンスがあります。このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
+ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られたときに、ドロップされる先のモーフが気に入るか調べるチャンスがあります。このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
 
 \begin{method}{色を基準にしてドロップを受け入れる。}
 ReceiverMorph>>>wantsDroppedMorph: aMorph event: anEvent
@@ -641,7 +641,7 @@ DroppedMorph>>>initialize
 	self position: 250@100
 \end{method}
 
-ドロップされるモーフが受け入れ側に拒否された時にすべきことを設定できます。ここでは、モーフをマウスポインタに付いたままにします。
+ドロップされるモーフが受け入れ側に拒否されたときにすべきことを設定できます。ここでは、モーフをマウスポインタに付いたままにします。
 \begin{method}{ドロップを拒否されたモーフの反応を定義する。}
 DroppedMorph>>>rejectDropMorphEvent: anEvent
 	| h |
@@ -685,7 +685,7 @@ BorderedMorph subclass: #DieMorph
 	category: 'PBE-Morphic'
 \end{classdef}
 
-インスタンス変数の\ct{faces}は、サイコロの面の個数を記録します。ここで実装するサイコロモーフは、９までの面を許すことにします！\ct{dieValue}は現在表示されている面の値を表し、\ct{isStopped}はサイコロのアニメーションが停止している時に\ct{true}となります。
+インスタンス変数の\ct{faces}は、サイコロの面の個数を記録します。ここで実装するサイコロモーフは、９までの面を許すことにします！\ct{dieValue}は現在表示されている面の値を表し、\ct{isStopped}はサイコロのアニメーションが停止しているときに\ct{true}となります。
 サイコロのインスタンスを作るために、\clsind{DieMorph}の\emph{クラス}側に\ct{faces: n}メソッドを定義し、\ct{n}個の面を持つ新しいサイコロを生成するようにします。
 \begin{method}{好きな個数の面を持つ新しいサイコロを生成する。}
 DieMorph class>>>faces: aNumber
@@ -718,7 +718,7 @@ DieMorph>>>faces: aNumber
 \end{method}
 \on{Why not make this a pre-condition, \ie an assertion?}
 
-サイコロが生成された時にメッセージが送られる順序を知るのは良いことです。
+サイコロが生成されたときにメッセージが送られる順序を知るのは良いことです。
 例えば、\ct{DieMorph faces: 9}を評価したと仮定します。
 \begin{enumerate}
 	\item クラスメソッドの\ct{DieMorph class>>>faces:}では、\ct{DieMorph class}クラスに\ct{new}メッセージを送ります。

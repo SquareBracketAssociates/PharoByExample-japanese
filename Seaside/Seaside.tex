@@ -66,7 +66,7 @@ SeasideではWebアプリケーション開発を容易にするため、コン�
 まず、制御の流れはメッセージ送信によって自然な形で表すことができます。Seasideは、Webアプリケーションの実行状態を、表示したページと共に覚えています。そのため「戻る」ボタンを押しても問題が生じません。
 
 また、状態はSeasideが自動的に管理します。
-バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が復元します。トランザクション機能を使えば、戻るボタンを押した時に変更した状態が復元されないようにすることもできます。
+バックトラック機能が有効な場合、「戻る」ボタンを押すと変更した状態が復元します。トランザクション機能を使えば、戻るボタンを押したときに変更した状態が復元されないようにすることもできます。
 URLに状態を埋め込んだりする必要もありません。URL生成もSeasideが行ってくれます。
 
 Webページはコンポーネント群によって構成されます。それぞれが独立した制御フローを持つことができます。
@@ -1254,7 +1254,7 @@ MyCalculator>>>renderContentOn: html
 \end{code}
 
 \mb{'keyboard' below should be renamed 'keypad'}
-\dothis{キーパッドを押した時に再描画されるようにするには、キーパッド側で表示コンポーネントを知る必要があります。
+\dothis{キーパッドを押したときに再描画されるようにするには、キーパッド側で表示コンポーネントを知る必要があります。
 インスタンス変数 \ct{display}を \ct{MyKeypad}に追加します。初期化用のメソッドとして\ct{MyKeypad>>>setDisplay:}を用意し、\ct{MyCalculator>>initialize}で初期化しましょう。
 これでボタンにJavaScriptのコードを割り当てることができるようになります。\ct{MyKeypad>>>renderStackButton:callback:colSpan:on:} を以下のように変えましょう。}
 
@@ -1280,7 +1280,7 @@ MyKeypad>>>renderStackButton: text callback: aBlock colSpan: anInteger on: html
 \ct{html updater} によって \ct{SUUpdater}のインスタンスが返ってきます。これはJavaScriptのAjax.Updaterオブジェクト(\url{http://www.prototypejs.org/api/ajax/updater})に該当するSmalltalkのオブジェクトです。
 このオブジェクトはAJAXリクエストの送信を行い、返ってきたテキストを使い特定部分の更新を行います。
 \ct{id:} によって、updaterにXHTMLのどのDOM要素を更新すべきかを指定しています。この例の場合は'display'のidが振られたdiv要素になります。
-\ct{callback:} で、ユーザーがボタンを押した時のコールバックをブロックの形で指定します。
+\ct{callback:} で、ユーザーがボタンを押したときのコールバックをブロックの形で指定します。
 ブロックの引数\ct{r}は、新たに生成されるレンダラで、これを使ってdisplayのコンポーネントの表示を行います。
 (コード上はメソッドの引数となっているhtmlレンダラにもアクセスできますが、コールバックのブロックが評価されるときには無効になっているので注意してください。)
 コールバック内ではdisplayのコンポーネントをレンダリングする前に、\ct{aBlock} を評価しています。適切な処理を外から渡して行わせるためです。
