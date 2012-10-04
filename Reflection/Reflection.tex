@@ -381,7 +381,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 コンパイル済みメソッドは、メソッドのバイトコードを保持しているだけではなく、
 システムに問い合わせを行う便利なメソッドも数多く提供しています。
-\ct{isAbstract}メソッド（\ct{subclassResponsibility}を送るかどうか）はそのようなメソッドのひとつです。
+\ct{isAbstract}メソッド（\ct{subclassResponsibility}を送るかどうか）はそのようなメソッドの一つです。
 \ct{isAbstract}メソッドを使って、抽象クラスのすべての抽象メソッドを同定することができます。
 \needlines{4}
 \begin{code}{}
@@ -597,7 +597,7 @@ Object>>>haltIf: condition
 \subsection{軽量プロキシ}
 
 最初の例として、既存のオブジェクトのプロキシとして振る舞う「\ind{最小限のオブジェクト}」を紹介します。
-このプロキシは固有のメソッドを実質的にひとつも持たないので、どんなメッセージも\ct{doesNotUnderstand:}で捕捉されることになります。このメッセージを実装すれば、プロキシは実体のオブジェクトにメッセージを移譲する前に特別な動作を行うことができます。
+このプロキシは固有のメソッドを実質的に一つも持たないので、どんなメッセージも\ct{doesNotUnderstand:}で捕捉されることになります。このメッセージを実装すれば、プロキシは実体のオブジェクトにメッセージを移譲する前に特別な動作を行うことができます。
 
 これがどのように実装できるのかを見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
 

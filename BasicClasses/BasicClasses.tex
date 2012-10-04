@@ -74,7 +74,7 @@
 \subsection{printing プロトコル}
 \st のすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it} メニューを選択してください: \menu{print it} は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに \ct{printString} メッセージを送信します。\mthind{Object}{printString} は\ind{テンプレートメソッド}で、その中で \mthind{Object}{printOn:} メッセージをレシーバに送信します。\ct{printOn:} はフックメソッドで、特殊化することができます。%@ The message \ct{printOn:} is a hook: フックメソッドとした。
 
-おそらく \ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドのひとつになるでしょう。このメソッドは引数に \clsind{Stream} (ストリーム)を受け取り、そこにオブジェクトの \clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルト実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、ストリームに書き込まれたものを \ct{String} にして返します。
+おそらく \ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドの一つになるでしょう。このメソッドは引数に \clsind{Stream} (ストリーム)を受け取り、そこにオブジェクトの \clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルト実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、ストリームに書き込まれたものを \ct{String} にして返します。
 
 例えば、\clsind{Browser} クラスは \ct{printOn:} メソッドを再定義していないので、\ct{printString} メッセージを \ct{Browser} のインスタンスに送信すると \ct{Object} で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
