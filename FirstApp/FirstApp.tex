@@ -205,7 +205,7 @@ initialize
 \seeindex{Object!initialization}{initialization}
 \index{initialization}
 
-このメソッドでは、スーパークラスである\ct{SimpleSwitchMorph}の\ct{initialize}メソッドをまず実行しています(2行目)。\lct{スーパークラスの}\ct{initialize}メソッドの実行により、継承した状態が適切に初期化されるということを期待しています。何かの処理をする前には、スーパークラスの\ct{initialize}メソッドを呼び出して、継承した状態を初期化しておくとよいでしょう。\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが実際に何をするかは知らなくとも構いません。不明瞭な状態のまま処理を始める危険を冒すよりは、スーパークラスの\ct{initialize}メソッドを呼び出すことで、インスタンス変数に妥当な初期値が設定されるようにしたほうが良いのです。
+このメソッドでは、スーパークラスである\ct{SimpleSwitchMorph}の\ct{initialize}メソッドをまず実行しています(2行目)。\lct{スーパークラスの}\ct{initialize}メソッドの実行により、継承した状態が適切に初期化されるということを期待しています。何かの処理をする前には、スーパークラスの\ct{initialize}メソッドを呼び出して、継承した状態を初期化しておくとよいでしょう。\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが実際に何をするかは知らなくとも構いません。不明瞭な状態のまま処理を始める危険を冒すよりは、スーパークラスの\ct{initialize}メソッドを呼び出すことで、インスタンス変数に妥当な初期値が設定されるようにした方が良いのです。
 
 メソッドの残りの部分でこのオブジェクトの状態をさらに設定しています。
 例えば、\ct{self label: ''}をオブジェクトに送ることで、オブジェクトのラベルに空文字列を設定しています。
@@ -620,7 +620,7 @@ LOGame>>>mouseMove: anEvent
 
 \subsection{Monticelloパッケージ}
 \emph{ファイルアウト}はコードを保存するには便利ですが、これは明らかに古いやり方です。
-ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守することができる\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。\pharo プログラマも同様に、\ind{Monticello}パッケージによるコードの管理のほうが、より便利だと思うことでしょう。Monticellonoパッケージではファイル名の末尾に \ct{.mcz}が付きます。このファイルは\ind{パッケージ}内のコードを単にZIPで圧縮したものです。
+ほとんどのオープンソースのプロジェクトでは、コードをリポジトリで保守することができる\ind{CVS}\footnote{\url{http://www.nongnu.org/cvs}}や\ind{Subversion}\footnote{\url{http://subversion.tigris.org}}といったツールを使っています。\pharo プログラマも同様に、\ind{Monticello}パッケージによるコードの管理の方が、より便利だと思うことでしょう。Monticellonoパッケージではファイル名の末尾に \ct{.mcz}が付きます。このファイルは\ind{パッケージ}内のコードを単にZIPで圧縮したものです。
 
 Monticelloブラウザを使うことで、FTPやHTTPなどのさまざまなサーバーのリポジトリに、パッケージを保存できます。もちろん自分で管理しているローカルディレクトリのリポジトリに、パッケージを保存することもできます。パッケージのコピーは常にローカルのハードディスク上の\emph{package-cache}フォルダにキャッシュされます。Monticelloを使うと、複数のバージョンのプログラムを保存したり、マージしたり、古いバージョンに戻したり、バージョン間の違いを比較したりすることができます。実際のところ、\ind{Monticello}は分散バージョン管理システムです。つまり開発者の成果物は、CVSやSubversionのように一箇所のリポジトリに置かれるのではなく、複数の異なった場所に保管されます。\damien{Mercurial, Git はバージョン管理システムの例ではあるが、ここで触れる必要があるかは確かではない。}
 
@@ -656,7 +656,7 @@ Monticelloブラウザの\dothis{\button{+Package}ボタンを押して、\ct{PB
 \subsection{\ind{\sqsrc}: \pharo のための\ind{SourceForge}}
 
 コードを保存、共有するのに一番良い方法は、プロジェクト用に\sqsrc サーバーのアカウントを取ることです。\sqsrc はSourceForge\footnote{\url{http://sourceforge.net}}のようなものです。\sqsrc は\ind{Monticello}のHTTPリポジトリのwebフロントエンドであり、各種のプロジェクトを管理できます。
-\url{http://www.squeaksource.com}に、公開\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、\pharo からMonticelloブラウザを使ってパッケージを管理するほうが効率よく作業できるでしょう。
+\url{http://www.squeaksource.com}に、公開\sqsrc サーバーがあります。本書に関係したコードのコピーは\url{http://www.squeaksource.com/PharoByExample.html}に保管されています。ウェブブラウザからプロジェクトを見ることもできますが、\pharo からMonticelloブラウザを使ってパッケージを管理する方が効率よく作業できるでしょう。
 
 \dothis{ウェブブラウザで\url{http://www.squeaksource.com}を開いてください。アカウントを作り、Lights Outゲーム用のプロジェクトを作ってください(つまり登録してください)。}
 
