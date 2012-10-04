@@ -335,7 +335,7 @@ String>>>lineCount
 
 文法上、メソッドは以下のものから構成されます。
 \begin{enumerate}
-  \item 名前 (\ie \ct{lineCount}) と引数(この例では一つも無い)からなるメッセージパターン
+  \item 名前 (\ie \ct{lineCount}) と引数(この例では一つもない)からなるメッセージパターン
   \item コメント(どこに書いても構いませんが、メソッドが何を行うかの説明を一番上に書く慣習があります)
   \item ローカル変数 (\ie \ct{cr} と \ct{count}) の宣言
   \item ドットで区切られたメッセージ式。(ここでは式は 4個)。
@@ -354,7 +354,7 @@ String>>>lineCount
 
 \ind{ブロック}は、遅延評価のためのメカニズムを提供します。
 ブロックは本質的には無名の関数です。ブロックを評価するには、メッセージ \mthind{BlockClosure}{value} を送ります。
-ブロックは、明示的なリターン(\ct{^})が無ければ、最後の式の値を返します。
+ブロックは、明示的なリターン(\ct{^})がなければ、最後の式の値を返します。
 \seeindex{value}{BlockClosure}
 
 \begin{code}{@TEST}
@@ -558,7 +558,7 @@ result --> '1 2 3 4 5 6 7 8 9 10 '
 + aNumber 
   "プリミティブ。レシーバと引数で加算し、結果が SmallInteger ならそれを返す。
   引数か結果が SmallInteger でなければ失敗する。
-  必須。メソッド探索無し。Object のドキュメント whatIsAPrimitive を参照のこと。"
+  必須。メソッド探索なし。Object のドキュメント whatIsAPrimitive を参照のこと。"
 
   <primitive: 1>
   ^ super + aNumber

@@ -651,7 +651,7 @@ DroppedMorph>>>rejectDropMorphEvent: anEvent
 	anEvent wasHandled: true
 \end{method}
 
-イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトはマウスポインタを表していて、マウスポインタに関係するものはなんでも持っています。
+イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトはマウスポインタを表していて、マウスポインタに関係するものは何でも持っています。
 ここでは、ドロップを拒否されたモーフである\ct{self}をハンドが掴むように\ct{World}に指示しています。
 
 \dothis{\ct{DroppedMorph}の２つのインスタンスを作成し、受け入れ側のモーフにドラッグ＆ドロップします。}
