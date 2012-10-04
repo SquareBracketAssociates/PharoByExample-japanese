@@ -1318,7 +1318,7 @@ MyCalculator class>>>initialize
 
 動作は確認できましたが、\emph{仕組みがどうなっているのか}気になるかもしれません。
 \figref{ajax-processing}で、AJAXなしの場合と、有効にした場合とで、RPN計算機のメッセージの流れを示しました。
-AJAX の場合は、基本的にレンダリング処理をとばして、displayコンポーネント\emph{のみ}の更新を行います。
+AJAX の場合は、基本的にレンダリング処理を飛ばして、displayコンポーネント\emph{のみ}の更新を行います。
 JavaScriptはリクエストの送信と、対応するDOM要素の更新の両方を受け持っています。
 生成されるJavaScriptのソースを見てみましょう。
 
