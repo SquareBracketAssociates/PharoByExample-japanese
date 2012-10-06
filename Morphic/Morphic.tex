@@ -58,7 +58,7 @@ Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self
 生命感とは、ユーザーインターフェースがいつでもユーザーの操作に反応できることです。つまり、画面上の情報は、それが表している世界が変わるたびに自動的に更新されます。
 簡単な例を挙げれば、メニューから項目を取り外してボタンとして使うことができます。
 
-\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic ハローが現れます。\footnote{プリファレンス・ブラウザーで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、取り外したいメニュー項目の上で更に\metaclick をすると、メニュー項目の上にハローが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
+\dothis{Worldメニューを出します。その上で\Metaclick を一回すると、Morphic ハローが現れます。\footnote{プリファレンス・ブラウザで、\button{halosEnabled}を設定することを忘れないでください。または、ワークスペース上で\ct{Preferences enable: \#halosEnabled}を実行します。}その後、取り外したいメニュー項目の上で更に\metaclick をすると、メニュー項目の上にハローが現れます。\figref{detachingMenu}で示すように、黒いハンドル\grabHandle を掴んでその項目を画面の適当な場所にドラッグします。}
 \index{Morphic!halo}
 \index{blue button}
 
@@ -92,9 +92,9 @@ Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self
 もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
 class \ct{Object}クラスにある\mthind{Object}{asMorph}メソッドのデフォルトの実装では、単にStringMorphを作るだけです。
 例えば、\ct{Color tan asMorph}は、単に\clsind{Color} \ct{tan printString}の実行結果をラベルに持つStringMorphを返します。
-それでは、これを変更して色のついた長方形を代わりに返すようにしましょう。
+それでは、これを変更して色の付いた長方形を代わりに返すようにしましょう。
 
-\dothis{ブラウザーを開き\ct{Color}クラスに以下のメソッドを追加します。}
+\dothis{ブラウザを開き\ct{Color}クラスに以下のメソッドを追加します。}
 \needlines{3}
 \begin{method}{\ct{Color}のインスタンスを表すモーフを返す}
 Color>>>asMorph
@@ -174,7 +174,7 @@ star position: joe position.
 		\figlabel{joeStar}}
 \end{figure}
 
-マウスで星を掴もうとすると実際にはjoeを掴み、２つのモーフが一緒に動きます。星はjoeの内側に\emph{埋め込まれて}います。
+マウスで星を掴もうとすると実際にはjoeを掴み、二つのモーフが一緒に動きます。星はjoeの内側に\emph{埋め込まれて}います。
 joeの内側にもっと多くのモーフを埋め込むことができます。
 プログラムによる埋め込みに加え、直接的な操作によっても埋め込むことができます。
 
@@ -189,7 +189,7 @@ Morphicのフレームワークは、モーフの再描画が必要となった�
 この知識を使って十字モーフを作ってみましょう。
 \index{Morph!subclassing}
 
-\dothis{ブラウザーを開き、\ct{Morph}を継承した\clsind{CrossMorph}クラスを新しく定義します。}
+\dothis{ブラウザを開き、\ct{Morph}を継承した\clsind{CrossMorph}クラスを新しく定義します。}
 \begin{classdef}{\ct{CrossMorph}を定義する}
 Morph subclass: #CrossMorph
 	instanceVariableNames: ''
@@ -247,10 +247,10 @@ containsPoint: aPoint
 このメソッドは\ct{drawOn:}と同じロジックを使っています。つまり、\ct{containsPoint:}が\ct{true}と答える領域は、\ct{drawOn}によって色が付けられた領域と一致すると確実に言えます。
 \ct{Rectangle}クラスの\mthind{Rectangle}{containsPoint:}を活用すれば、この面倒な仕事をやりとげることができます。
 
-メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには２つの問題点があります。
+メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには二つの問題点があります。
 明らかな点は、コードが重複していることです。
 これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、２カ所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
-解決方法は、これらの計算を新たな２つのメソッドに抽出することです。どちらも\ct{private}プロトコルに格納します。
+解決方法は、これらの計算を新たな二つのメソッドに抽出することです。どちらも\ct{private}プロトコルに格納します。
 
 \needlines{4}
 \begin{method}{\ct{horizontalBar}.}
@@ -285,7 +285,7 @@ containsPoint: aPoint
 		or: [self verticalBar containsPoint: aPoint]
 \end{method}
 
-プライベートメソッドに意味のある名前をつけたおかげで、このコードはより簡単に理解できるようになりました。
+プライベートメソッドに意味のある名前を付けたおかげで、このコードはより簡単に理解できるようになりました。
 実際、すぐに２番目の問題が明らかになります。それは、十字の中央の部分がhorizontalBarとverticalBarの両者の下になっており、２度描かれてしまうという問題です。
 不透明な色を塗る場合には問題になりませんが、\figref{overdrawBug}に示すような半透明な色で描くとすぐにこのバグが露見します。
 
@@ -329,8 +329,8 @@ drawOn: aCanvas
 	topAndBottom do: [ :each | aCanvas fillRectangle: each color: self color]
 \end{method}
 
-このコードは正しく動作するように見えますが、何回か十字の大きさを変更しようとすると、\figref{bug}のように、ある大きさの時に１ピクセル分の幅の線が十字の下側と残りの部分を分けてしまうことに気づきます。
-これは丸め誤差のせいです。塗りつぶそうとする四角形の大きさが整数でない時に、\ct{fillRectangle: color:}
+このコードは正しく動作するように見えますが、何回か十字の大きさを変更しようとすると、\figref{bug}のように、ある大きさのときに１ピクセル分の幅の線が十字の下側と残りの部分を分けてしまうことに気づきます。
+これは丸め誤差のせいです。塗りつぶそうとする四角形の大きさが整数でないときに、\ct{fillRectangle: color:}
 が不適切に数値を丸めてしまい、１ピクセル分だけ塗りつぶされなくなるからです。
 このバグは、四角形の大きさを計算する際に明示的に四捨五入することで解決できます。
 
@@ -441,14 +441,14 @@ CrossMorph>>>mouseDown: anEvent
 \begin{enumerate}
 	\item 「キーボードフォーカス」を特定のモーフに与えます。例えば、マウスがモーフの上にあるときに、フォーカスを与えることができます。
 	\item \mthind{Morph}{handleKeystroke:}メソッドを使って、モーフがキーボードイベントを処理するようにします。このメッセージは、ユーザーがキーを押した際に、キーボードフォーカスを持っているモーフへ送られます。
-	\item マウスがモーフの上にない時に、キーボードフォーカスを解放します。
+	\item マウスがモーフの上にないときに、キーボードフォーカスを解放します。
 \end{enumerate}
 
 キー入力に反応するように\ct{CrossMorph}クラスを拡張します。
 まず、マウスがモーフ上にあることを通知するように変更します。
 これは、\mthind{Morph}{handlesMouseOver:}メッセージに\ct{true}を返すことで実現できます。
 
-\dothis{モーフがマウスポインタの下にある時に、\ct{CrossMorph}が対応できるよう宣言します。}
+\dothis{モーフがマウスポインタの下にあるときに、\ct{CrossMorph}が対応できるよう宣言します。}
 \begin{method}{「マウスオーバー」イベントを扱えるようにする。} 
 CrossMorph>>>handlesMouseOver: anEvent
 	^true
@@ -458,13 +458,13 @@ CrossMorph>>>handlesMouseOver: anEvent
 マウスの位置の取り扱いは\mthind{Morph}{handlesMouseDown:}の場合と同様です。
 マウスポインタがモーフに入る、または離れる際に、\mthind{Morph}{mouseEnter:}と\mthind{Morph}{mouseLeave:}メッセージがモーフに送られます。
 
-\dothis{\ct{CrossMorph}クラスがキーボードフォーカスの獲得と解放を行えるように、２つのメソッドを定義します。３つ目のメソッドで実際にキー入力を処理します。}
+\dothis{\ct{CrossMorph}クラスがキーボードフォーカスの獲得と解放を行えるように、二つのメソッドを定義します。３つ目のメソッドで実際にキー入力を処理します。}
 \begin{method}{マウスがモーフに入ったときにキーボードフォーカスを獲得する。}
 CrossMorph>>>mouseEnter: anEvent
 	anEvent hand newKeyboardFocus: self
 \end{method}
 
-\begin{method}{マウスポインタがモーフから離れた時に、キーボードフォーカスを解放する。}
+\begin{method}{マウスポインタがモーフから離れたときに、キーボードフォーカスを解放する。}
 CrossMorph>>>mouseLeave: anEvent
 	anEvent hand newKeyboardFocus: nil
 \end{method}
@@ -484,13 +484,13 @@ CrossMorph>>>handleKeystroke: anEvent
 \end{method}
 
 矢印キーを使ってモーフを動かすことができるようなメソッドを書きました。
-マウスがモーフの上にない時には、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
+マウスがモーフの上にないときには、\mthind{Morph}{handleKeystroke:}メッセージが送られないため、モーフはキーボードに反応しなくなることに注意してください。
 キーの値を知りたいときは、トランスクリプトウィンドウを出し、\glbind{Transcript} \ct{show: anEvent keyValue}を\mthref{handleKeystroke}に加えてください。
 \ct{handleKeystroke:}の引数の\ct{anEvent}は、\clsind{KeyboardEvent}のインスタンスで、\clsind{MorphicEvent}クラスのサブクラスです。このクラスをブラウズすれば、キーボードイベントについて更に学習できます。
 
 \subsection{Morphicアニメーション}
 
-Morphicは主に２つのメソッドからなる単純なアニメーション機能を提供します。\mthind{Morphic}{step}が一定の間隔でモーフに送られ、\mthind{Morphic}{stepTime}は\ct{step}の間隔をミリ秒単位で指定します。\footnote{実際には、\ct{stepTime}は\ct{step}間の\emph{最小}時間を指定します。仮に\ct{stepTime}を1にしても、\pharo の負荷が高くなりすぎて、それほど頻繁にstepをモーフに送れないので注意してください。}
+Morphicは主に二つのメソッドからなる単純なアニメーション機能を提供します。\mthind{Morphic}{step}が一定の間隔でモーフに送られ、\mthind{Morphic}{stepTime}は\ct{step}の間隔をミリ秒単位で指定します。\footnote{実際には、\ct{stepTime}は\ct{step}間の\emph{最小}時間を指定します。仮に\ct{stepTime}を1にしても、\pharo の負荷が高くなりすぎて、それほど頻繁にstepをモーフに送れないので注意してください。}
 加えて、
 \mthind{Morphic}{startStepping}はstepを開始させ、\mthind{Morphic}{stopStepping}はそれを停止させます。stepが始まっているかどうかを知るには、\mthind{Morphic}{isStepping}を使います。
 \index{Morphic!animation}
@@ -573,7 +573,7 @@ UIManager default
 %=================================================================
 \section{ドラッグ＆ドロップ}
 
-Morphicはドラッグ＆ドロップもサポートします。受け入れ側のモーフとドロップされるモーフの２つのモーフからなる簡単な例について考えてみましょう。
+Morphicはドラッグ＆ドロップもサポートします。受け入れ側のモーフとドロップされるモーフの二つのモーフからなる簡単な例について考えてみましょう。
 受け入れ側のモーフは、ドロップされるモーフが条件を満たしたときにだけドロップを受け入れます。この例ではモーフが青色であることを条件とします。受け入れが拒否された場合、ドロップされるモーフが何をするか決めます。
 
 \dothis{まず受け入れ側のモーフを定義しましょう。}
@@ -596,7 +596,7 @@ ReceiverMorph>>>initialize
 受け入れ側のモーフがドロップを受け入れるか否かは、どのように判断されるのでしょうか？
 一般的に、モーフの両者がドロップに同意する必要があります。
 受け入れ側は\mthind{Morph}{wantsDroppedMorph:event:}メッセージに反応することで決定します。最初の引数はドロップされるモーフ、２番目の引数はマウスイベントです。例えば、受け入れ側はドロップ時に何らかの修飾キーが押されたかどうかを調べられます。
-ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られた時に、ドロップされる先のモーフが気に入るか調べるチャンスがあります。このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
+ドロップされるモーフも、\ct{wantsToBeDroppedInto:}メッセージが送られたときに、ドロップされる先のモーフが気に入るか調べるチャンスがあります。このメソッドのデフォルトの実装（\ct{Morph}クラスで定義されている）では、\ct{true}を返します。
 
 \begin{method}{色を基準にしてドロップを受け入れる。}
 ReceiverMorph>>>wantsDroppedMorph: aMorph event: anEvent
@@ -641,7 +641,7 @@ DroppedMorph>>>initialize
 	self position: 250@100
 \end{method}
 
-ドロップされるモーフが受け入れ側に拒否された時にすべきことを設定できます。ここでは、モーフをマウスポインタに付いたままにします。
+ドロップされるモーフが受け入れ側に拒否されたときにすべきことを設定できます。ここでは、モーフをマウスポインタに付いたままにします。
 \begin{method}{ドロップを拒否されたモーフの反応を定義する。}
 DroppedMorph>>>rejectDropMorphEvent: anEvent
 	| h |
@@ -651,10 +651,10 @@ DroppedMorph>>>rejectDropMorphEvent: anEvent
 	anEvent wasHandled: true
 \end{method}
 
-イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトはマウスポインタを表していて、マウスポインタに関係するものはなんでも持っています。
+イベントに対して\mthind{MorphicEvent}{hand}メッセージを送ると、\ct{HandMorph}のインスタンスである\emph{ハンド}が返されます。このオブジェクトはマウスポインタを表していて、マウスポインタに関係するものは何でも持っています。
 ここでは、ドロップを拒否されたモーフである\ct{self}をハンドが掴むように\ct{World}に指示しています。
 
-\dothis{\ct{DroppedMorph}の２つのインスタンスを作成し、受け入れ側のモーフにドラッグ＆ドロップします。}
+\dothis{\ct{DroppedMorph}の二つのインスタンスを作成し、受け入れ側のモーフにドラッグ＆ドロップします。}
 \begin{code}{}
 ReceiverMorph new openInWorld.
 (DroppedMorph new color: Color blue) openInWorld.
@@ -685,7 +685,7 @@ BorderedMorph subclass: #DieMorph
 	category: 'PBE-Morphic'
 \end{classdef}
 
-インスタンス変数の\ct{faces}は、サイコロの面の個数を記録します。ここで実装するサイコロモーフは、９までの面を許すことにします！\ct{dieValue}は現在表示されている面の値を表し、\ct{isStopped}はサイコロのアニメーションが停止している時に\ct{true}となります。
+インスタンス変数の\ct{faces}は、サイコロの面の個数を記録します。ここで実装するサイコロモーフは、９までの面を許すことにします！\ct{dieValue}は現在表示されている面の値を表し、\ct{isStopped}はサイコロのアニメーションが停止しているときに\ct{true}となります。
 サイコロのインスタンスを作るために、\clsind{DieMorph}の\emph{クラス}側に\ct{faces: n}メソッドを定義し、\ct{n}個の面を持つ新しいサイコロを生成するようにします。
 \begin{method}{好きな個数の面を持つ新しいサイコロを生成する。}
 DieMorph class>>>faces: aNumber
@@ -718,7 +718,7 @@ DieMorph>>>faces: aNumber
 \end{method}
 \on{Why not make this a pre-condition, \ie an assertion?}
 
-サイコロが生成された時にメッセージが送られる順序を知るのは良いことです。
+サイコロが生成されたときにメッセージが送られる順序を知るのは良いことです。
 例えば、\ct{DieMorph faces: 9}を評価したと仮定します。
 \begin{enumerate}
 	\item クラスメソッドの\ct{DieMorph class>>>faces:}では、\ct{DieMorph class}クラスに\ct{new}メッセージを送ります。
@@ -753,7 +753,7 @@ DieMorph >>>face9
 
 上記のメソッドは、サイコロの各面の目の座標をコレクションの形で定義しています。それぞれの座標は$1\times1$の範囲に収めているので、拡大して実際の目の場所を求めます。
 
-\ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}送信と、目を描くという２つの仕事を行います。
+\ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}送信と、目を描くという二つの仕事を行います。
 \begin{method}{サイコロモーフを描く。}
 DieMorph>>>drawOn: aCanvas
 	super drawOn: aCanvas.
@@ -824,7 +824,7 @@ DieMorph>>>mouseDown: anEvent
 %=================================================================
 \section{キャンバスに関する追加情報}
 
-\ct{drawOn:}メソッドは、\clsindmain{Canvas}クラスのインスタンスを引数として１つだけ取ります。
+\ct{drawOn:}メソッドは、\clsindmain{Canvas}クラスのインスタンスを引数として一つだけ取ります。
 このキャンバスとは、モーフ自身を描く領域のことです。
 キャンバスの描画メソッドを使うことで、モーフに自由な外観を与えられます。
 \ct{Canvas}クラスの階層構造をブラウズすれば、いくつもの変形を見ることができます。

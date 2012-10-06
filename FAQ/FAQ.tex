@@ -109,7 +109,7 @@ String streamContents: [:str | str nextPutAll: 'hello' asSet] --> 'hleo'
 superにメッセージを送っているすべてのメソッドを検索したりブラウズするにはどうすればいいですか?
 \end{faq}
 \answer
-ふたつ目の手法の方が高速です:
+二つ目の手法の方が高速です:
 \begin{code}{}
 SystemNavigation default browseMethodsWithSourceString: 'super'.
 SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].

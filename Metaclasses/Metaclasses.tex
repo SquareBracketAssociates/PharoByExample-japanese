@@ -73,7 +73,7 @@ Smalltalkの設計者は、オッカムの剃刀と呼ばれる規則を使っ�
 
 \end{enumerate}
 
-この章の冒頭で述べたように、\ref{rule:everything}の規則より\emph{クラスもオブジェクトである}が成り立ちます。そして、\ref{rule:instance}より、クラスもなんらかのクラスのインスタンスでることがわかります。
+この章の冒頭で述べたように、\ref{rule:everything}の規則より\emph{クラスもオブジェクトである}が成り立ちます。そして、\ref{rule:instance}より、クラスも何らかのクラスのインスタンスであることがわかります。
 このクラスのクラスを\emph{メタクラス}といいます。
 \seclabel{metaclassIntro}
 あるクラスの\indmain{メタクラス}は、そのクラスを定義した際に自動的に作られます。
@@ -254,12 +254,12 @@ TranslucentColor class superclass superclass --> Object class
 
 \paragraph{クラスとオブジェクトの一貫性}
 ここで一息入れて考え直してみると、オブジェクトであろうとクラスであろうとメッセージを送るのに違いがないことは興味深いことです。
-どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンを辿っていきます。
+どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンをたどっていきます。
 
-従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンを辿らなければなりません。
+従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンをたどらなければなりません。
 例えば、\mthind{Color class}{blue}メソッドは\ct{Color}の\subind{browser}{クラス側}に定義されています。
 \ct{TranslucentColor}に\ct{blue}メッセージを送信した場合は、他のメッセージとまったく同様にメソッドを探索します。
-すなわち、探索は\ct{TranslucentColor class}でまず行われ、対応するメソッドが見つかるまでメタクラス階層を\ct{Color class}まで辿っていきます。(\figref{metaclasslookup}を参照)
+すなわち、探索は\ct{TranslucentColor class}でまず行われ、対応するメソッドが見つかるまでメタクラス階層を\ct{Color class}までたどっていきます。(\figref{metaclasslookup}を参照)
 
 \begin{code}{@TEST}
 TranslucentColor blue --> Color blue
@@ -278,7 +278,7 @@ TranslucentColor blue --> Color blue
 
 すなわち、Smalltalkでは統一された方法でメソッド\subind{method}{探索}が行われていると言えます。クラスもまた単なるオブジェクトであり、他のオブジェクトと同じように振る舞います。
 クラスは、新しいインスタンスを作る能力を持ちますが、これは、クラスがたまたま\ct{new}というメッセージに反応することができて、\ct{new}に対するメソッドが新しいインスタンスの作り方を知っているからにすぎません。
-通常はクラス以外のオブジェクトはこのメッセージに応答できませんが、そうする理由があるなら、\ct{new}メソッドをメタクラス以外に追加することを止めるものはなにもありません。
+通常はクラス以外のオブジェクトはこのメッセージに応答できませんが、そうする理由があるなら、\ct{new}メソッドをメタクラス以外に追加することを止めるものは何もありません。
 
 クラスもオブジェクトなので、インスペクトすることもできます。
 \index{inspector}
@@ -319,9 +319,9 @@ TranslucentColor blue --> Color blue
 \end{center}
 
 \paragraph{\lct{new}はどこで定義されているのか？}
-\ct{new}がどこで定義されており、どのように探索されるのかについて考えてみることが、メタクラスが\ct{Class}と\ct{Behavior}を継承しているということの重要性を理解する手助けになります。\ct{new}メッセージがクラスに送られるとき、\figref{sendingnew}のように、メタクラスの継承チェインを辿って、スーパークラスである\ct{Class}、\ct{ClassDescription}、そして\ct{Behavior}の順にメソッド探索が行われます。
+\ct{new}がどこで定義されており、どのように探索されるのかについて考えてみることが、メタクラスが\ct{Class}と\ct{Behavior}を継承しているということの重要性を理解する手助けになります。\ct{new}メッセージがクラスに送られるとき、\figref{sendingnew}のように、メタクラスの継承チェーンをたどって、スーパークラスである\ct{Class}、\ct{ClassDescription}、そして\ct{Behavior}の順にメソッド探索が行われます。
 
-\emph{「どこに\ct{new}が定義されているのか」}という問いは決定的に重要です。\mthind{Behavior}{new}は、まず\ct{Behavior}で定義され、必要に応じてそのサブクラスで再定義されます。これには、プログラマが定義したクラスのメタクラスも含まれます。\ct{new}メッセージをクラスに送った場合、まずは通常通りそのクラスのメタクラスから探索が開始され、そこで見つからなければ、\ct{new}を再定義しているクラスまたは最終的には\ct{Behavior}まで、順にスーパークラスを辿って探索されます。
+\emph{「どこに\ct{new}が定義されているのか」}という問いは決定的に重要です。\mthind{Behavior}{new}は、まず\ct{Behavior}で定義され、必要に応じてそのサブクラスで再定義されます。これには、プログラマが定義したクラスのメタクラスも含まれます。\ct{new}メッセージをクラスに送った場合、まずは通常通りそのクラスのメタクラスから探索が開始され、そこで見つからなければ、\ct{new}を再定義しているクラスまたは最終的には\ct{Behavior}まで、順にスーパークラスをたどって探索されます。
 
 \ct{TranslucentColor new}を評価した結果は\clsind{TranslucentColor}のインスタンスであり、たとえメソッドが\ct{Behavior}で見つかったとしても\ct{Behavior}のインスタンスになるわけでは\emph{ない}ことに注意してください。\ct{new}は常にそのメッセージを受け取ったクラスである \self のインスタンスを返します。これは\ct{new}が他のクラスで実装されている場合でも同じです。
 
@@ -334,19 +334,19 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 \ifluluelse
 	{\centerline{\includegraphics[width=\textwidth]{TranslucentSendingNew}}}
 	{\centerline{\includegraphics[width=0.8\textwidth]{TranslucentSendingNew}}}
-\caption{\lct{new}は普通のメッセージで、メタクラスチェインを辿って探索される。\figlabel{sendingnew}}
+\caption{\lct{new}は普通のメッセージで、メタクラスチェーンをたどって探索される。\figlabel{sendingnew}}
 \end{figure}
 \end{center}
 
 よくある間違いは、レシーバとなっているクラスのスーパークラスで\ct{new}を探すことです。同じことは、指定された大きさのオブジェクトを生成するための標準的なメッセージである、\ct{new:}についても言えます。
-たとえば、\lct{Array new: 4}は、4つの要素を持つ配列を生成します。
-\ct{Array}やそのスーパークラスで、このメソッドの定義を見つけることは出来ないでしょう。
+例えば、\lct{Array new: 4}は、4つの要素を持つ配列を生成します。
+\ct{Array}やそのスーパークラスで、このメソッドの定義を見つけることはできないでしょう。
 代わりに、実際のメソッド探索が行われる\ct{Array class}とそのスーパークラスの階層に目を向ける必要があります。
 
 \on{The text below needs more details and convincing examples ...}
 
 \paragraph{\lct{Behavior}、\lct{ClassDescription}および\lct{Class}の責務について}
-\clsind{Behavior}は、インスタンスを持つオブジェクトのための必要最小限の状態を保持しています。すなわち、スーパークラスへのリンク、メソッド辞書、およびクラスのフォーマットです。クラスのフォーマットは、ポインターか否かの区別、コンパクトクラスか否かの区別、およびインスタンスの基本的な大きさをコード化したものです。
+\clsind{Behavior}は、インスタンスを持つオブジェクトのための必要最小限の状態を保持しています。すなわち、スーパークラスへのリンク、メソッド辞書、およびクラスのフォーマットです。クラスのフォーマットは、ポインタか否かの区別、コンパクトクラスか否かの区別、およびインスタンスの基本的な大きさをコード化したものです。
 \ct{Behavior}は\ct{Object}を継承しているので、それ自身と全てのサブクラスは、普通のオブジェクトとして振る舞うことができます。
 
 \ct{Behavior}は、コンパイラへの基本的なインターフェースも提供します。
@@ -403,7 +403,7 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 \section{\lct{Metaclass}のメタクラスは\lct{Metaclass}のインスタンスである}
 % \ruleref{metaclassmetaclass}
 
-残る質問は１つだけです。\clsind{Metaclass class}のクラスは何でしょうか？
+残る質問は一つだけです。\clsind{Metaclass class}のクラスは何でしょうか？
 
 答えは簡単でメタクラスです。もちろんシステム内の他のすべてのメタクラスと同様に、\ct{Metaclass}のインスタンスであるべきです。(\figref{metaclassclassclass}を参照)
 

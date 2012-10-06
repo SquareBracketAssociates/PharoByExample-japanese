@@ -336,7 +336,7 @@ string. -->   '#(1 2 3) size = 3'
 \end{description}
 
 特殊な文字をストリームに表示するのに便利な \mthind{WriteStream}{space}、\mthind{WriteStream}{tab}、\mthind{WriteStream}{cr} (carriage return) などのメソッドもあります。%@ different kinds of → 「特殊な」とした
-もうひとつ便利なメソッドは、\mthind{WriteStream}{ensureASpace} です。これはストリームの最後の文字がスペースをあることを保証します; ストリームの最後の文字がスペースでない場合にはスペースを追加します。
+もう一つ便利なメソッドは、\mthind{WriteStream}{ensureASpace} です。これはストリームの最後の文字がスペースをあることを保証します; ストリームの最後の文字がスペースでない場合にはスペースを追加します。
 
 \paragraph{文字(列)の連結について。}
 \ct{WriteStream} に \mthind{WriteStream}{nextPut:}、\mthind{WriteStream}{nextPutAll:} を送信することは多くの場合、文字(列)を連結する最良の方法になります。
@@ -498,7 +498,7 @@ History>>>contents
   ^ stream contents
 \end{code}
 
-これで履歴が予告どおりに動きます:
+これで履歴が予告通りに動きます:
 \begin{code}{}
 History new
 	goTo: #page1;
@@ -513,7 +513,7 @@ History new
 %=============================================================
 \section{ストリームをファイルアクセスに使う}
 
-コレクションをストリーム処理する方法については、既に見てきたとおりです。
+コレクションをストリーム処理する方法については、既に見てきた通りです。
 同じように、ハードディスクのファイルもストリーム処理することができます。
 いったん作成されると、ファイルに対するストリームはコレクションに対するストリームとほとんど変わりません:
 同じプロトコルでストリームの読み込み、書き込み、位置決めができます。
