@@ -51,7 +51,7 @@
 \st はリフレクティブなプログラミング言語です。
 つまり、プログラムは自分自身の実行や構造を「（ランタイムシステムに）反映する(リフレクトする)」ことができます。
 % \lr{not only on execution, also on the static model}
-ランタイムシステムの\emphind{メタオブジェクト}を通常のオブジェクトとして\emph{具現化(reify))}することができるので、メタオブジェクトに問い合わせを行ったり、インスペクトして内容を見るたりすることができます。
+ランタイムシステムの\emphind{メタオブジェクト}を通常のオブジェクトとして\emph{具現化(reify))}することができるので、メタオブジェクトに問い合わせを行ったり、インスペクトして内容を見たりすることができます。
 \st のメタオブジェクトには、クラス、メタクラス、メソッド辞書、コンパイル済みメソッド、実行時スタックなどがあります。
 このようなリフレクションは\emphind{イントロスペクション}とも呼ばれ、多くのモダンなプログラミング言語でサポートされています。
 
@@ -265,7 +265,7 @@ ByteString instanceCount    --> 104565
 String allSubInstances size -->  101675
 \end{code}
 
-以下の機能は、クラスから特定の条件を満たすメソッドを抽出できるので、アプリケーションをデバッグする時に役立ちます。
+以下の機能は、クラスから特定の条件を満たすメソッドを抽出できるので、アプリケーションをデバッグするときに役立ちます。
 \begin{itemize}
 \item \mthind{Behavior}{whichSelectorsAccess:} は、指定したインスタンス変数を読み書きするすべてのメソッドのセレクタを返します。
 \item \mthind{Behavior}{whichSelectorsStoreInto:} は、指定したインスタンス変数の値を変更するすべてのメソッドのセレクタを返します。
@@ -381,7 +381,7 @@ SystemNavigation default browseAllSelect: [:method | method sendsToSuper ].
 
 コンパイル済みメソッドは、メソッドのバイトコードを保持しているだけではなく、
 システムに問い合わせを行う便利なメソッドも数多く提供しています。
-\ct{isAbstract}メソッド（\ct{subclassResponsibility}を送るかどうか）はそのようなメソッドのひとつです。
+\ct{isAbstract}メソッド（\ct{subclassResponsibility}を送るかどうか）はそのようなメソッドの一つです。
 \ct{isAbstract}メソッドを使って、抽象クラスのすべての抽象メソッドを同定することができます。
 \needlines{4}
 \begin{code}{}
@@ -471,7 +471,7 @@ SystemNavigation default
 
 実は、デバッガには何の不思議なこともありません。
 この秘密は、これまで軽く触れただけだった\pvind{thisContext}という疑似変数にあります。
-メソッド中で\ct{thisContext}が参照された時にはいつでも、そのメソッドのコンテキストが具現化され、リンクした一連の\clsind{MethodContext}オブジェクトとしてイメージから操作できるようになります。
+メソッド中で\ct{thisContext}が参照されたときにはいつでも、そのメソッドのコンテキストが具現化され、リンクした一連の\clsind{MethodContext}オブジェクトとしてイメージから操作できるようになります。
 
 この仕組みは簡単に実験できます。
 
@@ -597,7 +597,7 @@ Object>>>haltIf: condition
 \subsection{軽量プロキシ}
 
 最初の例として、既存のオブジェクトのプロキシとして振る舞う「\ind{最小限のオブジェクト}」を紹介します。
-このプロキシは固有のメソッドを実質的にひとつも持たないので、どんなメッセージも\ct{doesNotUnderstand:}で捕捉されることになります。このメッセージを実装すれば、プロキシは実体のオブジェクトにメッセージを移譲する前に特別な動作を行うことができます。
+このプロキシは固有のメソッドを実質的に一つも持たないので、どんなメッセージも\ct{doesNotUnderstand:}で捕捉されることになります。このメッセージを実装すれば、プロキシは実体のオブジェクトにメッセージを移譲する前に特別な動作を行うことができます。
 
 これがどのように実装できるのかを見てみましょう。\footnote{\pkg{PBE-Reflection}を\url{http://www.squeaksource.com/PharoByExample/}からロードできます}。
 
@@ -653,7 +653,7 @@ point + (3@4)             --> 4@6
 point invocationCount --> 1
 \end{code}
 
-これはたいていの場合うまく動作するのですが、足らない点もあります:
+これはたいていの場合うまく動作するのですが、足りない点もあります:
 \begin{code}{}
 point class --> LoggingProxy
 \end{code}
@@ -736,7 +736,7 @@ myDA x --> nil
 
 (1) \ct{x}を\ct{myDA}に送ると (2) メソッドがクラスのメソッド辞書から探索されますが、(3) クラス階層をたどっても見つかりません。(4) 従って\ct{self doesNotUnderstand: #x}がオブジェクトに送り返され、(5) 改めてメソッド探索が行われます。\ct{DynamicAccessors}ではすぐに\ct{doesNotUnderstand:}が見つかり、(6) 文字列\ct{'x ^ x'}をコンパイルするよう依頼します。 (7) \ct{compile}メソッドが探索され、(8) 最終的に\ct{Behavior}クラスで見つかります。(9-10) コンパイル済みメソッドが\ct{DynamicAccessors}のメソッド辞書に追加されます。(11-13) 最後に再び\ct{x}メッセージが再送されますが、今度は対応するメソッドが見つかります。
 
-この方法はインスタンス変数のセッターや、その他のお約束コード、例えばVisitorパターンでつかうメソッドの生成などに使えます。
+この方法はインスタンス変数のセッターや、その他のお約束コード、例えばVisitorパターンで使うメソッドの生成などに使えます。
 
 ステップ(13)で使われている\clsmthind{Object}{perform:}に注目してください。このメソッドを使うと、実行時に動的にメッセージを生成して送れます。
 \begin{code}{@TEST}
@@ -758,7 +758,7 @@ myDA x --> nil
 
 \dothis{\lct{Demo methodDict at: \#answer42 put: ObjectsAsMethodsExample new.}を評価し、再び\ct{Demo new answer42}の結果を表示してください。今度は\ct{42}という回答を得られます。}
 
-\clsind{ObjectsAsMethodsExample}クラス定義を調べると次の２つのメソッドが見つかります:
+\clsind{ObjectsAsMethodsExample}クラス定義を調べると次の二つのメソッドが見つかります:
 %\alex{I would prefer having return 42 in the run:with:in: method, and not having answer42 defined in ObjectsAsMethodsExample, this could be confusing I imagine}
 %\on{ObjectsAsMethodsExample is part of the standard pharo image -- it is not in PBE-Reflection}
 \needlines{5}
