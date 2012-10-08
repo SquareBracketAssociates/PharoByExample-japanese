@@ -191,7 +191,7 @@ Complex>>>= anObject
 (1 + 2 i) ~= (1 + 4 i) --> true
 \end{code}
 
-もし \ct{=} をオーバーライドしたら、\mthind{Object}{hash} をオーバーライドしなければなりません。クラスのインスタンスが \clsind{Dictionary} のキーとして使用された場合に、同値であると見なされるインスタンスは、ハッシュ値が同じになるようにしておく必要があります:%@ terms-new によれば Dictionary のインスタンスだが、くどいので単に Dictionary とした。%@ should → must のように訳した。consider ... 訳さなかった。
+もし \ct{=} をオーバーライドしたら、\mthind{Object}{hash} をオーバーライドしなければなりません。クラスのインスタンスが \clsind{Dictionary} のキーとして使用された場合に、同値であるとみなされるインスタンスは、ハッシュ値が同じになるようにしておく必要があります:%@ terms-new によれば Dictionary のインスタンスだが、くどいので単に Dictionary とした。%@ should → must のように訳した。consider ... 訳さなかった。
 \cmindex{Complex}{hash}
 \begin{method}{複素数の hash は再実装されなければならない}
 Complex>>>hash
@@ -201,7 +201,7 @@ Complex>>>hash
 
 \ct{=} と \ct{hash} は同時にオーバーライドしなければなりませんが、\ct{==} は\emph{決して}オーバーライドしてはいけません(オブジェクトの同一性に関する意味論は、すべてのクラスで同じです)。\ct{==} は \clsind{ProtoObject} のプリミティブメソッドです。%@ should → must のように訳した。
 
-\pharo には、他の \st と比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値と見なされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
+\pharo には、他の \st と比べていくつか奇妙な振る舞いがあることに注意してください: 例えばシンボルと文字列は同値とみなされることがあります(これは機能ではなくバグではないかと著者らは考えています)。
 
 \begin{code}{@TEST}
 #'lulu' = 'lulu' --> true
@@ -638,7 +638,7 @@ Character characterTable size                               --> 256
 #hello at: 2 put: $u --> エラー!
 \end{code}\ignoredollar$
 
-見落しがちなのは、文字列はコレクションなので他のコレクションと同じメッセージを理解することです:
+見落としがちなのは、文字列はコレクションなので他のコレクションと同じメッセージを理解することです:
 
 \begin{code}{@TEST}
 #hello indexOf: $o --> 5
