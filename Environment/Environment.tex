@@ -144,7 +144,7 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \end{figure}
 
 ブラウザ上部の4つの小さなペインは、システム内メソッドの階層ビューを表しています。これは、NeXTstepの\textit{File Viewer}やMac OS Xの\textit{Finder}のカラムモードといった、ディスク上のファイルを見るためのビューと同様のものです。
-左端のペインはクラスの\emph{パッケージ}リストです。その内の一つ(例えば\scat{Kernel})を選択すると、すぐ右隣にあるペインにパッケージ中のすべてのクラスが表示されます。
+左端のペインはクラスの\emph{パッケージ}リストです。そのうちの一つ(例えば\scat{Kernel})を選択すると、すぐ右隣にあるペインにパッケージ中のすべてのクラスが表示されます。
 % \on{I adopted the spelling of NeXTstep recommended by wikipedia}
 
 \begin{figure}[htbp]
@@ -234,16 +234,16 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 ブラウザはコードを探したり分析するためのいくつかのツールを提供します。
 これらのツールは、様々なコンテキストメニューを\actclick したり、あるいは最も頻繁に使われるツールなどはキーボードショートカットによって利用できます。
 
-\subsubsection{新しいブラウザウインドウを開く}
+\subsubsection{新しいブラウザウィンドウを開く}
 \seclabel{browsing}
 
-時折、複数のブラウザウインドウを開きたくなる場合があります。
+時折、複数のブラウザウィンドウを開きたくなる場合があります。
 コードを書いているときは少なくとも二つ必要でしょう。一つは入力中のメソッドのため、もう一つは物事がどう動いているのか調べるのにシステム周りを見るためです。
 テキスト中でクラス名を選択した後に\ind{キーボードショートカット}\short{b}を使えば、そのクラスを表示するブラウザを起動することができます。
 \index{browser!browse button}
 \index{keyboard shortcut!browse it}
 
-\dothis{次のことを試してみてください: ワークスペースウインドウ内でクラス名(例えば\ct{Morph})を入力し、それを選択し\short{b}を押して下さい。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
+\dothis{次のことを試してみてください: ワークスペースウィンドウ内でクラス名(例えば\ct{Morph})を入力し、それを選択し\short{b}を押して下さい。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
 
 \subsubsection{メッセージのセンダとインプリメンタ}
 \seclabel{sendersImplementors}
@@ -273,7 +273,7 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \caption{メッセージのセンダを選択。\figlabel{SendersOfDrawOn2}}
 \end{figure}
 
-\menu{senders (n)}の中の``n''は、メッセージのセンダを探すためのキーボードショートカットが\short{n}であることを示しています。この方法は、\emph{どの}テキストウインドウでも使えます。
+\menu{senders (n)}の中の``n''は、メッセージのセンダを探すためのキーボードショートカットが\short{n}であることを示しています。この方法は、\emph{どの}テキストウィンドウでも使えます。
 
 \dothis{コードペインにあるテキスト``drawOn:''を選択して\short{n}を押せば、直ちに\ct{drawOn:}のセンダが表示されます。}
 
@@ -299,7 +299,7 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 
 \index{browser!implementors}
 インプリメンタブラウザも似たような動作をしますが、メッセージセンダのリストの代わりに、同じセレクターを持つメソッドを実装している全クラスのリストを表示します。
-このことを確かめるために、メソッドペインにある\lct{drawOn:}を選び、\menu{browse \go implementors (m)}を選びます(もしくはコードペイン中のテキスト``drawOn:''を選択し、\short{m}を押します)。すると、\ct{drawOn:}メソッドを実装する90余りのクラスが、スクロール可能なメソッドリストのウインドウとして表示されます。
+このことを確かめるために、メソッドペインにある\lct{drawOn:}を選び、\menu{browse \go implementors (m)}を選びます(もしくはコードペイン中のテキスト``drawOn:''を選択し、\short{m}を押します)。すると、\ct{drawOn:}メソッドを実装する90余りのクラスが、スクロール可能なメソッドリストのウィンドウとして表示されます。
 これほど多くのクラスがこのメソッドを実装していることに驚く必要はありません。\ct{drawOn:}は、画面上に自分自身を描画することができる全てのオブジェクトによって理解されるメッセージなのです。
 
 \subsubsection{メソッドのバージョン}
@@ -378,7 +378,7 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 
 \index{browser!variables}
 クラスペインにあるクラスを\actclick し、\menu{browse \go chase variables}を選択することで、インスタンス変数やクラス変数が使われている場所を見つけることができます。
-\emph{追跡ブラウザ}を使うことで、全てのインスタンス変数やクラス変数のアクセサ、更にこれらのアクセサを送るメソッドなどを探索することができます(\figref{chasingBrowser})。
+\emph{追跡ブラウザ}を使うことで、全てのインスタンス変数やクラス変数のアクセサ、さらにこれらのアクセサを送るメソッドなどを探索することができます(\figref{chasingBrowser})。
 
 \begin{figure}[btp]
 \begin{center}
@@ -480,7 +480,7 @@ SystemNavigation default browseAllImplementorsOf: #drawOn:
 \end{code}
 
 他に何ができるのかを知るには、ブラウザで\ct{SystemNavigation}クラスを探してください。
-更なる操作例については、FAQ(\appref{faq})で見つけることができます。
+その他の操作例については、FAQ(\appref{faq})で見つけることができます。
 
 %=========================================================
 \section{Monticello}
@@ -551,7 +551,7 @@ mc := PackageInfo named: 'Monticello'
 %---------------------------------------------------------
 \subsection{Monticelloの基礎}
 
-\ind{Monticello}は、合衆国3番目の大統領であり「バージニア信教自由法」の起草者であるトーマス・ジェファーソンの山頂の家にちなんで名付けられました。この名前はイタリア語で``小さな山''を意味し、イタリア語の発音に従い``c''をchairの``ch''と発音して「モンティチェロ」と言います。
+\ind{Monticello}は、合衆国3番目の大統領であり「バージニア信教自由法」の起草者であるトーマス・ジェファーソンの山頂の家にちなんで名付けられました。この名前はイタリア語で``小さな山''を意味し、イタリア語の発音に従い``c''をchairの``ch''と発音して「モンティチェロ」といいます。
 
 
 \begin{figure}[btp]
@@ -627,7 +627,7 @@ Monticelloでパッケージを作成するには、二つのことを行う必�
 \figlabel{MCnewmethod}
 \end{figure}
 
-作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力して下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージエントリはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに二つのパッケージを持つことに注意して下さい。一つは\ct{PBE}、もう一つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これでよいのです。
+作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力して下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに二つのパッケージを持つことに注意して下さい。一つは\ct{PBE}、もう一つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これでよいのです。
 
 最初はこのパッケージに関連している唯一のリポジトリは、\figref{MC+PBE}に示されているようにパッケージキャッシュだけです。それで問題なく、コードを保存することができますし、パッケージキャッシュに格納されます。
 \button{Save}ボタンをクリックすると、\figref{PBE-on}のように保存するパッケージのバージョンに対するログメッセージを入力するよう求められます。このメッセージをアクセプトするとMonticelloはパッケージを保存します。
@@ -718,7 +718,7 @@ Monticelloでパッケージを作成するには、二つのことを行う必�
 左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self をツリーの根としています。
 インスタンス変数は、名前の横にある三角形を展開することで探求できます。\footnote{訳注：Pharo 1.2以降ツリーではなく一覧表示に変更されています}
 
-インスペクタの下部にある横長のペインは小さなワークスペースウインドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されている\footnote{訳注：Pharo 1.2以降でselfは常にインスペクトしているオブジェクトを束縛しています}ので便利です。
+インスペクタの下部にある横長のペインは小さなワークスペースウィンドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されている\footnote{訳注：Pharo 1.2以降でselfは常にインスペクトしているオブジェクトを束縛しています}ので便利です。
 そこで、
 \begin{code}{}
 self - TimeStamp today
@@ -763,10 +763,10 @@ DictionaryやOrderedCollectionやCompiledMethod、さらにいくつかのクラ
 \end{figure}
 
 \dothis{インスペクタの左側のペインで \menu{self} を選び、\actclick で \menu{explore (I)} を選んでください}
-\ind{エクスプローラ}ウインドウは \figref{exploreTimeStampNow} のように表示されます。
+\ind{エクスプローラ}ウィンドウは \figref{exploreTimeStampNow} のように表示されます。
 ツリー構造の \lct{根} の隣にある小さな三角形をクリックすると、ビューが \figref{exploreTimeStampNow2} のように変化します。このビューは、エクスプロアの対象とするオブジェクトのインスタンス変数を表示します。
 \ct{offset} の隣の三角形をクリックすると、 \emph{その}インスタンス変数が見えます。
-エクスプローラーは、複雑な階層構造を探求しなければならない場合に便利なため、この名前が付けられています。
+エクスプローラは、複雑な階層構造を探求しなければならない場合に便利なため、この名前が付けられています。
 \index{keyboard shortcut!explore it}
 
 オブジェクトエクスプローラのワークスペースペインの働きは、インスペクタのものと若干異なります。
@@ -1105,7 +1105,7 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 しかし、きままな \emph{doit} は含まれないので、例えばワークスペースで新しくグローバル変数を定義した場合には、変数の作成は\subind{file}{チェンジセット}に記録されません。
 \index{change sorter}
 
-どんなときでも、多くのチェンジセットが存在していますが、その中の一つだけがイメージに対する変更を収集します。\,---\,これを \lct{カレントチェンジセット} といいます\,---\,
+多くのチェンジセットが存在していますが、常にその内の一つだけがイメージに対する変更を収集します。\,---\,これを \lct{カレントチェンジセット} と呼びます\,---\,
 \menu{World \go Tools \ldots \go Change Sorter}を選ぶと現れるチェンジソーターを使えば、どれがカレントチェンジセットなのか確認したり、すべてのチェンジセットについて調べることができます。
 
 \begin{figure}[btp]
@@ -1139,7 +1139,7 @@ SUnitについては \charef{SUnit} でより詳しく学びます。
 \index{file!filing out}
 
 Monticello の出現以前、チェンジセットは Smalltalker の間でコードを交換する主な手段でした。
-チェンジセットは、単純さ(ファイルアウトしたものは単なるテキストファイルですが、テキストエディターで編集するようなことは \emph{お勧めしません} )と可搬性の高さという利点を持っています。
+チェンジセットは、単純さ(ファイルアウトしたものは単なるテキストファイルですが、テキストエディタで編集するようなことは \emph{お勧めしません} )と可搬性の高さという利点を持っています。
 %It's also quite easy to create a change set that makes changes to many different, unrelated parts of the system\,---\,something that Monticello is not yet equipped to do.
 %\ab{Or is it?}
 %\on{you mean something different than extensions to foreign packages using the *package protocol notation?}

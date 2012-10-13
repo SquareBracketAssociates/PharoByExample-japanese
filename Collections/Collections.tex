@@ -101,7 +101,7 @@
 \section{コレクションの種類}
 \seclabel{varieties}
 
-コレクションクラスを上手く使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけは理解しておかなければなりません。
+コレクションクラスをうまく使うには、幅広い種類のコレクションの実装とそれぞれの共通点と違いについて、少なくともうわべだけは理解しておかなければなりません。
 
 個別の要素についてではなくコレクションについてプログラムすることは、プログラムの抽象度を高める上で重要な手法の一つです。
 \ind{Lisp} の \ct{map} 関数は、このようなスタイルを実現した初期の例です。\ct{map} は、関数とリストを引数に取り、リストの各要素に対して関数を適用してその結果をリストにして返します。\st-80 はこのようなスタイルを推し進め、「コレクションに基づく」プログラミングを中心に据えたのです。\ind{ML} や \ind{Haskell} のようなモダンな関数型プログラミング言語は、\st の後継者であると言えます。%@ but: このようなスタイルを推し進め
@@ -195,7 +195,7 @@ students select: [ :each | each gpa < threshold ]
          \clsind{OrderedCollection}クラス は、\ct{Array} より汎用的です。\ct{OrderedCollection} は動的にサイズが拡張され、\mthind{OrderedCollection}{addFirst:} や \mthind{OrderedCollection}{addLast:} と言ったメソッドが、\mthind{OrderedCollection}{at:} や \mthind{OrderedCollection}{at:put:} メソッドの他にあります。
   
   \item {\bf 重複の許容:}
-  	\clsind{Set} は要素の重複を取り除きますが、\clsind{Bag} はそう言ったことをしません。
+  	\clsind{Set} は要素の重複を取り除きますが、\clsind{Bag} はそういったことをしません。
 	重複の判定に、\clsind{Dictionary}、\ct{Set}、\ct{Bag} は、各要素の \ct{=} メソッドを用います。これらのクラスの \ct{Identity} な変種は、二つの引数が同じオブジェクトであるかをテストする \ct{==} メソッドを用い、\ct{Pluggable} な変種であれば、コレクションの作成時に与えられた任意の同値関係を用います。
 	\index{Pluggable なコレクション}
 

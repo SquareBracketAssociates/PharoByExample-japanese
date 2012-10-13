@@ -305,7 +305,7 @@ WebServer class>>>uniqueInstance
 
 \mthref{uniqueInstance}の条件分岐の内側にあるインスタンス生成のコードが\ct{self new}という形であって、\ct{WebServer new}ではないことに留意してください。何が違うのでしょうか?
 \ct{uniqueInstance}メソッドは\ct{WebServer class}に定義されているので、同じことだと思うかもしれません。
-\ct{WebServer}のサブクラスが作られるまでは確かに同じなのです。しかし、もし\lct{WebServer}のサブクラスとして\ct{ReliableWebServer}が作られ、\ct{uniqueInstance}メソッドを継承していたらどうなるでしょうか。普通は\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}のインスタンスとなってほしいはずです。こうしたときに、\self を使うことで、そのようにすることができます。\self はメッセージを受けとるクラス自身だからです。なお、\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値になります。
+\ct{WebServer}のサブクラスが作られるまでは確かに同じなのです。しかし、もし\lct{WebServer}のサブクラスとして\ct{ReliableWebServer}が作られ、\ct{uniqueInstance}メソッドを継承していたらどうなるでしょうか。普通は\ct{ReliableWebServer uniqueInstance}の結果は\lct{ReliableWebServer}のインスタンスとなってほしいはずです。こうしたときに、\self を使うことで、そのようにすることができます。\self はメッセージを受け取るクラス自身だからです。なお、\ct{WebServer}と{ReliableWebServer}はそれぞれ自分のクラスインスタンス変数\ct{uniqueInstance}を持っていることにも留意してください。それぞれの変数は、もちろん、別々の値になります。
 
 %=========================================================
 \section{すべてのクラスにはスーパークラスがある}
@@ -650,7 +650,7 @@ BorderedMorph>>>fullPrintOn: aStream
 
 \super 送信の探索はレシーバのスーパークラスから開始しているわけではない、ということに注意してください。もしレシーバのスーパークラスから探索を開始すると、\ct{BorderedMorph}から探索を始めるということになり、無限ループになってしまいます!
 
-\important{\super 送信は、\emph{静的な}メソッド探索を、\super 送信を行なっているメソッドを定義しているクラスのスーパークラスから開始します。}
+\important{\super 送信は、\emph{静的な}メソッド探索を、\super 送信を行っているメソッドを定義しているクラスのスーパークラスから開始します。}
 
 \super 送信の解説を踏まえ、\figref{constructorStringLookup}を見ると、\super は静的束縛だということがわかります。\super 送信をしているコードがどのクラスにあるかにより、すべて決まります。対照的に、\self 送信は動的です。今実行しているメッセージのレシーバを表しています。つまり、\self に送られた\emph{すべての}メッセージは、そのレシーバのクラスから探索を始めます。
 
