@@ -499,7 +499,7 @@ SUnit は次の四つのクラス:
 具体的なテストリソースを得るには \lct{TestResource} のサブクラスに \mthind{TestResource class}{current} メッセージを送信します。するとサブクラスのシングルトンインスタンスが得られます。
 リソースの初期化と終了処理を行うには、\mthind{TestResource}{setUp} と \mthind{TestResource}{tearDown} をオーバーライドします。
 
-もう一つ、どうにかしてリソースとテストスイートを関連付ける必要があります。
+もう一つ、どうにかしてリソースとテストスイートを関連づける必要があります。
 これにはまず、テストクラスで \ct{resources} \emph{クラス}メソッドをオーバーライドし、テストクラスで使うリソース\footnote{訳注: テストクラスで使うテストリソースのクラスのコレクション。}を返すようにします。
 \ab{}
 \cmind{TestSuite}{resources} は、テストスイートに含まれるすべての \ct{TestCase} のリソースのクラスの和集合を返します。
@@ -514,7 +514,7 @@ TestResource subclass: #MyTestResource
 	instanceVariableNames: ''
 
 MyTestCase class>>>resources
-	"リソースとテストクラスを関連付ける"
+	"リソースとテストクラスを関連づける"
 	^{ MyTestResource }
 \end{classdef}
 

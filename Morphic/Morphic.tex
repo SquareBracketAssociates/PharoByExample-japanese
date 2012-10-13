@@ -249,7 +249,7 @@ containsPoint: aPoint
 
 メソッド\mthsref{firstDrawOn}と\ref{mth:firstContains}のコードには二つの問題点があります。
 明らかな点は、コードが重複していることです。
-これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、２カ所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
+これはとても重大な過ちです。というのも、\ct{horizonatalBar}や\ct{verticalBar}の計算方法を変える必要があるときに、二箇所にあるコードの一方を修正するのを簡単に忘れてしまうからです。
 解決方法は、これらの計算を新たな二つのメソッドに抽出することです。どちらも\ct{private}プロトコルに格納します。
 
 \needlines{4}

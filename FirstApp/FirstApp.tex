@@ -205,7 +205,7 @@ initialize
 \seeindex{Object!initialization}{initialization}
 \index{initialization}
 
-このメソッドでは、スーパークラスである\ct{SimpleSwitchMorph}の\ct{initialize}メソッドをまず実行しています(2行目)。\lct{スーパークラスの}\ct{initialize}メソッドの実行により、継承した状態が適切に初期化されるということを期待しています。何かの処理をする前には、スーパークラスの\ct{initialize}メソッドを呼び出して、継承した状態を初期化しておくとよいでしょう。\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが実際に何をするかは知らなくとも構いません。不明瞭な状態のまま処理を始める危険を冒すよりは、スーパークラスの\ct{initialize}メソッドを呼び出すことで、インスタンス変数に妥当な初期値が設定されるようにした方がよいのです。
+このメソッドでは、スーパークラスである\ct{SimpleSwitchMorph}の\ct{initialize}メソッドをまず実行しています(2行目)。\lct{スーパークラスの}\ct{initialize}メソッドの実行により、継承した状態が適切に初期化されるということを期待しています。何かの処理をする前には、スーパークラスの\ct{initialize}メソッドを呼び出して、継承した状態を初期化しておくとよいでしょう。\ct{SimpleSwitchMorph}の\ct{initialize}メソッドが実際に何をするかは知らなくともかまいません。不明瞭な状態のまま処理を始める危険を冒すよりは、スーパークラスの\ct{initialize}メソッドを呼び出すことで、インスタンス変数に妥当な初期値が設定されるようにした方がよいのです。
 
 メソッドの残りの部分でこのオブジェクトの状態をさらに設定しています。
 例えば、\ct{self label: ''}をオブジェクトに送ることで、オブジェクトのラベルに空文字列を設定しています。
@@ -565,7 +565,7 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 
 \noindent
-\charef{quick}で、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うと習ったのを思い出して下さい。\verb|^|をタイプします。
+\charef{quick}で、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うと習ったのを思い出してください。\verb|^|をタイプします。
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 

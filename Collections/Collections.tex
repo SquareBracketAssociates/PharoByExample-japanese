@@ -112,7 +112,7 @@
 students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
-これは「\ct{students} の要素の中で、ある条件を満たすもの」からなる新しいコレクションを返します。角カッコで囲まれた式が \ct{true} を返すことが条件です\footnote{角カッコ内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$ 式だと考えることができます。%@ evaluate: 返す
+これは「\ct{students} の要素の中で、ある条件を満たすもの」からなる新しいコレクションを返します。角括弧で囲まれた式が \ct{true} を返すことが条件です\footnote{角括弧内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$ 式だと考えることができます。%@ evaluate: 返す
 \index{lambda 式}}。
 この \st コードには、ドメイン特化言語\footnote{訳注: domain-specific query language}的なシンプルさとエレガンスがあります。
 

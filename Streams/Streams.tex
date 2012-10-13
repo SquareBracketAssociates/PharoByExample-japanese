@@ -205,13 +205,13 @@ stream upToEnd         --> '143'
 \noindent
 \ct{peekFor:} はまた、パラメータと次の要素が等しかったかかどうかを示す真偽値を返します。
 
-上の例を見て、ストリームを作る新しい方法に気付いたかもしれません:
+上の例を見て、ストリームを作る新しい方法に気づいたかもしれません:
 順序付きコレクションに対して単に \mthind{SequenceableCollection}{readStream} を送信すれば、そのコレクションに対する読み込みストリームを作ることができます。
 
 \paragraph{位置決め。} ストリームのポインタの位置を設定するメソッドがあります。
 もし添字がわかっていれば、\mthind{PositionableStream}{position:} で直接その位置へ移動できます。
 \mthind{PositionableStream}{position} で現在の位置を求めることができます。
-ストリームは要素そのものを指しているわけではなく、要素と要素の間を指していることを覚えておいて下さい。
+ストリームは要素そのものを指しているわけではなく、要素と要素の間を指していることを覚えておいてください。
 ストリームの先頭に対応する添え字は 0 です。
 
 \figref{ab_cde} に描かれたストリームの状態を次のコードで得ることができます:
@@ -235,7 +235,7 @@ stream peek --> $c
 \mthind{PositionableStream}{skip:} と \mthind{PositionableStream}{skipTo:} は、現在の位置を基準として前へ進む場合に使います。
 \ct{skip:} は引数に数を取ることができ、その数だけ要素をスキップします。
 一方 \ct{skipTo:} は、パラメータと同じ要素が見つかるまでストリームの要素をすべてスキップします。
-このときストリームは、見つかった要素の後ろに位置決めされることに注意して下さい。
+このときストリームは、見つかった要素の後ろに位置決めされることに注意してください。
 
 \begin{code}{@TEST |stream|}
 stream := 'abcdef' readStream.
@@ -576,7 +576,7 @@ stream close.
 ファイルストリームに \mthind{FileStream}{localName} を送信すると、パス名の最後の要素が返ります。
 \mthind{StandardFileStream}{fullName} を送信してフルパス名を得ることもできます。
 
-すぐに、ファイルストリームを手作業で閉じるのが苦痛でエラーの元であることに気付くでしょう。
+すぐに、ファイルストリームを手作業で閉じるのが苦痛でエラーの元であることに気づくでしょう。
 \mthind{FileStream class}{forceNewFileNamed:do:} は、この問題を解消するために用意されています。このメソッドは、書き込みストリームをパラメータとするブロックを評価してすべての書き込みをすませた後、自動的にこのストリームを閉じます。同様に読み込みストリーム用に \mthind{FileStream class}{readOnlyFileNamed:do:} があります。%@ 「同様に」以降は自主的に補った
 
 \begin{code}{@TEST |string|}

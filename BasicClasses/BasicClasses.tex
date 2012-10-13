@@ -74,7 +74,7 @@
 \subsection{printing プロトコル}
 \st のすべてのオブジェクトは、自分自身の表示用の形式を返すことができます。ワークスペースで好きな式を選び、\menu{print it} メニューを選択してください: \menu{print it} は式を実行し、返されたオブジェクトに「あなたを表示してください」と頼みます。実際には、返されたオブジェクトに \ct{printString} メッセージを送信します。\mthind{Object}{printString} は\ind{テンプレートメソッド}で、その中で \mthind{Object}{printOn:} メッセージをレシーバに送信します。\ct{printOn:} はフックメソッドで、特殊化することができます。%@ The message \ct{printOn:} is a hook: フックメソッドとした。
 
-おそらく \ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドの一つになるでしょう。このメソッドは引数に \clsind{Stream} (ストリーム)を受け取り、そこにオブジェクトの \clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルト実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書きこむだけです。\ct{Object>>>printString} は、ストリームに書き込まれたものを \ct{String} にして返します。
+おそらく \ct{Object>>>printOn:} は、最も頻繁にオーバーライドされるメソッドの一つになるでしょう。このメソッドは引数に \clsind{Stream} (ストリーム)を受け取り、そこにオブジェクトの \clsind{String} 表現を書き込みます。\ct{printOn:} のデフォルト実装は、単に「\ct{a}」または「\ct{an}」の後にクラス名を書き込むだけです。\ct{Object>>>printString} は、ストリームに書き込まれたものを \ct{String} にして返します。
 
 例えば、\clsind{Browser} クラスは \ct{printOn:} メソッドを再定義していないので、\ct{printString} メッセージを \ct{Browser} のインスタンスに送信すると \ct{Object} で定義されたメソッドが実行されます。
 \begin{code}{@TEST}
@@ -112,14 +112,14 @@ $a           --> $a
 Color red --> Color red
 \end{code}
 
-配列のようなオブジェクトは、そこに含まれるオブジェクトによって自己評価型であったりそうではなかったりすることに注意して下さい。例えば、真偽値の配列は自己評価型ですが、person オブジェクトの配列はそうではありません。
+配列のようなオブジェクトは、そこに含まれるオブジェクトによって自己評価型であったりそうではなかったりすることに注意してください。例えば、真偽値の配列は自己評価型ですが、person オブジェクトの配列はそうではありません。
 次の例は、\subind{Array}{動的}配列が自己評価型になるのは、要素も自己評価型の場合だけであることを示しています:
 \begin{code}{@TEST}
 {10@10. 100@100}           --> {10@10. 100@100}
 {Browser new . 100@100} --> an Array(a Browser 100@100)
 \end{code}
 
-\subind{Array}{リテラル}配列はリテラルだけを保持できることに注意して下さい。そのため次の配列は、二つの座標を保持するのではなく 6 個のリテラル要素を持つことになります。
+\subind{Array}{リテラル}配列はリテラルだけを保持できることに注意してください。そのため次の配列は、二つの座標を保持するのではなく 6 個のリテラル要素を持つことになります。
 \begin{code}{@TEST}
 #(10@10 100@100) --> #(10 #@ 10 100 #@ 100)
 \end{code}
@@ -324,7 +324,7 @@ Object>>>copy
 %-----------------------------------------------------------------
 \subsection{debugging プロトコル}
 
-デバッグする上で最も重要なメソッドは \mthind{Object}{halt} です\footnote{訳注: \ct{halt} は、実際には error handling プロトコルに分類されています。}。メソッドにブレークポイントを設定するには、メソッド本文の好きな場所に \ct{self halt} というメッセージ送信を挿入するだけで構いません。このメッセージが送信されると、プログラムのその位置で実行が中断され、\ind{デバッガ}が起動します
+デバッグする上で最も重要なメソッドは \mthind{Object}{halt} です\footnote{訳注: \ct{halt} は、実際には error handling プロトコルに分類されています。}。メソッドにブレークポイントを設定するには、メソッド本文の好きな場所に \ct{self halt} というメッセージ送信を挿入するだけでかまいません。このメッセージが送信されると、プログラムのその位置で実行が中断され、\ind{デバッガ}が起動します
 (デバッガの詳細については\charef{env}を参照してください)。
 
 \sd{他の章では haltIf:、haltOnce、inspectOnce、flagging: isThisEverCalled なども紹介されています。}
@@ -388,7 +388,7 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 \sd{ subsection{廃止予定} }
 \sd{後で書く}
 
-\on{既に上にいくつか説明があります! エラー処理の二つ目の段落を参照して下さい。}
+\on{既に上にいくつか説明があります! エラー処理の二つ目の段落を参照してください。}
 
 %-----------------------------------------------------------------
 \subsection{testing プロトコル}
@@ -422,7 +422,7 @@ Behavior>>>new
 \cmindex{Behavior}{new}
 
 これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常 \ct{initialize} メソッドは、継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために、\ct{super initialize} を実行すべきです
-(これは他の \st では標準の振る舞い\emph{ではない}ことに注意して下さい)。%@ 何の振る舞い?
+(これは他の \st では標準の振る舞い\emph{ではない}ことに注意してください)。%@ 何の振る舞い?
 
 %=================================================================
 \section{Number}
@@ -487,7 +487,7 @@ testing メソッドとしては、\mthind{Number}{even}、\mthind{Number}{odd}�
 \begin{code}{@TEST}
 1000 factorial / 999 factorial --> 1000
 \end{code}
-\ct{1000 factorial} は、他の多くの言語では計算するのが非常に難しいのですが、実際に計算できていることに注目して下さい。これは、数値に関する「自動型変換と正確な演算」の非常に良い例になっています。
+\ct{1000 factorial} は、他の多くの言語では計算するのが非常に難しいのですが、実際に計算できていることに注目してください。これは、数値に関する「自動型変換と正確な演算」の非常に良い例になっています。
 \cmindex{Integer}{factorial}
 
 \dothis{\ct{1000 factorial} の結果を表示してみましょう。計算よりも表示に長い時間がかかります!}
@@ -656,7 +656,7 @@ Character characterTable size                               --> 256
 
 \ct{String} は比較的多くの変換メソッドをサポートしています。それらの多くは、\mthind{String}{asDate}、\mthind{String}{asFileName} などのような他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また \mthind{String}{capitalized} や \mthind{String}{translateToLowercase} などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
-文字列とコレクションに関するさらに進んだ話題については、\charef{collections}を参照して下さい。
+文字列とコレクションに関するさらに進んだ話題については、\charef{collections}を参照してください。
 
 \on{さらに利用できる資料がこちらにあります:
 \url{http://www.dmu.com/crb/crb7.html}.}

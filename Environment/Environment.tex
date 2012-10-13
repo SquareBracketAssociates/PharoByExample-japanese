@@ -112,7 +112,7 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \item{\menu{Process Browser}(プロセスブラウザ)}は、\st 上で実行されている全てのプロセス(スレッド)を見るのに役立ちます。
 \index{process browser}
 
-\item{\menu{Test Runner}}は、SUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照して下さい。
+\item{\menu{Test Runner}}は、SUnitテストを実行、デバッグすることができます。詳細については\charef{SUnit}を参照してください。
 \index{Test Runner}
 \index{SUnit}
 
@@ -132,7 +132,7 @@ I think a good discussion about when to subclass an exception and when to reuse 
 
 \st の歴史と共に、長年にわたり多くの異なるクラスブラウザが開発されてきました。
 \pharo では、様々なビューを一つにまとめたブラウザを提供することで、この物語を単純にしました。
-\figref{SystemBrowser0}は最初にブラウザを開いたときに表示されるものです。\footnote{もしブラザウが\figref{classBrowser}のように表示されない場合、デフォルトのブラウザを変更する必要があるかも知れないことを思い出して下さい。\faqref{packagebrowser}参照}\footnote{訳注：\pharo のデフォルトブラウザは何度も変更されています。バージョン1.3では、OBSystemBrowserが使用されており、この章の説明とは異なる場合があります。バージョン1.4ではデフォルトブラウザはSystemBrowserであり、OBSystemBrowserは別途インストールする必要がありました。バージョン1.4 SummerではOBSystemBrowserがデフォルトブラウザになっています}
+\figref{SystemBrowser0}は最初にブラウザを開いたときに表示されるものです。\footnote{もしブラザウが\figref{classBrowser}のように表示されない場合、デフォルトのブラウザを変更する必要があるかも知れないことを思い出してください。\faqref{packagebrowser}参照}\footnote{訳注：\pharo のデフォルトブラウザは何度も変更されています。バージョン1.3では、OBSystemBrowserが使用されており、この章の説明とは異なる場合があります。バージョン1.4ではデフォルトブラウザはSystemBrowserであり、OBSystemBrowserは別途インストールする必要がありました。バージョン1.4 SummerではOBSystemBrowserがデフォルトブラウザになっています}
 
 \begin{figure}[htbp]
    \centering
@@ -157,7 +157,7 @@ I think a good discussion about when to subclass an exception and when to reuse 
 \end{figure}
 
 同様に、左から2番目のペインでクラスの一つ、例えば\menu{Model}(\figref{SystemBrowserModel}参照)を選ぶと、その右隣の3番目のペインにクラスに対して定義された\emph{プロトコル}が表示され、デフォルトで仮想プロトコル\prot{-{}-all-{}-}が選択されます。
-プロトコルとはメソッドをカテゴリー化するためのもので、クラスの振る舞いを概念的に首尾一貫して細分化することで、それらを探したり考えたりするのに役立ちます。
+プロトコルとはメソッドをカテゴリ化するためのもので、クラスの振る舞いを概念的に首尾一貫して細分化することで、それらを探したり考えたりするのに役立ちます。
 左から4つめのペインは、選択したプロトコルで定義されている全てのメソッド名が表示されます。
 ここでメソッド名を選ぶと、そのメソッドのソースコードがブラウザ下部にある大きなペインに表示されます。このペインではソースコードのブラウズや編集、編集後の保存ができます。
 ブラウザで\menu{Model}クラス、\protind{dependents}プロトコル、そして\menu{myDependents}を選択していくと、\figref{SystemBrowserMyDependents}のように表示されるはずです。
@@ -198,8 +198,8 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \ct{Object}を作りたいサブクラスの親となる既存のクラス名で置き換え、
 \ct{NameOfSubclass}を新しいサブクラス名に置き換えます。
 既にわかっているのであれば、インスタンス変数名を入力します。
-新しいクラスに対するカテゴリーは、デフォルトで現在選択しているパッケージのカテゴリーとなりますが、
-\footnote{パッケージとカテゴリーが正確には同じものではないことを思い出して下さい。\secref{packages}にてそれらの関係について詳しく見ていきます}必要なら変更することもできます。
+新しいクラスに対するカテゴリは、デフォルトで現在選択しているパッケージのカテゴリとなりますが、
+\footnote{パッケージとカテゴリが正確には同じものではないことを思い出してください。\secref{packages}にてそれらの関係について詳しく見ていきます}必要なら変更することもできます。
 既にサブクラス化の元となる既存クラスをブラウザで選択しているのならば、
 クラスペインを\actclick し\menu{class templates \ldots \go subclass template}を選択することにより、
 ほんの少し初期化が異なる同様のテンプレートを得ることができます。
@@ -243,7 +243,7 @@ Mac OS X の\emph{Finder}とは違い、ブラウザ上部4つのペインは完
 \index{browser!browse button}
 \index{keyboard shortcut!browse it}
 
-\dothis{次のことを試してみてください: ワークスペースウィンドウ内でクラス名(例えば\ct{Morph})を入力し、それを選択し\short{b}を押して下さい。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
+\dothis{次のことを試してみてください: ワークスペースウィンドウ内でクラス名(例えば\ct{Morph})を入力し、それを選択し\short{b}を押してください。この方法はよく役に立ち、どのテキストウィンドウでも使えます。}
 
 \subsubsection{メッセージのセンダとインプリメンタ}
 \seclabel{sendersImplementors}
@@ -438,7 +438,7 @@ Smalltalkerは読みやすいコードを非常に高く評価します。
 \index{file!filing in}
 \index{file!filing out}
 
-おそらくパッケージペインの中で最も便利なメニュー項目は\menu{find class\ldots (f)}です。カテゴリーは活発に開発しているコードについては役立ちますが、ほとんど誰もシステム全体のカテゴリー化について知りませんし、クラスがどのパッケージにあるか推測するよりも、クラス名の先頭の数文字を入力した後でshort{f}と入力した方がずっと早いのです。\menu{recent classes\ldots}はたとえクラス名を忘れてしまっても、最近ブラウズしたクラスへ素早く戻るのに役立ちます。
+おそらくパッケージペインの中で最も便利なメニュー項目は\menu{find class\ldots (f)}です。カテゴリは活発に開発しているコードについては役立ちますが、ほとんど誰もシステム全体のカテゴリ化について知りませんし、クラスがどのパッケージにあるか推測するよりも、クラス名の先頭の数文字を入力した後でshort{f}と入力した方がずっと早いのです。\menu{recent classes\ldots}はたとえクラス名を忘れてしまっても、最近ブラウズしたクラスへ素早く戻るのに役立ちます。
 \index{class!finding}
 \index{class!recent}
 
@@ -490,14 +490,14 @@ SystemNavigation default browseAllImplementorsOf: #drawOn:
 Monticelloは\emph{パッケージ}を扱うので、Monticelloについて説明する前に、まず\ind{パッケージ}が何なのかということを正確に説明する必要があります。
 
 %---------------------------------------------------------
-\subsection{パッケージ: \pharo コードの宣言的なカテゴリー化}\seclabel{packages}
+\subsection{パッケージ: \pharo コードの宣言的なカテゴリ化}\seclabel{packages}
 
-かなり前の\secref{categoriesPackages}において、パッケージとは概ねカテゴリーと同等のものであると指摘しました。ここでは、その関係が実際には何であるか見ていきます。
-パッケージシステムとは、\st ソースコードを組織化するためのシンプルで軽量な方法のことです。これは、カテゴリーとプロトコルに対して簡単な命名規則を利用します。
+かなり前の\secref{categoriesPackages}において、パッケージとは概ねカテゴリと同等のものであると指摘しました。ここでは、その関係が実際には何であるか見ていきます。
+パッケージシステムとは、\st ソースコードを組織化するためのシンプルで軽量な方法のことです。これは、カテゴリとプロトコルに対して簡単な命名規則を利用します。
 
 例を使って説明しましょう。
-あるフレームワークを開発していると仮定しましょう。これは \pharo から関係データベースを簡単に利用するためのものです。あなたはこのフレームワークを\ct{PharoLink}と呼ぶことにしました。そして、作成したクラスを全てを含むような一連のカテゴリーを作ったとします。例えば、
-\ct{'PharoLink-Connections'}カテゴリーは\ct{OracleConnection MySQLConnection PostgresConnection}を含み、\ct{'PharoLink-Model'}カテゴリーは\ct{DBTable DBRow DBQuery}等を含みます。しかし、作成したコードの全てがこれらのクラスの中にあるわけではありません。例えば、オブジェクトをSQL的な形式に変換するための一連のメソッドもあるかもしれません。
+あるフレームワークを開発していると仮定しましょう。これは \pharo から関係データベースを簡単に利用するためのものです。あなたはこのフレームワークを\ct{PharoLink}と呼ぶことにしました。そして、作成したクラスを全てを含むような一連のカテゴリを作ったとします。例えば、
+\ct{'PharoLink-Connections'}カテゴリは\ct{OracleConnection MySQLConnection PostgresConnection}を含み、\ct{'PharoLink-Model'}カテゴリは\ct{DBTable DBRow DBQuery}等を含みます。しかし、作成したコードの全てがこれらのクラスの中にあるわけではありません。例えば、オブジェクトをSQL的な形式に変換するための一連のメソッドもあるかもしれません。
 
 \begin{code}{}
 Object>>>asSQL
@@ -516,7 +516,7 @@ Date>>>asSQL
 \index{package!extension}
 \seeindex{extension package}{package, extension}
 
-それを行う方法は、(\ct{Object}, \ct{String} \ct{Date}等)のメソッドを、prot{*PharoLink}(最初のアスタリスクに注意してください)というプロトコルに置くことです。\scat{PharoLink-\ldots}カテゴリーと\prot{*PharoLink}プロトコルの組み合わせが、\ct{PharoLink}パッケージを形作ります。
+それを行う方法は、(\ct{Object}, \ct{String} \ct{Date}等)のメソッドを、prot{*PharoLink}(最初のアスタリスクに注意してください)というプロトコルに置くことです。\scat{PharoLink-\ldots}カテゴリと\prot{*PharoLink}プロトコルの組み合わせが、\ct{PharoLink}パッケージを形作ります。
 正確には、パッケージに置かれる規則は以下の通りです。
 
 \ct{Foo}と名付けられたパッケージは次のものを含みます。
@@ -524,7 +524,7 @@ Date>>>asSQL
 \begin{enumerate} \seclabel{packageRules}
 \item{} \scat{Foo}カテゴリもしくは\scat{Foo-}で始まる名前のカテゴリ内にある、クラスの全ての\emph{クラス定義}
 \item{} \label{env:extensions} \prot{*Foo}や\prot{*foo}\footnote{比較の際に大文字か小文字かは無視されます。}という名前のプロトコルか、\prot{*Foo-}や\prot{*foo-}で始まる名前のプロトコルにある、\emph{任意のクラス}内の全ての\emph{メソッド}
-\item{} \scat{Foo}カテゴリーか、\scat{Foo-}で始まる名前のカテゴリーのクラスにある全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコルにあるメソッドは\emph{除外される}。
+\item{} \scat{Foo}カテゴリか、\scat{Foo-}で始まる名前のカテゴリのクラスにある全ての\emph{メソッド}。ただし\prot{*}で始まる名前のプロトコルにあるメソッドは\emph{除外される}。
 
 \end{enumerate}
 \noindent
@@ -533,7 +533,7 @@ Date>>>asSQL
 
 \ct{PackageInfo}クラスがこれらの規則を実装しており、このクラスを試すことで規則の感触を掴むことができます。
 
-\dothis{ワークスペース上で以下の式を評価して下さい。}
+\dothis{ワークスペース上で以下の式を評価してください。}
 
 \begin{code}{}
 mc := PackageInfo named: 'Monticello'
@@ -565,7 +565,7 @@ mc := PackageInfo named: 'Monticello'
 \end{figure}
 
 Monticelloブラウザを開くと、\figref{freshMonticello}のように、二つのペインと1列に並んだボタンが表示されます。
-左側のペインには、実行中の仮想イメージにロードされた全てのパッケージが表示され、名前の後のカッコの中にはパッケージを特定するバージョンが表示されます。
+左側のペインには、実行中の仮想イメージにロードされた全てのパッケージが表示され、名前の後の括弧の中にはパッケージを特定するバージョンが表示されます。
 
 右側のペインには、Monticelloが知っている全てのソースコードリポジトリが表示されており、通常はそれらのリポジトリからコードがロードされます。左側のペインにあるパッケージを選ぶと、右側のペインには、選択したパッケージのバージョンを含むリポジトリのみを表示するようにフィルタリングされます。
 
@@ -599,13 +599,13 @@ password: ''
 \noindent
 その後、このリポジトリをリポジトリブラウザで開くために、\button{Open}ボタンをクリックします。\figref{SqueakSource:PBE}のようなものが見えるでしょう。左側のペインには、リポジトリ内の全てのパッケージのリストがあります。その中の一つを選択すれば、右側のペインにこのリポジトリ内にある選択されたパッケージの全てのバージョンが表示されます。
 
-その中の一つのバージョンを選択すると、\button{Browse}ボタンでの(イメージファイルに読み込むことなしに)ブラウズや\button{Load}ボタンでの読み込み、そして、\button{Changes}ボタンでは、選択したバージョンを読み込んだ場合の変更点を見ることができます。\button{Copy}ボタンでは、任意のバージョンのパッケージのコピーを作成して、他のリポジトリに書きこむこともできます。
+その中の一つのバージョンを選択すると、\button{Browse}ボタンでの(イメージファイルに読み込むことなしに)ブラウズや\button{Load}ボタンでの読み込み、そして、\button{Changes}ボタンでは、選択したバージョンを読み込んだ場合の変更点を見ることができます。\button{Copy}ボタンでは、任意のバージョンのパッケージのコピーを作成して、他のリポジトリに書き込むこともできます。
 
 見ればわかる通り、バージョン名には、パッケージ名、バージョン作成者のイニシャル、およびバージョン番号が含まれています。バージョン名はリポジトリ内のファイル名でもあります。これらの名前を変更してはいけません。なぜならMonticelloの適切な操作は、これらの名前に依存しているからです! Monticelloのバージョンファイルは単なるzipアーカイブであり、興味があればzipツールを使ってファイルを解凍できますが、その内容を見る最良の方法は、Monticello自体を使うことです。
 
 Monticelloでパッケージを作成するには、二つのことを行う必要があります。一つはコードを書くこと、もう一つはそれをMonticelloに伝えることです。
 
-\dothis{\scat{PBE-Monticello}というパッケージを作成し、\figref{MCnewcategory}のように二つのクラスをその中に置いて下さい。もちろん、\ct{Object}などの既存のクラスのメソッドを作り、\pageref{sec:packageRules}ページにある規則を使ってこのクラスと同じパッケージに置いて下さい\,---\,\figref{MCnewmethod}を参照のこと。}
+\dothis{\scat{PBE-Monticello}というパッケージを作成し、\figref{MCnewcategory}のように二つのクラスをその中に置いてください。もちろん、\ct{Object}などの既存のクラスのメソッドを作り、\pageref{sec:packageRules}ページにある規則を使ってこのクラスと同じパッケージに置いてください\,---\,\figref{MCnewmethod}を参照のこと。}
 
 \begin{figure}[btp]
 \begin{center}
@@ -627,7 +627,7 @@ Monticelloでパッケージを作成するには、二つのことを行う必�
 \figlabel{MCnewmethod}
 \end{figure}
 
-作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力して下さい。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに二つのパッケージを持つことに注意して下さい。一つは\ct{PBE}、もう一つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これでよいのです。
+作成したパッケージをMonticelloに伝えるために、\button{+Package}ボタンをクリックし、パッケージ名、この場合は``PBE''を入力してください。Monticelloは\ct{PBE}をパッケージリストに加えます。パッケージはアスタリスクでマークされ、仮想イメージ内のバージョンがどのリポジトリにも書き込まれていないことを示します。ここで、Monticelloに二つのパッケージを持つことに注意してください。一つは\ct{PBE}、もう一つは\ct{PBE-Monticello}です。\ct{PBE}は\ct{PBE-Monticello}や\ct{PBE-}で始まる他の全てのパッケージを含むため、これでよいのです。
 
 最初はこのパッケージに関連している唯一のリポジトリは、\figref{MC+PBE}に示されているようにパッケージキャッシュだけです。それで問題なく、コードを保存することができますし、パッケージキャッシュに格納されます。
 \button{Save}ボタンをクリックすると、\figref{PBE-on}のように保存するパッケージのバージョンに対するログメッセージを入力するよう求められます。このメッセージをアクセプトするとMonticelloはパッケージを保存します。
@@ -674,7 +674,7 @@ Monticelloでパッケージを作成するには、二つのことを行う必�
 \begin{center}
 \includegraphics[width=\textwidth]{MCaddToPackage}
 \end{center}
-\caption{パッケージに関連付けられたポジトリのセットにリポジトリに追加する。}
+\caption{パッケージに関連づけられたポジトリのセットにリポジトリに追加する。}
 \figlabel{associateRepository}
 \end{figure}
 
@@ -718,7 +718,7 @@ Monticelloでパッケージを作成するには、二つのことを行う必�
 左側のペインはそのオブジェクトのツリー構造ビューとなっており、\self をツリーの根としています。
 インスタンス変数は、名前の横にある三角形を展開することで探求できます。\footnote{訳注：Pharo 1.2以降ツリーではなく一覧表示に変更されています}
 
-インスペクタの下部にある横長のペインは小さなワークスペースウィンドウです。このウィンドウでは、疑似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されている\footnote{訳注：Pharo 1.2以降でselfは常にインスペクトしているオブジェクトを束縛しています}ので便利です。
+インスペクタの下部にある横長のペインは小さなワークスペースウィンドウです。このウィンドウでは、擬似変数の \ct{self} が左側のペインで選択したオブジェクトに束縛されている\footnote{訳注：Pharo 1.2以降でselfは常にインスペクトしているオブジェクトを束縛しています}ので便利です。
 そこで、
 \begin{code}{}
 self - TimeStamp today
@@ -1020,7 +1020,7 @@ self halt.
 このメソッドを走らせると、 \ct{self halt} の実行により \ind{pre-debugger} が開きますので、そこから、実行を続行させたり、デバッガに入って変数を見たり、ステップ実行したり、コードを編集したりすることができます。
 
 デバッガについては以上で全てですが、 \ct{suffix} メソッドについてはまだです。
-最初のバグで気付いたでしょうが、対象となる文字列にドットがない場合、\ct{suffix} メソッドはエラーを発生します。
+最初のバグで気づいたでしょうが、対象となる文字列にドットがない場合、\ct{suffix} メソッドはエラーを発生します。
 これは望ましい振る舞いではないので、こうしたケースで起きることを明示するために二つ目のテストを追加しましょう。
 
 \needlines{3}
