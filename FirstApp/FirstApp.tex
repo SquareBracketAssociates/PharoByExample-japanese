@@ -435,7 +435,7 @@ LOGame>>>newCellAt: i at: j
 
 新たに出てきた\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} では、\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドを定義しましょう。
+\Mthref{newCellAt:at:} では、\clsind{Matrix} (行列)の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドを定義しましょう。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{コールバックメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
