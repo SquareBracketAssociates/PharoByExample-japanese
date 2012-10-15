@@ -78,7 +78,7 @@ Smalltalkの設計者は、オッカムの剃刀と呼ばれる規則を使っ�
 \seclabel{metaclassIntro}
 あるクラスの\indmain{メタクラス}は、そのクラスを定義した際に自動的に作られます。
 普段はメタクラスのことを気にする必要はないでしょう。
-しかし、ブラウザで``\subind{browser}{クラス側}''を選んだときには、実は異なるクラスを見ているということを思い返してください。
+しかし、ブラウザで``\jasubind{クラスがわ}{browser}{クラス側}''を選んだときには、実は異なるクラスを見ているということを思い返してください。
 クラスとそのメタクラスは、前者が後者のインスタンスであるということを除けば、それぞれ別々のクラスであるということです。
 
 クラスとメタクラスを正確に説明するには、\charef{model}のルールに付け足す必要があります。
@@ -89,7 +89,7 @@ Smalltalkの設計者は、オッカムの剃刀と呼ばれる規則を使っ�
 	すべてのクラスはメタクラスのインスタンスである。
 
 \item{} \rulelabel{parallelhierarchy}
-	メタクラスの\subind{metaclass}{階層}はクラスの階層と並列に存在する。
+	メタクラスの\jasubind{かいそう}{metaclass}{階層}はクラスの階層と並列に存在する。
 
 \item{} \rulelabel{behavior}
 	すべてのメタクラスは\clsind{Class}と\clsind{Behavior}を継承している。
@@ -152,7 +152,7 @@ TranslucentColor superclass --> Color
 Color superclass                   --> Object
 \end{code}
 
-\ref{rule:message}「すべての出来事は、\ind{メッセージを送ること}{}で生じる」より、以下のことが導きだせます。\mthind{Color class}{blue}は\ct{Color}へのメッセージ、\mthind{Object}{class}と\mthind{Color}{alpha:}は青色オブジェクトへのメッセージ、\mthind{Morph}{openInWorld}は楕円Morphへのメッセージ、そして、\mthind{Behavior}{superclass}は\ct{TranslucentColor}と\ct{Color}へのメッセージです。
+\ref{rule:message}「すべての出来事は、\jaind{メッセージをおくること}{メッセージを送ること}{}で生じる」より、以下のことが導きだせます。\mthind{Color class}{blue}は\ct{Color}へのメッセージ、\mthind{Object}{class}と\mthind{Color}{alpha:}は青色オブジェクトへのメッセージ、\mthind{Morph}{openInWorld}は楕円Morphへのメッセージ、そして、\mthind{Behavior}{superclass}は\ct{TranslucentColor}と\ct{Color}へのメッセージです。
 すべてがオブジェクトなので、どのケースでもメッセージのレシーバはオブジェクトです。ただし、いくつかのケースではレシーバがクラスとなっています。
 
 \ref{rule:lookup}「メソッド探索は継承チェーンに沿って行われる」より、\ct{Color blue alpha: 0.4}で得られたオブジェクトに\ct{class}メッセージを送ると、\figref{classmessage}で示すように、メッセージは対応するメソッドが見つかる\ct{Object}で取り扱われます。
@@ -184,7 +184,7 @@ translucentBlue isKindOf: Object                  --> true
 \secref{metaclassIntro}で述べたように、そのインスタンスがクラスであるようなクラスは\ind{メタクラス}{}と呼ばれます。
 
 \paragraph{メタクラスは暗黙的な存在である}
-メタクラスはクラスを定義すると自動的に作成されます。これはプログラマが気にする必要はないので、\emph{暗黙的}であると言えます。作成されるクラスごとに、そのクラスを唯一のインスタンスとして持つ\subind{metaclass}{暗黙的}なメタクラスが作成されます。
+メタクラスはクラスを定義すると自動的に作成されます。これはプログラマが気にする必要はないので、\emph{暗黙的}であると言えます。作成されるクラスごとに、そのクラスを唯一のインスタンスとして持つ\jasubind{あんもくてき}{metaclass}{暗黙的}なメタクラスが作成されます。
 % At a more advanced level, this implies that sharing between metaclasses is difficult except by subclassing. 
 
 通常のクラスはグローバル変数によって参照できますが、メタクラスは匿名の存在です。
@@ -196,7 +196,7 @@ Object class --> Object class
 \end{code}
 
 \noindent
-\figref{translucentmetaclasses}は、クラスがその(\subind{metaclass}{匿名}の)メタクラスのインスタンスであることを示しています。
+\figref{translucentmetaclasses}は、クラスがその(\jasubind{とくめい}{metaclass}{匿名}の)メタクラスのインスタンスであることを示しています。
 
 \begin{center}
 \begin{figure}[!ht]
@@ -235,7 +235,7 @@ TranslucentColor superclass class --> Color class
 \end{code}
 
 \noindent
-これが、「メタクラス\subindmain{metaclass}{階層}はクラス階層と並列に存在する」ことの意味です。 \figref{parallelHierarchies}は、\clsind{TranslucentColor}の階層において、どのようになっているかを示しています。
+これが、「メタクラス\jasubindmain{かいそう}{metaclass}{階層}はクラス階層と並列に存在する」ことの意味です。 \figref{parallelHierarchies}は、\clsind{TranslucentColor}の階層において、どのようになっているかを示しています。
 
 \begin{center}
 \begin{figure}[!ht]
@@ -257,7 +257,7 @@ TranslucentColor class superclass superclass --> Object class
 どちらのケースも、メソッド探索はメッセージのレシーバクラスから始まり、継承チェーンをたどっていきます。
 
 従って、クラスに送ったメッセージの探索は、メタクラスの階層チェーンをたどらなければなりません。
-例えば、\mthind{Color class}{blue}メソッドは\ct{Color}の\subind{browser}{クラス側}に定義されています。
+例えば、\mthind{Color class}{blue}メソッドは\ct{Color}の\jasubind{クラスがわ}{browser}{クラス側}に定義されています。
 \ct{TranslucentColor}に\ct{blue}メッセージを送信した場合は、他のメッセージとまったく同様にメソッドを探索します。
 すなわち、探索は\ct{TranslucentColor class}でまず行われ、対応するメソッドが見つかるまでメタクラス階層を\ct{Color class}までたどっていきます。(\figref{metaclasslookup}を参照)
 
@@ -276,7 +276,7 @@ TranslucentColor blue --> Color blue
 \end{figure}
 \end{center}
 
-すなわち、Smalltalkでは統一された方法でメソッド\subind{method}{探索}が行われていると言えます。クラスもまた単なるオブジェクトであり、他のオブジェクトと同じように振る舞います。
+すなわち、Smalltalkでは統一された方法でメソッド\jasubind{たんさく}{method}{探索}が行われていると言えます。クラスもまた単なるオブジェクトであり、他のオブジェクトと同じように振る舞います。
 クラスは、新しいインスタンスを作る能力を持ちますが、これは、クラスがたまたま\ct{new}というメッセージに反応することができて、\ct{new}に対するメソッドが新しいインスタンスの作り方を知っているからにすぎません。
 通常はクラス以外のオブジェクトはこのメッセージに応答できませんが、そうする理由があるなら、\ct{new}メソッドをメタクラス以外に追加することを止めるものは何もありません。
 
@@ -289,7 +289,7 @@ TranslucentColor blue --> Color blue
 前者は\ct{Color}のインスタンスを、後者は\ct{Color}自身をインスペクトしていることに注意してください。
 どちらの場合もインスペクタのタイトルバーにはオブジェクトの\emph{クラス}が表示されるので、少し混乱するかもしれません。
 
-\figref{inspectingColor}にあるように、\ct{Color}のインスペクタによって、スーパークラス(superclass)、インスタンス変数(instanceVariables)、メソッド\subind{method}{辞書}(methodDict)などを見ることできます。
+\figref{inspectingColor}にあるように、\ct{Color}のインスペクタによって、スーパークラス(superclass)、インスタンス変数(instanceVariables)、メソッド\jasubind{じしょ}{method}{辞書}(methodDict)などを見ることできます。
 
 \begin{center}
 \begin{figure}[!ht]
@@ -417,7 +417,7 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 \end{center}
 
 この図は、すべてのメタクラスが\ct{Metaclass}のインスタンスであり、\ct{Metaclass}のメタクラスもまた同様であるということを示しています。
-\ref{fig:metaclassclass}と\ref{fig:metaclassclassclass}を比べると、\ct{Object class}に至るまでメタクラスの\subind{metaclass}{階層}がクラス階層の完全な鏡像になっていることがわかるでしょう。
+\ref{fig:metaclassclass}と\ref{fig:metaclassclassclass}を比べると、\ct{Object class}に至るまでメタクラスの\jasubind{かいそう}{metaclass}{階層}がクラス階層の完全な鏡像になっていることがわかるでしょう。
 
 以下の例は、クラス階層の問い合わせによって、\figref{metaclassclassclass}が正確であることを示しています。
 （現実にはちょっとしたウソが混じっており、\ct{Object class superclass}の結果は\clsind{ProtoObject class}であって\ct{Class}ではありません。\pharo では、\ct{Class}に至るため、もう一つ上のスーパークラスに行く必要があります。）

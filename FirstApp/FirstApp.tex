@@ -239,7 +239,7 @@ initialize
    \caption{LOCellオブジェクトを調べるために使用したインスペクタ。\figlabel{LOCellInspector}}
 \end{figure}
 
-\ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。どれか一つ(例えば\mbox{\ct{bounds}})を選んでみてください。右側のペインにその\ind{インスタンス変数}の値が表示されます。
+\ind{inspector}の左側のペインには、インスペクトしたオブジェクトのインスタンス変数のリストが表示されます。どれか一つ(例えば\mbox{\ct{bounds}})を選んでみてください。右側のペインにその\jaind{インスタンスへんすう}{インスタンス変数}の値が表示されます。
 
 %  You can also use the inspector to change the value of an instance variable.
 %\dothis{Change the value of \ct{bounds} to \ct{0@0 corner: 50@50} and \menu{accept} it.}
@@ -387,7 +387,7 @@ initialize
    \caption{分類されていないメソッドを自動的に分類。 \figlabel{categorize}}
 \end{figure}
 
-本書の例に従って作業をしているなら、3つ目のペインには\protind{as yet unclassified(まだ分類されていない)}というプロトコルが含まれているかもしれません。
+本書の例に従って作業をしているなら、3つ目のペインには\protind{as yet unclassified} (まだ分類されていない)というプロトコルが含まれているかもしれません。
 
 \dothis{プロトコルペインを\actclick してください。\menu{various \go categorize automatically}を選択すると、\protind{initialization}プロトコルが新しくでき、\ct{initialize}メソッドが移ります。}
 
@@ -435,7 +435,7 @@ LOGame>>>newCellAt: i at: j
 
 新たに出てきた\ct{toggleNeighboursOfCellAt:at:}セレクタと\ct{mouseAction:}セレクタのスペルをチェックしましょう。
 
-\Mthref{newCellAt:at:} では、\nlclsind{行列}{ぎょうれつ}の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドを定義しましょう。
+\Mthref{newCellAt:at:} では、\clsind{Matrix} (行列)の\ct{(i,j)}の位置に新しいLOCellを生成しています。最後の行ではセルの\ct{mouseAction}として\emph{block}\mbox{\lct{[self toggleNeighboursOfCellAt: i at: j ]}.}を設定しています。これはマウスをクリックしたときのコールバックとなります。対応するメソッドを定義しましょう。
 
 \begin{method}[toggleNeighboursOfCellAt:at:]{コールバックメソッド}
 LOGame>>>toggleNeighboursOfCellAt: i at: j
@@ -565,7 +565,7 @@ LOGame>>>newCellAt: i at: j
 \cmindex{LOGame}{newCellAt:at:}
 
 \noindent
-\charef{quick}で、\st では\subind{method}{値}を\ind{返す}時には\ct{^}を使うと習ったのを思い出してください。\verb|^|をタイプします。
+\charef{quick}で、\st では\jasubind{あたい}{method}{値}を\jaind{かえす}{返す}時には\ct{^}を使うと習ったのを思い出してください。\verb|^|をタイプします。
 % \index{^@\verb|^|}
 \index{^@{$\uparrow$}|\ \hfill$\Longrightarrow$ {return}~~~}
 

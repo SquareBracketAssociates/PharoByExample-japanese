@@ -102,7 +102,7 @@ Color red printString --> 'Color red'
 \ct{printOn:} メッセージは \mthind{Object}{storeOn:} とは異なる、ということに注意してください。\ct{storeOn:} メッセージは、レシーバを再生成するのに使える式を引数(ストリーム)に流します。そしてその式は、ストリームが \ct{readFrom:} メッセージによって読み込まれるときに評価されます。一方 \ct{printOn:} は、単にレシーバのテキストバージョンを返すだけです。もちろんそのテキスト表現が、レシーバを表す自己評価型の式になっていることもあり得ます。
 
 \paragraph{表現と自己評価型表現という単語について。}
-関数型プログラミングでは、式は実行されると値を返します。一方 \st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値と自分自身が同じという好ましい性質を持つものがあります。例えば、\ct{true} オブジェクトの値はそれ自身、\ie\ct{true} オブジェクトです。このようなオブジェクトを\emphind{自己評価型オブジェクト}と呼びます。ワークスペースでオブジェクトを \menu{print it} すると、オブジェクトの値の\emph{表示用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
+関数型プログラミングでは、式は実行されると値を返します。一方 \st では、メッセージ(式)はオブジェクト(値)を返します。オブジェクトの中には、値と自分自身が同じという好ましい性質を持つものがあります。例えば、\ct{true} オブジェクトの値はそれ自身、\ie\ct{true} オブジェクトです。このようなオブジェクトを\jaemphind{じこひょうかがたオブジェクト}{自己評価型オブジェクト}と呼びます。ワークスペースでオブジェクトを \menu{print it} すると、オブジェクトの値の\emph{表示用の}バージョンを見ることができます。次のものが自己評価型表現の例です。
 
 \begin{code}{@TEST}
 true         --> true
@@ -113,7 +113,7 @@ Color red --> Color red
 \end{code}
 
 配列のようなオブジェクトは、そこに含まれるオブジェクトによって自己評価型であったりそうではなかったりすることに注意してください。例えば、真偽値の配列は自己評価型ですが、person オブジェクトの配列はそうではありません。
-次の例は、\subind{Array}{動的}配列が自己評価型になるのは、要素も自己評価型の場合だけであることを示しています:
+次の例は、\jasubind{どうてき}{Array}{動的}配列が自己評価型になるのは、要素も自己評価型の場合だけであることを示しています:
 \begin{code}{@TEST}
 {10@10. 100@100}           --> {10@10. 100@100}
 {Browser new . 100@100} --> an Array(a Browser 100@100)
@@ -151,11 +151,11 @@ Interval>>>printOn: aStream
 %-----------------------------------------------------------------
 \subsection{comparing プロトコル(同一性と同値性)}
 
-\st では、\ct{=} メッセージはオブジェクトの\emphsubindmain{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方、\ct{==} はオブジェクトの\emphsubindmain{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)。
+\st では、\ct{=} メッセージはオブジェクトの\jaemphsubindmain{どうちせい}{Object}{同値性}をテストします(\ie 二つのオブジェクトが同じ値を持つかどうか)。一方、\ct{==} はオブジェクトの\jaemphsubindmain{どういつせい}{Object}{同一性}をテストします(\ie 二つの式が同じオブジェクトを示すかどうか)。
 \seeindex{\ct{=}}{Object, 同値性}
 \seeindex{\ct{==}}{Object, 同一性}
-\seeindex{同値性}{Object, 同値性}
-\seeindex{同一性}{Object, 同一性}
+\seeindex{どうちせい@同値性}{Object, 同値性}
+\seeindex{どういつせい@同一性}{Object, 同一性}
 
 オブジェクトの同値性のテストのデフォルト実装では、オブジェクトの同一性をテストします:
 \begin{method}{オブジェクトの同値性}
@@ -329,7 +329,7 @@ Object>>>copy
 
 \sd{他の章では haltIf:、haltOnce、inspectOnce、flagging: isThisEverCalled なども紹介されています。}
 
-次に重要なメソッドは \mthind{Object}{assert:} です\footnote{訳注: \ct{assert:} は、実際には error handling プロトコルに分類されています。}。これは引数として\ind{ブロック}を取ります。ブロックが \ct{true} を返すと実行は継続されます。そうでなければ \ct{AssertionFailure} 例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:} は、\emphind{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な事前条件をチェックする、というのが最もよくある利用方法でしょう。\cmind{Stack}{pop} は、次のように簡単に実装できます:%@ non-trivial ?= 重要な
+次に重要なメソッドは \mthind{Object}{assert:} です\footnote{訳注: \ct{assert:} は、実際には error handling プロトコルに分類されています。}。これは引数として\ind{ブロック}を取ります。ブロックが \ct{true} を返すと実行は継続されます。そうでなければ \ct{AssertionFailure} 例外が発生します。この例外がキャッチされなければ、例外の発生した位置でデバッガが開きます。\ct{assert:} は、\jaemphind{けいやくによるせっけい}{契約による設計}をサポートするのに特に便利です。オブジェクトのパブリックなメソッドの重要な事前条件をチェックする、というのが最もよくある利用方法でしょう。\cmind{Stack}{pop} は、次のように簡単に実装できます:%@ non-trivial ?= 重要な
 
 \begin{method}{事前条件のチェック}
 Stack>>>pop
@@ -372,7 +372,7 @@ Object>>>subclassResponsibility
     self error: 'My subclass should have overridden ', thisContext sender selector printString
 \end{method}\footnotetext{訳注: この例は \pharo 1.3 では変更されています。}%@ Reflection にまったく同じコメントがあって、2 訳の例をそのまま使った。
 
-\clsind{Magnitude} と \clsind{Number} と \clsind{Boolean} が、\subind{クラス}{抽象}クラスの古典的な例です。この章の少し先で説明します。
+\clsind{Magnitude} と \clsind{Number} と \clsind{Boolean} が、\jasubind{ちゅうしょう}{クラス}{抽象}クラスの古典的な例です。この章の少し先で説明します。
 
 \begin{code}{NB: CANNOT TEST}
 Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
@@ -380,7 +380,7 @@ Number new + 1 --> !\emph{Error: My subclass should have overridden \#+}!
 
 規約により、サブクラスが継承すべきではないメソッドを通知するには、サブクラス側で \ct{self shouldNotImplement} を送信します。これは、一般的にはクラス階層の設計が何かうまくいっていないことのサインです。しかし単一継承の制限があるため、どうしてもこのような回避策を取らざるを得ない場合もあります。
 \cmindex{Object}{shouldNotImplement}
-\index{継承!キャンセルする}
+\index{けいしょう@継承!キャンセルする}
 
 典型的な例が \cmind{Dictionary}{remove:} です。ここでは、\cmind{Collection}{remove:} を継承しないで \ct{shouldNotImplement} フラグを立てています (\ct{Dictionary} は代わりに \mthind{Dictionary}{removeKey:} を用意しています)。%@ inherited by \clsind{Dictionary} but flagged as not implemented: 自信なし。
 
@@ -421,7 +421,7 @@ Behavior>>>new
 \end{method} %@ 自信なし。Collection で、indexable を「添字付き」と機械的に訳していた。
 \cmindex{Behavior}{new}
 
-これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常 \ct{initialize} メソッドは、継承されたすべてのインスタンス変数についてクラスの\subind{クラス}{不変条件}を確立するために、\ct{super initialize} を実行すべきです
+これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常 \ct{initialize} メソッドは、継承されたすべてのインスタンス変数についてクラスの\jasubind{ふへんじょうけん}{クラス}{不変条件}を確立するために、\ct{super initialize} を実行すべきです
 (これは他の \st では標準の振る舞い\emph{ではない}ことに注意してください)。%@ 何の振る舞い?
 
 %=================================================================
@@ -459,7 +459,7 @@ Magnitude>>> > aMagnitude
 
 同様に \clsindmain{Number} では、\mthind{Number}{+}、\mthind{Number}{-}、\mthind{Number}{*}、\mthind{Number}{/} などが抽象メソッドとして定義されており、それ以外のすべての算術演算子は汎用的な形で定義されています。
 
-すべての \ct{Number} オブジェクトは、\mthind{Number}{asFloat} や \mthind{Number}{asInteger} のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}\index{便利コンストラクタ}\footnote{訳注: 便利コンストラクタとも呼ばれます。}つまり、\ct{Number} を実部がゼロの \clsind{Complex}\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません。} のインスタンスに変換する \mthind{Number}{i} や、\ct{Number} から \clsind{Duration} オブジェクトを生成する \mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week} などがあります。
+すべての \ct{Number} オブジェクトは、\mthind{Number}{asFloat} や \mthind{Number}{asInteger} のような様々な\emph{変換}演算子をサポートします。また、それ以外にもたくさんの\emphind{ショートカットコンストラクタメソッド}\index{べんりコンストラクタ@便利コンストラクタ}\footnote{訳注: 便利コンストラクタとも呼ばれます。}つまり、\ct{Number} を実部がゼロの \clsind{Complex}\footnote{訳注: \ct{Complex} クラスは \pharo 1.3 に存在しません。} のインスタンスに変換する \mthind{Number}{i} や、\ct{Number} から \clsind{Duration} オブジェクトを生成する \mthind{Number}{hour}、\mthind{Number}{day}、\mthind{Number}{week} などがあります。
 
 \ct{Numbers} は、\mthind{Number}{sin}、\mthind{Number}{log}、\mthind{Number}{raiseTo:}、\mthind{Number}{squared}、\mthind{Number}{sqrt} などのよくある\emph{数学関数}を直接サポートします。
 
@@ -652,7 +652,7 @@ Character characterTable size                               --> 256
 
 さらに進んだ正規表現のサポートが必要なときは、Vassili Bykov による \pkgind{Regex} パッケージを検討してください。
 \index{Bykov, Vassili}
-\index{正規表現パッケージ}
+\index{せいきひょうげんパッケージ@正規表現パッケージ}
 
 \ct{String} は比較的多くの変換メソッドをサポートしています。それらの多くは、\mthind{String}{asDate}、\mthind{String}{asFileName} などのような他のクラスへの\ind{ショートカットコンストラクタメソッド}です。また \mthind{String}{capitalized} や \mthind{String}{translateToLowercase} などのような、文字列から他の文字列に変換する便利なメソッドもたくさんあります。
 
@@ -664,7 +664,7 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{Boolean}
 
-\clsindmain{Boolean} クラスを見れば、\st の言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean} は、\patind{Singleton} クラスである \clsindmain{True} と \clsindmain{False} の\subind{クラス}{抽象}スーパークラスです。
+\clsindmain{Boolean} クラスを見れば、\st の言語機能のどれほど多くがクラスライブラリ側に押しやられているかということについて、非常に興味深い洞察を得ることができます。\ct{Boolean} は、\patind{Singleton} クラスである \clsindmain{True} と \clsindmain{False} の\jasubind{ちゅうしょう}{クラス}{抽象}スーパークラスです。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.5\textwidth]{BooleanHierarchy}}}

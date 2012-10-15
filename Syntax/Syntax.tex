@@ -69,7 +69,7 @@
 (iv) 代入
 (v) \ind{ブロック}クロージャ
 (vi) メッセージ送信
-\seeindex{擬似変数}{変数, 擬似}
+\seeindex{ぎじへんすう@擬似変数}{変数, 擬似}
 
 \begin{table}\centering
 	\begin{tabular}{ll}
@@ -116,27 +116,27 @@
 		インスタンス変数、メソッドとブロックの引数、一時変数の先頭の文字は小文字でなければなりません。
 		これにより変数の有効範囲がプライベートということがコードの読み手に伝わります。
 
-\item[共有変数] 大文字で始まる識別子は\subind{変数}{グローバル}変数、クラス\subind{クラス}{変数}{}、\subind{変数}{プール}辞書、クラス名です。
+\item[共有変数] 大文字で始まる識別子は\subind{へんすう@変数}{グローバル}変数、クラス\jasubind{へんすう}{クラス}{変数}{}、\subind{へんすう@変数}{プール}辞書、クラス名です。
 		\ct{Transcript} はグローバル変数であり、\ct{TranscriptStream} クラスのインスタンスです。
-		\seeindex{グローバル変数}{変数, グローバル}
-		\seeindex{プール辞書}{変数, プール}
-		\seeindex{変数!クラス}{クラス, 変数}
+		\seeindex{グローバルへんすう@グローバル変数}{変数, グローバル}
+		\seeindex{プールじしょ@プール辞書}{変数, プール}
+		\seeindex{へんすう@変数!クラス}{クラス, 変数}
 
 \item[レシーバ] \pvind{self} は、現在のメソッドを実行しているオブジェクト自身を指す予約語です。\self は「レシーバ」とも呼ばれます。なぜならこのオブジェクトは、メソッドを実行するきっかけになったメッセージを受け取っているからです。
-		\self は「\subind{変数}{疑似}変数」と呼ばれます。\self には代入できないからです。
+		\self は「\jasubind{ぎじ}{へんすう@変数}{疑似}変数」と呼ばれます。\self には代入できないからです。
 
 \item[整数] \ct{42} のような通常の 10進整数に加えて、\pharo では基数表記も使えます。
 	\ct{2r101} は基数 2 (\ie バイナリ)の \ct{101} であり、10進数の 5 と同じです。
 	\index{リテラル}
-	\index{リテラル!数}
+	\index{リテラル!かず@数}
 
-\item[浮動小数点数] は 10を基数とした\ind{指数}で指定することが可能です。 \mbox{\ct{2.4e7}} は $2.4 \times 10^7$ です。
- 	\index{浮動小数点数}
+\item[浮動小数点数] は 10を基数とした\jaind{しすう}{指数}で指定することが可能です。 \mbox{\ct{2.4e7}} は $2.4 \times 10^7$ です。
+ 	\index{ふどうしょうすうてんすう@浮動小数点数}
 
-\item[文字] \subind{リテラル}{文字}リテラルにはドル記号を付けます: \ct{$a}\ignoredollar$ はaのリテラルです。
+\item[文字] \jasubind{もじ}{リテラル}{文字}リテラルにはドル記号を付けます: \ct{$a}\ignoredollar$ はaのリテラルです。
 		非印字文字のインスタンスは、\ct{Character space} や \ct{Character tab} のように \clsind{Character} クラスに適切なメッセージを送信することにより得ることができます。
 		
-\item[文字列] シングルクォートは\subind{リテラル}{文字列}を定義するために使います。
+\item[文字列] シングルクォートは\jasubind{もじれつ}{リテラル}{文字列}を定義するために使います。
 		クォートを含んだ文字列を表現したい場合は、\ct{'G''day'} のようにクォートを重ねます。
 
 \item[シンボル] は文字の並びでできている点で文字列に似ています。
@@ -146,9 +146,9 @@
 
 \item[コンパイル時配列] はスペースで区切ったリテラルを \ct{#( )} で囲んで定義します。
 		括弧内のすべての要素はコンパイル時に定数でなければなりません。
-		例えば、\ct{#(27 (true false) abc)} は要素が 3個の\subind{配列}{リテラル}\subind{リテラル}{配列}です。 整数 \ct{27}、真偽値が 2 個入ったコンパイル時配列、そしてシンボル \ct{#abc} が要素になります(これが \ct{#(27 #(true false) #abc)} と同じということに注意してください)。
+		例えば、\ct{#(27 (true false) abc)} は要素が 3個の\subind{はいれつ@配列}{リテラル}\jasubind{はいれつ}{リテラル}{配列}です。 整数 \ct{27}、真偽値が 2 個入ったコンパイル時配列、そしてシンボル \ct{#abc} が要素になります(これが \ct{#(27 #(true false) #abc)} と同じということに注意してください)。
 
-\item[動的配列] 波括弧 \ct|{ }|は実行時に(\subind{配列}{動的})配列を定義します。
+\item[動的配列] 波括弧 \ct|{ }|は実行時に(\jasubind{どうてき}{はいれつ@配列}{動的})配列を定義します。
 		動的配列の要素は、ピリオドで区切った式です。
 		したがって、\ct|{ 1. 2. 1+2 }| は 1、 2、そして 1+2 を評価した結果を要素とする配列を定義します。
 		(波括弧による表記は、\st の方言でも \pharo と \squeak に特有のものです!
@@ -158,17 +158,17 @@
 		\ct{"hello"} は文字列ではなく\ind{コメント}なので、\pharo コンパイラによって無視されます。
 		コメントは複数行にまたがってもかまいません。
 		
-\item[ローカル変数宣言] ローカル変数を\subind{変数}{宣言}するには、メソッド(およびブロック)内で、ローカル変数群を縦棒 \ct{| |} で囲みます。
+\item[ローカル変数宣言] ローカル変数を\jasubind{せんげん}{へんすう@変数}{宣言}するには、メソッド(およびブロック)内で、ローカル変数群を縦棒 \ct{| |} で囲みます。
 		% \seeindex{\|@{\textsf{\|\|}}}{assignment}
 		% Can't seem to index or-bars! (special char for index macro)
-		\seeindex{宣言}{変数宣言}
+		\seeindex{せんげん@宣言}{変数宣言}
 
 \item[代入] \ct{:=} は変数にオブジェクトを代入します。
 %		Sometimes you will see $\leftarrow$ used instead.
 %		Unfortunately, since this is not an \textsc{ascii} character, it will appear as an underscore unless
 %		you are using a special font.
 %		So, \ct{x := 1} is the same as \ct{x _ 1} or \ct{x UNDERSCORE 1}. You should use \ct{:=} since the other representations have been deprecated.
-		\index{代入}
+		\index{だいにゅう@代入}
 		\seeindex{:=@{\textsf{:=}}}{代入}
 		\seeindex{\_@{\textsf{\_}}}{代入}
 		\seeindex{<-@{$\leftarrow$}}{代入}
@@ -185,12 +185,12 @@
 	同じ文法はメソッドアノテーションにも使われます。
 
 \item[単項メッセージ] は単一の単語(例えば \ct{factorial})からなり、レシーバ(例えば \ct{3})に送信されます。
-	\index{メッセージ!単項}
-	\seeindex{単項メッセージ}{メッセージ, 単項}
+	\index{メッセージ!たんこう@単項}
+	\seeindex{たんこうメッセージ@単項メッセージ}{メッセージ, 単項}
 
 \item[二項メッセージ] は演算子(例えば \ct{+})のようなもので、単一の引数とともにレシーバに送信されます。\ct{3+4}の場合、レシーバは \ct{3} で引数は \ct{4} です。
-	\index{メッセージ!二項}
-	\seeindex{二項メッセージ}{メッセージ, 二項}
+	\index{メッセージ!にこう@二項}
+	\seeindex{にこうメッセージ@二項メッセージ}{メッセージ, 二項}
 
 \item[キーワードメッセージ] はraisedTo:modulo:のように、複数のキーワードからなるメッセージです。キーワードはコロンで終わり、それぞれ引数を取ります。 \ct{2 raisedTo: 6 modulo: 10} の式では、\ct{raisedTo:modulo:} がメッセージセレクタで、 コロンの後の\ct{6} と \ct{10} が引数です。メッセージは2に送られています。
 	\index{メッセージ!キーワード}
@@ -199,7 +199,7 @@
 \item[メソッドリターン] \ct{^}はメソッドから値を\emphind{リターン}するために使われます(\ct{^} を入力するには \verb|^| とタイプしなければなりません)。
 \md{\ct{^} always returns from the method, even if used in a block, it returns from the enclosing method.}
 
-\item[文の並び] 文の\emphsubind{文}{区切り}はピリオド(\ct{.})です。二つの式の間にピリオドを置くと、それらは独立した文として扱われます。
+\item[文の並び] 文の\jaemphsubind{くぎり}{ぶん@文}{区切り}はピリオド(\ct{.})です。二つの式の間にピリオドを置くと、それらは独立した文として扱われます。
 %	\seeindex{full stop}{statement separator}
 	\seeindex{ピリオド}{文セパレータ}
 	\seeindex{\ct{.}}{文セパレータ}
@@ -218,7 +218,7 @@
 
 \st には 6個の予約語として、\emph{擬似変数}があります。
 \pvind{nil}、\pvind{true}、\pvind{false}、\pvind{self}、\pvind{super}、 \pvind{thisContext}です。
-これらは事前に定義され、代入することができないため、\subind{変数}{擬似}変数と呼ばれます。
+これらは事前に定義され、代入することができないため、\jasubind{ぎじ}{へんすう@変数}{擬似}変数と呼ばれます。
 \ct{true}、\ct{false}、\ct{nil} は定数です。一方 \ct{self}、\ct{super}、および \ct{thisContext} の値は、コードの実行中に動的に変化します。
 
 \ct{true} と \ct{false} は、\clsind{Boolean} クラスである \clsind{True} および \clsind{False} の唯一のインスタンスです。
@@ -252,10 +252,10 @@
 \end{enumerate}
 
 単項メッセージのメッセージセレクタは、英数字で記述します。先頭は小文字になります。
-\index{メッセージ!単項}
+\index{メッセージ!たんこう@単項}
 
 二項メッセージのメッセージセレクタは、以下の文字を1文字以上組み合わせることでできます。
-\index{メッセージ!二項}
+\index{メッセージ!にこう@二項}
 \begin{code}{}
 + - / \ * ~ < > = @ % | & ! ? ,
 \end{code}
@@ -287,7 +287,7 @@
 \end{code}
 
 複数のメッセージ送信は、ピリオドやセミコロンを使って組み立てることができます。ピリオドで区切られた式の並びは、文として順々に評価されます。
-\index{文!セパレータ}
+\index{ぶん@文!セパレータ}
 
 \begin{code}{}
 Transcript cr.
@@ -343,7 +343,7 @@ String>>>lineCount
 
 \ct{^}(\verb|^|とタイプする)が先頭に書いてある式は、評価されるとメソッドを終了してその式の値を返します。
 明示的に値を返さずに終了するメソッドの場合、暗黙的に \pvind{self} を \ind{リターン}します。
-\index{リターン!暗黙}
+\index{リターン!あんもく@暗黙}
 
 引数とローカル変数は常に小文字で始めなければなりません。
 大文字で始まる名前はグローバルな変数であるとみなされます。
@@ -376,7 +376,7 @@ String>>>lineCount
 
 ブロック内でもローカル変数を宣言することができます。メソッドのローカル変数宣言と同様、縦棒で囲みます。
 ローカル変数は引数リストの後ろに宣言します。
-\index{変数!宣言}
+\index{へんすう@変数!せんげん@宣言}
 
 \begin{code}{@TEST}
 [ :x :y | | z | z := x+ y. z ] value: 1 value: 2 --> 3
@@ -433,11 +433,11 @@ x := 1.
 ループの終了条件は、繰り返し評価されるかもしれないので、真偽値そのものではなく真偽値を返すブロックでなければなりません。
 以下は非常に手続き的なループの例です。
 
-\index{繰り返し}
-\index{繰り返し|seealso{Collection, iteration}}
+\index{くりかえし@繰り返し}
+\index{くりかえし@繰り返し|seealso{Collection, iteration}}
 \seeindex{ループ}{繰り返し}
-\seeindex{列挙}{繰り返し}
-\seeindex{制御構造}{繰り返し}
+\seeindex{れっきょ@列挙}{繰り返し}
+\seeindex{せいぎょこうぞう@制御構造}{繰り返し}
 
 \begin{code}{@TEST | n |}
 n := 1.
