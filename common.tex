@@ -604,9 +604,13 @@ Damien Pollet},
 % Macros ending with "ind" generate text as well as an index entry
 % Macros ending with "index" *only* generate an index entry
 \newcommand{\ind}[1]{\index{#1}#1\xspace} % plain text
+\newcommand{\jaind}[2]{\index{#1@#2}#2\xspace} % plain text
 \newcommand{\subind}[2]{\index{#1!#2}#2\xspace} % show #2, subindex under #1
+\newcommand{\jasubind}[3]{\index{#2!#1@#3}#3\xspace} % show #2, subindex under #1
 \newcommand{\emphind}[1]{\index{#1}\emph{#1}\xspace} % emph #1
+\newcommand{\jaemphind}[2]{\index{#1@#2}\emph{#2}\xspace} % emph #1
 \newcommand{\emphsubind}[2]{\index{#1!#2}\emph{#2}\xspace} % show emph #2, subindex inder #1
+\newcommand{\jaemphsubind}[3]{\index{#2!#1@#3}\emph{#3}\xspace} % show emph #2, subindex inder #1
 \newcommand{\scatind}[1]{\index{#1@\textsf{#1} (category)}\scat{#1}} % category
 \newcommand{\pkgind}[1]{\index{#1@\textsf{#1} (package)}\pkg{#1}} % package
 \newcommand{\protind}[1]{\index{#1@\textsf{#1} (protocol)}\prot{#1}} % protocol
@@ -647,7 +651,9 @@ Damien Pollet},
 %\newcommand{\indexmain}[1]{\index{#1|boldidx}} % main index entry only
 \newcommand{\indmain}[1]{\index{#1}#1\xspace} % The main index entry for this item
 \newcommand{\emphsubindmain}[2]{\index{#1!#2}\emph{#2}\xspace} % subindex, main entry
+\newcommand{\jaemphsubindmain}[3]{\index{#2!#1@#3}\emph{#3}\xspace} % subindex, main entry
 \newcommand{\subindmain}[2]{\index{#1!#2}#2\xspace} % subindex, main entry
+\newcommand{\jasubindmain}[3]{\index{#2!#1@#3}#3\xspace} % subindex, main entry
 %\newcommand{\clsindmain}[1]{\index{#1@\textsf{#1} (class)}\ct{#1}\xspace}
 \newcommand{\clsindmain}[1]{\index{#1!\#@(class)}\ct{#1}\xspace} % class main
 \newcommand{\clsindexmain}[1]{\index{#1!\#@(class)}} % class main index only

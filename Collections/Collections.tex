@@ -113,7 +113,7 @@ students select: [ :each | each gpa < threshold ]
 \end{code}
 \noindent
 これは「\ct{students} の要素の中で、ある条件を満たすもの」からなる新しいコレクションを返します。角括弧で囲まれた式が \ct{true} を返すことが条件です\footnote{角括弧内の式は無名関数 $\lambda x. x~{\sf gpa} < {\sf threshold}$ を定義する $\lambda$ 式だと考えることができます。%@ evaluate: 返す
-\index{lambda 式}}。
+\index{lambdaしき@lambda 式}}。
 この \st コードには、ドメイン特化言語\footnote{訳注: domain-specific query language}的なシンプルさとエレガンスがあります。
 
 \ct{select:} メッセージは \st の\emph{すべての}コレクションが理解します。学生のデータ構造が配列なのか連結リストなのかを調べる必要はありません。どちらも \ct{select:} メッセージを理解します。ループを使った場合、\ct{students} が配列なのか連結リストなのかをあらかじめ知っておかなければなりませんが、それとは大きく異なるということに注意しましょう。%@ set up: 訳さなかった。
@@ -237,7 +237,7 @@ students select: [ :each | each gpa < threshold ]
 \end{enumerate}
 これらの基本的なクラスの他に、\ct{Array}、\ct{Set}、それから辞書の多くには、「\subind{Collection}{Weak}」 な変種があります。これらのコレクションは、要素を「弱く」保持します。\ie 要素のガーベージコレクションを禁止しないということです。
 \pharo のバーチャルマシンはこれらのクラスを判別し、特別に扱います。
-\index{弱いコレクション}
+\index{よわいコレクション@弱いコレクション}
 
 \st のコレクションについてより詳しく知りたい場合は、LaLonde と Pugh の素晴らしい本\cite{LaLo90a} を参照してください。
 
@@ -325,7 +325,7 @@ Array with: 4 with: 3/2 with: 'lulu' -->  {4. (3/2). 'lulu'}
 \end{code}
 
 \paragraph{\ct|\#()| を用いたリテラル生成。}
-\ct{#()} は、静的な (または 「\subind{Array}{リテラル}」) 要素を持つ\ind{リテラル配列}を生成します。静的というのは、要素の値が実行時ではなく式がコンパイルされたときにわかっていなければならない、ということです。以下のコードは、最初の要素が (リテラル) 数値 \ct{1} で次の要素が (リテラル) 文字列 \ct{'here'} であるサイズ 2 の配列を生成します。
+\ct{#()} は、静的な (または 「\subind{Array}{リテラル}」) 要素を持つ\jaind{リテラルはいれつ}{リテラル配列}を生成します。静的というのは、要素の値が実行時ではなく式がコンパイルされたときにわかっていなければならない、ということです。以下のコードは、最初の要素が (リテラル) 数値 \ct{1} で次の要素が (リテラル) 文字列 \ct{'here'} であるサイズ 2 の配列を生成します。
 
 \seeindex{\#@{\textsf{\#( )}}}{Array, リテラル}
 \seeindex{\{@{\textsf{\{ \}}}}{Array, 動的}
@@ -536,9 +536,9 @@ Set を作るには、\cmind{Set class}{newFrom:} または変換メッセージ
 
 集合演算である \emph{union (和集合)}、\emph{intersection (積集合)}、\emph{要素を含むかのテスト}は、\ct{Collection} メソッドの \mthind{Collection}{union:}、\mthind{Collection}{intersection:}、\mthind{Collection}{includes:} として実装されています。
 レシーバが最初に \ct{Set} に変換されるので、これらの演算はすべてのコレクションでちゃんと動くのです!
-\seeindex{Set!和集合}{Collection, \ct{union:}}
-\seeindex{Set!積集合}{Collection, \ct{intersection:}}
-\seeindex{Set!要素を含むか}{Collection, \ct{includes:}}
+\seeindex{Set!わしゅうごう@和集合}{Collection, \ct{union:}}
+\seeindex{Set!せきしゅうごう@積集合}{Collection, \ct{intersection:}}
+\seeindex{Set!ようそをふくむか@要素を含むか}{Collection, \ct{includes:}}
 
 \begin{code}{@TEST}
 (1 to: 6) union: (4 to: 10)  --> a Set(1 2 3 4 5 6 7 8 9 10)
@@ -619,7 +619,7 @@ String newFrom: #($h $e $l $l $o) --> 'hello'
 話を簡単にするために、その差異は無視して単に \ct{String} のインスタンスについて述べます。
 
 \ct{String} の二つのインスタンスは、カンマによって連結できます。%@ ウィキペディアではコンマ。Google ではカンマが優勢。
-\index{Collection!カンマ演算子}
+\index{Collection!カンマえんざんし@カンマ演算子}
 \begin{code}{@TEST |s|}
 s := 'no', ' ', 'worries'.
 s -->  'no worries'
@@ -636,9 +636,9 @@ s --> 'no hurries'
 \begin{code}{@TEST}
 (1 to: 3) , '45' --> #(1 2 3 $4 $5)
 \end{code}
-\seeindex{String!連結}{Collection, カンマ演算子}
+\seeindex{String!れんけつ@連結}{Collection, カンマ演算子}
 \seeindex{String!カンマ}{Collection, カンマ演算子}
-\index{Collection!カンマ演算子}
+\index{Collection!カンマえんざんし@カンマ演算子}
 
 以下に示すように、既にある文字列を \mthind{String}{replaceAll:with:} または \mthind{String}{relpaceFrom:to:with:} を使って変更することもできます。後者の文字数と指定した間隔の長さが異るとエラーが発生するので、注意してください。
 
@@ -689,7 +689,7 @@ Perl 互換のより高度のパターンマッチングの機能が必要なら
 \end{code}
 
 \paragraph{文字列のテンプレート化。}
-文字列の\subind{String}{テンプレート化}に便利なメッセージが三つあります: \mthind{String}{format:}、\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:}。
+文字列の\jasubind{テンプレートか}{String}{テンプレート化}に便利なメッセージが三つあります: \mthind{String}{format:}、\mthind{String}{expandMacros}、\mthind{String}{expandMacrosWith:}。
 
 \begin{code}{@TEST}
 '{1} is {2}' format: {'Pharo' . 'cool'}  --> 'Pharo is cool'
@@ -733,7 +733,7 @@ expandMacros 系のメッセージは、\ct{<n>} によるキャリッジリタ�
 \seclabel{iterators}
 
 \st では、ループや条件分岐は、コレクションや整数やブロックのようなオブジェクトへの単なるメッセージ送信です(\charef{syntax}も参照のこと)。\ct{to:do:} のような低水準のメッセージ --- 初期値から最終値まで変化する数値を引数としてブロックを評価する --- に加え、\st のコレクション階層は様々な高水準のイテレータを提供しています。このようなイテレータを使うことで、コードがより堅牢でコンパクトになります。
-\index{Collection!繰り返し}
+\index{Collection!くりかえし@繰り返し}
 
 %---------------------------------------------------------
 \subsection{繰り返し (\lct{do:})}
