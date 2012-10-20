@@ -55,7 +55,7 @@ Magnitude subclass: \#Date
 \end{classdef}
 
 
-\ct{Date}クラス(とそのサブクラス)の全てのインスタンスメソッドは\ct{Date}クラスで定義されたクラス変数に直接アクセスします。
+\ct{Date}クラス(とそのサブクラス)のすべてのインスタンスメソッドは\ct{Date}クラスで定義されたクラス変数に直接アクセスします。
 下に示す\ct{mth:monthName}メソッドはクラス変数\ct{MonthNames}にアクセスします。
 
 \begin{method}{}\mthlabel{monthName}
@@ -65,7 +65,7 @@ Date>>>monthName
    ^MonthNames at: self monthIndex
 \end{method}
 
-同じように、全てのクラスメソッドはクラス変数にアクセスできます。
+同じように、すべてのクラスメソッドはクラス変数にアクセスできます。
 クラスメソッド\mthref{nameOfDay}と\ct{nameOfDay:}は、クラス変数\ct{WeekDayNames}にアクセスします。
 
 \begin{method}{}\mthlabel{nameOfDay}

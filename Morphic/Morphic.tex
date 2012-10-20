@@ -42,7 +42,7 @@
 %The observer pattern and its implementation with changed:  and update: messages could go here.  Or in ``Idiomatic design patterns'' later.}
 
 \indmain{Morphic}は、\pharo のGUIに付けられた名前です。
-Morphicは\st で書かれており、さまざまなOSの間で完全な互換性があります。その結果、\pharo はUnix, MacOS, Windowsのいずれにおいてもまったく同じ見た目となっています。
+Morphicは\st で書かれており、様々なOSの間で完全な互換性があります。その結果、\pharo はUnix, MacOS, Windowsのいずれにおいてもまったく同じ見た目となっています。
 Morphicと他の多くのユーザ・インターフェース・ツールキットとの違いは、インターフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
 
 \ab{After the first printing, I took an editing pass, correcting some errors and grammatical infelicities.}
@@ -226,7 +226,7 @@ drawOn: aCanvas
 実行すると\figref{cross}のようになります。
 しかし、マウスに反応する場所（つまりモーフを掴むのにクリックするところ）がバウンディングボックス全体になっていることに気づくと思います。これを解決しましょう。
 
-Morphicフレームワークは、モーフがカーソルの下にあるかどうか知る必要があるとき、マウスポインタの下にバウンディングボックスがある全てのモーフに対して、\ct{containsPoint:}メッセージを送ります。
+Morphicフレームワークは、モーフがカーソルの下にあるかどうか知る必要があるとき、マウスポインタの下にバウンディングボックスがあるすべてのモーフに対して、\ct{containsPoint:}メッセージを送ります。
 つまり、マウスに反応する場所をモーフの十字部分に制限するには、\ct{containsPoint:}メソッドをオーバーライドします。
 
 
@@ -401,11 +401,11 @@ verticalBar
 \subsection{マウスイベント}
 
 マウスボタンが押されたとき、Morphicはマウスポインタの下にある各モーフに対して\ct{handlesMouseDown:}メッセージを送ります。もし、モーフが\ct{true}を返すと、Morphicは直ちにそのモーフに対して\mthind{Morph}{mouseDown:}メッセージを送ります。ユーザがマウスボタンを離した際にも\mthind{Morph}{mouseUp:}メッセージを送ります。
-全てのモーフが\ct{false}を返すと、Morphicはドラッグ＆ドロップの操作を開始します。
+すべてのモーフが\ct{false}を返すと、Morphicはドラッグ＆ドロップの操作を開始します。
 後述するように、\ct{mouseDown:}と\ct{mouseUp:}メッセージは、\clsind{MouseEvent}オブジェクトの引数を伴って送られます。この引数は、マウスの動作の詳細を表しています。
 
 \ct{CrossMorph}クラスを拡張して、マウスイベントを扱うようにしましょう。
-まず、全ての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに確実に\ct{true}を返すことから始めます。
+まず、すべての十字モーフが\mthind{Morph}{handlesMouseDown:}メッセージに確実に\ct{true}を返すことから始めます。
 
 \dothis{\ct{CrossMorph}に以下のメソッドを追加します。}
 \begin{method}{\ct{CrossMorph}がマウスクリックに反応するように宣言する。}
@@ -611,7 +611,7 @@ ReceiverMorph>>>repelsMorph: aMorph event: ev
 	^ (self wantsDroppedMorph: aMorph event: ev) not
 \end{method}
 
-以上が、受け入れ側のモーフで必要なこと全てです。
+以上が、受け入れ側のモーフで必要なことすべてです。
 
 \dothis{ワークスペースで\clsind{ReceiverMorph}と\clsind{EllipseMorph}のインスタンスを作ります。}
 \begin{code}{}
@@ -666,7 +666,7 @@ ReceiverMorph new openInWorld.
 %=================================================================
 \section{例題}
 
-サイコロを転がすモーフを作りましょう。\footnote{}モーフをクリックすると全ての面が高速に表示され、再度クリックするとアニメーションが止まります。
+サイコロを転がすモーフを作りましょう。\footnote{}モーフをクリックするとすべての面が高速に表示され、再度クリックするとアニメーションが止まります。
 
 \begin{figure}[ht]
 	\centerline{\includegraphics[scale=0.65]{die}}

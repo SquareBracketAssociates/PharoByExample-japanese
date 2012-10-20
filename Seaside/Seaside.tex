@@ -243,7 +243,7 @@ Seaside全体でモードを切り替えるには\clsind{WAGlobalConfiguration} 
 
 \dothis{ \ct{WAComponent}を継承した \ct{WAHelloWorld}クラスを定義してみましょう。}
 
-コンポーネントでは自身の表示のしかたを定める必要があります。
+コンポーネントでは自身の表示の仕方を定める必要があります。
 このためには\mthind{WAPresenter}{renderContentOn:}をオーバーライドします。このメソッドには、引数として XHTMLの生成方法を知っている\clsind{WAHtmlCanvas}のインスタンスが渡されます。
 \index{Seaside!rendering}
 
@@ -376,7 +376,7 @@ XHTMLの各要素(段落、テーブル、リストなど)に対応したブラ�
 ブラシやそれに関連する便利メソッドを知るには、\clsind{WACanvas} とそのサブクラスをブラウズするとよいでしょう。
  \ct{renderContentOn:} の引数は、\clsind{WACanvas}を継承した \clsind{WARenderCanvas}のインスタンスになっています。
 
-すでにカウンターとマルチカウンターの例で、以下のブラシを使いました。
+既にカウンターとマルチカウンターの例で、以下のブラシを使いました。
 \needlines{2}
 \begin{code}{}
 html horizontalRule.
@@ -413,7 +413,7 @@ SeasideDemo>>>children
 	^ { htmlDemo . formDemo . editDemo . dialogDemo }
 \end{code}
 
-上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、ブラシの生成と同時にテキストをメッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送ってブラシを生成した後で、さまざまなプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
+上記のコードでは \ct{heading} ブラシの使い方が少し違っていることに注意してください。\ct{heading:}は、ブラシの生成と同時にテキストをメッセージの引数でセットする書き方になっています。次に出てくるのは、\ct{heading}メッセージを送ってブラシを生成した後で、様々なプロパティをカスケードでセットしていくというものです。ブラシはたいていこの2種類の書き方ができるようになっています。
 
 \important{もしも \ind{カスケード}を使って、ブラシに \mthind{WABrush}{with:}を送るなら、 \ct{with:} は必ず\emph{最後に}書く必要があります。\ct{with:} によってブラシのレンダリングが始まるからです。}
 
@@ -554,7 +554,7 @@ SeasideFormDemo>>>renderContentOn: html
 \ct{on: #heading of: self}を使うことで \ct{heading} 変数の値はユーザの入力に応じて自動的に更新されます。
 
 すぐ後にコンボボックスで\ct{color} 変数を指定した別の例があります。その次のチェックボックスの例では、 \ct{checked} 変数の値が更新されるようになっています。
-Seasideの機能テストのコードを見ると、さらにさまざまなフォームの例が見つかります。
+Seasideの機能テストのコードを見ると、さらに様々なフォームの例が見つかります。
 \scat{Seaside-Tests-Functional}のクラスカテゴリを見てみましょう。または、Webブラウザで\url{http://localhost:8080/seaside/tests/alltests}を開き、
 \menu{WAInputTest} を選んで \button{Restart} ボタンを押すと、フォームのほとんどの機能を知ることができます。
 \footnote{訳注：Seaside 3.0では、URLが\url{http://localhost:8080/tests/functional/WAInputPostFunctionalTest}に、メニューが\menu{WAInputGetFunctionalTest(WAInputPostFunctionalTest)}に変わっています。}
@@ -830,7 +830,7 @@ WAConvenienceTest>>>informCheese
 
 しかし時にはバックトラックをしたくないときもあります。ユーザが行った操作を、意図せず取り消してしまうことを\emph{防ぎたい}ときがあるのです。
 これは「ショッピングカート問題」などと呼ばれます。
-ユーザがショッピングカートの精算を済ませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
+ユーザがショッピングカートの精算をすませた後は、Webブラウザのボタンで戻って、カートに商品を追加できてしまってはまずいのです。
 
 Seasideでは、一連の操作をひとまとめにしてタスク内で\emph{トランザクション}として定義することにより、この問題を解決します。
 トランザクション内ではバックトラックができますが、トランザクションが終了すると戻ることはできません。

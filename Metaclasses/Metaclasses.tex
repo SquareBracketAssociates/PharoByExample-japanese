@@ -227,7 +227,7 @@ TranslucentColor selectors             -->  an IdentitySet(#pixelWord32 #asNontr
 \section{メタクラスの階層はクラスの階層と並列に存在する}
 % \ruleref{parallelhierarchy}
 
-\ref{rule:parallelhierarchy}は、メタクラスのスーパークラスに任意のクラスがなれるわけではないことを示しています。メタクラスのスーパクラスとして許されるのは、メタクラスの唯一のインスタンスであるクラスのスーパークラスのメタクラスです。
+\ref{rule:parallelhierarchy}は、メタクラスのスーパークラスに任意のクラスがなれるわけではないことを示しています。メタクラスのスーパークラスとして許されるのは、メタクラスの唯一のインスタンスであるクラスのスーパークラスのメタクラスです。
 
 \begin{code}{@TEST}
 TranslucentColor class superclass --> Color class
@@ -347,7 +347,7 @@ TranslucentColor new class --> TranslucentColor    "Behaviorのインスタン�
 
 \paragraph{\lct{Behavior}、\lct{ClassDescription}および\lct{Class}の責務について}
 \clsind{Behavior}は、インスタンスを持つオブジェクトのための必要最小限の状態を保持しています。すなわち、スーパークラスへのリンク、メソッド辞書、およびクラスのフォーマットです。クラスのフォーマットは、ポインタか否かの区別、コンパクトクラスか否かの区別、およびインスタンスの基本的な大きさをコード化したものです。
-\ct{Behavior}は\ct{Object}を継承しているので、それ自身と全てのサブクラスは、普通のオブジェクトとして振る舞うことができます。
+\ct{Behavior}は\ct{Object}を継承しているので、それ自身とすべてのサブクラスは、普通のオブジェクトとして振る舞うことができます。
 
 \ct{Behavior}は、コンパイラへの基本的なインターフェースも提供します。
 メソッド辞書の生成、
