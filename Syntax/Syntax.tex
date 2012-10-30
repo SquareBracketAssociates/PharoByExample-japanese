@@ -391,7 +391,7 @@ x := 1.
 [ :y | x + y ] value: 2 --> 3
 \end{code}
 
-ブロックはクラス \clsind{BlockClosure} のインスタンスです。つまりブロックはオブジェクトなので、他の普通のオブジェクトと同様、変数に代入したり引数として渡すことができます。
+ブロックはクラス \clsind{BlockClosure} のインスタンスです。つまりブロックはオブジェクトなので、他の普通のオブジェクトと同様、変数に代入したり引数として渡したりすることができます。
 。
 % For both understandability and performance, it is better for blocks to refer only to their parameters and local variables; blocks that do not refer external variables are optimized by the compiler.
 % MARCUS sez: I would just delete the sentence. There is nothing optimized, accessign outer temps is as fast as inner, so the only reason to avoid accessing outer temps would be that the code is easier to understand. But that's a relatively weak argument, I think.
