@@ -60,7 +60,7 @@ Only few streams have random access capability.}
 このモデルを理解しておくことは大切です。\st のすべてのストリーム操作はこのモデルによるからです。
 このような理由で、ほとんどの \clsind{Stream} クラスは \clsind{PositionableStream} のサブクラスになっています。
 \figref{_abcde} は、5 個の文字を含むストリームを表しています。
-このストリームは元の位置にあります。\ie、過去の要素は一つもありません。
+このストリームは最初の位置にあり、\ie、過去の要素は一つもありません。
 \mthind{PositionableStream}{reset} メッセージを使えば、いつでもこの位置に戻ることができます。
 
 \begin{figure}[ht]
@@ -70,7 +70,7 @@ Only few streams have random access capability.}
 \vspace{.2in}
 \end{figure}
 
-要素の読み込みは、概念的に、未来の要素の並びの先頭を取り除き、それを過去の要素の並びの最後に付け加えることです。
+概念的に、要素の読み込みは、未来の要素の並びから先頭を取り除き、過去となる要素の並びの最後に付け加えることです。
 \ct{next} メッセージを使って一つの要素を読むと、ストリームの状態は\figref{a_bcde} のようになります。
 
 \begin{figure}[ht]
@@ -99,7 +99,7 @@ Only few streams have random access capability.}
 \ct{do:} ブロック内で要素の追加や削除はできません。
 あるいはコレクションのプロトコルには、二つのコレクションについて同時に繰り返し、
 1  回ごとに片方を選んで前へ進めながらもう片方は止めておくようなものはありません。
-このような処理を行うには、走査用の添字か位置の参照を、コレクション自身の外部で管理する必要があります:
+このような処理を行うには、走査用の添え字か位置の参照を、コレクション自身の外部で管理する必要があります:
 これはまさに \clsind{ReadStream}、\clsind{WriteStream} そして \clsind{ReadWriteStream} の役割です。
 
 これら三つのクラスは、コレクションを\emph{ストリーム処理}するために定義されています。
@@ -193,7 +193,7 @@ number := stream upToEnd.
 number. --> '143'
 \end{code}
 \noindent
-このコードは、ストリーム中の数の符合の有無を真偽値変数 \ct{negative} に設定し、数の絶対値を \ct{number} に設定します。
+このコードは、ストリームに数の符合があるかどうかで変数 \ct{negative} に真偽値を設定し、数の絶対値を \ct{number} に設定します。
 \mthind{ReadStream}{upToEnd} メソッドは、現在の位置から最後までのストリームのすべてを返し、ストリームを最後の位置に設定します。
 このコードは、\mthind{PositionableStream}{peekFor:} メソッドを使うことで単純化できます。\ct{peekFor:} は、ストリームの次の要素がパラメータと同じときは前へ進み、異なるときは進みません。
 
@@ -209,10 +209,10 @@ stream upToEnd         --> '143'
 順序付きコレクションに対して単に \mthind{SequenceableCollection}{readStream} を送信すれば、そのコレクションに対する読み込みストリームを作ることができます。
 
 \paragraph{位置決め。} ストリームのポインタの位置を設定するメソッドがあります。
-もし添字がわかっていれば、\mthind{PositionableStream}{position:} で直接その位置へ移動できます。
+もし添え字がわかっていれば、\mthind{PositionableStream}{position:} で直接その位置へ移動できます。
 \mthind{PositionableStream}{position} で現在の位置を求めることができます。
 ストリームは要素そのものを指しているわけではなく、要素と要素の間を指していることを覚えておいてください。
-ストリームの先頭に対応する添字は 0 です。
+ストリームの先頭に対応する添え字は 0 です。
 
 \figref{ab_cde} に描かれたストリームの状態を次のコードで得ることができます:
 

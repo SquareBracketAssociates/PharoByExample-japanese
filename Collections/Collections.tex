@@ -174,19 +174,19 @@ students select: [ :each | each gpa < threshold ]
   \item {\bf ソート済み:}
   \clsind{SortedCollection} は、その要素を常にソートされた状態に保ちます。
 
-  \item {\bf 添字参照/添字付き:}
-        ほとんどの順序付きコレクションは添字付きです。つまり \ct{at:} で要素を取り出せます。
-        \clsind{Array} (配列)は添字付きのデータ構造の中でもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は \ct{n} 個目の要素の値を \ct{v} に変えます。
-        \ct{LinkedList} と \ct{SkipList} は、順序付きですが添字付きではありません。つまり \ct{first} と \ct{last} は理解しますが、\ct{at:} は理解しません\footnote{\ct{LinkedList>>>at:put:} はありませんが、\ct{LinkedList>>>at:} はあります。\ct{SkipList} というクラスはありません。}。
+  \item {\bf 添え字参照/添え字付き:}
+        ほとんどの順序付きコレクションは添え字付きです。つまり \ct{at:} で要素を取り出せます。
+        \clsind{Array} (配列)は添え字付きのデータ構造の中でもとても身近なもので、固定されたサイズを持ちます。\ct{anArray at: n} は \ct{anArray} の \ct{n} 個目の要素を取り出し、\ct{anArray at: n put: v} は \ct{n} 個目の要素の値を \ct{v} に変えます。
+        \ct{LinkedList} と \ct{SkipList} は、順序付きですが添え字付きではありません。つまり \ct{first} と \ct{last} は理解しますが、\ct{at:} は理解しません\footnote{\ct{LinkedList>>>at:put:} はありませんが、\ct{LinkedList>>>at:} はあります。\ct{SkipList} というクラスはありません。}。
 	\clsindex{LinkedList}
 	\clsindex{SkipList}
 
   \item {\bf キー参照:}
-	\clsind{Dictionary} とそのサブクラスのインスタンスは、添字の代わりにキーで要素を参照できます。
+	\clsind{Dictionary} とそのサブクラスのインスタンスは、添え字の代わりにキーで要素を参照できます。
 
   \item {\bf 変更可能性 (Mutable):}
         ほとんどのコレクションは変更可能 (mutable) ですが、\ct{Interval} と \ct{Symbol} は例外です。
-        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ変更不能 (immutable) なコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \mthind{Interval}{at:} を使って添字で参照できますが、\ct{at:put:} で値を変更することはできません。
+        \clsind{Interval} クラスは、\clsind{Integer} が扱える範囲の大きさを持つ変更不能 (immutable) なコレクションです。例えば\ct{5 to: 16 by: 2} は、要素 5、7、9、11、13、15 を含む \ct{Interval} オブジェクトです。これは \mthind{Interval}{at:} を使って添え字で参照できますが、\ct{at:put:} で値を変更することはできません。
 	\clsindex{Symbol}
 
   \item {\bf 動的拡張:}
@@ -224,7 +224,7 @@ students select: [ :each | each gpa < threshold ]
 機能による分類だけではなく、どのようにコレクションクラスが実装されているかについても知っておく必要があります。\figref{collsByImpl} に示すように、主要な実装テクニックとしては五つのものがあります。
 
 \begin{enumerate}
-  \item 配列は、要素をコレクションオブジェクト自身の(添字付きの)インスタンス変数に格納します。結果として配列のサイズは固定され、その代わりに配列は、一回のメモリ割り当てで生成できます。
+  \item 配列は、要素をコレクションオブジェクト自身の(添え字付きの)インスタンス変数に格納します。結果として配列のサイズは固定され、その代わりに配列は、一回のメモリ割り当てで生成できます。
   \clsindex{Array}
   \item \clsind{OrderedCollection} と \clsind{SortedCollection} は要素を配列に格納し、インスタンス変数でその配列を参照します。
   こうすることで、内部の配列のサイズよりもコレクションが大きくなったらより大きい配列と入れ替えることができます。
@@ -300,9 +300,9 @@ Dictionary newFrom: {1 -> 7. 2 -> 3. 3 -> 1. 4 -> 3} --> a Dictionary(1->7 2->3 
 
 %---------------------------------------------------------
 \subsection{Array}
-\clsindmain{Array} (配列)は、サイズが固定のコレクションです。また配列の要素には、整数の添字でアクセスできます。
+\clsindmain{Array} (配列)は、サイズが固定のコレクションです。また配列の要素には、整数の添え字でアクセスできます。
 C の流儀とは異なり、\st の配列の先頭要素は位置 1 です。0 ではありません。
-配列の要素にアクセスする主なプロトコルは、\mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} は、添字 \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は、\ct{anObject} を添字 \ct{anInteger} の位置に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり、末尾の要素を削除したりはできません。以下のコードは、サイズ 5 の配列を作り、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
+配列の要素にアクセスする主なプロトコルは、\mthind{Array}{at:} と \mthind{Array}{at:put:} です。\ct{at: anInteger} は、添え字 \ct{anInteger} にある要素を返します。\ct{at: anInteger put: anObject} は、\ct{anObject} を添え字 \ct{anInteger} の位置に入れます。配列はサイズ固定のコレクションなので、配列の末尾に要素を追加したり、末尾の要素を削除したりはできません。以下のコードは、サイズ 5 の配列を作り、最初の三つの要素にそれぞれ値を入れ、先頭要素の値を返します。
 
 \begin{code}{@TEST | anArray | }
 anArray := Array new: 5.
@@ -550,7 +550,7 @@ Set を作るには、\cmind{Set class}{newFrom:} または変換メッセージ
 
 %---------------------------------------------------------
 \subsection{SortedCollection}
-\ct{OrderedCollection} とは対照的に \clsindmain{SortedCollection} は、要素をソート順を保って格納します。デフォルトでは、\ct{SortedCollection} はソート順を決めるのに \mthind{Magnitude}{<=} メッセージを用いるので、抽象クラス \clsind{Magnitude} のサブクラスのインスタンスをソートできます。\ct{Magnitude} は、比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を定義しています
+\ct{OrderedCollection} とは対照的に \clsindmain{SortedCollection} は、ソート順を保ちつつ要素を格納します。デフォルトでは、\ct{SortedCollection} はソート順を決めるのに \mthind{Magnitude}{<=} メッセージを用いるので、抽象クラス \clsind{Magnitude} のサブクラスのインスタンスをソートできます。\ct{Magnitude} は、比較プロトコル (\mthind{Magnitude}{<}, \mthind{Magnitude}{=}, \mthind{Magnitude}{>}, \mthind{Magnitude}{>=}, \mthind{Magnitude}{between:and:}...) を定義しています
 (\charef{basic}参照)。
 
 \ct{SortedCollection} を作るには、まず新しいインスタンスを生成し、要素を追加していきます。
@@ -604,7 +604,7 @@ col --> a SortedCollection(Color black Color red Color yellow Color white)
 %---------------------------------------------------------
 \subsection{String}
 \st の \clsindmain{String} (文字列)は、\ct{Character} のコレクションとして表現されます。
-このコレクションは順序付きで、添字付きで、変更可能で、同じ種類の要素すなわち \clsind{Character} のインスタンスしか持つことができません。
+このコレクションは順序付きで、添え字付きで、変更可能で、同じ種類の要素すなわち \clsind{Character} のインスタンスしか持つことができません。
 \ct{Array} のように、\ct{String} は専用の文法を持ち、普通は \ct{String} リテラルを一重引用符で囲むことにより直接生成しますが、通常のコレクション作成メソッドもちゃんと動きます。
 
 \begin{code}{@TEST | s1 s2 |}
@@ -745,7 +745,7 @@ expandMacros 系のメッセージは、\ct{<n>} によるキャリッジリタ�
 \end{code}
 
 \paragraph{変種。} \ct{do:} にはたくさんの変種が存在します。例えば \mthind{Collection}{do:without:}、 \mthind{SequenceableCollection}{doWithIndex:}、 \mthind{OrderedCollection}{reverseDo:} などです:
-添字付きのコレクション (\ct{Array}、\ct{OrderedCollection}、\ct{SortedCollection}) 用に \mthind{SequenceableCollection}{doWithIndex:} メソッドがあって、これを使うとブロック内から現在の添字にもアクセスできます。このメソッドは、\ct{Number} クラスで定義されている \ct{to:do:} に関係しています。
+添え字付きのコレクション (\ct{Array}、\ct{OrderedCollection}、\ct{SortedCollection}) 用に \mthind{SequenceableCollection}{doWithIndex:} メソッドがあって、これを使うとブロック内から現在の添え字にもアクセスできます。このメソッドは、\ct{Number} クラスで定義されている \ct{to:do:} に関係しています。
 
 \begin{code}{@TEST}
 #('bob' 'joe' 'toto') doWithIndex: [:each :i | (each = 'joe') ifTrue: [ ^ i ] ] --> 2
@@ -761,7 +761,7 @@ res := ''.
 res --> 'bob.joe.toto'
 \end{code}
 \noindent
-ただしこのコードは、特に効率的だとは言えません。このように一時文字列を作る代わりに、書き込みストリームを用いて結果をバッファした方がいいということに注意しましょう(\charef{streams}参照):
+ただしこのコードは、特に効率的だとは言えません。このように一時文字列を作る代わりに、書き込みストリームを用いて結果をバッファした方がよいということに注意しましょう(\charef{streams}参照):
 \begin{code}{@TEST}
 String streamContents: [:stream | #('bob' 'joe' 'toto') asStringOn: stream delimiter: '.' ] --> 'bob.joe.toto'
 \end{code}
