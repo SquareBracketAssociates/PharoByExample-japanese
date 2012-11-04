@@ -43,7 +43,7 @@
 
 \indmain{Morphic}は、\pharo のGUIに付けられた名前です。
 Morphicは\st で書かれており、様々なOSの間で完全な互換性があります。その結果、\pharo はUnix, MacOS, Windowsのいずれにおいてもまったく同じ見た目となっています。
-Morphicと他の多くのユーザ・インターフェース・ツールキットとの違いは、インターフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を評します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
+Morphicと他の多くのユーザ・インターフェース・ツールキットとの違いは、インターフェースを「構成すること」と「実行すること」とのモードを分けていないということです。画面上のすべてのグラフィック要素（graphical elements）は、いつでもユーザが組み立てたり分解したりできます。\footnote{Hilaire Fernandesに謝意を表します。彼のフランス語で書かれたオリジナル版をこの章のベースとすることを許諾してくれました。}
 
 \ab{After the first printing, I took an editing pass, correcting some errors and grammatical infelicities.}
 
@@ -86,7 +86,7 @@ Maloneyは\squeak のために新しくMorphicを書き直しましたが、Self
 % ON: openViewerForArgument is gone in pharo!
 
 これは、\ct{'Morph'}という文字列を表すモーフを作り、「ワールド」上で開きます。（つまり、表示します）「ワールド」とは、\pharo の画面のことです。
-これで\metaclick で操作できるグラフィック要素 ? モーフ ? が得られます。
+これにより\metaclick で操作できるグラフィック要素 --- モーフ --- が得られます。
 %The second line opens a ``viewer'' that shows you attributes of this Morph, such as its \ct{x} and \ct{y}  coordinates on the screen.  Clicking on one of the yellow exclamation marks sends a message to the Morph, which responds appropriately.
 
 もちろん、今見ているものより面白い表現を持つモーフを定義することも可能です。
@@ -729,7 +729,7 @@ DieMorph>>>faces: aNumber
 \end{enumerate}
 
 \ct{drawOn:}を定義する前に、表示面に描く目の位置を求めるメソッドをいくつか定義します。
-\begin{methods}{サイコロの面の目の位置を求める9つのメソッドを定義する。}
+\begin{methods}{サイコロの目の位置を求める9つのメソッドを定義する。}
 DieMorph>>>face1
 	^{0.5@0.5}
 DieMorph>>>face2
@@ -751,7 +751,7 @@ DieMorph >>>face9
 \end{methods}
 \on{kind of ugly boilerplate code -- should be a nice way to map these more elegantly to coordinates.}
 
-上記のメソッドは、サイコロの各面の目の座標をコレクションの形で定義しています。それぞれの座標は$1\times1$の範囲に収めているので、拡大して実際の目の場所を求めます。
+上記のメソッドは、サイコロの各面について目の座標をコレクションの形で定義しています。それぞれの座標は$1\times1$の範囲に収めているので、拡大して実際の目の場所を求めます。
 
 \ct{drawOn:}メソッドは、サイコロの背景を描くための\ct{super}送信と、目を描くという二つの仕事を行います。
 \begin{method}{サイコロモーフを描く。}
@@ -781,7 +781,7 @@ DieMorph>>>drawDotOn: aCanvas at: aPoint
 (DieMorph faces: 6) openInWorld.
 \end{code}
 
-表示面を変えるために、\ct{myDie dieValue: 4}のように使えるアクセッサを作ります。
+表示面を変えるために、\ct{myDie dieValue: 4}のように使えるアクセサを作ります。
 \begin{method}{サイコロの表示面を設定する。}
 DieMorph>>>dieValue: aNumber
 	(aNumber isInteger
