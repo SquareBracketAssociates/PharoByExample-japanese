@@ -415,10 +415,10 @@ ProtoObject>>>initialize
 
 \begin{method}{クラス側のテンプレートメソッドとしての \lct{new}}
 Behavior>>>new
-    "添え字付きの変数を持たないレシーバ(クラス)の初期化された新しいインスタンスを返す。
-    クラスが添え字付きの場合は失敗する。"
+    "添字付きの変数を持たないレシーバ(クラス)の初期化された新しいインスタンスを返す。
+    クラスが添字付きの場合は失敗する。"
     ^ self basicNew initialize
-\end{method} %@ 自信なし。Collection で、indexable を「添え字付き」と機械的に訳していた。
+\end{method} %@ 自信なし。Collection で、indexable を「添字付き」と機械的に訳していた。
 \cmindex{Behavior}{new}
 
 これは、\ct{initialize} \ind{フックメソッド}をオーバーライドしさえすれば、あなたのクラスの新しいインスタンスが自動的に初期化されるということを意味しています。通常 \ct{initialize} メソッドは、継承されたすべてのインスタンス変数についてクラスの\jasubind{ふへんじょうけん}{クラス}{不変条件}を確立するために、\ct{super initialize} を実行すべきです
@@ -604,7 +604,7 @@ Character characterTable size                               --> 256
 %=================================================================
 \section{String}
 
-\clsindmain{String} クラスも \scatind{Collections-Strings} カテゴリで定義されています。\ct{String} は、\ct{Character} だけを保持する添え字付きの \ct{Collection} です。
+\clsindmain{String} クラスも \scatind{Collections-Strings} カテゴリで定義されています。\ct{String} は、\ct{Character} だけを保持する添字付きの \ct{Collection} です。
 
 \begin{figure}[ht]
   {\centerline {\includegraphics[width=0.4\textwidth]{StringHierarchy}}}
