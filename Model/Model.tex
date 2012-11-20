@@ -351,7 +351,7 @@ ProtoObject superclass  --> nil
 抽象メソッドを持つクラスが抽象クラスです。実際には抽象クラスのインスタンスを生成しないようにする仕組みはありません。抽象メソッドが実行されるまでは、普通に動作します。
 
 \subsubsection{例: \ct{Magnitude}クラス}
-\clsind{Magnitude}は互いを比較するクラスを定義するのに役立つ抽象クラスです。\ct{Magnitude}のサブクラスは\ct{<}および\ct{=}、\ct{hash}の3つのメソッドを定義しなければなりません。\ct{Magnitude}では、それらのメッセージを使って\ct{>}および\ct{>=}、\ct{<=}、\ct{max:}、\ct{min:}、\ct{between:and:}等のメソッドを定義しています。こうしたメソッドはサブクラスで継承されて使われます。抽象メソッド\mthind{Magnitude}{<}は、\mthref{MagnitudeLessThan}のようになっています。
+\clsind{Magnitude}は互いを比較するクラスを定義するのに役立つ抽象クラスです。\ct{Magnitude}のサブクラスは\ct{<}および\ct{=}、\ct{hash}の三つのメソッドを定義しなければなりません。\ct{Magnitude}では、それらのメッセージを使って\ct{>}および\ct{>=}、\ct{<=}、\ct{max:}、\ct{min:}、\ct{between:and:}等のメソッドを定義しています。こうしたメソッドはサブクラスで継承されて使われます。抽象メソッド\mthind{Magnitude}{<}は、\mthref{MagnitudeLessThan}のようになっています。
 
 \begin{method}[MagnitudeLessThan]{\ct{Magnitude>>><}}
 Magnitude>>>< aMagnitude 
@@ -681,7 +681,7 @@ BorderedMorph>>>fullPrintOn: aStream
 %=========================================================
 \section{共有変数}
 
-ここでは\st の特徴の中で、5つの規則ではカバーされていないものを見ていきましょう。\jasubind{きょうゆう}{へんすう@変数}{共有}変数のことです。
+ここでは\st の特徴の中で、五つの規則ではカバーされていないものを見ていきましょう。\jasubind{きょうゆう}{へんすう@変数}{共有}変数のことです。
 
 \st には3種類の共有変数があります：(1) \empty{グローバル}な共有変数 (2) インスタンスとクラスの間で共有される変数(\emph{クラス変数}) (3) クラスのグループの間で共有される変数(\emph{プール変数}) です。これらの共有変数の名前は大文字で始まります。これは、変数が複数のオブジェクトの間で共有されているということの警告となっています。
 \index{へんすう@変数!グローバル}
