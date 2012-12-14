@@ -33,8 +33,9 @@ em {
 </head>
 <body>
 	<h1>PBE-ja に日本語斜体フォントを導入する手順</h1>
+	<p>2012-12-13 堀内寛己</p>
 	<div>
-		<h2>1. 問題</h2>
+		<h2 id="s1">1. 問題</h2>
 		<p id="problem">PBE の原文では、要所でイタリック体が使われています。
 			しかし、日本語フォントにはイタリック体はありませんし、TeX は、通常のフォントを動的に傾けてイタリックの代用にはしません。 すると
 			PBE
@@ -58,15 +59,16 @@ em {
 					<dd class="code">
 						3 +
 						4&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;<span
-							class="comment">"3+4 を選択して 'print it' を選ぶと 7 が得られる"</span>
+							class="comment">&quot;3+4 を選択して 'print it' を選ぶと 7
+							が得られる&quot;</span>
 					</dd>
 					<dt>実際:</dt>
 					<dd class="code">
 						3 +
 						4&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;<span
-							class="comment">"3+4</span> を選択して <span class="comment">'print
+							class="comment">&quot;3+4</span> を選択して <span class="comment">'print
 							it'</span> を選ぶと <span class="comment">7</span> が得られる<span
-							class="comment">"</span>
+							class="comment">&quot;</span>
 					</dd>
 					<dt>期待:</dt>
 					<dd class="dothis">次の章へと読み進めましょう!</dd>
@@ -80,103 +82,137 @@ em {
 		<p>
 			以降では、<a href="#problem">この問題</a>に対策が必要だとして話を進めます。
 		</p>
+		<p>
+			<a href="#s1">1</a>の <a href="using-slanted-jfonts/preview.pdf">PDF
+				プレビュー</a>
+		</p>
 	</div>
 	<div>
 		<h2>2. 生成された斜体フォントによるイタリック体フォントの代用</h2>
 		<p>
-			最近の Web ブラウザは、イタリック指定されている箇所に日本語文字が来ると、動的に斜体フォントを生成してレンダリングします。 本
-			HTML でもその事実を利用しています。 堀内は、このようにしてイタリック体フォントを代用することを、<a href="#problem">この問題</a>に対する妥当な対策だと考えています。
+			最近の Web ブラウザーは、イタリック指定されている箇所に日本語文字が来ると、動的に斜体フォントを生成してレンダリングします。 本
+			HTML でもその事実を利用しています。 堀内は、このようにしてイタリック体フォントを代用することを、<a href="#problem">この問題</a>に対する無難な対策だと考えています。
 			ただし、前述したように TeX には動的に斜体フォントを生成する機能はありません。
 			そこでツールを使って、オリジナルのフォントを傾けて斜体のフォントをあらかじめ用意しておくことになります。
 		</p>
 	</div>
 	<div>
-		<h2>3. 斜体フォントの生成ツール</h2>
+		<h2>3. 生成済み斜体フォント</h2>
+		<p>
+			<a href="#gen">5</a> の手順で生成されたフォントを、PBE-ja のリポジトリに置きました(<a
+				href="../fonts/umefont-unofficial-oblique.zip">umefont-unofficial-oblique.zip</a>)。
+			これを PBE 日本語版に取り込むには、OS 標準の方法でフォントをインストールし、common.tex に以下のように書きます。
+		</p>
+		<pre>
+\setmainjfont[ItalicFont=Ume-P-Mincho-PBEjaOblique,BoldFont=IPAexGothic]{IPAexMincho}
+\setsansjfont[ItalicFont=Ume-P-Gothic-PBEjaOblique]{IPAexGothic}
+		</pre>
+		<ul>
+			<li>Mac OS X 標準の PDF
+				ビューワーは、梅フォントの明朝体の斜体を「細く(薄く?)」表示します。これは致命的かもしれません。</li>
+			<li>Mac OS X や Linux
+				で、フォントの置き場所をユーザー領域からシステム領域に変更すると(あるいはその逆)、LuaLaTeX
+				がフォントを見つけられなくなることがあります。その場合は ~/.texlive* を削除します。</li>
+			<li>Mac OS X では、フォントをインストールしても Font Book
+				に反映されないことがあります。その場合はいったんログアウトすると直るようです。理由はわかりません。</li>
+		</ul>
+	</div>
+	<div>
+		<h2>4. 斜体フォントの生成ツール</h2>
 		<p>
 			既存のフォントから機械的に斜体フォントを生成するためには、<a
 				href="http://sourceforge.net/projects/fontforge/files/fontforge-executables/">fontforge</a>
 			というツールを使う方法が知られています。fontforge は GUI のプログラムで、Windows 版、Mac
-			版のバイナリーも存在します。ただし、移植された X Window システムを使っているため、少し不便なので注意してください。
+			版のバイナリーも存在します。ただし、移植された X Window システムを使っていることもあって、少し不便なので注意してください。
+		</p>
+		<p>
+			<strong>注意: Windows の fontforge
+				は多言語化に失敗しているようで、事実上使い物になりません。</strong>
 		</p>
 	</div>
 	<div>
-		<h2>4. fontforge を使って斜体の梅フォントを生成する</h2>
+		<h2 id="gen">5. fontforge を使って斜体の梅フォントを生成する</h2>
 		<p>ここではライセンス問題を気にして、IPA フォントの斜体ではなく梅フォントの斜体を生成します。手順は、IPA
 			フォントの場合もほぼ同じです。</p>
 		<div>
-			<h3>4.1 梅フォントの入手</h3>
+			<h3>5.1 梅フォントの入手</h3>
 			<p>
 				<a href="http://sourceforge.jp/projects/ume-font/releases/">http://sourceforge.jp/projects/ume-font/releases/</a>
 				からダウンロードします。堀内が最後に見たときは、egf-umefont_446.7z が最新でした。
 			</p>
 		</div>
 		<div>
-			<h3>4.2 ベースにするフォント</h3>
+			<h3>5.2 ベースにするフォント</h3>
 			<dl>
 				<dt>明朝体</dt>
-				<dd>ume-pgo4.ttf</dd>
+				<dd>ume-pmo3.ttf (Ume-P-Mincho)</dd>
 				<dt>ゴシック体</dt>
-				<dd>ume-pmo3.ttf</dd>
+				<dd>ume-pgo4.ttf (Ume-P-Gothic)</dd>
 			</dl>
 		</div>
 		<div>
-			<h3>4.3 Windows で fontforge を使う上での注意</h3>
-			<p>Windows の fontforge は多言語化に失敗しているようで、UI
-				の文字がほとんど読み取れません。今のところわかっている対策は、Windows の言語設定を英語にすることです。Windows Vista
-				の場合、コントロールパネル → 時計、言語、および地域 → 地域と言語のオプション → 現在の形式: 英語 (米国)。</p>
-			<p>
-				<strong>警告:
-					堀内はこの言語設定を行ったことにより、個人設定とシステム設定を一部壊してしまいました。Windows で fontforge
-					を使う場合は、テンポラリーに権限の弱いユーザーを作って行うことを推奨します。</strong>
-			</p>
-		</div>
-		<div>
-			<h3>4.4 fontforge を操作する</h3>
+			<h3>5.3 fontforge を操作する</h3>
 			<div>
-				<h4>4.4.1 すべての文字を選ぶ</h4>
+				<h4>5.3.1 すべての文字を選ぶ</h4>
 				<p>Edit → Select → Select All</p>
 			</div>
 			<div>
-				<h4>4.4.2 傾ける</h4>
-				<p>Element → Transformations → Transform...</p>
-				<img src="using-slanted-jfonts/a.skew.png" alt="" width="408"
-					height="390" />
+				<h4>5.3.2 傾ける</h4>
+				<p>Element → Style → Oblique...</p>
+				<img src="using-slanted-jfonts/a.oblique-slant.png" alt=""
+					width="406" height="139" />
+				<p>明朝体とゴシック体で適切な角度が違うので注意:</p>
+				<dl>
+					<dt>明朝体:</dt>
+					<dd>-8°</dd>
+					<dt>ゴシック体:</dt>
+					<dd>-12°</dd>
+				</dl>
 			</div>
 			<div>
-				<h4>4.4.3 名前を変更する</h4>
-				<p>フォントには、属性としていろいろな名前がありますが、今回生成するのは非公式なバージョンなので、そのことを強調した名前付けを行うことにします。</p>
+				<h4>5.3.3 名前を変更する</h4>
+				<p>Element → Font Info... → PS Names で</p>
+				<dl>
+					<dt>Fontname:</dt>
+					<dd>Ume-P-Mincho-PBEjaOblique</dd>
+					<dt>Name For Humans:</dt>
+					<dd>Ume P Mincho PBEjaOblique</dd>
+				</dl>
+				<img src="using-slanted-jfonts/b.ps-names.png" alt="" width="599"
+					height="526" />
+				<p>Element → Font Info... → OS/2 で</p>
+				<dl>
+					<dt>OS/2 Version:</dt>
+					<dd>2</dd>
+				</dl>
+				<img src="using-slanted-jfonts/c.os2.png" alt="" width="599"
+					height="526" />
 				<p>Element → Font Info... → TTF Names で</p>
-				<ul>
-					<li>English (US) 以外の UniqueID、Family、Fullname、Styles
-						(SubFamily) を削除する</li>
-					<li>UniqueID を、‘pbejsm-ume’ とする (slanted mincho umefont)</li>
-					<li>Styles (SubFamily) を ‘Slanted’ とする</li>
-				</ul>
-				<img src="using-slanted-jfonts/b.ttf-names.png" alt="" width="599"
-					height="526" />
-				<p>Element → Font Info... → PS Names で、Fontname:、Family
-					Name:、Name For Humans: に、先に入力した UniqueID と同じ文字列を設定する</p>
-				<img src="using-slanted-jfonts/c.ps-names.png" alt="" width="599"
-					height="526" />
-				<p>Element → Font Info... → TTF Names が下図のとおりであることを確認する</p>
+				<dl>
+					<dt>English (US) 以外の UniqueID:</dt>
+					<dd>削除</dd>
+					<dt>UniqueID:</dt>
+					<dd>Ume P Mincho PBEjaOblique</dd>
+					<dt>すべての Styles (SubFamily):</dt>
+					<dd>PBEjaOblique</dd>
+					<dt>English (US) 以外の Fullname:</dt>
+					<dd>‘ PBEjaOblique’ を末尾に追加</dd>
+				</dl>
 				<img src="using-slanted-jfonts/d.ttf-names.png" alt="" width="599"
 					height="526" />
 			</div>
 			<div>
-				<h4>4.4.4 フォントをエクスポートする</h4>
+				<h4>5.3.4 フォントをエクスポートする</h4>
 				<p>File → Generate Fonts...</p>
 				<img src="using-slanted-jfonts/e.generate-fonts.png" alt=""
 					width="411" height="528" />
+				<p>エラーが出るがそのまま Save。</p>
+			</div>
+			<div>
+				<h4>5.3.5 File → Close</h4>
+				<p>通常は Don't Save。</p>
 			</div>
 		</div>
-	</div>
-	<div>
-		<h2>5. 生成したフォントを PBE 日本語版に取り込む</h2>
-		<p>OS 標準の方法でフォントをインストールます。common.tex に以下のように書きます。</p>
-		<pre>
-\setmainjfont[ItalicFont=pbejsm-ume,BoldFont=IPAexGothic]{IPAexMincho}
-\setsansjfont[ItalicFont=pbejsg-ume]{IPAexGothic}
-		</pre>
 	</div>
 </body>
 </html>
