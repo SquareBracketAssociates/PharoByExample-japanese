@@ -457,7 +457,8 @@ colors at: #red put: Color red.
 colors at: #yellow --> Color yellow
 colors keys          --> a Set(#blue #yellow #red)
 colors values       --> {Color blue. Color yellow. Color red}FOOTNOTEMARK
-\end{code}\footnotetext{訳注: \pharo 1.3 では rgb 値が返ります。}
+\end{code}
+\footnotetext{訳注: \pharo 1.3 では rgb 値が返ります。}
 
 辞書は、キーを同値性によって比較します。 \ct{=} で比較したときに真であるならば、二つのキーは等しいとみなされます。よくあるけれど見つけにくいバグは、キーとして使うオブジェクトで \ct{=}メソッド を再定義しているにもかかわらず、\ct{hash} メソッドを再定義していないというものです。これら二つのメソッドは、どちらも辞書の実装の中でオブジェクトの比較に用いられます。
 \index{Dictionary!\ct{=} と \ct{hash} をオーバーライドする}
@@ -470,7 +471,8 @@ colors values       --> {Color blue. Color yellow. Color red}FOOTNOTEMARK
 colors := Dictionary newFrom: { #blue->Color blue . #red->Color red . #yellow->Color yellow }.
 colors removeKey: #blue.
 colors associations --> {#yellow->Color yellow. #red->Color red}FOOTNOTEMARK
-\end{code}\footnotetext{訳注: \pharo 1.3 では rgb 値が返ります。}
+\end{code}
+\footnotetext{訳注: \pharo 1.3 では rgb 値が返ります。}
 
 \paragraph{IdentityDictionary。}
 辞書が二つのキーが同じであるかを判定するのに \ct{=} メッセージおよび \ct{hash} メッセージを用いるのに対し、\clsindmain{IdentityDictionary} は、キーの同一性 (\mthind{ProtoObject}{==} メッセージ)を用います。\ie 二つのキーが同じオブジェクトであるときに\emph{だけ}、これらのキーは等しいとみなされます。
@@ -501,7 +503,8 @@ trouble at: 'foobar' --> 'a'
 
 \begin{code}{@TEST}
 Smalltalk keys collect: [ :each | each class ] --> a Set(ByteSymbol)FOOTNOTEMARK
-\end{code}\footnotetext{訳注: \pharo 1.3 では長い Array が返ります。}
+\end{code}
+\footnotetext{訳注: \pharo 1.3 では長い Array が返ります。}
 \noindent
 \ct{keys} または \ct{values} メッセージを \ct{Dictionary} に送信すると結果は \ct{Set} になりますが、このクラスについては次に説明します\footnote{訳注: \pharo 1.3 では Array が返ります。}。
 % Since every key has the same class, the set of classes of keys contains only a single element, \ct{ByteSymbol}.
@@ -899,7 +902,8 @@ factorial value: 10 --> 3628800
 
 \begin{code}{@TEST}
 Smalltalk allClasses count: [:each | 'Collection*' match: each asString ] --> 3FOOTNOTEMARK
-\end{code}\footnotetext{訳注: \pharo 1.3 では 5 が返ります。}
+\end{code}
+\footnotetext{訳注: \pharo 1.3 では 5 が返ります。}
 
 \paragraph{\mthind{Collection}{includes:}} \ct{includes:} メッセージは、引数がコレクションの中に含まれているかどうかを調べます。
 
