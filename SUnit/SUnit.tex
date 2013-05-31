@@ -668,7 +668,8 @@ TestResult>>>runCase: aTestCase
 TestCase>>>runCase
 	[self setUp.
 	self performTest] ensure: [self tearDown]
-\end{method}\footnotetext{訳注: \ct{self performTest} は、\self が知っているテストメソッドを間接的に呼び出します(\mthind{Object}{perform})。}
+\end{method}
+\footnotetext{訳注: \ct{self performTest} は、\self が知っているテストメソッドを間接的に呼び出します(\mthind{Object}{perform})。}
 
 %---------------------------------------------------------
 \subsection{\lct{TestSuite} の実行}
